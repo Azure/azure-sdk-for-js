@@ -206,7 +206,7 @@ const crossPackageInstanceofMessage =
   "Do not use `instanceof` with a class from another package: it compares constructor identity, " +
   "so it returns false for an instance built by a second copy of that package in the consumer's " +
   "dependency tree. Use the structural type guard instead — for example `isRestError`, " +
-  "`isKeyCredential`, `isNamedKeyCredential`, `isSASCredential`, or `isTokenCredential`. If this " +
+  "`isKeyCredential`, `isNamedKeyCredential`, `isSASCredential`, or `isPipelineLike`. If this " +
   "package declares the class itself, disable this rule on the line with a justification comment.";
 
 // A package that must relax one of these selectors should disable it on the offending line with
