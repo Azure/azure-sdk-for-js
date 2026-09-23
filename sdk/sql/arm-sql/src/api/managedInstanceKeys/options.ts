@@ -8,18 +8,15 @@ export interface ManagedInstanceKeysListByInstanceOptionalParams extends Operati
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceKeysDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceKeysCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceKeysGetOptionalParams extends OperationOptions {}

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides a pageable list of protectable objects within your subscription according to the query filter and the
  * pagination parameters.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/BackupProtectableItems_List.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/BackupProtectableItems_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVm() {
   const credential = new DefaultAzureCredential();

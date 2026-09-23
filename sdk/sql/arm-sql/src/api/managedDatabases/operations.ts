@@ -53,7 +53,7 @@ export function _listInaccessibleByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,6 @@ export async function _listInaccessibleByInstanceDeserialize(
 
   return _managedDatabaseListResultDeserializer(result.body);
 }
-
 /** Gets a list of inaccessible managed databases in a managed instance */
 export function listInaccessibleByInstance(
   context: Client,
@@ -93,7 +92,11 @@ export function listInaccessibleByInstance(
     () => _listInaccessibleByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listInaccessibleByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -112,7 +115,7 @@ export function _startMoveSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +141,6 @@ export async function _startMoveDeserialize(result: PathUncheckedResponse): Prom
 
   return;
 }
-
 /** Starts a managed database move operation. */
 export function startMove(
   context: Client,
@@ -161,7 +163,7 @@ export function startMove(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -181,7 +183,7 @@ export function _reevaluateInaccessibleDatabaseStateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +210,6 @@ export async function _reevaluateInaccessibleDatabaseStateDeserialize(
 
   return managedDatabaseDeserializer(result.body);
 }
-
 /** Reevaluates the inaccessibility state of a managed database. */
 export function reevaluateInaccessibleDatabaseState(
   context: Client,
@@ -235,7 +236,7 @@ export function reevaluateInaccessibleDatabaseState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 }
@@ -255,7 +256,7 @@ export function _completeRestoreSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,7 +282,6 @@ export async function _completeRestoreDeserialize(result: PathUncheckedResponse)
 
   return;
 }
-
 /** Completes the restore operation on a managed database. */
 export function completeRestore(
   context: Client,
@@ -304,7 +304,7 @@ export function completeRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -323,7 +323,7 @@ export function _completeMoveSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +349,6 @@ export async function _completeMoveDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
-
 /** Completes a managed database move operation. */
 export function completeMove(
   context: Client,
@@ -372,7 +371,7 @@ export function completeMove(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -391,7 +390,7 @@ export function _cancelMoveSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,7 +416,6 @@ export async function _cancelMoveDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Cancels a managed database move operation. */
 export function cancelMove(
   context: Client,
@@ -440,7 +438,7 @@ export function cancelMove(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -456,7 +454,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,7 +481,6 @@ export async function _listByInstanceDeserialize(
 
   return _managedDatabaseListResultDeserializer(result.body);
 }
-
 /** Gets a list of managed databases. */
 export function listByInstance(
   context: Client,
@@ -496,7 +493,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -514,7 +515,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -536,7 +537,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a managed database. */
 export function $delete(
   context: Client,
@@ -551,7 +551,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, managedInstanceName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -570,7 +570,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -597,7 +597,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return managedDatabaseDeserializer(result.body);
 }
-
 /** Updates an existing database. */
 export function update(
   context: Client,
@@ -620,7 +619,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 }
 
@@ -639,7 +638,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -668,7 +667,6 @@ export async function _createOrUpdateDeserialize(
 
   return managedDatabaseDeserializer(result.body);
 }
-
 /** Creates a new database or updates an existing database. */
 export function createOrUpdate(
   context: Client,
@@ -691,7 +689,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 }
 
@@ -709,7 +707,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -734,7 +732,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return managedDatabaseDeserializer(result.body);
 }
-
 /** Gets a managed database. */
 export async function get(
   context: Client,

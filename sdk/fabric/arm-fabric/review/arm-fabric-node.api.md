@@ -164,7 +164,7 @@ export interface FabricCapacity extends TrackedResource {
 // @public
 export interface FabricCapacityProperties {
     administration: CapacityAdministration;
-    overage?: CapacityOverageProperties;
+    overage: CapacityOverageProperties;
     readonly provisioningState?: ProvisioningState;
     readonly state?: ResourceState;
 }
@@ -265,7 +265,7 @@ export enum KnownRpSkuTier {
 export enum KnownVersions {
     V20231101 = "2023-11-01",
     V20250115Preview = "2025-01-15-preview",
-    V20260801Preview = "2026-08-01-preview"
+    V20260901Preview = "2026-09-01-preview"
 }
 
 // @public

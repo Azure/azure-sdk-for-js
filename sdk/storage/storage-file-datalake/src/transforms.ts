@@ -319,7 +319,7 @@ export function toAccessControlItem(aclItemString: string): PathAccessControlIte
   }
 
   const entityId = parts[index++];
-  const permissions = toRolePermissions(parts[index++]);
+  const permissions = toRolePermissions(parts[index]);
 
   return {
     defaultScope,
@@ -367,7 +367,7 @@ export function toRemoveAccessControlItem(aclItemString: string): RemovePathAcce
     throw error;
   }
 
-  const entityId = parts[index++];
+  const entityId = parts[index];
 
   return {
     defaultScope,

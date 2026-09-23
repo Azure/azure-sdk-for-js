@@ -130,7 +130,6 @@ export interface ElasticPoolsOperations {
     options?: ElasticPoolsGetOptionalParams,
   ) => Promise<ElasticPool>;
 }
-
 function _getElasticPools(context: SqlManagementContext) {
   return {
     failover: (
@@ -277,7 +276,6 @@ function _getElasticPools(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, elasticPoolName, options),
   };
 }
-
 export function _getElasticPoolsOperations(context: SqlManagementContext): ElasticPoolsOperations {
   return {
     ..._getElasticPools(context),

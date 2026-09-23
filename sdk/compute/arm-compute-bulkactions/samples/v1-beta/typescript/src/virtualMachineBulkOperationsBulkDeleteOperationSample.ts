@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDelete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkDelete_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeleteExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function virtualMachineBulkOperationsBulkDeleteExample(): Promise<void> {
     "useast2euap",
     {
       executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Unknown" },
+        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Delete" },
       },
       resources: {
         ids: [
@@ -36,7 +36,7 @@ async function virtualMachineBulkOperationsBulkDeleteExample(): Promise<void> {
  * This sample demonstrates how to bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDelete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkDelete_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeleteGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

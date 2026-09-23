@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches operation status for data move operation on vault
  *
  * @summary fetches operation status for data move operation on vault
- * x-ms-original-file: 2026-07-01/BackupDataMove/PrepareDataMoveOperationResult_Get.json
+ * x-ms-original-file: 2026-08-01/BackupDataMove/PrepareDataMoveOperationResult_Get.json
  */
 async function getOperationResultForPrepareDataMove() {
   const credential = new DefaultAzureCredential();

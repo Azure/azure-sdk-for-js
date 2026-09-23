@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to enables the specified scheduled action so new occurrences run.
  *
  * @summary enables the specified scheduled action so new occurrences run.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Enable_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Enable_MaximumSet_Gen.json
  */
 async function enableAScheduledAction() {
   const credential = new DefaultAzureCredential();

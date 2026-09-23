@@ -8,6 +8,7 @@ import {
   listOptimizationJobs,
   getOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
 } from "../../../api/beta/agents/operations.js";
 import {
   BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -15,11 +16,14 @@ import {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
+  BetaAgentsCreateFromPromptOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import {
+  Agent,
   AgentOptimizationJob,
   AgentOptimizationJobResult,
   AgentOptimizationJobListItem,
+  GenerateAgentRequest,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -50,6 +54,15 @@ export interface BetaAgentsOperations {
     job: AgentOptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    foundryFeatures: "VoiceAgents=V1Preview",
+    body: GenerateAgentRequest,
+    options?: BetaAgentsCreateFromPromptOptionalParams,
+  ) => Promise<Agent>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {
@@ -70,6 +83,11 @@ function _getBetaAgents(context: AIProjectContext) {
       job: AgentOptimizationJob,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
+    createFromPrompt: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      body: GenerateAgentRequest,
+      options?: BetaAgentsCreateFromPromptOptionalParams,
+    ) => createFromPrompt(context, foundryFeatures, body, options),
   };
 }
 
