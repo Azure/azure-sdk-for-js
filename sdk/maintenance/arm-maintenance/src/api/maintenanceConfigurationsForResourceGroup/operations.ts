@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext as Client } from "../index.js";
-import {
-  maintenanceErrorDeserializer,
+import type { MaintenanceManagementContext as Client } from "../index.js";
+import type {
   MaintenanceConfiguration,
   _ListMaintenanceConfigurationsResult,
-  _listMaintenanceConfigurationsResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  maintenanceErrorDeserializer,
+  _listMaintenanceConfigurationsResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { MaintenanceConfigurationsForResourceGroupListOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { MaintenanceConfigurationsForResourceGroupListOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -31,7 +27,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,7 +45,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -71,7 +69,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2023-10-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }

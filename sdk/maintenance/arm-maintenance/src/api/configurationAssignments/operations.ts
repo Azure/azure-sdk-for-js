@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext as Client } from "../index.js";
-import {
-  maintenanceErrorDeserializer,
+import type { MaintenanceManagementContext as Client } from "../index.js";
+import type {
   ConfigurationAssignment,
-  configurationAssignmentSerializer,
-  configurationAssignmentDeserializer,
   _ListConfigurationAssignmentsResult,
-  _listConfigurationAssignmentsResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  maintenanceErrorDeserializer,
+  configurationAssignmentSerializer,
+  configurationAssignmentDeserializer,
+  _listConfigurationAssignmentsResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConfigurationAssignmentsListOptionalParams,
   ConfigurationAssignmentsDeleteOptionalParams,
   ConfigurationAssignmentsCreateOrUpdateOptionalParams,
@@ -25,12 +25,8 @@ import {
   ConfigurationAssignmentsCreateOrUpdateParentOptionalParams,
   ConfigurationAssignmentsGetParentOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -48,7 +44,7 @@ export function _listSend(
       providerName: providerName,
       resourceType: resourceType,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +62,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -91,7 +89,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2023-10-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -114,7 +112,7 @@ export function _$deleteSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,13 +126,19 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return configurationAssignmentDeserializer(result.body);
@@ -149,7 +153,7 @@ export async function $delete(
   resourceName: string,
   configurationAssignmentName: string,
   options: ConfigurationAssignmentsDeleteOptionalParams = { requestOptions: {} },
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const result = await _$deleteSend(
     context,
     resourceGroupName,
@@ -181,7 +185,7 @@ export function _createOrUpdateSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +205,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -251,7 +257,7 @@ export function _getSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +275,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -319,7 +327,7 @@ export function _listParentSend(
       resourceParentName: resourceParentName,
       resourceType: resourceType,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -337,7 +345,9 @@ export async function _listParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -374,7 +384,7 @@ export function listParent(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2023-10-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -401,7 +411,7 @@ export function _deleteParentSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -415,13 +425,19 @@ export function _deleteParentSend(
 
 export async function _deleteParentDeserialize(
   result: PathUncheckedResponse,
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return configurationAssignmentDeserializer(result.body);
@@ -438,7 +454,7 @@ export async function deleteParent(
   resourceName: string,
   configurationAssignmentName: string,
   options: ConfigurationAssignmentsDeleteParentOptionalParams = { requestOptions: {} },
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const result = await _deleteParentSend(
     context,
     resourceGroupName,
@@ -476,7 +492,7 @@ export function _createOrUpdateParentSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -496,7 +512,9 @@ export async function _createOrUpdateParentDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -554,7 +572,7 @@ export function _getParentSend(
       resourceType: resourceType,
       resourceName: resourceName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -572,7 +590,9 @@ export async function _getParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }

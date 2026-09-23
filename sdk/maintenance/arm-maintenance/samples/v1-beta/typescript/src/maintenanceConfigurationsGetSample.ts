@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Configuration record
  *
  * @summary get Configuration record
- * x-ms-original-file: 2023-10-01-preview/MaintenanceConfigurations_GetForResource.json
+ * x-ms-original-file: 2025-10-01-preview/MaintenanceConfigurations_GetForResource.json
  */
 async function maintenanceConfigurationsGetForResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function maintenanceConfigurationsGetForResource(): Promise<void> {
  * This sample demonstrates how to get Configuration record
  *
  * @summary get Configuration record
- * x-ms-original-file: 2023-10-01-preview/MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.json
+ * x-ms-original-file: 2025-10-01-preview/MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.json
  */
 async function maintenanceConfigurationsGetForResourceGuestOSPatchLinux(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function maintenanceConfigurationsGetForResourceGuestOSPatchLinux(): Promi
  * This sample demonstrates how to get Configuration record
  *
  * @summary get Configuration record
- * x-ms-original-file: 2023-10-01-preview/MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.json
+ * x-ms-original-file: 2025-10-01-preview/MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.json
  */
 async function maintenanceConfigurationsGetForResourceGuestOSPatchWindows(): Promise<void> {
   const credential = new DefaultAzureCredential();

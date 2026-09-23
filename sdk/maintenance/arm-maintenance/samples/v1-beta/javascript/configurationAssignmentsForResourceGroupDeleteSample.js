@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to unregister configuration for resource.
  *
  * @summary unregister configuration for resource.
- * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignmentsForResourceGroup_Delete.json
+ * x-ms-original-file: 2025-10-01-preview/ConfigurationAssignmentsForResourceGroup_Delete.json
  */
 async function configurationAssignmentsForResourceGroupDelete() {
   const credential = new DefaultAzureCredential();
