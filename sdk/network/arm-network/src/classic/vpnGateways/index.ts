@@ -24,11 +24,11 @@ import type {
   VpnGatewaysCreateOrUpdateOptionalParams,
   VpnGatewaysGetOptionalParams,
 } from "../../api/vpnGateways/options.js";
-import type { TagsObject, VpnGateway } from "../../models/microsoft/network/models.js";
 import type {
   VpnGatewaysStopPacketCaptureResponse,
   VpnGatewaysStartPacketCaptureResponse,
 } from "../../models/models.js";
+import type { TagsObject, VpnGateway } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

@@ -26,7 +26,6 @@ export interface InstancePoolOperationsOperations {
     options?: InstancePoolOperationsGetOptionalParams,
   ) => Promise<InstancePoolOperation>;
 }
-
 function _getInstancePoolOperations(context: SqlManagementContext) {
   return {
     listByInstancePool: (
@@ -42,7 +41,6 @@ function _getInstancePoolOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, instancePoolName, operationId, options),
   };
 }
-
 export function _getInstancePoolOperationsOperations(
   context: SqlManagementContext,
 ): InstancePoolOperationsOperations {

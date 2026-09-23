@@ -273,6 +273,7 @@ export class CryptographyClient {
       } catch (e: any) {
         throw new Error(
           `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`,
+          { cause: e },
         );
       }
     }

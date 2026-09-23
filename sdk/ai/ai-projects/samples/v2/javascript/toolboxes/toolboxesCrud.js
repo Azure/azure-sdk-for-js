@@ -11,8 +11,7 @@
  * @summary Demonstrates CRUD operations on Toolboxes using the beta toolboxes API.
  */
 
-const { RestError } = require("@azure/ai-projects");
-const { AIProjectClient } = require("@azure/ai-projects");
+const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -28,7 +27,7 @@ async function main() {
     await project.toolboxes.delete(toolboxName);
     console.log(`Toolbox \`${toolboxName}\` deleted`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }

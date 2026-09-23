@@ -11,6 +11,37 @@ import { logger } from "../utils/logger.js";
 import { error } from "console";
 import fs from "fs";
 
+export function configureNpmFromRepo(sdkRepoPath: string): void {
+  const npmConfigPath = path.resolve(sdkRepoPath, ".npmrc");
+  if (!fs.existsSync(npmConfigPath)) {
+    throw new Error(`Npm configuration file does not exist: ${npmConfigPath}`);
+  }
+
+  const npmArgs = ["config", "get", "registry"];
+  const command = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : "npm";
+  const commandArgs =
+    process.platform === "win32" ? ["/d", "/s", "/c", "npm", ...npmArgs] : npmArgs;
+  const npmEnvironment = { ...process.env };
+  for (const variableName of Object.keys(npmEnvironment)) {
+    if (variableName.toLowerCase() === "npm_config_registry") {
+      delete npmEnvironment[variableName];
+    }
+  }
+  const result = spawnSync(command, commandArgs, {
+    cwd: sdkRepoPath,
+    encoding: "utf8",
+    env: npmEnvironment,
+  });
+  const registry = result.stdout?.trim();
+  if (result.status !== 0 || !registry) {
+    const details = result.error?.message ?? result.stderr;
+    throw new Error(`Failed to resolve the npm registry from ${npmConfigPath}: ${details}`);
+  }
+
+  process.env.npm_config_registry = registry;
+  logger.info(`Using npm configuration from: ${npmConfigPath}`);
+}
+
 export async function getNpmPackageInfo(packageDirectory): Promise<NpmPackageInfo> {
   const packageJson = await load(packageDirectory);
   if (!packageJson.content.name) {
@@ -51,14 +82,12 @@ export async function tryGetNpmView(
 ): Promise<{ [id: string]: unknown } | undefined> {
   try {
     logger.info(`[tryGetNpmView] Fetching npm registry info for: ${packageName}`);
-    const result = await fetch.json(`/${packageName}`, {
-      registry:
-        "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/",
-    });
+    const registry = process.env.npm_config_registry;
+    const result = await fetch.json(`/${packageName}`, registry ? { registry } : undefined);
     logger.info(`[tryGetNpmView] Successfully fetched info for: ${packageName}`);
     return result;
   } catch (err) {
-    logger.error(`[tryGetNpmView] Failed to fetch npm info for "${packageName}": ${err}`);
+    logger.warn(`[tryGetNpmView] Failed to fetch npm info for "${packageName}": ${err}`);
     return undefined;
   }
 }

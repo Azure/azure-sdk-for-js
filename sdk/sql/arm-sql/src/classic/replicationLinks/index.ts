@@ -178,7 +178,6 @@ export interface ReplicationLinksOperations {
     options?: ReplicationLinksGetOptionalParams,
   ) => Promise<ReplicationLink>;
 }
-
 function _getReplicationLinks(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -405,7 +404,6 @@ function _getReplicationLinks(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, linkId, options),
   };
 }
-
 export function _getReplicationLinksOperations(
   context: SqlManagementContext,
 ): ReplicationLinksOperations {

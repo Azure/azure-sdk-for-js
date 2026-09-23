@@ -5,12 +5,10 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ManagedInstanceDtcsListByManagedInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedInstanceDtcsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceDtcsGetOptionalParams extends OperationOptions {}
