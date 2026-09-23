@@ -49,7 +49,7 @@ export function _triggerRolloverSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       serverId: serverId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +98,7 @@ export function triggerRollover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -114,7 +114,7 @@ export function _listByStorageSyncServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function listByStorageSyncService(
       _listByStorageSyncServiceSend(context, resourceGroupName, storageSyncServiceName, options),
     _listByStorageSyncServiceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2022-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -173,7 +173,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       serverId: serverId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +210,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storageSyncServiceName, serverId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -229,7 +229,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       serverId: serverId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +279,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
 }
 
@@ -298,7 +298,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       serverId: serverId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -348,7 +348,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
 }
 
@@ -366,7 +366,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       serverId: serverId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

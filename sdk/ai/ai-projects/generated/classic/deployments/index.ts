@@ -14,7 +14,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface DeploymentsOperations {
   /** Returns the deployed models available in the current project, optionally filtered by publisher, model name, or deployment type. */
   list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<DeploymentUnion>;
-  /** Gets a deployed model. */
+  /** Retrieves a deployed model. */
   get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;
 }
 

@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface VirtualMachineBulkOperationsBulkReimageOperationOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

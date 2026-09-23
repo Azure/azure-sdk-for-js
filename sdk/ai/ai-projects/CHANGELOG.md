@@ -1,5 +1,107 @@
 # Release History
 
+## 2.7.0 (2026-09-18)
+
+### Breaking Changes
+
+- Remove `max_samples` from the shared `DataGenerationJobOptions` and inherited `SimulationSeedDataGenerationJobOptions` contract. Keep it required on `SimpleQnADataGenerationJobOptions`, `TaskGenerationDataGenerationJobOptions`, and `ToolUseFineTuningDataGenerationJobOptions`, and make it optional on `TracesDataGenerationJobOptions`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Move telephony operations from `project.beta.agents` and `project.beta.agentTelephony` to `project.beta.voiceAgents.telephony`, with shorter names such as `createBinding` and `listCalls`. Move `project.beta.agentEndpointConversations` to `project.beta.voiceAgents.conversations` and rename the associated operation and options types. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
+- Rename `project.beta.agents.generate` to `project.beta.agents.createFromPrompt`. Keep its request body and preview opt-in behavior unchanged. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
+- Rename voice item-audio methods to `getAudioItem`, `downloadAudioItem`, `getGeneratedAudioItem`, and `downloadGeneratedAudioItem`, with matching response type names. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/6bbf003013d52052af35f57f1f29daff9e536ad5)
+- Rename `connection` to `connection_name` on telephony binding contracts. Replace `telephony_binding_id` with required `connection_name` and scalar `source` fields on outbound call-job contracts. [Azure/azure-rest-api-specs#46289](https://github.com/Azure/azure-rest-api-specs/pull/46289)
+- Remove the public `project.beta.voiceAgentWebSocket.connectVoiceAgent` handshake operation; the underlying realtime protocol operation is now internal. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
+- Remove campaign operations and their supporting models and options from `project.beta.voiceAgents.telephony`. Outbound call jobs, bindings, and calls remain available. [Azure/azure-rest-api-specs#46418](https://github.com/Azure/azure-rest-api-specs/pull/46418)
+- Rename `VoiceAudioItemResponse`, `VoiceGeneratedAudioItemResponse`, and `VoiceRecordingResponse` to `VoiceAudioItem`, `VoiceGeneratedAudioItem`, and `VoiceRecording`, respectively. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Make `TelephonyOutboundFixedIntervalRetryPolicy.interval` required and replace the removed `TelephonyOutboundRetryPolicyResponseUnion` with `TelephonyOutboundRetryPolicyUnion` on `TelephonyCallJob.retry_policy`. The shared policy has optional `max_attempts`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Remove the unreleased `BrowserAutomationTool` and `BrowserAutomationToolboxTool` contracts. Use the retained `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` contracts instead. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Rename `startedAfter` and `startedBefore` to `startedAfterTime` and `startedBeforeTime` in the options for `project.beta.voiceAgents.telephony.listCalls`. Keep the `started_after` and `started_before` wire query names unchanged. [Azure/azure-rest-api-specs#46423](https://github.com/Azure/azure-rest-api-specs/pull/46423)
+
+### Features Added
+
+- Add voice agent definitions to `project.agents.createVersion` and `project.beta.agents.createFromPrompt` for authoring a voice agent from a natural-language goal, with `VoiceAgents=V1Preview` opt-in. Include audio, greeting, tool, avatar, subagent, and conversation-storage configuration, plus realtime voice event models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add telephony binding management, call history and lifecycle operations, and transfer-target configuration to `project.beta.voiceAgents.telephony` for Twilio and Teams Phone Extension voice agents. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add outbound call jobs to `project.beta.voiceAgents.telephony`, including creation, retrieval, and cancellation. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add `project.beta.voiceAgents.conversations` for listing and retrieving voice conversations, responses, and items, deleting conversations, and retrieving or downloading recorded and generated audio. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add explicit `trace_ids` filtering and dataset output `write_mode` options (`overwrite` or `merge`) to data generation jobs under `project.beta.datasets`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add the optional read-only `AgentSessionResource.stopped_at` timestamp for hosted-agent session lifecycle tracking. [Azure/azure-rest-api-specs#46214](https://github.com/Azure/azure-rest-api-specs/pull/46214)
+- Add known telephony lifecycle, call-end, and outbound-job reason codes while retaining support for unknown string values. [Azure/azure-rest-api-specs#46316](https://github.com/Azure/azure-rest-api-specs/pull/46316)
+- Expose typed system, user, and assistant message items already supported by realtime voice conversations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Expose voice transcription language metadata, multiple language hints, and keyword configuration from the regenerated models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Expose the existing `external_web_access` setting on web search tools and toolbox tools to control live web access. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add `project.beta.voiceAgents.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request). Connections yield `VoiceAgentRealtimeEvent`, including `VoiceAgentUnknownEvent` fallbacks that preserve the original event type and payload for forward compatibility. [#39922](https://github.com/Azure/azure-sdk-for-js/pull/39922) [#40010](https://github.com/Azure/azure-sdk-for-js/pull/40010)
+- Add the optional `async` flag to function and custom tool definitions. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Add `gpt-image-2` and `gpt-image-2-2026-04-21` to the supported `ImageGenTool.model` values. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Expose structured misalignment details on `ErrorModel.misalignment`. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Add `project.toolboxes.invokeLatestToolboxMcp` for invoking the latest toolbox version through its MCP endpoint. [#39933](https://github.com/Azure/azure-sdk-for-js/pull/39933)
+
+### Other Changes
+
+- Keep verbose dataset upload diagnostics focused on noncredential metadata as a defense-in-depth logging improvement. [#39993](https://github.com/Azure/azure-sdk-for-js/pull/39993)
+- Regenerate the client from azure-rest-api-specs commit `710828f4424a112000ac9a81896a8648f87b7548`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/710828f4424a112000ac9a81896a8648f87b7548)
+- Preserve existing public model exports and custom serializers when the emitter separates models into namespaces. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add samples for voice definitions, voice generation, and read-only telephony inspection, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add the `ws` and `https-proxy-agent` dependencies, required by `project.beta.voiceAgents.realtime`.
+
+## 2.6.0 (2026-09-03)
+
+### Features Added
+
+- Add `project.beta.agentInsightMonitors` for creating and managing Agent Insights monitors, runs, and insights. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add `RunOperationState` and `RunPoller` types, exposing the `runId` of an Agent Insights run on the poller returned by `project.beta.agentInsightMonitors.createRun`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add Microsoft 365 publishing operations and digital-worker metadata to `project.agents`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add opt-in preview support for creating and listing draft agent versions through the `draft` and `includeDrafts` options when callers set `foundryFeatures: "DraftAgents=V1Preview"`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add invocation content moderation configuration to `RaiConfig`, including request and response text selectors. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+- Add the optional `operationId` property to `BetaAgentInsightMonitorsCreateRunOptionalParams` for idempotent retries. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `641d5b415a03c9ca61eb469e46f8ef10b55d9caa`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
+
+## 2.5.0 (2026-08-20)
+
+### Features Added
+
+- Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `output_schema` configuration to function tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+
+### Bugs Fixed
+
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
+- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+
+## 2.4.0 (2026-08-04)
+
+### Breaking Changes
+
+- Changed the beta job creation operations `project.beta.agents.createOptimizationJob`, `project.beta.datasets.createGenerationJob`, and `project.beta.evaluators.createGenerationJob` into long-running operations. Each now returns a poller instead of a promise, and resolves to the job result (`OptimizationJobResult`, `DataGenerationJobResult`, and `EvaluatorVersion` respectively) rather than the queued job. Call `pollUntilDone()` to await completion, or `submitted()` to continue once the job is queued. Each operation also accepts a new `updateIntervalInMs` option to control the polling interval. The queued job's id is available as `poller.operationState?.jobId` once `submitted()` resolves, so it can still be passed to the paired get, cancel, and delete operations.
+
+### Features Added
+
+- Added `JobOperationState` and `JobPoller` types, exposing the `jobId` of a queued job on the pollers returned by the beta job creation operations.
+- Added `project.agents.patchAgentObject` for merge-patching agent endpoint configuration and agent card metadata.
+- Added `ToolSearchToolboxTool` as a generally available `toolbox_search` tool type on `project.toolboxes`, letting an agent discover a toolbox's tools at run time instead of binding every tool up front.
+- Added `status` property and `AgentIdentityStatus` type on `AgentIdentity` to report whether an agent instance identity or agent blueprint is active or disabled.
+- Added `TaskGenerationDataGenerationJobOptions` as a `task_generation` job type on `project.beta.datasets` for generating multiturn evaluation test cases.
+- Added `max_stalls` to `OptimizationOptions` to cap the number of consecutive reflective minibatch rejections before an optimization job stops early.
+- Added generation provenance and input-quality advisories to `project.beta.evaluators`: `generation_job_id` and `warnings` on `EvaluatorVersion`, and `input_quality_warnings` on `EvaluatorGenerationJob`. The advisories are surfaced as `RubricGenerationInputQualityWarning` values.
+
+### Other Changes
+
+- Added the `toolboxes/toolboxToolSearch.ts` sample demonstrating the toolbox search tool end to end.
+
 ## 2.3.1 (2026-07-09)
 
 ### Other Changes

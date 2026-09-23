@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   stop,
   start,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/containerApps/operations.js";
-import {
+import type {
   ContainerAppsStopOptionalParams,
   ContainerAppsStartOptionalParams,
   ContainerAppsGetAuthTokenOptionalParams,
@@ -28,15 +28,16 @@ import {
   ContainerAppsCreateOrUpdateOptionalParams,
   ContainerAppsGetOptionalParams,
 } from "../../api/containerApps/options.js";
-import {
+import type {
   ContainerApp,
   CustomHostnameAnalysisResult,
   SecretsCollection,
   ContainerAppAuthToken,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ContainerApps operations. */
 export interface ContainerAppsOperations {

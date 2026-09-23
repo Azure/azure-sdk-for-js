@@ -36,7 +36,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _proximityPlacementGroupListResultDeserializer(result.body);
 }
-
 /** Lists all proximity placement groups in a subscription. */
 export function listBySubscription(
   context: Client,
@@ -74,7 +73,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -88,7 +87,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +114,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _proximityPlacementGroupListResultDeserializer(result.body);
 }
-
 /** Lists all proximity placement groups in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -127,7 +125,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -143,7 +141,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       proximityPlacementGroupName: proximityPlacementGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +163,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a proximity placement group. */
 export async function $delete(
   context: Client,
@@ -195,7 +192,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       proximityPlacementGroupName: proximityPlacementGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +221,6 @@ export async function _updateDeserialize(
 
   return proximityPlacementGroupDeserializer(result.body);
 }
-
 /** Update a proximity placement group. */
 export async function update(
   context: Client,
@@ -256,7 +252,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       proximityPlacementGroupName: proximityPlacementGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +281,6 @@ export async function _createOrUpdateDeserialize(
 
   return proximityPlacementGroupDeserializer(result.body);
 }
-
 /** Create or update a proximity placement group. */
 export async function createOrUpdate(
   context: Client,
@@ -316,7 +311,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       proximityPlacementGroupName: proximityPlacementGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       includeColocationStatus: options?.includeColocationStatus,
     },
     {
@@ -344,7 +339,6 @@ export async function _getDeserialize(
 
   return proximityPlacementGroupDeserializer(result.body);
 }
-
 /** Retrieves information about a proximity placement group . */
 export async function get(
   context: Client,

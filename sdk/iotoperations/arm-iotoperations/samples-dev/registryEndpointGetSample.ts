@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a RegistryEndpointResource
  *
  * @summary get a RegistryEndpointResource
- * x-ms-original-file: 2026-03-01/RegistryEndpoint_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/RegistryEndpoint_Get_MaximumSet_Gen.json
  */
 async function registryEndpointGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

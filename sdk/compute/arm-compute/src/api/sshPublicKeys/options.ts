@@ -9,21 +9,15 @@ export interface SshPublicKeysGenerateKeyPairOptionalParams extends OperationOpt
   /** Parameters supplied to generate the SSH public key. */
   parameters?: SshGenerateKeyPairInputParameters;
 }
-
 /** Optional parameters. */
 export interface SshPublicKeysListBySubscriptionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SshPublicKeysListByResourceGroupOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SshPublicKeysDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SshPublicKeysUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SshPublicKeysCreateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SshPublicKeysGetOptionalParams extends OperationOptions {}

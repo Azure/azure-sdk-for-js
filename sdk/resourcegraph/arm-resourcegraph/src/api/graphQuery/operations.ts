@@ -63,7 +63,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _graphQueryListResultDeserializer(result.body);
 }
-
 /** Get all graph queries defined within a specified subscription. */
 export function listBySubscription(
   context: Client,
@@ -115,7 +114,6 @@ export async function _listDeserialize(
 
   return _graphQueryListResultDeserializer(result.body);
 }
-
 /** Get all graph queries defined within a specified subscription and resource group. */
 export function list(
   context: Client,
@@ -165,7 +163,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a graph query. */
 export async function $delete(
   context: Client,
@@ -219,7 +216,6 @@ export async function _updateDeserialize(
 
   return graphQueryResourceDeserializer(result.body);
 }
-
 /** Updates a graph query that has already been added. */
 export async function update(
   context: Client,
@@ -274,7 +270,6 @@ export async function _createOrUpdateDeserialize(
 
   return graphQueryResourceDeserializer(result.body);
 }
-
 /** Create a new graph query. */
 export async function createOrUpdate(
   context: Client,
@@ -330,7 +325,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gr
 
   return graphQueryResourceDeserializer(result.body);
 }
-
 /** Get a single graph query by its resourceName. */
 export async function get(
   context: Client,

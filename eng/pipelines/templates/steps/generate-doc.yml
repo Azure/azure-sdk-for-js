@@ -2,8 +2,8 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
-  - template: /eng/pipelines/templates/steps/common.yml
-  
+  # NOTE: common.yml is job-scoped and is included by the job/stage template that
+  # consumes this file. Do not include it here.
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc

@@ -3,6 +3,7 @@
 
 import type { ComputeContext } from "../../api/computeContext.js";
 import {
+  bulkReimageOperation,
   bulkCancelOperations,
   bulkGetOperationsStatus,
   bulkDeleteOperation,
@@ -11,6 +12,7 @@ import {
   bulkDeallocateOperation,
 } from "../../api/virtualMachineBulkOperations/operations.js";
 import type {
+  VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
   VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
@@ -31,10 +33,19 @@ import type {
   GetOperationStatusResponse,
   CancelOperationsContent,
   CancelOperationsResponse,
+  ExecuteReimageRequest,
+  ReimageResourceOperationResponse,
 } from "../../models/models.js";
 
 /** Interface representing a VirtualMachineBulkOperations operations. */
 export interface VirtualMachineBulkOperationsOperations {
+  /** BulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  bulkReimageOperation: (
+    resourceGroupName: string,
+    location: string,
+    requestBody: ExecuteReimageRequest,
+    options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
+  ) => Promise<ReimageResourceOperationResponse>;
   /** BulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
   bulkCancelOperations: (
     resourceGroupName: string,
@@ -81,6 +92,12 @@ export interface VirtualMachineBulkOperationsOperations {
 
 function _getVirtualMachineBulkOperations(context: ComputeContext) {
   return {
+    bulkReimageOperation: (
+      resourceGroupName: string,
+      location: string,
+      requestBody: ExecuteReimageRequest,
+      options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
+    ) => bulkReimageOperation(context, resourceGroupName, location, requestBody, options),
     bulkCancelOperations: (
       resourceGroupName: string,
       location: string,

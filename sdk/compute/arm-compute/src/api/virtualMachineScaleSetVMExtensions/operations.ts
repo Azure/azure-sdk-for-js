@@ -41,7 +41,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -69,7 +69,6 @@ export async function _listDeserialize(
 
   return virtualMachineScaleSetVMExtensionsListResultDeserializer(result.body);
 }
-
 /** The operation to get all extensions of an instance in Virtual Machine Scaleset. */
 export async function list(
   context: Client,
@@ -98,7 +97,7 @@ export function _$deleteSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the VMSS VM extension. */
 export function $delete(
   context: Client,
@@ -143,7 +141,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +162,7 @@ export function _updateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +191,6 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to update the VMSS VM extension. */
 export function update(
   context: Client,
@@ -221,7 +218,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetVMExtension>,
     VirtualMachineScaleSetVMExtension
@@ -245,7 +242,7 @@ export function _createOrUpdateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,7 +271,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to create or update the VMSS VM extension. */
 export function createOrUpdate(
   context: Client,
@@ -302,7 +298,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetVMExtension>,
     VirtualMachineScaleSetVMExtension
@@ -325,7 +321,7 @@ export function _getSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -353,7 +349,6 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to get the VMSS VM extension. */
 export async function get(
   context: Client,

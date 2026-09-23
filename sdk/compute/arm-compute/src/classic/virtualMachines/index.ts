@@ -494,7 +494,6 @@ export interface VirtualMachinesOperations {
     options?: VirtualMachinesGetOptionalParams,
   ) => Promise<VirtualMachine>;
 }
-
 function _getVirtualMachines(context: ComputeManagementContext) {
   return {
     listByLocation: (location: string, options?: VirtualMachinesListByLocationOptionalParams) =>
@@ -933,7 +932,6 @@ function _getVirtualMachines(context: ComputeManagementContext) {
       get(context, resourceGroupName, vmName, options),
   };
 }
-
 export function _getVirtualMachinesOperations(
   context: ComputeManagementContext,
 ): VirtualMachinesOperations {

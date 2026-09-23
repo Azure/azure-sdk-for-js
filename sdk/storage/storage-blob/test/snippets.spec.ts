@@ -10,6 +10,7 @@ import {
   ContainerSASPermissions,
   generateBlobSASQueryParameters,
   SASProtocol,
+  StorageResponseFormat,
   StorageSharedKeyCredential,
 } from "../src/index.js";
 import { buffer } from "node:stream/consumers";
@@ -152,6 +153,27 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     let i = 1;
     const blobs = containerClient.listBlobsFlat();
+    for await (const blob of blobs) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+  });
+
+  it("ReadmeSampleListBlobs_ApacheArrow", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const containerName = "<container name>";
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    // @ts-preserve-whitespace
+    // Request the listing as Apache Arrow. The service falls back to XML for accounts
+    // that don't support Apache Arrow; the parsed blob items are identical either way.
+    let i = 1;
+    const blobs = containerClient.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Arrow,
+    });
     for await (const blob of blobs) {
       console.log(`Blob ${i++}: ${blob.name}`);
     }

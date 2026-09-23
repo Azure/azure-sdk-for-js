@@ -86,12 +86,13 @@ export class LogHandler {
         }),
       );
     }
-    if (this._config.instrumentationOptions.console?.enabled) {
+    const consoleOptions = this._config.instrumentationOptions.console;
+    if (consoleOptions?.enabled) {
       // Defer patching until registration so construction preserves the original methods.
       const consoleInstrumentation = new ConsoleInstrumentation({
-        ...this._config.instrumentationOptions.console,
+        ...consoleOptions,
         enabled: false,
-        logSeverity,
+        logSeverity: consoleOptions.logSeverity ?? logSeverity,
       });
       this._consoleInstrumentation = consoleInstrumentation;
       this._instrumentations.push(consoleInstrumentation);

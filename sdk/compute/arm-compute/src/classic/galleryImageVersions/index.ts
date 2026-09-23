@@ -121,7 +121,6 @@ export interface GalleryImageVersionsOperations {
     options?: GalleryImageVersionsGetOptionalParams,
   ) => Promise<GalleryImageVersion>;
 }
-
 function _getGalleryImageVersions(context: ComputeManagementContext) {
   return {
     listByGalleryImage: (
@@ -306,7 +305,6 @@ function _getGalleryImageVersions(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getGalleryImageVersionsOperations(
   context: ComputeManagementContext,
 ): GalleryImageVersionsOperations {

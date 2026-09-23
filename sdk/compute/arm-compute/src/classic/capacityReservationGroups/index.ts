@@ -62,7 +62,6 @@ export interface CapacityReservationGroupsOperations {
     options?: CapacityReservationGroupsGetOptionalParams,
   ) => Promise<CapacityReservationGroup>;
 }
-
 function _getCapacityReservationGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) =>
@@ -96,7 +95,6 @@ function _getCapacityReservationGroups(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, capacityReservationGroupName, options),
   };
 }
-
 export function _getCapacityReservationGroupsOperations(
   context: ComputeManagementContext,
 ): CapacityReservationGroupsOperations {

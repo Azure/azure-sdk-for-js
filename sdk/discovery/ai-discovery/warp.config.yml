@@ -1,0 +1,26 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./workspace": "./src/workspace/index.ts"
+  "./workspace/api": "./src/workspace/api/index.ts"
+  "./bookshelf": "./src/bookshelf/index.ts"
+  "./bookshelf/api": "./src/bookshelf/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/microsoft/discovery/bookshelf": "./src/models/microsoft/discovery/bookshelf/index.ts"
+  "./models/microsoft/discovery/common": "./src/models/microsoft/discovery/common/index.ts"
+  "./models/microsoft/discovery/workspace": "./src/models/microsoft/discovery/workspace/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

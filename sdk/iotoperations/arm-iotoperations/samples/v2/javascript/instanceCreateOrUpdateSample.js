@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a InstanceResource
  *
  * @summary create a InstanceResource
- * x-ms-original-file: 2026-03-01/Instance_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Instance_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function instanceCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

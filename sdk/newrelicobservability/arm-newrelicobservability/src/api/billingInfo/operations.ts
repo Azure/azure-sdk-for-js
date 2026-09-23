@@ -21,7 +21,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +46,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bi
 
   return billingInfoResponseDeserializer(result.body);
 }
-
 /** A synchronous resource action. */
 export async function get(
   context: Client,

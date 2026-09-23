@@ -1,73 +1,29 @@
-parameters:
-  NodeTestVersion: $(NodeTestVersion)
+# Switches the agent to the Node version under test ($(NodeTestVersion)) after
+# packages have already been built with the "ship" version
+# ($(NODE_VERSION_LTS_MAINTENANCE)).
+#
+# NOTE: common.yml is job-scoped and is included by the job template that
+# consumes this file. Do not include it here.
+#
+# There is deliberately no "reinstall native dependencies" step. Native
+# dependencies do not need rebuilding when the Node major version changes:
+#
+#   * pnpm never builds them. pnpm-workspace.yaml sets `allowBuilds: false` for
+#     keytar, @azure/msal-node-extensions and @azure/msal-node-runtime, so their
+#     install scripts do not run and nothing is compiled locally.
+#   * All of them ship Node-API / prebuilt binaries, which are ABI-stable across
+#     Node major versions. keytar declares `binary.napi_versions: [3]`,
+#     @azure/msal-node-extensions' install script is `exit 0`, and
+#     @azure/msal-node-runtime's install script only copies prebuilt binaries.
+#
+# If a genuinely ABI-sensitive dependency is ever added, prefer `pnpm rebuild`
+# over hand-rolled path walking.
 
 steps:
-  - template: /eng/pipelines/templates/steps/common.yml
-  
   - template: use-node-version.yml
     parameters:
       NodeVersion: $(NodeTestVersion)
-
-  # Packages with native dependencies must be reinstalled after changing Node versions
-  # TODO: how to get the symlink paths without version?
-  - pwsh: |
-      $nativeDependencySymlinkPaths = "node_modules/.pnpm/keytar@7.9.0/,sdk/identity/identity-broker/node_modules/@azure/msal-node-extensions"
-      $currentLocation = Get-Location
-      $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
-
-      foreach ($symlink in $dependencySymlinks)
-      {
-        Write-Host "Reinstalling native dependency $($symlink)"
-
-        if(-not (Test-Path $symlink))
-        {
-          Write-Host "Path $($symlink) doesn't exist. Skipping reinstall of this dependency."
-          continue
-        }
-        # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
-        # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
-        $symlinkInfo = Get-Item $symlink
-
-        if ($symLinkInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-          $targetPath = [IO.Path]::Combine($symlinkInfo.Parent, $symlinkInfo.Target)
-          Write-Host "Target of symlink : $($targetPath)"
-
-          # Need to run "npm install" at path containing "node_modules" folder
-          # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
-          $packageInstallPath = Join-Path $targetPath "../.."
-        } else {
-          $packageInstallPath = $symlink
-        }
-
-        # <pkg>@<version> is the leaf node of the path
-        # Example: keytar@5.6.0
-        # Move one more level up if package has org name
-        # for e.g. node_modules\.pnpm\@azure+msal-node-extensions@1.0.0-alpha.6\node_modules\@azure\msal-node-extensions
-        if ((Split-Path -Leaf $packageInstallPath) -eq "node_modules") {
-          $packageInstallPath = Join-Path $packageInstallPath ".."
-        }
-
-        $packageAtVersion = Split-Path -Leaf $packageInstallPath
-
-        # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
-        # change it back
-        $packageAtVersion = $packageAtVersion.Replace("+", "/")
-        # Check if package has org name. for e.g @azure/msal-node-enxtensions
-        # This returns either @azure or .pnpm( if no org is present)
-        $packageParentName = Split-path -Leaf (Split-Path -Parent -Resolve $packageInstallPath)
-        if ($packageParentName.StartsWith("@"))
-        {
-          # Include org name in package name to install
-          $packageAtVersion = $packageParentName + "/" + $packageAtVersion
-        }
-
-        Set-Location $packageInstallPath
-
-        Write-Host "Installing $($packageAtVersion)"
-        # Install matching version of package
-        npm install --no-package-lock $packageAtVersion
-
-        Set-Location $currentLocation
-      }
-
-    displayName: Reinstall native dependencies
+      # Packages are built with NODE_VERSION_LTS_MAINTENANCE, so legs testing that
+      # same version are already on it and do not need the tool installed again.
+      # The verification step inside use-node-version.yml still runs and asserts it.
+      InstallCondition: and(succeeded(), ne(variables['NodeTestVersion'], variables['NODE_VERSION_LTS_MAINTENANCE']))

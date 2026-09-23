@@ -5,7 +5,6 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
 import type { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
-import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
@@ -14,6 +13,7 @@ import {
 import { tracingClient } from "../util/tracing.js";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+import { processUtils } from "../util/processUtils.js";
 
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
@@ -130,35 +130,21 @@ export const developerCliCredentialInternals = {
       const encodedClaims = uint8ArrayToString(stringToUint8Array(claims, "utf-8"), "base64");
       claimsSections = ["--claims", encodedClaims];
     }
-    return new Promise((resolve, reject) => {
-      try {
-        const args = [
-          "auth",
-          "token",
-          "--output",
-          "json",
-          "--no-prompt",
-          ...scopes.reduce<string[]>(
-            (previous, current) => previous.concat("--scope", current),
-            [],
-          ),
-          ...tenantSection,
-          ...claimsSections,
-        ];
-        const command = ["azd", ...args].join(" ");
-        child_process.exec(
-          command,
-          {
-            cwd: developerCliCredentialInternals.getSafeWorkingDir(),
-            timeout,
-          },
-          (error, stdout, stderr) => {
-            resolve({ stdout, stderr, error });
-          },
-        );
-      } catch (err: any) {
-        reject(err);
-      }
+    const args = [
+      "auth",
+      "token",
+      "--output",
+      "json",
+      "--no-prompt",
+      ...scopes.reduce<string[]>((previous, current) => previous.concat("--scope", current), []),
+      ...tenantSection,
+      ...claimsSections,
+    ];
+    return processUtils.execFileWithResult("azd", args, {
+      allowWindowsBatchFiles: true,
+      cwd: developerCliCredentialInternals.getSafeWorkingDir(),
+      encoding: "utf8",
+      timeout,
     });
   },
 };

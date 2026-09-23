@@ -18,6 +18,7 @@ require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   // Create AI Project client
@@ -35,7 +36,7 @@ async function main() {
 
   // Create agent with code interpreter tool and uploaded file
   console.log("Creating agent with code interpreter tool...");
-  const agent = await project.agents.createVersion("agent-code-interpreter-files", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",

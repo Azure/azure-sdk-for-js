@@ -28,7 +28,6 @@ export interface SharedGalleryImageVersionsOperations {
     options?: SharedGalleryImageVersionsGetOptionalParams,
   ) => Promise<SharedGalleryImageVersion>;
 }
-
 function _getSharedGalleryImageVersions(context: ComputeManagementContext) {
   return {
     list: (
@@ -47,7 +46,6 @@ function _getSharedGalleryImageVersions(context: ComputeManagementContext) {
       get(context, location, galleryUniqueName, galleryImageName, galleryImageVersionName, options),
   };
 }
-
 export function _getSharedGalleryImageVersionsOperations(
   context: ComputeManagementContext,
 ): SharedGalleryImageVersionsOperations {

@@ -15,6 +15,8 @@ import type {
   GetOperationStatusResponse,
   CancelOperationsContent,
   CancelOperationsResponse,
+  ExecuteReimageRequest,
+  ReimageResourceOperationResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -30,9 +32,12 @@ import {
   getOperationStatusResponseDeserializer,
   cancelOperationsContentSerializer,
   cancelOperationsResponseDeserializer,
+  executeReimageRequestSerializer,
+  reimageResourceOperationResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
   VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
@@ -42,6 +47,67 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _bulkReimageOperationSend(
+  context: Client,
+  resourceGroupName: string,
+  location: string,
+  requestBody: ExecuteReimageRequest,
+  options: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/virtualMachinesBulkReimage{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      location: location,
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: executeReimageRequestSerializer(requestBody),
+  });
+}
+
+export async function _bulkReimageOperationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ReimageResourceOperationResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return reimageResourceOperationResponseDeserializer(result.body);
+}
+
+/** BulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+export async function bulkReimageOperation(
+  context: Client,
+  resourceGroupName: string,
+  location: string,
+  requestBody: ExecuteReimageRequest,
+  options: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams = { requestOptions: {} },
+): Promise<ReimageResourceOperationResponse> {
+  const result = await _bulkReimageOperationSend(
+    context,
+    resourceGroupName,
+    location,
+    requestBody,
+    options,
+  );
+  return _bulkReimageOperationDeserialize(result);
+}
 
 export function _bulkCancelOperationsSend(
   context: Client,
@@ -56,7 +122,7 @@ export function _bulkCancelOperationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +185,7 @@ export function _bulkGetOperationsStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +248,7 @@ export function _bulkDeleteOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +309,7 @@ export function _bulkStartOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +372,7 @@ export function _bulkHibernateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +437,7 @@ export function _bulkDeallocateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-06",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

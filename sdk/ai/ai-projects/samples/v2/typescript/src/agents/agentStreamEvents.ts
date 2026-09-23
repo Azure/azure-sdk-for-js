@@ -3,10 +3,10 @@
 
 /**
  * This sample demonstrates how to run basic Prompt Agent operations
- * using the AIProjectClient with streaming responses.
+ * using an existing configured agent endpoint with streaming responses.
  *
- * @summary This sample demonstrates how to create an agent, create a conversation,
- * and stream responses using the agent with event handling.
+ * @summary This sample demonstrates how to reuse an existing agent endpoint,
+ * create a conversation, and stream responses with event handling.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -14,21 +14,24 @@ import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
+  const agent = await project.agents.get(agentName);
+  if (!agent.agent_endpoint) {
+    throw new Error(
+      `Agent "${agentName}" does not have an agent endpoint configured. ` +
+        "Configure the existing agent endpoint before running this sample; " +
+        "use agent_reference instead when creating a new agent.",
+    );
+  }
+  console.log(`Using existing agent endpoint (name: ${agent.name})`);
 
-  // Create agent
-  console.log("Creating agent...");
-  const agent = await project.agents.createVersion("MyAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: "You are a helpful assistant that answers general questions",
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName },
   });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
@@ -39,14 +42,9 @@ export async function main(): Promise<void> {
 
   // Generate streaming response using the agent
   console.log("\nGenerating streaming response...");
-  const stream = openAIClient.responses.stream(
-    {
-      conversation: conversation.id,
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-    },
-  );
+  const stream = openAIClient.responses.stream({
+    conversation: conversation.id,
+  });
 
   // Process streaming events as they arrive
   for await (const event of stream) {
@@ -65,9 +63,6 @@ export async function main(): Promise<void> {
   console.log("\nCleaning up resources...");
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
-
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
 }
 
 main().catch((err) => {

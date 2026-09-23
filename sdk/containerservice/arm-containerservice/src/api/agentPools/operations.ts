@@ -6,6 +6,9 @@ import type {
   AgentPool,
   _AgentPoolListResult,
   AgentPoolDeleteMachinesParameter,
+  ListBootstrapDataRequest,
+  PoolBootstrapData,
+  AgentPoolUpdate,
   AgentPoolAvailableVersions,
   AgentPoolUpgradeProfile,
 } from "../../models/models.js";
@@ -15,6 +18,9 @@ import {
   errorResponseDeserializer,
   _agentPoolListResultDeserializer,
   agentPoolDeleteMachinesParameterSerializer,
+  listBootstrapDataRequestSerializer,
+  poolBootstrapDataDeserializer,
+  agentPoolUpdateSerializer,
   agentPoolAvailableVersionsDeserializer,
   agentPoolUpgradeProfileDeserializer,
 } from "../../models/models.js";
@@ -25,8 +31,11 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
+  AgentPoolsUpdateOptionalParams,
+  AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
+  AgentPoolsCompleteUpgradeOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsDeleteOptionalParams,
@@ -51,7 +60,7 @@ export function _getUpgradeProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,6 +87,7 @@ export async function _getUpgradeProfileDeserialize(
 
   return agentPoolUpgradeProfileDeserializer(result.body);
 }
+
 /** Gets the upgrade profile for an agent pool. */
 export async function getUpgradeProfile(
   context: Client,
@@ -108,7 +118,7 @@ export function _getAvailableAgentPoolVersionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +145,7 @@ export async function _getAvailableAgentPoolVersionsDeserialize(
 
   return agentPoolAvailableVersionsDeserializer(result.body);
 }
+
 /** See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle. */
 export async function getAvailableAgentPoolVersions(
   context: Client,
@@ -151,6 +162,137 @@ export async function getAvailableAgentPoolVersions(
   return _getAvailableAgentPoolVersionsDeserialize(result);
 }
 
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  parameters: AgentPoolUpdate,
+  options: AgentPoolsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      agentPoolName: agentPoolName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentPoolUpdateSerializer(parameters),
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AgentPool> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentPoolDeserializer(result.body);
+}
+
+/** Updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information. */
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  parameters: AgentPoolUpdate,
+  options: AgentPoolsUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<AgentPool>, AgentPool> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, resourceName, agentPoolName, parameters, options),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+  }) as PollerLike<OperationState<AgentPool>, AgentPool>;
+}
+
+export function _listBootstrapDataSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  body: ListBootstrapDataRequest,
+  options: AgentPoolsListBootstrapDataOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/listBootstrapData{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      agentPoolName: agentPoolName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: listBootstrapDataRequestSerializer(body),
+  });
+}
+
+export async function _listBootstrapDataDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PoolBootstrapData> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return poolBootstrapDataDeserializer(result.body);
+}
+
+/** Returns pool-level bootstrap configuration for FlexNode machines. */
+export async function listBootstrapData(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  body: ListBootstrapDataRequest,
+  options: AgentPoolsListBootstrapDataOptionalParams = { requestOptions: {} },
+): Promise<PoolBootstrapData> {
+  const result = await _listBootstrapDataSend(
+    context,
+    resourceGroupName,
+    resourceName,
+    agentPoolName,
+    body,
+    options,
+  );
+  return _listBootstrapDataDeserialize(result);
+}
+
 export function _upgradeNodeImageVersionSend(
   context: Client,
   resourceGroupName: string,
@@ -165,7 +307,7 @@ export function _upgradeNodeImageVersionSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,6 +334,7 @@ export async function _upgradeNodeImageVersionDeserialize(
 
   return;
 }
+
 /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
 export function upgradeNodeImageVersion(
   context: Client,
@@ -212,7 +355,7 @@ export function upgradeNodeImageVersion(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -231,7 +374,7 @@ export function _deleteMachinesSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,6 +400,7 @@ export async function _deleteMachinesDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Deletes specific machines in an agent pool. */
 export function deleteMachines(
   context: Client,
@@ -279,7 +423,62 @@ export function deleteMachines(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _completeUpgradeSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  options: AgentPoolsCompleteUpgradeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/completeUpgrade{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      agentPoolName: agentPoolName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _completeUpgradeDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Completes the upgrade operation for the specified agent pool. */
+export function completeUpgrade(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  agentPoolName: string,
+  options: AgentPoolsCompleteUpgradeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _completeUpgradeDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _completeUpgradeSend(context, resourceGroupName, resourceName, agentPoolName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -297,7 +496,7 @@ export function _abortLatestOperationSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,6 +520,7 @@ export async function _abortLatestOperationDeserialize(
 
   return;
 }
+
 /** Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned. */
 export function abortLatestOperation(
   context: Client,
@@ -339,7 +539,7 @@ export function abortLatestOperation(
       getInitialResponse: () =>
         _abortLatestOperationSend(context, resourceGroupName, resourceName, agentPoolName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -356,7 +556,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,6 +583,7 @@ export async function _listDeserialize(
 
   return _agentPoolListResultDeserializer(result.body);
 }
+
 /** Gets a list of agent pools in the specified managed cluster. */
 export function list(
   context: Client,
@@ -395,7 +596,11 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    },
   );
 }
 
@@ -413,7 +618,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       "ignore%2Dpod%2Ddisruption%2Dbudget": options?.ignorePodDisruptionBudget,
     },
     {
@@ -442,6 +647,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an agent pool in the specified managed cluster. */
 export function $delete(
   context: Client,
@@ -456,7 +662,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, agentPoolName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -475,7 +681,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,6 +715,7 @@ export async function _createOrUpdateDeserialize(
 
   return agentPoolDeserializer(result.body);
 }
+
 /** Creates or updates an agent pool in the specified managed cluster. */
 export function createOrUpdate(
   context: Client,
@@ -531,7 +738,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
@@ -549,7 +756,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,6 +781,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 
   return agentPoolDeserializer(result.body);
 }
+
 /** Gets the specified managed cluster agent pool. */
 export async function get(
   context: Client,

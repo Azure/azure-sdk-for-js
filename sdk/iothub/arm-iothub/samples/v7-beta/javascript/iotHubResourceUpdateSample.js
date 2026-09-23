@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
  *
  * @summary update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
- * x-ms-original-file: 2026-03-01-preview/iothub_patch.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_patch.json
  */
 async function iotHubResourceUpdate() {
   const credential = new DefaultAzureCredential();

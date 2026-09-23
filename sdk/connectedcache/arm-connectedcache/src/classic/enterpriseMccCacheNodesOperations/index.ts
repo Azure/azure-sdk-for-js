@@ -72,11 +72,6 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     options?: EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
   ) => PagedAsyncIterableIterator<EnterpriseMccCacheNodeResource>;
   /** This api deletes an existing ispCacheNode resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,
@@ -107,7 +102,6 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     options?: EnterpriseMccCacheNodesOperationsGetOptionalParams,
   ) => Promise<EnterpriseMccCacheNodeResource>;
 }
-
 function _getEnterpriseMccCacheNodesOperations(context: ConnectedCacheContext) {
   return {
     getCacheNodeTlsCertificateHistory: (
@@ -217,7 +211,6 @@ function _getEnterpriseMccCacheNodesOperations(context: ConnectedCacheContext) {
     ) => get(context, resourceGroupName, customerResourceName, cacheNodeResourceName, options),
   };
 }
-
 export function _getEnterpriseMccCacheNodesOperationsOperations(
   context: ConnectedCacheContext,
 ): EnterpriseMccCacheNodesOperationsOperations {

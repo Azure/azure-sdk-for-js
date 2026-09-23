@@ -125,16 +125,10 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -339,11 +333,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified schedule resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   scheduleId: string,

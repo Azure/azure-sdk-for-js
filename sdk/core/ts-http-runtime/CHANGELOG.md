@@ -1,18 +1,34 @@
 # Release History
 
-## 0.3.8 (Unreleased)
+## 0.3.10 (Unreleased)
 
 ### Features Added
-
-- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
+
 ### Other Changes
 
-`proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+## 0.3.9 (2026-09-03)
+
+### Bugs Fixed
+
+- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
+- `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
+- `FetchHttpClient` now surfaces the system error code (such as `ECONNRESET` or `ETIMEDOUT`) carried by the `cause` of a failed `fetch()` call on the resulting `RestError`, so that `systemErrorRetryPolicy` retries transient network failures instead of rethrowing them immediately. [Issue #39703](https://github.com/Azure/azure-sdk-for-js/issues/39703)
+
+## 0.3.8 (2026-07-29)
+
+### Features Added
+
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
+
+### Other Changes
+
+- `proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
 
 ## 0.3.7 (2026-07-13)
 

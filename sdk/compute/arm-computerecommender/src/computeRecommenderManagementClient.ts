@@ -8,12 +8,14 @@ import type {
 import { createComputeRecommenderManagement } from "./api/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { SkuMixPlacementScoresOperations } from "./classic/skuMixPlacementScores/index.js";
+import { _getSkuMixPlacementScoresOperations } from "./classic/skuMixPlacementScores/index.js";
 import type { SpotPlacementScoresOperations } from "./classic/spotPlacementScores/index.js";
 import { _getSpotPlacementScoresOperations } from "./classic/spotPlacementScores/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
+export type { ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
 
 export class ComputeRecommenderManagementClient {
   private _client: ComputeRecommenderManagementContext;
@@ -26,21 +28,17 @@ export class ComputeRecommenderManagementClient {
     subscriptionId: string,
     options: ComputeRecommenderManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createComputeRecommenderManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createComputeRecommenderManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.spotPlacementScores = _getSpotPlacementScoresOperations(this._client);
+    this.skuMixPlacementScores = _getSkuMixPlacementScoresOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
   /** The operation groups for spotPlacementScores */
   public readonly spotPlacementScores: SpotPlacementScoresOperations;
+  /** The operation groups for skuMixPlacementScores */
+  public readonly skuMixPlacementScores: SkuMixPlacementScoresOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

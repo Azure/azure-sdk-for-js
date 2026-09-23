@@ -48,7 +48,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
 export function restart(
   context: Client,
@@ -85,7 +84,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -103,7 +102,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +124,6 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Redeploy the dedicated host. The operation will complete successfully once the dedicated host has migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host after the redeploy check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
 export function redeploy(
   context: Client,
@@ -140,7 +138,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -158,7 +156,7 @@ export function _listAvailableSizesSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +183,6 @@ export async function _listAvailableSizesDeserialize(
 
   return _dedicatedHostSizeListResultDeserializer(result.body);
 }
-
 /** Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE: The dedicated host sizes provided can be used to only scale up the existing dedicated host. */
 export function listAvailableSizes(
   context: Client,
@@ -199,7 +196,7 @@ export function listAvailableSizes(
     () => _listAvailableSizesSend(context, resourceGroupName, hostGroupName, hostName, options),
     _listAvailableSizesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -215,7 +212,7 @@ export function _listByHostGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +239,6 @@ export async function _listByHostGroupDeserialize(
 
   return _dedicatedHostListResultDeserializer(result.body);
 }
-
 /** Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. */
 export function listByHostGroup(
   context: Client,
@@ -255,7 +251,7 @@ export function listByHostGroup(
     () => _listByHostGroupSend(context, resourceGroupName, hostGroupName, options),
     _listByHostGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -273,7 +269,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +291,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a dedicated host. */
 export function $delete(
   context: Client,
@@ -310,7 +305,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -329,7 +324,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,7 +351,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Update a dedicated host . */
 export function update(
   context: Client,
@@ -372,7 +366,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -391,7 +385,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -420,7 +414,6 @@ export async function _createOrUpdateDeserialize(
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Create or update a dedicated host . */
 export function createOrUpdate(
   context: Client,
@@ -436,7 +429,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -454,7 +447,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -480,7 +473,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Retrieves information about a dedicated host. */
 export async function get(
   context: Client,

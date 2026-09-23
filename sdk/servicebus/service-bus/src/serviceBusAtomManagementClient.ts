@@ -125,11 +125,11 @@ export interface ServiceBusAdministrationClientOptions extends CommonClientOptio
   /**
    * Service version of the ATOM API.
    *
-   * Currently supported = "2021-05" | "2017-04"
+   * Currently supported = "2024-05" | "2021-05" | "2017-04"
    *
-   * Defaults to "2021-05".
+   * Defaults to "2024-05".
    */
-  serviceVersion?: "2021-05" | "2017-04";
+  serviceVersion?: "2024-05" | "2021-05" | "2017-04";
 }
 
 /**
@@ -461,8 +461,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async *listQueuesAll(
     options: OperationOptions = {},
   ): AsyncIterableIterator<QueueProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listQueuesPage(marker, options)) {
+    for await (const segment of this.listQueuesPage(undefined, options)) {
       yield* segment;
     }
   }
@@ -555,8 +554,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async *listQueuesRuntimePropertiesAll(
     options: OperationOptions = {},
   ): AsyncIterableIterator<QueueRuntimeProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listQueuesRuntimePropertiesPage(marker, options)) {
+    for await (const segment of this.listQueuesRuntimePropertiesPage(undefined, options)) {
       yield* segment;
     }
   }
@@ -871,8 +869,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async *listTopicsAll(
     options: OperationOptions = {},
   ): AsyncIterableIterator<TopicProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listTopicsPage(marker, options)) {
+    for await (const segment of this.listTopicsPage(undefined, options)) {
       yield* segment;
     }
   }
@@ -967,8 +964,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async *listTopicsRuntimePropertiesAll(
     options: OperationOptions = {},
   ): AsyncIterableIterator<TopicRuntimeProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listTopicsRuntimePropertiesPage(marker, options)) {
+    for await (const segment of this.listTopicsRuntimePropertiesPage(undefined, options)) {
       yield* segment;
     }
   }
@@ -1301,8 +1297,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options: OperationOptions = {},
   ): AsyncIterableIterator<SubscriptionProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
+    for await (const segment of this.listSubscriptionsPage(topicName, undefined, options)) {
       yield* segment;
     }
   }
@@ -1404,10 +1399,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options: OperationOptions = {},
   ): AsyncIterableIterator<SubscriptionRuntimeProperties> {
-    let marker: string | undefined;
     for await (const segment of this.listSubscriptionsRuntimePropertiesPage(
       topicName,
-      marker,
+      undefined,
       options,
     )) {
       yield* segment;
@@ -1769,8 +1763,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options: OperationOptions = {},
   ): AsyncIterableIterator<RuleProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
+    for await (const segment of this.listRulesPage(
+      topicName,
+      subscriptionName,
+      undefined,
+      options,
+    )) {
       yield* segment;
     }
   }
@@ -2122,6 +2120,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
           error,
+        { cause: error },
       );
     }
   }

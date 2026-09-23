@@ -62,7 +62,6 @@ export interface LogAnalyticsOperations {
     options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ) => Promise<LogAnalyticsOperationResult>;
 }
-
 function _getLogAnalytics(context: ComputeManagementContext) {
   return {
     exportThrottledRequests: (
@@ -109,7 +108,6 @@ function _getLogAnalytics(context: ComputeManagementContext) {
     },
   };
 }
-
 export function _getLogAnalyticsOperations(
   context: ComputeManagementContext,
 ): LogAnalyticsOperations {

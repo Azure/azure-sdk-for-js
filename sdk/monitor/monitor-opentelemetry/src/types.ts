@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import type { SeverityNumber } from "@opentelemetry/api-logs";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -64,7 +65,16 @@ export interface InstrumentationOptions {
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
   /** Console Instrumentation Config */
-  console?: InstrumentationConfig;
+  console?: ConsoleInstrumentationOptions;
+}
+
+/**
+ * Console Instrumentation Configuration interface
+ */
+export interface ConsoleInstrumentationOptions extends InstrumentationConfig {
+  /** The minimum severity of `console` calls to collect. Defaults to the value derived from the
+   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. */
+  logSeverity?: SeverityNumber;
 }
 
 /**
@@ -163,11 +173,13 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.19.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.20.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 export const APPLICATION_INSIGHTS_SHIM_VERSION = "APPLICATION_INSIGHTS_SHIM_VERSION";
+export const APPLICATIONINSIGHTS_AUTHENTICATION_STRING =
+  "APPLICATIONINSIGHTS_AUTHENTICATION_STRING";
 
 export enum AttachTypePrefix {
   INTEGRATED_AUTO = "i",

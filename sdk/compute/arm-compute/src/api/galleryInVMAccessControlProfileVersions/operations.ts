@@ -45,7 +45,7 @@ export function _listByGalleryInVMAccessControlProfileSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       inVMAccessControlProfileName: inVMAccessControlProfileName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _listByGalleryInVMAccessControlProfileDeserialize(
 
   return _galleryInVMAccessControlProfileVersionListDeserializer(result.body);
 }
-
 /** List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile */
 export function listByGalleryInVMAccessControlProfile(
   context: Client,
@@ -95,7 +94,7 @@ export function listByGalleryInVMAccessControlProfile(
       ),
     _listByGalleryInVMAccessControlProfileDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -115,7 +114,7 @@ export function _$deleteSend(
       galleryName: galleryName,
       inVMAccessControlProfileName: inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName: inVMAccessControlProfileVersionName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +136,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a gallery inVMAccessControlProfile version. */
 export function $delete(
   context: Client,
@@ -160,7 +158,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -181,7 +179,7 @@ export function _updateSend(
       galleryName: galleryName,
       inVMAccessControlProfileName: inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName: inVMAccessControlProfileVersionName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +210,6 @@ export async function _updateDeserialize(
 
   return galleryInVMAccessControlProfileVersionDeserializer(result.body);
 }
-
 /** Update a gallery inVMAccessControlProfile version. */
 export function update(
   context: Client,
@@ -240,7 +237,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<
     OperationState<GalleryInVMAccessControlProfileVersion>,
     GalleryInVMAccessControlProfileVersion
@@ -266,7 +263,7 @@ export function _createOrUpdateSend(
       galleryName: galleryName,
       inVMAccessControlProfileName: inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName: inVMAccessControlProfileVersionName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +292,6 @@ export async function _createOrUpdateDeserialize(
 
   return galleryInVMAccessControlProfileVersionDeserializer(result.body);
 }
-
 /** Create or update a gallery inVMAccessControlProfile version. */
 export function createOrUpdate(
   context: Client,
@@ -325,7 +321,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<
     OperationState<GalleryInVMAccessControlProfileVersion>,
     GalleryInVMAccessControlProfileVersion
@@ -348,7 +344,7 @@ export function _getSend(
       galleryName: galleryName,
       inVMAccessControlProfileName: inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName: inVMAccessControlProfileVersionName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -375,7 +371,6 @@ export async function _getDeserialize(
 
   return galleryInVMAccessControlProfileVersionDeserializer(result.body);
 }
-
 /** Retrieves information about a gallery inVMAccessControlProfile version. */
 export async function get(
   context: Client,

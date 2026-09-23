@@ -42,7 +42,7 @@ export function _getSend(
       skus: skus,
       version: version,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return virtualMachineImageDeserializer(result.body);
 }
-
 /** Gets a virtual machine image in an edge zone. */
 export async function get(
   context: Client,
@@ -110,7 +109,7 @@ export function _listSend(
       publisherName: publisherName,
       offer: offer,
       skus: skus,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
@@ -140,7 +139,6 @@ export async function _listDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU. */
 export async function list(
   context: Client,
@@ -171,7 +169,7 @@ export function _listSkusSend(
       edgeZone: edgeZone,
       publisherName: publisherName,
       offer: offer,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +196,6 @@ export async function _listSkusDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer. */
 export async function listSkus(
   context: Client,
@@ -226,7 +223,7 @@ export function _listOffersSend(
       location: location,
       edgeZone: edgeZone,
       publisherName: publisherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,7 +250,6 @@ export async function _listOffersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image offers for the specified location, edge zone and publisher. */
 export async function listOffers(
   context: Client,
@@ -278,7 +274,7 @@ export function _listPublishersSend(
       subscriptionId: context.subscriptionId,
       location: location,
       edgeZone: edgeZone,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,7 +301,6 @@ export async function _listPublishersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image publishers for the specified Azure location and edge zone. */
 export async function listPublishers(
   context: Client,

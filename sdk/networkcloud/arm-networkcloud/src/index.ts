@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -56,8 +57,8 @@ export type {
   HardwareValidationStatus,
   BareMetalMachineHardwareValidationResult,
   BareMetalMachineMonitoringConfigurationStatus,
-  BareMetalMachineMetricsConfigurationStatusLogLevel,
-  BareMetalMachineMetricsConfigurationStatusMetricsLevel,
+  BareMetalMachineMonitoringConfigurationStatusLogLevel,
+  BareMetalMachineMonitoringConfigurationStatusMetricsLevel,
   BareMetalMachinePowerState,
   BareMetalMachineReadyState,
   RuntimeProtectionStatus,
@@ -145,6 +146,15 @@ export type {
   ClusterProvisioningState,
   ClusterPatchParameters,
   ClusterPatchProperties,
+  RackDefinitionPatch,
+  BareMetalMachineConfigurationDataPatch,
+  AdministrativeCredentialsPatch,
+  StorageApplianceConfigurationDataPatch,
+  ServicePrincipalInformationPatch,
+  ValidationThresholdPatch,
+  RuntimeProtectionConfigurationPatch,
+  ClusterSecretArchivePatch,
+  ClusterUpdateStrategyPatch,
   VulnerabilityScanningSettingsPatch,
   ClusterContinueUpdateVersionParameters,
   ClusterContinueUpdateVersionMachineGroupTargetingMode,
@@ -248,8 +258,8 @@ export type {
   StorageApplianceDetailedStatus,
   StorageApplianceExpansionShelf,
   StorageApplianceMonitoringConfigurationStatus,
-  StorageApplianceMetricsConfigurationStatusLogLevel,
-  StorageApplianceMetricsConfigurationStatusMetricsLevel,
+  StorageApplianceMonitoringConfigurationStatusLogLevel,
+  StorageApplianceMonitoringConfigurationStatusMetricsLevel,
   RemoteVendorManagementFeature,
   RemoteVendorManagementStatus,
   StorageApplianceProvisioningState,
@@ -283,6 +293,7 @@ export type {
   VirtualMachineProvisioningState,
   VirtualMachinePatchParameters,
   VirtualMachinePatchProperties,
+  ImageRepositoryCredentialsPatch,
   VirtualMachineAssignRelayParameters,
   RelayType,
   VirtualMachinePowerOffParameters,
@@ -332,6 +343,7 @@ export type {
   ConsoleProvisioningState,
   ConsolePatchParameters,
   ConsolePatchProperties,
+  SshPublicKeyPatch,
   ClusterMetricsConfiguration,
   ClusterMetricsConfigurationProperties,
   ClusterMetricsConfigurationDetailedStatus,
@@ -354,8 +366,8 @@ export {
   KnownBareMetalMachineCordonStatus,
   KnownBareMetalMachineDetailedStatus,
   KnownBareMetalMachineHardwareValidationResult,
-  KnownBareMetalMachineMetricsConfigurationStatusLogLevel,
-  KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel,
+  KnownBareMetalMachineMonitoringConfigurationStatusLogLevel,
+  KnownBareMetalMachineMonitoringConfigurationStatusMetricsLevel,
   KnownBareMetalMachinePowerState,
   KnownBareMetalMachineReadyState,
   KnownRuntimeProtectionAgentHealthStatus,
@@ -431,8 +443,8 @@ export {
   KnownRackDetailedStatus,
   KnownRackProvisioningState,
   KnownStorageApplianceDetailedStatus,
-  KnownStorageApplianceMetricsConfigurationStatusLogLevel,
-  KnownStorageApplianceMetricsConfigurationStatusMetricsLevel,
+  KnownStorageApplianceMonitoringConfigurationStatusLogLevel,
+  KnownStorageApplianceMonitoringConfigurationStatusMetricsLevel,
   KnownRemoteVendorManagementFeature,
   KnownRemoteVendorManagementStatus,
   KnownStorageApplianceProvisioningState,
@@ -688,3 +700,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

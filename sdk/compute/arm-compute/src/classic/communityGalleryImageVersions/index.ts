@@ -28,7 +28,6 @@ export interface CommunityGalleryImageVersionsOperations {
     options?: CommunityGalleryImageVersionsGetOptionalParams,
   ) => Promise<CommunityGalleryImageVersion>;
 }
-
 function _getCommunityGalleryImageVersions(context: ComputeManagementContext) {
   return {
     list: (
@@ -47,7 +46,6 @@ function _getCommunityGalleryImageVersions(context: ComputeManagementContext) {
       get(context, location, publicGalleryName, galleryImageName, galleryImageVersionName, options),
   };
 }
-
 export function _getCommunityGalleryImageVersionsOperations(
   context: ComputeManagementContext,
 ): CommunityGalleryImageVersionsOperations {

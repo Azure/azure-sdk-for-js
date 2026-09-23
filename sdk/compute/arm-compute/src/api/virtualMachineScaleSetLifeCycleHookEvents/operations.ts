@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _listDeserialize(
 
   return _vmScaleSetLifecycleHookEventListResultDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource. */
 export function list(
   context: Client,
@@ -76,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vmScaleSetName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -95,7 +94,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       lifecycleHookEventName: lifecycleHookEventName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +123,6 @@ export async function _updateDeserialize(
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
-
 /** The operation to update a virtual machine scale set lifecycle hook event. */
 export async function update(
   context: Client,
@@ -159,7 +157,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       lifecycleHookEventName: lifecycleHookEventName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +184,6 @@ export async function _getDeserialize(
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
-
 /** Gets a virtual machine scale set lifecycle hook event. */
 export async function get(
   context: Client,

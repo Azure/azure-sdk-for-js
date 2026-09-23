@@ -41,7 +41,7 @@ export function _listByVersionSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobVersion: jobVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,6 @@ export async function _listByVersionDeserialize(
 
   return _jobStepListResultDeserializer(result.body);
 }
-
 /** Gets all job steps in the specified job version. */
 export function listByVersion(
   context: Client,
@@ -93,7 +92,11 @@ export function listByVersion(
       ),
     _listByVersionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -117,7 +120,7 @@ export function _getByVersionSend(
       jobName: jobName,
       jobVersion: jobVersion,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +145,6 @@ export async function _getByVersionDeserialize(result: PathUncheckedResponse): P
 
   return jobStepDeserializer(result.body);
 }
-
 /** Gets the specified version of a job step. */
 export async function getByVersion(
   context: Client,
@@ -183,7 +185,7 @@ export function _listByJobSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +212,6 @@ export async function _listByJobDeserialize(
 
   return _jobStepListResultDeserializer(result.body);
 }
-
 /** Gets all job steps for a job's current version. */
 export function listByJob(
   context: Client,
@@ -225,7 +226,11 @@ export function listByJob(
     () => _listByJobSend(context, resourceGroupName, serverName, jobAgentName, jobName, options),
     _listByJobDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -247,7 +252,7 @@ export function _$deleteSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +274,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a job step. This will implicitly create a new job version. */
 export async function $delete(
   context: Client,
@@ -311,7 +315,7 @@ export function _createOrUpdateSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +342,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return jobStepDeserializer(result.body);
 }
-
 /** Creates or updates a job step. This will implicitly create a new job version. */
 export async function createOrUpdate(
   context: Client,
@@ -381,7 +384,7 @@ export function _getSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +409,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobStepDeserializer(result.body);
 }
-
 /** Gets a job step in a job's current version. */
 export async function get(
   context: Client,

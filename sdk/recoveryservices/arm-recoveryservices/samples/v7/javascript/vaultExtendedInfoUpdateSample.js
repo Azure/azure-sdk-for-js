@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update vault extended info.
  *
  * @summary update vault extended info.
- * x-ms-original-file: 2026-05-01/UpdateVaultExtendedInfo.json
+ * x-ms-original-file: 2026-07-01/UpdateVaultExtendedInfo.json
  */
 async function patchExtendedInfoOfResource() {
   const credential = new DefaultAzureCredential();

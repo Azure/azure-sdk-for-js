@@ -6,10 +6,12 @@ import { delay, isLiveMode } from "@azure-tools/test-recorder";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   FilePosixProperties,
+  FileListRangesSegmentResponse,
   FileStartCopyOptions,
   NfsFileMode,
   ShareClient,
   ShareDirectoryClient,
+  ShareFileRange,
   ShareServiceClient,
 } from "../src/index.js";
 import { ShareFileClient } from "../src/index.js";
@@ -1091,6 +1093,238 @@ describe("FileClient", () => {
     assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("listRanges", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 0, end: 9, isClear: false });
+  });
+
+  it("listRanges with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClientWithShareSnapShot.listRanges()) {
+      ranges.push(range);
+    }
+
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 512, end: 512, isClear: false });
+  });
+
+  it("listRanges by page", async () => {
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges instead of coalescing adjacent blocks into one.
+    await fileClient.create(512 * 5);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
+
+    const foundRanges: ShareFileRange[] = [];
+    let pageCount = 0;
+    for await (const page of fileClient.listRanges().byPage({ maxPageSize: 1 })) {
+      ++pageCount;
+      for (const range of page.ranges ?? []) {
+        foundRanges.push({ start: range.start, end: range.end, isClear: false });
+      }
+    }
+
+    assert.deepStrictEqual(foundRanges.length, 3);
+    assert.isAtLeast(pageCount, 1);
+  });
+
+  it("listRanges with continuation token", async () => {
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges, enabling real page-by-page continuation.
+    await fileClient.create(512 * 5);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
+
+    let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+    let response = (await iterator.next()).value;
+    assert.deepStrictEqual(response.ranges!.length, 1);
+
+    const marker = response.continuationToken;
+    assert.isDefined(marker);
+
+    iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iterator.next()).value;
+    assert.isAtLeast(response.ranges!.length, 1);
+  });
+
+  it("listRangesDiff", async () => {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    // Invariants that hold regardless of how the service chunks the diff.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      const clearedRanges = ranges.filter((r) => r.isClear);
+      const populatedRanges = ranges.filter((r) => !r.isClear);
+
+      assert.deepStrictEqual(clearedRanges.length, 1);
+      assert.deepStrictEqual(clearedRanges[0], { start: 0, end: 511, isClear: true });
+      assert.deepStrictEqual(populatedRanges.length, 1);
+      assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
+    }
+  });
+
+  it("listRanges on an empty file yields no ranges", async () => {
+    await fileClient.create(1024);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 0);
+  });
+
+  it("listRangesDiff interleaves cleared and populated ranges in start order", async () => {
+    // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("a", 0, 1);
+    await fileClient.uploadRange("c", 1024, 1);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    // After the snapshot, alternate clears and writes to produce an interleaved diff.
+    await fileClient.clearRange(0, 512); // -> cleared [0, 511]
+    await fileClient.uploadRange("b", 512, 1); // -> populated [512, 1023]
+    await fileClient.clearRange(1024, 512); // -> cleared [1024, 1535]
+    await fileClient.uploadRange("d", 1536, 1); // -> populated [1536, 2047]
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    // Invariants that hold regardless of how the service chunks the diff: the two-pointer merge in
+    // extractShareFileRangeItems must yield a single sequence sorted by start, interleaving cleared
+    // and populated ranges.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      assert.deepStrictEqual(ranges, [
+        { start: 0, end: 511, isClear: true },
+        { start: 512, end: 1023, isClear: false },
+        { start: 1024, end: 1535, isClear: true },
+        { start: 1536, end: 2047, isClear: false },
+      ]);
+    }
+  });
+
+  it("listRangesDiff by page and continuation token", async () => {
+    // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("a", 0, 1);
+    await fileClient.uploadRange("c", 1024, 1);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    // After the snapshot, alternate clears and writes to produce an interleaved diff.
+    await fileClient.clearRange(0, 512); // -> cleared [0, 511]
+    await fileClient.uploadRange("b", 512, 1); // -> populated [512, 1023]
+    await fileClient.clearRange(1024, 512); // -> cleared [1024, 1535]
+    await fileClient.uploadRange("d", 1536, 1); // -> populated [1536, 2047]
+
+    const collect = (page: FileListRangesSegmentResponse): ShareFileRange[] => [
+      ...(page.ranges ?? []).map((r) => ({ start: r.start, end: r.end, isClear: false })),
+      ...(page.clearRanges ?? []).map((r) => ({ start: r.start, end: r.end, isClear: true })),
+    ];
+
+    // First page.
+    let iterator = fileClient.listRangesDiff(snapshotRes.snapshot!).byPage({ maxPageSize: 1 });
+    const response = (await iterator.next()).value;
+    const items: ShareFileRange[] = collect(response);
+
+    // A continuation token must be returned while more ranges remain.
+    const marker = response.continuationToken;
+    assert.isDefined(marker);
+
+    // Resume from the continuation token. prevShareSnapshot must be preserved on the resumed
+    // request, otherwise the service would reject it or return the wrong ranges.
+    iterator = fileClient
+      .listRangesDiff(snapshotRes.snapshot!)
+      .byPage({ continuationToken: marker });
+    for await (const page of iterator) {
+      items.push(...collect(page));
+    }
+
+    items.sort((x, y) => x.start - y.start);
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      assert.deepStrictEqual(items, [
+        { start: 0, end: 511, isClear: true },
+        { start: 512, end: 1023, isClear: false },
+        { start: 1024, end: 1535, isClear: true },
+        { start: 1536, end: 2047, isClear: false },
+      ]);
+    } else {
+      // Invariants that hold regardless of how the service chunks the diff.
+      for (const item of items) {
+        assert.isBoolean(item.isClear);
+        assert.isAtMost(item.start, item.end);
+      }
+      for (let i = 1; i < items.length; i++) {
+        assert.isAtLeast(items[i].start, items[i - 1].start);
+      }
+    }
   });
 
   it("download with with default parameters", async () => {

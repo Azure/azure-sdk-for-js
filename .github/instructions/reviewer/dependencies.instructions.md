@@ -7,14 +7,18 @@ description: "Azure SDK dependency review rules covering pnpm workspace protocol
 
 **Scope:** `package.json`, `pnpm-workspace.yaml`, metadata. Skip source, tests, docs, consistent lock file churn.
 
-## Workspace Protocol (Critical)
+## Workspace Protocol
 
 This monorepo uses **pnpm** with workspace linking:
 
 - **Dev tools & test utils**: `workspace:^` (e.g., `"@azure-tools/test-recorder": "workspace:^"`)
-- **Published runtime `@azure/*` deps**: semver `^` ranges (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`)
-  - pnpm resolves to local during dev; publishes real ranges
-  - `workspace:^` on published runtime deps is wrong — locks to unpublished local version
+- **Published runtime `@azure/*` deps (stable)**: `workspace:^` **or** semver `^` ranges (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`) — both are acceptable
+  - At pack/publish time pnpm rewrites `workspace:^` to `^<local version>`
+  - Versions aren't bumped until a package has source changes, so the local version normally matches the latest published version → `workspace:^` resolves to a published range and is safe
+  - **When the dependency has unreleased source changes** (local version ahead of npm): release it together with/before the consumer, bump the consumer's version + `CHANGELOG.md` when it uses the new features, or use an explicit `^` range against the last published version
+  - Only flag `workspace:^` on a runtime dep when its local version is ahead of npm **and** the dependency is not guaranteed to be published together with or before the consumer
+  - **Beta exception:** a **beta** package depending on a **beta** `@azure/*` package must use an **exact pin** (e.g., `"1.0.0-beta.1"`), not `workspace:^` or a caret range (see [Beta Dependency Rules](#beta-dependency-rules))
+  - **Peer dependencies:** this relaxed `workspace:^`/caret acceptance applies only to regular runtime `dependencies`; `devDependencies` continue to follow the existing rules (internal dev tools & test utils use `workspace:^`; other dev deps use `catalog:` or `^`), and `peerDependencies` are unaffected and must continue to use the `>=` compatibility-window range (see Version Range Conventions below)
 
 ## Catalog Usage (pnpm-workspace.yaml)
 
@@ -38,12 +42,13 @@ Hardcoded versions for cataloged deps are wrong:
 
 ## Version Range Conventions
 
-| Type                   | Range                     |
-| ---------------------- | ------------------------- |
-| Published runtime deps | `^` (caret)               |
-| Peer deps              | `>=` compatibility window |
-| Dev deps               | `catalog:` or `^`         |
-| Internal dev tools     | `workspace:^`             |
+| Type | Range |
+|------|-------|
+| Published **stable** runtime deps | `^` (caret); `workspace:^` only for internal `@azure/*` monorepo packages |
+| **Beta** → **beta** `@azure/*` dep | exact pin (e.g., `1.0.0-beta.1`) — not `workspace:^`/caret |
+| Peer deps | `>=` compatibility window |
+| Dev deps | `catalog:` or `^` |
+| Internal dev tools | `workspace:^` |
 
 **Forbidden in package.json deps:** tilde `~`, star `*`, URL/git deps
 **Exact pins:** forbidden for stable runtime deps (prevents deduplication); required for beta→beta deps

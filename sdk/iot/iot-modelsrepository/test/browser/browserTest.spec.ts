@@ -3,59 +3,34 @@
 
 import { ModelsRepositoryClient } from "../../src/index.js";
 import { ServiceClient } from "@azure/core-client";
-import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { afterEach, describe, it, expect, vi } from "vitest";
+
+afterEach(() => vi.restoreAllMocks());
 
 describe("resolver -  browser", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   describe("single resolution (no pseudo-parsing)", () => {
-    it("integration works in browser", async () => {
-      const dtmi: string = "dtmi:azure:DeviceManagement:DeviceInformation;1";
-      const endpoint = "https://devicemodels.azure.com";
-      const expectedUri =
-        "https://devicemodels.azure.com/dtmi/azure/devicemanagement/deviceinformation-1.expanded.json";
-      const mockedModel = {
-        "@context": "dtmi:dtdl:context;2",
-        "@id": "dtmi:azure:DeviceManagement:DeviceInformation;1",
-        "@type": "Interface",
-        displayName: "Device Information",
-        contents: [
-          {
-            "@type": "Property",
-            name: "manufacturer",
-            displayName: "Manufacturer",
-            schema: "string",
-          },
-        ],
-      };
-
+    it("resolves an expanded model in browser", async () => {
+      const dtmi = "dtmi:azure:DeviceManagement:DeviceInformation;1";
+      const endpoint = "https://www.devicemodels.contoso.com";
       const sendRequestStub = vi.spyOn(ServiceClient.prototype, "sendRequest");
-      sendRequestStub.mockImplementation((request: PipelineRequest) => {
-        expect(request.url, "URL not formatted for request correctly.").to.equal(expectedUri);
-        const pipelineResponse: any = {
+      sendRequestStub.mockImplementation(async (request) => {
+        expect(request.url).to.equal(
+          `${endpoint}/dtmi/azure/devicemanagement/deviceinformation-1.expanded.json`,
+        );
+        return {
           request,
-          bodyAsText: JSON.stringify([mockedModel]),
+          bodyAsText: JSON.stringify([{ "@id": dtmi }]),
           status: 200,
-          headers: undefined,
+          headers: createHttpHeaders(),
         };
-        return Promise.resolve(pipelineResponse);
       });
-
       const client = new ModelsRepositoryClient({ repositoryLocation: endpoint });
-      const actualOutput: { [x: string]: any } = await client.getModels(dtmi, {
+      const actualOutput = await client.getModels(dtmi, {
         dependencyResolution: "tryFromExpanded",
       });
-
       expect(sendRequestStub).toHaveBeenCalledOnce();
-      expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.not.equal(
-        undefined,
-      );
-      expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]["@id"]).to.equal(
-        "dtmi:azure:DeviceManagement:DeviceInformation;1",
-      );
+      expect(actualOutput[dtmi]).to.deep.equal({ "@id": dtmi });
     });
   });
 });

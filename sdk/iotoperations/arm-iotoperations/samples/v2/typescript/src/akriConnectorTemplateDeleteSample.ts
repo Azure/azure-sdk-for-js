@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a AkriConnectorTemplateResource
  *
  * @summary delete a AkriConnectorTemplateResource
- * x-ms-original-file: 2026-03-01/AkriConnectorTemplate_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/AkriConnectorTemplate_Delete_MaximumSet_Gen.json
  */
 async function akriConnectorTemplateDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -43,7 +43,7 @@ export function _listByCapacityReservationGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -71,7 +71,6 @@ export async function _listByCapacityReservationGroupDeserialize(
 
   return _capacityReservationListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
 export function listByCapacityReservationGroup(
   context: Client,
@@ -92,7 +91,7 @@ export function listByCapacityReservationGroup(
       ),
     _listByCapacityReservationGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -110,7 +109,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,8 +131,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
-/** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time. */
+/** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -153,7 +151,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -172,7 +170,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +199,6 @@ export async function _updateDeserialize(
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation to update a capacity reservation. */
 export function update(
   context: Client,
@@ -224,7 +221,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
 }
 
@@ -243,7 +240,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +269,6 @@ export async function _createOrUpdateDeserialize(
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details. */
 export function createOrUpdate(
   context: Client,
@@ -295,7 +291,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
 }
 
@@ -313,7 +309,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -339,7 +335,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ca
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation that retrieves information about the capacity reservation. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancel a running Experiment resource.
  *
  * @summary cancel a running Experiment resource.
- * x-ms-original-file: 2026-05-01-preview/Experiments_Cancel.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_Cancel.json
  */
 async function cancelARunningExperiment() {
   const credential = new DefaultAzureCredential();

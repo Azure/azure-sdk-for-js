@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to creates a new HorizonDb replica or updates an existing replica.
+ * This sample demonstrates how to creates a new HorizonDB replica or updates an existing replica.
  *
- * @summary creates a new HorizonDb replica or updates an existing replica.
- * x-ms-original-file: 2026-01-20-preview/Replicas_CreateOrUpdate.json
+ * @summary creates a new HorizonDB replica or updates an existing replica.
+ * x-ms-original-file: 2026-05-01-preview/Replicas_CreateOrUpdate.json
  */
-async function createOrUpdateAHorizonDbReplica() {
+async function createOrUpdateAHorizonDBReplica() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function createOrUpdateAHorizonDbReplica() {
 }
 
 async function main() {
-  await createOrUpdateAHorizonDbReplica();
+  await createOrUpdateAHorizonDBReplica();
 }
 
 main().catch(console.error);

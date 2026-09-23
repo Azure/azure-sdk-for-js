@@ -62,7 +62,6 @@ export interface GraphQueryOperations {
     options?: GraphQueryGetOptionalParams,
   ) => Promise<GraphQueryResource>;
 }
-
 function _getGraphQuery(context: ResourceGraphContext) {
   return {
     listBySubscription: (options?: GraphQueryListBySubscriptionOptionalParams) =>
@@ -90,7 +89,6 @@ function _getGraphQuery(context: ResourceGraphContext) {
       get(context, resourceGroupName, resourceName, options),
   };
 }
-
 export function _getGraphQueryOperations(context: ResourceGraphContext): GraphQueryOperations {
   return {
     ..._getGraphQuery(context),

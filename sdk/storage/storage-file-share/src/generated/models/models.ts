@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
+import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
 import {
   XmlPropertyMetadata,
   XmlPropertyDeserializeMetadata,
@@ -1286,6 +1286,52 @@ export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknow
     },
   ];
   return deserializeXmlObject<ClearRange>(xmlObject, properties);
+}
+
+/** The paginated list of file ranges */
+export interface ShareFileRangeListSegment {
+  /** The file ranges. */
+  ranges?: FileRange[];
+  /** The clear ranges. */
+  clearRanges?: ClearRange[];
+  /** The next marker. */
+  nextMarker?: string;
+}
+
+export function shareFileRangeListSegmentDeserializer(item: any): ShareFileRangeListSegment {
+  return {
+    ranges: !item["ranges"] ? item["ranges"] : fileRangeArrayDeserializer(item["ranges"]),
+    clearRanges: !item["clearRanges"]
+      ? item["clearRanges"]
+      : clearRangeArrayDeserializer(item["clearRanges"]),
+    nextMarker: item["nextMarker"],
+  };
+}
+
+export function shareFileRangeListSegmentXmlDeserializer(
+  xmlString: string,
+): ShareFileRangeListSegment {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "ranges",
+      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
+      type: "array",
+      deserializer: fileRangeXmlObjectDeserializer,
+    },
+    {
+      propertyName: "clearRanges",
+      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
+      type: "array",
+      deserializer: clearRangeXmlObjectDeserializer,
+    },
+    {
+      propertyName: "nextMarker",
+      xmlOptions: { name: "NextMarker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<ShareFileRangeListSegment>(xmlString, properties, "Ranges");
 }
 
 /** Storage service properties. */
@@ -3335,6 +3381,8 @@ export type DeleteSnapshotsOptionType = "include" | "include-leased";
 export enum KnownVersions {
   /** API Version 2026-06-06 */
   V20260606 = "2026-06-06",
+  /** API Version 2026-10-06 */
+  V20261006 = "2026-10-06",
 }
 
 export type FileDownloadResponse = {

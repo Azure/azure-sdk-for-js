@@ -22,7 +22,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,7 +47,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _listUsagesResultDeserializer(result.body);
 }
-
 /** Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription. */
 export function list(
   context: Client,
@@ -59,6 +58,6 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }

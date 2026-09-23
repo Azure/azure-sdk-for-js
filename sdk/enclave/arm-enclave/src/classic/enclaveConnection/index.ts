@@ -84,6 +84,7 @@ export interface EnclaveConnectionOperations {
     options?: EnclaveConnectionGetOptionalParams,
   ) => Promise<EnclaveConnectionResource>;
 }
+
 function _getEnclaveConnection(context: MissionContext) {
   return {
     handleApprovalDeletion: (
@@ -128,6 +129,7 @@ function _getEnclaveConnection(context: MissionContext) {
     ) => get(context, resourceGroupName, enclaveConnectionName, options),
   };
 }
+
 export function _getEnclaveConnectionOperations(
   context: MissionContext,
 ): EnclaveConnectionOperations {

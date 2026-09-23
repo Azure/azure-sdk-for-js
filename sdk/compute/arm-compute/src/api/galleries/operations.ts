@@ -34,7 +34,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +59,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _galleryListDeserializer(result.body);
 }
-
 /** List galleries under a subscription. */
 export function list(
   context: Client,
@@ -70,7 +69,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -84,7 +83,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +110,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _galleryListDeserializer(result.body);
 }
-
 /** List galleries under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -123,7 +121,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -139,7 +137,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +159,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a Shared Image Gallery. */
 export function $delete(
   context: Client,
@@ -174,7 +171,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, galleryName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -191,7 +188,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +215,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return galleryDeserializer(result.body);
 }
-
 /** Update a Shared Image Gallery. */
 export function update(
   context: Client,
@@ -233,7 +229,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, galleryName, gallery, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<Gallery>, Gallery>;
 }
 
@@ -250,7 +246,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,7 +273,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return galleryDeserializer(result.body);
 }
-
 /** Create or update a Shared Image Gallery. */
 export function createOrUpdate(
   context: Client,
@@ -292,7 +287,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, galleryName, gallery, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<Gallery>, Gallery>;
 }
 
@@ -308,7 +303,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
       "%24select": options?.select,
       "%24expand": options?.expand,
     },
@@ -335,7 +330,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryDeserializer(result.body);
 }
-
 /** Retrieves information about a Shared Image Gallery. */
 export async function get(
   context: Client,

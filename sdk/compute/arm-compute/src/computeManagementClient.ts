@@ -72,14 +72,20 @@ import type { SharedGalleryImageVersionsOperations } from "./classic/sharedGalle
 import { _getSharedGalleryImageVersionsOperations } from "./classic/sharedGalleryImageVersions/index.js";
 import type { SharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
 import { _getSharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
+import type { SharedGalleryInvitesOperations } from "./classic/sharedGalleryInvites/index.js";
+import { _getSharedGalleryInvitesOperations } from "./classic/sharedGalleryInvites/index.js";
 import type { SnapshotsOperations } from "./classic/snapshots/index.js";
 import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { SoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
 import { _getSoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
 import type { SshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
 import { _getSshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
+import type { TenantLevelSharedGalleryInvitesOperations } from "./classic/tenantLevelSharedGalleryInvites/index.js";
+import { _getTenantLevelSharedGalleryInvitesOperations } from "./classic/tenantLevelSharedGalleryInvites/index.js";
 import type { UsageOperations } from "./classic/usage/index.js";
 import { _getUsageOperations } from "./classic/usage/index.js";
+import type { VirtualMachineDiagnosticRunCommandsOperations } from "./classic/virtualMachineDiagnosticRunCommands/index.js";
+import { _getVirtualMachineDiagnosticRunCommandsOperations } from "./classic/virtualMachineDiagnosticRunCommands/index.js";
 import type { VirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
 import { _getVirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
 import type { VirtualMachineExtensionsOperations } from "./classic/virtualMachineExtensions/index.js";
@@ -96,6 +102,8 @@ import type { VirtualMachineScaleSetLifeCycleHookEventsOperations } from "./clas
 import { _getVirtualMachineScaleSetLifeCycleHookEventsOperations } from "./classic/virtualMachineScaleSetLifeCycleHookEvents/index.js";
 import type { VirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
 import { _getVirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
+import type { VirtualMachineScaleSetVMDiagnosticRunCommandsOperations } from "./classic/virtualMachineScaleSetVMDiagnosticRunCommands/index.js";
+import { _getVirtualMachineScaleSetVMDiagnosticRunCommandsOperations } from "./classic/virtualMachineScaleSetVMDiagnosticRunCommands/index.js";
 import type { VirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
 import { _getVirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
 import type { VirtualMachineScaleSetVMRunCommandsOperations } from "./classic/virtualMachineScaleSetVMRunCommands/index.js";
@@ -139,14 +147,7 @@ export class ComputeManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createComputeManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createComputeManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.gallerySharingProfile = _getGallerySharingProfileOperations(this._client);
     this.softDeletedResource = _getSoftDeletedResourceOperations(this._client);
@@ -161,6 +162,10 @@ export class ComputeManagementClient {
     this.virtualMachineScaleSetRollingUpgrades =
       _getVirtualMachineScaleSetRollingUpgradesOperations(this._client);
     this.resourceSkus = _getResourceSkusOperations(this._client);
+    this.tenantLevelSharedGalleryInvites = _getTenantLevelSharedGalleryInvitesOperations(
+      this._client,
+    );
+    this.sharedGalleryInvites = _getSharedGalleryInvitesOperations(this._client);
     this.communityGalleryImageVersions = _getCommunityGalleryImageVersionsOperations(this._client);
     this.communityGalleryImages = _getCommunityGalleryImagesOperations(this._client);
     this.communityGalleries = _getCommunityGalleriesOperations(this._client);
@@ -183,6 +188,11 @@ export class ComputeManagementClient {
     this.diskEncryptionSets = _getDiskEncryptionSetsOperations(this._client);
     this.diskAccesses = _getDiskAccessesOperations(this._client);
     this.disks = _getDisksOperations(this._client);
+    this.virtualMachineScaleSetVMDiagnosticRunCommands =
+      _getVirtualMachineScaleSetVMDiagnosticRunCommandsOperations(this._client);
+    this.virtualMachineDiagnosticRunCommands = _getVirtualMachineDiagnosticRunCommandsOperations(
+      this._client,
+    );
     this.virtualMachineScaleSetVMRunCommands = _getVirtualMachineScaleSetVMRunCommandsOperations(
       this._client,
     );
@@ -236,6 +246,10 @@ export class ComputeManagementClient {
   public readonly virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgradesOperations;
   /** The operation groups for resourceSkus */
   public readonly resourceSkus: ResourceSkusOperations;
+  /** The operation groups for tenantLevelSharedGalleryInvites */
+  public readonly tenantLevelSharedGalleryInvites: TenantLevelSharedGalleryInvitesOperations;
+  /** The operation groups for sharedGalleryInvites */
+  public readonly sharedGalleryInvites: SharedGalleryInvitesOperations;
   /** The operation groups for communityGalleryImageVersions */
   public readonly communityGalleryImageVersions: CommunityGalleryImageVersionsOperations;
   /** The operation groups for communityGalleryImages */
@@ -274,6 +288,10 @@ export class ComputeManagementClient {
   public readonly diskAccesses: DiskAccessesOperations;
   /** The operation groups for disks */
   public readonly disks: DisksOperations;
+  /** The operation groups for virtualMachineScaleSetVMDiagnosticRunCommands */
+  public readonly virtualMachineScaleSetVMDiagnosticRunCommands: VirtualMachineScaleSetVMDiagnosticRunCommandsOperations;
+  /** The operation groups for virtualMachineDiagnosticRunCommands */
+  public readonly virtualMachineDiagnosticRunCommands: VirtualMachineDiagnosticRunCommandsOperations;
   /** The operation groups for virtualMachineScaleSetVMRunCommands */
   public readonly virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommandsOperations;
   /** The operation groups for virtualMachineRunCommands */

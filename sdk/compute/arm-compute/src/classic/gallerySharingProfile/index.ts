@@ -33,7 +33,6 @@ export interface GallerySharingProfileOperations {
     options?: GallerySharingProfileUpdateOptionalParams,
   ) => Promise<SharingUpdate>;
 }
-
 function _getGallerySharingProfile(context: ComputeManagementContext) {
   return {
     update: (
@@ -62,7 +61,6 @@ function _getGallerySharingProfile(context: ComputeManagementContext) {
     },
   };
 }
-
 export function _getGallerySharingProfileOperations(
   context: ComputeManagementContext,
 ): GallerySharingProfileOperations {

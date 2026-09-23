@@ -30,6 +30,12 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
   "no-redeclare": "off",
   "no-shadow": "off",
   "no-param-reassign": ["warn", { props: false }],
+  // ESLint v10 flipped this rule's `reportGlobalThis` option default from
+  // false -> true, so it now flags `declare const globalThis` ambient
+  // TypeScript declarations (used to narrowly type `globalThis.*` without
+  // pulling in full lib types) as shadowing a restricted name. Restore the
+  // v9 behavior for globalThis while keeping the rest of the rule active.
+  "no-shadow-restricted-names": ["error", { reportGlobalThis: false }],
 };
 
 export default {

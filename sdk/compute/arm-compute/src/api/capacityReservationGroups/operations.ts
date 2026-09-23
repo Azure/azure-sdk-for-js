@@ -36,7 +36,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups{?api%2Dversion,%24expand,resourceIdsOnly}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
       resourceIdsOnly: options?.resourceIdsOnly,
     },
@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _capacityReservationGroupListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups. */
 export function listBySubscription(
   context: Client,
@@ -76,7 +75,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -90,7 +89,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -118,7 +117,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _capacityReservationGroupListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups. */
 export function listByResourceGroup(
   context: Client,
@@ -130,7 +128,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -146,7 +144,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +166,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
 export async function $delete(
   context: Client,
@@ -198,7 +195,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +224,6 @@ export async function _updateDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. */
 export async function update(
   context: Client,
@@ -259,7 +255,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +284,6 @@ export async function _createOrUpdateDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details. */
 export async function createOrUpdate(
   context: Client,
@@ -319,7 +314,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -347,7 +342,6 @@ export async function _getDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation that retrieves information about a capacity reservation group. */
 export async function get(
   context: Client,
