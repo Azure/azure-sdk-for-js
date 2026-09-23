@@ -12,12 +12,10 @@ export interface DatabaseColumnsListByDatabaseOptionalParams extends OperationOp
   /** An opaque token that identifies a starting point in the collection. */
   skiptoken?: string;
 }
-
 /** Optional parameters. */
 export interface DatabaseColumnsListByTableOptionalParams extends OperationOptions {
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface DatabaseColumnsGetOptionalParams extends OperationOptions {}

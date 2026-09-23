@@ -1804,6 +1804,11 @@ export interface InquiryValidation {
 }
 
 // @public
+export interface InstantItemRecoveryOperationResultRequest {
+    provisionInstantItemRecoveryOperationId: string;
+}
+
+// @public
 export interface InstantItemRecoveryTarget {
     clientScripts?: ClientScriptForConnect[];
 }
@@ -1819,7 +1824,12 @@ export interface InstantRPAdditionalDetails {
 export { isRestError }
 
 // @public
+export interface ItemLevelRecoveryConnectionsListInstantItemRecoveryOperationResultOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ItemLevelRecoveryConnectionsOperations {
+    listInstantItemRecoveryOperationResult: (resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, body: InstantItemRecoveryOperationResultRequest, options?: ItemLevelRecoveryConnectionsListInstantItemRecoveryOperationResultOptionalParams) => Promise<InstantItemRecoveryTarget>;
     provision: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: ILRRequestResource, options?: ItemLevelRecoveryConnectionsProvisionOptionalParams) => Promise<void>;
     revoke: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: ItemLevelRecoveryConnectionsRevokeOptionalParams) => Promise<void>;
 }
@@ -2446,7 +2456,8 @@ export enum KnownVersions {
     V20260101 = "2026-01-01",
     V20260201 = "2026-02-01",
     V20260501 = "2026-05-01",
-    V20260701 = "2026-07-01"
+    V20260701 = "2026-07-01",
+    V20260801 = "2026-08-01"
 }
 
 // @public

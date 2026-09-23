@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/resourceNavigationLinks/operations.js";
 import type { ResourceNavigationLinksListOptionalParams } from "../../api/resourceNavigationLinks/options.js";
-import type { ResourceNavigationLinksListResult } from "../../models/microsoft/network/models.js";
+import type { ResourceNavigationLinksListResult } from "../../models/network/models.js";
 
 /** Interface representing a ResourceNavigationLinks operations. */
 export interface ResourceNavigationLinksOperations {

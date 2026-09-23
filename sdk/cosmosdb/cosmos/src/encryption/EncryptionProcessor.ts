@@ -283,8 +283,7 @@ export class EncryptionProcessor {
       return null;
     }
 
-    let cipherText = Buffer.alloc(cipherTextWithTypeMarker.length - 1);
-    cipherText = Buffer.from(cipherTextWithTypeMarker.slice(1));
+    const cipherText = Buffer.from(cipherTextWithTypeMarker.slice(1));
 
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
     const plainText = encryptionAlgorithm.decrypt(cipherText);

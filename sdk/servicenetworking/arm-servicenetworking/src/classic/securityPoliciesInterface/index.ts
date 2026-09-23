@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
-import {
-  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-  SecurityPoliciesInterfaceDeleteOptionalParams,
-  SecurityPoliciesInterfaceUpdateOptionalParams,
-  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
-  SecurityPoliciesInterfaceGetOptionalParams,
-} from "../../api/securityPoliciesInterface/options.js";
+import type { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
 import {
   listByTrafficController,
   $delete,
@@ -17,8 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/securityPoliciesInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceGetOptionalParams,
+} from "../../api/securityPoliciesInterface/options.js";
+import type { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecurityPoliciesInterface operations. */
 export interface SecurityPoliciesInterfaceOperations {
@@ -29,11 +29,6 @@ export interface SecurityPoliciesInterfaceOperations {
     options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<SecurityPolicy>;
   /** Delete a SecurityPolicy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
