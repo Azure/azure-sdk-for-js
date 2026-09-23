@@ -47,6 +47,12 @@ export function deriveAudience(authorityHost: string): string {
       return "api://AzureADTokenExchangeUSGov";
     case "login.chinacloudapi.cn":
       return "api://AzureADTokenExchangeChina";
+    case "login.sovcloud-identity.fr":
+      return "api://AzureADTokenExchangeFrance";
+    case "login.sovcloud-identity.de":
+      return "api://AzureADTokenExchangeGermany";
+    case "login.sovcloud-identity.sg":
+      return "api://AzureADTokenExchangeGovSG";
     case "login.microsoftonline.com":
     default:
       return "api://AzureADTokenExchange";

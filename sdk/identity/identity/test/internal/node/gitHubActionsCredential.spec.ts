@@ -84,6 +84,27 @@ describe("GitHubActionsCredential (internal)", function () {
       );
     });
 
+    it("returns France audience for login.sovcloud-identity.fr", function () {
+      assert.strictEqual(
+        deriveAudience("https://login.sovcloud-identity.fr"),
+        "api://AzureADTokenExchangeFrance",
+      );
+    });
+
+    it("returns Germany audience for login.sovcloud-identity.de", function () {
+      assert.strictEqual(
+        deriveAudience("https://login.sovcloud-identity.de"),
+        "api://AzureADTokenExchangeGermany",
+      );
+    });
+
+    it("returns Singapore Government audience for login.sovcloud-identity.sg", function () {
+      assert.strictEqual(
+        deriveAudience("https://login.sovcloud-identity.sg"),
+        "api://AzureADTokenExchangeGovSG",
+      );
+    });
+
     it("returns public cloud audience for unknown hosts", function () {
       assert.strictEqual(
         deriveAudience("https://custom.authority.example.com"),
