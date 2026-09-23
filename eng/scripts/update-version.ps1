@@ -74,16 +74,17 @@ try {
   
   # Use the local internal source tree instead of a published package.
   $releaseToolsPath = "eng\tools\js-sdk-release-tools"
+  $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
   
   Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
+  Invoke-LoggedCommand "pnpm install --frozen-lockfile"
   Write-Host ""
 
   Write-Host "Building local js-sdk-release-tools..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npm --prefix $releaseToolsPath run build"
+  Invoke-LoggedCommand "pnpm turbo build --filter=$releaseToolsPackage... --token 1"
   Write-Host ""
   
   # Build the command arguments string
@@ -101,10 +102,10 @@ try {
     $cmdArgs += " --releaseDate $ReleaseDate"
   }
   
-  # Run the update-version command using npm exec
+  # Run the built update-version command from the local workspace package.
   Write-Host "Updating package version..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-version $cmdArgs"
+  $command = "pnpm --filter $releaseToolsPackage exec node dist/updateBumpVersionCli.js $cmdArgs"
   Invoke-LoggedCommand $command
   
   Write-Host ""

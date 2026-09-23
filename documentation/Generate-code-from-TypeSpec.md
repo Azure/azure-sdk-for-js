@@ -49,8 +49,10 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
 Install dependencies to use code-gen-pipeline,  
 ```ps
 npm --prefix eng/common/tsp-client ci
-npm install -g pnpm
-npm --prefix eng/tools/js-sdk-release-tools ci
+$packageManager = node -p "require('./package.json').packageManager"
+npm install -g $packageManager
+pnpm install --frozen-lockfile
+pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```
 
 Create a local json file named generatedInput.json with content similar to that shown below
@@ -68,7 +70,7 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-npm --prefix eng/tools/js-sdk-release-tools exec --no -- code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
+pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/autoGenerateInPipeline.js --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
 ```
 
 > path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline. [generateOutput.json](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json) is to show us the location of generated artifact and any other messages.

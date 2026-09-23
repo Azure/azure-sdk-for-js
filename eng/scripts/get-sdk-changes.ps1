@@ -65,22 +65,23 @@ try {
 
   # Use the local internal source tree instead of a published package.
   $releaseToolsPath = "eng\tools\js-sdk-release-tools"
+  $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
 
   Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
+  Invoke-LoggedCommand "pnpm install --frozen-lockfile"
   Write-Host ""
 
   Write-Host "Building local js-sdk-release-tools..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npm --prefix $releaseToolsPath run build"
+  Invoke-LoggedCommand "pnpm turbo build --filter=$releaseToolsPackage... --token 1"
   Write-Host ""
 
-  # Run the changelog-tool command using npm exec to generate the SDK changes report
+  # Run the built changelog-tool command from the local workspace package.
   Write-Host "Generating SDK changes report..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- changelog-tool --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
+  $command = "pnpm --filter $releaseToolsPackage exec node dist/changelogToolCli.js --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
   Invoke-LoggedCommand $command
 
   Write-Host ""
