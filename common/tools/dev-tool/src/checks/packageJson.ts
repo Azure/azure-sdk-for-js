@@ -150,11 +150,11 @@ export const sdkType = packageJsonCheck({
 });
 
 export const sideEffects = packageJsonCheck({
-  description: "package.json sideEffects field must be false",
+  description: "package.json sideEffects field must match the SDK type",
   fix({ packageJson }) {
     return {
       ...packageJson,
-      sideEffects: false,
+      sideEffects: packageJson["sdk-type"] === "provisioning",
     };
   },
 });
