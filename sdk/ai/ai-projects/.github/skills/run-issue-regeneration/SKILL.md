@@ -42,7 +42,13 @@ The package skills are intentionally nested and are not automatically loaded by 
 5. `.github/skills/update-changelog/SKILL.md`
 6. `.github/skills/open-regeneration-pr/SKILL.md`
 
-Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
+Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Run the emitter with that skill's `scripts/generate-client.ps1`, not `npm run generate:client`. The committed emitter lockfile can pin internal Azure Artifacts feeds that the cloud agent firewall cannot resolve, and the script rewrites them to the public npm registry in the temporary copy only. For example:
+
+```bash
+pwsh -NoProfile -Command '$ErrorActionPreference = "Stop"; try { & ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit <validated-commit>; & ./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1 } finally { & ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly }'
+```
+
+Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
 
 Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must reject broad emitter rewrites, preserve existing custom behavior, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run. Narrowly scoped protected-file edits necessary to integrate verified upstream APIs are permitted under that skill's audit and validation requirements.
 

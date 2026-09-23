@@ -47,12 +47,15 @@ Pass the resolved commit SHA explicitly:
 
 ```powershell
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT_PS_LITERAL}}
-npm run generate:client
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly
 ```
 
-The third call must run whether `npm run generate:client` succeeded or
-failed — wrap in `try/finally` if executing programmatically.
+Use `generate-client.ps1`, not `npm run generate:client`: it rewrites internal
+Azure Artifacts tarball URLs in the temporary emitter lockfile to the public npm
+registry, which the cloud agent firewall allows. The third call must run whether
+generation succeeded or failed — wrap in `try/finally` if executing
+programmatically.
 
 ### 2. apply-post-emitter-edits
 

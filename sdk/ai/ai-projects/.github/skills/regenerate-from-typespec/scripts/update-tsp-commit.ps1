@@ -117,6 +117,6 @@ catch {
 
 Write-Host ""
 Write-Host "tsp-location.yaml is in place. Now run:"
-Write-Host "  npm run generate:client"
+Write-Host "  ./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1"
 Write-Host "Then restore with:"
 Write-Host "  ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly"
