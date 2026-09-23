@@ -700,22 +700,10 @@
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/playwright/arm-playwright/ @qiaozha @MaryGao @JialinHuang803
