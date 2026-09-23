@@ -200,7 +200,6 @@ export interface SyncGroupsOperations {
     options?: SyncGroupsGetOptionalParams,
   ) => Promise<SyncGroup>;
 }
-
 function _getSyncGroups(context: SqlManagementContext) {
   return {
     listSyncDatabaseIds: (
@@ -465,7 +464,6 @@ function _getSyncGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, syncGroupName, options),
   };
 }
-
 export function _getSyncGroupsOperations(context: SqlManagementContext): SyncGroupsOperations {
   return {
     ..._getSyncGroups(context),

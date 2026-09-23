@@ -39,7 +39,7 @@ export function _listByWorkloadGroupSend(
       serverName: serverName,
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,6 @@ export async function _listByWorkloadGroupDeserialize(
 
   return _workloadClassifierListResultDeserializer(result.body);
 }
-
 /** Gets the list of workload classifiers for a workload group */
 export function listByWorkloadGroup(
   context: Client,
@@ -89,7 +88,11 @@ export function listByWorkloadGroup(
       ),
     _listByWorkloadGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -111,7 +114,7 @@ export function _$deleteSend(
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
       workloadClassifierName: workloadClassifierName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +136,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a workload classifier. */
 export function $delete(
   context: Client,
@@ -158,7 +160,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -181,7 +183,7 @@ export function _createOrUpdateSend(
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
       workloadClassifierName: workloadClassifierName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +212,6 @@ export async function _createOrUpdateDeserialize(
 
   return workloadClassifierDeserializer(result.body);
 }
-
 /** Creates or updates a workload classifier. */
 export function createOrUpdate(
   context: Client,
@@ -237,7 +238,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<WorkloadClassifier>, WorkloadClassifier>;
 }
 
@@ -259,7 +260,7 @@ export function _getSend(
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
       workloadClassifierName: workloadClassifierName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +285,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
 
   return workloadClassifierDeserializer(result.body);
 }
-
 /** Gets a workload classifier */
 export async function get(
   context: Client,
