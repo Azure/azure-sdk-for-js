@@ -15,6 +15,19 @@ import { AzureAuthorityHosts } from "../constants.js";
 
 const credentialName = "GitHubActionsCredential";
 const logger = credentialLogger(credentialName);
+const troubleshootingGuide = "https://aka.ms/azsdk/js/identity/troubleshoot";
+
+const ErrorMessages = {
+  TENANT_ID_REQUIRED: `${credentialName}: is unavailable. Set the AZURE_TENANT_ID environment variable to use this credential.`,
+  CLIENT_ID_REQUIRED: `${credentialName}: is unavailable. Set the AZURE_CLIENT_ID environment variable to use this credential.`,
+  GITHUB_ENV_VARS_REQUIRED: (missing: string) =>
+    `${credentialName}: is unavailable. Ensure that you're running this task in a GitHub Actions workflow with 'permissions: id-token: write' so that the following missing system variable(s) can be defined: ${missing}. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
+  REQUIRED_CONFIGURATION: `${credentialName}: is unavailable. To use GitHub Actions OIDC federation, the following are required: AZURE_TENANT_ID, AZURE_CLIENT_ID, ACTIONS_ID_TOKEN_REQUEST_URL, ACTIONS_ID_TOKEN_REQUEST_TOKEN. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
+  NULL_OIDC_TOKEN: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
+  OIDC_VALUE_MISSING: `${credentialName}: Authentication Failed. "value" field not detected in the response.`,
+  OIDC_RESPONSE_PARSE_FAILED: (text: string, errorMessage: string) =>
+    `${credentialName}: Authentication Failed. Failed to parse OIDC response. Response = ${text}. Error: ${errorMessage}`,
+};
 
 /**
  * Derives the OIDC audience from the authority host for sovereign cloud support.
@@ -70,14 +83,10 @@ export class GitHubActionsCredential implements TokenCredential {
     const clientId = process.env.AZURE_CLIENT_ID;
 
     if (!tenantId) {
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Set the AZURE_TENANT_ID environment variable to use this credential.`,
-      );
+      throw new CredentialUnavailableError(ErrorMessages.TENANT_ID_REQUIRED);
     }
     if (!clientId) {
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Set the AZURE_CLIENT_ID environment variable to use this credential.`,
-      );
+      throw new CredentialUnavailableError(ErrorMessages.CLIENT_ID_REQUIRED);
     }
 
     this.identityClient = new IdentityClient(options);
@@ -93,9 +102,7 @@ export class GitHubActionsCredential implements TokenCredential {
       ]
         .filter(Boolean)
         .join(", ");
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Ensure that you're running this task in a GitHub Actions workflow with 'permissions: id-token: write' so that the following missing system variable(s) can be defined: ${missing}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/githubactionscredential/troubleshoot`,
-      );
+      throw new CredentialUnavailableError(ErrorMessages.GITHUB_ENV_VARS_REQUIRED(missing));
     }
 
     const authorityHost = options.authorityHost ?? AzureAuthorityHosts.AzurePublicCloud;
@@ -127,17 +134,16 @@ export class GitHubActionsCredential implements TokenCredential {
     options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. To use GitHub Actions OIDC federation, the following are required: AZURE_TENANT_ID, AZURE_CLIENT_ID, ACTIONS_ID_TOKEN_REQUEST_URL, ACTIONS_ID_TOKEN_REQUEST_TOKEN. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/githubactionscredential/troubleshoot`;
+      const errorMessage = ErrorMessages.REQUIRED_CONFIGURATION;
       logger.error(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
-    logger.info("Invoking getToken() of Client Assertion Credential");
+    logger.getToken.info(`Using the scopes ${Array.isArray(scopes) ? scopes.join(", ") : scopes}`);
     return this.clientAssertionCredential.getToken(scopes, options);
   }
 
   /**
    * Requests an OIDC token from the GitHub Actions OIDC provider.
-   * @internal
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
@@ -173,12 +179,10 @@ export class GitHubActionsCredential implements TokenCredential {
 export function handleOidcResponse(response: PipelineResponse): string {
   const text = response.bodyAsText;
   if (!text) {
-    logger.error(
-      `${credentialName}: Authentication Failed. Received null token from OIDC request. Status code: ${response.status}.`,
-    );
+    logger.error(`${ErrorMessages.NULL_OIDC_TOKEN} Status code: ${response.status}.`);
     throw new AuthenticationError(response.status, {
-      error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
-      error_description: `Status code: ${response.status}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/githubactionscredential/troubleshoot`,
+      error: ErrorMessages.NULL_OIDC_TOKEN,
+      error_description: `Status code: ${response.status}. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
     });
   }
 
@@ -187,10 +191,10 @@ export function handleOidcResponse(response: PipelineResponse): string {
     if (result?.value) {
       return result.value;
     } else {
-      const errorMessage = `${credentialName}: Authentication Failed. "value" field not detected in the response.`;
+      const errorMessage = ErrorMessages.OIDC_VALUE_MISSING;
       let errorDescription = "";
       if (response.status !== 200) {
-        errorDescription = `Response body = ${text}. Status code: ${response.status}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/githubactionscredential/troubleshoot`;
+        errorDescription = `Response body = ${text}. Status code: ${response.status}. See the troubleshooting guide for more information: ${troubleshootingGuide}`;
       }
       logger.error(errorMessage);
       logger.error(errorDescription);
@@ -199,13 +203,14 @@ export function handleOidcResponse(response: PipelineResponse): string {
         error_description: errorDescription,
       });
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
     if (e instanceof AuthenticationError) throw e;
-    const errorDetails = `${credentialName}: Authentication Failed. Failed to parse OIDC response. Response = ${text}. Error: ${e.message}`;
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    const errorDetails = ErrorMessages.OIDC_RESPONSE_PARSE_FAILED(text, errorMessage);
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/githubactionscredential/troubleshoot`,
+      error_description: `See the troubleshooting guide for more information: ${troubleshootingGuide}`,
     });
   }
 }
