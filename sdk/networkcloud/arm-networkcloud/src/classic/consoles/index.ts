@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listByVirtualMachine,
   $delete,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/consoles/operations.js";
-import {
+import type {
   ConsolesListByVirtualMachineOptionalParams,
   ConsolesDeleteOptionalParams,
   ConsolesUpdateOptionalParams,
   ConsolesCreateOrUpdateOptionalParams,
   ConsolesGetOptionalParams,
 } from "../../api/consoles/options.js";
-import { OperationStatusResult, Console } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, Console } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Consoles operations. */
 export interface ConsolesOperations {

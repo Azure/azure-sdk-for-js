@@ -315,6 +315,8 @@ export interface AfcConfiguration {
 
 // @public
 export interface ApplicationGateway extends Resource {
+    advancedRoutingConditionSets?: ApplicationGatewayAdvancedRoutingConditionSet[];
+    advancedRoutingMaps?: ApplicationGatewayAdvancedRoutingMap[];
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
     backendAddressPools?: ApplicationGatewayBackendAddressPool[];
@@ -343,6 +345,7 @@ export interface ApplicationGateway extends Resource {
     readonly provisioningState?: CommonProvisioningState;
     redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
     requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
+    reservedCapacity?: number;
     readonly resourceGuid?: string;
     rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
     routingRules?: ApplicationGatewayRoutingRule[];
@@ -355,6 +358,83 @@ export interface ApplicationGateway extends Resource {
     urlPathMaps?: ApplicationGatewayUrlPathMap[];
     webApplicationFirewallConfiguration?: ApplicationGatewayWebApplicationFirewallConfiguration;
     zones?: string[];
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingCondition {
+    conditionType: ApplicationGatewayAdvancedRoutingConditionType;
+    propertyName?: string;
+    propertyValueMatcher?: ApplicationGatewayAdvancedRoutingPropertyValueMatcher;
+    propertyValues?: string[];
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingConditionSet extends SubResource {
+    readonly etag?: string;
+    name?: string;
+    properties?: ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat;
+    readonly type?: string;
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat {
+    readonly provisioningState?: CommonProvisioningState;
+    routingConditions: ApplicationGatewayAdvancedRoutingCondition[];
+}
+
+// @public
+export type ApplicationGatewayAdvancedRoutingConditionType = string;
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingMap extends SubResource {
+    readonly etag?: string;
+    name?: string;
+    properties?: ApplicationGatewayAdvancedRoutingMapPropertiesFormat;
+    readonly type?: string;
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingMapPropertiesFormat {
+    advancedRoutingRules: ApplicationGatewayAdvancedRoutingRule[];
+    defaultAuthConfigs?: ApplicationGatewayAuthConfig[];
+    defaultBackendAddressPool?: SubResource;
+    defaultBackendHttpSettings?: SubResource;
+    defaultRedirectConfiguration?: SubResource;
+    defaultRewriteRuleSet?: SubResource;
+    readonly provisioningState?: CommonProvisioningState;
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingPropertyValueMatcher {
+    ignoreCase?: boolean;
+    negate?: boolean;
+    pattern: string;
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingRule extends SubResource {
+    readonly etag?: string;
+    name?: string;
+    properties?: ApplicationGatewayAdvancedRoutingRulePropertiesFormat;
+    readonly type?: string;
+}
+
+// @public
+export interface ApplicationGatewayAdvancedRoutingRulePropertiesFormat {
+    advancedRoutingConditionSet?: SubResource;
+    authConfigs?: ApplicationGatewayAuthConfig[];
+    backendAddressPool?: SubResource;
+    backendHttpSettings?: SubResource;
+    priority: number;
+    readonly provisioningState?: CommonProvisioningState;
+    redirectConfiguration?: SubResource;
+    rewriteRuleSet?: SubResource;
+}
+
+// @public
+export interface ApplicationGatewayAuthConfig {
+    authenticationPolicy: SubResource;
+    name: string;
 }
 
 // @public
@@ -598,6 +678,7 @@ export interface ApplicationGatewayFirewallExclusion {
 
 // @public
 export interface ApplicationGatewayFirewallManifestRuleSet {
+    displayName?: string;
     ruleGroups: ApplicationGatewayFirewallRuleGroup[];
     ruleSetType: string;
     ruleSetVersion: string;
@@ -615,6 +696,7 @@ export type ApplicationGatewayFirewallRateLimitDuration = string;
 export interface ApplicationGatewayFirewallRule {
     action?: ApplicationGatewayWafRuleActionTypes;
     description?: string;
+    paranoiaLevel?: ApplicationGatewayWafRuleParanoiaLevel;
     ruleId: number;
     ruleIdString?: string;
     sensitivity?: ApplicationGatewayWafRuleSensitivityTypes;
@@ -630,6 +712,7 @@ export interface ApplicationGatewayFirewallRuleGroup {
 
 // @public
 export interface ApplicationGatewayFirewallRuleSet extends Resource {
+    displayName?: string;
     readonly provisioningState?: CommonProvisioningState;
     ruleGroups?: ApplicationGatewayFirewallRuleGroup[];
     ruleSetType?: string;
@@ -639,6 +722,7 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
 
 // @public
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
+    displayName?: string;
     readonly provisioningState?: CommonProvisioningState;
     ruleGroups: ApplicationGatewayFirewallRuleGroup[];
     ruleSetType: string;
@@ -1021,6 +1105,8 @@ export interface ApplicationGatewayProbePropertiesFormat {
 
 // @public
 export interface ApplicationGatewayPropertiesFormat {
+    advancedRoutingConditionSets?: ApplicationGatewayAdvancedRoutingConditionSet[];
+    advancedRoutingMaps?: ApplicationGatewayAdvancedRoutingMap[];
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
     backendAddressPools?: ApplicationGatewayBackendAddressPool[];
@@ -1047,6 +1133,7 @@ export interface ApplicationGatewayPropertiesFormat {
     readonly provisioningState?: CommonProvisioningState;
     redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
     requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
+    reservedCapacity?: number;
     readonly resourceGuid?: string;
     rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
     routingRules?: ApplicationGatewayRoutingRule[];
@@ -1095,6 +1182,8 @@ export type ApplicationGatewayRedirectType = string;
 
 // @public
 export interface ApplicationGatewayRequestRoutingRule extends SubResource {
+    advancedRoutingMap?: SubResource;
+    authConfigs?: ApplicationGatewayAuthConfig[];
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
     entraJWTValidationConfig?: SubResource;
@@ -1113,6 +1202,8 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
 
 // @public
 export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
+    advancedRoutingMap?: SubResource;
+    authConfigs?: ApplicationGatewayAuthConfig[];
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
     entraJWTValidationConfig?: SubResource;
@@ -1498,6 +1589,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormat {
 // @public
 export interface ApplicationGatewayWafDynamicManifestPropertiesResult {
     availableRuleSets?: ApplicationGatewayFirewallManifestRuleSet[];
+    displayName?: string;
     ruleSetType?: string;
     ruleSetVersion?: string;
 }
@@ -1528,6 +1620,9 @@ export interface ApplicationGatewayWafDynamicManifestsOperations {
 
 // @public
 export type ApplicationGatewayWafRuleActionTypes = string;
+
+// @public
+export type ApplicationGatewayWafRuleParanoiaLevel = string;
 
 // @public
 export type ApplicationGatewayWafRuleSensitivityTypes = string;
@@ -1623,6 +1718,11 @@ export interface ApplicationSecurityGroupsUpdateTagsOptionalParams extends Opera
 }
 
 // @public
+export interface ApprovalReference {
+    privateEndpointId?: string;
+}
+
+// @public
 export type AssociationAccessMode = string;
 
 // @public
@@ -1630,6 +1730,81 @@ export type AssociationType = string;
 
 // @public
 export type AuthenticationMethod = string;
+
+// @public
+export interface AuthenticationPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AuthenticationPoliciesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationPoliciesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationPoliciesListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationPoliciesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationPoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, authenticationPolicyName: string, resource: AuthenticationPolicy, options?: AuthenticationPoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AuthenticationPolicy>, AuthenticationPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, authenticationPolicyName: string, resource: AuthenticationPolicy, options?: AuthenticationPoliciesCreateOrUpdateOptionalParams) => Promise<AuthenticationPolicy>;
+    createOrUpdate: (resourceGroupName: string, authenticationPolicyName: string, resource: AuthenticationPolicy, options?: AuthenticationPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AuthenticationPolicy>, AuthenticationPolicy>;
+    delete: (resourceGroupName: string, authenticationPolicyName: string, options?: AuthenticationPoliciesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, authenticationPolicyName: string, options?: AuthenticationPoliciesGetOptionalParams) => Promise<AuthenticationPolicy>;
+    list: (resourceGroupName: string, options?: AuthenticationPoliciesListOptionalParams) => PagedAsyncIterableIterator<AuthenticationPolicy>;
+    listAll: (options?: AuthenticationPoliciesListAllOptionalParams) => PagedAsyncIterableIterator<AuthenticationPolicy>;
+    update: (resourceGroupName: string, authenticationPolicyName: string, parameters: AuthenticationPolicyUpdateParameters, options?: AuthenticationPoliciesUpdateOptionalParams) => Promise<AuthenticationPolicy>;
+}
+
+// @public
+export interface AuthenticationPoliciesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationPolicy extends Resource {
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    properties?: AuthenticationPolicyPropertiesFormat;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AuthenticationPolicyPropertiesFormat {
+    readonly associatedResources?: string[];
+    authenticationProperties: AuthenticationProviderProperties;
+    onUnauthenticatedRequest?: OnUnauthenticatedRequest;
+    readonly provisioningState?: CommonProvisioningState;
+    readonly resourceGuid?: string;
+    userTrustProviderType: UserTrustProviderType;
+}
+
+// @public
+export interface AuthenticationPolicyUpdateParameters {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AuthenticationProviderProperties {
+    audience?: string;
+    clientId: string;
+    clientSecret?: string;
+    issuer: string;
+    jwksUri?: string;
+    scope?: string[];
+    sessionCookieName?: string;
+    sessionTimeout?: string;
+}
 
 // @public
 export interface AuthorizationPropertiesFormat {
@@ -1782,6 +1957,7 @@ export enum AzureClouds {
 export interface AzureFirewall extends Resource {
     additionalProperties?: Record<string, string>;
     readonly afcConfiguration?: AfcConfiguration;
+    aiSecurityAddOn?: boolean;
     applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
     autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
     readonly etag?: string;
@@ -1996,6 +2172,7 @@ export interface AzureFirewallPacketCaptureRule {
 export interface AzureFirewallPropertiesFormat {
     additionalProperties?: Record<string, string>;
     readonly afcConfiguration?: AfcConfiguration;
+    aiSecurityAddOn?: boolean;
     applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
     autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
     firewallPolicy?: SubResource;
@@ -2245,11 +2422,13 @@ export interface BastionHost extends Resource {
     enableShareableLink?: boolean;
     enableTunneling?: boolean;
     readonly etag?: string;
+    identity?: ManagedServiceIdentity;
     ipConfigurations?: BastionHostIPConfiguration[];
     // (undocumented)
     networkAcls?: BastionHostPropertiesFormatNetworkAcls;
     readonly provisioningState?: CommonProvisioningState;
     scaleUnits?: number;
+    sessionRecordingConfiguration?: BastionSessionRecordingConfiguration;
     sku?: Sku;
     virtualNetwork?: SubResource;
     zones?: string[];
@@ -2290,6 +2469,7 @@ export interface BastionHostPropertiesFormat {
     networkAcls?: BastionHostPropertiesFormatNetworkAcls;
     readonly provisioningState?: CommonProvisioningState;
     scaleUnits?: number;
+    sessionRecordingConfiguration?: BastionSessionRecordingConfiguration;
     virtualNetwork?: SubResource;
 }
 
@@ -2334,20 +2514,32 @@ export interface BastionHostsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, bastionHostName: string, options?: BastionHostsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginUpdateTags: (resourceGroupName: string, bastionHostName: string, parameters: TagsObject, options?: BastionHostsUpdateTagsOptionalParams) => Promise<SimplePollerLike<OperationState<BastionHost>, BastionHost>>;
+    beginUpdate: (resourceGroupName: string, bastionHostName: string, parameters: BastionHostUpdate, options?: BastionHostsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BastionHost>, BastionHost>>;
     // @deprecated (undocumented)
-    beginUpdateTagsAndWait: (resourceGroupName: string, bastionHostName: string, parameters: TagsObject, options?: BastionHostsUpdateTagsOptionalParams) => Promise<BastionHost>;
+    beginUpdateAndWait: (resourceGroupName: string, bastionHostName: string, parameters: BastionHostUpdate, options?: BastionHostsUpdateOptionalParams) => Promise<BastionHost>;
     createOrUpdate: (resourceGroupName: string, bastionHostName: string, parameters: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams) => PollerLike<OperationState<BastionHost>, BastionHost>;
     delete: (resourceGroupName: string, bastionHostName: string, options?: BastionHostsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, bastionHostName: string, options?: BastionHostsGetOptionalParams) => Promise<BastionHost>;
     list: (options?: BastionHostsListOptionalParams) => PagedAsyncIterableIterator<BastionHost>;
     listByResourceGroup: (resourceGroupName: string, options?: BastionHostsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BastionHost>;
-    updateTags: (resourceGroupName: string, bastionHostName: string, parameters: TagsObject, options?: BastionHostsUpdateTagsOptionalParams) => PollerLike<OperationState<BastionHost>, BastionHost>;
+    update: (resourceGroupName: string, bastionHostName: string, parameters: BastionHostUpdate, options?: BastionHostsUpdateOptionalParams) => PollerLike<OperationState<BastionHost>, BastionHost>;
 }
 
 // @public
-export interface BastionHostsUpdateTagsOptionalParams extends OperationOptions {
+export interface BastionHostsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface BastionHostUpdate {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface BastionSessionRecordingConfiguration {
+    blobContainerUri: string;
+    identity: SessionRecordingIdentity;
 }
 
 // @public
@@ -3521,6 +3713,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
 
 // @public
 export interface DefaultRuleSetPropertyFormat {
+    displayName?: string;
     ruleSetType?: string;
     ruleSetVersion?: string;
 }
@@ -3864,9 +4057,6 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
 export type EffectiveSecurityRuleProtocol = string;
 
 // @public
-export type EnableOnlyIpv6PeeringState = string;
-
-// @public
 export interface EndpointServiceResult extends SubResource {
     readonly name?: string;
     readonly type?: string;
@@ -3967,6 +4157,11 @@ export interface ExplicitProxy {
 }
 
 // @public
+export interface ExpressRouteAuthorizationKey {
+    authorizationKey?: string;
+}
+
+// @public
 export interface ExpressRouteCircuit extends Resource {
     activationKey?: string;
     allowClassicOperations?: boolean;
@@ -3977,6 +4172,7 @@ export interface ExpressRouteCircuit extends Resource {
     circuitProvisioningState?: string;
     enableDirectPortRateLimit?: boolean;
     readonly etag?: string;
+    expressRouteLag?: SubResource;
     expressRoutePort?: SubResource;
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
@@ -4024,6 +4220,10 @@ export interface ExpressRouteCircuitAuthorizationsGetOptionalParams extends Oper
 }
 
 // @public
+export interface ExpressRouteCircuitAuthorizationsListKeysOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ExpressRouteCircuitAuthorizationsListOptionalParams extends OperationOptions {
 }
 
@@ -4041,6 +4241,7 @@ export interface ExpressRouteCircuitAuthorizationsOperations {
     delete: (resourceGroupName: string, circuitName: string, authorizationName: string, options?: ExpressRouteCircuitAuthorizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, circuitName: string, authorizationName: string, options?: ExpressRouteCircuitAuthorizationsGetOptionalParams) => Promise<ExpressRouteCircuitAuthorization>;
     list: (resourceGroupName: string, circuitName: string, options?: ExpressRouteCircuitAuthorizationsListOptionalParams) => PagedAsyncIterableIterator<ExpressRouteCircuitAuthorization>;
+    listKeys: (resourceGroupName: string, circuitName: string, authorizationName: string, options?: ExpressRouteCircuitAuthorizationsListKeysOptionalParams) => Promise<ExpressRouteAuthorizationKey>;
 }
 
 // @public
@@ -4215,6 +4416,7 @@ export interface ExpressRouteCircuitPropertiesFormat {
     bandwidthInGbps?: number;
     circuitProvisioningState?: string;
     enableDirectPortRateLimit?: boolean;
+    expressRouteLag?: SubResource;
     expressRoutePort?: SubResource;
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
@@ -4621,7 +4823,17 @@ export interface ExpressRouteCrossConnectionRoutesTableSummary {
 }
 
 // @public
+export interface ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -4654,11 +4866,24 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParam
 }
 
 // @public
+export interface ExpressRouteCrossConnectionsMigrateCircuitOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ExpressRouteCrossConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCommitCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginCommitCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
     // @deprecated (undocumented)
     beginCreateOrUpdate: (resourceGroupName: string, crossConnectionName: string, parameters: ExpressRouteCrossConnection, options?: ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ExpressRouteCrossConnection>, ExpressRouteCrossConnection>>;
     // @deprecated (undocumented)
     beginCreateOrUpdateAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: ExpressRouteCrossConnection, options?: ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams) => Promise<ExpressRouteCrossConnection>;
+    // @deprecated (undocumented)
+    beginGetCircuitMigrationInfo: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginGetCircuitMigrationInfoAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
     // @deprecated (undocumented)
     beginListArpTable: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListArpTableOptionalParams) => Promise<SimplePollerLike<OperationState<ExpressRouteCircuitsArpTableListResult>, ExpressRouteCircuitsArpTableListResult>>;
     // @deprecated (undocumented)
@@ -4671,14 +4896,61 @@ export interface ExpressRouteCrossConnectionsOperations {
     beginListRoutesTableSummary: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams) => Promise<SimplePollerLike<OperationState<ExpressRouteCrossConnectionsRoutesTableSummaryListResult>, ExpressRouteCrossConnectionsRoutesTableSummaryListResult>>;
     // @deprecated (undocumented)
     beginListRoutesTableSummaryAndWait: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams) => Promise<ExpressRouteCrossConnectionsRoutesTableSummaryListResult>;
+    // @deprecated (undocumented)
+    beginMigrateCircuit: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginMigrateCircuitAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+    // @deprecated (undocumented)
+    beginPrepareCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginPrepareCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+    // @deprecated (undocumented)
+    beginRestoreBgpForCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginRestoreBgpForCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+    // @deprecated (undocumented)
+    beginRollbackCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginRollbackCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+    // @deprecated (undocumented)
+    beginShutDownBgpForCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>>;
+    // @deprecated (undocumented)
+    beginShutDownBgpForCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+    // @deprecated (undocumented)
+    beginValidateCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateExpressRouteCircuitValidateResponse>, MigrateExpressRouteCircuitValidateResponse>>;
+    // @deprecated (undocumented)
+    beginValidateCircuitMigrationAndWait: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams) => Promise<MigrateExpressRouteCircuitValidateResponse>;
+    commitCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
     createOrUpdate: (resourceGroupName: string, crossConnectionName: string, parameters: ExpressRouteCrossConnection, options?: ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExpressRouteCrossConnection>, ExpressRouteCrossConnection>;
     get: (resourceGroupName: string, crossConnectionName: string, options?: ExpressRouteCrossConnectionsGetOptionalParams) => Promise<ExpressRouteCrossConnection>;
+    getCircuitMigrationInfo: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
     list: (options?: ExpressRouteCrossConnectionsListOptionalParams) => PagedAsyncIterableIterator<ExpressRouteCrossConnection>;
     listArpTable: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListArpTableOptionalParams) => PollerLike<OperationState<ExpressRouteCircuitsArpTableListResult>, ExpressRouteCircuitsArpTableListResult>;
     listByResourceGroup: (resourceGroupName: string, options?: ExpressRouteCrossConnectionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ExpressRouteCrossConnection>;
     listRoutesTable: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListRoutesTableOptionalParams) => PollerLike<OperationState<ExpressRouteCircuitsRoutesTableListResult>, ExpressRouteCircuitsRoutesTableListResult>;
     listRoutesTableSummary: (resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams) => PollerLike<OperationState<ExpressRouteCrossConnectionsRoutesTableSummaryListResult>, ExpressRouteCrossConnectionsRoutesTableSummaryListResult>;
+    migrateCircuit: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
+    prepareCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
+    restoreBgpForCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
+    rollbackCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
+    shutDownBgpForCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitRequest, options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitHealthCheckResponse>, MigrateExpressRouteCircuitHealthCheckResponse>;
     updateTags: (resourceGroupName: string, crossConnectionName: string, crossConnectionParameters: TagsObject, options?: ExpressRouteCrossConnectionsUpdateTagsOptionalParams) => Promise<ExpressRouteCrossConnection>;
+    validateCircuitMigration: (resourceGroupName: string, crossConnectionName: string, parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest, options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams) => PollerLike<OperationState<MigrateExpressRouteCircuitValidateResponse>, MigrateExpressRouteCircuitValidateResponse>;
+}
+
+// @public
+export interface ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -4688,7 +4960,17 @@ export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResult {
 }
 
 // @public
+export interface ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ExpressRouteCrossConnectionsUpdateTagsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -4982,6 +5264,7 @@ export interface ExpressRouteLagPropertiesFormat {
     readonly allocationDate?: string;
     bandwidthInGbps?: number;
     billingType?: ExpressRouteLagBillingType;
+    readonly circuits?: SubResource[];
     encapsulation?: ExpressRouteLagEncapsulation;
     readonly etherType?: string;
     lacpTimer?: ExpressRouteLagLacpTimer;
@@ -5249,6 +5532,10 @@ export interface ExpressRoutePortAuthorizationsGetOptionalParams extends Operati
 }
 
 // @public
+export interface ExpressRoutePortAuthorizationsListKeysOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ExpressRoutePortAuthorizationsListOptionalParams extends OperationOptions {
 }
 
@@ -5266,6 +5553,7 @@ export interface ExpressRoutePortAuthorizationsOperations {
     delete: (resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsGetOptionalParams) => Promise<ExpressRoutePortAuthorization>;
     list: (resourceGroupName: string, expressRoutePortName: string, options?: ExpressRoutePortAuthorizationsListOptionalParams) => PagedAsyncIterableIterator<ExpressRoutePortAuthorization>;
+    listKeys: (resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsListKeysOptionalParams) => Promise<ExpressRouteAuthorizationKey>;
 }
 
 // @public
@@ -6530,7 +6818,7 @@ export interface HubVirtualNetworkConnection extends SubResource {
     allowRemoteVnetToUseHubVnetGateways?: boolean;
     connectionPolicy?: SubResource;
     enableInternetSecurity?: boolean;
-    enableOnlyIpv6Peering?: EnableOnlyIpv6PeeringState;
+    enableOnlyIPv6Peering?: boolean;
     readonly etag?: string;
     name?: string;
     readonly provisioningState?: CommonProvisioningState;
@@ -6544,7 +6832,7 @@ export interface HubVirtualNetworkConnectionProperties {
     allowRemoteVnetToUseHubVnetGateways?: boolean;
     connectionPolicy?: SubResource;
     enableInternetSecurity?: boolean;
-    enableOnlyIpv6Peering?: EnableOnlyIpv6PeeringState;
+    enableOnlyIPv6Peering?: boolean;
     readonly provisioningState?: CommonProvisioningState;
     remoteVirtualNetwork?: SubResource;
     routingConfiguration?: RoutingConfiguration;
@@ -6943,6 +7231,8 @@ export interface IpamPoolProperties {
     description?: string;
     displayName?: string;
     readonly ipAddressType?: IpType[];
+    maxAllocationSize?: string;
+    minAllocationSize?: string;
     parentPoolName?: string;
     readonly provisioningState?: CommonProvisioningState;
 }
@@ -7016,6 +7306,8 @@ export interface IpamPoolUpdateProperties {
     // (undocumented)
     description?: string;
     displayName?: string;
+    maxAllocationSize?: string;
+    minAllocationSize?: string;
 }
 
 // @public
@@ -7280,6 +7572,15 @@ export enum KnownAdvertisedPublicPrefixPropertiesValidationState {
 }
 
 // @public
+export enum KnownApplicationGatewayAdvancedRoutingConditionType {
+    ClientIP = "ClientIP",
+    Header = "Header",
+    Method = "Method",
+    Path = "Path",
+    QueryString = "QueryString"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -7373,6 +7674,7 @@ export enum KnownApplicationGatewayRedirectType {
 
 // @public
 export enum KnownApplicationGatewayRequestRoutingRuleType {
+    AdvancedRouting = "AdvancedRouting",
     Basic = "Basic",
     PathBasedRouting = "PathBasedRouting"
 }
@@ -7394,6 +7696,8 @@ export enum KnownApplicationGatewaySkuFamily {
 // @public
 export enum KnownApplicationGatewaySkuName {
     Basic = "Basic",
+    BasicV2 = "Basic_v2",
+    BasicWAFV2 = "Basic_WAF_v2",
     StandardLarge = "Standard_Large",
     StandardMedium = "Standard_Medium",
     StandardSmall = "Standard_Small",
@@ -7462,6 +7766,8 @@ export enum KnownApplicationGatewaySslProtocol {
 // @public
 export enum KnownApplicationGatewayTier {
     Basic = "Basic",
+    BasicV2 = "Basic_v2",
+    BasicWAFV2 = "Basic_WAF_v2",
     Standard = "Standard",
     StandardV2 = "Standard_v2",
     WAF = "WAF",
@@ -7489,6 +7795,14 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
     Block = "Block",
     Log = "Log",
     None = "None"
+}
+
+// @public
+export enum KnownApplicationGatewayWafRuleParanoiaLevel {
+    PL1 = "PL1",
+    PL2 = "PL2",
+    PL3 = "PL3",
+    PL4 = "PL4"
 }
 
 // @public
@@ -7879,12 +8193,6 @@ export enum KnownEffectiveSecurityRuleProtocol {
     All = "All",
     Tcp = "Tcp",
     Udp = "Udp"
-}
-
-// @public
-export enum KnownEnableOnlyIpv6PeeringState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -8587,6 +8895,13 @@ export enum KnownOfficeTrafficCategory {
 }
 
 // @public
+export enum KnownOnUnauthenticatedRequest {
+    Allow = "allow",
+    Authenticate = "authenticate",
+    Deny = "deny"
+}
+
+// @public
 export enum KnownOrigin {
     Inbound = "Inbound",
     Local = "Local",
@@ -8977,6 +9292,12 @@ export enum KnownServiceUpdateAction {
 }
 
 // @public
+export enum KnownSessionRecordingIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownSeverity {
     Error = "Error",
     Warning = "Warning"
@@ -9028,6 +9349,11 @@ export enum KnownUsageUnit {
 export enum KnownUseHubGateway {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownUserTrustProviderType {
+    Entra = "entra"
 }
 
 // @public
@@ -9101,7 +9427,9 @@ export enum KnownVirtualNetworkGatewayMigrationState {
 
 // @public
 export enum KnownVirtualNetworkGatewayMigrationType {
-    UpgradeDeploymentToStandardIP = "UpgradeDeploymentToStandardIP"
+    MigrateGatewayForPointToSiteProfile = "MigrateGatewayForPointToSiteProfile",
+    UpgradeDeploymentToStandardIP = "UpgradeDeploymentToStandardIP",
+    UpgradeGatewayToDualStack = "UpgradeGatewayToDualStack"
 }
 
 // @public
@@ -9320,6 +9648,12 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
     Disabling = "Disabling",
     Enabled = "Enabled",
     Enabling = "Enabling"
+}
+
+// @public
+export enum KnownWebApplicationFirewallPolicyTier {
+    Basic = "Basic",
+    Standard = "Standard"
 }
 
 // @public
@@ -9828,7 +10162,7 @@ export interface ManagedRuleSet {
 // @public
 export interface ManagedRuleSetRuleGroup {
     ruleGroupName: string;
-    rules?: string[];
+    rules?: number[];
 }
 
 // @public
@@ -9887,6 +10221,13 @@ export interface MatchVariable {
 }
 
 // @public
+export interface Metric {
+    name?: string;
+    unit?: string;
+    value?: number;
+}
+
+// @public
 export interface MetricSpecification {
     aggregationType?: string;
     availabilities?: Availability[];
@@ -9907,6 +10248,42 @@ export interface MetricSpecification {
 // @public
 export interface MigratedPools {
     migratedPools?: string[];
+}
+
+// @public
+export interface MigrateExpressRouteCircuitHealthCheckDetails {
+    portMigrationInfos?: PortMigrationInfo[];
+}
+
+// @public
+export interface MigrateExpressRouteCircuitHealthCheckResponse {
+    details?: MigrateExpressRouteCircuitHealthCheckDetails;
+    failureReason?: string;
+    newCrossConnectionUrl?: string;
+    newSTag?: string;
+    phase?: string;
+    preparedAt?: Date;
+    prepareExpiryTime?: Date;
+    shouldRollback?: boolean;
+    status?: string;
+}
+
+// @public
+export interface MigrateExpressRouteCircuitRequest {
+    portId?: string;
+    targetPeeringLocation?: string;
+    targetPortMapping?: PortMapping[];
+}
+
+// @public
+export interface MigrateExpressRouteCircuitValidateAndHealthCheckRequest {
+    targetPeeringLocation: string;
+    targetPortMapping: PortMapping[];
+}
+
+// @public
+export interface MigrateExpressRouteCircuitValidateResponse {
+    status?: string;
 }
 
 // @public
@@ -10488,6 +10865,7 @@ export class NetworkManagementClient {
     readonly applicationGatewayWafDynamicManifests: ApplicationGatewayWafDynamicManifestsOperations;
     readonly applicationGatewayWafDynamicManifestsDefault: ApplicationGatewayWafDynamicManifestsDefaultOperations;
     readonly applicationSecurityGroups: ApplicationSecurityGroupsOperations;
+    readonly authenticationPolicies: AuthenticationPoliciesOperations;
     readonly availableDelegations: AvailableDelegationsOperations;
     readonly availableEndpointServices: AvailableEndpointServicesOperations;
     readonly availablePrivateEndpointTypes: AvailablePrivateEndpointTypesOperations;
@@ -10959,11 +11337,13 @@ export type NetworkProtocol = string;
 export interface NetworkRule extends FirewallPolicyRule {
     destinationAddresses?: string[];
     destinationFqdns?: string[];
+    destinationGeoLocations?: string[];
     destinationIpGroups?: string[];
     destinationPorts?: string[];
     ipProtocols?: FirewallPolicyRuleNetworkProtocol[];
     ruleType: "NetworkRule";
     sourceAddresses?: string[];
+    sourceGeoLocations?: string[];
     sourceIpGroups?: string[];
     sourceKubeSelectorGroups?: string[];
 }
@@ -12046,6 +12426,9 @@ export interface Office365PolicyProperties {
 export type OfficeTrafficCategory = string;
 
 // @public
+export type OnUnauthenticatedRequest = string;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -12544,6 +12927,19 @@ export interface PeerExpressRouteCircuitConnectionsOperations {
 export type PeeringEnforcement = string;
 
 // @public
+export interface PeeringHealth {
+    statsAtPrepare?: PeeringStats;
+    statsCurrent?: PeeringStats;
+    type?: string;
+}
+
+// @public
+export interface PeeringStats {
+    metrics?: Metric[];
+    timestamp?: Date;
+}
+
+// @public
 export interface PeerRoute {
     readonly asPath?: string;
     readonly localAddress?: string;
@@ -12637,6 +13033,23 @@ export interface PoolUsage {
     readonly numberOfReservedIPAddresses?: string;
     readonly reservedAddressPrefixes?: string[];
     readonly totalNumberOfIPAddresses?: string;
+}
+
+// @public
+export interface PortMapping {
+    sourcePortId: string;
+    targetPortId: string;
+}
+
+// @public
+export interface PortMigrationInfo {
+    failureReason?: string;
+    peerings?: PeeringHealth[];
+    phase?: string;
+    portId?: string;
+    sourcePortId?: string;
+    sourcePortStats?: SourcePortStats;
+    status?: string;
 }
 
 // @public
@@ -12849,6 +13262,7 @@ export interface PrivateLinkService extends Resource {
 
 // @public
 export interface PrivateLinkServiceConnection extends SubResource {
+    approvalReference?: ApprovalReference;
     readonly etag?: string;
     groupIds?: string[];
     name?: string;
@@ -12861,6 +13275,7 @@ export interface PrivateLinkServiceConnection extends SubResource {
 
 // @public
 export interface PrivateLinkServiceConnectionProperties {
+    approvalReference?: ApprovalReference;
     groupIds?: string[];
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     privateLinkServiceId?: string;
@@ -15038,6 +15453,15 @@ export interface SessionIds {
 }
 
 // @public
+export interface SessionRecordingIdentity {
+    type: SessionRecordingIdentityType;
+    userAssignedIdentityId?: string;
+}
+
+// @public
+export type SessionRecordingIdentityType = string;
+
+// @public
 export type Severity = string;
 
 // @public
@@ -15119,6 +15543,11 @@ export interface Sku {
 
 // @public
 export type SlotType = "Production" | "Staging";
+
+// @public
+export interface SourcePortStats {
+    peerings?: PeeringHealth[];
+}
 
 // @public
 export interface StaticCidr extends CommonProxyResource {
@@ -15661,6 +16090,9 @@ export type UsageUnit = string;
 
 // @public
 export type UseHubGateway = string;
+
+// @public
+export type UserTrustProviderType = string;
 
 // @public
 export type VerbosityLevel = string;
@@ -18611,6 +19043,7 @@ export interface WebApplicationFirewallPolicy extends Resource {
     policySettings?: PolicySettings;
     readonly provisioningState?: CommonProvisioningState;
     readonly resourceState?: WebApplicationFirewallPolicyResourceState;
+    tier?: WebApplicationFirewallPolicyTier;
 }
 
 // @public
@@ -18624,10 +19057,14 @@ export interface WebApplicationFirewallPolicyPropertiesFormat {
     policySettings?: PolicySettings;
     readonly provisioningState?: CommonProvisioningState;
     readonly resourceState?: WebApplicationFirewallPolicyResourceState;
+    tier?: WebApplicationFirewallPolicyTier;
 }
 
 // @public
 export type WebApplicationFirewallPolicyResourceState = string;
+
+// @public
+export type WebApplicationFirewallPolicyTier = string;
 
 // @public
 export type WebApplicationFirewallRuleType = string;

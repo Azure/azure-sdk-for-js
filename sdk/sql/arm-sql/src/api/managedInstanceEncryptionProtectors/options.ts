@@ -8,15 +8,12 @@ export interface ManagedInstanceEncryptionProtectorsRevalidateOptionalParams ext
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceEncryptionProtectorsGetOptionalParams extends OperationOptions {}

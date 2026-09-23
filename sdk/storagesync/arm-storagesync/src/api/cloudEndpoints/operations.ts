@@ -5,6 +5,7 @@ import type { MicrosoftStorageSyncContext as Client } from "../index.js";
 import type {
   CloudEndpoint,
   CloudEndpointCreateParameters,
+  CloudEndpointUpdateParameters,
   _CloudEndpointArray,
   BackupRequest,
   PostBackupResponse,
@@ -17,6 +18,7 @@ import {
   storageSyncErrorDeserializer,
   cloudEndpointDeserializer,
   cloudEndpointCreateParametersSerializer,
+  cloudEndpointUpdateParametersSerializer,
   _cloudEndpointArrayDeserializer,
   backupRequestSerializer,
   postBackupResponseDeserializer,
@@ -39,6 +41,7 @@ import type {
   CloudEndpointsPreBackupOptionalParams,
   CloudEndpointsListBySyncGroupOptionalParams,
   CloudEndpointsDeleteOptionalParams,
+  CloudEndpointsUpdateOptionalParams,
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsGetOptionalParams,
 } from "./options.js";
@@ -64,7 +67,7 @@ export function _afsShareMetadataCertificatePublicKeysSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +134,7 @@ export function _triggerChangeDetectionSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +187,7 @@ export function triggerChangeDetection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -205,7 +208,7 @@ export function _postRestoreSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +259,7 @@ export function postRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -276,7 +279,7 @@ export function _restoreheartbeatSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,7 +339,7 @@ export function _preRestoreSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -387,7 +390,7 @@ export function preRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -408,7 +411,7 @@ export function _postBackupSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,7 +465,7 @@ export function postBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<PostBackupResponse>, PostBackupResponse>;
 }
 
@@ -483,7 +486,7 @@ export function _preBackupSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -534,7 +537,7 @@ export function preBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -552,7 +555,7 @@ export function _listBySyncGroupSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -600,7 +603,7 @@ export function listBySyncGroup(
       ),
     _listBySyncGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2022-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -620,7 +623,7 @@ export function _$deleteSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -665,8 +668,81 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  storageSyncServiceName: string,
+  syncGroupName: string,
+  cloudEndpointName: string,
+  properties: CloudEndpointUpdateParameters,
+  options: CloudEndpointsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      storageSyncServiceName: storageSyncServiceName,
+      syncGroupName: syncGroupName,
+      cloudEndpointName: cloudEndpointName,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: cloudEndpointUpdateParametersSerializer(properties),
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CloudEndpoint> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = storageSyncErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return cloudEndpointDeserializer(result.body);
+}
+
+/** Patch a given CloudEndpoint. */
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  storageSyncServiceName: string,
+  syncGroupName: string,
+  cloudEndpointName: string,
+  properties: CloudEndpointUpdateParameters,
+  options: CloudEndpointsUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<CloudEndpoint>, CloudEndpoint> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
+  }) as PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
 }
 
 export function _createSend(
@@ -686,7 +762,7 @@ export function _createSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +814,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
 }
 
@@ -758,7 +834,7 @@ export function _getSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       cloudEndpointName: cloudEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

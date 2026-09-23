@@ -1,0 +1,27 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
+ *
+ * @summary check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
+ * x-ms-original-file: 2026-08-31/DPSCheckNameAvailability.json
+ */
+async function dpsCheckName() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotDpsClient(credential, subscriptionId);
+  const result = await client.iotDpsResource.checkProvisioningServiceNameAvailability({
+    name: "test213123",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await dpsCheckName();
+}
+
+main().catch(console.error);

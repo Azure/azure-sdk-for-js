@@ -171,7 +171,7 @@ export function parsePath(path: string): string[] {
 
   const getToken = (): string => {
     const newIndex = path.indexOf("/", currentIndex);
-    let token = null;
+    let token: string;
     if (newIndex === -1) {
       token = path.substr(currentIndex);
       currentIndex = path.length;

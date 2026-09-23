@@ -16,7 +16,7 @@ import type {
   WebApplicationFirewallPoliciesCreateOrUpdateOptionalParams,
   WebApplicationFirewallPoliciesGetOptionalParams,
 } from "../../api/webApplicationFirewallPolicies/options.js";
-import type { WebApplicationFirewallPolicy } from "../../models/microsoft/network/models.js";
+import type { WebApplicationFirewallPolicy } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

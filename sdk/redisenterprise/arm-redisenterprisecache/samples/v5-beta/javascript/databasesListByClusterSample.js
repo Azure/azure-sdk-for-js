@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all databases in the specified Redis Enterprise cluster.
  *
  * @summary gets all databases in the specified Redis Enterprise cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesListByCluster.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesListByCluster.json
  */
 async function redisEnterpriseDatabasesListByCluster() {
   const credential = new DefaultAzureCredential();

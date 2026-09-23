@@ -16,7 +16,6 @@ export interface PrivateLinksOperations {
     options?: PrivateLinksListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
-
 function _getPrivateLinks(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -26,7 +25,6 @@ function _getPrivateLinks(context: MongoClusterManagementContext) {
     ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
-
 export function _getPrivateLinksOperations(
   context: MongoClusterManagementContext,
 ): PrivateLinksOperations {

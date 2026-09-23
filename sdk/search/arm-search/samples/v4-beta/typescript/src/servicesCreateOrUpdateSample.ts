@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateService.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateService.json
  */
 async function searchCreateOrUpdateService(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function searchCreateOrUpdateService(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceAuthOptions.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceAuthOptions.json
  */
 async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceDisableLocalAuth.json
  */
 async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -76,7 +76,7 @@ async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -99,7 +99,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): P
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Pr
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -148,7 +148,30 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndByp
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithAutoGeneratedDomainNameLabelScope.json
+ */
+async function searchCreateOrUpdateServiceWithAutoGeneratedDomainNameLabelScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
+    location: "westus",
+    tags: { "app-name": "My e-commerce app" },
+    sku: { name: "standard" },
+    replicaCount: 3,
+    partitionCount: 1,
+    hostingMode: "Default",
+    computeType: "Default",
+    autoGeneratedDomainNameLabelScope: "TenantReuse",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+ *
+ * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithCmkEnforcement.json
  */
 async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -171,7 +194,7 @@ async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithDataExfiltration.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithDataExfiltration.json
  */
 async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -194,7 +217,7 @@ async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> 
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithIdentity.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithIdentity.json
  */
 async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -223,7 +246,7 @@ async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithServerless.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithServerless.json
  */
 async function searchCreateOrUpdateServiceWithServerless(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -242,7 +265,7 @@ async function searchCreateOrUpdateServiceWithServerless(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity.json
  */
 async function searchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -285,7 +308,7 @@ async function searchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederate
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateWithKnowledgeRetrieval.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateWithKnowledgeRetrieval.json
  */
 async function searchCreateOrUpdateWithKnowledgeRetrieval(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -308,7 +331,7 @@ async function searchCreateOrUpdateWithKnowledgeRetrieval(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateWithSemanticSearch.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateOrUpdateWithSemanticSearch.json
  */
 async function searchCreateOrUpdateWithSemanticSearch(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -334,6 +357,7 @@ async function main(): Promise<void> {
   await searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints();
   await searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs();
   await searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
+  await searchCreateOrUpdateServiceWithAutoGeneratedDomainNameLabelScope();
   await searchCreateOrUpdateServiceWithCmkEnforcement();
   await searchCreateOrUpdateServiceWithDataExfiltration();
   await searchCreateOrUpdateServiceWithIdentity();

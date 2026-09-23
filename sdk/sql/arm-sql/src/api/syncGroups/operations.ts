@@ -53,7 +53,7 @@ export function _listSyncDatabaseIdsSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,6 @@ export async function _listSyncDatabaseIdsDeserialize(
 
   return _syncDatabaseIdListResultDeserializer(result.body);
 }
-
 /** Gets a collection of sync database ids. */
 export function listSyncDatabaseIds(
   context: Client,
@@ -92,7 +91,11 @@ export function listSyncDatabaseIds(
     () => _listSyncDatabaseIdsSend(context, locationName, options),
     _listSyncDatabaseIdsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -112,7 +115,7 @@ export function _triggerSyncSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +137,6 @@ export async function _triggerSyncDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
-
 /** Triggers a sync group synchronization. */
 export async function triggerSync(
   context: Client,
@@ -171,7 +173,7 @@ export function _refreshHubSchemaSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +195,6 @@ export async function _refreshHubSchemaDeserialize(result: PathUncheckedResponse
 
   return;
 }
-
 /** Refreshes a hub database schema. */
 export function refreshHubSchema(
   context: Client,
@@ -216,7 +217,7 @@ export function refreshHubSchema(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -239,7 +240,7 @@ export function _listLogsSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       startTime: startTime,
       endTime: endTime,
       type: typeParam,
@@ -270,7 +271,6 @@ export async function _listLogsDeserialize(
 
   return _syncGroupLogListResultDeserializer(result.body);
 }
-
 /** Gets a collection of sync group logs. */
 export function listLogs(
   context: Client,
@@ -299,7 +299,11 @@ export function listLogs(
       ),
     _listLogsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -319,7 +323,7 @@ export function _listHubSchemasSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +350,6 @@ export async function _listHubSchemasDeserialize(
 
   return _syncFullSchemaPropertiesListResultDeserializer(result.body);
 }
-
 /** Gets a collection of hub database schemas. */
 export function listHubSchemas(
   context: Client,
@@ -369,7 +372,11 @@ export function listHubSchemas(
       ),
     _listHubSchemasDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -389,7 +396,7 @@ export function _cancelSyncSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,7 +418,6 @@ export async function _cancelSyncDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Cancels a sync group synchronization. */
 export async function cancelSync(
   context: Client,
@@ -446,7 +452,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -473,7 +479,6 @@ export async function _listByDatabaseDeserialize(
 
   return _syncGroupListResultDeserializer(result.body);
 }
-
 /** Lists sync groups under a hub database. */
 export function listByDatabase(
   context: Client,
@@ -487,7 +492,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -507,7 +516,7 @@ export function _$deleteSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -529,7 +538,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a sync group. */
 export function $delete(
   context: Client,
@@ -545,7 +553,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, databaseName, syncGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -566,7 +574,7 @@ export function _updateSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -593,7 +601,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return syncGroupDeserializer(result.body);
 }
-
 /** Updates a sync group. */
 export function update(
   context: Client,
@@ -618,7 +625,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<SyncGroup>, SyncGroup>;
 }
 
@@ -639,7 +646,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -668,7 +675,6 @@ export async function _createOrUpdateDeserialize(
 
   return syncGroupDeserializer(result.body);
 }
-
 /** Creates or updates a sync group. */
 export function createOrUpdate(
   context: Client,
@@ -693,7 +699,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<SyncGroup>, SyncGroup>;
 }
 
@@ -713,7 +719,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +744,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sy
 
   return syncGroupDeserializer(result.body);
 }
-
 /** Gets a sync group. */
 export async function get(
   context: Client,
