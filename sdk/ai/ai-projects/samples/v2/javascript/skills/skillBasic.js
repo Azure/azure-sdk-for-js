@@ -11,7 +11,7 @@
  * @summary Demonstrates CRUD operations on Skills using the beta skills API.
  */
 
-const { AIProjectClient, isRestError } = require("@azure/ai-projects");
+const { AIProjectClient, RestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -27,7 +27,7 @@ async function main() {
     await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) {
+    if (!(e instanceof RestError && e.statusCode === 404)) {
       throw e;
     }
   }

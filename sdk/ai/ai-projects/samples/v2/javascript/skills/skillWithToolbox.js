@@ -19,7 +19,7 @@
  * @summary Demonstrates adding a skill to a toolbox and invoking it via a Prompt Agent.
  */
 
-const { AIProjectClient, isRestError } = require("@azure/ai-projects");
+const { AIProjectClient, RestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -39,12 +39,12 @@ async function main() {
   try {
     await project.toolboxes.delete(TOOLBOX_NAME);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) throw e;
+    if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
   try {
     await project.beta.skills.delete(SKILL_NAME);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) throw e;
+    if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
 
   // --- 1. Create a skill ---

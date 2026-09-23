@@ -20,7 +20,7 @@
  */
 
 import type { MCPTool, ToolboxSkillReference } from "@azure/ai-projects";
-import { AIProjectClient, isRestError } from "@azure/ai-projects";
+import { AIProjectClient, RestError } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -40,12 +40,12 @@ export async function main(): Promise<void> {
   try {
     await project.toolboxes.delete(TOOLBOX_NAME);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) throw e;
+    if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
   try {
     await project.beta.skills.delete(SKILL_NAME);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) throw e;
+    if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
 
   // --- 1. Create a skill ---

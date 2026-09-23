@@ -17,8 +17,9 @@
  * @summary Demonstrates uploading and downloading a skill package.
  */
 
-import { AIProjectClient, isRestError } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
+import { RestError } from "@azure/core-rest-pipeline";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,7 +40,7 @@ export async function main(): Promise<void> {
     await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) {
+    if (!(e instanceof RestError && e.statusCode === 404)) {
       throw e;
     }
   }

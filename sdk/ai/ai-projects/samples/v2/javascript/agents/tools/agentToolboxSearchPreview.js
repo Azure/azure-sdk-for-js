@@ -17,7 +17,7 @@
  * @summary Demonstrates creating a toolbox with search preview and invoking it via a Prompt Agent.
  */
 
-const { AIProjectClient, isRestError } = require("@azure/ai-projects");
+const { AIProjectClient, RestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -39,7 +39,7 @@ async function main() {
   try {
     await project.toolboxes.delete(TOOLBOX_NAME);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) throw e;
+    if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
 
   // Create a toolbox version with an inner MCP tool and search-preview enabled

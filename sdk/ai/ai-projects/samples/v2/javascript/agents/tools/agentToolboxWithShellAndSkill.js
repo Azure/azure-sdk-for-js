@@ -16,8 +16,9 @@
  * @summary Create an agent that uses a shell tool and an inline skill from a Foundry Toolbox.
  */
 
-const { AIProjectClient, isRestError } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
+const { RestError } = require("@azure/core-rest-pipeline");
 const { inflateRawSync } = require("node:zlib");
 const { buffer } = require("node:stream/consumers");
 require("dotenv/config");
@@ -36,7 +37,7 @@ async function deleteIfExists(label, remove) {
     await remove();
     console.log(`Deleted ${label}`);
   } catch (e) {
-    if (!(isRestError(e) && e.statusCode === 404)) {
+    if (!(e instanceof RestError && e.statusCode === 404)) {
       throw e;
     }
   }
