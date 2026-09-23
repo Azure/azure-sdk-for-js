@@ -1,15 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
+  GitHubActionsCredential,
   handleOidcResponse,
   deriveAudience,
 } from "$internal/credentials/gitHubActionsCredential.js";
-import { describe, it, assert } from "vitest";
+import { IdentityClient } from "$internal/client/identityClient.js";
+import { afterEach, describe, it, assert, vi } from "vitest";
 
 describe("GitHubActionsCredential (internal)", function () {
+  afterEach(function () {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  describe("requestOidcToken", function () {
+    async function requestToken(oidcRequestUrl: string): Promise<PipelineRequest> {
+      let capturedRequest: PipelineRequest | undefined;
+      vi.spyOn(IdentityClient.prototype, "sendRequest").mockImplementation(async (request) => {
+        capturedRequest = request;
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: JSON.stringify({ value: "test-jwt-token" }),
+        };
+      });
+
+      vi.stubEnv("AZURE_TENANT_ID", "test-tenant-id");
+      vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
+      vi.stubEnv("ACTIONS_ID_TOKEN_REQUEST_URL", oidcRequestUrl);
+      vi.stubEnv("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "test-request-token");
+
+      const credential = new GitHubActionsCredential();
+      const requestOidcToken = Reflect.get(credential, "requestOidcToken") as (
+        requestUrl: string,
+        requestToken: string,
+        audience: string,
+      ) => Promise<string>;
+      const token = await requestOidcToken.call(
+        credential,
+        oidcRequestUrl,
+        "test-request-token",
+        "api://AzureADTokenExchange",
+      );
+
+      assert.strictEqual(token, "test-jwt-token");
+      assert.isDefined(capturedRequest);
+      return capturedRequest;
+    }
+
+    it("adds the audience when the request URL has no query string", async function () {
+      const request = await requestToken("https://token.actions.githubusercontent.com/request");
+      const url = new URL(request.url);
+
+      assert.strictEqual(url.searchParams.get("audience"), "api://AzureADTokenExchange");
+      assert.strictEqual(request.headers.get("Authorization"), "Bearer test-request-token");
+    });
+
+    it("preserves existing query parameters when adding the audience", async function () {
+      const request = await requestToken(
+        "https://token.actions.githubusercontent.com/request?api-version=1.0",
+      );
+      const url = new URL(request.url);
+
+      assert.strictEqual(url.searchParams.get("api-version"), "1.0");
+      assert.strictEqual(url.searchParams.get("audience"), "api://AzureADTokenExchange");
+    });
+  });
+
   describe("handleOidcResponse", function () {
     function createResponse(status: number, bodyAsText?: string): PipelineResponse {
       return {

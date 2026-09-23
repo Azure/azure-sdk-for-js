@@ -22,7 +22,6 @@ const ErrorMessages = {
   CLIENT_ID_REQUIRED: `${credentialName}: is unavailable. Set the AZURE_CLIENT_ID environment variable to use this credential.`,
   GITHUB_ENV_VARS_REQUIRED: (missing: string) =>
     `${credentialName}: is unavailable. Ensure that you're running this task in a GitHub Actions workflow with 'permissions: id-token: write' so that the following missing system variable(s) can be defined: ${missing}. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
-  REQUIRED_CONFIGURATION: `${credentialName}: is unavailable. To use GitHub Actions OIDC federation, the following are required: AZURE_TENANT_ID, AZURE_CLIENT_ID, ACTIONS_ID_TOKEN_REQUEST_URL, ACTIONS_ID_TOKEN_REQUEST_TOKEN. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
   UNSUPPORTED_AUTHORITY_HOST: (authorityHost: string) =>
     `${credentialName}: is unavailable. The authority host "${authorityHost}" is not supported.`,
   NULL_OIDC_TOKEN: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
@@ -73,7 +72,7 @@ export function deriveAudience(authorityHost: string): string {
  * - `ACTIONS_ID_TOKEN_REQUEST_TOKEN` — Set automatically by GitHub Actions runner.
  */
 export class GitHubActionsCredential implements TokenCredential {
-  private clientAssertionCredential: ClientAssertionCredential | undefined;
+  private clientAssertionCredential: ClientAssertionCredential;
   private identityClient: IdentityClient;
 
   /**
@@ -115,9 +114,7 @@ export class GitHubActionsCredential implements TokenCredential {
     const authorityHost = options.authorityHost ?? AzureAuthorityHosts.AzurePublicCloud;
     const audience = deriveAudience(authorityHost);
 
-    logger.info(
-      `Invoking GitHubActionsCredential with tenant ID: ${tenantId}, client ID: ${clientId}, audience: ${audience}`,
-    );
+    logger.info("Invoking GitHubActionsCredential");
 
     this.clientAssertionCredential = new ClientAssertionCredential(
       tenantId,
@@ -140,11 +137,6 @@ export class GitHubActionsCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions,
   ): Promise<AccessToken> {
-    if (!this.clientAssertionCredential) {
-      const errorMessage = ErrorMessages.REQUIRED_CONFIGURATION;
-      logger.error(errorMessage);
-      throw new CredentialUnavailableError(errorMessage);
-    }
     logger.getToken.info(`Using the scopes ${Array.isArray(scopes) ? scopes.join(", ") : scopes}`);
     return this.clientAssertionCredential.getToken(scopes, options);
   }
@@ -161,13 +153,13 @@ export class GitHubActionsCredential implements TokenCredential {
 
     // GitHub OIDC endpoint uses GET (not POST like Azure Pipelines).
     // Audience is appended as query param; omit if empty.
-    let url = oidcRequestUrl;
+    const url = new URL(oidcRequestUrl);
     if (audience) {
-      url = `${oidcRequestUrl}&audience=${encodeURIComponent(audience)}`;
+      url.searchParams.set("audience", audience);
     }
 
     const request = createPipelineRequest({
-      url,
+      url: url.toString(),
       method: "GET",
       headers: createHttpHeaders({
         Authorization: `Bearer ${oidcRequestToken}`,
@@ -193,25 +185,10 @@ export function handleOidcResponse(response: PipelineResponse): string {
     });
   }
 
+  let result: unknown;
   try {
-    const result = JSON.parse(text);
-    if (result?.value) {
-      return result.value;
-    } else {
-      const errorMessage = ErrorMessages.OIDC_VALUE_MISSING;
-      let errorDescription = "";
-      if (response.status !== 200) {
-        errorDescription = `Response body = ${text}. Status code: ${response.status}. See the troubleshooting guide for more information: ${troubleshootingGuide}`;
-      }
-      logger.error(errorMessage);
-      logger.error(errorDescription);
-      throw new AuthenticationError(response.status, {
-        error: errorMessage,
-        error_description: errorDescription,
-      });
-    }
+    result = JSON.parse(text) as unknown;
   } catch (e: unknown) {
-    if (e instanceof AuthenticationError) throw e;
     const errorMessage = e instanceof Error ? e.message : String(e);
     const errorDetails = ErrorMessages.OIDC_RESPONSE_PARSE_FAILED(text, errorMessage);
     logger.error(errorDetails);
@@ -220,4 +197,26 @@ export function handleOidcResponse(response: PipelineResponse): string {
       error_description: `See the troubleshooting guide for more information: ${troubleshootingGuide}`,
     });
   }
+
+  if (
+    typeof result === "object" &&
+    result !== null &&
+    "value" in result &&
+    typeof result.value === "string" &&
+    result.value
+  ) {
+    return result.value;
+  }
+
+  const errorMessage = ErrorMessages.OIDC_VALUE_MISSING;
+  let errorDescription = "";
+  if (response.status !== 200) {
+    errorDescription = `Response body = ${text}. Status code: ${response.status}. See the troubleshooting guide for more information: ${troubleshootingGuide}`;
+  }
+  logger.error(errorMessage);
+  logger.error(errorDescription);
+  throw new AuthenticationError(response.status, {
+    error: errorMessage,
+    error_description: errorDescription,
+  });
 }
