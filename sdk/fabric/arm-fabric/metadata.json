@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Fabric": "2026-08-01-preview"
+    "Microsoft.Fabric": "2026-09-01-preview"
   },
-  "emitterVersion": "0.55.2",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Fabric",
     "CrossLanguageDefinitionId": {

@@ -149,6 +149,7 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       id: "agent-123",
       name: "test-agent",
       state: "enabled",
+      configuration_state: "enabled",
       versions: {
         latest: {
           object: "agent.version",

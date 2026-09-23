@@ -410,20 +410,28 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
   if ($null -eq $ReleaseDate) {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  Push-Location "$EngDir/tools/eng-package-utils"
+
+  Push-Location $RepoRoot
   try {
-    Confirm-NodeInstallation
-    npm install
-    Push-Location "$EngDir/tools/versioning"
-    try {
-      npm install
-      $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
-      node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
-        --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
+    $toolsInitialized = Get-Variable -Name PackageVersionToolsInitialized -Scope Script -ValueOnly -ErrorAction SilentlyContinue
+    if ($toolsInitialized -ne $true) {
+      Confirm-NodeInstallation
+      $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
+      npm install -g $packageManager
+      if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install $packageManager"
+      }
+
+      pnpm install
+      if ($LASTEXITCODE -ne 0) {
+        throw "pnpm install failed with exit code $LASTEXITCODE"
+      }
+      $script:PackageVersionToolsInitialized = $true
     }
-    finally {
-      Pop-Location
-    }
+
+    $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
+    node ./eng/tools/versioning/set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
+      --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
   }
   finally {
     Pop-Location
