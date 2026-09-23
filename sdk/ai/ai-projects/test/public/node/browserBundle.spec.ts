@@ -51,7 +51,10 @@ describe("browser package exports", () => {
       });
 
       expect(modules).toContain(
-        fileURLToPath(new URL("../../../dist/browser/index.js", import.meta.url)),
+        fileURLToPath(new URL("../../../dist/browser/index.js", import.meta.url)).replaceAll(
+          "\\",
+          "/",
+        ),
       );
     },
   );
