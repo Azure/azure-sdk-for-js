@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=22.0.0"
@@ -86,6 +86,7 @@
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
+    "vite": "^8.0.0",
     "vitest": "catalog:testing",
     "zod": "^4.2.1"
   },
