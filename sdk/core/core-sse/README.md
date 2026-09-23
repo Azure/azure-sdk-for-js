@@ -80,6 +80,10 @@ stream is consumed. The reconnect delay starts at 3000 ms and is replaced by val
 factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
 on the next request.
 
+Events without an explicit `id:` field inherit the last committed event ID, even
+across reconnections. The `lastEventId` option seeds this value for the initial
+connection. An empty `id:` field clears it for subsequent events and reconnects.
+
 ## Examples
 
 Examples can be found in the `samples` folder.

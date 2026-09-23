@@ -50,12 +50,13 @@ interface SseParserCallbacks {
 export function createSseParser(
   chunkStream: SseStream,
   callbacks?: SseParserCallbacks,
+  initialLastEventId = "",
 ): {
   cancel(): Promise<void>;
   iterable: AsyncIterableIterator<EventMessage>;
 } {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
-  const asyncIter = toMessage(toLine(iterable), callbacks);
+  const asyncIter = toMessage(toLine(iterable), callbacks, initialLastEventId);
   return { cancel, iterable: asyncIter };
 }
 
@@ -140,10 +141,11 @@ async function* toLine(
 async function* toMessage(
   lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>,
   callbacks?: SseParserCallbacks,
+  initialLastEventId = "",
 ): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
   let pendingId: string | undefined;
-  let lastEventId = "";
+  let lastEventId = initialLastEventId;
   const decoder = new TextDecoder();
   for await (const { line, fieldLen } of lineIter) {
     if (line.length === 0) {

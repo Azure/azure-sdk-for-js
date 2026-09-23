@@ -98,6 +98,9 @@ export interface ReconnectingSseStreamOptions<TResponse extends SseConnectRespon
 
   /**
    * The event ID to send with the initial request.
+   *
+   * Events without an explicit ID inherit this value until the service sets
+   * or clears the event ID.
    */
   lastEventId?: string;
 

@@ -293,7 +293,7 @@ async function establishConnection<TResponse extends SseConnectResponse>(
     );
   }
 
-  const parser = createSseParser(response.body, callbacks);
+  const parser = createSseParser(response.body, callbacks, lastEventId ?? "");
   return { kind: "accept", ...parser };
 }
 

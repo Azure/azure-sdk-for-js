@@ -75,7 +75,7 @@ export function buildReconnectingSseTests(
         acceptedOptions({ lastEventId: "initial" }),
       );
 
-      await readOne(stream);
+      assert.equal((await readOne(stream)).id, "initial");
     });
 
     it("passes an id-only update when reconnecting", async () => {
@@ -88,8 +88,71 @@ export function buildReconnectingSseTests(
       });
       const stream = await createReconnectingSseStream(connect, acceptedOptions());
 
-      assert.equal((await readOne(stream)).data, "reconnected");
+      const event = await readOne(stream);
+      assert.equal(event.data, "reconnected");
+      assert.equal(event.id, "42");
       assert.equal(attempts[1].lastEventId, "42");
+    });
+
+    it("retains event ids across reconnections until explicitly changed or cleared", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const bodies = [
+        "id: A\ndata: first\n\n",
+        "data: second\n\n",
+        "id: B\ndata: third\n\n",
+        "data: fourth\n\n",
+        "id:\ndata: reset\n\n",
+        "data: after reset\n\n",
+      ];
+      const stream = await createReconnectingSseStream(
+        async (options) => {
+          const body = bodies[attempts.length];
+          attempts.push(options);
+          return body === undefined
+            ? response(undefined, 204)
+            : response(createBody({ chunks: [body] }));
+        },
+        acceptedOptions({ maxRetries: bodies.length }),
+      );
+      const events: EventMessage[] = [];
+      for await (const event of stream) {
+        events.push(event);
+      }
+
+      assert.deepEqual(
+        events.map(({ id, data }) => ({ id, data })),
+        [
+          { id: "A", data: "first" },
+          { id: "A", data: "second" },
+          { id: "B", data: "third" },
+          { id: "B", data: "fourth" },
+          { id: "", data: "reset" },
+          { id: "", data: "after reset" },
+        ],
+      );
+      assert.deepEqual(
+        attempts.map(({ lastEventId }) => lastEventId),
+        [undefined, "A", "A", "B", "B", undefined, undefined],
+      );
+      assert.notProperty(attempts[5], "lastEventId");
+      assert.notProperty(attempts[6], "lastEventId");
+    });
+
+    it("retains the event id when a reconnect request must be retried", async () => {
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({ chunks: ["id: retained\n\n"] })))
+        .mockRejectedValueOnce(new Error("connect failed"))
+        .mockResolvedValueOnce(
+          response(createBody({ chunks: ["data: recovered\n\n"], hang: true })),
+        );
+      const stream = await createReconnectingSseStream(connect, acceptedOptions({ maxRetries: 2 }));
+
+      const event = await readOne(stream);
+      assert.equal(event.data, "recovered");
+      assert.equal(event.id, "retained");
+      assert.equal(connect.mock.calls[1][0].lastEventId, "retained");
+      assert.equal(connect.mock.calls[2][0].lastEventId, "retained");
     });
 
     it("does not retain an id from an incomplete event", async () => {
