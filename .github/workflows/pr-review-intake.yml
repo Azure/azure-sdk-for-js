@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-slim
     timeout-minutes: 5
     steps:
-      # The trusted router uses GitHub's run metadata, not artifacts or PR code.
+      # This is only a wake-up signal. The router authorizes GitHub label events.
       - name: Signal a review request
         run: echo "PR review requested."

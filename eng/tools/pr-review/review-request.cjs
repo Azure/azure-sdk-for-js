@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const intakeWorkflow = "pr-review-intake.yml";
+const labelRequestWindowMs = 5 * 60 * 1000;
 const reviewers = {
   archie: {
     workflow: "archie.lock.yml",
@@ -140,6 +141,14 @@ async function getIntakeRun({ github, context, core }, runId) {
   return run;
 }
 
+function timestamp(value, name) {
+  const time = typeof value === "string" ? Date.parse(value) : NaN;
+  if (!Number.isFinite(time)) {
+    throw new Error(`${name} must be a valid timestamp.`);
+  }
+  return time;
+}
+
 function hasLabel(pr, name) {
   return pr.labels.some((label) => (typeof label === "string" ? label : label.name) === name);
 }
@@ -176,6 +185,56 @@ async function getReviewTarget(github, context, run) {
   return candidates[0];
 }
 
+async function getLabelRequests({ github, context, core }, run, pr) {
+  const createdAt = timestamp(run.created_at, "intake creation time");
+  const actorId = positiveInteger(run.actor?.id, "intake actor ID");
+  const events = await github.paginate(github.rest.issues.listEvents, {
+    ...context.repo,
+    issue_number: pr.number,
+    per_page: 100,
+  });
+  const latest = new Map();
+  for (const event of events) {
+    if (
+      !["labeled", "unlabeled"].includes(event.event) ||
+      !Object.values(reviewers).some((reviewer) => reviewer.label === event.label?.name)
+    ) {
+      continue;
+    }
+    const id = positiveInteger(event.id, "label event ID");
+    const time = timestamp(event.created_at, "label event creation time");
+    const previous = latest.get(event.label.name);
+    if (!previous || time > previous.time || (time === previous.time && id > previous.event.id)) {
+      latest.set(event.label.name, { event, time });
+    }
+  }
+
+  const requests = new Map();
+  for (const [reviewerId, reviewer] of Object.entries(reviewers)) {
+    if (!hasLabel(pr, reviewer.label)) continue;
+    const record = latest.get(reviewer.label);
+    // The PR controls the intake YAML and its job results, not the issue-events API.
+    if (!record || record.event.event !== "labeled") {
+      core.info(`Skipping ${reviewerId}: no active GitHub label event authorizes this request.`);
+      continue;
+    }
+    if (record.event.actor?.id !== actorId) {
+      core.info(`Skipping ${reviewerId}: its label was added by a different requester.`);
+      continue;
+    }
+    // Use original run creation, not a rerun or runner start time, to prevent replay.
+    const age = createdAt - record.time;
+    if (age < 0 || age > labelRequestWindowMs) {
+      core.info(
+        `Skipping ${reviewerId}: its label event is outside the intake's five-minute window.`,
+      );
+      continue;
+    }
+    requests.set(reviewerId, record.event);
+  }
+  return requests;
+}
+
 async function getCurrentPullRequest({ github, context, core }, number, headSha, headRepositoryId) {
   const { data: pr } = await github.rest.pulls.get({
     ...context.repo,
@@ -206,23 +265,30 @@ async function routeReviewRequest({ github, context, core }) {
   }
   const run = await getIntakeRun({ github, context, core }, context.payload.workflow_run.id);
   if (!run) return;
-  // A rerun must not promote an unauthorized original actor's request.
-  const allowed = await getAuthorizedReviewers(github, context, run.actor);
   const target = await getReviewTarget(github, context, run);
   if (!target) {
     core.info("No current PR carries a review request for this commit; nothing to dispatch.");
     return;
   }
+  const requests = await getLabelRequests({ github, context, core }, run, target);
+  if (requests.size === 0) {
+    core.info("No attributable label events authorize this intake; nothing to dispatch.");
+    return;
+  }
+  // Every selected event has the same immutable actor ID; authorize that recorded actor.
+  const allowed = await getAuthorizedReviewers(
+    github,
+    context,
+    requests.values().next().value.actor,
+  );
 
   const results = await Promise.allSettled(
     Object.entries(reviewers).map(async ([reviewerId, reviewer]) => {
-      if (!hasLabel(target, reviewer.label)) {
-        core.info(`No current PR requests ${reviewer.label}; nothing to dispatch.`);
-        return;
-      }
+      const event = requests.get(reviewerId);
+      if (!event) return;
       if (!allowed.has(reviewerId)) {
         core.info(
-          `Skipping ${reviewerId}: ${run.actor.login} is not authorized for this reviewer.`,
+          `Skipping ${reviewerId}: ${event.actor.login} is not authorized for this reviewer.`,
         );
         return;
       }
@@ -244,6 +310,7 @@ async function routeReviewRequest({ github, context, core }) {
           item_number: String(pr.number),
           head_sha: run.head_sha,
           request_run_id: String(run.id),
+          request_event_id: String(event.id),
         },
       });
       core.info(`Dispatched ${reviewer.workflow} for PR #${pr.number} at ${run.head_sha}.`);
@@ -267,6 +334,7 @@ async function prepareReview({ github, context, core }, reviewerId) {
   const number = positiveInteger(inputs.item_number, "item_number");
   let headSha = inputs.head_sha ? commitSha(inputs.head_sha) : undefined;
   let run;
+  let eventId;
   if (context.actor !== "github-actions[bot]") {
     await requireReviewerPermission(
       github,
@@ -276,14 +344,16 @@ async function prepareReview({ github, context, core }, reviewerId) {
     );
   }
   if (inputs.request_run_id) {
+    eventId = positiveInteger(inputs.request_event_id, "request_event_id");
     run = await getIntakeRun({ github, context, core }, inputs.request_run_id);
     if (!run) return undefined;
-    await requireReviewerPermission(github, context, run.actor, reviewerId);
     if (headSha !== run.head_sha) {
       throw new Error("The dispatched head SHA does not match the intake run.");
     }
   } else if (context.actor === "github-actions[bot]") {
     throw new Error("Automated reviewer dispatches must include an intake run.");
+  } else if (inputs.request_event_id) {
+    throw new Error("request_event_id requires request_run_id.");
   }
   const pr = await getCurrentPullRequest(
     { github, context, core },
@@ -302,6 +372,15 @@ async function prepareReview({ github, context, core }, reviewerId) {
     if (!target || target.number !== number) {
       throw new Error("The dispatched PR does not match the intake's uniquely resolved target.");
     }
+    const requests = await getLabelRequests({ github, context, core }, run, pr);
+    const event = requests.get(reviewerId);
+    if (!event || event.id !== eventId) {
+      core.info(
+        `Skipping ${reviewerId}: the recorded label request is stale, replaced, or mismatched.`,
+      );
+      return undefined;
+    }
+    await requireReviewerPermission(github, context, event.actor, reviewerId);
   }
   headSha = pr.head.sha;
   // Preserve the request if adding the in-progress label fails.

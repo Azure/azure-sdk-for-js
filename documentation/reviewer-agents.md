@@ -73,7 +73,20 @@ mapped to fixed workflow names in `eng/tools/pr-review/review-request.cjs`, not
 to workflow names supplied by the PR. A failed dispatch is reported without
 preventing dispatch of the other requested reviewers.
 
-Each reviewer revalidates automatic requests against the same unique PR target.
+The intake definition and its job results are not authorization: a PR can change
+its workflow YAML. For each pending review label, the router reads GitHub's issue
+event history and requires its latest label-change event to be a label addition
+by the original run actor's immutable account ID. That event must be at most five
+minutes before the run's original creation time, not its runner start or rerun
+time. The recorded actor must have the required repository role or reviewer-specific
+bot allowance. Stale labels and labels added by other requesters cannot piggyback
+on the run. Each matching event ID is passed to its reviewer.
+
+Each reviewer revalidates automatic requests against the same unique PR target
+and the same current label-event ID before claiming the request. Removing or
+reapplying a label invalidates an already dispatched request; a new label event
+requires its own validation. If the intake was delayed beyond the five-minute
+event window, reapply the label or use manual dispatch.
 When starting, it consumes its request label and replaces it with its in-progress
 label. For example, Archie replaces
 `architecture-review-needed` with `architecture-review-in-progress`. Runs for the
@@ -86,7 +99,7 @@ review.
 For a manual retry, run the desired reviewer (for example, **Architecture Review**)
 from the Actions UI on the default branch, supplying `item_number`. `head_sha` is
 optional for manual reviews; when supplied, it must still be the current PR head. Leave
-`request_run_id` empty: the router supplies this provenance input for automatic
+`request_run_id` and `request_event_id` empty: the router supplies these inputs for automatic
 requests. Manual reviews do not require the request label.
 
 The intake, router, validation helper, and reviewer workflows must be on the

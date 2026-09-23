@@ -14,6 +14,10 @@ on:
         description: PR Review Intake run ID (set by the trusted router)
         required: false
         type: string
+      request_event_id:
+        description: GitHub label-event ID (set by the trusted router)
+        required: false
+        type: string
   bots: [github-actions, azure-sdk-automation]
 jobs:
   validate_request:
