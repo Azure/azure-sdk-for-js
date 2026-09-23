@@ -349,11 +349,18 @@ function reportTestResult(
     packageDetails[testKind] = { status: "UNKNOWN" };
     return;
   }
-  const testStatus =
-    testKind === "ci" &&
-    (pipelineResult.result === "failed" || pipelineResult.build?.status === "failed")
-      ? "failed"
-      : pipelineResult[testKind]?.status;
+  let testStatus = pipelineResult[testKind]?.status;
+  if (testKind === "ci") {
+    if (
+      pipelineResult.result === "failed" ||
+      pipelineResult.result === "partiallySucceeded" ||
+      pipelineResult.build?.status === "failed"
+    ) {
+      testStatus = "failed";
+    } else if (pipelineResult.result && pipelineResult.result !== "succeeded") {
+      testStatus = "UNKNOWN";
+    }
+  }
   const old = packageDetails[testKind];
   if (testStatus === "succeeded") {
     packageDetails[testKind] = { ...old, status: "PASS", link: pipelineResult.link };

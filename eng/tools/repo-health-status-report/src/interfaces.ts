@@ -87,10 +87,10 @@ export interface IssueDetails {
 }
 
 export interface SlaStatus {
-  question: IssueDetails;
   // `open > 30 days`
-  bug: IssueDetails;
+  question: IssueDetails;
   // `open > 90 days`
+  bug: IssueDetails;
 }
 
 export interface PackageInfo {
