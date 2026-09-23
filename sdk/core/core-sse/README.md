@@ -28,13 +28,16 @@ A `EventMessage` represents a [message](https://developer.mozilla.org/docs/Web/A
 `createSseStream` parses one response body. Use `createReconnectingSseStream` when the
 library that issues the HTTP request also needs EventSource-style reconnection:
 
-```ts
+```ts snippet:ReadmeSampleReconnectingSseStream
+import { getClient } from "@azure-rest/core-client";
 import { createReconnectingSseStream } from "@azure/core-sse";
 
+const client = getClient("https://example.com");
+const abortSignal = new AbortController().signal;
 const events = await createReconnectingSseStream(
   async ({ abortSignal, lastEventId }) => {
     return client
-      .path("/events")
+      .pathUnchecked("/events")
       .get({
         accept: "text/event-stream",
         abortSignal,
@@ -63,7 +66,6 @@ const events = await createReconnectingSseStream(
     maxRetries: 5,
   },
 );
-
 for await (const event of events) {
   if (event.data === "[DONE]") {
     // Returning or breaking cancels the active response and prevents reconnecting.
