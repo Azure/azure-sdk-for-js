@@ -1078,7 +1078,7 @@ The code below shows some Dataset operations. Full samples can be found under th
 folder in the [package samples][samples].
 
 Local filesystem uploads (`project.datasets.uploadFile`, `project.datasets.uploadFolder`, and
-`project.beta.models.create`) are only supported in Node.js. Browser and React Native applications
+`project.beta.models.create`) are only supported in Node.js. Browser applications
 can import `AIProjectClient` and `VoiceAgentRealtimeClient` from `@azure/ai-projects` and use the
 dataset and model REST operations without Node.js filesystem polyfills.
 

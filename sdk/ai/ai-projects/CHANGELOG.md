@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fix browser bundling of `VoiceAgentRealtimeClient` and `AIProjectClient` by isolating Node.js-only dataset and model file uploads from the browser and React Native entry points.
+- Fix browser bundling of `VoiceAgentRealtimeClient` and `AIProjectClient` by isolating Node.js-only dataset and model file uploads from the browser entry point. [#40054](https://github.com/Azure/azure-sdk-for-js/pull/40054)
 
 ## 2.7.0 (2026-09-18)
 
