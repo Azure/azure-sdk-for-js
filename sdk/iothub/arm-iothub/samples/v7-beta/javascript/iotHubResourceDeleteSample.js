@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an IoT hub.
  *
  * @summary delete an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_delete.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_delete.json
  */
 async function iotHubResourceDelete() {
   const credential = new DefaultAzureCredential();

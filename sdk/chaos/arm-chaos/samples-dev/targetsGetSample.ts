@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Target resource that extends a tracked regional resource.
  *
  * @summary get a Target resource that extends a tracked regional resource.
- * x-ms-original-file: 2026-05-01-preview/Targets_Get.json
+ * x-ms-original-file: 2026-08-01-preview/Targets_Get.json
  */
 async function getATargetThatExtendsAVirtualMachineResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

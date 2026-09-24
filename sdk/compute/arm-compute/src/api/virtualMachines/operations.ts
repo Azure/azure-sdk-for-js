@@ -88,7 +88,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +126,7 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -142,7 +142,7 @@ export function _migrateToVMScaleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +184,7 @@ export function migrateToVMScaleSet(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _migrateToVMScaleSetSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -201,7 +201,7 @@ export function _runCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,7 +244,7 @@ export function runCommand(
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -260,7 +260,7 @@ export function _listAvailableSizesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +299,7 @@ export function listAvailableSizes(
     () => _listAvailableSizesSend(context, resourceGroupName, vmName, options),
     _listAvailableSizesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -315,7 +315,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +349,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -365,7 +365,7 @@ export function _simulateEvictionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -410,7 +410,7 @@ export function _retrieveBootDiagnosticsDataSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       sasUriExpirationTimeInMinutes: options?.sasUriExpirationTimeInMinutes,
     },
     {
@@ -466,7 +466,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -500,7 +500,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -516,7 +516,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -556,7 +556,7 @@ export function reimage(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -572,7 +572,7 @@ export function _redeploySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -606,7 +606,7 @@ export function redeploy(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _redeploySend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -622,7 +622,7 @@ export function _reapplySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -656,7 +656,7 @@ export function reapply(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reapplySend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -672,7 +672,7 @@ export function _powerOffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -707,7 +707,7 @@ export function powerOff(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _powerOffSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -723,7 +723,7 @@ export function _performMaintenanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -757,7 +757,7 @@ export function performMaintenance(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _performMaintenanceSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -773,7 +773,7 @@ export function _instanceViewSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -824,7 +824,7 @@ export function _installPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -870,7 +870,7 @@ export function installPatches(
     getInitialResponse: () =>
       _installPatchesSend(context, resourceGroupName, vmName, installPatchesInput, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineInstallPatchesResult>,
     VirtualMachineInstallPatchesResult
@@ -889,7 +889,7 @@ export function _generalizeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -934,7 +934,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       hibernate: options?.hibernate,
       forceDeallocate: options?.forceDeallocate,
     },
@@ -970,7 +970,7 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -986,7 +986,7 @@ export function _convertToManagedDisksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1023,7 +1023,7 @@ export function convertToManagedDisks(
     getInitialResponse: () =>
       _convertToManagedDisksSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1040,7 +1040,7 @@ export function _captureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1082,7 +1082,7 @@ export function capture(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _captureSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>;
 }
 
@@ -1099,7 +1099,7 @@ export function _attachDetachDataDisksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1142,7 +1142,7 @@ export function attachDetachDataDisks(
     getInitialResponse: () =>
       _attachDetachDataDisksSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<StorageProfile>, StorageProfile>;
 }
 
@@ -1158,7 +1158,7 @@ export function _assessPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1200,7 +1200,7 @@ export function assessPatches(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _assessPatchesSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineAssessPatchesResult>,
     VirtualMachineAssessPatchesResult
@@ -1215,7 +1215,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines{?api%2Dversion,statusOnly,%24filter,%24expand}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       statusOnly: options?.statusOnly,
       "%24filter": options?.filter,
       "%24expand": options?.expand,
@@ -1255,7 +1255,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1269,7 +1269,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -1309,7 +1309,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1325,7 +1325,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1360,7 +1360,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1377,7 +1377,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1422,7 +1422,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
@@ -1439,7 +1439,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1487,7 +1487,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
@@ -1503,7 +1503,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

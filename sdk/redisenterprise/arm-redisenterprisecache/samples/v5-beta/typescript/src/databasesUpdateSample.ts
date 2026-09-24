@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a database
  *
  * @summary updates a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesNoClusterCacheUpdateClustering.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesNoClusterCacheUpdateClustering.json
  */
 async function redisEnterpriseDatabasesUpdateClusteringOnNoClusterCache(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function redisEnterpriseDatabasesUpdateClusteringOnNoClusterCache(): Promi
  * This sample demonstrates how to updates a database
  *
  * @summary updates a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesUpdate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesUpdate.json
  */
 async function redisEnterpriseDatabasesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

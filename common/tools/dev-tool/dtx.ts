@@ -7,8 +7,11 @@
  * This command is an alias for `dev-tool run vendored`
  */
 
-import { spawn } from "node:child_process";
 import { resolve } from "node:path";
+import { ensureCoreProcessBuilt } from "./src/bootstrapCoreProcess.ts";
+
+await ensureCoreProcessBuilt();
+const { spawn } = await import("@azure/core-process");
 
 const engine = process.argv0;
 

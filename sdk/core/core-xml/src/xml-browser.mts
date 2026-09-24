@@ -44,8 +44,9 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
     cdataPropName: opts.cdataPropName ?? "__cdata",
     stopNodes: opts.stopNodes ?? [],
   };
+  const xml = str.replace(/^\uFEFF/, "");
   const dom = parser.parseFromString(
-    (ttPolicy?.createHTML(str) ?? str) as string,
+    (ttPolicy?.createHTML(xml) ?? xml) as string,
     "application/xml",
   );
   throwIfError(dom);

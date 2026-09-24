@@ -20,15 +20,41 @@ export function analyze(context: ContentUnderstandingContext, analyzerId: string
 export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, input: Uint8Array, contentType: string, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalysisResult>, AnalysisResult>;
 
 // @public
-export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+export function analyzeBinaryInline(context: ContentUnderstandingContext, analyzerId: string, input: Uint8Array, contentType: string, options?: AnalyzeBinaryInlineOptionalParams): Promise<ContentAnalyzerInlineResponse>;
+
+// @public
+export interface AnalyzeBinaryInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     contentRange?: string;
+    contentType?: string;
+    processingLocation?: ProcessingLocation;
+    stringEncoding?: string;
+}
+
+// @public
+export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    contentRange?: string;
+    contentType?: string;
     processingLocation?: ProcessingLocation;
     stringEncoding?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export function analyzeInline(context: ContentUnderstandingContext, analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeInlineOptionalParams): Promise<ContentAnalyzerInlineResponse>;
+
+// @public
+export interface AnalyzeInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    modelDeployments?: Record<string, string>;
+    processingLocation?: ProcessingLocation;
+    stringEncoding?: string;
+}
+
+// @public
 export interface AnalyzeOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     modelDeployments?: Record<string, string>;
     processingLocation?: ProcessingLocation;
     stringEncoding?: string;

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-network",
-  "version": "37.0.0",
+  "version": "39.0.0",
   "description": "A generated SDK for NetworkManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -76,18 +76,32 @@
         "default": "./dist/commonjs/models/common/index.js"
       }
     },
-    "./models/microsoft/network": {
+    "./models/network": {
       "browser": {
-        "types": "./dist/browser/models/microsoft/network/index.d.ts",
-        "default": "./dist/browser/models/microsoft/network/index.js"
+        "types": "./dist/browser/models/network/index.d.ts",
+        "default": "./dist/browser/models/network/index.js"
       },
       "import": {
-        "types": "./dist/esm/models/microsoft/network/index.d.ts",
-        "default": "./dist/esm/models/microsoft/network/index.js"
+        "types": "./dist/esm/models/network/index.d.ts",
+        "default": "./dist/esm/models/network/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/models/microsoft/network/index.d.ts",
-        "default": "./dist/commonjs/models/microsoft/network/index.js"
+        "types": "./dist/commonjs/models/network/index.d.ts",
+        "default": "./dist/commonjs/models/network/index.js"
+      }
+    },
+    "./models/network/connectionAnalyzerEndpointTypes": {
+      "browser": {
+        "types": "./dist/browser/models/network/connectionAnalyzerEndpointTypes/index.d.ts",
+        "default": "./dist/browser/models/network/connectionAnalyzerEndpointTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/network/connectionAnalyzerEndpointTypes/index.d.ts",
+        "default": "./dist/esm/models/network/connectionAnalyzerEndpointTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/network/connectionAnalyzerEndpointTypes/index.d.ts",
+        "default": "./dist/commonjs/models/network/connectionAnalyzerEndpointTypes/index.js"
       }
     }
   },
@@ -128,11 +142,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -170,7 +184,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-network",

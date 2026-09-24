@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get an Action Version resource for a given location and action.
  *
  * @summary get an Action Version resource for a given location and action.
- * x-ms-original-file: 2026-05-01-preview/ActionVersions_Get.json
+ * x-ms-original-file: 2026-08-01-preview/ActionVersions_Get.json
  */
 async function getAnActionVersionForWestus2Location(): Promise<void> {
   const credential = new DefaultAzureCredential();

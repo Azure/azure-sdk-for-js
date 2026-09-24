@@ -327,7 +327,7 @@ export enum KnownUsageType {
 
 // @public
 export enum KnownVersions {
-    V20250501Preview = "2025-05-01-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -590,7 +590,7 @@ export interface MonitorsOperations {
     listMonitoredResources: (resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams) => PagedAsyncIterableIterator<MonitoredResource>;
     refreshIngestionKey: (resourceGroupName: string, monitorName: string, options?: MonitorsRefreshIngestionKeyOptionalParams) => Promise<void>;
     resubscribe: (resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
-    switchBilling: (resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams) => Promise<NewRelicMonitorResource | undefined>;
+    switchBilling: (resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams) => Promise<NewRelicMonitorResource | void>;
     update: (resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
     vmHostPayload: (resourceGroupName: string, monitorName: string, options?: MonitorsVmHostPayloadOptionalParams) => Promise<VMExtensionPayload>;
 }

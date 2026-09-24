@@ -110,11 +110,13 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     if (!CustomerSDKStatsMetrics._instance) {
       // Use dynamic import to break circular dependency
       const { AzureMonitorStatsbeatExporter } = await import("./statsbeatExporter.js");
-      const customerStatsExporterConfig = {
-        connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
-      };
-      const exporter = new AzureMonitorStatsbeatExporter(customerStatsExporterConfig);
-      CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options, exporter);
+      if (!CustomerSDKStatsMetrics._instance) {
+        const customerStatsExporterConfig = {
+          connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
+        };
+        const exporter = new AzureMonitorStatsbeatExporter(customerStatsExporterConfig);
+        CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options, exporter);
+      }
     }
     return CustomerSDKStatsMetrics._instance;
   }
@@ -124,20 +126,18 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Used for cleanup and complete shutdown
    */
   public static shutdown(): Promise<void> | undefined {
-    if (CustomerSDKStatsMetrics._instance) {
-      const shutdownPromise = CustomerSDKStatsMetrics._instance.shutdown();
-      CustomerSDKStatsMetrics._instance = undefined;
-      return shutdownPromise;
-    }
-    return undefined;
+    return CustomerSDKStatsMetrics._instance?.shutdown();
   }
 
   /**
    * Shuts down the customer SDK Stats metrics provider
    * @returns Promise<void>
    */
-  public shutdown(): Promise<void> {
-    return this.customerSDKStatsMeterProvider.shutdown();
+  public async shutdown(): Promise<void> {
+    await this.customerSDKStatsMeterProvider.shutdown();
+    if (CustomerSDKStatsMetrics._instance === this) {
+      CustomerSDKStatsMetrics._instance = undefined;
+    }
   }
 
   /**

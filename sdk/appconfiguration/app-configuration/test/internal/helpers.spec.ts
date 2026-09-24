@@ -371,28 +371,84 @@ describe("helper methods", () => {
         expected: `${KnownAppConfigAudience.AzureChina}/.default`,
       },
       {
-        name: "detects US Government cloud",
+        name: "uses a custom provided audience",
+        endpoint: "https://example.appconfig.azure.us",
+        audience: "https://custom.audience",
+        expected: "https://custom.audience/.default",
+      },
+      {
+        name: "derives the public cloud appconfig audience",
+        endpoint: "https://example.appconfig.azure.com",
+        expected: `${KnownAppConfigAudience.AzurePublicCloud}/.default`,
+      },
+      {
+        name: "derives the public cloud azconfig audience",
+        endpoint: "https://example.azconfig.io",
+        expected: "https://azconfig.io/.default",
+      },
+      {
+        name: "derives the US Government appconfig audience",
         endpoint: "https://example.appconfig.azure.us",
         expected: `${KnownAppConfigAudience.AzureGovernment}/.default`,
       },
       {
-        name: "detects US Government cloud for azconfig",
+        name: "derives the US Government azconfig audience",
         endpoint: "https://example.azconfig.azure.us",
-        expected: `${KnownAppConfigAudience.AzureGovernment}/.default`,
+        expected: "https://azconfig.azure.us/.default",
       },
       {
-        name: "detects China cloud for azconfig",
-        endpoint: "https://example.azconfig.azure.cn",
-        expected: `${KnownAppConfigAudience.AzureChina}/.default`,
-      },
-      {
-        name: "detects China cloud",
+        name: "derives the China appconfig audience",
         endpoint: "https://example.appconfig.azure.cn",
         expected: `${KnownAppConfigAudience.AzureChina}/.default`,
       },
       {
-        name: "defaults to Public cloud",
-        endpoint: "https://example.azconfig.azure.com",
+        name: "derives the China azconfig audience",
+        endpoint: "https://example.azconfig.azure.cn",
+        expected: "https://azconfig.azure.cn/.default",
+      },
+      {
+        name: "recognizes the staging domain",
+        endpoint: "https://example.appconfig-staging.azure.com",
+        expected: "https://appconfig-staging.azure.com/.default",
+      },
+      {
+        name: "derives an audience for a sovereign cloud",
+        endpoint: "https://example.appconfig.sovereign.cloud",
+        expected: "https://appconfig.sovereign.cloud/.default",
+      },
+      {
+        name: "ignores store and region labels",
+        endpoint: "https://example.eastus.appconfig.sovereign.cloud",
+        expected: "https://appconfig.sovereign.cloud/.default",
+      },
+      {
+        name: "uses the rightmost App Configuration service label",
+        endpoint: "https://appconfig-store.azconfig.example.appconfig.sovereign.cloud",
+        expected: "https://appconfig.sovereign.cloud/.default",
+      },
+      {
+        name: "matches service labels case-insensitively",
+        endpoint: "https://example.AZconfig.io/",
+        expected: "https://azconfig.io/.default",
+      },
+      {
+        name: "does not match a hyphenated service label",
+        endpoint: "https://example.appconfig-test.azure.com",
+        expected: `${KnownAppConfigAudience.AzurePublicCloud}/.default`,
+      },
+      {
+        name: "does not match a service label embedded in another label",
+        endpoint: "https://example.fooappconfig.azure.us",
+        expected: `${KnownAppConfigAudience.AzurePublicCloud}/.default`,
+      },
+      {
+        name: "does not match a look-alike host suffix",
+        endpoint: "https://myazconfig.io",
+        expected: `${KnownAppConfigAudience.AzurePublicCloud}/.default`,
+      },
+      {
+        name: "defaults an unrecognized host to the public cloud audience",
+        endpoint: "https://other.custom.audience",
         expected: `${KnownAppConfigAudience.AzurePublicCloud}/.default`,
       },
     ];

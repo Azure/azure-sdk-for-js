@@ -3,11 +3,11 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/microsoft/network/models.js";
+import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/network/models.js";
 import {
   firewallPolicyRuleCollectionGroupDraftSerializer,
   firewallPolicyRuleCollectionGroupDraftDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams,
@@ -31,7 +31,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -45,7 +45,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       poolName: poolName,
       replicaName: replicaName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -66,12 +68,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Deletes a HorizonDb replica. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
+/** Deletes a HorizonDB replica. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -86,7 +83,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, poolName, replicaName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -107,7 +104,7 @@ export function _updateSend(
       clusterName: clusterName,
       poolName: poolName,
       replicaName: replicaName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +122,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -133,7 +132,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return horizonDbReplicaDeserializer(result.body);
 }
 
-/** Updates an existing HorizonDb replica (e.g., role). */
+/** Updates an existing HorizonDB replica (e.g., role). */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -157,7 +156,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>;
 }
 
@@ -178,7 +177,7 @@ export function _createOrUpdateSend(
       clusterName: clusterName,
       poolName: poolName,
       replicaName: replicaName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +197,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -206,7 +207,7 @@ export async function _createOrUpdateDeserialize(
   return horizonDbReplicaDeserializer(result.body);
 }
 
-/** Creates a new HorizonDb replica or updates an existing replica. */
+/** Creates a new HorizonDB replica or updates an existing replica. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -230,7 +231,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>;
 }
 
@@ -248,7 +249,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,7 +267,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -274,7 +277,7 @@ export async function _listDeserialize(
   return _horizonDbReplicaListResultDeserializer(result.body);
 }
 
-/** Lists all HorizonDb replicas in a pool. */
+/** Lists all HorizonDB replicas in a pool. */
 export function list(
   context: Client,
   resourceGroupName: string,
@@ -290,7 +293,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-20-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -311,7 +314,7 @@ export function _getSend(
       clusterName: clusterName,
       poolName: poolName,
       replicaName: replicaName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -327,7 +330,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ho
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -335,7 +340,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ho
   return horizonDbReplicaDeserializer(result.body);
 }
 
-/** Gets information about a HorizonDb replica. */
+/** Gets information about a HorizonDB replica. */
 export async function get(
   context: Client,
   resourceGroupName: string,

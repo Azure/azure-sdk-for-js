@@ -16,7 +16,6 @@ export interface ConnectedPartnerResourcesOperations {
     options?: ConnectedPartnerResourcesListOptionalParams,
   ) => PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
 }
-
 function _getConnectedPartnerResources(context: NewRelicObservabilityContext) {
   return {
     list: (
@@ -26,7 +25,6 @@ function _getConnectedPartnerResources(context: NewRelicObservabilityContext) {
     ) => list(context, resourceGroupName, monitorName, options),
   };
 }
-
 export function _getConnectedPartnerResourcesOperations(
   context: NewRelicObservabilityContext,
 ): ConnectedPartnerResourcesOperations {

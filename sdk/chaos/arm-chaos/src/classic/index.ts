@@ -5,6 +5,7 @@ export type { ActionsOperations } from "./actions/index.js";
 export type { ActionVersionsOperations } from "./actionVersions/index.js";
 export type { CapabilitiesOperations } from "./capabilities/index.js";
 export type { CapabilityTypesOperations } from "./capabilityTypes/index.js";
+export type { ConnectionsOperations } from "./connections/index.js";
 export type { DiscoveredResourcesOperations } from "./discoveredResources/index.js";
 export type { ExperimentsOperations } from "./experiments/index.js";
 export type { OperationsOperations } from "./operations/index.js";

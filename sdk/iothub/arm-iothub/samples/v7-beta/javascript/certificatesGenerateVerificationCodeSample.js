@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
  *
  * @summary generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
- * x-ms-original-file: 2026-03-01-preview/iothub_generateverificationcode.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_generateverificationcode.json
  */
 async function certificatesGenerateVerificationCode() {
   const credential = new DefaultAzureCredential();

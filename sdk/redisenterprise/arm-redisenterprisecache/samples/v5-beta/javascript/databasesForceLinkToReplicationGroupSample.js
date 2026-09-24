@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
  *
  * @summary forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesForceLink.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesForceLink.json
  */
 async function howToRelinkADatabaseAfterARegionalOutage() {
   const credential = new DefaultAzureCredential();

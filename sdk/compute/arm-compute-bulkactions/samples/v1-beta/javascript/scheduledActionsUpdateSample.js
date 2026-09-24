@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to update a ScheduledAction
+ * This sample demonstrates how to updates the specified scheduled action.
  *
- * @summary update a ScheduledAction
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Update_MaximumSet_Gen.json
+ * @summary updates the specified scheduled action.
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Update_MaximumSet_Gen.json
  */
-async function scheduledActionsUpdateMaximumSet() {
+async function updateAScheduledAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -26,11 +26,8 @@ async function scheduledActionsUpdateMaximumSet() {
         requestedWeekDays: ["Monday"],
         requestedMonths: ["January"],
         requestedDaysOfTheMonth: [15],
-        executionParameters: {
-          optimizationPreference: "Cost",
-          retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
-        },
-        deadlineType: "Unknown",
+        executionParameters: { retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 } },
+        deadlineType: "InitiateAt",
       },
       notificationSettings: [
         { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
@@ -42,7 +39,7 @@ async function scheduledActionsUpdateMaximumSet() {
 }
 
 async function main() {
-  await scheduledActionsUpdateMaximumSet();
+  await updateAScheduledAction();
 }
 
 main().catch(console.error);

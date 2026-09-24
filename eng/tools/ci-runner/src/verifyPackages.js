@@ -8,6 +8,7 @@ import path from "node:path";
 
 import { spawnGitWithOutput, spawnPnpmWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
+import { reportFailure } from "./reporting.js";
 
 /**
  * Checks if a specific version of a package is published on the npm registry.
@@ -50,12 +51,22 @@ const REMOTE_URL = "https://github.com/Azure/azure-sdk-for-js.git";
  * This is needed in CI where remote tags are not fetched locally.
  *
  * @param {string} tag - the git tag to resolve
+ * @param {{ repositoryDir?: string, repositoryUrl?: string }} [options] - repository overrides
  * @returns {string} the commit hash for the tag
  * @throws {Error} if the tag is not found on the remote or git ls-remote fails
  */
-export function resolveTagToCommit(tag) {
-  const baseDir = getBaseDir();
-  const result = spawnGitWithOutput(baseDir, "ls-remote", REMOTE_URL, "--tags", tag);
+export function resolveTagToCommit(tag, options = {}) {
+  const repositoryDir = options.repositoryDir ?? getBaseDir();
+  const repositoryUrl = options.repositoryUrl ?? REMOTE_URL;
+  const tagRef = `refs/tags/${tag}`;
+  const peeledTagRef = `${tagRef}^{}`;
+  const result = spawnGitWithOutput(
+    repositoryDir,
+    "ls-remote",
+    repositoryUrl,
+    "--tags",
+    `${tagRef}*`,
+  );
 
   if (result.status !== 0) {
     throw new Error(
@@ -68,28 +79,69 @@ export function resolveTagToCommit(tag) {
     throw new Error(`Tag "${tag}" not found on remote`);
   }
 
-  // git ls-remote output format: "<commit>\trefs/tags/<tagName>"
-  const commitHash = output.split("\t")[0];
-  return commitHash;
+  const refs = output.split(/\r?\n/);
+  const peeledTag = refs.find((line) => line.endsWith(`\t${peeledTagRef}`));
+  const tagObject = refs.find((line) => line.endsWith(`\t${tagRef}`));
+  const resolvedTag = peeledTag ?? tagObject;
+  if (!resolvedTag) {
+    throw new Error(`Tag "${tag}" not found on remote`);
+  }
+  return resolvedTag.split("\t")[0];
+}
+
+/**
+ * Ensures the release commit exists locally without introducing a shallow boundary.
+ *
+ * @param {string} tag - the git tag to fetch
+ * @param {string} commitHash - the resolved release commit
+ * @param {string} repositoryDir - local repository directory
+ * @param {string} repositoryUrl - remote repository URL
+ * @throws {Error} if git fetch fails
+ */
+function ensureCommitAvailable(tag, commitHash, repositoryDir, repositoryUrl) {
+  let result = spawnGitWithOutput(repositoryDir, "cat-file", "-e", commitHash);
+  if (result.status === 0) {
+    return;
+  }
+
+  result = spawnGitWithOutput(
+    repositoryDir,
+    "fetch",
+    "--no-tags",
+    repositoryUrl,
+    `refs/tags/${tag}`,
+  );
+
+  if (result.status !== 0) {
+    throw new Error(`git fetch failed with exit code ${result.status}: ${result.stderr.trim()}`);
+  }
+
+  result = spawnGitWithOutput(repositoryDir, "cat-file", "-e", commitHash);
+  if (result.status !== 0) {
+    throw new Error(`Fetched tag "${tag}" does not contain resolved commit ${commitHash}`);
+  }
 }
 
 /**
  * Returns a list of files modified since the given git tag within a package directory.
- * Resolves the tag to a commit hash via git ls-remote before diffing, since CI
- * environments may not have remote tags fetched locally.
+ * Resolves and fetches the tag before diffing, since CI environments may not
+ * have remote tags or their objects available locally.
  *
  * @param {string} tag - the git tag to diff against
  * @param {string} packageDir - absolute path to the package directory
+ * @param {{ repositoryDir?: string, repositoryUrl?: string }} [options] - repository overrides
  * @returns {string[]} list of modified file paths (relative to repo root)
- * @throws {Error} if the tag cannot be resolved or git diff fails
+ * @throws {Error} if the tag cannot be resolved or fetched, or git diff fails
  */
-export function getModifiedFilesSinceTag(tag, packageDir) {
-  const commitHash = resolveTagToCommit(tag);
+export function getModifiedFilesSinceTag(tag, packageDir, options = {}) {
+  const repositoryDir = options.repositoryDir ?? getBaseDir();
+  const repositoryUrl = options.repositoryUrl ?? REMOTE_URL;
+  const commitHash = resolveTagToCommit(tag, { repositoryDir, repositoryUrl });
+  ensureCommitAvailable(tag, commitHash, repositoryDir, repositoryUrl);
 
-  const baseDir = getBaseDir();
-  const relativePackageDir = path.relative(baseDir, packageDir).split(path.sep).join("/");
+  const relativePackageDir = path.relative(repositoryDir, packageDir).split(path.sep).join("/");
   const result = spawnGitWithOutput(
-    baseDir,
+    repositoryDir,
     "diff",
     "--name-only",
     commitHash,
@@ -147,7 +199,9 @@ export function verifyPackages(packageNames, packageDirs) {
 
     const packageJsonPath = path.join(packageDir, "package.json");
     if (!fs.existsSync(packageJsonPath)) {
-      console.error(`package.json not found at ${packageJsonPath}`);
+      reportFailure(
+        `Package version check failed for ${packageName}: package.json not found at ${packageJsonPath}.`,
+      );
       exitCode = 1;
       continue;
     }
@@ -170,8 +224,8 @@ export function verifyPackages(packageNames, packageDirs) {
     try {
       modifiedFiles = getModifiedFilesSinceTag(tag, packageDir);
     } catch (err) {
-      console.error(
-        `  ✗ Could not diff against tag "${tag}": ${err instanceof Error ? err.message : String(err)}`,
+      reportFailure(
+        `Package version check failed for ${packageName}@${version}: could not diff against tag "${tag}": ${err instanceof Error ? err.message : String(err)}`,
       );
       exitCode = 1;
       continue;
@@ -184,15 +238,12 @@ export function verifyPackages(packageNames, packageDirs) {
     if (relevantFiles.length === 0) {
       console.log(`  ✓ Version ${version} is published and no files modified since release — OK`);
     } else {
-      console.error(
-        `  ✗ Version ${version} is already published but files have been modified since tag "${tag}":`,
+      reportFailure(
+        `Package version check failed for ${packageName}@${version}: source files changed after published tag "${tag}". Run "npx dev-tool package increment-version" from ${relativePackageDir} and commit the resulting changes.`,
       );
       for (const file of relevantFiles) {
         console.error(`    - ${file}`);
       }
-      console.error(
-        `  Please bump the version in ${packageJsonPath}. You can do this using "dev-tool package increment-version" from the package folder.`,
-      );
       exitCode = 1;
     }
   }

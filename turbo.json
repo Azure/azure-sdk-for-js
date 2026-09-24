@@ -55,7 +55,12 @@
     },
     "test:browser": {
       "dependsOn": ["build"],
-      "passThroughEnv": ["PUBLISHCODECOVERAGE", "PublishCodeCoverage"]
+      "passThroughEnv": [
+        "PUBLISHCODECOVERAGE",
+        "PublishCodeCoverage",
+        "PLAYWRIGHT_BROWSERS_PATH",
+        "TMPDIR"
+      ]
     },
     "test:node": {
       "dependsOn": ["build"],

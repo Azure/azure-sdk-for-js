@@ -8,7 +8,7 @@ import type {
   AIModelsListOptionalParams,
   AIModelsGetOptionalParams,
 } from "../../api/aiModels/options.js";
-import type { AIModel, CalculateCostRequest, CalculateCostResponse } from "../../models/models.js";
+import type { AIModel, CalculateCostResponse } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AIModels operations. */
@@ -17,7 +17,6 @@ export interface AIModelsOperations {
   calculateCost: (
     location: string,
     aiModelName: string,
-    body: CalculateCostRequest,
     options?: AIModelsCalculateCostOptionalParams,
   ) => Promise<CalculateCostResponse>;
   /** List AIModel resources by SubscriptionLocationResource */
@@ -32,20 +31,21 @@ export interface AIModelsOperations {
     options?: AIModelsGetOptionalParams,
   ) => Promise<AIModel>;
 }
+
 function _getAIModels(context: ContainerServiceContext) {
   return {
     calculateCost: (
       location: string,
       aiModelName: string,
-      body: CalculateCostRequest,
       options?: AIModelsCalculateCostOptionalParams,
-    ) => calculateCost(context, location, aiModelName, body, options),
+    ) => calculateCost(context, location, aiModelName, options),
     list: (location: string, options?: AIModelsListOptionalParams) =>
       list(context, location, options),
     get: (location: string, aiModelName: string, options?: AIModelsGetOptionalParams) =>
       get(context, location, aiModelName, options),
   };
 }
+
 export function _getAIModelsOperations(context: ContainerServiceContext): AIModelsOperations {
   return {
     ..._getAIModels(context),

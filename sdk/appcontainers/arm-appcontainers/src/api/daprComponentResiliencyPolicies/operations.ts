@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type {
   DaprComponentResiliencyPolicy,
-  daprComponentResiliencyPolicySerializer,
-  daprComponentResiliencyPolicyDeserializer,
   _DaprComponentResiliencyPoliciesCollection,
-  _daprComponentResiliencyPoliciesCollectionDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  daprComponentResiliencyPolicySerializer,
+  daprComponentResiliencyPolicyDeserializer,
+  _daprComponentResiliencyPoliciesCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DaprComponentResiliencyPoliciesListOptionalParams,
   DaprComponentResiliencyPoliciesDeleteOptionalParams,
   DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams,
   DaprComponentResiliencyPoliciesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -42,7 +38,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       environmentName: environmentName,
       componentName: componentName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +56,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -68,7 +66,7 @@ export async function _listDeserialize(
   return _daprComponentResiliencyPoliciesCollectionDeserializer(result.body);
 }
 
-/** Get the resiliency policies for a Dapr component. */
+/** Lists the resiliency policies configured for a Dapr component. */
 export function list(
   context: Client,
   resourceGroupName: string,
@@ -81,11 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, environmentName, componentName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-10-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -105,7 +99,7 @@ export function _$deleteSend(
       environmentName: environmentName,
       componentName: componentName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +112,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -163,7 +159,7 @@ export function _createOrUpdateSend(
       environmentName: environmentName,
       componentName: componentName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +179,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -229,7 +227,7 @@ export function _getSend(
       environmentName: environmentName,
       componentName: componentName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +245,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -255,7 +255,7 @@ export async function _getDeserialize(
   return daprComponentResiliencyPolicyDeserializer(result.body);
 }
 
-/** Get a Dapr component resiliency policy. */
+/** Gets the details of a resiliency policy for a Dapr component. */
 export async function get(
   context: Client,
   resourceGroupName: string,

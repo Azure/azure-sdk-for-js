@@ -12,8 +12,7 @@
  */
 
 import type { MCPToolboxTool, ToolboxToolUnion } from "@azure/ai-projects";
-import { RestError } from "@azure/ai-projects";
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, isRestError } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -29,7 +28,7 @@ export async function main(): Promise<void> {
     await project.toolboxes.delete(toolboxName);
     console.log(`Toolbox \`${toolboxName}\` deleted`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }

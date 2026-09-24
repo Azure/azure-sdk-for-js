@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
   ArmErrorDetail,
@@ -12,16 +18,9 @@ import type {
 import {
   armErrorDetailDeserializer,
   systemDataDeserializer,
-  userAssignedIdentityRecordSerializer,
-  userAssignedIdentityRecordDeserializer,
+  userAssignedIdentityDeserializer,
 } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Definition of ARM tracked top level resource. */
 export interface DataCollectionEndpointResource extends TrackedResource {
   /** The kind of the resource. */
@@ -210,12 +209,7 @@ export interface DataCollectionEndpointResourceIdentity extends ManagedServiceId
 export function dataCollectionEndpointResourceIdentitySerializer(
   item: DataCollectionEndpointResourceIdentity,
 ): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function dataCollectionEndpointResourceIdentityDeserializer(
@@ -227,7 +221,12 @@ export function dataCollectionEndpointResourceIdentityDeserializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -659,12 +658,7 @@ export function resourceForUpdateSerializer(item: ResourceForUpdate): any {
 export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {}
 
 export function resourceForUpdateIdentitySerializer(item: ResourceForUpdateIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function dataCollectionEndpointResourceArraySerializer(
@@ -1068,12 +1062,7 @@ export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdenti
 export function dataCollectionRuleResourceIdentitySerializer(
   item: DataCollectionRuleResourceIdentity,
 ): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function dataCollectionRuleResourceIdentityDeserializer(
@@ -1085,7 +1074,12 @@ export function dataCollectionRuleResourceIdentityDeserializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
