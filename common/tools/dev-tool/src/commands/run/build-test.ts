@@ -6,9 +6,10 @@ import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:
 import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { createPrinter } from "../../util/printer.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
-import { spawnSync } from "node:child_process";
+import { spawnSync } from "@azure/core-process";
 
 const log = createPrinter("build-test");
 
@@ -134,9 +135,9 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 export async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
+  const typeScriptCli = resolveNodeModuleBin("typescript", "tsc", process.cwd());
+  const res = spawnSync(process.execPath, ["--", typeScriptCli, "-b", tsConfig], {
     stdio: "inherit",
-    shell: true,
     cwd: process.cwd(),
   });
 

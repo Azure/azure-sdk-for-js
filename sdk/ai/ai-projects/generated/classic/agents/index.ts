@@ -7,6 +7,9 @@ import {
   listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getMicrosoft365PublishDefaults,
+  getMicrosoft365Package,
+  publishToMicrosoft365,
   getSessionLogStream,
   listSessions,
   stopSession,
@@ -36,6 +39,9 @@ import {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -70,9 +76,13 @@ import {
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionLogEvent,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -119,6 +129,32 @@ export interface AgentsOperations {
     content: Uint8Array,
     options?: AgentsUploadSessionFileOptionalParams,
   ) => Promise<SessionFileWriteResponse>;
+  /**
+   * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+   * request for a Foundry agent.
+   */
+  getMicrosoft365PublishDefaults: (
+    agentName: string,
+    options?: GetMicrosoft365PublishDefaultsOptionalParams,
+  ) => Promise<Microsoft365PublishDefaults>;
+  /**
+   * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+   * request, without publishing it. Returns the app package as `application/zip`.
+   */
+  getMicrosoft365Package: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: GetMicrosoft365PackageOptionalParams,
+  ) => Promise<GetMicrosoft365PackageResponse>;
+  /**
+   * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+   * Teams app ids.
+   */
+  publishToMicrosoft365: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: PublishToMicrosoft365OptionalParams,
+  ) => Promise<Microsoft365PublishResponse>;
   /**
    * Streams console logs (stdout / stderr) for a specific hosted agent session
    * as a Server-Sent Events (SSE) stream.
@@ -273,11 +309,6 @@ export interface AgentsOperations {
    * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
    * associated sessions are cascade-deleted along with the agent and its versions.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
   /**
    * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
@@ -341,6 +372,20 @@ function _getAgents(context: AIProjectContext) {
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
     ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    getMicrosoft365PublishDefaults: (
+      agentName: string,
+      options?: GetMicrosoft365PublishDefaultsOptionalParams,
+    ) => getMicrosoft365PublishDefaults(context, agentName, options),
+    getMicrosoft365Package: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: GetMicrosoft365PackageOptionalParams,
+    ) => getMicrosoft365Package(context, agentName, publishScope, options),
+    publishToMicrosoft365: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: PublishToMicrosoft365OptionalParams,
+    ) => publishToMicrosoft365(context, agentName, publishScope, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,

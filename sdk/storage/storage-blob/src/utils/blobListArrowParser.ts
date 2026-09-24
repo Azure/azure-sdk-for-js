@@ -4,11 +4,11 @@
 import { stringToUint8Array } from "@azure/core-util";
 import type { Table } from "apache-arrow";
 import type {
-  BlobItemInternal,
-  BlobPrefix as BlobPrefixInternal,
-  BlobPropertiesInternal,
+  BlobItem as BlobItemTsp,
+  BlobPrefix as BlobPrefixTsp,
+  BlobProperties as BlobPropertiesTsp,
   BlobTags,
-} from "../generated/src/models/index.js";
+} from "../generated/index.js";
 import { readResponseBodyToBytes } from "./utils.common.js";
 
 /**
@@ -19,9 +19,9 @@ export interface ParsedBlobListArrowSegment {
   /** Continuation token for the next page, read from the Arrow schema metadata. */
   nextMarker?: string;
   /** The blobs in this page, in the generated internal shape (projected to public models by the caller). */
-  blobItems: BlobItemInternal[];
+  blobItems: BlobItemTsp[];
   /** The blob prefixes in this page (only populated for hierarchy listings). */
-  blobPrefixes: BlobPrefixInternal[];
+  blobPrefixes: BlobPrefixTsp[];
 }
 
 /**
@@ -48,7 +48,7 @@ export async function parseBlobListArrowResponse(response: {
  * Reconstructs blob items and prefixes from a decoded Apache Arrow table.
  *
  * The Arrow data is columnar: each field (e.g. `Name`, `Content-Length`) is a
- * separate column. We reconstruct one {@link BlobItemInternal} row per row by reading
+ * separate column. We reconstruct one {@link BlobItemTsp} row per row by reading
  * each column at that row index; the caller projects those to public models. The
  * continuation token travels in the schema metadata (a page-level value, not a column).
  */
@@ -100,8 +100,8 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
   const asMap = (rowIndex: number, columnName: string): Record<string, string> | undefined =>
     toRecord(cell(rowIndex, columnName));
 
-  const blobItems: BlobItemInternal[] = [];
-  const blobPrefixes: BlobPrefixInternal[] = [];
+  const blobItems: BlobItemTsp[] = [];
+  const blobPrefixes: BlobPrefixTsp[] = [];
 
   for (let i = 0; i < table.numRows; i++) {
     // BlobPrefix rows only populate the `Name` column; all others are null.
@@ -111,7 +111,7 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
       continue;
     }
 
-    const properties: BlobPropertiesInternal = {
+    const properties: BlobPropertiesTsp = {
       createdOn: asDate(i, "Creation-Time"),
       lastModified: asDate(i, "Last-Modified") ?? new Date(0),
       etag: asString(i, "Etag") ?? "",
@@ -119,16 +119,16 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
       contentType: asString(i, "Content-Type"),
       contentEncoding: asString(i, "Content-Encoding"),
       contentLanguage: asString(i, "Content-Language"),
-      contentMD5: asBytesFromBase64(i, "Content-MD5"),
+      contentMd5: asBytesFromBase64(i, "Content-MD5"),
       contentDisposition: asString(i, "Content-Disposition"),
       cacheControl: asString(i, "Cache-Control"),
       blobSequenceNumber: asNumber(i, "x-ms-blob-sequence-number"),
-      blobType: asString(i, "BlobType") as BlobPropertiesInternal["blobType"],
-      leaseStatus: asString(i, "LeaseStatus") as BlobPropertiesInternal["leaseStatus"],
-      leaseState: asString(i, "LeaseState") as BlobPropertiesInternal["leaseState"],
-      leaseDuration: asString(i, "LeaseDuration") as BlobPropertiesInternal["leaseDuration"],
+      blobType: asString(i, "BlobType") as BlobPropertiesTsp["blobType"],
+      leaseStatus: asString(i, "LeaseStatus") as BlobPropertiesTsp["leaseStatus"],
+      leaseState: asString(i, "LeaseState") as BlobPropertiesTsp["leaseState"],
+      leaseDuration: asString(i, "LeaseDuration") as BlobPropertiesTsp["leaseDuration"],
       copyId: asString(i, "CopyId"),
-      copyStatus: asString(i, "CopyStatus") as BlobPropertiesInternal["copyStatus"],
+      copyStatus: asString(i, "CopyStatus") as BlobPropertiesTsp["copyStatus"],
       copySource: asString(i, "CopySource"),
       copyProgress: asString(i, "CopyProgress"),
       copyCompletedOn: asDate(i, "CopyCompletionTime"),
@@ -138,26 +138,23 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
       destinationSnapshot: asString(i, "CopyDestinationSnapshot"),
       deletedOn: asDate(i, "DeletedTime"),
       remainingRetentionDays: asNumber(i, "RemainingRetentionDays"),
-      accessTier: asString(i, "AccessTier") as BlobPropertiesInternal["accessTier"],
+      accessTier: asString(i, "AccessTier") as BlobPropertiesTsp["accessTier"],
       accessTierInferred: asBoolean(i, "AccessTierInferred"),
-      archiveStatus: asString(i, "ArchiveStatus") as BlobPropertiesInternal["archiveStatus"],
-      smartAccessTier: asString(i, "SmartAccessTier") as BlobPropertiesInternal["smartAccessTier"],
+      archiveStatus: asString(i, "ArchiveStatus") as BlobPropertiesTsp["archiveStatus"],
+      smartAccessTier: asString(i, "SmartAccessTier") as BlobPropertiesTsp["smartAccessTier"],
       customerProvidedKeySha256: asString(i, "CustomerProvidedKeySha256"),
       encryptionScope: asString(i, "EncryptionScope"),
       accessTierChangedOn: asDate(i, "AccessTierChangeTime"),
       tagCount: asNumber(i, "TagCount"),
       expiresOn: asDate(i, "Expiry-Time"),
       isSealed: asBoolean(i, "Sealed"),
-      rehydratePriority: asString(
-        i,
-        "RehydratePriority",
-      ) as BlobPropertiesInternal["rehydratePriority"],
+      rehydratePriority: asString(i, "RehydratePriority") as BlobPropertiesTsp["rehydratePriority"],
       lastAccessedOn: asDate(i, "LastAccessTime"),
       immutabilityPolicyExpiresOn: asDate(i, "ImmutabilityPolicyUntilDate"),
       immutabilityPolicyMode: asString(
         i,
         "ImmutabilityPolicyMode",
-      ) as BlobPropertiesInternal["immutabilityPolicyMode"],
+      ) as BlobPropertiesTsp["immutabilityPolicyMode"],
       legalHold: asBoolean(i, "LegalHold"),
     };
 
@@ -168,9 +165,9 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
       versionId: asString(i, "VersionId"),
       isCurrentVersion: asBoolean(i, "IsCurrentVersion"),
       properties,
-      metadata: asMap(i, "Metadata"),
+      metadata: { additionalProperties: asMap(i, "Metadata") },
       blobTags: toBlobTags(asMap(i, "Tags")),
-      objectReplicationMetadata: asMap(i, "OrMetadata"),
+      objectReplicationMetadata: { additionalProperties: asMap(i, "OrMetadata") },
       hasVersionsOnly: asBoolean(i, "HasVersionsOnly"),
     });
   }

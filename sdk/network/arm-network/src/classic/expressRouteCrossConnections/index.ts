@@ -3,6 +3,14 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  rollbackCircuitMigration,
+  commitCircuitMigration,
+  migrateCircuit,
+  restoreBgpForCircuitMigration,
+  shutDownBgpForCircuitMigration,
+  prepareCircuitMigration,
+  getCircuitMigrationInfo,
+  validateCircuitMigration,
   listRoutesTable,
   listRoutesTableSummary,
   listArpTable,
@@ -13,6 +21,14 @@ import {
   get,
 } from "../../api/expressRouteCrossConnections/operations.js";
 import type {
+  ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+  ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+  ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
   ExpressRouteCrossConnectionsListRoutesTableOptionalParams,
   ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams,
   ExpressRouteCrossConnectionsListArpTableOptionalParams,
@@ -28,7 +44,11 @@ import type {
   ExpressRouteCircuitsRoutesTableListResult,
   ExpressRouteCrossConnection,
   ExpressRouteCrossConnectionsRoutesTableSummaryListResult,
-} from "../../models/microsoft/network/models.js";
+  MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+  MigrateExpressRouteCircuitValidateResponse,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  MigrateExpressRouteCircuitRequest,
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -36,6 +56,238 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExpressRouteCrossConnections operations. */
 export interface ExpressRouteCrossConnectionsOperations {
+  /** Rolls back the express route circuit migration for a cross connection. */
+  rollbackCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use rollbackCircuitMigration instead */
+  beginRollbackCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use rollbackCircuitMigration instead */
+  beginRollbackCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Commits the express route circuit migration for a cross connection. */
+  commitCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use commitCircuitMigration instead */
+  beginCommitCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use commitCircuitMigration instead */
+  beginCommitCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Executes the express route circuit migration for a cross connection. */
+  migrateCircuit: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use migrateCircuit instead */
+  beginMigrateCircuit: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use migrateCircuit instead */
+  beginMigrateCircuitAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Restores BGP sessions as part of an express route circuit migration for a cross connection. */
+  restoreBgpForCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use restoreBgpForCircuitMigration instead */
+  beginRestoreBgpForCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use restoreBgpForCircuitMigration instead */
+  beginRestoreBgpForCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Shuts down BGP sessions as part of an express route circuit migration for a cross connection. */
+  shutDownBgpForCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use shutDownBgpForCircuitMigration instead */
+  beginShutDownBgpForCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use shutDownBgpForCircuitMigration instead */
+  beginShutDownBgpForCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Prepares an express route circuit migration for a cross connection. */
+  prepareCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use prepareCircuitMigration instead */
+  beginPrepareCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use prepareCircuitMigration instead */
+  beginPrepareCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitRequest,
+    options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Gets migration health information for an express route circuit cross connection. */
+  getCircuitMigrationInfo: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+    MigrateExpressRouteCircuitHealthCheckResponse
+  >;
+  /** @deprecated use getCircuitMigrationInfo instead */
+  beginGetCircuitMigrationInfo: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
+      MigrateExpressRouteCircuitHealthCheckResponse
+    >
+  >;
+  /** @deprecated use getCircuitMigrationInfo instead */
+  beginGetCircuitMigrationInfoAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitHealthCheckResponse>;
+  /** Validates express route circuit migration for a cross connection. */
+  validateCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+  ) => PollerLike<
+    OperationState<MigrateExpressRouteCircuitValidateResponse>,
+    MigrateExpressRouteCircuitValidateResponse
+  >;
+  /** @deprecated use validateCircuitMigration instead */
+  beginValidateCircuitMigration: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<MigrateExpressRouteCircuitValidateResponse>,
+      MigrateExpressRouteCircuitValidateResponse
+    >
+  >;
+  /** @deprecated use validateCircuitMigration instead */
+  beginValidateCircuitMigrationAndWait: (
+    resourceGroupName: string,
+    crossConnectionName: string,
+    parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+    options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+  ) => Promise<MigrateExpressRouteCircuitValidateResponse>;
   /** Gets the currently advertised routes table associated with the express route cross connection in a resource group. */
   listRoutesTable: (
     resourceGroupName: string,
@@ -181,6 +433,325 @@ export interface ExpressRouteCrossConnectionsOperations {
 
 function _getExpressRouteCrossConnections(context: NetworkManagementContext) {
   return {
+    rollbackCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+    ) =>
+      rollbackCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      ),
+    beginRollbackCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+    ) => {
+      const poller = rollbackCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRollbackCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+    ) => {
+      return await rollbackCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    commitCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+    ) =>
+      commitCircuitMigration(context, resourceGroupName, crossConnectionName, parameters, options),
+    beginCommitCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+    ) => {
+      const poller = commitCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCommitCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+    ) => {
+      return await commitCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    migrateCircuit: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+    ) => migrateCircuit(context, resourceGroupName, crossConnectionName, parameters, options),
+    beginMigrateCircuit: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+    ) => {
+      const poller = migrateCircuit(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginMigrateCircuitAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+    ) => {
+      return await migrateCircuit(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    restoreBgpForCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+    ) =>
+      restoreBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      ),
+    beginRestoreBgpForCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+    ) => {
+      const poller = restoreBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreBgpForCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+    ) => {
+      return await restoreBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    shutDownBgpForCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+    ) =>
+      shutDownBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      ),
+    beginShutDownBgpForCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+    ) => {
+      const poller = shutDownBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginShutDownBgpForCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+    ) => {
+      return await shutDownBgpForCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    prepareCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+    ) =>
+      prepareCircuitMigration(context, resourceGroupName, crossConnectionName, parameters, options),
+    beginPrepareCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+    ) => {
+      const poller = prepareCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPrepareCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitRequest,
+      options?: ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+    ) => {
+      return await prepareCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    getCircuitMigrationInfo: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+    ) =>
+      getCircuitMigrationInfo(context, resourceGroupName, crossConnectionName, parameters, options),
+    beginGetCircuitMigrationInfo: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+    ) => {
+      const poller = getCircuitMigrationInfo(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetCircuitMigrationInfoAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+    ) => {
+      return await getCircuitMigrationInfo(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
+    validateCircuitMigration: (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+    ) =>
+      validateCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      ),
+    beginValidateCircuitMigration: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+    ) => {
+      const poller = validateCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginValidateCircuitMigrationAndWait: async (
+      resourceGroupName: string,
+      crossConnectionName: string,
+      parameters: MigrateExpressRouteCircuitValidateAndHealthCheckRequest,
+      options?: ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
+    ) => {
+      return await validateCircuitMigration(
+        context,
+        resourceGroupName,
+        crossConnectionName,
+        parameters,
+        options,
+      );
+    },
     listRoutesTable: (
       resourceGroupName: string,
       crossConnectionName: string,

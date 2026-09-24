@@ -28,7 +28,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -6,29 +6,29 @@ import {
   developerCliCredentialInternals,
 } from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import child_process, { type ChildProcess } from "node:child_process";
+import { processUtils } from "$internal/util/processUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { ProcessError } from "@azure/core-process";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azdCommands: string[] = [];
-  let azdOptions: { cwd: string; timeout?: number }[] = [];
+  let azdArgumentLists: string[][] = [];
+  let azdOptions: { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number }[] = [];
 
   beforeEach(async function () {
     azdCommands = [];
+    azdArgumentLists = [];
     azdOptions = [];
-    vi.spyOn(child_process, "exec").mockImplementation(
-      (command, options, callback): ChildProcess => {
-        azdCommands.push(command as string);
-        azdOptions.push(options as { cwd: string; timeout?: number });
-        if (callback) {
-          callback(null, stdout, stderr);
-        }
-        // Bypassing the type check. We don't use this return value in our code.
-        return {} as ChildProcess;
-      },
-    );
+    vi.spyOn(processUtils, "execFileWithResult").mockImplementation(async (file, args, options) => {
+      azdCommands.push([file, ...args].join(" "));
+      azdArgumentLists.push(args);
+      azdOptions.push(
+        options as { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number },
+      );
+      return { stdout, stderr, error: null };
+    });
   });
 
   afterEach(async function () {
@@ -44,6 +44,16 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
+    assert.deepEqual(azdArgumentLists[0], [
+      "auth",
+      "token",
+      "--output",
+      "json",
+      "--no-prompt",
+      "--scope",
+      "https://service/.default",
+    ]);
+    assert.isTrue(azdOptions[0].allowWindowsBatchFiles);
     // Used a working directory, and a shell
     assert.deepEqual(
       {
@@ -115,6 +125,19 @@ describe("AzureDeveloperCliCredential (internal)", function () {
         assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     }
+  });
+
+  it("returns a meaningful error when spawning Azure Developer CLI fails with ENOENT", async () => {
+    vi.mocked(processUtils.execFileWithResult).mockResolvedValueOnce({
+      stdout: "",
+      stderr: "",
+      error: new ProcessError("The executable could not be found.", { code: "ENOENT" }),
+    });
+
+    const credential = new AzureDeveloperCliCredential();
+    await expect(credential.getToken("https://service/.default")).rejects.toMatchObject({
+      message: azureDeveloperCliPublicErrorMessages.notInstalled,
+    });
   });
 
   it("get access token when azure cli not login in", async () => {

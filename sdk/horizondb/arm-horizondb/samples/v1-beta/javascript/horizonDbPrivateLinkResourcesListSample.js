@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists private link resources in a HorizonDb cluster.
+ * This sample demonstrates how to lists private link resources in a HorizonDB cluster.
  *
- * @summary lists private link resources in a HorizonDb cluster.
- * x-ms-original-file: 2026-01-20-preview/PrivateLinkResources_List.json
+ * @summary lists private link resources in a HorizonDB cluster.
+ * x-ms-original-file: 2026-05-01-preview/PrivateLinkResources_List.json
  */
-async function getsPrivateLinkResourcesForHorizonDb() {
+async function getsPrivateLinkResourcesForHorizonDB() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function getsPrivateLinkResourcesForHorizonDb() {
 }
 
 async function main() {
-  await getsPrivateLinkResourcesForHorizonDb();
+  await getsPrivateLinkResourcesForHorizonDB();
 }
 
 main().catch(console.error);

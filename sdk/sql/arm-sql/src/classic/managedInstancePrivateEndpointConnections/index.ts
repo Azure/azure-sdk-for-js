@@ -89,7 +89,6 @@ export interface ManagedInstancePrivateEndpointConnectionsOperations {
     options?: ManagedInstancePrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<ManagedInstancePrivateEndpointConnection>;
 }
-
 function _getManagedInstancePrivateEndpointConnections(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
@@ -198,7 +197,6 @@ function _getManagedInstancePrivateEndpointConnections(context: SqlManagementCon
       get(context, resourceGroupName, managedInstanceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getManagedInstancePrivateEndpointConnectionsOperations(
   context: SqlManagementContext,
 ): ManagedInstancePrivateEndpointConnectionsOperations {

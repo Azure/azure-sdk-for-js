@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SpawnOptions } from "node:child_process";
-import { spawn } from "node:child_process";
+import { spawn, type SpawnOptions } from "@azure/core-process";
 import { createPrinter } from "./printer.ts";
 
 export interface RunOptions extends SpawnOptions {
@@ -28,45 +27,46 @@ const log = createPrinter("run");
 /**
  * Run the given command as a child process.
  *
- * @param command - the command to run. If an array of strings is passed, the first element will be the executable to run and the remaining elements will be the arguments. If a string is passed, it will be split on space (' ') and
- *                  then treated the same as a string array (quoting etc will not work for escaping).
+ * @param command - The executable followed by its individual arguments.
  */
-export async function run(command: string[] | string): Promise<RunResult>;
+export async function run(command: readonly string[]): Promise<RunResult>;
 
 /**
  * Run the given command as a child process.
  *
- * @param command - the command to run. If an array of strings is passed, the first element will be the executable to run and the remaining elements will be the arguments. If a string is passed, it will be split on space (' ') and
- *                  then treated the same as a string array (quoting etc will not work for escaping).
+ * @param command - The executable followed by its individual arguments.
  * @param options - options passed to `spawn`, plus additional options: if `captureOutput` is true, the output of the command will be returned as a string.
  */
 export async function run(
-  command: string[] | string,
+  command: readonly string[],
   options: RunOptions & { captureOutput: true },
 ): Promise<RunResultWithOutput>;
 
 /**
  * Run the given command as a child process.
  *
- * @param command - the command to run. If an array of strings is passed, the first element will be the executable to run and the remaining elements will be the arguments. If a string is passed, it will be split on space (' ') and
- *                  then treated the same as a string array (quoting etc will not work for escaping).
+ * @param command - The executable followed by its individual arguments.
  * @param options - options passed to `spawn`, plus additional options: if `captureOutput` is false, output will not be captured and returned.
  */
 export async function run(
-  command: string[] | string,
+  command: readonly string[],
   options: RunOptions & { captureOutput?: false },
 ): Promise<RunResult>;
 
 export async function run(
-  command: string[] | string,
+  command: readonly string[],
   options: RunOptions = {},
 ): Promise<RunResult | RunResultWithOutput> {
-  const [executable, ...argv] = typeof command === "string" ? command.split(" ") : command;
+  const [executable, ...argv] = command;
+  if (!executable) {
+    throw new Error("A command must include an executable.");
+  }
 
   let output = "";
+  const { captureExitCode, captureOutput, ...spawnOptions } = options;
 
   const exitCode = await new Promise<number>((resolve, reject) => {
-    const proc = spawn(executable, argv, options);
+    const proc = spawn(executable, argv, spawnOptions);
     log.debug(`Running command: ${[executable, ...argv].join(" ")}`);
 
     proc.stderr?.setEncoding("utf8");
@@ -83,7 +83,7 @@ export async function run(
 
     proc.on("error", reject);
 
-    if (options.captureOutput) {
+    if (captureOutput) {
       proc.stdout?.on("data", (data) => {
         output += data;
       });
@@ -93,7 +93,7 @@ export async function run(
     }
   });
 
-  if (!options.captureExitCode && exitCode !== 0) {
+  if (!captureExitCode && exitCode !== 0) {
     if (output) {
       log.warn(output);
     }

@@ -46,7 +46,7 @@ export function _getValidationDetailsSend(
       location: location,
       subscriptionId: context.subscriptionId,
       privateLinkScopeId: privateLinkScopeId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,6 @@ export async function _getValidationDetailsDeserialize(
 
   return privateLinkScopeValidationDetailsDeserializer(result.body);
 }
-
 /** Returns a Azure Arc PrivateLinkScope's validation details. */
 export async function getValidationDetails(
   context: Client,
@@ -93,7 +92,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/privateLinkScopes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +119,6 @@ export async function _listDeserialize(
 
   return _hybridComputePrivateLinkScopeListResultDeserializer(result.body);
 }
-
 /** Gets a list of all Azure Arc PrivateLinkScopes within a subscription. */
 export function list(
   context: Client,
@@ -131,11 +129,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -149,7 +143,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +170,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _hybridComputePrivateLinkScopeListResultDeserializer(result.body);
 }
-
 /** Gets a list of Azure Arc PrivateLinkScopes within a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -188,11 +181,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -208,7 +197,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +219,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a Azure Arc PrivateLinkScope. */
 export function $delete(
   context: Client,
@@ -243,7 +231,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, scopeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-16-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -260,7 +248,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +277,6 @@ export async function _updateTagsDeserialize(
 
   return hybridComputePrivateLinkScopeDeserializer(result.body);
 }
-
 /** Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method. */
 export async function updateTags(
   context: Client,
@@ -321,7 +308,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +337,6 @@ export async function _createOrUpdateDeserialize(
 
   return hybridComputePrivateLinkScopeDeserializer(result.body);
 }
-
 /** Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. */
 export async function createOrUpdate(
   context: Client,
@@ -381,7 +367,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -408,7 +394,6 @@ export async function _getDeserialize(
 
   return hybridComputePrivateLinkScopeDeserializer(result.body);
 }
-
 /** Returns a Azure Arc PrivateLinkScope. */
 export async function get(
   context: Client,
@@ -432,7 +417,7 @@ export function _getValidationDetailsForMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -459,7 +444,6 @@ export async function _getValidationDetailsForMachineDeserialize(
 
   return privateLinkScopeValidationDetailsDeserializer(result.body);
 }
-
 /** Returns a Azure Arc PrivateLinkScope's validation details for a given machine. */
 export async function getValidationDetailsForMachine(
   context: Client,

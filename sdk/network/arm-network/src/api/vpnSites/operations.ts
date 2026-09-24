@@ -3,17 +3,13 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  TagsObject,
-  VpnSite,
-  _ListVpnSitesResult,
-} from "../../models/microsoft/network/models.js";
+import type { TagsObject, VpnSite, _ListVpnSitesResult } from "../../models/network/models.js";
 import {
   tagsObjectSerializer,
   vpnSiteSerializer,
   vpnSiteDeserializer,
   _listVpnSitesResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +34,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +72,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -90,7 +86,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +125,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -145,7 +141,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +176,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, vpnSiteName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +193,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +252,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +294,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vpnSiteName, vpnSiteParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<VpnSite>, VpnSite>;
 }
 
@@ -314,7 +310,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

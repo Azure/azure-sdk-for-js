@@ -61,7 +61,7 @@ Before starting, ensure you have:
 > After the probe above, confirm the remaining items:
 >
 > 1. "Do you already have a **Microsoft Foundry resource** set up in Azure?" — If no, jump to **Step 4** (Azure Resource Setup) first, then return here.
-> 2. "Have you already deployed the required **AI models** (GPT-4.1, GPT-4.1-mini, text-embedding-3-large) in Microsoft Foundry?" — If no, include Step 4.3 and Step 5 in the workflow.
+> 2. "Have you already deployed the required **AI models** (gpt-5.2, text-embedding-3-large) in Microsoft Foundry?" — If no, include Step 4.3 and Step 5 in the workflow.
 
 ## Package Directory
 
@@ -195,7 +195,7 @@ Open `.env` in your editor and set the following **required** variables:
 >
 > | Code / state                                                                       | Meaning                               | Action                                                                                                                                                                                                                                                                |
 > | ---------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-> | `200` and all 3 keys (`gpt-4.1`, `gpt-4.1-mini`, `text-embedding-3-large`) present | **ALL_SET** — defaults already mapped | Show detected values; ask _"Detected existing defaults: gpt-4.1=`<A>`, gpt-4.1-mini=`<B>`, text-embedding-3-large=`<C>`. Use these? (Y/n)"_. On Y, prefill the 3 env vars and **skip Step 5** (defaults already configured). On n, fall through to per-model prompts. |
+> | `200` and the completion + embedding keys (as named by `CU_COMPLETION_MODEL` / `CU_EMBEDDING_MODEL`, default `gpt-5.2` / `text-embedding-3-large`) present | **ALL_SET** — defaults already mapped | Show detected values; ask _"Detected existing defaults: `<completionModel>`=`<A>`, `<embeddingModel>`=`<B>`. Use these? (Y/n)"_. On Y, prefill the deployment env vars and **skip Step 5** (defaults already configured). On n, fall through to per-model prompts. |
 > | `200` and some but not all keys present                                            | **PARTIAL**                           | Prefill the ones that are set. Prompt for the missing ones. After Step 3 completes, run Step 5 to fill the gaps.                                                                                                                                                      |
 > | `200` and no model defaults                                                        | **NONE**                              | Fall through to per-model prompts. Step 5 will configure them.                                                                                                                                                                                                        |
 > | `401` or `403`                                                                     | **AUTH_ERROR**                        | Print: _"Probe unavailable (auth failed). If you're using DefaultAzureCredential, run `az login` and ensure the Cognitive Services User role is assigned. Continuing with manual entry."_ Fall through.                                                               |
@@ -206,19 +206,18 @@ Open `.env` in your editor and set the following **required** variables:
 > The companion `setup_user_env.sh` / `setup_user_env.ps1` script implements this probe automatically and prefills the prompts.
 
 > **[ASK USER] Model deployment names (only when probe did not yield all values):**
-> For each model not already prefilled from the probe, ask with a sensible default:
->
-> - "What is your **GPT-4.1** deployment name?" (default: `gpt-4.1`)
-> - "What is your **GPT-4.1-mini** deployment name?" (default: `gpt-4.1-mini`)
-> - "What is your **text-embedding-3-large** deployment name?" (default: `text-embedding-3-large`)
+> Ask for the completion model (default: `gpt-5.2`), mini completion model (default: the completion model), and embedding model (default: `text-embedding-3-large`). For each model not already prefilled from the probe, ask for its deployment name. The mini deployment defaults to the completion deployment; the other deployment names default to their model names.
 >
 > If the user prefers to configure these later, let them know they can run `updateDefaults.js` (Step 5) anytime before using prebuilt analyzers.
 
-| Variable                            | Description                                 | How to Get It                                                       |
-| ----------------------------------- | ------------------------------------------- | ------------------------------------------------------------------- |
-| `GPT_4_1_DEPLOYMENT`                | Your GPT-4.1 deployment name                | Microsoft Foundry → Deployments → Your GPT-4.1 deployment name      |
-| `GPT_4_1_MINI_DEPLOYMENT`           | Your GPT-4.1-mini deployment name           | Microsoft Foundry → Deployments → Your GPT-4.1-mini deployment name |
-| `TEXT_EMBEDDING_3_LARGE_DEPLOYMENT` | Your text-embedding-3-large deployment name | Microsoft Foundry → Deployments → Your embedding deployment name    |
+| Variable                          | Description                                                                        | How to Get It                                     |
+| --------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `CU_COMPLETION_MODEL`             | Completion model name (optional; defaults to `gpt-5.2`)                            | Microsoft Foundry → Deployments → Model name      |
+| `CU_COMPLETION_MODEL_MINI`        | Mini completion model name (optional; defaults to `CU_COMPLETION_MODEL`)           | Microsoft Foundry → Deployments → Model name      |
+| `CU_EMBEDDING_MODEL`              | Embedding model name (optional; defaults to `text-embedding-3-large`)              | Microsoft Foundry → Deployments → Model name      |
+| `CU_COMPLETION_MODEL_DEPLOYMENT`  | Completion deployment name (required)                                              | Microsoft Foundry → Deployments → Deployment name |
+| `CU_COMPLETION_MINI_DEPLOYMENT`   | Mini completion deployment name (optional; defaults to `CU_COMPLETION_MODEL_DEPLOYMENT`) | Microsoft Foundry → Deployments → Deployment name |
+| `CU_EMBEDDING_DEPLOYMENT`         | Embedding deployment name (required)                                               | Microsoft Foundry → Deployments → Deployment name |
 
 #### 3.3 Copy `.env` into the Samples Directory
 
@@ -239,9 +238,12 @@ cp .env samples/v1/javascript/.env
 > Here's your configuration:
 >   CONTENTUNDERSTANDING_ENDPOINT = <value>
 >   Authentication: API Key / DefaultAzureCredential
->   GPT_4_1_DEPLOYMENT = <value>
->   GPT_4_1_MINI_DEPLOYMENT = <value>
->   TEXT_EMBEDDING_3_LARGE_DEPLOYMENT = <value>
+>   CU_COMPLETION_MODEL = <value>
+>   CU_COMPLETION_MODEL_MINI = <value>
+>   CU_EMBEDDING_MODEL = <value>
+>   CU_COMPLETION_MODEL_DEPLOYMENT = <value>
+>   CU_COMPLETION_MINI_DEPLOYMENT = <value>
+>   CU_EMBEDDING_DEPLOYMENT = <value>
 >
 > Does this look correct? (Yes / No — let me fix something)
 > ```
@@ -258,9 +260,12 @@ CONTENTUNDERSTANDING_ENDPOINT=https://my-foundry-resource.services.ai.azure.com/
 CONTENTUNDERSTANDING_KEY=
 
 # Required for updateDefaults.js (model configuration)
-GPT_4_1_DEPLOYMENT=gpt-4.1
-GPT_4_1_MINI_DEPLOYMENT=gpt-4.1-mini
-TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=text-embedding-3-large
+CU_COMPLETION_MODEL=gpt-5.2
+CU_COMPLETION_MODEL_MINI=gpt-5.2
+CU_EMBEDDING_MODEL=text-embedding-3-large
+CU_COMPLETION_MODEL_DEPLOYMENT=gpt-5.2
+CU_COMPLETION_MINI_DEPLOYMENT=gpt-5.2
+CU_EMBEDDING_DEPLOYMENT=text-embedding-3-large
 ```
 
 ### Step 4: Azure Resource Setup (if not done)
@@ -293,22 +298,21 @@ This role is required even if you own the resource:
 
 #### 4.3 Deploy Required Models
 
-| Analyzer Type                                                                                     | Required Models                      |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` | gpt-4.1-mini, text-embedding-3-large |
-| Other prebuilt analyzers (invoice, receipt, etc.)                                                 | gpt-4.1, text-embedding-3-large      |
+| Analyzer Type                                                                                     | Required Models                 |
+| ------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` | gpt-5.2, text-embedding-3-large |
+| Other prebuilt analyzers (invoice, receipt, etc.)                                                 | gpt-5.2, text-embedding-3-large |
 
 **To deploy a model:**
 
 1. In Microsoft Foundry → **Deployments** → **Deploy model** → **Deploy base model**
-2. Search and deploy: `gpt-4.1`, `gpt-4.1-mini`, `text-embedding-3-large`
+2. Search and deploy: `gpt-5.2`, `text-embedding-3-large`
 3. Note deployment names (recommendation: use the model name as the deployment name)
 
 > **[ASK USER] Models deployed:**
 > Ask: "Have you deployed the required models? Please provide the **deployment names** you used for each:"
 >
-> - GPT-4.1 deployment name
-> - GPT-4.1-mini deployment name
+> - gpt-5.2 deployment name
 > - text-embedding-3-large deployment name
 >
 > Use these names to populate the `.env` file.

@@ -17,7 +17,7 @@ export interface ProtectedItemOperationResultsOperations {
     protectedItemName: string,
     operationId: string,
     options?: ProtectedItemOperationResultsGetOptionalParams,
-  ) => Promise<ProtectedItemResource>;
+  ) => Promise<ProtectedItemResource | void>;
 }
 
 function _getProtectedItemOperationResults(context: RecoveryServicesBackupContext) {

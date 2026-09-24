@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generates placement scores for VM SKU mix placement.
  *
  * @summary generates placement scores for VM SKU mix placement.
- * x-ms-original-file: 2026-05-05-preview/GenerateSkuMixPlacementScores.json
+ * x-ms-original-file: 2026-09-05-preview/GenerateSkuMixPlacementScores.json
  */
 async function generatesSkuMixPlacementScoresForVMSKUMixPlacementWithExplicitVMSizes(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -10,6 +10,7 @@
     "src/test.ts",
     "src/client.ts",
     "src/test-browser.mts",
+    "core-process/src/client.ts",
     "tests/test.ts",
     "service-bus/package.json",
     "invalid/package.json",

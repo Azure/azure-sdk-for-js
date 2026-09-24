@@ -51,11 +51,6 @@ export interface DatasetsOperations {
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
   /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
   get: (

@@ -43,7 +43,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -84,7 +84,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -104,7 +104,7 @@ export function _$deleteSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmScaleSetName, instanceId, runCommandName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +162,7 @@ export function _updateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +215,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -236,7 +236,7 @@ export function _createOrUpdateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +289,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -309,7 +309,7 @@ export function _getSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

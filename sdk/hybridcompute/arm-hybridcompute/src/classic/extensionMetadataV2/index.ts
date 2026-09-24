@@ -28,7 +28,6 @@ export interface ExtensionMetadataV2Operations {
     options?: ExtensionMetadataV2GetOptionalParams,
   ) => Promise<ExtensionValueV2>;
 }
-
 function _getExtensionMetadataV2(context: HybridComputeManagementContext) {
   return {
     list: (
@@ -46,7 +45,6 @@ function _getExtensionMetadataV2(context: HybridComputeManagementContext) {
     ) => get(context, location, publisher, extensionType, version, options),
   };
 }
-
 export function _getExtensionMetadataV2Operations(
   context: HybridComputeManagementContext,
 ): ExtensionMetadataV2Operations {

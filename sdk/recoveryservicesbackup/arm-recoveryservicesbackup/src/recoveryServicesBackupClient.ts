@@ -18,6 +18,8 @@ import type {
   BMSTriggerDataMoveOptionalParams,
   BMSPrepareDataMoveOptionalParams,
 } from "./api/options.js";
+import type { bMSPrepareDataMoveOperationResultOperations } from "./classic/bMSPrepareDataMoveOperationResult/index.js";
+import { _getbMSPrepareDataMoveOperationResultOperations } from "./classic/bMSPrepareDataMoveOperationResult/index.js";
 import type { BackupEnginesOperations } from "./classic/backupEngines/index.js";
 import { _getBackupEnginesOperations } from "./classic/backupEngines/index.js";
 import type { BackupJobsOperations } from "./classic/backupJobs/index.js";
@@ -50,8 +52,8 @@ import type { BackupWorkloadItemsOperations } from "./classic/backupWorkloadItem
 import { _getBackupWorkloadItemsOperations } from "./classic/backupWorkloadItems/index.js";
 import type { BackupsOperations } from "./classic/backups/index.js";
 import { _getBackupsOperations } from "./classic/backups/index.js";
-import type { BMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
-import { _getBMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
+import type { ConfigureSourceScanOperations } from "./classic/configureSourceScan/index.js";
+import { _getConfigureSourceScanOperations } from "./classic/configureSourceScan/index.js";
 import type { DeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
 import { _getDeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
 import type { ExportJobsOperationResultsOperations } from "./classic/exportJobsOperationResults/index.js";
@@ -76,10 +78,10 @@ import type { OperationOperations } from "./classic/operation/index.js";
 import { _getOperationOperations } from "./classic/operation/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointOperations } from "./classic/privateEndpoint/index.js";
-import { _getPrivateEndpointOperations } from "./classic/privateEndpoint/index.js";
-import type { PrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
-import { _getPrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
+import type { PrivateEndpointConnectionOperationsOperations } from "./classic/privateEndpointConnectionOperations/index.js";
+import { _getPrivateEndpointConnectionOperationsOperations } from "./classic/privateEndpointConnectionOperations/index.js";
+import type { PrivateEndpointOperationsOperations } from "./classic/privateEndpointOperations/index.js";
+import { _getPrivateEndpointOperationsOperations } from "./classic/privateEndpointOperations/index.js";
 import type { ProtectableContainersOperations } from "./classic/protectableContainers/index.js";
 import { _getProtectableContainersOperations } from "./classic/protectableContainers/index.js";
 import type { ProtectedItemOperationResultsOperations } from "./classic/protectedItemOperationResults/index.js";
@@ -94,8 +96,8 @@ import type { ProtectionContainerRefreshOperationResultsOperations } from "./cla
 import { _getProtectionContainerRefreshOperationResultsOperations } from "./classic/protectionContainerRefreshOperationResults/index.js";
 import type { ProtectionContainersOperations } from "./classic/protectionContainers/index.js";
 import { _getProtectionContainersOperations } from "./classic/protectionContainers/index.js";
-import type { ProtectionIntentOperations } from "./classic/protectionIntent/index.js";
-import { _getProtectionIntentOperations } from "./classic/protectionIntent/index.js";
+import type { ProtectionIntentOperationsOperations } from "./classic/protectionIntentOperations/index.js";
+import { _getProtectionIntentOperationsOperations } from "./classic/protectionIntentOperations/index.js";
 import type { ProtectionPoliciesOperations } from "./classic/protectionPolicies/index.js";
 import { _getProtectionPoliciesOperations } from "./classic/protectionPolicies/index.js";
 import type { ProtectionPolicyOperationResultsOperations } from "./classic/protectionPolicyOperationResults/index.js";
@@ -162,19 +164,17 @@ export class RecoveryServicesBackupClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRecoveryServicesBackup(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRecoveryServicesBackup(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.operation = _getOperationOperations(this._client);
-    this.privateEndpoint = _getPrivateEndpointOperations(this._client);
-    this.privateEndpointConnection = _getPrivateEndpointConnectionOperations(this._client);
-    this.protectionIntent = _getProtectionIntentOperations(this._client);
+    this.privateEndpointOperations = _getPrivateEndpointOperationsOperations(this._client);
+    this.privateEndpointConnectionOperations = _getPrivateEndpointConnectionOperationsOperations(
+      this._client,
+    );
+    this.protectionIntentOperations = _getProtectionIntentOperationsOperations(this._client);
+    this.bMSPrepareDataMoveOperationResult = _getbMSPrepareDataMoveOperationResultOperations(
+      this._client,
+    );
     this.tieringCostOperationStatus = _getTieringCostOperationStatusOperations(this._client);
     this.getTieringCostOperationResult = _getGetTieringCostOperationResultOperations(this._client);
     this.fetchTieringCost = _getFetchTieringCostOperations(this._client);
@@ -227,15 +227,13 @@ export class RecoveryServicesBackupClient {
     this.recoveryPointsRecommendedForMove = _getRecoveryPointsRecommendedForMoveOperations(
       this._client,
     );
+    this.configureSourceScan = _getConfigureSourceScanOperations(this._client);
     this.backups = _getBackupsOperations(this._client);
     this.protectedItems = _getProtectedItemsOperations(this._client);
     this.backupResourceEncryptionConfigs = _getBackupResourceEncryptionConfigsOperations(
       this._client,
     );
     this.backupResourceVaultConfigs = _getBackupResourceVaultConfigsOperations(this._client);
-    this.bmsPrepareDataMoveOperationResult = _getBMSPrepareDataMoveOperationResultOperations(
-      this._client,
-    );
     this.backupResourceStorageConfigsNonCRR = _getBackupResourceStorageConfigsNonCRROperations(
       this._client,
     );
@@ -416,12 +414,14 @@ export class RecoveryServicesBackupClient {
 
   /** The operation groups for operation */
   public readonly operation: OperationOperations;
-  /** The operation groups for privateEndpoint */
-  public readonly privateEndpoint: PrivateEndpointOperations;
-  /** The operation groups for privateEndpointConnection */
-  public readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
-  /** The operation groups for protectionIntent */
-  public readonly protectionIntent: ProtectionIntentOperations;
+  /** The operation groups for privateEndpointOperations */
+  public readonly privateEndpointOperations: PrivateEndpointOperationsOperations;
+  /** The operation groups for privateEndpointConnectionOperations */
+  public readonly privateEndpointConnectionOperations: PrivateEndpointConnectionOperationsOperations;
+  /** The operation groups for protectionIntentOperations */
+  public readonly protectionIntentOperations: ProtectionIntentOperationsOperations;
+  /** The operation groups for bMSPrepareDataMoveOperationResult */
+  public readonly bMSPrepareDataMoveOperationResult: bMSPrepareDataMoveOperationResultOperations;
   /** The operation groups for tieringCostOperationStatus */
   public readonly tieringCostOperationStatus: TieringCostOperationStatusOperations;
   /** The operation groups for getTieringCostOperationResult */
@@ -504,6 +504,8 @@ export class RecoveryServicesBackupClient {
   public readonly protectedItemOperationStatuses: ProtectedItemOperationStatusesOperations;
   /** The operation groups for recoveryPointsRecommendedForMove */
   public readonly recoveryPointsRecommendedForMove: RecoveryPointsRecommendedForMoveOperations;
+  /** The operation groups for configureSourceScan */
+  public readonly configureSourceScan: ConfigureSourceScanOperations;
   /** The operation groups for backups */
   public readonly backups: BackupsOperations;
   /** The operation groups for protectedItems */
@@ -512,8 +514,6 @@ export class RecoveryServicesBackupClient {
   public readonly backupResourceEncryptionConfigs: BackupResourceEncryptionConfigsOperations;
   /** The operation groups for backupResourceVaultConfigs */
   public readonly backupResourceVaultConfigs: BackupResourceVaultConfigsOperations;
-  /** The operation groups for bmsPrepareDataMoveOperationResult */
-  public readonly bmsPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResultOperations;
   /** The operation groups for backupResourceStorageConfigsNonCRR */
   public readonly backupResourceStorageConfigsNonCRR: BackupResourceStorageConfigsNonCRROperations;
   /** The operation groups for operations */

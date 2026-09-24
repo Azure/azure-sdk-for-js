@@ -82,6 +82,26 @@ export interface CopyAnalyzerOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AnalyzeBinaryInlineOptionalParams extends OperationOptions {
+  /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
+  range?: string;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. When omitted, the analyzer's configured value applies. */
+  allowInputTruncation?: boolean;
+}
+
+/** Optional parameters. */
+export interface AnalyzeInlineOptionalParams extends OperationOptions {
+  /** Specify the default mapping of model names to LLM/embedding deployments in Microsoft Foundry. For details and current semantics, see https://aka.ms/cudoc-quickstart-rest. */
+  modelDeployments?: Record<string, string>;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. When omitted, the analyzer's configured value applies. */
+  allowInputTruncation?: boolean;
+}
+
+/** Optional parameters. */
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -89,6 +109,8 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   range?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. When omitted, the analyzer's configured value applies. */
+  allowInputTruncation?: boolean;
 }
 
 /** Optional parameters. */
@@ -99,4 +121,6 @@ export interface AnalyzeOptionalParams extends OperationOptions {
   modelDeployments?: Record<string, string>;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. When omitted, the analyzer's configured value applies. */
+  allowInputTruncation?: boolean;
 }

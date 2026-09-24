@@ -6,6 +6,7 @@ import {
   deleteVersion,
   $delete,
   update,
+  invokeLatestToolboxMcp,
   getVersion,
   listVersions,
   list,
@@ -16,13 +17,19 @@ import {
   DeleteVersionOptionalParams,
   ToolboxesDeleteOptionalParams,
   ToolboxesUpdateOptionalParams,
+  ToolboxesInvokeLatestToolboxMcpOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
   ToolboxesListOptionalParams,
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "../../api/toolboxes/options.js";
-import { ToolboxToolUnion, ToolboxVersionObject, ToolboxObject } from "../../models/models.js";
+import {
+  ToolboxToolUnion,
+  ToolboxVersionObject,
+  ToolboxObject,
+  ToolboxesInvokeLatestToolboxMcpResponse,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Toolboxes operations. */
@@ -34,11 +41,6 @@ export interface ToolboxesOperations {
     options?: DeleteVersionOptionalParams,
   ) => Promise<void>;
   /** Removes the specified toolbox along with all of its versions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, options?: ToolboxesDeleteOptionalParams) => Promise<void>;
   /** Updates the toolbox's default version pointer to the specified version. */
   update: (
@@ -46,6 +48,13 @@ export interface ToolboxesOperations {
     defaultVersion: string,
     options?: ToolboxesUpdateOptionalParams,
   ) => Promise<ToolboxObject>;
+  /** Invokes the latest version of the specified toolbox through its MCP endpoint. */
+  invokeLatestToolboxMcp: (
+    name: string,
+    contentType: string,
+    request: Record<string, any>,
+    options?: ToolboxesInvokeLatestToolboxMcpOptionalParams,
+  ) => Promise<ToolboxesInvokeLatestToolboxMcpResponse>;
   /** Retrieves the specified version of a toolbox by name and version identifier. */
   getVersion: (
     name: string,
@@ -77,6 +86,12 @@ function _getToolboxes(context: AIProjectContext) {
       $delete(context, name, options),
     update: (name: string, defaultVersion: string, options?: ToolboxesUpdateOptionalParams) =>
       update(context, name, defaultVersion, options),
+    invokeLatestToolboxMcp: (
+      name: string,
+      contentType: string,
+      request: Record<string, any>,
+      options?: ToolboxesInvokeLatestToolboxMcpOptionalParams,
+    ) => invokeLatestToolboxMcp(context, name, contentType, request, options),
     getVersion: (name: string, version: string, options?: GetVersionOptionalParams) =>
       getVersion(context, name, version, options),
     listVersions: (name: string, options?: ListVersionsOptionalParams) =>

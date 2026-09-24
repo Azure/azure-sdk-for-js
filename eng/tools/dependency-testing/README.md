@@ -26,12 +26,10 @@ For example:
    pnpm build --filter @azure/communication-sms... --verbose
 ```
 
-2. Install the dependency-testing package dependencies:
+2. Go to the dependency-testing tool directory. Its dependencies were installed by the root `pnpm install` in the previous step:
 
 ```
 cd eng\tools\dependency-testing
-
-npm install
 ```
 
 3. Run the dependency-testing script
@@ -45,8 +43,6 @@ For example,
 ```
 node index.js --artifact-name "@azure/communication-sms" --version-type "min" --source-dir "C:\repos\azure-sdk-for-js\" --test-folder "test/public"
 ```
-
-(Note: You may not need to do `npm install` every time you are testing, only once should be enough).
 
 4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `pnpm install`
 5. Go to your package's `test\public` folder and run these steps from inside it:
