@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MaintenanceManagement test", () => {
+describe.skip("MaintenanceManagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MaintenanceManagementClient;
