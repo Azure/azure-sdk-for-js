@@ -144,3 +144,5 @@ https://www.npmjs.com/package/@azure/arm-redhatopenshifthcp
 https://aka.ms/aks/concurrent-node-operations
 https://learn.microsoft.com/javascript/api/@azure/iot-device-registry-software-update?view=azure-node-preview
 https://www.npmjs.com/package/@azure/iot-device-registry-software-update
+https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistrysoftwareupdate?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-deviceregistrysoftwareupdate
