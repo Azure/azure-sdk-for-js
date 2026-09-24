@@ -449,9 +449,21 @@ export function intersect<T, U>(
   return createFunctionCallExpression<T & U>("intersection", [a, b]);
 }
 
-/** Returns the union of two arrays or objects. */
-export function union<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T | U> {
-  return createFunctionCallExpression<T | U>("union", [a, b]);
+/** Returns the union of two arrays, with elements from either input. */
+export function union<TElement, UElement>(
+  a: ExpressionOrValue<readonly TElement[]>,
+  b: ExpressionOrValue<readonly UElement[]>,
+): Expression<(TElement | UElement)[]>;
+/** Returns the union of two objects, with properties from both inputs. */
+export function union<T extends object, U extends object>(
+  a: T extends readonly unknown[] ? never : ExpressionOrValue<T>,
+  b: U extends readonly unknown[] ? never : ExpressionOrValue<U>,
+): Expression<T & U>;
+export function union(
+  a: ExpressionOrValue<object>,
+  b: ExpressionOrValue<object>,
+): Expression<object> {
+  return createFunctionCallExpression<object>("union", [a, b]);
 }
 
 /** Skips the first `count` elements of an array. */
