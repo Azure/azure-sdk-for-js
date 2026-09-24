@@ -1,5 +1,10 @@
 # Release History
 
+## 5.0.0 (2026-09-24)
+
+### Breaking Changes
+  - Operation VNetPeeringOperations.get has a new signature
+
 ## 4.0.0 (2026-07-16)
 
 ### Features Added

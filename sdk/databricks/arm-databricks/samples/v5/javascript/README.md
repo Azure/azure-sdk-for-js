@@ -1,4 +1,4 @@
-# @azure/arm-databricks client library samples for JavaScript (Beta)
+# @azure/arm-databricks client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-databricks in some common scenarios.
 
@@ -11,7 +11,7 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [accessConnectorsListBySubscriptionSample.js][accessconnectorslistbysubscriptionsample]             | gets all the Azure Databricks Access Connectors within a subscription. x-ms-original-file: 2026-01-01/AccessConnectorsListBySubscriptionId.json                                                                                                                                                                                                                     |
 | [accessConnectorsUpdateSample.js][accessconnectorsupdatesample]                                     | updates an Azure Databricks Access Connector. x-ms-original-file: 2026-01-01/AccessConnectorPatchUpdate.json                                                                                                                                                                                                                                                        |
 | [operationsListSample.js][operationslistsample]                                                     | list the operations for the provider x-ms-original-file: 2026-01-01/OperationsList.json                                                                                                                                                                                                                                                                             |
-| [outboundNetworkDependenciesEndpointsListSample.js][outboundnetworkdependenciesendpointslistsample] | gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/udr x-ms-original-file: 2026-01-01/OutboundNetworkDependenciesEndpointsList.json |
+| [outboundNetworkDependenciesEndpointsListSample.js][outboundnetworkdependenciesendpointslistsample] | gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr x-ms-original-file: 2026-01-01/OutboundNetworkDependenciesEndpointsList.json |
 | [privateEndpointConnectionsCreateSample.js][privateendpointconnectionscreatesample]                 | update the status of a private endpoint connection with the specified name x-ms-original-file: 2026-01-01/PrivateEndpointConnectionsUpdate.json                                                                                                                                                                                                                     |
 | [privateEndpointConnectionsDeleteSample.js][privateendpointconnectionsdeletesample]                 | remove private endpoint connection with the specified name x-ms-original-file: 2026-01-01/PrivateEndpointConnectionsDelete.json                                                                                                                                                                                                                                     |
 | [privateEndpointConnectionsGetSample.js][privateendpointconnectionsgetsample]                       | get a private endpoint connection properties for a workspace x-ms-original-file: 2026-01-01/PrivateEndpointConnectionsGet.json                                                                                                                                                                                                                                      |
@@ -67,30 +67,30 @@ node accessConnectorsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accessconnectorscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsCreateOrUpdateSample.js
-[accessconnectorsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsDeleteSample.js
-[accessconnectorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsGetSample.js
-[accessconnectorslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsListByResourceGroupSample.js
-[accessconnectorslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsListBySubscriptionSample.js
-[accessconnectorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/accessConnectorsUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/operationsListSample.js
-[outboundnetworkdependenciesendpointslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/outboundNetworkDependenciesEndpointsListSample.js
-[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateEndpointConnectionsCreateSample.js
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateEndpointConnectionsDeleteSample.js
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateEndpointConnectionsGetSample.js
-[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateEndpointConnectionsListSample.js
-[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateLinkResourcesGetSample.js
-[privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/privateLinkResourcesListSample.js
-[vnetpeeringcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/vNetPeeringCreateOrUpdateSample.js
-[vnetpeeringdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/vNetPeeringDeleteSample.js
-[vnetpeeringgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/vNetPeeringGetSample.js
-[vnetpeeringlistbyworkspacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/vNetPeeringListByWorkspaceSample.js
-[workspacescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesCreateOrUpdateSample.js
-[workspacesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesDeleteSample.js
-[workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesGetSample.js
-[workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesListByResourceGroupSample.js
-[workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesListBySubscriptionSample.js
-[workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v4-beta/javascript/workspacesUpdateSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databricks?view=azure-node-preview
+[accessconnectorscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsCreateOrUpdateSample.js
+[accessconnectorsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsDeleteSample.js
+[accessconnectorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsGetSample.js
+[accessconnectorslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsListByResourceGroupSample.js
+[accessconnectorslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsListBySubscriptionSample.js
+[accessconnectorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/accessConnectorsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/operationsListSample.js
+[outboundnetworkdependenciesendpointslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/outboundNetworkDependenciesEndpointsListSample.js
+[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateEndpointConnectionsCreateSample.js
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateEndpointConnectionsDeleteSample.js
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateEndpointConnectionsGetSample.js
+[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateEndpointConnectionsListSample.js
+[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateLinkResourcesGetSample.js
+[privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/privateLinkResourcesListSample.js
+[vnetpeeringcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/vNetPeeringCreateOrUpdateSample.js
+[vnetpeeringdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/vNetPeeringDeleteSample.js
+[vnetpeeringgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/vNetPeeringGetSample.js
+[vnetpeeringlistbyworkspacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/vNetPeeringListByWorkspaceSample.js
+[workspacescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesCreateOrUpdateSample.js
+[workspacesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesDeleteSample.js
+[workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesGetSample.js
+[workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesListByResourceGroupSample.js
+[workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesListBySubscriptionSample.js
+[workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databricks/arm-databricks/samples/v5/javascript/workspacesUpdateSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databricks
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databricks/arm-databricks/README.md

@@ -74,7 +74,7 @@ export interface VNetPeeringOperations {
     workspaceName: string,
     peeringName: string,
     options?: VNetPeeringGetOptionalParams,
-  ) => Promise<VirtualNetworkPeering | undefined>;
+  ) => Promise<VirtualNetworkPeering | void>;
 }
 
 function _getVNetPeering(context: AzureDatabricksManagementContext) {

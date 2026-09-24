@@ -729,7 +729,7 @@ export interface VNetPeeringOperations {
     beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, workspaceName: string, peeringName: string, virtualNetworkPeeringParameters: VirtualNetworkPeering, options?: VNetPeeringCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkPeering>, VirtualNetworkPeering>;
     delete: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringGetOptionalParams) => Promise<VirtualNetworkPeering | undefined>;
+    get: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringGetOptionalParams) => Promise<VirtualNetworkPeering | void>;
     listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: VNetPeeringListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkPeering>;
 }
 
