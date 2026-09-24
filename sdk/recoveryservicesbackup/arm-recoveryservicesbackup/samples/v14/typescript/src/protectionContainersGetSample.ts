@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets details of the specific container registered to your Recovery Services Vault.
  *
  * @summary gets details of the specific container registered to your Recovery Services Vault.
- * x-ms-original-file: 2026-07-01/AzureWorkload/ProtectionContainers_Get.json
+ * x-ms-original-file: 2026-08-01/AzureWorkload/ProtectionContainers_Get.json
  */
 async function getProtectionContainerDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

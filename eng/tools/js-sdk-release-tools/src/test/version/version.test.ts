@@ -59,6 +59,19 @@ describe("Get latest stable version after GA but beta version before GA", () => 
       expect(version).toBe(expectedVersion);
     },
   );
+
+  test("uses the latest published stable version when latest points to alpha", () => {
+    const npmView = {
+      "dist-tags": { latest: "2.0.5-alpha.20260312.1" },
+      versions: {
+        "2.0.3": {},
+        "2.0.4": {},
+        "2.0.5-alpha.20260312.1": {},
+      },
+    };
+
+    expect(getLatestStableVersion(npmView)).toBe("2.0.4");
+  });
 });
 
 describe("Get next beta version from beta and next tags", () => {

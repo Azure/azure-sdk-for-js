@@ -100,7 +100,6 @@ export interface InstancePoolsOperations {
     options?: InstancePoolsGetOptionalParams,
   ) => Promise<InstancePool>;
 }
-
 function _getInstancePools(context: SqlManagementContext) {
   return {
     list: (options?: InstancePoolsListOptionalParams) => list(context, options),
@@ -196,7 +195,6 @@ function _getInstancePools(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, instancePoolName, options),
   };
 }
-
 export function _getInstancePoolsOperations(
   context: SqlManagementContext,
 ): InstancePoolsOperations {

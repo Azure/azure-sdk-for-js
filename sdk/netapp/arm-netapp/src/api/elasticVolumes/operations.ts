@@ -49,7 +49,7 @@ export function _revertSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,6 +76,7 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return elasticVolumeDeserializer(result.body);
 }
+
 /** Revert an Elastic Volume to the snapshot specified in the body */
 export function revert(
   context: Client,
@@ -92,7 +93,7 @@ export function revert(
     getInitialResponse: () =>
       _revertSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
 }
 
@@ -110,7 +111,7 @@ export function _listByElasticPoolSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,6 +138,7 @@ export async function _listByElasticPoolDeserialize(
 
   return _elasticVolumeListResultDeserializer(result.body);
 }
+
 /** List all Elastic Volumes within the Elastic Capacity Pool */
 export function listByElasticPool(
   context: Client,
@@ -153,7 +155,7 @@ export function listByElasticPool(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -174,7 +176,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,6 +198,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete the specified Elastic Volume */
 export function $delete(
   context: Client,
@@ -211,7 +214,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -232,7 +235,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,6 +262,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return elasticVolumeDeserializer(result.body);
 }
+
 /** Patch the specified elastic volume */
 export function update(
   context: Client,
@@ -275,7 +279,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
 }
 
@@ -296,7 +300,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -325,6 +329,7 @@ export async function _createOrUpdateDeserialize(
 
   return elasticVolumeDeserializer(result.body);
 }
+
 /** Create or update the specified volume within the capacity pool */
 export function createOrUpdate(
   context: Client,
@@ -349,7 +354,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
 }
 
@@ -369,7 +374,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -394,6 +399,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
 
   return elasticVolumeDeserializer(result.body);
 }
+
 /** Get the details of the specified volume */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a setting.
  *
  * @summary gets a setting.
- * x-ms-original-file: 2025-07-01-preview/settings/GetEyesOnSetting.json
+ * x-ms-original-file: 2025-10-01-preview/settings/GetEyesOnSetting.json
  */
 async function getEyesOnSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

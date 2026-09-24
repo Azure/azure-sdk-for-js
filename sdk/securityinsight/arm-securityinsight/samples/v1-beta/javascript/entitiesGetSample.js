@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetAccountEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetAccountEntityById.json
  */
 async function getAnAccountEntity() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAnAccountEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetAzureResourceEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetAzureResourceEntityById.json
  */
 async function getAnAzureResourceEntity() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getAnAzureResourceEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetCloudApplicationEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetCloudApplicationEntityById.json
  */
 async function getACloudApplicationEntity() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getACloudApplicationEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetDnsEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetDnsEntityById.json
  */
 async function getADnsEntity() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getADnsEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetFileEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetFileEntityById.json
  */
 async function getAFileEntity() {
   const credential = new DefaultAzureCredential();
@@ -98,7 +98,7 @@ async function getAFileEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetFileHashEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetFileHashEntityById.json
  */
 async function getAFileHashEntity() {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function getAFileHashEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetHostEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetHostEntityById.json
  */
 async function getAHostEntity() {
   const credential = new DefaultAzureCredential();
@@ -134,7 +134,7 @@ async function getAHostEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetIoTDeviceEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetIoTDeviceEntityById.json
  */
 async function getAnIoTDeviceEntity() {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function getAnIoTDeviceEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetIpEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetIpEntityById.json
  */
 async function getAnIpEntity() {
   const credential = new DefaultAzureCredential();
@@ -170,7 +170,7 @@ async function getAnIpEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetMailClusterEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetMailClusterEntityById.json
  */
 async function getAMailClusterEntity() {
   const credential = new DefaultAzureCredential();
@@ -188,7 +188,7 @@ async function getAMailClusterEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetMailMessageEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetMailMessageEntityById.json
  */
 async function getAMailMessageEntity() {
   const credential = new DefaultAzureCredential();
@@ -206,7 +206,7 @@ async function getAMailMessageEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetMailboxEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetMailboxEntityById.json
  */
 async function getAMailboxEntity() {
   const credential = new DefaultAzureCredential();
@@ -224,7 +224,7 @@ async function getAMailboxEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetMalwareEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetMalwareEntityById.json
  */
 async function getAMalwareEntity() {
   const credential = new DefaultAzureCredential();
@@ -242,7 +242,7 @@ async function getAMalwareEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetProcessEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetProcessEntityById.json
  */
 async function getAProcessEntity() {
   const credential = new DefaultAzureCredential();
@@ -260,7 +260,7 @@ async function getAProcessEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetRegistryKeyEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetRegistryKeyEntityById.json
  */
 async function getARegistryKeyEntity() {
   const credential = new DefaultAzureCredential();
@@ -278,7 +278,7 @@ async function getARegistryKeyEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetRegistryValueEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetRegistryValueEntityById.json
  */
 async function getARegistryValueEntity() {
   const credential = new DefaultAzureCredential();
@@ -296,7 +296,7 @@ async function getARegistryValueEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetSecurityAlertEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetSecurityAlertEntityById.json
  */
 async function getASecurityAlertEntity() {
   const credential = new DefaultAzureCredential();
@@ -314,7 +314,7 @@ async function getASecurityAlertEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetSecurityGroupEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetSecurityGroupEntityById.json
  */
 async function getASecurityGroupEntity() {
   const credential = new DefaultAzureCredential();
@@ -332,7 +332,7 @@ async function getASecurityGroupEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetSubmissionMailEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetSubmissionMailEntityById.json
  */
 async function getASubmissionMailEntity() {
   const credential = new DefaultAzureCredential();
@@ -350,7 +350,7 @@ async function getASubmissionMailEntity() {
  * This sample demonstrates how to gets an entity.
  *
  * @summary gets an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetUrlEntityById.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetUrlEntityById.json
  */
 async function getAUrlEntity() {
   const credential = new DefaultAzureCredential();

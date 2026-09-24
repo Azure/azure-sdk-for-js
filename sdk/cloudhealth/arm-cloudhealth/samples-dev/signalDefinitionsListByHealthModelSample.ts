@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list SignalDefinition resources by HealthModel
  *
  * @summary list SignalDefinition resources by HealthModel
- * x-ms-original-file: 2026-05-01-preview/SignalDefinitions_ListByHealthModel.json
+ * x-ms-original-file: 2026-09-01-preview/SignalDefinitions_ListByHealthModel.json
  */
 async function signalDefinitionsListByHealthModel(): Promise<void> {
   const credential = new DefaultAzureCredential();

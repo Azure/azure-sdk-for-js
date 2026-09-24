@@ -23,6 +23,7 @@ export interface NetAppResourceRegionInfosOperations {
     options?: NetAppResourceRegionInfosGetOptionalParams,
   ) => Promise<RegionInfoResource>;
 }
+
 function _getNetAppResourceRegionInfos(context: NetAppManagementContext) {
   return {
     list: (location: string, options?: NetAppResourceRegionInfosListOptionalParams) =>
@@ -31,6 +32,7 @@ function _getNetAppResourceRegionInfos(context: NetAppManagementContext) {
       get(context, location, options),
   };
 }
+
 export function _getNetAppResourceRegionInfosOperations(
   context: NetAppManagementContext,
 ): NetAppResourceRegionInfosOperations {

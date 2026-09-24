@@ -31,12 +31,19 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   SessionLogEvent,
   sessionLogEventDeserializer,
+  microsoft365PermissionScopesArraySerializer,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  microsoft365PublishResponseDeserializer,
+  Microsoft365PublishDefaults,
+  microsoft365PublishDefaultsDeserializer,
   SessionFileWriteResponse,
   sessionFileWriteResponseDeserializer,
   _SessionDirectoryListResponse,
   _sessionDirectoryListResponseDeserializer,
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import {
@@ -49,6 +56,9 @@ import {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -323,6 +333,214 @@ export async function uploadSessionFile(
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _getMicrosoft365PublishDefaultsSend(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publishdefaults{?publishAsDigitalWorker,api%2Dversion}",
+    {
+      agent_name: agentName,
+      publishAsDigitalWorker: options?.publishAsDigitalWorker,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getMicrosoft365PublishDefaultsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishDefaults> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishDefaultsDeserializer(result.body);
+}
+
+/**
+ * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+ * request for a Foundry agent.
+ */
+export async function getMicrosoft365PublishDefaults(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishDefaults> {
+  const result = await _getMicrosoft365PublishDefaultsSend(context, agentName, options);
+  return _getMicrosoft365PublishDefaultsDeserialize(result);
+}
+
+export function _getMicrosoft365PackageSend(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/zip{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _getMicrosoft365PackageDeserialize(
+  result: PathUncheckedResponse & GetMicrosoft365PackageResponse,
+): Promise<GetMicrosoft365PackageResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+ * request, without publishing it. Returns the app package as `application/zip`.
+ */
+export async function getMicrosoft365Package(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): Promise<GetMicrosoft365PackageResponse> {
+  const streamableMethod = _getMicrosoft365PackageSend(context, agentName, publishScope, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _getMicrosoft365PackageDeserialize(result);
+}
+
+export function _publishToMicrosoft365Send(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publish{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _publishToMicrosoft365Deserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishResponseDeserializer(result.body);
+}
+
+/**
+ * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+ * Teams app ids.
+ */
+export async function publishToMicrosoft365(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishResponse> {
+  const result = await _publishToMicrosoft365Send(context, agentName, publishScope, options);
+  return _publishToMicrosoft365Deserialize(result);
 }
 
 export function _getSessionLogStreamSend(
@@ -1227,6 +1445,7 @@ export function _createVersionSend(
         blueprint_reference: !options?.blueprintReference
           ? options?.blueprintReference
           : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+        digital_worker_type: options?.digitalWorkerType,
         draft: options?.draft,
       },
     });
@@ -1607,6 +1826,7 @@ export function _createAgentSend(
         blueprint_reference: !options?.blueprintReference
           ? options?.blueprintReference
           : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+        digital_worker_type: options?.digitalWorkerType,
         draft: options?.draft,
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint

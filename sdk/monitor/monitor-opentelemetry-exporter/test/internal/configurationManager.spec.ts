@@ -3,9 +3,12 @@
 
 import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
+import { ConfigurationProfile } from "../../src/_configuration/configurationProfile.js";
 import type { OneSettingsResponse } from "../../src/_configuration/utils.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import {
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
+  ENV_MICROSOFT_OPENTELEMETRY_VERSION,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
   ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
@@ -33,11 +36,90 @@ describe("ConfigurationManager", () => {
 
   beforeEach(() => {
     manager.reset();
+    ConfigurationProfile.getInstance().reset();
     request.mockReset();
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "");
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "");
   });
 
   afterEach(() => {
     manager.reset();
+    ConfigurationProfile.getInstance().reset();
+    vi.unstubAllEnvs();
+  });
+
+  it("fills the write-once evaluation profile across repeated initialization", () => {
+    manager.initialize({ component: "ext", version: "1.0.0", os: "linux" });
+    manager.initialize({ component: "dst", region: "westus", ikey: "test-ikey" });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "linux",
+      rp: "",
+      attach: "",
+      version: "1.0.0",
+      component: "ext",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("detects the Azure Monitor distro from its version environment variable", () => {
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "1.20.0");
+
+    manager.initialize({
+      component: "ext",
+      version: "1.0.0-beta.45",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "1.20.0",
+      component: "dst",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("detects the Microsoft OpenTelemetry distro from its version environment variable", () => {
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "2.0.0");
+
+    manager.initialize({
+      component: "ext",
+      version: "1.0.0-beta.46",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "2.0.0",
+      component: "mot",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("prefers the Microsoft distro when both distro version variables are present", () => {
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "1.20.0");
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "2.0.0");
+
+    manager.initialize({ component: "ext", version: "1.0.0-beta.46" });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "2.0.0",
+      component: "mot",
+      region: "",
+      ikey: "",
+    });
   });
 
   it("fetches and caches configuration when change detection reports an update", async () => {

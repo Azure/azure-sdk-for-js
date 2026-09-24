@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list and describe all NetApp Elastic Capacity Pools in the Elastic NetApp Account.
  *
  * @summary list and describe all NetApp Elastic Capacity Pools in the Elastic NetApp Account.
- * x-ms-original-file: 2026-05-15-preview/ElasticCapacityPools_ListByElasticAccount.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_ListByElasticAccount.json
  */
 async function elasticCapacityPoolsListByElasticAccount() {
   const credential = new DefaultAzureCredential();
