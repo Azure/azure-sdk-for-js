@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-computeworkloadmanager": ["../src/index.ts"],
+      "@azure/arm-computeworkloadmanager/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
