@@ -181,7 +181,7 @@ export type ExpressionOrValue<T> = T | Expression<T>;
  * When the discriminator genuinely isn't known until deployment, wrap the
  * expression with this to state which variant you mean:
  *
- * ```ts snippet:ignore
+ * ```ts
  * widget.properties.primaryRule = {
  *   kind: asDiscriminator(kindParam),
  *   cacheKind: "long",

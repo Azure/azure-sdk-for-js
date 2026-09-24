@@ -43,7 +43,7 @@ export interface ResourceGroupProps {
  * in the generated Bicep.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
@@ -97,11 +97,7 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
     };
   }
 
-  /**
-   * Create a reference to an existing ResourceGroup (not managed by this stack).
-   * Inherited from `Resource.existing` — accepts `{ name, scope? }`.
-   */
-
+  /** The resource group's location as an expression. */
   get location(): Expression<string> {
     return this.expr("location");
   }

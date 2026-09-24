@@ -21,19 +21,25 @@ export type ProvisioningComponentConstructor<
  * `Resource` instead.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { ProvisioningComponent } from "@azure/provisioning-core";
- * import { KeyVault } from "@azure/provisioning-keyvault";
- * import { StorageAccount } from "@azure/provisioning-storage";
+ * import { KeyVault, Secret } from "@azure/provisioning-keyvault";
  *
  * class DataTier extends ProvisioningComponent {
  *   readonly vault: KeyVault;
- *   readonly storage: StorageAccount;
+ *   readonly secret: Secret;
  *
- *   constructor(parent: ProvisioningComponent, tenantId: string) {
+ *   constructor(parent: ProvisioningComponent, tenantId: string, secretValue: string) {
  *     super(parent);
- *     this.vault = new KeyVault(parent, { tenantId });
- *     this.storage = new StorageAccount(parent, {});
+ *     this.vault = new KeyVault(this, {
+ *       name: "kv-my-app",
+ *       location: "eastus",
+ *       properties: { tenantId, sku: { family: "A", name: "standard" } },
+ *     });
+ *     this.secret = new Secret(this.vault, {
+ *       name: "database-password",
+ *       properties: { value: secretValue },
+ *     });
  *   }
  * }
  * ```

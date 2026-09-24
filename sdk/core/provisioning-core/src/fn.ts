@@ -14,6 +14,7 @@ import {
 // ---------------------------------------------------------------------------
 // Arithmetic operators
 // ---------------------------------------------------------------------------
+/** Adds two numbers as a deploy-time expression. */
 export function add(
   left: ExpressionOrValue<number>,
   right: ExpressionOrValue<number>,
@@ -21,6 +22,7 @@ export function add(
   return createBinaryExpression<number>("+", left, right);
 }
 
+/** Subtracts the right operand from the left at deployment time. */
 export function sub(
   left: ExpressionOrValue<number>,
   right: ExpressionOrValue<number>,
@@ -28,6 +30,7 @@ export function sub(
   return createBinaryExpression<number>("-", left, right);
 }
 
+/** Multiplies two numbers at deployment time. */
 export function mul(
   left: ExpressionOrValue<number>,
   right: ExpressionOrValue<number>,
@@ -35,6 +38,7 @@ export function mul(
   return createBinaryExpression<number>("*", left, right);
 }
 
+/** Divides the left operand by the right at deployment time. */
 export function div(
   left: ExpressionOrValue<number>,
   right: ExpressionOrValue<number>,
@@ -42,6 +46,7 @@ export function div(
   return createBinaryExpression<number>("/", left, right);
 }
 
+/** Returns the remainder of dividing the left operand by the right. */
 export function mod(
   left: ExpressionOrValue<number>,
   right: ExpressionOrValue<number>,
@@ -49,6 +54,7 @@ export function mod(
   return createBinaryExpression<number>("%", left, right);
 }
 
+/** Negates a number at deployment time. */
 export function neg(value: ExpressionOrValue<number>): Expression<number> {
   return createUnaryExpression<number>("-", value);
 }
@@ -57,6 +63,7 @@ export function neg(value: ExpressionOrValue<number>): Expression<number> {
 // Comparison operators
 // ---------------------------------------------------------------------------
 
+/** Tests whether two values are equal at deployment time. */
 export function eq(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -64,6 +71,7 @@ export function eq(
   return createBinaryExpression<boolean>("==", left, right);
 }
 
+/** Tests whether two values differ at deployment time. */
 export function neq(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -71,6 +79,7 @@ export function neq(
   return createBinaryExpression<boolean>("!=", left, right);
 }
 
+/** Tests whether the left value is greater than the right value. */
 export function gt(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -78,6 +87,7 @@ export function gt(
   return createBinaryExpression<boolean>(">", left, right);
 }
 
+/** Tests whether the left value is less than the right value. */
 export function lt(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -85,6 +95,7 @@ export function lt(
   return createBinaryExpression<boolean>("<", left, right);
 }
 
+/** Tests whether the left value is greater than or equal to the right value. */
 export function gte(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -92,6 +103,7 @@ export function gte(
   return createBinaryExpression<boolean>(">=", left, right);
 }
 
+/** Tests whether the left value is less than or equal to the right value. */
 export function lte(
   left: ExpressionOrValue<unknown>,
   right: ExpressionOrValue<unknown>,
@@ -145,6 +157,7 @@ export function or(...conditions: ExpressionOrValue<boolean>[]): Expression<bool
   return result as Expression<boolean>;
 }
 
+/** Negates a Boolean value at deployment time. */
 export function not(value: ExpressionOrValue<boolean>): Expression<boolean> {
   return createUnaryExpression<boolean>("!", value);
 }
@@ -153,6 +166,7 @@ export function not(value: ExpressionOrValue<boolean>): Expression<boolean> {
 // Conditional operators
 // ---------------------------------------------------------------------------
 
+/** Selects one of two values based on a deploy-time condition. */
 export function cond<T>(
   condition: ExpressionOrValue<boolean>,
   trueValue: ExpressionOrValue<T>,
@@ -161,6 +175,7 @@ export function cond<T>(
   return createTernaryExpression<T>(condition, trueValue, falseValue);
 }
 
+/** Returns the left value unless it is null, otherwise the right value. */
 export function coalesce<T>(
   left: ExpressionOrValue<T>,
   right: ExpressionOrValue<T>,
@@ -201,10 +216,12 @@ function interleaveTemplateLiteralArgs(
   return result;
 }
 
+/** Concatenates strings and expressions in a tagged template. */
 export function concat(
   strings: TemplateStringsArray,
   ...values: ExpressionOrValue<string>[]
 ): Expression<string>;
+/** Concatenates string values and expressions at deployment time. */
 export function concat(...values: ExpressionOrValue<string>[]): Expression<string>;
 export function concat(
   ...args: [TemplateStringsArray, ...ExpressionOrValue<string>[]] | ExpressionOrValue<string>[]
@@ -219,6 +236,7 @@ export function concat(
   return createFunctionCallExpression<string>("concat", args as ExpressionOrValue<string>[]);
 }
 
+/** Returns the first `count` characters of a string. */
 export function take(
   value: ExpressionOrValue<string>,
   count: ExpressionOrValue<number>,
@@ -226,14 +244,17 @@ export function take(
   return createFunctionCallExpression<string>("take", [value, count]);
 }
 
+/** Converts a string to lowercase at deployment time. */
 export function toLower(value: ExpressionOrValue<string>): Expression<string> {
   return createFunctionCallExpression<string>("toLower", [value]);
 }
 
+/** Converts a string to uppercase at deployment time. */
 export function toUpper(value: ExpressionOrValue<string>): Expression<string> {
   return createFunctionCallExpression<string>("toUpper", [value]);
 }
 
+/** Returns part of a string, optionally starting at `start` for `count` characters. */
 export function substring(
   value: ExpressionOrValue<string>,
   start?: ExpressionOrValue<number>,
@@ -245,6 +266,7 @@ export function substring(
   return createFunctionCallExpression<string>("substring", args);
 }
 
+/** Replaces occurrences of `oldValue` with `newValue` in a string. */
 export function replace(
   value: ExpressionOrValue<string>,
   oldValue: ExpressionOrValue<string>,
@@ -253,6 +275,7 @@ export function replace(
   return createFunctionCallExpression<string>("replace", [value, oldValue, newValue]);
 }
 
+/** Splits a string into an array at each occurrence of `delimiter`. */
 export function split(
   value: ExpressionOrValue<string>,
   delimiter: ExpressionOrValue<string>,
@@ -260,6 +283,7 @@ export function split(
   return createFunctionCallExpression<string[]>("split", [value, delimiter]);
 }
 
+/** Joins array elements into a string separated by `delimiter`. */
 export function join(
   values: ExpressionOrValue<unknown[]>,
   delimiter: ExpressionOrValue<string>,
@@ -267,20 +291,12 @@ export function join(
   return createFunctionCallExpression<string>("join", [values, delimiter]);
 }
 
-export function readEnvironmentVariable(
-  name: ExpressionOrValue<string>,
-  defaultValue?: ExpressionOrValue<string>,
-): Expression<string> {
-  return createFunctionCallExpression<string>(
-    "readEnvironmentVariable",
-    defaultValue === undefined ? [name] : [name, defaultValue],
-  );
-}
-
+/** Removes leading and trailing whitespace from a string. */
 export function trim(value: ExpressionOrValue<string>): Expression<string> {
   return createFunctionCallExpression<string>("trim", [value]);
 }
 
+/** Tests whether a string begins with `prefix`. */
 export function startsWith(
   value: ExpressionOrValue<string>,
   prefix: ExpressionOrValue<string>,
@@ -288,6 +304,7 @@ export function startsWith(
   return createFunctionCallExpression<boolean>("startsWith", [value, prefix]);
 }
 
+/** Tests whether a string ends with `suffix`. */
 export function endsWith(
   value: ExpressionOrValue<string>,
   suffix: ExpressionOrValue<string>,
@@ -295,14 +312,17 @@ export function endsWith(
   return createFunctionCallExpression<boolean>("endsWith", [value, suffix]);
 }
 
+/** Encodes a string as Base64 at deployment time. */
 export function base64(value: ExpressionOrValue<string>): Expression<string> {
   return createFunctionCallExpression<string>("base64", [value]);
 }
 
+/** Decodes Base64-encoded JSON into a value at deployment time. */
 export function base64ToJson(value: ExpressionOrValue<string>): Expression<unknown> {
   return createFunctionCallExpression<unknown>("base64ToJson", [value]);
 }
 
+/** Formats a string using indexed placeholders and the supplied values. */
 export function format(
   formatString: ExpressionOrValue<string>,
   ...values: ExpressionOrValue<unknown>[]
@@ -310,6 +330,7 @@ export function format(
   return createFunctionCallExpression<string>("format", [formatString, ...values]);
 }
 
+/** Returns the last index of `searchString` within a string. */
 export function lastIndexOf(
   value: ExpressionOrValue<string>,
   searchString: ExpressionOrValue<string>,
@@ -321,14 +342,17 @@ export function lastIndexOf(
 // Unique / ID functions
 // ---------------------------------------------------------------------------
 
+/** Creates a deterministic string from the supplied values. */
 export function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string> {
   return createFunctionCallExpression<string>("uniqueString", values);
 }
 
+/** Creates a deterministic GUID from the supplied values. */
 export function guid(...values: ExpressionOrValue<string>[]): Expression<string> {
   return createFunctionCallExpression<string>("guid", values);
 }
 
+/** Constructs a resource ID at the current deployment scope. */
 export function resourceId(
   type: ExpressionOrValue<string>,
   ...names: ExpressionOrValue<string>[]
@@ -336,6 +360,7 @@ export function resourceId(
   return createFunctionCallExpression<string>("resourceId", [type, ...names]);
 }
 
+/** Constructs an ID for a subscription-scoped resource. */
 export function subscriptionResourceId(
   type: ExpressionOrValue<string>,
   ...names: ExpressionOrValue<string>[]
@@ -343,6 +368,7 @@ export function subscriptionResourceId(
   return createFunctionCallExpression<string>("subscriptionResourceId", [type, ...names]);
 }
 
+/** Constructs an extension resource ID relative to `baseId`. */
 export function extensionResourceId(
   baseId: ExpressionOrValue<string>,
   type: ExpressionOrValue<string>,
@@ -355,14 +381,17 @@ export function extensionResourceId(
 // Numeric functions
 // ---------------------------------------------------------------------------
 
+/** Converts a value to an integer at deployment time. */
 export function int(value: ExpressionOrValue<unknown>): Expression<number> {
   return createFunctionCallExpression<number>("int", [value]);
 }
 
+/** Returns the smallest of the supplied numbers. */
 export function min(...values: ExpressionOrValue<number>[]): Expression<number> {
   return createFunctionCallExpression<number>("min", values);
 }
 
+/** Returns the largest of the supplied numbers. */
 export function max(...values: ExpressionOrValue<number>[]): Expression<number> {
   return createFunctionCallExpression<number>("max", values);
 }
@@ -371,22 +400,27 @@ export function max(...values: ExpressionOrValue<number>[]): Expression<number> 
 // Array / collection functions
 // ---------------------------------------------------------------------------
 
+/** Returns the length of a string, array, or object at deployment time. */
 export function length(value: ExpressionOrValue<unknown>): Expression<number> {
   return createFunctionCallExpression<number>("length", [value]);
 }
 
+/** Tests whether a string, array, or object is empty. */
 export function empty(value: ExpressionOrValue<unknown>): Expression<boolean> {
   return createFunctionCallExpression<boolean>("empty", [value]);
 }
 
+/** Returns the first element of an array. */
 export function first<T>(arr: ExpressionOrValue<T[]>): Expression<T> {
   return createFunctionCallExpression<T>("first", [arr]);
 }
 
+/** Returns the last element of an array. */
 export function last<T>(arr: ExpressionOrValue<T[]>): Expression<T> {
   return createFunctionCallExpression<T>("last", [arr]);
 }
 
+/** Tests whether a string, array, or object contains a value or key. */
 export function contains(
   container: ExpressionOrValue<unknown>,
   value: ExpressionOrValue<unknown>,
@@ -394,6 +428,7 @@ export function contains(
   return createFunctionCallExpression<boolean>("contains", [container, value]);
 }
 
+/** Returns the first index of `value` in an array, or -1 if absent. */
 export function indexOf<T>(
   arr: ExpressionOrValue<T[]>,
   value: ExpressionOrValue<T>,
@@ -401,10 +436,12 @@ export function indexOf<T>(
   return createFunctionCallExpression<number>("indexOf", [arr, value]);
 }
 
+/** Flattens one level of nested arrays. */
 export function flatten<T>(arr: ExpressionOrValue<T[][]>): Expression<T[]> {
   return createFunctionCallExpression<T[]>("flatten", [arr]);
 }
 
+/** Returns the intersection of two arrays or objects. */
 export function intersect<T, U>(
   a: ExpressionOrValue<T>,
   b: ExpressionOrValue<U>,
@@ -412,10 +449,12 @@ export function intersect<T, U>(
   return createFunctionCallExpression<T & U>("intersection", [a, b]);
 }
 
+/** Returns the union of two arrays or objects. */
 export function union<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T | U> {
   return createFunctionCallExpression<T | U>("union", [a, b]);
 }
 
+/** Skips the first `count` elements of an array. */
 export function skip<T>(
   arr: ExpressionOrValue<T[]>,
   count: ExpressionOrValue<number>,
@@ -423,6 +462,7 @@ export function skip<T>(
   return createFunctionCallExpression<T[]>("skip", [arr, count]);
 }
 
+/** Returns an array's elements in reverse order. */
 export function reverse<T>(arr: ExpressionOrValue<T[]>): Expression<T[]> {
   return createFunctionCallExpression<T[]>("reverse", [arr]);
 }
@@ -431,14 +471,17 @@ export function reverse<T>(arr: ExpressionOrValue<T[]>): Expression<T[]> {
 // Object functions
 // ---------------------------------------------------------------------------
 
+/** Parses JSON text into a deploy-time value. */
 export function json(value: ExpressionOrValue<string>): Expression<unknown> {
   return createFunctionCallExpression<unknown>("json", [value]);
 }
 
+/** Returns the property names of an object. */
 export function objectKeys(obj: ExpressionOrValue<object>): Expression<string[]> {
   return createFunctionCallExpression<string[]>("objectKeys", [obj]);
 }
 
+/** Returns an object's key/value pairs as an array. */
 export function items(obj: ExpressionOrValue<object>): Expression<unknown[]> {
   return createFunctionCallExpression<unknown[]>("items", [obj]);
 }

@@ -64,11 +64,15 @@ export interface DeserializeOptions {
 }
 
 /**
- * Reconstructs authored stacks from a serialized provisioning document.
+ * Reconstructs stacks from the JSON text of a {@link SerializationDocument},
+ * such as `JSON.stringify(serialize(stack))`. Returns one stack per `infras`
+ * entry; the input must contain at least one.
  *
- * The input must contain at least one infrastructure file. Unsupported module
- * declarations are rejected rather than silently discarded. A successful
- * deserialize/serialize cycle preserves deployment semantics and expressions.
+ * Import the relevant service packages before restoring to register their
+ * resource classes; otherwise unregistered types use base resources.
+ * Unsupported module declarations are rejected. A serialize/deserialize/
+ * serialize cycle preserves supported deployment semantics and expressions,
+ * though the resulting JSON need not be byte-for-byte identical.
  */
 export function deserialize(raw: string, options?: DeserializeOptions): readonly Stack[] {
   const doc = JSON.parse(raw) as SerializationDocument;

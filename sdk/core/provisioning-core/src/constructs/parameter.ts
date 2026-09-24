@@ -54,7 +54,7 @@ export interface ParameterMetadata extends ParameterOptions<
 /**
  * A stack entry pairing a parameter's declaration metadata with the
  * expression handle returned to the user. Internal; metadata is exposed via
- * {@link ParameterCollection.getMetadata} / {@link ParameterCollection.getAllMetadata}.
+ * {@link ParameterCollection.getMetadata} / {@link ParameterCollection.listMetadata}.
  */
 interface ParameterEntry {
   readonly metadata: ParameterMetadata;
@@ -115,12 +115,12 @@ export class ParameterCollection {
   }
 
   /** All parameter handles, in insertion order. */
-  getAll(): readonly Parameter[] {
+  list(): readonly Parameter[] {
     return this.#entries.map((e) => e.parameter);
   }
 
   /** All declaration metadata, in insertion order. */
-  getAllMetadata(): readonly ParameterMetadata[] {
+  listMetadata(): readonly ParameterMetadata[] {
     return this.#entries.map((e) => e.metadata);
   }
 
@@ -158,7 +158,7 @@ export class ParameterCollection {
  * declaration metadata is stored separately on the stack, keyed by name.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, createParameter } from "@azure/provisioning-core";
  *
  * const stack = new Stack("my-app", { targetScope: "resourceGroup" });

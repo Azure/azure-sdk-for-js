@@ -56,13 +56,19 @@ export interface StackOptions {
  * like the playground and CLI.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
  * const stack = new Stack("my-app");
- * const rg = new ResourceGroup(stack, "eastus");
- * const vault = new KeyVault(rg, { tenantId: "..." });
+ * const rg = new ResourceGroup(stack, { name: "rg-my-app", location: "eastus" });
+ * const vault = new KeyVault(rg, {
+ *   name: "kv-my-app",
+ *   properties: {
+ *     tenantId: "11111111-1111-1111-1111-111111111111",
+ *     sku: { family: "A", name: "standard" },
+ *   },
+ * });
  * ```
  */
 export class Stack extends ProvisioningComponent {

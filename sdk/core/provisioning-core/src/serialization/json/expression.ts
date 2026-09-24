@@ -520,9 +520,12 @@ export function deserializeExpression(
     }
 
     case "function-call":
+      if (typeof node.target !== "string") {
+        throw new Error("Cannot deserialize function call with an expression target.");
+      }
       return wrapExpression(
         functionCallExpressionNode(
-          node.target as string,
+          node.target,
           node.args.map((a) => deserializeExpression(a, symbols)),
         ),
       );

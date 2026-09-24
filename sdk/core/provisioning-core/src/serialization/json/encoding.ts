@@ -39,8 +39,12 @@ export function encodeWireValue(
     case "numeric-string":
       return requireNumericString(value, encoding, path);
     case "boolean-string":
-      if (encoding.clientMode === "wire") return requireBooleanString(value, path);
-      if (typeof value !== "boolean") fail(path, `Expected a boolean, got ${describe(value)}.`);
+      if (encoding.clientMode === "wire") {
+        return requireBooleanString(value, path);
+      }
+      if (typeof value !== "boolean") {
+        fail(path, `Expected a boolean, got ${describe(value)}.`);
+      }
       return String(value);
   }
 }

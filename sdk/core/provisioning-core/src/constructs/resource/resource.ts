@@ -444,15 +444,22 @@ export abstract class ResourceDeclaration<
  * property getters and `this.setProperty()` for setters.
  *
  * @example
- * ```typescript snippet:ignore
- * import { ResourceGroup } from "@azure/provisioning-core";
- * import { StorageAccount } from "@azure/provisioning-storage";
+ * ```typescript
+ * import { ResourceGroup, Stack } from "@azure/provisioning-core";
+ * import { KeyVault } from "@azure/provisioning-keyvault";
  *
- * const rg = new ResourceGroup(stack, "eastus");
- * const storage = new StorageAccount(rg, { sku: { name: "Standard_LRS" } });
+ * const stack = new Stack("my-app", { targetScope: "subscription" });
+ * const rg = new ResourceGroup(stack, { name: "rg-my-app", location: "eastus" });
+ * const vault = new KeyVault(rg, {
+ *   name: "kv-my-app",
+ *   properties: {
+ *     tenantId: "11111111-1111-1111-1111-111111111111",
+ *     sku: { family: "A", name: "standard" },
+ *   },
+ * });
  *
- * // storage.name is an Expression, not a string
- * // storage.id compiles to resourceId(...)
+ * // vault.name is an Expression, not a string
+ * // vault.id compiles to resourceId(...)
  * ```
  */
 export class Resource<TType extends string = string> extends ResourceDeclaration<TType> {

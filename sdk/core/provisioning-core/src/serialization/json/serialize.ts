@@ -94,12 +94,12 @@ function createSymbolMap(
     return identifier;
   }
 
-  for (const parameter of stack.parameters.getAllMetadata()) {
+  for (const parameter of stack.parameters.listMetadata()) {
     const identifier = allocateName(parameter.name);
     symbolMap.set(parameter, identifier);
     symbolMap.set(unwrapExpression(stack.parameters.get(parameter.name)!), identifier);
   }
-  for (const variable of stack.variables.getAllMetadata()) {
+  for (const variable of stack.variables.listMetadata()) {
     const identifier = allocateName(variable.name);
     symbolMap.set(variable, identifier);
     symbolMap.set(unwrapExpression(stack.variables.get(variable.name)!), identifier);
@@ -355,10 +355,18 @@ function buildDecorators(
 
   if (decl.description !== undefined) d.description = decl.description;
   if ("secure" in decl && decl.secure) d.secure = true;
-  if ("minValue" in decl && decl.minValue !== undefined) d.minValue = decl.minValue;
-  if ("maxValue" in decl && decl.maxValue !== undefined) d.maxValue = decl.maxValue;
-  if ("minLength" in decl && decl.minLength !== undefined) d.minLength = decl.minLength;
-  if ("maxLength" in decl && decl.maxLength !== undefined) d.maxLength = decl.maxLength;
+  if ("minValue" in decl && decl.minValue !== undefined) {
+    d.minValue = decl.minValue;
+  }
+  if ("maxValue" in decl && decl.maxValue !== undefined) {
+    d.maxValue = decl.maxValue;
+  }
+  if ("minLength" in decl && decl.minLength !== undefined) {
+    d.minLength = decl.minLength;
+  }
+  if ("maxLength" in decl && decl.maxLength !== undefined) {
+    d.maxLength = decl.maxLength;
+  }
   if ("metadata" in decl && decl.metadata !== undefined) {
     d.metadata = serializeDefinedObjectEntries(
       decl.metadata as {
@@ -385,7 +393,7 @@ function serializeParameters(
 ): Record<string, ParameterDeclarationNode> | undefined {
   if (stack.parameters.size === 0) return undefined;
   return Object.fromEntries(
-    stack.parameters.getAllMetadata().map((p) => {
+    stack.parameters.listMetadata().map((p) => {
       const identifier = symbolMap.get(p)!;
       const node: ParameterDeclarationNode = definedProps({
         bicepIdentifier: identifier,
@@ -407,7 +415,7 @@ function serializeVariables(
 ): Record<string, VariableDeclarationNode> | undefined {
   if (stack.variables.size === 0) return undefined;
   return Object.fromEntries(
-    stack.variables.getAllMetadata().map((v) => {
+    stack.variables.listMetadata().map((v) => {
       const identifier = symbolMap.get(v)!;
       const node: VariableDeclarationNode = definedProps({
         bicepIdentifier: identifier,
@@ -425,7 +433,7 @@ function serializeOutputs(
 ): Record<string, OutputDeclarationNode> | undefined {
   if (stack.outputs.size === 0) return undefined;
   return Object.fromEntries(
-    stack.outputs.getAll().map((o) => {
+    stack.outputs.list().map((o) => {
       let value: ExpressionNode;
       if (isResource(o.value)) {
         const symbol = symbolMap.get(o.value);
@@ -469,11 +477,12 @@ function serializeFile(
 }
 
 /**
- * Serializes one or more authored stacks into the provisioning document model.
+ * Serializes a stack or a nonempty array of stacks into a JSON-compatible
+ * {@link SerializationDocument} with one `infras` entry per stack.
  *
- * The document preserves deployment semantics, declaration references, and
- * expression structure so it can be passed to {@link deserialize} or rendered
- * by a provisioning backend. At least one stack is required.
+ * The document preserves declarations and symbolic expressions for rendering
+ * or restoration. Pass `JSON.stringify(serialize(stack))` to {@link deserialize}
+ * to reconstruct the authored stack; this does not deploy any resources.
  */
 export function serialize(input: Stack | readonly Stack[]): SerializationDocument {
   const stacks = Array.isArray(input) ? input : [input];

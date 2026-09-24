@@ -90,7 +90,7 @@ export class OutputCollection {
   }
 
   /** All output metadata, in insertion order. */
-  getAll(): readonly OutputMetadata[] {
+  list(): readonly OutputMetadata[] {
     return this.#entries;
   }
 
@@ -119,12 +119,19 @@ export class OutputCollection {
  * A deployment output, compiled to a Bicep `output` declaration.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
  * const stack = new Stack("my-app", { targetScope: "resourceGroup" });
- * const vault = new KeyVault(stack, { tenantId: "..." });
+ * const vault = new KeyVault(stack, {
+ *   name: "kv-my-app",
+ *   location: "eastus",
+ *   properties: {
+ *     tenantId: "11111111-1111-1111-1111-111111111111",
+ *     sku: { family: "A", name: "standard" },
+ *   },
+ * });
  * stack.outputs.add("vaultUri", "string", vault.properties.vaultUri);
  * ```
  */

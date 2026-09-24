@@ -85,12 +85,12 @@ export class VariableCollection {
   }
 
   /** All variable handles, in insertion order. */
-  getAll(): readonly Variable[] {
+  list(): readonly Variable[] {
     return this.#entries.map((e) => e.variable);
   }
 
   /** All declaration metadata, in insertion order. */
-  getAllMetadata(): readonly VariableMetadata[] {
+  listMetadata(): readonly VariableMetadata[] {
     return this.#entries.map((e) => e.metadata);
   }
 
@@ -123,7 +123,7 @@ export class VariableCollection {
  * A computed value evaluated at deploy time, compiled to a Bicep `var` declaration.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, createVariable } from "@azure/provisioning-core";
  *
  * const stack = new Stack("my-app");
