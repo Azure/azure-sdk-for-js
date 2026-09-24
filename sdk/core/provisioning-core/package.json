@@ -78,7 +78,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "pluralize": "^8.0.0",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
