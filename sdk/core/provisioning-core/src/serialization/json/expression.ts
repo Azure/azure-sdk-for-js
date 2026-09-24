@@ -330,6 +330,9 @@ export function serializeExpression(
     if (!Number.isInteger(value)) {
       throw new Error(`Bicep serialization currently only supports integer numbers.`);
     }
+    if (!Number.isSafeInteger(value)) {
+      throw new Error(`Bicep serialization currently only supports safe integer numbers.`);
+    }
 
     return {
       kind: "integer",
@@ -506,8 +509,13 @@ export function deserializeExpression(
   switch (node.kind) {
     case "string":
       return node.value;
-    case "integer":
-      return parseInt(node.value, 10);
+    case "integer": {
+      const value = parseInt(node.value, 10);
+      if (!Number.isSafeInteger(value)) {
+        throw new Error(`Cannot deserialize unsafe integer literal "${node.value}".`);
+      }
+      return value;
+    }
     case "boolean":
       return node.value;
     case "null":
