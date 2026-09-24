@@ -12,11 +12,12 @@ export function sanitizeIdentifier(value: string, fallback = "resource"): string
     return fallback;
   }
 
-  return words
+  const identifier = words
     .map((word, index) =>
       index === 0
         ? word.charAt(0).toLowerCase() + word.slice(1)
         : word.charAt(0).toUpperCase() + word.slice(1),
     )
     .join("");
+  return /^[0-9]/.test(identifier) ? `_${identifier}` : identifier;
 }
