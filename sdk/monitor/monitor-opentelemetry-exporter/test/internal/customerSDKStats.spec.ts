@@ -85,6 +85,25 @@ describe("CustomerSDKStatsMetrics", () => {
     await CustomerSDKStatsMetrics.shutdown();
   });
 
+  it("creates a fresh collector after instance shutdown", async () => {
+    await customerSDKStatsMetrics.shutdown();
+
+    const restarted = await CustomerSDKStatsMetrics.getInstance(mockOptions);
+
+    expect(restarted).not.toBe(customerSDKStatsMetrics);
+  });
+
+  it("shares a single collector across concurrent initialization", async () => {
+    await CustomerSDKStatsMetrics.shutdown();
+
+    const [first, second] = await Promise.all([
+      CustomerSDKStatsMetrics.getInstance(mockOptions),
+      CustomerSDKStatsMetrics.getInstance(mockOptions),
+    ]);
+
+    expect(first).toBe(second);
+  });
+
   describe("countDroppedItems", () => {
     it("should store dropReason for CLIENT_EXCEPTION drop code", () => {
       const exceptionMessage = "Network connection timeout";
