@@ -117,14 +117,15 @@ export class ConfigurationManager {
    * @returns A function that unregisters this subscription.
    */
   public registerCallback(callback: ConfigurationChangeCallback): () => void {
-    this.callbacks.push(callback);
+    const subscription: ConfigurationChangeCallback = (settings) => callback(settings);
+    this.callbacks.push(subscription);
     if (Object.keys(this.state.settings).length > 0) {
       // A callback may register after the last configuration change, so replay the cache now rather
       // than leaving the consumer stale until another change occurs (which may never happen).
-      this.invokeCallback(callback, this.state.settings);
+      this.invokeCallback(subscription, this.state.settings);
     }
     return () => {
-      const index = this.callbacks.indexOf(callback);
+      const index = this.callbacks.indexOf(subscription);
       if (index !== -1) {
         this.callbacks.splice(index, 1);
       }

@@ -183,8 +183,8 @@ export abstract class BaseSender {
     this.unregisterStorageCallback = undefined;
     this.cancelStorageTimers();
     this.retryTimerDeadlineMs = 0;
-    await Promise.allSettled([...this.replayOperations]);
     this.persister.shutdown();
+    await Promise.allSettled([...this.replayOperations]);
   }
 
   private cancelStorageTimers(): void {

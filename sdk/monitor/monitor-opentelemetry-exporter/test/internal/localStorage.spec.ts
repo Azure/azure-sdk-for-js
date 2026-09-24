@@ -340,6 +340,29 @@ describe("OneSettings local storage", () => {
     expect(sender.send).not.toHaveBeenCalled();
   });
 
+  it("cancels cleanup immediately while shutdown waits for an in-flight replay", async () => {
+    const sender = createSender();
+    await sender["persister"].push(batch);
+    const sending = deferred<void>();
+    const result = deferred<SenderResult>();
+    sender.send.mockImplementationOnce(() => {
+      sending.resolve();
+      return result.promise;
+    });
+    const replay = sender["sendFirstPersistedFile"]();
+    await sending.promise;
+    const closing = sender.shutdown();
+    try {
+      expect(vi.getTimerCount()).toBe(0);
+      await vi.advanceTimersByTimeAsync(3600000);
+    } finally {
+      result.reject(new RestError("Connection reset", { code: "ECONNRESET" }));
+      await Promise.all([replay, closing]);
+    }
+
+    expect(await sender["persister"].shift()).toEqual(JSON.parse(JSON.stringify(batch)));
+  });
+
   it("stops a pending write before creating a file if disabled during directory setup", async () => {
     let active = true;
     const persister = createPersister(() => active);
