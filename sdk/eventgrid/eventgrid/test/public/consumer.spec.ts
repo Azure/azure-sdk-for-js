@@ -41,7 +41,6 @@ describe("EventGridDeserializer", () => {
     });
 
     it("fails when a required property is missing", async () => {
-      const o = { ...testData.customTestEvent1.eventGridSchema.expected };
       for (const property of [
         "eventType",
         "eventTime",
@@ -50,6 +49,7 @@ describe("EventGridDeserializer", () => {
         "data",
         "dataVersion",
       ]) {
+        const o = { ...testData.customTestEvent1.eventGridSchema.expected };
         delete o[property];
 
         await expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
@@ -101,11 +101,11 @@ describe("EventGridDeserializer", () => {
     });
 
     it("fails when a required property is missing", async () => {
-      const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
       for (const property of ["type", "source", "id", "specversion"]) {
+        const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
         delete o[property];
 
-        await expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
+        await expect(() => consumer.deserializeCloudEvents(JSON.stringify(o))).rejects.toThrow(
           /missing required property/,
         );
       }
