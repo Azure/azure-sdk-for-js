@@ -26,7 +26,7 @@ async function createOrUpdateAStorageDiscoveryWorkspace() {
         capabilities: {
           azureBlobStorage: {
             capacityDetails: { status: "Enabled" },
-            prefixDefinitions: [
+            prefixConfigurations: [
               {
                 storageAccountName: "firstsa",
                 containerName: "samplecontainer",

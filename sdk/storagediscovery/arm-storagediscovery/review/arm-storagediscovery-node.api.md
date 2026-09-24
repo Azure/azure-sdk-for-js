@@ -17,13 +17,13 @@ export type ActionType = string;
 // @public
 export interface AzureBlobStorageCapability {
     capacityDetails: CapacityDetails;
-    prefixDefinitions?: PrefixDefinition[];
+    prefixConfigurations?: PrefixConfiguration[];
 }
 
 // @public
 export interface AzureBlobStorageCapabilityUpdate {
     capacityDetails?: CapacityDetailsUpdate;
-    prefixDefinitions?: PrefixDefinitionUpdate[];
+    prefixConfigurations?: PrefixConfigurationUpdate[];
 }
 
 // @public
@@ -172,14 +172,14 @@ export interface PageSettings {
 }
 
 // @public
-export interface PrefixDefinition {
+export interface PrefixConfiguration {
     containerName: string;
     prefix?: string;
     storageAccountName: string;
 }
 
 // @public
-export interface PrefixDefinitionUpdate {
+export interface PrefixConfigurationUpdate {
     containerName?: string;
     prefix?: string;
     storageAccountName?: string;

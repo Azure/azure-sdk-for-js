@@ -129,25 +129,25 @@ export function storageDiscoveryCapabilitiesDeserializer(item: any): StorageDisc
 export interface AzureBlobStorageCapability {
   /** The capacity details configuration for Azure Blob Storage. */
   capacityDetails: CapacityDetails;
-  /** The prefix definitions that scope the capacity details to specific storage accounts, containers, and prefixes. */
-  prefixDefinitions?: PrefixDefinition[];
+  /** The prefix configurations that scope the capacity details to specific storage accounts, containers, and prefixes. */
+  prefixConfigurations?: PrefixConfiguration[];
 }
 
 export function azureBlobStorageCapabilitySerializer(item: AzureBlobStorageCapability): any {
   return {
     capacityDetails: capacityDetailsSerializer(item["capacityDetails"]),
-    prefixDefinitions: !item["prefixDefinitions"]
-      ? item["prefixDefinitions"]
-      : prefixDefinitionArraySerializer(item["prefixDefinitions"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationArraySerializer(item["prefixConfigurations"]),
   };
 }
 
 export function azureBlobStorageCapabilityDeserializer(item: any): AzureBlobStorageCapability {
   return {
     capacityDetails: capacityDetailsDeserializer(item["capacityDetails"]),
-    prefixDefinitions: !item["prefixDefinitions"]
-      ? item["prefixDefinitions"]
-      : prefixDefinitionArrayDeserializer(item["prefixDefinitions"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationArrayDeserializer(item["prefixConfigurations"]),
   };
 }
 
@@ -185,20 +185,20 @@ export enum KnownCapabilityStatus {
  */
 export type CapabilityStatus = string;
 
-export function prefixDefinitionArraySerializer(result: Array<PrefixDefinition>): any[] {
+export function prefixConfigurationArraySerializer(result: Array<PrefixConfiguration>): any[] {
   return result.map((item) => {
-    return prefixDefinitionSerializer(item);
+    return prefixConfigurationSerializer(item);
   });
 }
 
-export function prefixDefinitionArrayDeserializer(result: Array<PrefixDefinition>): any[] {
+export function prefixConfigurationArrayDeserializer(result: Array<PrefixConfiguration>): any[] {
   return result.map((item) => {
-    return prefixDefinitionDeserializer(item);
+    return prefixConfigurationDeserializer(item);
   });
 }
 
-/** A prefix definition that scopes capacity details to a specific storage account, container, and prefix. */
-export interface PrefixDefinition {
+/** A prefix configuration that scopes capacity details to a specific storage account, container, and prefix. */
+export interface PrefixConfiguration {
   /** The name of the storage account. */
   storageAccountName: string;
   /** The name of the blob container within the storage account. */
@@ -207,7 +207,7 @@ export interface PrefixDefinition {
   prefix?: string;
 }
 
-export function prefixDefinitionSerializer(item: PrefixDefinition): any {
+export function prefixConfigurationSerializer(item: PrefixConfiguration): any {
   return {
     storageAccountName: item["storageAccountName"],
     containerName: item["containerName"],
@@ -215,7 +215,7 @@ export function prefixDefinitionSerializer(item: PrefixDefinition): any {
   };
 }
 
-export function prefixDefinitionDeserializer(item: any): PrefixDefinition {
+export function prefixConfigurationDeserializer(item: any): PrefixConfiguration {
   return {
     storageAccountName: item["storageAccountName"],
     containerName: item["containerName"],
@@ -560,8 +560,8 @@ export function storageDiscoveryCapabilitiesUpdateSerializer(
 export interface AzureBlobStorageCapabilityUpdate {
   /** The capacity details configuration to update for Azure Blob Storage. */
   capacityDetails?: CapacityDetailsUpdate;
-  /** The prefix definitions to update for Azure Blob Storage. */
-  prefixDefinitions?: PrefixDefinitionUpdate[];
+  /** The prefix configurations to update for Azure Blob Storage. */
+  prefixConfigurations?: PrefixConfigurationUpdate[];
 }
 
 export function azureBlobStorageCapabilityUpdateSerializer(
@@ -571,9 +571,9 @@ export function azureBlobStorageCapabilityUpdateSerializer(
     capacityDetails: !item["capacityDetails"]
       ? item["capacityDetails"]
       : capacityDetailsUpdateSerializer(item["capacityDetails"]),
-    prefixDefinitions: !item["prefixDefinitions"]
-      ? item["prefixDefinitions"]
-      : prefixDefinitionUpdateArraySerializer(item["prefixDefinitions"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationUpdateArraySerializer(item["prefixConfigurations"]),
   };
 }
 
@@ -587,16 +587,16 @@ export function capacityDetailsUpdateSerializer(item: CapacityDetailsUpdate): an
   return { status: item["status"] };
 }
 
-export function prefixDefinitionUpdateArraySerializer(
-  result: Array<PrefixDefinitionUpdate>,
+export function prefixConfigurationUpdateArraySerializer(
+  result: Array<PrefixConfigurationUpdate>,
 ): any[] {
   return result.map((item) => {
-    return prefixDefinitionUpdateSerializer(item);
+    return prefixConfigurationUpdateSerializer(item);
   });
 }
 
-/** A prefix definition that can be updated. */
-export interface PrefixDefinitionUpdate {
+/** A prefix configuration that can be updated. */
+export interface PrefixConfigurationUpdate {
   /** The name of the storage account. */
   storageAccountName?: string;
   /** The name of the blob container within the storage account. */
@@ -605,7 +605,7 @@ export interface PrefixDefinitionUpdate {
   prefix?: string;
 }
 
-export function prefixDefinitionUpdateSerializer(item: PrefixDefinitionUpdate): any {
+export function prefixConfigurationUpdateSerializer(item: PrefixConfigurationUpdate): any {
   return {
     storageAccountName: item["storageAccountName"],
     containerName: item["containerName"],

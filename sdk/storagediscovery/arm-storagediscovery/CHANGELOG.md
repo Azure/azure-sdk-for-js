@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (2026-09-16)
+## 1.1.0-beta.1 (2026-09-24)
 Compared with version 1.0.0
 
 ### Features Added
@@ -8,8 +8,8 @@ Compared with version 1.0.0
   - Added Interface AzureBlobStorageCapabilityUpdate
   - Added Interface CapacityDetails
   - Added Interface CapacityDetailsUpdate
-  - Added Interface PrefixDefinition
-  - Added Interface PrefixDefinitionUpdate
+  - Added Interface PrefixConfiguration
+  - Added Interface PrefixConfigurationUpdate
   - Added Interface StorageDiscoveryCapabilities
   - Added Interface StorageDiscoveryCapabilitiesUpdate
   - Interface StorageDiscoveryWorkspaceProperties has a new optional parameter capabilities
