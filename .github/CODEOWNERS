@@ -36,22 +36,22 @@
 # ServiceLabel: %AgriFood
 
 # PRLabel: %AI Agents
-/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper
+/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Agents
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Model Inference
-/sdk/ai/ai-inference-rest    @dargilco @glharper
+/sdk/ai/ai-inference-rest    @dargilco @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Model Inference
-# ServiceOwners: @dargilco @glharper
+# ServiceOwners: @dargilco @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Projects
-/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper
+/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms @mrm9084
@@ -82,12 +82,18 @@
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
 
-# AzureSdkOwners: @KarishmaGhiya @maorleger @minhanh-phan
+# AzureSdkOwners: @KarishmaGhiya @minhanh-phan
 # ServiceLabel: %Azure.Identity
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
 /sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris @lilinvictorms @iwang2 @xingwu1
+
+# PRLabel: %Cognitive - Content Safety
+/sdk/contentsafety/                                               @Azure/azure-sdk-write-contentsafety
+
+# ServiceLabel: %Cognitive - Content Safety
+# ServiceOwners:                                                  @Azure/azure-sdk-write-contentsafety
 
 # PRLabel: %Cognitive - Content Understanding
 /sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
@@ -262,10 +268,10 @@
 /sdk/onlineexperimentation/    @Azure/azure-sdk-write-onlineexperimentation
 
 # PRLabel: %OpenAI
-/sdk/openai/    @minhanh-phan @trrwilson
+/sdk/openai/    @minhanh-phan  @Azure/ai-foundry-devex
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @trrwilson
+# ServiceOwners:  @Azure/ai-foundry-devex
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/    @maorleger @minhanh-phan
@@ -380,9 +386,6 @@
 
 # PRLabel: %Mgmt
 /sdk/appservice/arm-appservice-rest/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/astro/arm-astro/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
@@ -697,22 +700,10 @@
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/playwright/arm-playwright/ @qiaozha @MaryGao @JialinHuang803
