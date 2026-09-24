@@ -99,7 +99,6 @@ export interface PrivateAccessesOperations {
     options?: PrivateAccessesGetOptionalParams,
   ) => Promise<PrivateAccess>;
 }
-
 function _getPrivateAccesses(context: ChaosManagementContext) {
   return {
     listPrivateEndpointConnections: (
@@ -165,7 +164,6 @@ function _getPrivateAccesses(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, privateAccessName, options),
   };
 }
-
 export function _getPrivateAccessesOperations(
   context: ChaosManagementContext,
 ): PrivateAccessesOperations {

@@ -1,6 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/horizonDbAdministrators/index.ts",
+    "../src/api/horizonDbParameterGroups/index.ts",
+    "../src/api/horizonDbPrivateLinkResources/index.ts",
+    "../src/api/horizonDbPrivateEndpointConnections/index.ts",
+    "../src/api/horizonDbFirewallRules/index.ts",
+    "../src/api/horizonDbReplicas/index.ts",
+    "../src/api/horizonDbPools/index.ts",
+    "../src/api/horizonDbClusters/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

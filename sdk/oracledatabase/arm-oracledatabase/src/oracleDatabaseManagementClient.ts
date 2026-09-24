@@ -20,6 +20,10 @@ import type { CloudExadataInfrastructuresOperations } from "./classic/cloudExada
 import { _getCloudExadataInfrastructuresOperations } from "./classic/cloudExadataInfrastructures/index.js";
 import type { CloudVmClustersOperations } from "./classic/cloudVmClusters/index.js";
 import { _getCloudVmClustersOperations } from "./classic/cloudVmClusters/index.js";
+import type { DatabaseEditionsOperations } from "./classic/databaseEditions/index.js";
+import { _getDatabaseEditionsOperations } from "./classic/databaseEditions/index.js";
+import type { DatabaseSystemShapeResourcesOperations } from "./classic/databaseSystemShapeResources/index.js";
+import { _getDatabaseSystemShapeResourcesOperations } from "./classic/databaseSystemShapeResources/index.js";
 import type { DbNodesOperations } from "./classic/dbNodes/index.js";
 import { _getDbNodesOperations } from "./classic/dbNodes/index.js";
 import type { DbServersOperations } from "./classic/dbServers/index.js";
@@ -46,6 +50,10 @@ import type { GiMinorVersionsOperations } from "./classic/giMinorVersions/index.
 import { _getGiMinorVersionsOperations } from "./classic/giMinorVersions/index.js";
 import type { GiVersionsOperations } from "./classic/giVersions/index.js";
 import { _getGiVersionsOperations } from "./classic/giVersions/index.js";
+import type { GoldenGateConnectionsOperations } from "./classic/goldenGateConnections/index.js";
+import { _getGoldenGateConnectionsOperations } from "./classic/goldenGateConnections/index.js";
+import type { GoldenGateDeploymentsOperations } from "./classic/goldenGateDeployments/index.js";
+import { _getGoldenGateDeploymentsOperations } from "./classic/goldenGateDeployments/index.js";
 import type { NetworkAnchorsOperations } from "./classic/networkAnchors/index.js";
 import { _getNetworkAnchorsOperations } from "./classic/networkAnchors/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -61,7 +69,7 @@ import { _getVirtualNetworkAddressesOperations } from "./classic/virtualNetworkA
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
+export type { OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
 
 export class OracleDatabaseManagementClient {
   private _client: OracleDatabaseManagementContext;
@@ -73,15 +81,12 @@ export class OracleDatabaseManagementClient {
     subscriptionId: string,
     options: OracleDatabaseManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createOracleDatabaseManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createOracleDatabaseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.goldenGateDeployments = _getGoldenGateDeploymentsOperations(this._client);
+    this.goldenGateConnections = _getGoldenGateConnectionsOperations(this._client);
+    this.databaseSystemShapeResources = _getDatabaseSystemShapeResourcesOperations(this._client);
+    this.databaseEditions = _getDatabaseEditionsOperations(this._client);
     this.dbVersions = _getDbVersionsOperations(this._client);
     this.dbSystems = _getDbSystemsOperations(this._client);
     this.resourceAnchors = _getResourceAnchorsOperations(this._client);
@@ -113,6 +118,14 @@ export class OracleDatabaseManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for goldenGateDeployments */
+  public readonly goldenGateDeployments: GoldenGateDeploymentsOperations;
+  /** The operation groups for goldenGateConnections */
+  public readonly goldenGateConnections: GoldenGateConnectionsOperations;
+  /** The operation groups for databaseSystemShapeResources */
+  public readonly databaseSystemShapeResources: DatabaseSystemShapeResourcesOperations;
+  /** The operation groups for databaseEditions */
+  public readonly databaseEditions: DatabaseEditionsOperations;
   /** The operation groups for dbVersions */
   public readonly dbVersions: DbVersionsOperations;
   /** The operation groups for dbSystems */

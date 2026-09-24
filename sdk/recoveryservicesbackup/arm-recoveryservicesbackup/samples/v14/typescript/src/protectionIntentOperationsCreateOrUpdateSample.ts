@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Intent for Enabling backup of an item. This is a synchronous operation.
  *
  * @summary create Intent for Enabling backup of an item. This is a synchronous operation.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
  */
 async function createOrUpdateAzureVmProtectionIntent(): Promise<void> {
   const credential = new DefaultAzureCredential();

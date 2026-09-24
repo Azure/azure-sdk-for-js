@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to connects a data connector.
  *
  * @summary connects a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/ConnectAPIPolling.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/ConnectAPIPolling.json
  */
 async function connectAnAPIPollingDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function connectAnAPIPollingDataConnector(): Promise<void> {
  * This sample demonstrates how to connects a data connector.
  *
  * @summary connects a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/ConnectAPIPollingV2Logs.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/ConnectAPIPollingV2Logs.json
  */
 async function connectAnAPIPollingV2LogsDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

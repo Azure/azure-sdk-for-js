@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { listAll } from "../../api/azureFirewallFqdnTags/operations.js";
 import type { AzureFirewallFqdnTagsListAllOptionalParams } from "../../api/azureFirewallFqdnTags/options.js";
-import type { AzureFirewallFqdnTag } from "../../models/microsoft/network/models.js";
+import type { AzureFirewallFqdnTag } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AzureFirewallFqdnTags operations. */

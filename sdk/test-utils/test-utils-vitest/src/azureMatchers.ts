@@ -58,14 +58,17 @@ interface AzureMatchers<R> extends Record<string, any> {
     expectedSpanNames: string[],
     options?: { tracingOptions?: OperationTracingOptions },
     thisArg?: ThisParameterType<Callback>,
-  ): Promise<R>;
+  ): R;
 }
 
 declare module "vitest" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface Assertion<
+    R extends void | Promise<void> = void,
+    T = unknown,
+  > extends AzureMatchers<R> {}
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
-  interface Assertion<T = any> extends AzureMatchers<T> {}
+  interface AsymmetricMatchersContaining extends AzureMatchers<any> {}
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
-  interface AsymmetricMatchersContaining<T = any> extends AzureMatchers<T> {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
-  interface ExpectStatic<T = any> extends AzureMatchers<T> {}
+  interface ExpectStatic extends AzureMatchers<any> {}
 }

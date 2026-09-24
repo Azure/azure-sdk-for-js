@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a job
  *
  * @summary gets a job
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/GetJob.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/GetJob.json
  */
 async function getAWorkspaceManagerJob() {
   const credential = new DefaultAzureCredential();

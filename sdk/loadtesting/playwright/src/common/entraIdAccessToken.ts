@@ -83,7 +83,9 @@ export class EntraIdAccessToken {
     } catch (err) {
       coreLogger.error(err);
       process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR] = "true";
-      throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_ENTRA_TOKEN.message);
+      throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_ENTRA_TOKEN.message, {
+        cause: err,
+      });
     }
   };
 

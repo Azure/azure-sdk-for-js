@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   listByProviderRegistration,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/notificationRegistrations/operations.js";
-import {
+import type {
   NotificationRegistrationsListByProviderRegistrationOptionalParams,
   NotificationRegistrationsDeleteOptionalParams,
   NotificationRegistrationsCreateOrUpdateOptionalParams,
   NotificationRegistrationsGetOptionalParams,
 } from "../../api/notificationRegistrations/options.js";
-import { NotificationRegistration } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { NotificationRegistration } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NotificationRegistrations operations. */
 export interface NotificationRegistrationsOperations {

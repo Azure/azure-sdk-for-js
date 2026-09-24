@@ -504,6 +504,14 @@ for await (const sessionId of serviceBusClient.listMessageSessions("my-session-q
 for await (const sessionId of serviceBusClient.listMessageSessions("my-topic", "my-subscription")) {
   console.log("Session ID:", sessionId);
 }
+
+// List only sessions whose stored session state was set or updated in the last seven days
+const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+  sessionStateUpdatedAfter,
+})) {
+  console.log("Recently updated session ID:", sessionId);
+}
 ```
 
 ### Manage resources of a service bus namespace

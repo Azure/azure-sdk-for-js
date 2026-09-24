@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified alert configuration of a managed cluster.
  *
  * @summary gets the specified alert configuration of a managed cluster.
- * x-ms-original-file: 2026-05-02-preview/AlertConfigurations_Get.json
+ * x-ms-original-file: 2026-06-02-preview/AlertConfigurations_Get.json
  */
 async function getAlertConfiguration() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the automation rule.
  *
  * @summary creates or updates the automation rule.
- * x-ms-original-file: 2025-07-01-preview/automationRules/AutomationRules_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01-preview/automationRules/AutomationRules_CreateOrUpdate.json
  */
 async function automationRulesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

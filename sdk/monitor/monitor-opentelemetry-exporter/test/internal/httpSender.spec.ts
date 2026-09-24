@@ -674,6 +674,18 @@ describe("HttpSender", () => {
       // continue talking to the attacker (no persistent host poisoning).
       const client = (sender as any)["appInsightsClient"] as any;
       assert.strictEqual(client["host"], DEFAULT_BREEZE_ENDPOINT);
+    });
+
+    it("should reject a malformed redirect location without changing the host", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+
+      assert.isFalse(sender.handlePermanentRedirect("not a URL"));
+      assert.strictEqual(sender.appInsightsClientOptions.host, DEFAULT_BREEZE_ENDPOINT);
 
       nock.cleanAll();
     });

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Elastic Backup Policy
  *
  * @summary get the Elastic Backup Policy
- * x-ms-original-file: 2026-05-15-preview/ElasticBackupPolicies_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupPolicies_Get.json
  */
 async function elasticBackupPoliciesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

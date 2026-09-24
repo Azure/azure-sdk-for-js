@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-vscode",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "sdk-type": "client",
   "description": "Use the Azure Account extension for Visual Studio Code to authenticate with Azure Identity",
   "main": "./dist/commonjs/index.js",
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@azure/identity": "^4.11.0",
-    "@azure/msal-node": "^5.1.5",
+    "@azure/msal-node": "^6.0.0",
     "@azure/msal-node-extensions": "^5.1.0",
     "tslib": "^2.8.1"
   },

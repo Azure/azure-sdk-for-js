@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a private access
  *
  * @summary create or update a private access
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_CreateOrUpdate_Create_Or_Update_A_Private_Access_Resource.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_CreateOrUpdate_Create_Or_Update_A_Private_Access_Resource.json
  */
 async function createOrUpdateAPrivateAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function createOrUpdateAPrivateAccessResource(): Promise<void> {
  * This sample demonstrates how to create or update a private access
  *
  * @summary create or update a private access
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_CreateOrUpdate_Create_Or_Update_A_Private_Access_Resource_With_Public_Network_Access.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_CreateOrUpdate_Create_Or_Update_A_Private_Access_Resource_With_Public_Network_Access.json
  */
 async function createOrUpdateAPrivateAccessResourceWithPublicNetworkAccess(): Promise<void> {
   const credential = new DefaultAzureCredential();

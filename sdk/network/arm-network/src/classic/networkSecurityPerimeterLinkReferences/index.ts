@@ -8,7 +8,7 @@ import type {
   NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams,
   NetworkSecurityPerimeterLinkReferencesGetOptionalParams,
 } from "../../api/networkSecurityPerimeterLinkReferences/options.js";
-import type { NspLinkReference } from "../../models/microsoft/network/models.js";
+import type { NspLinkReference } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
