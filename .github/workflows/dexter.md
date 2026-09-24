@@ -20,6 +20,8 @@ on:
         type: string
   bots: [github-actions]
 jobs:
+  safe_outputs:
+    needs: [validate_request]
   validate_request:
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-slim
@@ -79,7 +81,6 @@ tools:
   repo-memory:
   web-fetch:
 safe-outputs:
-  needs: [validate_request]
   steps:
     - name: Reject stale review outputs
       uses: actions/github-script@v9.0.0

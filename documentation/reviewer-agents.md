@@ -275,3 +275,10 @@ recompile with:
 ```bash
 gh aw compile <agent-name>
 ```
+
+Declare the publishing job's validation dependency under
+`jobs.safe_outputs.needs`, not `safe-outputs.needs`: validation runs before the
+agent, whereas the latter marks dependencies as handler-only in the pinned
+compiler and clears their values from the agent-side safe-output config.
+The routing tests check that both the agent-side and publishing configs retain
+the same validated PR number and head SHA.

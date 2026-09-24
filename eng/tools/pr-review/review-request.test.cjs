@@ -1138,6 +1138,8 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
     assert.match(source, /checkout: false/);
     assert.match(source, /request_event_id:\n\s+description: GitHub label-event ID/);
     assert.match(source, /if: needs\.validate_request\.outputs\.ready == 'true'/);
+    assert.match(source, /jobs:\n  safe_outputs:\n    needs: \[validate_request\]/);
+    assert.doesNotMatch(source, /safe-outputs:\n  needs:/);
     assert.ok(source.includes(`prepareReview({ github, context, core }, '${reviewerId}')`));
     assert.ok(
       source.includes(
@@ -1189,6 +1191,49 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
     assert.doesNotMatch(agent, /^\s+(?:contents|pull-requests|issues|actions): write$/m);
   });
 
+  test(`${reviewerId} preserves validated targets in the agent-side safe-output config`, () => {
+    const compiled = workflowText(`${reviewerId}.lock.yml`);
+    const agent = compiled.split("\n  agent:\n")[1].split(/\n  [\w-]+:\n/)[0];
+    assert.match(agent, /^    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m);
+    const encoded = compiled.match(/^\s+GH_AW_SAFE_OUTPUTS_CONFIG: (.+)$/m)[1];
+    const configText = JSON.parse(encoded);
+    const config = JSON.parse(configText);
+    const handlerConfig = JSON.parse(
+      JSON.parse(compiled.match(/^\s+GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: (.+)$/m)[1]),
+    );
+    for (const handler of [
+      "add_labels",
+      "remove_labels",
+      "create_pull_request_review_comment",
+      "submit_pull_request_review",
+    ]) {
+      assert.equal(config[handler].target, "${{ needs.validate_request.outputs.pr_number }}");
+      assert.deepEqual(config[handler], handlerConfig[handler]);
+    }
+    for (const handler of ["create_pull_request_review_comment", "submit_pull_request_review"]) {
+      assert.equal(config[handler].commit_id, "${{ needs.validate_request.outputs.head_sha }}");
+    }
+
+    // Actions resolves these expressions before create_files writes the MCP config.
+    // In particular, a manual dispatch's optional head_sha input may be empty.
+    const rendered = JSON.parse(
+      configText
+        .replaceAll("${{ needs.validate_request.outputs.pr_number }}", "42")
+        .replaceAll("${{ needs.validate_request.outputs.head_sha }}", headSha),
+    );
+    assert.equal(rendered.add_labels.target, "42");
+    assert.equal(rendered.remove_labels.target, "42");
+    for (const handler of ["create_pull_request_review_comment", "submit_pull_request_review"]) {
+      assert.equal(rendered[handler].target, "42");
+      assert.equal(rendered[handler].commit_id, headSha);
+    }
+    const fileConfig = JSON.parse(JSON.parse(agent.match(/^\s+GH_AW_FILE_CONFIG: (.+)$/m)[1]));
+    assert.deepEqual(
+      fileConfig.files.find((file) => file.path === "safeoutputs/config.json"),
+      { path: "safeoutputs/config.json", content_env: "GH_AW_SAFE_OUTPUTS_CONFIG" },
+    );
+  });
+
   // Exercise each actual safe-output step, not a separate copy of its logic.
   const guardStep = source
     .split("    - name: Reject stale review outputs\n")[1]
@@ -1237,4 +1282,14 @@ test("management review retains its specialized threat detection and format-fix 
   assert.match(management, /threat-detection:/);
   assert.match(management, /model: gpt-5\.6-sol/);
   assert.match(management, /dispatch-workflow:\s+- format-auto-fix/);
+});
+
+test("management API exclusions remain explicit within the public-surface review step", () => {
+  const management = workflowText("mgmt-review.md");
+  const apiStep = management.split("### Step 3")[1].split("### Step 4")[0];
+  assert.match(
+    apiStep,
+    /^   Do not review submodules such as `\/models` or `\/api`, or issues outside the\n   guidelines such as `undocumented`\./m,
+  );
+  assert.doesNotMatch(apiStep, /^- (Review submodules|Focus on issues)/m);
 });

@@ -20,6 +20,8 @@ on:
         type: string
   bots: [github-actions, azure-sdk-automation]
 jobs:
+  safe_outputs:
+    needs: [validate_request]
   validate_request:
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-slim
@@ -81,7 +83,6 @@ tools:
   cache-memory:
   repo-memory:
 safe-outputs:
-  needs: [validate_request]
   steps:
     - name: Reject stale review outputs
       uses: actions/github-script@v9.0.0
@@ -190,11 +191,10 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 1. List the files changed in the pull request using the GitHub API.
 2. Focus on:
    - `review/{package-name}-node.api.md` files (the API report — each line is a public symbol)
+   - Only the checkpoints mentioned in the guidelines.
 
-- Only consider checkpoints mentioned in the guidelines
-  No need to:
-- Review submodules like `/models` or `/api`
-- Focus on issues not mentioned in the guidelines, such as `undocumented`
+   Do not review submodules such as `/models` or `/api`, or issues outside the
+   guidelines such as `undocumented`.
 
 3. If no guideline violations are found, state that there are no public API concerns.
 
