@@ -89,7 +89,7 @@ All SDK packages declare a minimum supported Node.js version in their `engines` 
 ## Package.json Structure (new packages)
 
 - `files`: `dist/`, types entry, `README.md`, `LICENSE`, `CHANGELOG.md`
-- `sideEffects: false` (enables tree-shaking)
+- `sideEffects: true` for `sdk-type: provisioning` (resource modules register constructors and shapes at load time); `false` for other SDK types (enables tree-shaking)
 - `sdk-type`: `client` | `mgmt` | `provisioning` | `perf-test` | `utility`
 - Scripts: `build`, `clean`, `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`, `test:node`
 - No lifecycle hooks: `preinstall`, `prebuild`, `prepack` — build system runs steps explicitly
