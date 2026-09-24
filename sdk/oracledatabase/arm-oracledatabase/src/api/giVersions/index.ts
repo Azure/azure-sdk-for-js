@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export {
-  type GiVersionsListByLocationOptionalParams,
-  type GiVersionsGetOptionalParams,
+export type {
+  GiVersionsListByLocationOptionalParams,
+  GiVersionsGetOptionalParams,
 } from "./options.js";
