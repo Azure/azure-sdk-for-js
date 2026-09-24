@@ -139,10 +139,19 @@ export interface AdvancedPlatformMetricsRuleProperties {
 export type AdvancedPlatformMetricsRuleType = string;
 
 // @public
+export type AiProvider = string;
+
+// @public
 export type AllowedCopyScope = string;
 
 // @public
 export type AllowedMethods = string;
+
+// @public
+export interface ArmEncryption {
+    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+    infrastructureEncryption?: InfrastructureEncryption;
+}
 
 // @public
 export enum AzureClouds {
@@ -553,6 +562,157 @@ export interface ContainerProperties {
 }
 
 // @public
+export interface ContextCache extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties: ContextCacheProperties;
+}
+
+// @public
+export type ContextCacheAccountKind = string;
+
+// @public
+export interface ContextCacheContainer extends ProxyResource {
+    properties: ContextCacheContainerProperties;
+}
+
+// @public
+export interface ContextCacheContainerProperties {
+    description?: string;
+    modelName: string;
+    provider: AiProvider;
+    readonly provisioningState?: ContextCacheProvisioningState;
+    timeToLive?: number;
+}
+
+// @public
+export interface ContextCacheContainerPropertiesUpdate {
+    description?: string;
+    timeToLive?: number;
+}
+
+// @public
+export interface ContextCacheContainersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCacheContainersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCacheContainersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContextCacheContainersListByContextCacheOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContextCacheContainersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, resource: ContextCacheContainer, options?: ContextCacheContainersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, resource: ContextCacheContainer, options?: ContextCacheContainersCreateOrUpdateOptionalParams) => Promise<ContextCacheContainer>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, options?: ContextCacheContainersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, options?: ContextCacheContainersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, properties: ContextCacheContainerUpdate, options?: ContextCacheContainersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, properties: ContextCacheContainerUpdate, options?: ContextCacheContainersUpdateOptionalParams) => Promise<ContextCacheContainer>;
+    createOrUpdate: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, resource: ContextCacheContainer, options?: ContextCacheContainersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>;
+    delete: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, options?: ContextCacheContainersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, options?: ContextCacheContainersGetOptionalParams) => Promise<ContextCacheContainer>;
+    listByContextCache: (resourceGroupName: string, contextCacheName: string, options?: ContextCacheContainersListByContextCacheOptionalParams) => PagedAsyncIterableIterator<ContextCacheContainer>;
+    update: (resourceGroupName: string, contextCacheName: string, contextCacheContainerName: string, properties: ContextCacheContainerUpdate, options?: ContextCacheContainersUpdateOptionalParams) => PollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>;
+}
+
+// @public
+export interface ContextCacheContainersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCacheContainerUpdate {
+    properties?: ContextCacheContainerPropertiesUpdate;
+}
+
+// @public
+export interface ContextCacheProperties {
+    accountKind: ContextCacheAccountKind;
+    description?: string;
+    encryption?: ArmEncryption;
+    readonly provisioningState?: ContextCacheProvisioningState;
+}
+
+// @public
+export interface ContextCachePropertiesUpdate {
+    description?: string;
+    encryption?: ArmEncryption;
+}
+
+// @public
+export type ContextCacheProvisioningState = string;
+
+// @public
+export interface ContextCachesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCachesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCachesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContextCachesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContextCachesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContextCachesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, contextCacheName: string, resource: ContextCache, options?: ContextCachesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContextCache>, ContextCache>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, contextCacheName: string, resource: ContextCache, options?: ContextCachesCreateOrUpdateOptionalParams) => Promise<ContextCache>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, contextCacheName: string, properties: ContextCacheUpdate, options?: ContextCachesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContextCache>, ContextCache>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, contextCacheName: string, properties: ContextCacheUpdate, options?: ContextCachesUpdateOptionalParams) => Promise<ContextCache>;
+    createOrUpdate: (resourceGroupName: string, contextCacheName: string, resource: ContextCache, options?: ContextCachesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ContextCache>, ContextCache>;
+    delete: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesGetOptionalParams) => Promise<ContextCache>;
+    listByResourceGroup: (resourceGroupName: string, options?: ContextCachesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ContextCache>;
+    listBySubscription: (options?: ContextCachesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ContextCache>;
+    update: (resourceGroupName: string, contextCacheName: string, properties: ContextCacheUpdate, options?: ContextCachesUpdateOptionalParams) => PollerLike<OperationState<ContextCache>, ContextCache>;
+}
+
+// @public
+export interface ContextCachesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContextCacheUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: ContextCachePropertiesUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -578,6 +738,12 @@ export type CreatedByType = string;
 export interface CustomDomain {
     name: string;
     useSubDomainName?: boolean;
+}
+
+// @public
+export interface CustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
 }
 
 // @public
@@ -1220,6 +1386,9 @@ export interface ImmutableStorageWithVersioning {
 }
 
 // @public
+export type InfrastructureEncryption = string;
+
+// @public
 export type IntervalUnit = string;
 
 // @public
@@ -1243,6 +1412,17 @@ export interface KeyCreationTime {
     // (undocumented)
     key2?: Date;
 }
+
+// @public
+export interface KeyEncryptionKeyIdentity {
+    delegatedIdentityClientId?: string;
+    federatedClientId?: string;
+    identityType?: KeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export type KeyEncryptionKeyIdentityType = string;
 
 // @public
 export type KeyPermission = "Read" | "Full";
@@ -1297,6 +1477,11 @@ export enum KnownAdvancedPlatformMetricsRuleType {
 }
 
 // @public
+export enum KnownAiProvider {
+    OpenAI = "OpenAI"
+}
+
+// @public
 export enum KnownAllowedCopyScope {
     AAD = "AAD",
     All = "All",
@@ -1335,6 +1520,24 @@ export enum KnownBypass {
     Logging = "Logging",
     Metrics = "Metrics",
     None = "None"
+}
+
+// @public
+export enum KnownContextCacheAccountKind {
+    DataZone = "DataZone",
+    Global = "Global",
+    Regional = "Regional"
+}
+
+// @public
+export enum KnownContextCacheProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1431,6 +1634,12 @@ export enum KnownImmutabilityPolicyUpdateType {
 }
 
 // @public
+export enum KnownInfrastructureEncryption {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownIntervalUnit {
     Days = "Days"
 }
@@ -1444,6 +1653,13 @@ export enum KnownInventoryRuleType {
 export enum KnownIssueType {
     ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownKeyEncryptionKeyIdentityType {
+    DelegatedResourceIdentity = "delegatedResourceIdentity",
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAssignedIdentity = "userAssignedIdentity"
 }
 
 // @public
@@ -1622,6 +1838,13 @@ export enum KnownPermissions {
     U = "u",
     // (undocumented)
     W = "w"
+}
+
+// @public
+export enum KnownPolicyViolationAction {
+    Block = "Block",
+    Log = "Log",
+    None = "None"
 }
 
 // @public
@@ -1836,6 +2059,12 @@ export enum KnownStorageTaskAssignmentProvisioningState {
 }
 
 // @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export enum KnownTriggerType {
     MockRun = "MockRun",
     OnSchedule = "OnSchedule",
@@ -1846,7 +2075,8 @@ export enum KnownTriggerType {
 export enum KnownVersions {
     V20250601 = "2025-06-01",
     V20250801 = "2025-08-01",
-    V20260401 = "2026-04-01"
+    V20260401 = "2026-04-01",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -2456,6 +2686,9 @@ export interface Placement {
 }
 
 // @public
+export type PolicyViolationAction = string;
+
+// @public
 export type PostFailoverRedundancy = string;
 
 // @public
@@ -2724,6 +2957,8 @@ export type RunStatusEnum = string;
 // @public
 export interface SasPolicy {
     expirationAction: ExpirationAction;
+    requireUserBoundUserDelegationSas?: boolean;
+    requireUserBoundUserDelegationSasAction?: PolicyViolationAction;
     sasExpirationPeriod: string;
 }
 
@@ -2891,6 +3126,7 @@ export interface StorageAccount extends TrackedResource {
     readonly accessTier?: AccessTier;
     readonly accountMigrationInProgress?: boolean;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -2951,6 +3187,7 @@ export interface StorageAccountCheckNameAvailabilityParameters {
 export interface StorageAccountCreateParameters {
     accessTier?: AccessTier;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -3054,6 +3291,7 @@ export interface StorageAccountProperties {
     readonly accessTier?: AccessTier;
     readonly accountMigrationInProgress?: boolean;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -3102,6 +3340,7 @@ export interface StorageAccountProperties {
 export interface StorageAccountPropertiesCreateParameters {
     accessTier?: AccessTier;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -3134,6 +3373,7 @@ export interface StorageAccountPropertiesCreateParameters {
 export interface StorageAccountPropertiesUpdateParameters {
     accessTier?: AccessTier;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -3312,6 +3552,7 @@ export interface StorageAccountsUpdateOptionalParams extends OperationOptions {
 export interface StorageAccountUpdateParameters {
     accessTier?: AccessTier;
     allowBlobPublicAccess?: boolean;
+    allowCrossTenantDelegationSas?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
     allowSharedKeyAccess?: boolean;
@@ -3468,6 +3709,8 @@ export class StorageManagementClient {
     readonly blobInventoryPolicies: BlobInventoryPoliciesOperations;
     readonly blobServices: BlobServicesOperations;
     readonly connectors: ConnectorsOperations;
+    readonly contextCacheContainers: ContextCacheContainersOperations;
+    readonly contextCaches: ContextCachesOperations;
     readonly dataShares: DataSharesOperations;
     readonly deletedAccounts: DeletedAccountsOperations;
     readonly encryptionScopes: EncryptionScopesOperations;
@@ -3661,6 +3904,16 @@ export interface StorageTaskReportProperties {
     readonly taskId?: string;
     readonly taskVersion?: string;
 }
+
+// @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {

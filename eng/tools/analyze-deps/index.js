@@ -48,6 +48,10 @@ const __dirname = path.dirname(__filename);
  */
 
 /**
+ * @typedef {{importers: Record<string, {dependencies?: Record<string, {version: string}>}>}} PnpmLock
+ */
+
+/**
  * @typedef {Object} RenderContext
  * @property {string} [repo_name]
  * @property {string} [branch]
@@ -100,7 +104,14 @@ async function getRepoPackages(workspaceDir) {
     }
     const projDir = path.join(workspaceDir, proj.projectFolder);
     const packageJson = proj.json;
-    appendPackageData(packageData, projDir, packageJson);
+    if (!packageJson.name || !packageJson.version) {
+      throw new Error(`Package at ${projDir} does not have a name or version`);
+    }
+    appendPackageData(packageData, projDir, {
+      ...packageJson,
+      name: packageJson.name,
+      version: packageJson.version,
+    });
   }
   return packageData;
 }
@@ -108,11 +119,11 @@ async function getRepoPackages(workspaceDir) {
 /**
  * Loads yaml data from a pnpm-lock.yaml file
  * @param {string} lockPath - path to pnpm-lock.yaml
- * @returns {Promise<any>} - the parsed yaml data
+ * @returns {Promise<PnpmLock>} - the parsed yaml data
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
-  return yaml.load(data);
+  return /** @type {PnpmLock} */ (yaml.load(data));
 }
 
 /**
@@ -123,6 +134,7 @@ async function readPnpmLock(lockPath) {
  * @returns {Promise<string|undefined>} - content of the file or undefined if not found
  */
 async function readCompressedFile(archivePath, filePath, encoding) {
+  /** @type {Buffer[]} */
   const data = [];
   let processed = false;
 
@@ -141,7 +153,7 @@ async function readCompressedFile(archivePath, filePath, encoding) {
     [filePath],
   );
 
-  if (data) {
+  if (data.length > 0) {
     return Buffer.concat(data).toString(encoding);
   } else {
     return undefined;
@@ -163,9 +175,15 @@ async function getTarballPackages(tarballDir) {
   for (const file of files) {
     const filePath = path.join(tarballDir, file);
     if (path.extname(filePath).toLowerCase() === ".tgz") {
-      const packageJson = json5.parse(
-        await readCompressedFile(filePath, "package/package.json", "utf8"),
+      const packageJsonContents = await readCompressedFile(
+        filePath,
+        "package/package.json",
+        "utf8",
       );
+      if (!packageJsonContents) {
+        throw new Error(`Archive ${filePath} does not contain package/package.json`);
+      }
+      const packageJson = json5.parse(packageJsonContents);
       appendPackageData(packageData, filePath, packageJson);
     }
   }
@@ -218,7 +236,10 @@ async function render(context, dest) {
     pluralize: (num, singular, plural) => new Handlebars.SafeString(num === 1 ? singular : plural),
     sorted: (c) => (typeof c.sort === "function" ? c.sort() : Object.entries(c).sort()),
     sub: (a, b) => a - b,
-    title: (s) => new Handlebars.SafeString(s ? s.replace(/\b\S/g, (t) => t.toUpperCase()) : ""),
+    title: (s) =>
+      new Handlebars.SafeString(
+        s ? s.replace(/\b\S/g, /** @param {string} t */ (t) => t.toUpperCase()) : "",
+      ),
     truncate: (s, len) => new Handlebars.SafeString(s.substr(0, len)),
   });
 
@@ -326,7 +347,7 @@ function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir
  * Resolves dependency versions for dumped packages using pnpm-lock.yaml data
  * @param {Record<string, RepoPackageInfo>} repoPackages
  * @param {Record<string, DumpedPackageInfo>} dumpedPackages
- * @param {object} pnpmLock - loaded yaml data from pnpm-lock.yaml
+ * @param {PnpmLock} pnpmLock - loaded yaml data from pnpm-lock.yaml
  * @param {boolean} external - whether to include external dependencies in the graph data
  */
 function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, external) {

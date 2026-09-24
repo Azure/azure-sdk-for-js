@@ -359,6 +359,18 @@ export function humanChatUserDeserializer(item: any): HumanChatUser {
   };
 }
 
+/** Response containing a Web PubSub client access token. */
+export interface GenerateClientTokenResponse {
+  /** Access token used to connect to Azure Web PubSub. */
+  token: string;
+}
+
+export function generateClientTokenResponseDeserializer(item: any): GenerateClientTokenResponse {
+  return {
+    token: item["token"],
+  };
+}
+
 /** Service API versions. */
 export enum KnownVersions {
   /** The 2026-02-01-preview API version. */

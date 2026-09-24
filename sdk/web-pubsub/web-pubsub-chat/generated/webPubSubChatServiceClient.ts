@@ -7,6 +7,7 @@ import {
   createWebPubSubChatService,
 } from "./api/index.js";
 import {
+  generateClientToken,
   deleteUser,
   createOrReplaceUser,
   getUser,
@@ -26,6 +27,7 @@ import {
   getConversation,
 } from "./api/operations.js";
 import {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
@@ -51,6 +53,7 @@ import {
   ChatRoom,
   ChatRoomMember,
   ChatUserUnion,
+  GenerateClientTokenResponse,
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
@@ -71,6 +74,13 @@ export class WebPubSubChatServiceClient {
   ) {
     this._client = createWebPubSubChatService(endpointParam, credential, hub, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Generate a token for connecting a client to Azure Web PubSub. */
+  generateClientToken(
+    options: GenerateClientTokenOptionalParams = { requestOptions: {} },
+  ): Promise<GenerateClientTokenResponse> {
+    return generateClientToken(this._client, options);
   }
 
   /** Delete a user. */

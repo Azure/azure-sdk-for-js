@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the advanced platform metrics rule for the storage account by rule type.
  *
  * @summary delete the advanced platform metrics rule for the storage account by rule type.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_Delete.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_Delete.json
  */
 async function advancedPlatformMetricsRulesDeleteDeleteAdvancedPlatformMetricsRule() {
   const credential = new DefaultAzureCredential();

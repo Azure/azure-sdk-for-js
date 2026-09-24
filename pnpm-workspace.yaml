@@ -4,6 +4,10 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - eng/tools/ci-runner
+  - eng/tools/eng-package-utils
+  - eng/tools/versioning
+  - eng/tools/dependency-testing
+  - eng/tools/analyze-deps
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'
@@ -44,9 +48,9 @@ catalogs:
     '@rollup/plugin-inject': ^5.0.5
     '@types/chai': ^5.2.3
     '@types/chai-as-promised': ^8.0.2
-    '@vitest/browser-playwright': ^4.1.2
-    '@vitest/coverage-istanbul': ^4.1.2
-    '@vitest/expect': ^4.1.2
+    '@vitest/browser-playwright': ^5.0.0
+    '@vitest/coverage-istanbul': ^5.0.0
+    '@vitest/expect': ^5.0.0
     chai: ^6.2.2
     chai-as-promised: ^8.0.2
     chai-exclude: ^3.0.1
@@ -55,7 +59,7 @@ catalogs:
     nock: ^13.5.6
     playwright: ^1.60.0
     react-native: ^0.84.1
-    vitest: ^4.1.2
+    vitest: ^5.0.0
 
 overrides:
   '@azure/core-rest-pipeline': 'link:sdk/core/core-rest-pipeline'
