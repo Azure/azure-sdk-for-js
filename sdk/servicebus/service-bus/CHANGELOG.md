@@ -28,6 +28,10 @@ async function test() {
 }
 ```
 
+### Breaking Changes
+
+- Removed the preview `deleteMessages()` and `purgeMessages()` receiver methods and the `DeleteMessagesOptions` and `PurgeMessagesOptions` types from 7.10.0 GA. These APIs were not available in the previous stable release, 7.9.5; applications using them must remain on a preview version until they are reintroduced. Reintroduction is tracked in [#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309).
+
 ### Bugs Fixed
 
 - Fixed unhandled `OperationTimeoutError` promise rejections that could crash the application when an AMQP link close timed out while a receiver was draining credits (during a `close()` or a `receiveMessages()` timeout). The close timeout is now logged instead of surfacing as an unhandled rejection. This extends the fix for [#35342](https://github.com/Azure/azure-sdk-for-js/issues/35342). [#39348](https://github.com/Azure/azure-sdk-for-js/issues/39348)
