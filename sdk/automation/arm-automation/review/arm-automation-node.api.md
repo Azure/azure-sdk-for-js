@@ -4,17 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Activity {
@@ -250,7 +250,7 @@ export interface AutomationAccountUpdateProperties {
 export class AutomationClient {
     constructor(credential: TokenCredential, options?: AutomationClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AutomationClientOptionalParams);
-    readonly activityOperations: ActivityOperationsOperations;
+    readonly activity: ActivityOperationsOperations;
     readonly agentRegistrationInformation: AgentRegistrationInformationOperations;
     readonly automationAccountOperations: AutomationAccountOperationsOperations;
     readonly certificateOperations: CertificateOperationsOperations;
@@ -382,7 +382,7 @@ export interface CertificateOperationsListByAutomationAccountOptionalParams exte
 
 // @public
 export interface CertificateOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateOperationsCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
     delete: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateOperationsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateOperationsGetOptionalParams) => Promise<Certificate>;
     listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CertificateOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Certificate>;
@@ -2742,7 +2742,7 @@ export interface ScheduleOperationsListByAutomationAccountOptionalParams extends
 
 // @public
 export interface ScheduleOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleOperationsCreateOrUpdateOptionalParams) => Promise<Schedule | undefined>;
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleOperationsCreateOrUpdateOptionalParams) => Promise<Schedule | void>;
     delete: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsGetOptionalParams) => Promise<Schedule>;
     listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ScheduleOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Schedule>;

@@ -339,7 +339,6 @@ export interface ConfigurationForBatchUpdateProperties {
 
 // @public
 export interface ConfigurationListForBatchUpdate {
-    resetAllToDefault?: ResetAllToDefault;
     value?: ConfigurationForBatchUpdate[];
 }
 
@@ -833,12 +832,6 @@ export enum KnownReplicationRole {
     None = "None",
     Replica = "Replica",
     Source = "Source"
-}
-
-// @public
-export enum KnownResetAllToDefault {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -1351,8 +1344,6 @@ export type ReplicationMode = string;
 // @public
 export type ReplicationRole = string;
 
-// @public
-export type ResetAllToDefault = string;
 
 // @public
 export interface Resource {

@@ -1,14 +1,323 @@
 # Release History
 
-## 4.0.0-beta.6 (Unreleased)
+## 4.0.0-beta.6 (2026-09-22)
+Compared with version 3.1.0
 
 ### Features Added
+  - Added operation group AdvancedThreatProtectionSettingsOperations
+  - Added operation group AzureADAdministratorsOperations
+  - Added operation group BackupAndExportOperations
+  - Added operation group CheckNameAvailabilityWithoutLocationOperations
+  - Added operation group LocationBasedCapabilitySetOperations
+  - Added operation group LogFilesOperations
+  - Added operation group LongRunningBackupOperations
+  - Added operation group LongRunningBackupsOperations
+  - Added operation group MaintenancesOperations
+  - Added operation group OperationProgressOperations
+  - Added operation group OperationResultsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group ServersMigrationOperations
+  - Added operation BackupsOperations.put
+  - Added operation ConfigurationsOperations.batchUpdate
+  - Added operation ConfigurationsOperations.beginCreateOrUpdate
+  - Added operation ConfigurationsOperations.beginCreateOrUpdateAndWait
+  - Added operation ConfigurationsOperations.createOrUpdate
+  - Added operation ConfigurationsOperations.update
+  - Added operation DatabasesOperations.createOrUpdate
+  - Added operation DatabasesOperations.delete
+  - Added operation FirewallRulesOperations.createOrUpdate
+  - Added operation FirewallRulesOperations.delete
+  - Added operation ServersOperations.beginDetachVNet
+  - Added operation ServersOperations.beginDetachVNetAndWait
+  - Added operation ServersOperations.beginResetGtid
+  - Added operation ServersOperations.beginResetGtidAndWait
+  - Added operation ServersOperations.create
+  - Added operation ServersOperations.delete
+  - Added operation ServersOperations.detachVNet
+  - Added operation ServersOperations.failover
+  - Added operation ServersOperations.resetGtid
+  - Added operation ServersOperations.restart
+  - Added operation ServersOperations.start
+  - Added operation ServersOperations.stop
+  - Added operation ServersOperations.update
+  - Added operation ServersOperations.validateEstimateHighAvailability
+  - Class MySQLManagementFlexibleServerClient has a new constructor "constructor(credential: TokenCredential, options?: MySQLManagementFlexibleServerClientOptionalParams);"
+  - Added Interface AdministratorProperties
+  - Added Interface AdvancedThreatProtection
+  - Added Interface AdvancedThreatProtectionForUpdate
+  - Added Interface AdvancedThreatProtectionProperties
+  - Added Interface AdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsListOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsUpdateOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsUpdatePutOptionalParams
+  - Added Interface AdvancedThreatProtectionUpdateProperties
+  - Added Interface AzureADAdministrator
+  - Added Interface AzureADAdministratorsCreateOrUpdateOptionalParams
+  - Added Interface AzureADAdministratorsDeleteOptionalParams
+  - Added Interface AzureADAdministratorsGetOptionalParams
+  - Added Interface AzureADAdministratorsListByServerOptionalParams
+  - Added Interface BackupAndExportCreateOptionalParams
+  - Added Interface BackupAndExportRequest
+  - Added Interface BackupAndExportResponse
+  - Added Interface BackupAndExportResponseProperties
+  - Added Interface BackupAndExportResponseType
+  - Added Interface BackupAndExportValidateBackupOptionalParams
+  - Added Interface BackupRequestBase
+  - Added Interface BackupSettings
+  - Added Interface BackupsPutOptionalParams
+  - Added Interface BackupStoreDetails
+  - Added Interface Capability
+  - Added Interface CapabilityPropertiesV2
+  - Added Interface CheckNameAvailabilityWithoutLocationExecuteOptionalParams
+  - Added Interface ConfigurationForBatchUpdateProperties
+  - Added Interface ConfigurationProperties
+  - Added Interface ConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface DatabaseProperties
+  - Added Interface DataEncryption
+  - Added Interface ErrorDetail
+  - Added Interface FeatureProperty
+  - Added Interface FirewallRuleProperties
+  - Added Interface FullBackupStoreDetails
+  - Added Interface HighAvailabilityValidationEstimation
+  - Added Interface ImportFromStorageResponseType
+  - Added Interface ImportSourceProperties
+  - Added Interface LocationBasedCapabilitySetGetOptionalParams
+  - Added Interface LocationBasedCapabilitySetListOptionalParams
+  - Added Interface LogFile
+  - Added Interface LogFileProperties
+  - Added Interface LogFilesListByServerOptionalParams
+  - Added Interface LongRunningBackupCreateOptionalParams
+  - Added Interface LongRunningBackupDeleteOptionalParams
+  - Added Interface LongRunningBackupsGetOptionalParams
+  - Added Interface LongRunningBackupsListOptionalParams
+  - Added Interface Maintenance
+  - Added Interface MaintenancePolicy
+  - Added Interface MaintenanceProperties
+  - Added Interface MaintenancePropertiesForUpdate
+  - Added Interface MaintenancesListOptionalParams
+  - Added Interface MaintenancesReadOptionalParams
+  - Added Interface MaintenancesUpdateOptionalParams
+  - Added Interface MaintenanceUpdate
+  - Added Interface MySQLServerIdentity
+  - Added Interface MySQLServerSku
+  - Added Interface OperationProgressGetOptionalParams
+  - Added Interface OperationProgressResponseType
+  - Added Interface OperationProgressResult
+  - Added Interface OperationResultsGetOptionalParams
+  - Added Interface OperationStatusExtendedResult
+  - Added Interface OperationStatusResult
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByServerOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesGetOptionalParams
+  - Added Interface PrivateLinkResourcesListByServerOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface RestorePollerOptions
+  - Added Interface ServerBackupProperties
+  - Added Interface ServerBackupPropertiesV2
+  - Added Interface ServerBackupV2
+  - Added Interface ServerDetachVNetParameter
+  - Added Interface ServerEditionCapabilityV2
+  - Added Interface ServerGtidSetParameter
+  - Added Interface ServerProperties
+  - Added Interface ServerPropertiesForUpdate
+  - Added Interface ServersDetachVNetOptionalParams
+  - Added Interface ServersMigrationCutoverMigrationOptionalParams
+  - Added Interface ServersResetGtidOptionalParams
+  - Added Interface ServersValidateEstimateHighAvailabilityOptionalParams
+  - Added Interface ServerVersionCapabilityV2
+  - Added Interface SimplePollerLike
+  - Added Interface SkuCapabilityV2
+  - Added Interface UserAssignedIdentity
+  - Added Interface ValidateBackupResponse
+  - Added Interface ValidateBackupResponseProperties
+  - Interface Backup has a new optional parameter backupIntervalHours
+  - Interface BackupsGetOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsGetOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsGetOptionalParams has a new optional parameter onResponse
+  - Interface BackupsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface CheckNameAvailabilityExecuteOptionalParams has a new optional parameter abortSignal
+  - Interface CheckNameAvailabilityExecuteOptionalParams has a new optional parameter requestOptions
+  - Interface CheckNameAvailabilityExecuteOptionalParams has a new optional parameter tracingOptions
+  - Interface CheckNameAvailabilityExecuteOptionalParams has a new optional parameter onResponse
+  - Interface CheckVirtualNetworkSubnetUsageExecuteOptionalParams has a new optional parameter abortSignal
+  - Interface CheckVirtualNetworkSubnetUsageExecuteOptionalParams has a new optional parameter requestOptions
+  - Interface CheckVirtualNetworkSubnetUsageExecuteOptionalParams has a new optional parameter tracingOptions
+  - Interface CheckVirtualNetworkSubnetUsageExecuteOptionalParams has a new optional parameter onResponse
+  - Interface Configuration has a new optional parameter currentValue
+  - Interface Configuration has a new optional parameter documentationLink
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter keyword
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter page
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter pageSize
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter tags
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesGetOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesGetOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter onResponse
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter abortSignal
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter requestOptions
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter onResponse
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter onResponse
+  - Interface GetPrivateDnsZoneSuffixExecuteOptionalParams has a new optional parameter abortSignal
+  - Interface GetPrivateDnsZoneSuffixExecuteOptionalParams has a new optional parameter requestOptions
+  - Interface GetPrivateDnsZoneSuffixExecuteOptionalParams has a new optional parameter tracingOptions
+  - Interface GetPrivateDnsZoneSuffixExecuteOptionalParams has a new optional parameter onResponse
+  - Interface HighAvailability has a new optional parameter replicationMode
+  - Interface LocationBasedCapabilitiesListOptionalParams has a new optional parameter abortSignal
+  - Interface LocationBasedCapabilitiesListOptionalParams has a new optional parameter requestOptions
+  - Interface LocationBasedCapabilitiesListOptionalParams has a new optional parameter tracingOptions
+  - Interface LocationBasedCapabilitiesListOptionalParams has a new optional parameter onResponse
+  - Interface MaintenanceWindow has a new optional parameter batchOfMaintenance
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter onResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface Server has a new optional parameter databasePort
+  - Interface Server has a new optional parameter dataEncryption
+  - Interface Server has a new optional parameter fullVersion
+  - Interface Server has a new optional parameter identity
+  - Interface Server has a new optional parameter importSourceProperties
+  - Interface Server has a new optional parameter lowerCaseTableNames
+  - Interface Server has a new optional parameter maintenancePolicy
+  - Interface Server has a new optional parameter privateEndpointConnections
+  - Interface ServerForUpdate has a new optional parameter dataEncryption
+  - Interface ServerForUpdate has a new optional parameter identity
+  - Interface ServerForUpdate has a new optional parameter maintenancePolicy
+  - Interface ServerForUpdate has a new optional parameter network
+  - Interface ServerForUpdate has a new optional parameter version
+  - Interface ServersGetOptionalParams has a new optional parameter abortSignal
+  - Interface ServersGetOptionalParams has a new optional parameter requestOptions
+  - Interface ServersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersGetOptionalParams has a new optional parameter onResponse
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ServersListOptionalParams has a new optional parameter abortSignal
+  - Interface ServersListOptionalParams has a new optional parameter requestOptions
+  - Interface ServersListOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersListOptionalParams has a new optional parameter onResponse
+  - Interface Storage_2 has a new optional parameter autoIoScaling
+  - Interface Storage_2 has a new optional parameter logOnDisk
+  - Interface Storage_2 has a new optional parameter storageRedundancy
+  - Interface StorageEditionCapability has a new optional parameter maxBackupIntervalHours
+  - Interface StorageEditionCapability has a new optional parameter minBackupIntervalHours
+  - Interface TrackedResource has a new optional parameter systemData
+  - Interface VirtualNetworkSubnetUsageResult has a new optional parameter location
+  - Interface VirtualNetworkSubnetUsageResult has a new optional parameter subscriptionId
+  - Added Type Alias AdministratorName
+  - Added Type Alias AdministratorType
+  - Added Type Alias AdvancedThreatProtectionName
+  - Added Type Alias AdvancedThreatProtectionProvisioningState
+  - Added Type Alias AdvancedThreatProtectionState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackupFormat
+  - Added Type Alias BackupStoreDetailsUnion
+  - Added Type Alias BackupType
+  - Added Type Alias BatchOfMaintenance
+  - Added Type Alias DataEncryptionType
+  - Added Type Alias ImportSourceStorageType
+  - Added Type Alias MaintenanceProvisioningState
+  - Added Type Alias MaintenanceState
+  - Added Type Alias MaintenanceType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ObjectType
+  - Added Type Alias OperationProgressResponseTypeUnion
+  - Added Type Alias OperationStatus
+  - Added Type Alias Origin
+  - Added Type Alias PatchStrategy
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ReplicationMode
+  - Added Type Alias ServerSkuTier
+  - Added Type Alias StorageRedundancyEnum
+  - Added Enum AzureClouds
+  - Added Enum KnownAdministratorName
+  - Added Enum KnownAdministratorType
+  - Added Enum KnownAdvancedThreatProtectionName
+  - Added Enum KnownAdvancedThreatProtectionProvisioningState
+  - Added Enum KnownAdvancedThreatProtectionState
+  - Added Enum KnownBackupFormat
+  - Added Enum KnownBackupType
+  - Added Enum KnownBatchOfMaintenance
+  - Added Enum KnownImportSourceStorageType
+  - Added Enum KnownMaintenanceProvisioningState
+  - Added Enum KnownMaintenanceState
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownObjectType
+  - Added Enum KnownOrigin
+  - Added Enum KnownPatchStrategy
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownServerSkuTier
+  - Added Enum KnownStorageRedundancyEnum
+  - Added Enum KnownVersions
+  - Enum KnownServerVersion has a new value ServerVersion84
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation Configurations.beginBatchUpdate has a new signature
+  - Operation Configurations.beginUpdate has a new signature
+  - Operation Databases.beginCreateOrUpdate has a new signature
+  - Operation Databases.beginDelete has a new signature
+  - Operation FirewallRules.beginCreateOrUpdate has a new signature
+  - Operation FirewallRules.beginDelete has a new signature
+  - Operation Servers.beginCreate has a new signature
+  - Operation Servers.beginDelete has a new signature
+  - Operation Servers.beginFailover has a new signature
+  - Operation Servers.beginRestart has a new signature
+  - Operation Servers.beginStart has a new signature
+  - Operation Servers.beginStop has a new signature
+  - Operation Servers.beginUpdate has a new signature
+  - Removed Interface CloudError
+  - Removed Interface Sku
+  - Interface ErrorResponse no longer has parameter additionalInfo
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter details
+  - Interface ErrorResponse no longer has parameter message
+  - Interface ErrorResponse no longer has parameter target
+  - Removed Type Alias SkuTier
+  - Removed Enum KnownSkuTier
 
 ## 4.0.0-beta.5 (2026-05-28)
 Compared with version 3.1.0

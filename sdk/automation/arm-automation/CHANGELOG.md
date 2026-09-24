@@ -1,4 +1,12 @@
 # Release History
+
+## 12.0.0 (2026-09-22)
+
+### Breaking Changes
+  - Operation CertificateOperationsOperations.createOrUpdate has a new signature
+  - Operation ScheduleOperationsOperations.createOrUpdate has a new signature
+  - Class AutomationClient no longer has parameter activityOperations
+
     
 ## 11.0.0 (2026-07-27)
 ### Features Added
