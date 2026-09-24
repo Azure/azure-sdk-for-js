@@ -566,7 +566,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         try {
           parsedToken = JSON.parse(continuationToken);
         } catch (error) {
-          throw new Error(`Failed to parse continuation token: ${error.message}`);
+          throw new Error(`Failed to parse continuation token: ${error.message}`, { cause: error });
         }
 
         validateTokenStructure(

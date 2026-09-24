@@ -78,7 +78,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: RedisEnterpriseManagementContext) {
   return {
     list: (
@@ -179,7 +178,6 @@ function _getPrivateEndpointConnections(context: RedisEnterpriseManagementContex
     ) => get(context, resourceGroupName, clusterName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: RedisEnterpriseManagementContext,
 ): PrivateEndpointConnectionsOperations {

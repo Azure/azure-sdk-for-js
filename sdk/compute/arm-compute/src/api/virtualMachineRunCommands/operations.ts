@@ -48,7 +48,7 @@ export function _getSend(
       location: location,
       commandId: commandId,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,7 +94,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,7 +132,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -148,7 +148,7 @@ export function _listByVirtualMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -188,7 +188,7 @@ export function listByVirtualMachine(
     () => _listByVirtualMachineSend(context, resourceGroupName, vmName, options),
     _listByVirtualMachineDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -206,7 +206,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +242,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmName, runCommandName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -261,7 +261,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,7 +305,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmName, runCommandName, runCommand, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -324,7 +324,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,7 +368,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmName, runCommandName, runCommand, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -386,7 +386,7 @@ export function _getByVirtualMachineSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

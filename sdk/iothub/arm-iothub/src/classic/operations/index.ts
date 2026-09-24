@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** List the operations for the provider */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: IotHubContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: IotHubContext): OperationsOperations {
   return {
     ..._getOperations(context),

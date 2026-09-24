@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateAPIPolling.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateAPIPolling.json
  */
 async function createsOrUpdatesAAPIPollingDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -112,7 +112,7 @@ async function createsOrUpdatesAAPIPollingDataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateDynamics365DataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateDynamics365DataConnetor.json
  */
 async function createsOrUpdatesADynamics365DataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +136,7 @@ async function createsOrUpdatesADynamics365DataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateGenericUI.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateGenericUI.json
  */
 async function createsOrUpdatesAGenericUIDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -287,7 +287,7 @@ async function createsOrUpdatesAGenericUIDataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateGoogleCloudPlatform.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateGoogleCloudPlatform.json
  */
 async function createsOrUpdatesAGCPDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -321,7 +321,7 @@ async function createsOrUpdatesAGCPDataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateMicrosoftPurviewInformationProtectionDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateMicrosoftPurviewInformationProtectionDataConnetor.json
  */
 async function createsOrUpdatesAnMicrosoftPurviewInformationProtectionDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -345,7 +345,7 @@ async function createsOrUpdatesAnMicrosoftPurviewInformationProtectionDataConnec
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateMicrosoftThreatIntelligenceDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateMicrosoftThreatIntelligenceDataConnector.json
  */
 async function createsOrUpdatesAMicrosoftThreatIntelligenceDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -373,7 +373,7 @@ async function createsOrUpdatesAMicrosoftThreatIntelligenceDataConnector(): Prom
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateMicrosoftThreatProtectionDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateMicrosoftThreatProtectionDataConnetor.json
  */
 async function createsOrUpdatesAMicrosoftThreatProtectionDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -398,7 +398,7 @@ async function createsOrUpdatesAMicrosoftThreatProtectionDataConnector(): Promis
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateOffice365ProjectDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateOffice365ProjectDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365ProjectDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -422,7 +422,7 @@ async function createsOrUpdatesAnOffice365ProjectDataConnector(): Promise<void> 
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateOfficeDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateOfficeDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365DataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -450,7 +450,7 @@ async function createsOrUpdatesAnOffice365DataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateOfficePowerBIDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateOfficePowerBIDataConnector.json
  */
 async function createsOrUpdatesAnOfficePowerBIDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -474,7 +474,7 @@ async function createsOrUpdatesAnOfficePowerBIDataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreatePremiumMicrosoftDefenderForThreatIntelligenceDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreatePremiumMicrosoftDefenderForThreatIntelligenceDataConnector.json
  */
 async function createsOrUpdatesAPremiumMicrosoftDefenderForThreatIntelligenceDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -498,7 +498,7 @@ async function createsOrUpdatesAPremiumMicrosoftDefenderForThreatIntelligenceDat
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreatePurviewAuditDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreatePurviewAuditDataConnector.json
  */
 async function createsOrUpdatesAPurviewAuditDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -530,7 +530,7 @@ async function createsOrUpdatesAPurviewAuditDataConnector(): Promise<void> {
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateThreatIntelligenceDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateThreatIntelligenceDataConnector.json
  */
 async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -554,7 +554,7 @@ async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector(): Prom
  * This sample demonstrates how to creates or updates the data connector.
  *
  * @summary creates or updates the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
  */
 async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

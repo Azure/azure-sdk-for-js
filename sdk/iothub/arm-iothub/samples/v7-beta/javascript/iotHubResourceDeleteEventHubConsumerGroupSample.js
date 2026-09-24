@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
  *
  * @summary delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_deleteconsumergroup.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_deleteconsumergroup.json
  */
 async function iotHubResourceDeleteEventHubConsumerGroup() {
   const credential = new DefaultAzureCredential();

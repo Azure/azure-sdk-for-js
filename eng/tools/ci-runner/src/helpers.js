@@ -41,6 +41,7 @@ export const restrictedToPackages = [
   "@azure/core-http-compat",
   "@azure/core-lro",
   "@azure/core-paging",
+  "@azure/core-process",
   "@azure/core-rest-pipeline",
   "@azure/core-sse",
   "@azure/core-tracing",

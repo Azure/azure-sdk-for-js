@@ -3,7 +3,8 @@
 
 import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 
@@ -98,9 +99,11 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
   apiVersion?: string;
 
   /**
-   * The Audience to use for authentication with Azure Active Directory (AAD).
+   * The audience to use for authentication with Microsoft Entra ID.
    * {@link KnownAppConfigAudience} can be used interchangeably with audience.
-   * If not specified, the default audience will be set to Azure Public Cloud.
+   * If not specified, the audience is inferred from the App Configuration endpoint. If the
+   * endpoint does not contain a recognizable App Configuration domain, the audience defaults to
+   * Azure Public Cloud.
    */
   audience?: string;
 }

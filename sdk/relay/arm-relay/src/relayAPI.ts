@@ -31,14 +31,7 @@ export class RelayAPI {
     subscriptionId: string,
     options: RelayAPIOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRelayAPI(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRelayAPI(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.namespaces = _getNamespacesOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);

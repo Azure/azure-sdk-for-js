@@ -14,6 +14,9 @@ export interface ToolboxesDeleteOptionalParams extends OperationOptions {}
 export interface ToolboxesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface ToolboxesInvokeLatestToolboxMcpOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface GetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

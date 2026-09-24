@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the bookmark relation.
  *
  * @summary delete the bookmark relation.
- * x-ms-original-file: 2025-07-01-preview/bookmarks/relations/DeleteBookmarkRelation.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/relations/DeleteBookmarkRelation.json
  */
 async function deleteTheBookmarkRelation(): Promise<void> {
   const credential = new DefaultAzureCredential();

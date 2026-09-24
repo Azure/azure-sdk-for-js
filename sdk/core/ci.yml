@@ -128,6 +128,12 @@ extends:
         - pnpm-*.yaml
         - tsconfig*.json
         - common/tools/warp/
+      - name: azure-core-process
+        safeName: azurecoreprocess
+        triggeringPaths:
+        - pnpm-*.yaml
+        - tsconfig*.json
+        - common/tools/warp/
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
         triggeringPaths:

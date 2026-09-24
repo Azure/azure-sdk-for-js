@@ -37,6 +37,10 @@ import type {
   ExpressRouteCircuitsGetOptionalParams,
 } from "../../api/expressRouteCircuits/options.js";
 import type {
+  ExpressRouteCircuitsStopCircuitLinkFailoverTestResponse,
+  ExpressRouteCircuitsStartCircuitLinkFailoverTestResponse,
+} from "../../models/models.js";
+import type {
   TagsObject,
   ExpressRouteCircuit,
   ExpressRouteCircuitStats,
@@ -46,11 +50,7 @@ import type {
   ExpressRouteCircuitsArpTableListResult,
   ExpressRouteCircuitsRoutesTableListResult,
   ExpressRouteCircuitsRoutesTableSummaryListResult,
-} from "../../models/microsoft/network/models.js";
-import type {
-  ExpressRouteCircuitsStopCircuitLinkFailoverTestResponse,
-  ExpressRouteCircuitsStartCircuitLinkFailoverTestResponse,
-} from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

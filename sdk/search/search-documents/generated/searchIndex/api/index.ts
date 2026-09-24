@@ -4,8 +4,10 @@
 export {
   listIndexStatsSummary,
   getServiceStatistics,
+  updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
   listKnowledgeSourceFiles,
+  uploadKnowledgeSourceFileMultipart,
   uploadKnowledgeSourceFile,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -40,8 +42,10 @@ export {
 export type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,

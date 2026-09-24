@@ -81,14 +81,15 @@ describe("runTypeScript", () => {
       stderr: Buffer.from(""),
       status: null,
       signal: null,
-      error: new Error("ENOENT: tsc not found"),
+      error: Object.assign(new Error("sensitive native process details"), { code: "ENOENT" }),
     });
 
     const result = await runTypeScript("tsconfig.json");
 
     expect(result).toBe(false);
     const logged = errorSpy.mock.calls.flat().join(" ");
-    expect(logged).toContain("ENOENT: tsc not found");
+    expect(logged).toContain("ENOENT");
+    expect(logged).not.toContain("sensitive native process details");
   });
 
   it("returns false and includes the exit code (not [object Object]) when tsc exits nonzero", async () => {

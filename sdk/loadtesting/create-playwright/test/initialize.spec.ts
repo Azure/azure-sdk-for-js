@@ -6,6 +6,7 @@ import fs from "node:fs";
 import { PlaywrightServiceInitialize } from "../src/initialize.js";
 import * as utils from "../src/utils.js";
 import { Languages } from "../src/constants.js";
+import { PNPM } from "../src/packageManager.js";
 
 vi.mock("../src/utils.js", async (importOriginal) => {
   const actual = (await importOriginal()) as any;
@@ -38,9 +39,10 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith(
-      "npm install --save-dev @azure/playwright @azure/identity",
-    );
+    expect(executeCommandStub).toHaveBeenCalledWith({
+      command: "npm",
+      args: ["install", "--save-dev", "@azure/playwright", "@azure/identity"],
+    });
   });
 
   it("should install service package (yarn)", async () => {
@@ -52,9 +54,10 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith(
-      "yarn add --dev @azure/playwright @azure/identity",
-    );
+    expect(executeCommandStub).toHaveBeenCalledWith({
+      command: "yarn",
+      args: ["add", "--dev", "@azure/playwright", "@azure/identity"],
+    });
   });
 
   it("should install service package (pnpm - no workspace)", async () => {
@@ -63,27 +66,30 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
+    playwrightServiceInitialize["_packageManager"] = new PNPM(false);
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith(
-      "pnpm add --save-dev @azure/playwright @azure/identity",
-    );
+    expect(executeCommandStub).toHaveBeenCalledWith({
+      command: "pnpm",
+      args: ["add", "--save-dev", "@azure/playwright", "@azure/identity"],
+    });
   });
 
   it("should install service package (pnpm - workspace)", async () => {
     process.env["npm_config_user_agent"] = "user-agent: pnpm";
-    vi.spyOn(fs, "existsSync").mockReturnValue(true);
     const playwrightServiceInitialize = new PlaywrightServiceInitialize({
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
+    playwrightServiceInitialize["_packageManager"] = new PNPM(true);
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith(
-      "pnpm add --save-dev @azure/playwright @azure/identity",
-    );
+    expect(executeCommandStub).toHaveBeenCalledWith({
+      command: "pnpm",
+      args: ["add", "--save-dev", "-w", "@azure/playwright", "@azure/identity"],
+    });
   });
 
   it("should throw error if install service package fails", async () => {
@@ -91,8 +97,8 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
-    vi.spyOn(utils, "executeCommand").mockRejectedValueOnce("Failed to install package");
-    expect(() => playwrightServiceInitialize["installServicePackage"]()).rejects.toThrowError(
+    vi.spyOn(utils, "executeCommand").mockRejectedValueOnce(new Error("Failed to install package"));
+    await expect(playwrightServiceInitialize["installServicePackage"]()).rejects.toThrowError(
       "Failed to install package",
     );
   });

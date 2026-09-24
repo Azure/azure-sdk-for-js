@@ -83,15 +83,13 @@ describe(`AlphaIdsClient - manage configuration`, () => {
 
   it("can manage configuration", { timeout: 30000 }, async () => {
     let configuration: DynamicAlphaIdConfiguration;
-    let configurationResponse: FullOperationResponse | undefined;
 
     configuration = await _upsertConfiguration(true);
 
     assert.isOk(configuration);
     assert.isTrue(
       configuration.enabled,
-      `The expected configuration: true is different than the received configuration: false
-       CV: ${configurationResponse?.headers.get("MS-CV")}`,
+      `The expected configuration: true is different than the received configuration: false`,
     );
 
     configuration = await _getConfiguration();
@@ -101,8 +99,7 @@ describe(`AlphaIdsClient - manage configuration`, () => {
     assert.isOk(configuration);
     assert.isFalse(
       configuration.enabled,
-      `The expected configuration: false is different than the received configuration: true 
-       CV: ${configurationResponse?.headers.get("MS-CV")}`,
+      `The expected configuration: false is different than the received configuration: true`,
     );
   });
 

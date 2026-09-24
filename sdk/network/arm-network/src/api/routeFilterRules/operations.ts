@@ -3,15 +3,12 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  RouteFilterRule,
-  _RouteFilterRuleListResult,
-} from "../../models/microsoft/network/models.js";
+import type { RouteFilterRule, _RouteFilterRuleListResult } from "../../models/network/models.js";
 import {
   routeFilterRuleSerializer,
   routeFilterRuleDeserializer,
   _routeFilterRuleListResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +35,7 @@ export function _listByRouteFilterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routeFilterName: routeFilterName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +75,7 @@ export function listByRouteFilter(
     () => _listByRouteFilterSend(context, resourceGroupName, routeFilterName, options),
     _listByRouteFilterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -97,7 +94,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       routeFilterName: routeFilterName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +146,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<RouteFilterRule>, RouteFilterRule>;
 }
 
@@ -167,7 +164,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       routeFilterName: routeFilterName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +216,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       routeFilterName: routeFilterName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,6 +253,6 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, routeFilterName, ruleName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }

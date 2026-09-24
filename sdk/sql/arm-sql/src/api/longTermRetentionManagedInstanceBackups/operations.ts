@@ -47,7 +47,7 @@ export function _listByResourceGroupInstanceSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -76,7 +76,6 @@ export async function _listByResourceGroupInstanceDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given managed instance. */
 export function listByResourceGroupInstance(
   context: Client,
@@ -99,7 +98,11 @@ export function listByResourceGroupInstance(
       ),
     _listByResourceGroupInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -117,7 +120,7 @@ export function _listByResourceGroupLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
       "%24skip": options?.skip,
@@ -149,7 +152,6 @@ export async function _listByResourceGroupLocationDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for managed databases in a given location. */
 export function listByResourceGroupLocation(
   context: Client,
@@ -164,7 +166,11 @@ export function listByResourceGroupLocation(
     () => _listByResourceGroupLocationSend(context, resourceGroupName, locationName, options),
     _listByResourceGroupLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -182,7 +188,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -211,7 +217,6 @@ export async function _listByInstanceDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given managed instance. */
 export function listByInstance(
   context: Client,
@@ -226,7 +231,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, locationName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -242,7 +251,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
       "%24skip": options?.skip,
@@ -274,7 +283,6 @@ export async function _listByLocationDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for managed databases in a given location. */
 export function listByLocation(
   context: Client,
@@ -288,7 +296,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -308,7 +320,7 @@ export function _listByDatabaseSend(
       locationName: locationName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -337,7 +349,6 @@ export async function _listByDatabaseDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists all long term retention backups for a managed database. */
 export function listByDatabase(
   context: Client,
@@ -353,7 +364,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, locationName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -373,7 +388,7 @@ export function _$deleteSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,7 +410,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a long term retention backup. */
 export function $delete(
   context: Client,
@@ -411,7 +425,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, locationName, managedInstanceName, databaseName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -431,7 +445,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -458,7 +472,6 @@ export async function _getDeserialize(
 
   return managedInstanceLongTermRetentionBackupDeserializer(result.body);
 }
-
 /** Gets a long term retention backup for a managed database. */
 export async function get(
   context: Client,
@@ -497,7 +510,7 @@ export function _listByResourceGroupDatabaseSend(
       locationName: locationName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -526,7 +539,6 @@ export async function _listByResourceGroupDatabaseDeserialize(
 
   return _managedInstanceLongTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists all long term retention backups for a managed database. */
 export function listByResourceGroupDatabase(
   context: Client,
@@ -551,7 +563,11 @@ export function listByResourceGroupDatabase(
       ),
     _listByResourceGroupDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -575,7 +591,7 @@ export function _deleteByResourceGroupSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -599,7 +615,6 @@ export async function _deleteByResourceGroupDeserialize(
 
   return;
 }
-
 /** Deletes a long term retention backup. */
 export function deleteByResourceGroup(
   context: Client,
@@ -626,7 +641,7 @@ export function deleteByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -650,7 +665,7 @@ export function _getByResourceGroupSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -677,7 +692,6 @@ export async function _getByResourceGroupDeserialize(
 
   return managedInstanceLongTermRetentionBackupDeserializer(result.body);
 }
-
 /** Gets a long term retention backup for a managed database. */
 export async function getByResourceGroup(
   context: Client,
