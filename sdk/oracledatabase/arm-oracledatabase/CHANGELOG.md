@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-09-23)
+## 4.0.0 (2026-09-24)
 
 ### Features Added
   - Added operation group DatabaseEditionsOperations

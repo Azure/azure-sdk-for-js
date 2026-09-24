@@ -2,7 +2,7 @@
   "apiVersions": {
     "Oracle.Database": "2026-06-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Oracle.Database",
     "CrossLanguageDefinitionId": {
