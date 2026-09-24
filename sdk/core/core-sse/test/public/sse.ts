@@ -104,6 +104,19 @@ export function buildSseTests(
       });
     });
 
+    it("treats colonless fields as having empty values", async function () {
+      const stream = createStream((write) => {
+        write(encoder.encode("id: previous\ndata: first\n\n"));
+        write(encoder.encode(": ignored\nevent: named\nevent\nid\ndata\n\n"));
+        write(encoder.encode("data\ndata: next\n\n"));
+      });
+      await assertAsyncIterable(stream, 3, (event, index) => {
+        assert.equal(event.id, index === 0 ? "previous" : "");
+        assert.equal(event.data, ["first", "", "\nnext"][index]);
+        assert.equal(event.event, "");
+      });
+    });
+
     it("handles event types", async function () {
       const stream = createStream((write) => {
         write(createType(encoder.encode("foo")));

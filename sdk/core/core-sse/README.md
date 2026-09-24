@@ -84,7 +84,8 @@ on the next request.
 
 Events without an explicit `id:` field inherit the last committed event ID, even
 across reconnections. The `lastEventId` option seeds this value for the initial
-connection. An empty `id:` field clears it for subsequent events and reconnects.
+connection. An empty `id:` field or a colonless `id` field clears it for
+subsequent events and reconnects once the block ends with a blank line.
 
 ## Examples
 

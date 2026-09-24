@@ -12,6 +12,8 @@
 
 ### Bugs Fixed
 
+- Process colonless SSE fields, including empty `id` resets. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+
 ### Other Changes
 
 ## 2.4.0 (2026-07-13)

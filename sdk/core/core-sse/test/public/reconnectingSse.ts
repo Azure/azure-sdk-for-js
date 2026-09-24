@@ -190,6 +190,38 @@ export function buildReconnectingSseTests(
       assert.notProperty(attempts[3], "lastEventId");
     });
 
+    it("clears a retained id on a colonless id field after a blank line", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const bodies = ["id: retained\n\n", "id\n\n", "data: reconnected\n\n"];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        const index = attempts.length - 1;
+        return response(createBody({ chunks: [bodies[index]], hang: index === bodies.length - 1 }));
+      });
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      const event = await readOne(stream);
+      assert.equal(event.id, "");
+      assert.equal(attempts[1].lastEventId, "retained");
+      assert.notProperty(attempts[2], "lastEventId");
+    });
+
+    it("does not clear a retained id from a colonless id without a blank line", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const bodies = ["id: retained\n\n", "id\n", "data: reconnected\n\n"];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        const index = attempts.length - 1;
+        return response(createBody({ chunks: [bodies[index]], hang: index === bodies.length - 1 }));
+      });
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      const event = await readOne(stream);
+      assert.equal(event.id, "retained");
+      assert.equal(attempts[1].lastEventId, "retained");
+      assert.equal(attempts[2].lastEventId, "retained");
+    });
+
     it("rejects invalid retryDelayInMs and maxRetries options", async () => {
       const connect = vi.fn(async () => response(createBody({ hang: true })));
 

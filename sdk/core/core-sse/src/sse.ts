@@ -158,17 +158,20 @@ async function* toMessage(
       }
       message = createMessage();
       pendingId = undefined;
-    } else if (fieldLen > 0) {
-      // exclude comments and lines with no values
-      // line is of format "<field>:<value>" or "<field>: <value>"
+    } else if (fieldLen !== 0) {
+      // A line without a colon is a field with an empty value; lines starting with ":" are comments.
       // https://html.spec.whatwg.org/multipage/server-sent-events.html#event-stream-interpretation
-      const field = decoder.decode(line.subarray(0, fieldLen));
-      const valueOffset = fieldLen + (line[fieldLen + 1] === ControlChars.Space ? 2 : 1);
-      const value = decoder.decode(line.subarray(valueOffset));
+      const field = decoder.decode(fieldLen === -1 ? line : line.subarray(0, fieldLen));
+      const value =
+        fieldLen === -1
+          ? ""
+          : decoder.decode(
+              line.subarray(fieldLen + (line[fieldLen + 1] === ControlChars.Space ? 2 : 1)),
+            );
 
       switch (field) {
         case "data":
-          message.data = message.data ? message.data + "\n" + value : value;
+          message.data = message.data === undefined ? value : message.data + "\n" + value;
           break;
         case "event":
           message.event = value;
