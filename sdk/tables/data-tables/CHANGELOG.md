@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed transaction submission to forward nested request options, merge user headers case-insensitively while preserving required batch headers, and invoke legacy response callbacks on success and failure. [#40036](https://github.com/Azure/azure-sdk-for-js/issues/40036)
+- Fixed transaction submission to forward nested request options, merge user headers case-insensitively while preserving required batch headers, and invoke legacy response callbacks on success and failure. Also preserved legacy `customHeaders` forwarding for generated entity operations. [#40036](https://github.com/Azure/azure-sdk-for-js/issues/40036)
 
 ### Other Changes
 
