@@ -72,7 +72,7 @@ See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
 npm run generate:client
 ```
 
-This runs `tsp-client update -d && npm run format && dev-tool customization apply`. The emitter writes **directly into `generated/` and `src/`** — there is no `incoming/` snapshot. The next skill (`apply-post-emitter-edits`) inspects the resulting working-tree diff via `git diff` rather than a separate staging directory.
+This runs `tsp-client update -d && npm run customize`. The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
 
 ### Step 4: Restore the saved-yaml filename
 
