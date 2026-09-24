@@ -86,6 +86,7 @@
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
+    "vite": "^8.0.0",
     "vitest": "catalog:testing",
     "zod": "^4.2.1"
   },

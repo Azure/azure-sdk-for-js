@@ -11,6 +11,12 @@
 
 - Regenerate the client from azure-rest-api-specs commit `404147453dd87cd0816988d86a93c8b6a1220e2f`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/404147453dd87cd0816988d86a93c8b6a1220e2f)
 
+## 2.7.1 (2026-09-23)
+
+### Bugs Fixed
+
+- Fix browser bundling of `VoiceAgentRealtimeClient` and `AIProjectClient` by isolating Node.js-only dataset and model file uploads from the browser entry point. [#40054](https://github.com/Azure/azure-sdk-for-js/pull/40054)
+
 ## 2.7.0 (2026-09-18)
 
 ### Breaking Changes
