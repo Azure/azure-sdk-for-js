@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export {
-  type DbSystemShapesListByLocationOptionalParams,
-  type DbSystemShapesGetOptionalParams,
+export type {
+  DbSystemShapesListByLocationOptionalParams,
+  DbSystemShapesGetOptionalParams,
 } from "./options.js";

@@ -25,9 +25,8 @@ import type {
   ToolboxShellContainerAutoEnvironment,
   ToolboxSkillReference,
 } from "@azure/ai-projects";
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, isRestError } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import { RestError } from "@azure/core-rest-pipeline";
 import { inflateRawSync } from "node:zlib";
 import { buffer } from "node:stream/consumers";
 import "dotenv/config";
@@ -46,7 +45,7 @@ async function deleteIfExists(label: string, remove: () => Promise<unknown>): Pr
     await remove();
     console.log(`Deleted ${label}`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }
