@@ -110,7 +110,6 @@ export class AzureDatabricksManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
     readonly accessConnectors: AccessConnectorsOperations;
     readonly operations: OperationsOperations;
-    readonly outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpointsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
@@ -195,20 +194,6 @@ export interface EncryptionV2KeyVaultProperties {
     keyName: string;
     keyVaultUri: string;
     keyVersion: string;
-}
-
-// @public
-export interface EndpointDependency {
-    domainName?: string;
-    endpointDetails?: EndpointDetail[];
-}
-
-// @public
-export interface EndpointDetail {
-    ipAddress?: string;
-    isAccessible?: boolean;
-    latency?: number;
-    port?: number;
 }
 
 // @public
@@ -464,21 +449,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 // @public
 export interface OperationsOperations {
     list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OutboundEnvironmentEndpoint {
-    category?: string;
-    endpoints?: EndpointDependency[];
-}
-
-// @public
-export interface OutboundNetworkDependenciesEndpointsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OutboundNetworkDependenciesEndpointsOperations {
-    list: (resourceGroupName: string, workspaceName: string, options?: OutboundNetworkDependenciesEndpointsListOptionalParams) => Promise<OutboundEnvironmentEndpoint[]>;
 }
 
 // @public

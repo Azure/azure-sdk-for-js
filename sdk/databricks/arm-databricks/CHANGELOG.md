@@ -3,7 +3,13 @@
 ## 5.0.0 (2026-09-24)
 
 ### Breaking Changes
+  - Removed operation group OutboundNetworkDependenciesEndpointsOperations
   - Operation VNetPeeringOperations.get has a new signature
+  - Class AzureDatabricksManagementClient no longer has parameter outboundNetworkDependenciesEndpoints
+  - Removed Interface EndpointDependency
+  - Removed Interface EndpointDetail
+  - Removed Interface OutboundEnvironmentEndpoint
+  - Removed Interface OutboundNetworkDependenciesEndpointsListOptionalParams
 
 ## 4.0.0 (2026-07-16)
 

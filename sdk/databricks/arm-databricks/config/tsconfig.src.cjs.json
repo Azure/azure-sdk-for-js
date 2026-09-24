@@ -8,7 +8,6 @@
     "../src/api/index.ts",
     "../src/api/vNetPeering/index.ts",
     "../src/api/privateLinkResources/index.ts",
-    "../src/api/outboundNetworkDependenciesEndpoints/index.ts",
     "../src/api/accessConnectors/index.ts",
     "../src/api/privateEndpointConnections/index.ts",
     "../src/api/workspaces/index.ts",

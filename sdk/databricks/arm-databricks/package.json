@@ -76,20 +76,6 @@
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
-    "./api/outboundNetworkDependenciesEndpoints": {
-      "browser": {
-        "types": "./dist/browser/api/outboundNetworkDependenciesEndpoints/index.d.ts",
-        "default": "./dist/browser/api/outboundNetworkDependenciesEndpoints/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/outboundNetworkDependenciesEndpoints/index.d.ts",
-        "default": "./dist/esm/api/outboundNetworkDependenciesEndpoints/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/outboundNetworkDependenciesEndpoints/index.d.ts",
-        "default": "./dist/commonjs/api/outboundNetworkDependenciesEndpoints/index.js"
-      }
-    },
     "./api/accessConnectors": {
       "browser": {
         "types": "./dist/browser/api/accessConnectors/index.d.ts",

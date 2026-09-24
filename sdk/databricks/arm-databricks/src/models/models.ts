@@ -1830,73 +1830,6 @@ export function accessConnectorArrayDeserializer(result: Array<AccessConnector>)
   });
 }
 
-/** Egress endpoints which Workspace connects to for common purposes. */
-export interface OutboundEnvironmentEndpoint {
-  /** The category of endpoints accessed by the Workspace, e.g. azure-storage, azure-mysql, etc. */
-  category?: string;
-  /** The endpoints that Workspace connect to */
-  endpoints?: EndpointDependency[];
-}
-
-export function outboundEnvironmentEndpointDeserializer(item: any): OutboundEnvironmentEndpoint {
-  return {
-    category: item["category"],
-    endpoints: !item["endpoints"]
-      ? item["endpoints"]
-      : endpointDependencyArrayDeserializer(item["endpoints"]),
-  };
-}
-
-export function endpointDependencyArrayDeserializer(result: Array<EndpointDependency>): any[] {
-  return result.map((item) => {
-    return endpointDependencyDeserializer(item);
-  });
-}
-
-/** A domain name or IP address the Workspace is reaching at. */
-export interface EndpointDependency {
-  /** The domain name of the dependency. */
-  domainName?: string;
-  /** The Ports used when connecting to domainName. */
-  endpointDetails?: EndpointDetail[];
-}
-
-export function endpointDependencyDeserializer(item: any): EndpointDependency {
-  return {
-    domainName: item["domainName"],
-    endpointDetails: !item["endpointDetails"]
-      ? item["endpointDetails"]
-      : endpointDetailArrayDeserializer(item["endpointDetails"]),
-  };
-}
-
-export function endpointDetailArrayDeserializer(result: Array<EndpointDetail>): any[] {
-  return result.map((item) => {
-    return endpointDetailDeserializer(item);
-  });
-}
-
-/** Connect information from the Workspace to a single endpoint. */
-export interface EndpointDetail {
-  /** An IP Address that Domain Name currently resolves to. */
-  ipAddress?: string;
-  /** The port an endpoint is connected to. */
-  port?: number;
-  /** The time in milliseconds it takes for the connection to be created from the Workspace to this IpAddress at this Port. */
-  latency?: number;
-  /** Whether it is possible to create a connection from the Workspace to this IpAddress at this Port. */
-  isAccessible?: boolean;
-}
-
-export function endpointDetailDeserializer(item: any): EndpointDetail {
-  return {
-    ipAddress: item["ipAddress"],
-    port: item["port"],
-    latency: item["latency"],
-    isAccessible: item["isAccessible"],
-  };
-}
-
 /** The group information for creating a private endpoint on a workspace */
 export interface GroupIdInformation extends ProxyResource {
   /** The group id properties. */
@@ -2222,14 +2155,6 @@ export function virtualNetworkPeeringArrayDeserializer(
 export enum KnownVersions {
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
-}
-
-export function outboundEnvironmentEndpointArrayDeserializer(
-  result: Array<OutboundEnvironmentEndpoint>,
-): any[] {
-  return result.map((item) => {
-    return outboundEnvironmentEndpointDeserializer(item);
-  });
 }
 
 export function _workspacePropertiesSerializer(item: Workspace): any {
