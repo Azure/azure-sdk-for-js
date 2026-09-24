@@ -2,15 +2,45 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { wireTrainingJobsClient } from "./training-jobs-client.mjs";
 import { planCustomization } from "./planner.mjs";
 import { validateCustomization } from "./guards.mjs";
 
 const file = "aiProjectClient.ts";
-const base = readFileSync(new URL("../../generated/aiProjectClient.ts", import.meta.url), "utf8");
-const customized = readFileSync(new URL("../../src/aiProjectClient.ts", import.meta.url), "utf8");
+// Historical pre-Jobs fixtures must not change when the package is regenerated.
+const base = `
+import { AIProjectContext, createAIProject } from "./api/index.js";
+import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
+export class AIProjectClient {
+  private _client: AIProjectContext;
+  public readonly pipeline: Pipeline;
+  constructor(endpoint, credential, options = {}) {
+    this._client = createAIProject(endpoint, credential, options);
+    this.pipeline = this._client.pipeline;
+    this.agents = _getAgentsOperations(this._client);
+  }
+  public readonly agents: AgentsOperations;
+}`;
+const customized = `
+import { AIProjectContext, createAIProject } from "./api/index.js";
+import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
+import { createOpenAI, createTelemetry } from "./custom.js";
+export class AIProjectClient {
+  private _cognitiveScopeClient: AIProjectContext;
+  private _azureScopeClient: AIProjectContext;
+  constructor(endpoint, credential, options = {}) {
+    const userAgentPrefix = "azsdk-js-client";
+    this._cognitiveScopeClient = createAIProject(endpoint, credential, {
+      ...options, credentials: { scopes: ["https://ai.azure.com/.default"] }
+    });
+    this._azureScopeClient = createAIProject(endpoint, credential, { ...options, userAgentPrefix });
+    this.agents = _getAgentsOperations(this._azureScopeClient, options.tracing);
+    this.telemetry = createTelemetry(this.agents);
+  }
+  public readonly agents: AgentsOperations;
+  getOpenAIClient(options) { return createOpenAI(this._cognitiveScopeClient, options); }
+}`;
 const declaration = "public readonly jobs: JobsOperations;";
 const incoming = base
   .replace(
@@ -64,6 +94,7 @@ test("does nothing for the default generated baseline or existing customized Job
   assert.equal(wireTrainingJobsClient(base, customized, base).text, customized);
   const first = wireTrainingJobsClient(base, customized, incoming);
   assert.equal(wireTrainingJobsClient(base, first.text, incoming).text, first.text);
+  assert.equal(wireTrainingJobsClient(incoming, first.text, incoming).text, first.text);
 });
 
 for (const [name, changed] of [
