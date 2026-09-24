@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added OneSettings `FEATURE_LOCAL_STORAGE` control of offline telemetry storage and replay, preserving local opt-outs and queued files. Follows the [Python local-storage toggle](https://github.com/Azure/azure-sdk-for-python/pull/48379).
+- Added OneSettings `FEATURE_LOCAL_STORAGE` control of offline telemetry storage and replay, preserving local opt-outs and queued files. [#40086](https://github.com/Azure/azure-sdk-for-js/pull/40086).
 
 - Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. [#40053](https://github.com/Azure/azure-sdk-for-js/pull/40053).
 
