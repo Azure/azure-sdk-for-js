@@ -8,6 +8,7 @@ import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { StatsbeatManager } from "../../export/statsbeat/statsbeatManager.js";
+import { CustomerSDKStatsManager } from "../../export/statsbeat/customerSDKStatsManager.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
@@ -60,11 +61,15 @@ export abstract class BaseSender {
   private readonly statsbeatManager: StatsbeatManager;
   private isShutdown: boolean = false;
   private readonly replayOperations = new Set<Promise<void>>();
-  private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
+  private customerSDKStatsManager: CustomerSDKStatsManager | undefined;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
   private disableOfflineStorage: boolean;
+
+  private get customerSDKStatsMetrics(): CustomerSDKStatsMetrics | undefined {
+    return this.customerSDKStatsManager?.customerSDKStatsMetrics;
+  }
 
   constructor(options: {
     endpointUrl: string;
@@ -82,7 +87,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (!process.env[ENV_DISABLE_SDKSTATS]) {
+      if (!options.isStatsbeatSender && !process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -95,26 +100,17 @@ export abstract class BaseSender {
             );
           }
         }
-        // Initialize customer SDK stats metrics asynchronously to avoid circular dependency
-        // Only initialize if not already set (e.g., by tests)
-        if (!this.customerSDKStatsMetrics) {
-          import("../../export/statsbeat/customerSDKStats.js")
-            .then((module) =>
-              module.CustomerSDKStatsMetrics.getInstance({
-                instrumentationKey: options.instrumentationKey,
-                endpointUrl: options.endpointUrl,
-                disableOfflineStorage: this.disableOfflineStorage,
-                networkCollectionInterval: exportInterval,
-              }),
-            )
-            .then((metrics) => {
-              this.customerSDKStatsMetrics = metrics;
-              return;
-            })
-            .catch((error) => {
-              diag.warn("Failed to initialize customer SDK stats metrics:", error);
-            });
-        }
+        this.customerSDKStatsManager = CustomerSDKStatsManager.getInstance();
+        void this.customerSDKStatsManager
+          .initialize({
+            instrumentationKey: options.instrumentationKey,
+            endpointUrl: options.endpointUrl,
+            disableOfflineStorage: this.disableOfflineStorage,
+            networkCollectionInterval: exportInterval,
+          })
+          .catch((error) => {
+            diag.warn("Failed to initialize customer SDK stats metrics:", error);
+          });
       }
     }
     this.persister = new FileSystemPersist(
@@ -434,9 +430,9 @@ export abstract class BaseSender {
    */
   private shutdownStatsbeat(): void {
     this.shutdownInternalStatsbeat();
-    if (this.customerSDKStatsMetrics) {
-      this.customerSDKStatsMetrics.shutdown();
-    }
+    void this.customerSDKStatsManager?.shutdown().catch((error) => {
+      diag.warn("Failed to shut down customer SDK stats metrics:", error);
+    });
   }
 
   private sendFirstPersistedFile(): Promise<void> {
