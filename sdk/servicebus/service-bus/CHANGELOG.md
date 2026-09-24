@@ -8,7 +8,7 @@
 - Added `sqlFilterCount` and `correlationFilterCount` to `TopicRuntimeProperties`, exposing the total number of SQL filters and correlation filters across all of a topic's subscriptions. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
 - The ATOM administration client now sends `api-version=2024-05` (previously `2021-05`), which is required for the topic filter counts above. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
 
-- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export. To access the new option, import "@azure/service-bus/experimental" sub-path. For example,
+- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export. [#31361](https://github.com/Azure/azure-sdk-for-js/pull/31361) To access the new option, import "@azure/service-bus/experimental" sub-path. For example,
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
