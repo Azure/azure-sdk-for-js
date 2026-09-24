@@ -39,9 +39,6 @@ export interface AllInstancesDown {
 }
 
 // @public
-export type AllocationStrategy = string;
-
-// @public
 export interface ApiEntityReference {
     id?: string;
 }
@@ -118,9 +115,6 @@ export interface BulkCreateCreateOrUpdateOptionalParams extends OperationOptions
 }
 
 // @public
-export type BulkCreateCustomAllocationStrategy = string;
-
-// @public
 export interface BulkCreateCustomCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -135,9 +129,6 @@ export interface BulkCreateCustomDeleteOptionalParams extends OperationOptions {
     deleteInstances?: boolean;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type BulkCreateCustomDistributionStrategy = string;
 
 // @public
 export interface BulkCreateCustomGetAsyncOperationStatusOptionalParams extends OperationOptions {
@@ -178,15 +169,6 @@ export interface BulkCreateCustomOverride {
 }
 
 // @public
-export interface BulkCreateCustomOverrideBase {
-    extensions?: BulkactionVMExtension[];
-    identity?: VirtualMachineIdentity;
-    plan?: Plan;
-    tags?: Record<string, string>;
-    virtualMachineProfile?: BulkactionVMProperties;
-}
-
-// @public
 export interface BulkCreateCustomOverridesProfile {
     overrides?: BulkCreateCustomOverride[];
     virtualMachineNamePrefix?: string;
@@ -194,7 +176,6 @@ export interface BulkCreateCustomOverridesProfile {
 
 // @public
 export interface BulkCreateCustomPriorityProfile {
-    allocationStrategy?: BulkCreateCustomAllocationStrategy;
     evictionPolicy?: EvictionPolicy;
     maxPricePerVM?: number;
     type?: PriorityType;
@@ -213,8 +194,6 @@ export interface BulkCreateCustomProperties {
     priorityProfile: BulkCreateCustomPriorityProfile;
     readonly provisioningState?: ProvisioningState;
     readonly resources?: BulkCreateCustomResource[];
-    vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
-    zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
 }
 
 // @public
@@ -231,19 +210,6 @@ export interface BulkCreateCustomVirtualMachineInfo {
 
 // @public
 export interface BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BulkCreateCustomVmSizeProfile {
-    name: string;
-    override?: BulkCreateCustomOverrideBase;
-    rank: number;
-}
-
-// @public
-export interface BulkCreateCustomZoneAllocationPolicy {
-    distributionStrategy?: BulkCreateCustomDistributionStrategy;
-    zonePreferences?: ZonePreference[];
 }
 
 // @public
@@ -291,18 +257,10 @@ export interface BulkCreateProperties {
     partialFulfillmentPolicy?: PartialFulfillmentPolicy;
     priorityProfile: PriorityProfile;
     readonly provisioningState?: ProvisioningState;
-    vmSizesProfile?: BulkCreateVmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
 export interface BulkCreateVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BulkCreateVmSizeProfile {
-    name: string;
-    rank?: number;
 }
 
 // @public
@@ -495,9 +453,6 @@ export interface DiskEncryptionSettings {
 }
 
 // @public
-export type DistributionStrategy = string;
-
-// @public
 export type DomainNameLabelScopeTypes = string;
 
 // @public
@@ -573,6 +528,7 @@ export interface ExecuteStartContent {
 
 // @public
 export interface ExecutionParameters {
+    additionalCreateParameters?: Record<string, any>;
     capacityRecommendationParameters?: CapacityRecommendationParameters;
     retryPolicy?: RetryPolicy;
     verifyVmAgentHealth?: boolean;
@@ -652,26 +608,6 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownAllocationStrategy {
-    CapacityOptimized = "CapacityOptimized",
-    LowestPrice = "LowestPrice",
-    Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownBulkCreateCustomAllocationStrategy {
-    LowestPrice = "LowestPrice",
-    Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownBulkCreateCustomDistributionStrategy {
-    BestEffortBalanced = "BestEffortBalanced",
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized"
-}
-
-// @public
 export enum KnownCachingTypes {
     None = "None",
     ReadOnly = "ReadOnly",
@@ -748,14 +684,6 @@ export enum KnownDiskDeleteOptionTypes {
 // @public
 export enum KnownDiskDetachOptionTypes {
     ForceDetach = "ForceDetach"
-}
-
-// @public
-export enum KnownDistributionStrategy {
-    BestEffortBalanced = "BestEffortBalanced",
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized",
-    StrictBalanced = "StrictBalanced"
 }
 
 // @public
@@ -1054,7 +982,8 @@ export enum KnownVersions {
     V20260606 = "2026-06-06",
     V20260706Preview = "2026-07-06-preview",
     V20260806Preview = "2026-08-06-preview",
-    V20260906Preview = "2026-09-06-preview"
+    V20260906Preview = "2026-09-06-preview",
+    V20261006Preview = "2026-10-06-preview"
 }
 
 // @public
@@ -1431,7 +1360,6 @@ export interface Plan {
 
 // @public
 export interface PriorityProfile {
-    allocationStrategy?: AllocationStrategy;
     evictionPolicy?: EvictionPolicy;
     maxPricePerVM?: number;
     type?: PriorityType;
@@ -2172,19 +2100,6 @@ export interface WinRMConfiguration {
 export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
-}
-
-// @public
-export interface ZoneAllocationPolicy {
-    distributionStrategy?: DistributionStrategy;
-    zonePreferences?: ZonePreference[];
-}
-
-// @public
-export interface ZonePreference {
-    rank: number;
-    targetMaxCapacity?: number;
-    zone: string;
 }
 
 // (No @packageDocumentation comment for this package)

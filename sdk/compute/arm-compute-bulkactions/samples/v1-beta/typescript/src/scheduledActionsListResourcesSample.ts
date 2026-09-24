@@ -8,17 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists resources associated with the specified scheduled action.
  *
  * @summary lists resources associated with the specified scheduled action.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_ListResources_PagedSuccess.json
  */
-async function listResourcesAssociatedWithAScheduledAction(): Promise<void> {
+async function listAPageOfResourcesAssociatedWithARecurringScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.scheduledActions.listResources(
-    "rgcompute",
-    "myScheduledAction",
-  )) {
+  for await (const item of client.scheduledActions.listResources("example-rg", "weekday-start")) {
     resArray.push(item);
   }
 
@@ -26,7 +23,7 @@ async function listResourcesAssociatedWithAScheduledAction(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listResourcesAssociatedWithAScheduledAction();
+  await listAPageOfResourcesAssociatedWithARecurringScheduledAction();
 }
 
 main().catch(console.error);
