@@ -31364,7 +31364,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-blob':
-        specifier: 12.34.0-beta.1
+        specifier: ^12.34.0
         version: link:../storage-blob
       '@azure/storage-common':
         specifier: ^12.5.0
