@@ -107,8 +107,6 @@
     "loinc",
     "Lucene",
     "mgmt",
-    "mhsm",
-    "mhsmip",
     "Mibps",
     "Milli",
     "mkdir",
@@ -178,7 +176,6 @@
     "Usuk",
     "vectorizer",
     "Vertica",
-    "Vnet",
     "westus",
     "Xiaomi"
   ],
@@ -228,12 +225,6 @@
       "filename": "eng/tools/rush-runner.js",
       "words": [
         "Jsons"
-      ]
-    },
-    {
-      "filename": "sdk/core/provisioning-core/review/provisioning-core-serialization-node.api.md",
-      "words": [
-        "infras"
       ]
     }
   ]
