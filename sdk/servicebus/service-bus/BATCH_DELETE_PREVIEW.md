@@ -1,6 +1,6 @@
 # Batch delete and purge preview
 
-Batch delete and purge are deferred from the `@azure/service-bus` 7.10.0 GA release. A stable package and its APIView must contain only stable APIs, while this feature still requires API design changes. The last stable release, 7.9.5, did not expose these APIs.
+Batch delete and purge are deferred from the `@azure/service-bus` 7.10.0 GA release because their public API design is not ready for the GA API surface and its APIView. The package's separate `./experimental` subpath continues to expose experimental APIs, including `omitMessageBody`; this deferral does not change that mechanism. The last stable release, 7.9.5, did not expose batch delete or purge.
 
 The implementation is tracked by [Azure/azure-sdk-for-js#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309). That pull request must be rebuilt on `main` after 7.10.0 is released so the complete feature is reintroduced from the stable baseline.
 
