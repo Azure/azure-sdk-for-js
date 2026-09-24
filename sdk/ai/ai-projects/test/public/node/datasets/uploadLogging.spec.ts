@@ -136,7 +136,7 @@ function createClient(
   };
 }
 
-describe.sequential("dataset upload diagnostics", () => {
+describe("dataset upload diagnostics", () => {
   let originalLog: typeof AzureLogger.log;
   let originalLevel: ReturnType<typeof getLogLevel>;
   let messages: string[];

@@ -1,5 +1,5 @@
-# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"6e6493af3f3cc8af38d53294837f067694ba4979a16c458005998d4255697ec9","body_hash":"84df14b6355b1b95ffec41edb740e885249a2d8aa64a390c030f32d426340ced","compiler_version":"v0.88.7","strict":true,"agent_id":"copilot","engine_versions":{"copilot":"1.0.80"}}
-# gh-aw-manifest: {"version":1,"secrets":["GH_AW_DEFAULT_OTLP_HEADERS","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/cache/restore","sha":"55cc8345863c7cc4c66a329aec7e433d2d1c52a9","version":"v6.1.0"},{"repo":"actions/cache/save","sha":"55cc8345863c7cc4c66a329aec7e433d2d1c52a9","version":"v6.1.0"},{"repo":"actions/checkout","sha":"3d3c42e5aac5ba805825da76410c181273ba90b1","version":"v7.0.1"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"820762786026740c76f36085b0efc47a31fe5020","version":"v7.0.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"5e508589e03a7757a7e05b26e834292f5445bfb6","version":"v0.88.7"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.28.14","digest":"sha256:f7df036c86575527b61f3f7df91c4412349a12b2a74988d929eafa2999230c98","pinned_image":"ghcr.io/github/gh-aw-firewall/agent:0.28.14@sha256:f7df036c86575527b61f3f7df91c4412349a12b2a74988d929eafa2999230c98"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.28.14","digest":"sha256:6f95e2234dd9bd6333a8ff28ccea7ecf0204acd4a09108723844dbd2bf6268c5","pinned_image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.28.14@sha256:6f95e2234dd9bd6333a8ff28ccea7ecf0204acd4a09108723844dbd2bf6268c5"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.28.14","digest":"sha256:2ce8df3abf3e9b76e9c0cf5863da41f1ab3f89b20ad14b988806ab89e7bf2cd5","pinned_image":"ghcr.io/github/gh-aw-firewall/squid:0.28.14@sha256:2ce8df3abf3e9b76e9c0cf5863da41f1ab3f89b20ad14b988806ab89e7bf2cd5"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.4.18","digest":"sha256:85b940556a8faa4e1fdbef124bfd75f2c4ebd855a10b88a1c3b6f3e97f6f1a53","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.4.18@sha256:85b940556a8faa4e1fdbef124bfd75f2c4ebd855a10b88a1c3b6f3e97f6f1a53"},{"image":"ghcr.io/github/gh-aw-node","digest":"sha256:0d9f1fb5fd6610c0ac1f5194a38e45a8a1e81f8a390d5142d8e4e6f26a4b3196","pinned_image":"ghcr.io/github/gh-aw-node@sha256:0d9f1fb5fd6610c0ac1f5194a38e45a8a1e81f8a390d5142d8e4e6f26a4b3196"},{"image":"ghcr.io/github/github-mcp-server:v1.11.0","digest":"sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699","pinned_image":"ghcr.io/github/github-mcp-server:v1.11.0@sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699"}],"has_pull_request_target":true,"mcp_servers":[{"name":"github","tools":["actions_get","actions_list","get_code_scanning_alert","get_commit","get_file_contents","get_job_logs","get_latest_release","get_me","get_pull_request","get_pull_request_comments","get_pull_request_diff","get_pull_request_files","get_pull_request_review_comments","get_pull_request_reviews","get_pull_request_status","get_release_by_tag","get_tag","list_branches","list_code_scanning_alerts","list_commits","list_pull_requests","list_releases","list_starred_repositories","list_tags","pull_request_read","search_code","search_pull_requests","search_repositories"]},{"name":"safeoutputs","tools":["create_pull_request_review_comment","missing_data","missing_tool","noop","submit_pull_request_review"]}]}
+# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"b533e9e4b9d81ec9d566b429c66cb92eea9841338e61f68fe9ae72e194f900b4","body_hash":"685deb540c11170a162caafdf49e13207d50b8dd60ef931efa6caedae5272afa","compiler_version":"v0.88.7","strict":true,"agent_id":"copilot","engine_versions":{"copilot":"1.0.80"}}
+# gh-aw-manifest: {"version":1,"secrets":["GH_AW_DEFAULT_OTLP_HEADERS","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/cache/restore","sha":"55cc8345863c7cc4c66a329aec7e433d2d1c52a9","version":"v6.1.0"},{"repo":"actions/cache/save","sha":"55cc8345863c7cc4c66a329aec7e433d2d1c52a9","version":"v6.1.0"},{"repo":"actions/checkout","sha":"3d3c42e5aac5ba805825da76410c181273ba90b1","version":"v7.0.1"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"820762786026740c76f36085b0efc47a31fe5020","version":"v7.0.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"5e508589e03a7757a7e05b26e834292f5445bfb6","version":"v0.88.7"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.28.14","digest":"sha256:f7df036c86575527b61f3f7df91c4412349a12b2a74988d929eafa2999230c98","pinned_image":"ghcr.io/github/gh-aw-firewall/agent:0.28.14@sha256:f7df036c86575527b61f3f7df91c4412349a12b2a74988d929eafa2999230c98"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.28.14","digest":"sha256:6f95e2234dd9bd6333a8ff28ccea7ecf0204acd4a09108723844dbd2bf6268c5","pinned_image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.28.14@sha256:6f95e2234dd9bd6333a8ff28ccea7ecf0204acd4a09108723844dbd2bf6268c5"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.28.14","digest":"sha256:2ce8df3abf3e9b76e9c0cf5863da41f1ab3f89b20ad14b988806ab89e7bf2cd5","pinned_image":"ghcr.io/github/gh-aw-firewall/squid:0.28.14@sha256:2ce8df3abf3e9b76e9c0cf5863da41f1ab3f89b20ad14b988806ab89e7bf2cd5"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.4.18","digest":"sha256:85b940556a8faa4e1fdbef124bfd75f2c4ebd855a10b88a1c3b6f3e97f6f1a53","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.4.18@sha256:85b940556a8faa4e1fdbef124bfd75f2c4ebd855a10b88a1c3b6f3e97f6f1a53"},{"image":"ghcr.io/github/gh-aw-node","digest":"sha256:0d9f1fb5fd6610c0ac1f5194a38e45a8a1e81f8a390d5142d8e4e6f26a4b3196","pinned_image":"ghcr.io/github/gh-aw-node@sha256:0d9f1fb5fd6610c0ac1f5194a38e45a8a1e81f8a390d5142d8e4e6f26a4b3196"},{"image":"ghcr.io/github/github-mcp-server:v1.11.0","digest":"sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699","pinned_image":"ghcr.io/github/github-mcp-server:v1.11.0@sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699"}],"mcp_servers":[{"name":"github","tools":["actions_get","actions_list","get_code_scanning_alert","get_commit","get_file_contents","get_job_logs","get_latest_release","get_me","get_pull_request","get_pull_request_comments","get_pull_request_diff","get_pull_request_files","get_pull_request_review_comments","get_pull_request_reviews","get_pull_request_status","get_release_by_tag","get_tag","list_branches","list_code_scanning_alerts","list_commits","list_pull_requests","list_releases","list_starred_repositories","list_tags","pull_request_read","search_code","search_pull_requests","search_repositories"]},{"name":"safeoutputs","tools":["add_labels","create_pull_request_review_comment","missing_data","missing_tool","noop","remove_labels","submit_pull_request_review"]}]}
 # This file was automatically generated by gh-aw (v0.88.7). DO NOT EDIT. To debug this workflow, load the skill at https://github.com/github/gh-aw/blob/main/debug.md
 #
 #    ___                   _   _
@@ -52,39 +52,8 @@
 
 name: "Security Review"
 on:
-  # permissions: # Permissions applied to pre-activation job
-  # pull-requests: write
-  pull_request_target:
-    types:
-      - labeled
-  # steps: # Steps injected into pre-activation job
-  # - id: swap_label
-  # if: github.event_name == 'pull_request_target' && github.event.label.name == 'security-review-needed'
-  # name: Swap trigger label to in-progress
-  # uses: actions/github-script@v9.0.0
-  # with:
-  # script: |
-  # const pr = context.payload.pull_request.number;
-  # // Remove trigger label
-  # try {
-  # await github.rest.issues.removeLabel({
-  # ...context.repo,
-  # issue_number: pr,
-  # name: 'security-review-needed'
-  # });
-  # } catch (e) {
-  # core.warning(`Could not remove trigger label: ${e.message}`);
-  # }
-  # // Add in-progress label
-  # try {
-  # await github.rest.issues.addLabels({
-  # ...context.repo,
-  # issue_number: pr,
-  # labels: ['security-review-in-progress']
-  # });
-  # } catch (e) {
-  # core.warning(`Could not add in-progress label: ${e.message}`);
-  # }
+  # bots: # Bots processed as bot check in pre-activation job
+  # - github-actions # Bots processed as bot check in pre-activation job
   workflow_dispatch:
     inputs:
       aw_context:
@@ -92,16 +61,28 @@ on:
         description: "Agent caller context (used internally by Agentic Workflows)."
         required: false
         type: string
+      head_sha:
+        description: Expected PR head SHA (optional for manual reviews)
+        required: false
+        type: string
       item_number:
         description: PR number to run the review on
         required: true
+        type: string
+      request_event_id:
+        description: GitHub label-event ID (set by the trusted router)
+        required: false
+        type: string
+      request_run_id:
+        description: PR Review Intake run ID (set by the trusted router)
+        required: false
         type: string
 
 permissions: {}
 
 concurrency:
-  cancel-in-progress: true
-  group: gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}
+  cancel-in-progress: false
+  group: gh-aw-${{ github.workflow }}-${{ github.event.inputs.item_number }}
 
 run-name: "Security Review"
 
@@ -115,10 +96,8 @@ env:
 
 jobs:
   activation:
-    needs: pre_activation
-    if: >
-      needs.pre_activation.outputs.activated == 'true' && (github.event.label.name == 'security-review-needed' ||
-      github.event_name == 'workflow_dispatch')
+    needs: validate_request
+    if: needs.validate_request.outputs.ready == 'true'
     runs-on: ubuntu-slim
     permissions:
       actions: read
@@ -127,7 +106,6 @@ jobs:
       GH_AW_MAX_DAILY_AI_CREDITS: ${{ vars.GH_AW_DEFAULT_MAX_DAILY_AI_CREDITS || '5000' }}
       GH_AW_RUNTIME_FEATURES: ${{ vars.GH_AW_RUNTIME_FEATURES }}
     outputs:
-      body: ${{ steps.sanitized.outputs.body }}
       comment_id: ""
       comment_repo: ""
       daily_ai_credits_exceeded: ${{ steps.daily-effective-workflow-guardrail.outputs.daily_ai_credits_exceeded == 'true' }}
@@ -142,8 +120,6 @@ jobs:
       setup-span-id: ${{ steps.setup.outputs.span-id }}
       setup-trace-id: ${{ steps.setup.outputs.trace-id }}
       stale_lock_file_failed: ${{ steps.check-lock-file.outputs.stale_lock_file_failed == 'true' }}
-      text: ${{ steps.sanitized.outputs.text }}
-      title: ${{ steps.sanitized.outputs.title }}
     steps:
       - name: Setup Scripts
         id: setup
@@ -151,8 +127,6 @@ jobs:
         with:
           destination: ${{ runner.temp }}/gh-aw/actions
           job-name: ${{ github.job }}
-          trace-id: ${{ needs.pre_activation.outputs.setup-trace-id }}
-          parent-span-id: ${{ needs.pre_activation.outputs.setup-parent-span-id || needs.pre_activation.outputs.setup-span-id }}
           safe-output-artifact-client: ${{ env.GH_AW_MAX_DAILY_AI_CREDITS != '' }}
         env:
           GH_AW_SETUP_WORKFLOW_NAME: "Security Review"
@@ -291,19 +265,6 @@ jobs:
             setupGlobals(core, github, context, exec, io, getOctokit);
             const { main } = require(path.join(actionsDir, 'check_version_updates.cjs'));
             await main();
-      - name: Compute current body text
-        id: sanitized
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        env:
-          GH_AW_ALLOWED_DOMAINS: "api.npms.io,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,bun.sh,cdn.jsdelivr.net,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,deb.nodesource.com,deno.land,esm.sh,get.pnpm.io,googleapis.deno.dev,googlechromelabs.github.io,json-schema.org,json.schemastore.org,jsr.io,keyserver.ubuntu.com,nodejs.org,npm.pkg.github.com,npmjs.com,npmjs.org,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,osv.dev,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,registry.bower.io,registry.npmjs.com,registry.npmjs.org,registry.yarnpkg.com,repo.yarnpkg.com,s.symcb.com,s.symcd.com,security.ubuntu.com,skimdb.npmjs.com,storage.googleapis.com,telemetry.vercel.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com,www.npmjs.com,www.npmjs.org,yarnpkg.com"
-        with:
-          script: |
-            const path = require('path');
-            const actionsDir = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
-            const { setupGlobals } = require(path.join(actionsDir, 'setup_globals.cjs'));
-            setupGlobals(core, github, context, exec, io, getOctokit);
-            const { main } = require(path.join(actionsDir, 'compute_text.cjs'));
-            await main();
       - name: Log runtime features
         if: ${{ contains(toJSON(vars), '"GH_AW_RUNTIME_FEATURES":') }}
         run: bash "${RUNNER_TEMP}/gh-aw/actions/log_runtime_features_summary.sh"
@@ -319,13 +280,14 @@ jobs:
           GH_AW_EXPR_802A9F6A: ${{ github.event.issue.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'issue' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_FF1D34CE: ${{ github.event.comment.id || fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').comment_id }}
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
-          GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || inputs.item_number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
           GH_AW_GITHUB_RUN_ID: ${{ github.run_id }}
           GH_AW_GITHUB_WORKSPACE: ${{ github.workspace }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_HEAD_SHA: ${{ needs.validate_request.outputs.head_sha }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
           GH_AW_WIKI_NOTE: ${{ '' }}
           GH_AW_PROMPT_CONTENT_0000: "<system>\n"
-          GH_AW_PROMPT_CONTENT_0001: "<safe-output-tools>\nTools: create_pull_request_review_comment(max:10), submit_pull_request_review, missing_tool, missing_data, noop\n"
+          GH_AW_PROMPT_CONTENT_0001: "<safe-output-tools>\nTools: create_pull_request_review_comment(max:10), submit_pull_request_review, add_labels, remove_labels, missing_tool, missing_data, noop\n"
           GH_AW_PROMPT_CONTENT_0002: "</safe-output-tools>\n"
           GH_AW_PROMPT_CONTENT_0003: "<github-context>\nThe following GitHub context information is available for this workflow:\n{{#if github.actor}}\n- **actor**: __GH_AW_GITHUB_ACTOR__\n{{/if}}\n{{#if github.repository}}\n- **repository**: __GH_AW_GITHUB_REPOSITORY__\n{{/if}}\n{{#if github.workspace}}\n- **workspace**: __GH_AW_GITHUB_WORKSPACE__\n{{/if}}\n{{#if github.event.issue.number || (github.aw.context.item_type == 'issue' && github.aw.context.item_number)}}\n- **issue-number**: #__GH_AW_EXPR_802A9F6A__\n{{/if}}\n{{#if github.event.discussion.number || (github.aw.context.item_type == 'discussion' && github.aw.context.item_number)}}\n- **discussion-number**: #__GH_AW_EXPR_1A3A194A__\n{{/if}}\n{{#if github.event.pull_request.number || (github.aw.context.item_type == 'pull_request' && github.aw.context.item_number)}}\n- **pull-request-number**: #__GH_AW_EXPR_463A214A__\n{{/if}}\n{{#if github.event.comment.id || github.aw.context.comment_id}}\n- **comment-id**: __GH_AW_EXPR_FF1D34CE__\n{{/if}}\n{{#if github.run_id}}\n- **workflow-run-id**: __GH_AW_GITHUB_RUN_ID__\n{{/if}}\n</github-context>\n\n"
           GH_AW_PROMPT_CONTENT_0004: "</system>\n"
@@ -341,7 +303,8 @@ jobs:
         env:
           GH_AW_PROMPT: ${{ runner.temp }}/gh-aw/aw-prompts/prompt.txt
           GH_AW_ENGINE_ID: "copilot"
-          GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || inputs.item_number }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_HEAD_SHA: ${{ needs.validate_request.outputs.head_sha }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
         with:
           script: |
             const path = require('path');
@@ -362,7 +325,6 @@ jobs:
           GH_AW_EXPR_802A9F6A: ${{ github.event.issue.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'issue' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_FF1D34CE: ${{ github.event.comment.id || fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').comment_id }}
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
-          GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || inputs.item_number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
           GH_AW_GITHUB_RUN_ID: ${{ github.run_id }}
           GH_AW_GITHUB_WORKSPACE: ${{ github.workspace }}
@@ -372,7 +334,8 @@ jobs:
           GH_AW_MEMORY_DESCRIPTION: ''
           GH_AW_MEMORY_DIR: '/tmp/gh-aw/repo-memory/default/'
           GH_AW_MEMORY_TARGET_REPO: ' of the current repository'
-          GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED: ${{ needs.pre_activation.outputs.activated }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_HEAD_SHA: ${{ needs.validate_request.outputs.head_sha }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
           GH_AW_WIKI_NOTE: ''
         with:
           script: |
@@ -395,7 +358,6 @@ jobs:
                 GH_AW_EXPR_802A9F6A: process.env.GH_AW_EXPR_802A9F6A,
                 GH_AW_EXPR_FF1D34CE: process.env.GH_AW_EXPR_FF1D34CE,
                 GH_AW_GITHUB_ACTOR: process.env.GH_AW_GITHUB_ACTOR,
-                GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER,
                 GH_AW_GITHUB_REPOSITORY: process.env.GH_AW_GITHUB_REPOSITORY,
                 GH_AW_GITHUB_RUN_ID: process.env.GH_AW_GITHUB_RUN_ID,
                 GH_AW_GITHUB_WORKSPACE: process.env.GH_AW_GITHUB_WORKSPACE,
@@ -405,7 +367,8 @@ jobs:
                 GH_AW_MEMORY_DESCRIPTION: process.env.GH_AW_MEMORY_DESCRIPTION,
                 GH_AW_MEMORY_DIR: process.env.GH_AW_MEMORY_DIR,
                 GH_AW_MEMORY_TARGET_REPO: process.env.GH_AW_MEMORY_TARGET_REPO,
-                GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED: process.env.GH_AW_NEEDS_PRE_ACTIVATION_OUTPUTS_ACTIVATED,
+                GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_HEAD_SHA: process.env.GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_HEAD_SHA,
+                GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER: process.env.GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER,
                 GH_AW_WIKI_NOTE: process.env.GH_AW_WIKI_NOTE
               }
             });
@@ -443,8 +406,10 @@ jobs:
           retention-days: 1
 
   agent:
-    needs: activation
-    if: needs.activation.outputs.daily_ai_credits_exceeded != 'true'
+    needs:
+      - activation
+      - validate_request
+    if: (needs.validate_request.outputs.ready == 'true') && (needs.activation.outputs.daily_ai_credits_exceeded != 'true')
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -609,7 +574,7 @@ jobs:
         env:
           GH_AW_FILE_ROOT: "${{ runner.temp }}/gh-aw"
           GH_AW_FILE_CONFIG: "{\"files\":[{\"path\":\"safeoutputs/config.json\",\"content_env\":\"GH_AW_SAFE_OUTPUTS_CONFIG\"}]}"
-          GH_AW_SAFE_OUTPUTS_CONFIG: "{\"create_pull_request_review_comment\":{\"max\":10,\"side\":\"RIGHT\",\"target\":\"${{ github.event.pull_request.number || github.event.issue.number }}\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"false\"},\"push_repo_memory\":{\"memories\":[{\"dir\":\"/tmp/gh-aw/repo-memory/default\",\"id\":\"default\",\"max_file_count\":100,\"max_file_size\":102400,\"max_patch_size\":10240}]},\"report_incomplete\":{},\"submit_pull_request_review\":{\"footer\":\"if-body\",\"max\":1,\"target\":\"${{ github.event.pull_request.number || github.event.issue.number }}\"}}"
+          GH_AW_SAFE_OUTPUTS_CONFIG: "{\"add_labels\":{\"allowed\":[\"security-review-added\"],\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"create_pull_request_review_comment\":{\"commit_id\":\"${{ needs.validate_request.outputs.head_sha }}\",\"max\":10,\"side\":\"RIGHT\",\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"false\"},\"push_repo_memory\":{\"memories\":[{\"dir\":\"/tmp/gh-aw/repo-memory/default\",\"id\":\"default\",\"max_file_count\":100,\"max_file_size\":102400,\"max_patch_size\":10240}]},\"remove_labels\":{\"allowed\":[\"security-review-in-progress\"],\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"report_incomplete\":{},\"submit_pull_request_review\":{\"allowed_events\":[\"COMMENT\"],\"commit_id\":\"${{ needs.validate_request.outputs.head_sha }}\",\"footer\":\"if-body\",\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"}}"
         with:
           script: |
             const path = require('path');
@@ -623,14 +588,46 @@ jobs:
           GH_AW_TOOLS_META_JSON: |
             {
               "description_suffixes": {
+                "add_labels": " CONSTRAINTS: Maximum 1 label(s) can be added. Only these labels are allowed: [\"security-review-added\"]. Target: ${GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER}.",
                 "create_pull_request_review_comment": " CONSTRAINTS: Maximum 10 review comment(s) can be created. Comments will be on the RIGHT side of the diff.",
-                "submit_pull_request_review": " CONSTRAINTS: Maximum 1 review(s) can be submitted. Target: ${GH_AW_EXPR_AE61BB68}."
+                "remove_labels": " CONSTRAINTS: Maximum 1 label(s) can be removed. Only these labels can be removed: [security-review-in-progress]. Target: ${GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER}.",
+                "submit_pull_request_review": " CONSTRAINTS: Maximum 1 review(s) can be submitted. Target: ${GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER}."
               },
               "repo_params": {},
-              "dynamic_tools": []
+              "dynamic_tools": [],
+              "property_injections": {
+                "submit_pull_request_review": {
+                  "event": {
+                    "description": "Review decision. Restricted by allowed-events configuration to: COMMENT.",
+                    "enum": [
+                      "COMMENT"
+                    ],
+                    "type": "string",
+                    "x-synonyms": [
+                      "action"
+                    ]
+                  }
+                }
+              }
             }
           GH_AW_VALIDATION_JSON: |
             {
+              "add_labels": {
+                "defaultMax": 5,
+                "fields": {
+                  "item_number": {
+                    "issueNumberOrTemporaryId": true
+                  },
+                  "labels": {
+                    "required": true,
+                    "type": "array"
+                  },
+                  "repo": {
+                    "type": "string",
+                    "maxLength": 256
+                  }
+                }
+              },
               "create_pull_request_review_comment": {
                 "defaultMax": 1,
                 "fields": {
@@ -735,6 +732,22 @@ jobs:
                   }
                 }
               },
+              "remove_labels": {
+                "defaultMax": 5,
+                "fields": {
+                  "item_number": {
+                    "issueNumberOrTemporaryId": true
+                  },
+                  "labels": {
+                    "required": true,
+                    "type": "array"
+                  },
+                  "repo": {
+                    "type": "string",
+                    "maxLength": 256
+                  }
+                }
+              },
               "report_incomplete": {
                 "defaultMax": 5,
                 "fields": {
@@ -777,7 +790,7 @@ jobs:
                 }
               }
             }
-          GH_AW_EXPR_AE61BB68: ${{ github.event.pull_request.number || github.event.issue.number }}
+          GH_AW_NEEDS_VALIDATE_REQUEST_OUTPUTS_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
@@ -1269,6 +1282,7 @@ jobs:
       - push_repo_memory
       - safe_outputs
       - update_cache_memory
+      - validate_request
     if: >
       always() && (needs.agent.result != 'skipped' || needs.activation.outputs.lockdown_check_failed == 'true' ||
       needs.activation.outputs.oauth_token_check_failed == 'true' || needs.activation.outputs.stale_lock_file_failed == 'true' ||
@@ -1279,7 +1293,7 @@ jobs:
       issues: write
       pull-requests: write
     concurrency:
-      group: "gh-aw-conclusion-sentinel"
+      group: "gh-aw-conclusion-sentinel-${{ github.run_id }}"
       cancel-in-progress: false
       queue: max
     env:
@@ -1819,75 +1833,6 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/conclude_threat_detection.sh" /tmp/gh-aw/threat-detection/detection_result.json
 
-  pre_activation:
-    if: github.event.label.name == 'security-review-needed' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-slim
-    permissions:
-      pull-requests: write
-    env:
-      GH_AW_RUNTIME_FEATURES: ${{ vars.GH_AW_RUNTIME_FEATURES }}
-    outputs:
-      activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
-      matched_command: ''
-      setup-parent-span-id: ${{ steps.setup.outputs.parent-span-id || steps.setup.outputs.span-id }}
-      setup-span-id: ${{ steps.setup.outputs.span-id }}
-      setup-trace-id: ${{ steps.setup.outputs.trace-id }}
-      swap_label_result: ${{ steps.swap_label.outcome }}
-    steps:
-      - name: Setup Scripts
-        id: setup
-        uses: github/gh-aw-actions/setup@5e508589e03a7757a7e05b26e834292f5445bfb6 # v0.88.7
-        with:
-          destination: ${{ runner.temp }}/gh-aw/actions
-          job-name: ${{ github.job }}
-        env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Security Review"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/sentinel.lock.yml@${{ github.ref }}
-          GH_AW_INFO_VERSION: "1.0.80"
-          GH_AW_INFO_AWF_VERSION: "v0.28.14"
-          GH_AW_INFO_ENGINE_ID: "copilot"
-      - name: Check team membership for workflow
-        id: check_membership
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        env:
-          GH_AW_REQUIRED_ROLES: "admin,maintainer,write"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const path = require('path');
-            const actionsDir = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
-            const { setupGlobals } = require(path.join(actionsDir, 'setup_globals.cjs'));
-            setupGlobals(core, github, context, exec, io, getOctokit);
-            const { main } = require(path.join(actionsDir, 'check_membership.cjs'));
-            await main();
-      - name: Swap trigger label to in-progress
-        id: swap_label
-        if: github.event_name == 'pull_request_target' && github.event.label.name == 'security-review-needed'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          script: |
-            const pr = context.payload.pull_request.number;
-            // Remove trigger label
-            try {
-              await github.rest.issues.removeLabel({
-                ...context.repo,
-                issue_number: pr,
-                name: 'security-review-needed'
-              });
-            } catch (e) {
-              core.warning(`Could not remove trigger label: ${e.message}`);
-            }
-            // Add in-progress label
-            try {
-              await github.rest.issues.addLabels({
-                ...context.repo,
-                issue_number: pr,
-                labels: ['security-review-in-progress']
-              });
-            } catch (e) {
-              core.warning(`Could not add in-progress label: ${e.message}`);
-            }
-
   push_repo_memory:
     needs:
       - activation
@@ -1970,6 +1915,7 @@ jobs:
       - activation
       - agent
       - detection
+      - validate_request
     if: (!cancelled()) && needs.agent.result != 'skipped' && needs.detection.result == 'success'
     runs-on: ubuntu-slim
     permissions:
@@ -1987,7 +1933,6 @@ jobs:
       GH_AW_ENGINE_ID: "copilot"
       GH_AW_ENGINE_MODEL: ${{ needs.agent.outputs.model }}
       GH_AW_ENGINE_VERSION: "1.0.80"
-      GH_AW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       GH_AW_RUNTIME_FEATURES: ${{ vars.GH_AW_RUNTIME_FEATURES }}
       GH_AW_SAFE_OUTPUT_MESSAGES: "{\"footer\":\"\\u003e 🛡️ *Scanned by [{workflow_name}]({run_url})*\",\"runStarted\":\"🛡️ [{workflow_name}]({run_url}) is scanning this PR for security vulnerabilities…\",\"runSuccess\":\"🛡️ [{workflow_name}]({run_url}) completed the security review. ✅\",\"runFailure\":\"🛡️ [{workflow_name}]({run_url}) {status}. ❌\"}"
       GH_AW_THREAT_DETECTION_AIC: ${{ needs.detection.outputs.aic }}
@@ -2052,6 +1997,20 @@ jobs:
           GH_HOST="${GITHUB_SERVER_URL#https://}"
           GH_HOST="${GH_HOST#http://}"
           echo "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"
+      - name: Reject stale review outputs
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          REVIEW_HEAD_SHA: ${{ needs.validate_request.outputs.head_sha }}
+          REVIEW_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: Number(process.env.REVIEW_PR_NUMBER),
+            });
+            if (pr.state !== 'open' || pr.head.sha !== process.env.REVIEW_HEAD_SHA) {
+              throw new Error('The PR changed or closed during review. No review outputs were published; request a new review.');
+            }
       - name: Process Safe Outputs
         id: process_safe_outputs
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -2061,7 +2020,7 @@ jobs:
           GH_AW_ALLOWED_DOMAINS: "api.npms.io,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,bun.sh,cdn.jsdelivr.net,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,deb.nodesource.com,deno.land,esm.sh,get.pnpm.io,googleapis.deno.dev,googlechromelabs.github.io,json-schema.org,json.schemastore.org,jsr.io,keyserver.ubuntu.com,nodejs.org,npm.pkg.github.com,npmjs.com,npmjs.org,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,osv.dev,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,registry.bower.io,registry.npmjs.com,registry.npmjs.org,registry.yarnpkg.com,repo.yarnpkg.com,s.symcb.com,s.symcd.com,security.ubuntu.com,skimdb.npmjs.com,storage.googleapis.com,telemetry.vercel.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com,www.npmjs.com,www.npmjs.org,yarnpkg.com"
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_pull_request_review_comment\":{\"max\":10,\"side\":\"RIGHT\",\"target\":\"${{ github.event.pull_request.number || github.event.issue.number }}\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"false\"},\"report_incomplete\":{},\"submit_pull_request_review\":{\"footer\":\"if-body\",\"max\":1,\"target\":\"${{ github.event.pull_request.number || github.event.issue.number }}\"}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_labels\":{\"allowed\":[\"security-review-added\"],\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"create_pull_request_review_comment\":{\"commit_id\":\"${{ needs.validate_request.outputs.head_sha }}\",\"max\":10,\"side\":\"RIGHT\",\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"false\"},\"remove_labels\":{\"allowed\":[\"security-review-in-progress\"],\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"},\"report_incomplete\":{},\"submit_pull_request_review\":{\"allowed_events\":[\"COMMENT\"],\"commit_id\":\"${{ needs.validate_request.outputs.head_sha }}\",\"footer\":\"if-body\",\"max\":1,\"target\":\"${{ needs.validate_request.outputs.pr_number }}\"}}"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -2131,3 +2090,44 @@ jobs:
         with:
           key: memory-unapproved-e3d939f8-${{ env.GH_AW_WORKFLOW_ID_SANITIZED }}-${{ github.run_id }}
           path: /tmp/gh-aw/cache-memory
+
+  validate_request:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-slim
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    timeout-minutes: 5
+    outputs:
+      head_sha: ${{ steps.review_request.outputs.head_sha }}
+      pr_number: ${{ steps.review_request.outputs.pr_number }}
+      ready: ${{ steps.review_request.outputs.ready }}
+    steps:
+      - name: Configure GH_HOST for enterprise compatibility
+        id: ghes-host-config
+        shell: bash
+        run: | # zizmor: ignore[github-env] - GITHUB_SERVER_URL is set by GitHub Actions, not user input.
+          # Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct
+          # GitHub instance (GHES/GHEC). On github.com this is a harmless no-op.
+          GH_HOST="${GITHUB_SERVER_URL#https://}"
+          GH_HOST="${GH_HOST#http://}"
+          echo "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"
+      - name: Checkout trusted request validation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+          sparse-checkout: eng/tools/pr-review
+      - name: Validate and claim the review request
+        id: review_request
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { prepareReview } = require('./eng/tools/pr-review/review-request.cjs');
+            const request = await prepareReview({ github, context, core }, 'sentinel');
+            core.setOutput('ready', request ? 'true' : 'false');
+            if (request) {
+              core.setOutput('pr_number', request.number);
+              core.setOutput('head_sha', request.headSha);
+            }
