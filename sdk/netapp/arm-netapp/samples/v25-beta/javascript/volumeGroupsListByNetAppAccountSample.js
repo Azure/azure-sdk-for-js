@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all volume groups for given account
  *
  * @summary list all volume groups for given account
- * x-ms-original-file: 2026-05-15-preview/VolumeGroups_List_Custom.json
+ * x-ms-original-file: 2026-06-15-preview/VolumeGroups_List_Custom.json
  */
 async function volumeGroupsListCustom() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function volumeGroupsListCustom() {
  * This sample demonstrates how to list all volume groups for given account
  *
  * @summary list all volume groups for given account
- * x-ms-original-file: 2026-05-15-preview/VolumeGroups_List_Oracle.json
+ * x-ms-original-file: 2026-06-15-preview/VolumeGroups_List_Oracle.json
  */
 async function volumeGroupsListOracle() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function volumeGroupsListOracle() {
  * This sample demonstrates how to list all volume groups for given account
  *
  * @summary list all volume groups for given account
- * x-ms-original-file: 2026-05-15-preview/VolumeGroups_List_SapHana.json
+ * x-ms-original-file: 2026-06-15-preview/VolumeGroups_List_SapHana.json
  */
 async function volumeGroupsListSapHana() {
   const credential = new DefaultAzureCredential();

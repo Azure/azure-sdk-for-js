@@ -12,13 +12,13 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a HorizonDbPools operations. */
 export interface HorizonDbPoolsOperations {
-  /** Lists all HorizonDb pools in a cluster. */
+  /** Lists all HorizonDB pools in a cluster. */
   list: (
     resourceGroupName: string,
     clusterName: string,
     options?: HorizonDbPoolsListOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbPool>;
-  /** Gets information about a HorizonDb pool. */
+  /** Gets information about a HorizonDB pool. */
   get: (
     resourceGroupName: string,
     clusterName: string,

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { getExecutionLogs, $delete, createOrUpdate, get, list } from "./operations.js";
-export {
-  type ScriptExecutionsGetExecutionLogsOptionalParams,
-  type ScriptExecutionsDeleteOptionalParams,
-  type ScriptExecutionsCreateOrUpdateOptionalParams,
-  type ScriptExecutionsGetOptionalParams,
-  type ScriptExecutionsListOptionalParams,
+export type {
+  ScriptExecutionsGetExecutionLogsOptionalParams,
+  ScriptExecutionsDeleteOptionalParams,
+  ScriptExecutionsCreateOrUpdateOptionalParams,
+  ScriptExecutionsGetOptionalParams,
+  ScriptExecutionsListOptionalParams,
 } from "./options.js";

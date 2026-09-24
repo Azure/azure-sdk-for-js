@@ -2,51 +2,50 @@
 // Licensed under the MIT License.
 
 import type { SearchManagementContext as Client } from "../index.js";
-import type { OfferingsListResult } from "../../models/models.js";
-import { cloudErrorDeserializer, offeringsListResultDeserializer } from "../../models/models.js";
+import type { OfferingsResult } from "../../models/models.js";
+import { cloudErrorDeserializer, offeringsResultDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { OfferingsListOptionalParams } from "./options.js";
+import type { OfferingsFetchOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _listSend(
+export function _fetchSend(
   context: Client,
-  options: OfferingsListOptionalParams = { requestOptions: {} },
+  options: OfferingsFetchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/providers/Microsoft.Search/offerings{?api%2Dversion}",
+    "/providers/Microsoft.Search/fetchOfferings{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
+  return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OfferingsListResult> {
+export async function _fetchDeserialize(result: PathUncheckedResponse): Promise<OfferingsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return offeringsListResultDeserializer(result.body);
+  return offeringsResultDeserializer(result.body);
 }
-
-/** Lists all of the features and SKUs offered by the Azure AI Search service in each region. Note: This API returns a non-ARM resource collection and is not RPC-compliant. It will be replaced with an action-style API in the next preview as a breaking change. Customers should avoid taking new dependencies on the current shape. */
-export async function list(
+/** Fetches the features and SKUs offered by the Azure AI Search service in each region, along with the recommended default region for creating new services. */
+export async function fetch(
   context: Client,
-  options: OfferingsListOptionalParams = { requestOptions: {} },
-): Promise<OfferingsListResult> {
-  const result = await _listSend(context, options);
-  return _listDeserialize(result);
+  options: OfferingsFetchOptionalParams = { requestOptions: {} },
+): Promise<OfferingsResult> {
+  const result = await _fetchSend(context, options);
+  return _fetchDeserialize(result);
 }

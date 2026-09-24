@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_ReRegister_SwitchToSAMI.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectionContainers_ReRegister_SwitchToSAMI.json
  */
 async function reRegisterAzureStorageProtectionContainersSwitchingToSystemAssignedManagedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function reRegisterAzureStorageProtectionContainersSwitchingToSystemAssign
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_ReRegister_SwitchToUAMI.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectionContainers_ReRegister_SwitchToUAMI.json
  */
 async function reRegisterAzureStorageProtectionContainersSwitchingToUserAssignedManagedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -88,7 +88,7 @@ async function reRegisterAzureStorageProtectionContainersSwitchingToUserAssigned
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers() {
   const credential = new DefaultAzureCredential();
@@ -121,7 +121,7 @@ async function registerAzureStorageProtectionContainers() {
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_Register_WithSAMI.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectionContainers_Register_WithSAMI.json
  */
 async function registerAzureStorageProtectionContainersWithSystemAssignedManagedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -156,7 +156,7 @@ async function registerAzureStorageProtectionContainersWithSystemAssignedManaged
  * @summary registers the container with Recovery Services vault.
  * This is an asynchronous operation. To track the operation status, use location header to call get latest status of
  * the operation.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_Register_WithUAMI.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectionContainers_Register_WithUAMI.json
  */
 async function registerAzureStorageProtectionContainersWithUserAssignedManagedIdentity() {
   const credential = new DefaultAzureCredential();

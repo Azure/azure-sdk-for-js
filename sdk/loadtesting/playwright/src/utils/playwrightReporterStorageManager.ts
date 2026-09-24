@@ -561,6 +561,7 @@ export class PlaywrightReporterStorageManager {
           }
           throw new Error(
             `Upload failed for ${fileInfo.relativePath} after ${maxRetries} attempts: ${errorMessage}`,
+            { cause: error },
           );
         }
 

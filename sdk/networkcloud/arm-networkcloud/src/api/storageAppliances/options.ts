@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   StorageAppliancePatchParameters,
   StorageApplianceEnableRemoteVendorManagementParameters,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface StorageAppliancesRunReadCommandsOptionalParams extends OperationOptions {

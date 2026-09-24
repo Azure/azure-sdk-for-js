@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to ingest a health report for a specific signal on an entity (the entity must already exist)
  *
  * @summary ingest a health report for a specific signal on an entity (the entity must already exist)
- * x-ms-original-file: 2026-05-01-preview/Entities_IngestHealthReport.json
+ * x-ms-original-file: 2026-09-01-preview/Entities_IngestHealthReport.json
  */
 async function entitiesIngestHealthReport() {
   const credential = new DefaultAzureCredential();

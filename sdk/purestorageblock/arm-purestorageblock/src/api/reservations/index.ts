@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  latestLinkedSaaS,
+  linkSaaS,
   getBillingReport,
   getBillingStatus,
   getResourceLimits,
@@ -12,14 +14,16 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type ReservationsGetBillingReportOptionalParams,
-  type ReservationsGetBillingStatusOptionalParams,
-  type ReservationsGetResourceLimitsOptionalParams,
-  type ReservationsListBySubscriptionOptionalParams,
-  type ReservationsListByResourceGroupOptionalParams,
-  type ReservationsDeleteOptionalParams,
-  type ReservationsUpdateOptionalParams,
-  type ReservationsCreateOptionalParams,
-  type ReservationsGetOptionalParams,
+export type {
+  ReservationsLatestLinkedSaaSOptionalParams,
+  ReservationsLinkSaaSOptionalParams,
+  ReservationsGetBillingReportOptionalParams,
+  ReservationsGetBillingStatusOptionalParams,
+  ReservationsGetResourceLimitsOptionalParams,
+  ReservationsListBySubscriptionOptionalParams,
+  ReservationsListByResourceGroupOptionalParams,
+  ReservationsDeleteOptionalParams,
+  ReservationsUpdateOptionalParams,
+  ReservationsCreateOptionalParams,
+  ReservationsGetOptionalParams,
 } from "./options.js";

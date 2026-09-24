@@ -9,12 +9,13 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a OccurrenceExtension operations. */
 export interface OccurrenceExtensionOperations {
-  /** List OccurrenceExtensionResource resources by parent */
+  /** Lists scheduled action occurrences associated with the specified VM. */
   listOccurrenceByVms: (
     resourceUri: string,
     options?: OccurrenceExtensionListOccurrenceByVmsOptionalParams,
   ) => PagedAsyncIterableIterator<OccurrenceExtensionResource>;
 }
+
 function _getOccurrenceExtension(context: ComputeContext) {
   return {
     listOccurrenceByVms: (
@@ -23,6 +24,7 @@ function _getOccurrenceExtension(context: ComputeContext) {
     ) => listOccurrenceByVms(context, resourceUri, options),
   };
 }
+
 export function _getOccurrenceExtensionOperations(
   context: ComputeContext,
 ): OccurrenceExtensionOperations {

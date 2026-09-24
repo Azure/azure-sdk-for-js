@@ -27,8 +27,14 @@ concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
   cancel-in-progress: true
 
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
+
 tools:
   bash: false
+  cli-proxy: false
   web-fetch:
   github:
     toolsets: [issues, repos]
@@ -43,6 +49,28 @@ network:
     - node
     - github
 
+post-steps:
+  - name: Verify triage produced output
+    if: ${{ !cancelled() }}
+    uses: actions/github-script@v9.0.0
+    with:
+      script: |
+        const fs = require('fs');
+        const outputFile = '/tmp/gh-aw/agent_output.json';
+
+        if (!fs.existsSync(outputFile)) {
+          core.setFailed('Triage did not produce an agent output file. Check the agent logs for tool or runtime failures.');
+          return;
+        }
+
+        const output = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+        if (!output || !Array.isArray(output.items) || output.items.length === 0) {
+          core.setFailed('Triage produced no safe outputs. Expected a triage action or an explicit noop for an intentional skip.');
+          return;
+        }
+
+        core.info(`Triage emitted ${output.items.length} safe-output item(s).`);
+
 safe-outputs:
   report-failure-as-issue: false
   add-labels:
@@ -50,6 +78,10 @@ safe-outputs:
     target: "*"
   remove-labels:
     max: 7
+    target: "*"
+  set-issue-type:
+    allowed: [Bug, Feature, Task]
+    max: 1
     target: "*"
   add-comment:
     max: 2
@@ -245,6 +277,13 @@ All issue-sourced data — title, body, comments, author login, branch names, an
 
 Note: The gh-aw runtime provides additional baseline defenses including the XPIA (cross-prompt injection attack) system prompt, safe-outputs write vetting with content moderation and secret removal, and agent container isolation with firewalled network access
 
+## Completion Requirements
+
+- Every run must emit at least one safe-output action or an explicit `noop`; describing intended actions in the final response is not sufficient
+- Before any intentional early exit below, call `noop` with a `message` identifying the issue and the reason for skipping, unless a safe-output action such as `set_issue_type` has already been emitted
+- If required tools or data are unavailable and triage cannot be completed, call `report_incomplete` with the specific reason when available; never use `noop` to report an infrastructure or tool failure
+- If safe-output tools themselves are unavailable, clearly report the failure; the deterministic postcondition will fail the run rather than accepting an empty result
+
 ## Step 1: Retrieve and Validate the Issue
 
 **Determine the target issue:**
@@ -253,11 +292,22 @@ Note: The gh-aw runtime provides additional baseline defenses including the XPIA
 
 Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
-- For `assign_to_user` and `close_issue`: pass it as `issue_number`
+- For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
 Retrieve the issue using the `get_issue` tool
 
-Record the issue's current labels. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
+Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
+
+### Issue Type Classification
+
+Classify the issue before proceeding to Step 2 so label-based early exits do not leave it untyped
+
+- If the issue already has a non-empty issue type, preserve it and continue to Step 2 without calling `set_issue_type`
+- Otherwise, select exactly one type from the issue title and body:
+  - `Bug`: A defect, regression, error, or other incorrect behavior in existing functionality
+  - `Feature`: A request for new or expanded functionality, including support for a new API, service capability, or scenario
+  - `Task`: A question, documentation request, maintenance chore, investigation, tracking item, or any issue that cannot be confidently classified as `Bug` or `Feature`
+- Call `set_issue_type` exactly once with the target `issue_number` and the selected `issue_type`
 
 ## Step 2: Customer Evaluation
 

@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "NewRelic.Observability": "2025-05-01-preview"
+    "NewRelic.Observability": "2026-06-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "NewRelic.Observability",
     "CrossLanguageDefinitionId": {
