@@ -50,6 +50,11 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
   hand-maintained implementations are not replaced wholesale.
+- A newly emitted `JobsOperations` group is wired into the maintained
+  `AIProjectClient` using its existing configurable API context. This narrow
+  policy preserves both authentication contexts, user-agent tokens, tracing,
+  OpenAI integration, and all existing members. Other protected additions or
+  unfamiliar Jobs factory/import shapes still require review.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API.
 

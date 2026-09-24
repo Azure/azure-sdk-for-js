@@ -6,6 +6,7 @@ import ts from "typescript";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
 import { classicFromOperations, planOperations } from "./operations.mjs";
+import { wireTrainingJobsClient } from "./training-jobs-client.mjs";
 import {
   declarations,
   edit,
@@ -303,6 +304,11 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     const baseText = baseGenerated.get(file);
     const customText = baseSource.get(file);
     if (isProtected(file)) {
+      if (file === "aiProjectClient.ts" && baseText && customText) {
+        const result = wireTrainingJobsClient(baseText, customText, incomingText);
+        diagnostics.push(...result.diagnostics);
+        source.set(file, result.text);
+      }
       if (!customText) {
         diagnostics.push({
           file,
