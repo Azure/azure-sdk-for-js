@@ -2,8 +2,14 @@
 // Licensed under the MIT License.
 
 import type { RelationshipsContext } from "../../api/relationshipsContext.js";
-import { $delete, get, createOrUpdate } from "../../api/dependencyOfRelationships/operations.js";
+import {
+  listByParent,
+  $delete,
+  get,
+  createOrUpdate,
+} from "../../api/dependencyOfRelationships/operations.js";
 import type {
+  DependencyOfRelationshipsListByParentOptionalParams,
   DependencyOfRelationshipsDeleteOptionalParams,
   DependencyOfRelationshipsGetOptionalParams,
   DependencyOfRelationshipsCreateOrUpdateOptionalParams,
@@ -12,10 +18,16 @@ import type {
   DependencyOfRelationshipCreateOrUpdate,
   DependencyOfRelationship,
 } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DependencyOfRelationships operations. */
 export interface DependencyOfRelationshipsOperations {
+  /** List DependencyOfRelationship resources by parent */
+  listByParent: (
+    resourceUri: string,
+    options?: DependencyOfRelationshipsListByParentOptionalParams,
+  ) => PagedAsyncIterableIterator<DependencyOfRelationship>;
   /** Delete a DependencyOfRelationship */
   delete: (
     resourceUri: string,
@@ -39,6 +51,10 @@ export interface DependencyOfRelationshipsOperations {
 
 function _getDependencyOfRelationships(context: RelationshipsContext) {
   return {
+    listByParent: (
+      resourceUri: string,
+      options?: DependencyOfRelationshipsListByParentOptionalParams,
+    ) => listByParent(context, resourceUri, options),
     delete: (
       resourceUri: string,
       name: string,
