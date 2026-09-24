@@ -156,6 +156,25 @@ describe("ConfigurationManager", () => {
     assert.deepStrictEqual(callback.mock.calls, [[{ FEATURE_SDK_STATS: '{"default":"enabled"}' }]]);
   });
 
+  it("unregisters a callback without removing other subscriptions", async () => {
+    const removed = vi.fn();
+    const retained = vi.fn();
+    const unregister = manager.registerCallback(removed);
+    manager.registerCallback(retained);
+    unregister();
+    unregister();
+    request
+      .mockResolvedValueOnce(response({ etag: '"storage"' }))
+      .mockResolvedValueOnce(
+        response({ settings: { FEATURE_LOCAL_STORAGE: '{"default":"disabled"}' } }),
+      );
+
+    await manager.getConfigurationAndRefreshInterval();
+
+    assert.strictEqual(removed.mock.calls.length, 0);
+    assert.strictEqual(retained.mock.calls.length, 1);
+  });
+
   it("keeps cached settings and skips the config endpoint on 304", async () => {
     request
       .mockResolvedValueOnce(

@@ -485,7 +485,7 @@ describe("FileSystemPersist", () => {
     afterEach(() => {
       vi.restoreAllMocks();
       vi.resetModules();
-      vi.unmock("node:fs/promises");
+      vi.doUnmock("node:fs/promises");
       restoreGetuid();
     });
 

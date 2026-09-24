@@ -9,6 +9,7 @@ import type { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/custome
 import type { StatsbeatOptions } from "../../src/export/statsbeat/types.js";
 import type { SenderResult } from "../../src/types.js";
 import type { BaseSender } from "../../src/platform/nodejs/baseSender.js";
+import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -65,6 +66,8 @@ vi.mock("../../src/platform/nodejs/persist/index.js", () => ({
     mocks.persistProviders.push(provider);
     return {
       push: vi.fn().mockResolvedValue(true),
+      restore: vi.fn().mockResolvedValue(true),
+      shutdown: vi.fn(),
       shift: vi.fn().mockResolvedValue(null),
     };
   }),
@@ -123,6 +126,7 @@ describe("CustomerSDKStatsManager", () => {
     metrics.shutdown.mockResolvedValue(undefined);
     await manager.shutdown();
     vi.unstubAllEnvs();
+    vi.restoreAllMocks();
   });
 
   it("defaults to enabled, sharing one collector and one callback", async () => {
@@ -185,6 +189,34 @@ describe("CustomerSDKStatsManager", () => {
       await callback()(settings);
       expect(manager.customerSDKStatsMetrics).toBeUndefined();
       expect(mocks.getInstance).toHaveBeenCalledOnce();
+    },
+  );
+
+  it.each([{}, { FEATURE_SDK_STATS: '{"default":"disabled"}' }])(
+    "does not log when the customer setting is missing: %j",
+    async (settings) => {
+      const debug = vi.spyOn(diag, "debug");
+      await manager.initialize(options);
+
+      await callback()(settings);
+      await callback()(disabledSettings);
+      await callback()(settings);
+
+      expect(debug).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each(["invalid-json", '{"default":"unexpected"}', { default: true }, null, undefined])(
+    "logs a present but invalid customer setting: %j",
+    async (value) => {
+      const debug = vi.spyOn(diag, "debug");
+      await manager.initialize(options);
+
+      await callback()({ FEATURE_CUSTOMER_SDK_STATS: value });
+
+      expect(debug).toHaveBeenCalledWith(
+        "Ignoring invalid OneSettings customer SDK Stats setting.",
+      );
     },
   );
 
