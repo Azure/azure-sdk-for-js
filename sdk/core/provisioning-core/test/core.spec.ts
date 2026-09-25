@@ -31,6 +31,23 @@ describe("provisioning core", () => {
     expect(isExpression(expression)).toBe(true);
   });
 
+  it("requires name arguments for Bicep ID functions", () => {
+    const invalidCalls = (): void => {
+      // @ts-expect-error Bicep requires at least one value.
+      fn.uniqueString();
+      // @ts-expect-error Bicep requires at least one value.
+      fn.guid();
+      // @ts-expect-error Bicep requires at least one resource name.
+      fn.resourceId("Microsoft.Storage/storageAccounts");
+      // @ts-expect-error Bicep requires at least one resource name.
+      fn.subscriptionResourceId("Microsoft.Storage/storageAccounts");
+      // @ts-expect-error Bicep requires at least one resource name.
+      fn.extensionResourceId("base-id", "Microsoft.Authorization/locks");
+    };
+
+    expect(invalidCalls).toBeTypeOf("function");
+  });
+
   it("refreshes inherited tags after resource group tags are reassigned", () => {
     const stack = new Stack("core-test");
     const resourceGroup = new ResourceGroup(stack, {

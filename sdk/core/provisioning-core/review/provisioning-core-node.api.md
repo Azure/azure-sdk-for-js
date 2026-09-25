@@ -334,7 +334,7 @@ export interface ExpressionTag {
 export type ExpressionValue<T> = T extends Expression<infer U> ? U : T;
 
 // @public
-function extensionResourceId(baseId: ExpressionOrValue<string>, type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
+function extensionResourceId(baseId: ExpressionOrValue<string>, type: ExpressionOrValue<string>, name: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public
 function first<T>(arr: ExpressionOrValue<T[]>): Expression<T>;
@@ -450,7 +450,7 @@ function gt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>)
 function gte(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
-function guid(...values: ExpressionOrValue<string>[]): Expression<string>;
+function guid(value: ExpressionOrValue<string>, ...values: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
 export interface IdentifierExpressionNode<_TValue = unknown> {
@@ -963,7 +963,7 @@ interface ResourceGroupScope {
 }
 
 // @public
-function resourceId(type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
+function resourceId(type: ExpressionOrValue<string>, name: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
 export interface ResourceNamingRules {
@@ -1114,7 +1114,7 @@ function subscription(): Expression<SubscriptionScope>;
 function subscription(subscriptionId: ExpressionOrValue<string>): Expression<SubscriptionScope>;
 
 // @public
-function subscriptionResourceId(type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
+function subscriptionResourceId(type: ExpressionOrValue<string>, name: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public
 interface SubscriptionScope {
@@ -1210,7 +1210,7 @@ export interface UnionShape {
 }
 
 // @public
-function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string>;
+function uniqueString(value: ExpressionOrValue<string>, ...values: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
 export interface UnixTimestampEncodingDescriptor {
