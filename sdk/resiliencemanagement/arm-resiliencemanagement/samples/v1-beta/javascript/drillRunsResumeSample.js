@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this unblocks a Failover workflow that is paused after the Fault stage, to proceed to the Failover stage.
  *
  * @summary this unblocks a Failover workflow that is paused after the Fault stage, to proceed to the Failover stage.
- * x-ms-original-file: 2026-04-01-preview/DrillRuns_Resume_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRuns_Resume_MaximumSet_Gen.json
  */
 async function drillRunsResumeMaximumSet() {
   const credential = new DefaultAzureCredential();

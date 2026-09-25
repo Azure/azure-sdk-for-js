@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this starts a new running instance of the Drill.
  *
  * @summary this starts a new running instance of the Drill.
- * x-ms-original-file: 2026-04-01-preview/Drills_Start_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Drills_Start_MaximumSet_Gen.json
  */
 async function drillsStartMaximumSet() {
   const credential = new DefaultAzureCredential();

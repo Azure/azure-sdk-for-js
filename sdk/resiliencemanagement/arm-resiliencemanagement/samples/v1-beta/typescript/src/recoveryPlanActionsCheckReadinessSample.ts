@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this action performs the necessary readiness check on the recovery orchestration plan to ensure it is in the desired state and eligible for all recovery actions, including all protected resources.
  *
  * @summary this action performs the necessary readiness check on the recovery orchestration plan to ensure it is in the desired state and eligible for all recovery actions, including all protected resources.
- * x-ms-original-file: 2026-04-01-preview/RecoveryPlanActions_CheckReadiness_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryPlanActions_CheckReadiness_MaximumSet_Gen.json
  */
 async function recoveryPlanActionsCheckReadinessMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
