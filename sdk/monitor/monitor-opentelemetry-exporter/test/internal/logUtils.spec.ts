@@ -1062,6 +1062,38 @@ describe("logUtils.ts", () => {
     );
   });
 
+  it("should map session.id to ai.session.id in log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: "test-session-id",
+      "session.previous_id": "test-previous-session-id",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    assert.strictEqual(envelope?.tags?.[KnownContextTagKeys.AiSessionId], "test-session-id");
+    assert.deepStrictEqual((envelope?.data?.baseData as MessageData).properties, {
+      "session.previous_id": "test-previous-session-id",
+    });
+  });
+
+  it("should not map a non-string session.id to log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: 42,
+      "extra.attribute": "foo",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    assert.isUndefined(envelope?.tags?.[KnownContextTagKeys.AiSessionId]);
+    assert.deepStrictEqual((envelope?.data?.baseData as MessageData).properties, {
+      "extra.attribute": "foo",
+    });
+  });
+
   it("should map ATTR_ENDUSER_ID to ai.user.authUserId in log tags", () => {
     testLogRecord.body = "Test message";
     testLogRecord.severityLevel = "Information";
