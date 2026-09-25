@@ -38,7 +38,7 @@ export function _validateProbeSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,7 +87,7 @@ export function _checkNameAvailabilityWithSubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +139,7 @@ export function _checkNameAvailabilitySend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Cdn/checkNameAvailability{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +190,7 @@ export function _checkEndpointNameAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
