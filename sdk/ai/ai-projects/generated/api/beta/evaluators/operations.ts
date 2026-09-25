@@ -67,17 +67,7 @@ export function _deleteGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteGenerationJobDeserialize(
@@ -128,13 +118,7 @@ export function _cancelGenerationJobSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -185,13 +169,7 @@ export function _listGenerationJobsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -249,13 +227,7 @@ export function _getGenerationJobSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -287,7 +259,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -305,14 +277,11 @@ export function _createGenerationJobSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
         ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(job),
+      body: evaluatorGenerationJobSerializer(body),
     });
 }
 
@@ -345,13 +314,13 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion> {
   return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    getInitialResponse: () => _createGenerationJobSend(context, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;
@@ -380,13 +349,7 @@ export function _getCredentialsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: evaluatorCredentialRequestSerializer(credentialRequest),
     });
 }
@@ -442,13 +405,7 @@ export function _pendingUploadSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: pendingUploadRequestSerializer(pendingUploadRequest),
     });
 }
@@ -484,7 +441,6 @@ export async function pendingUpload(
 export function _updateVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
@@ -505,11 +461,7 @@ export function _updateVersionSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: evaluatorVersionSerializer(evaluatorVersion),
     });
 }
@@ -529,26 +481,17 @@ export async function _updateVersionDeserialize(
 export async function updateVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _updateVersionSend(
-    context,
-    name,
-    foundryFeatures,
-    version,
-    evaluatorVersion,
-    options,
-  );
+  const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
   return _updateVersionDeserialize(result);
 }
 
 export function _createVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -567,11 +510,7 @@ export function _createVersionSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: evaluatorVersionSerializer(evaluatorVersion),
     });
 }
@@ -591,24 +530,16 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _createVersionSend(
-    context,
-    name,
-    foundryFeatures,
-    evaluatorVersion,
-    options,
-  );
+  const result = await _createVersionSend(context, name, evaluatorVersion, options);
   return _createVersionDeserialize(result);
 }
 
 export function _deleteVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -623,12 +554,7 @@ export function _deleteVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
-    });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteVersionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -644,18 +570,16 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 export async function deleteVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteVersionSend(context, name, foundryFeatures, version, options);
+  const result = await _deleteVersionSend(context, name, version, options);
   return _deleteVersionDeserialize(result);
 }
 
 export function _getVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -674,11 +598,7 @@ export function _getVersionSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -697,17 +617,15 @@ export async function _getVersionDeserialize(
 export async function getVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _getVersionSend(context, name, foundryFeatures, version, options);
+  const result = await _getVersionSend(context, name, version, options);
   return _getVersionDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -725,11 +643,7 @@ export function _listSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -747,12 +661,11 @@ export async function _listDeserialize(
 /** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, foundryFeatures, options),
+    () => _listSend(context, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
@@ -762,7 +675,6 @@ export function list(
 export function _listVersionsSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -781,11 +693,7 @@ export function _listVersionsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -804,12 +712,11 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVersionsSend(context, name, foundryFeatures, options),
+    () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
