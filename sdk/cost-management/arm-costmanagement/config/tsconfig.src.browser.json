@@ -1,4 +1,29 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/priceSheet/index.ts",
+    "../src/api/generateReservationDetailsReport/index.ts",
+    "../src/api/query/index.ts",
+    "../src/api/dimensions/index.ts",
+    "../src/api/forecast/index.ts",
+    "../src/api/generateDetailedCostReport/index.ts",
+    "../src/api/generateBenefitUtilizationSummariesReport/index.ts",
+    "../src/api/benefitUtilizationSummaries/index.ts",
+    "../src/api/benefitRecommendations/index.ts",
+    "../src/api/costAllocationRules/index.ts",
+    "../src/api/generateCostDetailsReport/index.ts",
+    "../src/api/markupRules/index.ts",
+    "../src/api/settings/index.ts",
+    "../src/api/scheduledActions/index.ts",
+    "../src/api/alerts/index.ts",
+    "../src/api/views/index.ts",
+    "../src/api/generateDetailedCostReportOperationResults/index.ts",
+    "../src/api/exports/index.ts",
+    "../src/api/budgets/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/generateDetailedCostReportOperationStatus/index.ts",
+    "../src/models/index.ts"
+  ]
 }

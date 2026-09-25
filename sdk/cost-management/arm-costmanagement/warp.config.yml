@@ -15,6 +15,7 @@ exports:
   "./api/benefitRecommendations": "./src/api/benefitRecommendations/index.ts"
   "./api/costAllocationRules": "./src/api/costAllocationRules/index.ts"
   "./api/generateCostDetailsReport": "./src/api/generateCostDetailsReport/index.ts"
+  "./api/markupRules": "./src/api/markupRules/index.ts"
   "./api/settings": "./src/api/settings/index.ts"
   "./api/scheduledActions": "./src/api/scheduledActions/index.ts"
   "./api/alerts": "./src/api/alerts/index.ts"
