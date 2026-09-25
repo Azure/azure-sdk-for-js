@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -143,9 +143,9 @@
+@@ -145,9 +145,9 @@
      weakSignatureCount?: number;
  }
  
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      cryptoKeySize?: number;
      readonly filePaths?: string[];
      isShortKeySize?: boolean;
-@@ -154,12 +154,13 @@
+@@ -156,12 +156,13 @@
      pairedKey?: PairedKey;
      readonly provisioningState?: ProvisioningState;
      usage?: string[];
