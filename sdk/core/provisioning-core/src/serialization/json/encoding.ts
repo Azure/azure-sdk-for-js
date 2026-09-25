@@ -230,6 +230,12 @@ function isValidIsoDuration(value: string): boolean {
   if (!match) return false;
 
   const components = match.slice(1);
+  if (
+    match[3] !== undefined &&
+    components.some((component, index) => index !== 2 && component !== undefined)
+  ) {
+    return false;
+  }
   const fractionalIndex = components.findIndex((component) => component?.includes("."));
   return (
     fractionalIndex === -1 ||
