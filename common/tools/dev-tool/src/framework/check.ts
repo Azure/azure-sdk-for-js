@@ -318,6 +318,6 @@ export const enableForEsmPackage: CheckEnableFunction = (project) =>
 export const enableForCjsPackage: CheckEnableFunction = (project) =>
   Promise.resolve(project.packageJson.type !== "module");
 export const enableForSdkType =
-  (sdkType: "client" | "mgmt" | "utility" | "perf-test"): CheckEnableFunction =>
+  (sdkType: "client" | "mgmt" | "provisioning" | "utility" | "perf-test"): CheckEnableFunction =>
   (project) =>
     Promise.resolve(project.packageJson["sdk-type"] === sdkType);
