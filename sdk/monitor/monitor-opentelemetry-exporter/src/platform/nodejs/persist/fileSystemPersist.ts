@@ -5,6 +5,7 @@ import { tmpdir, userInfo } from "node:os";
 import { basename, join, dirname } from "node:path";
 import { createHash } from "node:crypto";
 import { diag } from "@opentelemetry/api";
+import { isObjectWithProperties } from "@azure/core-util";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
@@ -116,7 +117,17 @@ export class FileSystemPersist implements PersistentStorage {
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
-          return JSON.parse(buffer.toString("utf8"));
+          const value: unknown = JSON.parse(buffer.toString("utf8"));
+          if (Array.isArray(value)) {
+            const envelopes: unknown[] = value;
+            for (const envelope of envelopes) {
+              // Custom properties named "time" must remain strings.
+              if (isObjectWithProperties(envelope, ["time"]) && typeof envelope.time === "string") {
+                envelope.time = new Date(envelope.time);
+              }
+            }
+          }
+          return value;
         }
       } catch (e: any) {
         diag.debug("Failed to read persisted file", e);

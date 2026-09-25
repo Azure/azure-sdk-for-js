@@ -19,10 +19,6 @@ import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vites
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
-function toObject<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj)) as T;
-}
-
 class TestTokenCredential implements TokenCredential {
   private expiresOn: Date;
   private numberOfRefreshs = 0;
@@ -250,7 +246,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -273,7 +269,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -296,7 +292,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -319,7 +315,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -342,7 +338,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
