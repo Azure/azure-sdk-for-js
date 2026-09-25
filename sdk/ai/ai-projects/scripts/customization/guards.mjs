@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { wiredOperationGroup } from "./client.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1114,9 +1115,14 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
           let generatedAddition = false;
           if (generated)
             walk(generated, (candidate) => {
+              if (!ts.isStatement(candidate)) return;
+              const wired = ts.isExpressionStatement(candidate)
+                ? wiredOperationGroup(candidate.getText())
+                : undefined;
               if (
-                ts.isStatement(candidate) &&
-                nodeKey(candidate, renames) === nodeKey(statement, renames)
+                nodeKey(candidate, renames) === nodeKey(statement, renames) ||
+                (wired !== undefined &&
+                  canonicalize(renameText(wired, renames)) === nodeKey(statement, renames))
               )
                 generatedAddition = true;
             });
