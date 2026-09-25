@@ -18,7 +18,6 @@
 
 ### Other Changes
 
-- Regenerate the client from azure-rest-api-specs commit `404147453dd87cd0816988d86a93c8b6a1220e2f`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/404147453dd87cd0816988d86a93c8b6a1220e2f)
 - Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ## 2.7.1 (2026-09-23)
