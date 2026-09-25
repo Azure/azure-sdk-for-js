@@ -465,6 +465,8 @@ export enum KnownAccessBridgeAllowedName {
   PrivateVault = "PrivateVault",
   /** The access bridge for access to the storage dashboard. */
   StorageDashboard = "StorageDashboard",
+  /** The access bridge for edge management. */
+  EdgeManagement = "EdgeManagement",
 }
 
 /**
@@ -474,7 +476,8 @@ export enum KnownAccessBridgeAllowedName {
  * ### Known values supported by the service
  * **Bastion**: The access bridge for bare metal machine bastion access. \
  * **PrivateVault**: The access bridge for cluster access to private vault. \
- * **StorageDashboard**: The access bridge for access to the storage dashboard.
+ * **StorageDashboard**: The access bridge for access to the storage dashboard. \
+ * **EdgeManagement**: The access bridge for edge management.
  */
 export type AccessBridgeAllowedName = string;
 
@@ -1630,6 +1633,8 @@ export interface SecretArchiveReference {
   readonly secretName?: string;
   /** The version of the secret in the key vault. */
   readonly secretVersion?: string;
+  /** The public key used by the platform to encrypt the archived credential before it was written to the secret archive. */
+  readonly encryptionPublicKey?: string;
 }
 
 export function secretArchiveReferenceDeserializer(item: any): SecretArchiveReference {
@@ -1638,6 +1643,7 @@ export function secretArchiveReferenceDeserializer(item: any): SecretArchiveRefe
     keyVaultUri: item["keyVaultUri"],
     secretName: item["secretName"],
     secretVersion: item["secretVersion"],
+    encryptionPublicKey: item["encryptionPublicKey"],
   };
 }
 
@@ -2487,6 +2493,8 @@ export interface ClusterManager extends TrackedResource {
   readonly provisioningState?: ClusterManagerProvisioningState;
   /** The relay configuration for the cluster manager. */
   readonly relayConfiguration?: ClusterManagerRelayConfiguration;
+  /** The relative ordering group used to apply software updates to associated clusters. The minimum accepted value is 1; the service enforces the upper bound currently in effect, which may change over time. */
+  rolloutRing?: number;
   /** The size of the Azure virtual machines to use for hosting the cluster manager resource. */
   vmSize?: string;
 }
@@ -2546,6 +2554,8 @@ export interface ClusterManagerProperties {
   readonly provisioningState?: ClusterManagerProvisioningState;
   /** The relay configuration for the cluster manager. */
   readonly relayConfiguration?: ClusterManagerRelayConfiguration;
+  /** The relative ordering group used to apply software updates to associated clusters. The minimum accepted value is 1; the service enforces the upper bound currently in effect, which may change over time. */
+  rolloutRing?: number;
   /** The size of the Azure virtual machines to use for hosting the cluster manager resource. */
   vmSize?: string;
 }
@@ -2562,6 +2572,7 @@ export function clusterManagerPropertiesSerializer(item: ClusterManagerPropertie
     managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
       ? item["managedResourceGroupConfiguration"]
       : managedResourceGroupConfigurationSerializer(item["managedResourceGroupConfiguration"]),
+    rolloutRing: item["rolloutRing"],
     vmSize: item["vmSize"],
   };
 }
@@ -2590,6 +2601,7 @@ export function clusterManagerPropertiesDeserializer(item: any): ClusterManagerP
     relayConfiguration: !item["relayConfiguration"]
       ? item["relayConfiguration"]
       : clusterManagerRelayConfigurationDeserializer(item["relayConfiguration"]),
+    rolloutRing: item["rolloutRing"],
     vmSize: item["vmSize"],
   };
 }
@@ -2813,6 +2825,8 @@ export interface ClusterManagerPatchParameters {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The list of cluster manager properties to patch. */
+  properties?: ClusterManagerPatchProperties;
 }
 
 export function clusterManagerPatchParametersSerializer(item: ClusterManagerPatchParameters): any {
@@ -2821,7 +2835,20 @@ export function clusterManagerPatchParametersSerializer(item: ClusterManagerPatc
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterManagerPatchPropertiesSerializer(item["properties"]),
   };
+}
+
+/** ClusterManagerPatchProperties represents the cluster manager properties that may be patched. */
+export interface ClusterManagerPatchProperties {
+  /** The relative ordering group used to apply software updates to associated clusters. The minimum accepted value is 1; the service enforces the upper bound currently in effect, which may change over time. */
+  rolloutRing?: number;
+}
+
+export function clusterManagerPatchPropertiesSerializer(item: ClusterManagerPatchProperties): any {
+  return { rolloutRing: item["rolloutRing"] };
 }
 
 /** ClusterManagerList represents a list of cluster manager objects. */
@@ -2951,6 +2978,8 @@ export interface Cluster extends TrackedResource {
   readonly detailedStatus?: ClusterDetailedStatus;
   /** The descriptive message about the detailed status. */
   readonly detailedStatusMessage?: string;
+  /** The CA certificate of the edge management service. */
+  readonly edgeManagementServiceCaCertificate?: CertificateInfo;
   /** Field Deprecated. This field will not be populated in an upcoming version. The extended location (custom location) that represents the Hybrid AKS control plane location. This extended location is used when creating provisioned clusters (Hybrid AKS clusters). */
   readonly hybridAksExtendedLocation?: ExtendedLocation;
   /** The date and time of the end of the last successful version update for the cluster. */
@@ -3056,6 +3085,8 @@ export interface ClusterProperties {
   readonly detailedStatus?: ClusterDetailedStatus;
   /** The descriptive message about the detailed status. */
   readonly detailedStatusMessage?: string;
+  /** The CA certificate of the edge management service. */
+  readonly edgeManagementServiceCaCertificate?: CertificateInfo;
   /** Field Deprecated. This field will not be populated in an upcoming version. The extended location (custom location) that represents the Hybrid AKS control plane location. This extended location is used when creating provisioned clusters (Hybrid AKS clusters). */
   readonly hybridAksExtendedLocation?: ExtendedLocation;
   /** The date and time of the end of the last successful version update for the cluster. */
@@ -3178,6 +3209,9 @@ export function clusterPropertiesDeserializer(item: any): ClusterProperties {
     clusterManagerId: item["clusterManagerId"],
     detailedStatus: item["detailedStatus"],
     detailedStatusMessage: item["detailedStatusMessage"],
+    edgeManagementServiceCaCertificate: !item["edgeManagementServiceCaCertificate"]
+      ? item["edgeManagementServiceCaCertificate"]
+      : certificateInfoDeserializer(item["edgeManagementServiceCaCertificate"]),
     hybridAksExtendedLocation: !item["hybridAksExtendedLocation"]
       ? item["hybridAksExtendedLocation"]
       : extendedLocationDeserializer(item["hybridAksExtendedLocation"]),
@@ -3728,7 +3762,11 @@ export type ClusterSecretArchiveEnabled = string;
 export interface SecretArchiveSettings {
   /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
   associatedIdentity?: IdentitySelector;
-  /** The URI for the key vault used as the secret archive. */
+  /** The public key used to encrypt secrets before they are written to the secret archive. Expected encoding is a PEM-encoded RSA public key with a minimum key size of 3072 bits. Additional key formats or sizes may be supported in future versions. */
+  encryptionPublicKey?: string;
+  /** The configuration indicating the use of self-supplied secret archive software. Specification of a provider configuration indicates that the provided configuration will be used. Exclusion of any providerConfiguration indicates the use of Azure Key Vault. If providerConfiguration is included in a PATCH, the body must be a complete, valid configuration for the chosen provider, including all fields required for that provider; omit providerConfiguration from PATCH bodies that do not change it. */
+  providerConfiguration?: SecretArchiveProviderConfigurationUnion;
+  /** The URI of the secret archive endpoint. The URI must use the `https://` scheme. */
   vaultUri?: string;
 }
 
@@ -3737,6 +3775,10 @@ export function secretArchiveSettingsSerializer(item: SecretArchiveSettings): an
     associatedIdentity: !item["associatedIdentity"]
       ? item["associatedIdentity"]
       : identitySelectorSerializer(item["associatedIdentity"]),
+    encryptionPublicKey: item["encryptionPublicKey"],
+    providerConfiguration: !item["providerConfiguration"]
+      ? item["providerConfiguration"]
+      : secretArchiveProviderConfigurationUnionSerializer(item["providerConfiguration"]),
     vaultUri: item["vaultUri"],
   };
 }
@@ -3746,7 +3788,286 @@ export function secretArchiveSettingsDeserializer(item: any): SecretArchiveSetti
     associatedIdentity: !item["associatedIdentity"]
       ? item["associatedIdentity"]
       : identitySelectorDeserializer(item["associatedIdentity"]),
+    encryptionPublicKey: item["encryptionPublicKey"],
+    providerConfiguration: !item["providerConfiguration"]
+      ? item["providerConfiguration"]
+      : secretArchiveProviderConfigurationUnionDeserializer(item["providerConfiguration"]),
     vaultUri: item["vaultUri"],
+  };
+}
+
+/** SecretArchiveProviderConfiguration represents the base configuration for a self-supplied secret archive provider. */
+export interface SecretArchiveProviderConfiguration {
+  /** The provider of the secret archive. */
+  /** The discriminator possible values: CyberArk, HashiCorpVault, OpenBao */
+  provider: SecretArchiveProviderType;
+}
+
+export function secretArchiveProviderConfigurationSerializer(
+  item: SecretArchiveProviderConfiguration,
+): any {
+  return { provider: item["provider"] };
+}
+
+export function secretArchiveProviderConfigurationDeserializer(
+  item: any,
+): SecretArchiveProviderConfiguration {
+  return {
+    provider: item["provider"],
+  };
+}
+
+/** Alias for SecretArchiveProviderConfigurationUnion */
+export type SecretArchiveProviderConfigurationUnion =
+  | CyberArkSecretArchiveProviderConfiguration
+  | HashiCorpVaultSecretArchiveProviderConfiguration
+  | OpenBaoSecretArchiveProviderConfiguration
+  | SecretArchiveProviderConfiguration;
+
+export function secretArchiveProviderConfigurationUnionSerializer(
+  item: SecretArchiveProviderConfigurationUnion,
+): any {
+  switch (item.provider) {
+    case "CyberArk":
+      return cyberArkSecretArchiveProviderConfigurationSerializer(
+        item as CyberArkSecretArchiveProviderConfiguration,
+      );
+
+    case "HashiCorpVault":
+      return hashiCorpVaultSecretArchiveProviderConfigurationSerializer(
+        item as HashiCorpVaultSecretArchiveProviderConfiguration,
+      );
+
+    case "OpenBao":
+      return openBaoSecretArchiveProviderConfigurationSerializer(
+        item as OpenBaoSecretArchiveProviderConfiguration,
+      );
+
+    default:
+      return secretArchiveProviderConfigurationSerializer(item);
+  }
+}
+
+export function secretArchiveProviderConfigurationUnionDeserializer(
+  item: any,
+): SecretArchiveProviderConfigurationUnion {
+  switch (item["provider"]) {
+    case "CyberArk":
+      return cyberArkSecretArchiveProviderConfigurationDeserializer(
+        item as CyberArkSecretArchiveProviderConfiguration,
+      );
+
+    case "HashiCorpVault":
+      return hashiCorpVaultSecretArchiveProviderConfigurationDeserializer(
+        item as HashiCorpVaultSecretArchiveProviderConfiguration,
+      );
+
+    case "OpenBao":
+      return openBaoSecretArchiveProviderConfigurationDeserializer(
+        item as OpenBaoSecretArchiveProviderConfiguration,
+      );
+
+    default:
+      return secretArchiveProviderConfigurationDeserializer(item);
+  }
+}
+
+/** The provider of the secret archive. Absence of `providerConfiguration` on `SecretArchiveSettings` implies Azure Key Vault as the default provider; this enum enumerates only the self-supplied (non-Azure Key Vault) providers. */
+export enum KnownSecretArchiveProviderType {
+  /** CyberArk secret archive provider. */
+  CyberArk = "CyberArk",
+  /** HashiCorp Vault secret archive provider. */
+  HashiCorpVault = "HashiCorpVault",
+  /** OpenBao secret archive provider. */
+  OpenBao = "OpenBao",
+}
+
+/**
+ * The provider of the secret archive. Absence of `providerConfiguration` on `SecretArchiveSettings` implies Azure Key Vault as the default provider; this enum enumerates only the self-supplied (non-Azure Key Vault) providers. \
+ * {@link KnownSecretArchiveProviderType} can be used interchangeably with SecretArchiveProviderType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CyberArk**: CyberArk secret archive provider. \
+ * **HashiCorpVault**: HashiCorp Vault secret archive provider. \
+ * **OpenBao**: OpenBao secret archive provider.
+ */
+export type SecretArchiveProviderType = string;
+
+/** The configuration for a CyberArk secret archive provider. */
+export interface CyberArkSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+  /** The provider of the secret archive. Literal value CyberArk. */
+  provider: "CyberArk";
+  /** The CyberArk application ID. */
+  applicationId: string;
+  /** The safe name for credential storage. */
+  safeName: string;
+  /** The folder name within the safe. When not specified, the service uses `Root`. */
+  folderName?: string;
+  /** The object naming pattern within the safe. The tokens `{namespace}` and `{name}` may appear in the template and are substituted at archive time. */
+  objectNameTemplate?: string;
+}
+
+export function cyberArkSecretArchiveProviderConfigurationSerializer(
+  item: CyberArkSecretArchiveProviderConfiguration,
+): any {
+  return {
+    provider: item["provider"],
+    applicationId: item["applicationId"],
+    safeName: item["safeName"],
+    folderName: item["folderName"],
+    objectNameTemplate: item["objectNameTemplate"],
+  };
+}
+
+export function cyberArkSecretArchiveProviderConfigurationDeserializer(
+  item: any,
+): CyberArkSecretArchiveProviderConfiguration {
+  return {
+    provider: item["provider"],
+    applicationId: item["applicationId"],
+    safeName: item["safeName"],
+    folderName: item["folderName"],
+    objectNameTemplate: item["objectNameTemplate"],
+  };
+}
+
+/** The configuration for a HashiCorp Vault secret archive provider. Authentication credentials required by the selected authenticationMethod (for example, the AppRole secret, or client certificate and private key) are supplied out of band. */
+export interface HashiCorpVaultSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+  /** The provider of the secret archive. Literal value HashiCorpVault. */
+  provider: "HashiCorpVault";
+  /** The key value secrets engine mount path. When not specified, the service uses `secret`. */
+  mountPath?: string;
+  /** The key value engine version. Supports values `V1` and `V2`. When not specified, the service uses `V2`. */
+  keyValueVersion?: KeyValueVersion;
+  /** The vault namespace. */
+  namespace?: string;
+  /** The secret path pattern. The tokens `{namespace}` and `{name}` may appear in the template and are substituted at archive time. When not specified, the service uses `edge-credentials/{namespace}/{name}`. */
+  pathTemplate?: string;
+  /** The authentication method used for the archive. When set to `AppRole`, `applicationRoleId` is required; when set to `ClientCertificate`, `applicationRoleId` is ignored. */
+  authenticationMethod: VaultAuthenticationMethod;
+  /** The Role ID, required when `authenticationMethod` is `AppRole`; ignored for other authentication methods. */
+  applicationRoleId?: string;
+  /** The authentication method mount path in the archive. */
+  authenticationMountPath?: string;
+}
+
+export function hashiCorpVaultSecretArchiveProviderConfigurationSerializer(
+  item: HashiCorpVaultSecretArchiveProviderConfiguration,
+): any {
+  return {
+    provider: item["provider"],
+    mountPath: item["mountPath"],
+    keyValueVersion: item["keyValueVersion"],
+    namespace: item["namespace"],
+    pathTemplate: item["pathTemplate"],
+    authenticationMethod: item["authenticationMethod"],
+    applicationRoleId: item["applicationRoleId"],
+    authenticationMountPath: item["authenticationMountPath"],
+  };
+}
+
+export function hashiCorpVaultSecretArchiveProviderConfigurationDeserializer(
+  item: any,
+): HashiCorpVaultSecretArchiveProviderConfiguration {
+  return {
+    provider: item["provider"],
+    mountPath: item["mountPath"],
+    keyValueVersion: item["keyValueVersion"],
+    namespace: item["namespace"],
+    pathTemplate: item["pathTemplate"],
+    authenticationMethod: item["authenticationMethod"],
+    applicationRoleId: item["applicationRoleId"],
+    authenticationMountPath: item["authenticationMountPath"],
+  };
+}
+
+/**
+ * The version of the key value secrets engine. Supports values V1 and V2,
+ * which map to engine versions 1 and 2 respectively.
+ */
+export enum KnownKeyValueVersion {
+  /** Key/value engine version 1. */
+  V1 = "V1",
+  /** Key/value engine version 2. */
+  V2 = "V2",
+}
+
+/**
+ * The version of the key value secrets engine. Supports values V1 and V2,
+ * which map to engine versions 1 and 2 respectively. \
+ * {@link KnownKeyValueVersion} can be used interchangeably with KeyValueVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1**: Key\/value engine version 1. \
+ * **V2**: Key\/value engine version 2.
+ */
+export type KeyValueVersion = string;
+
+/** The authentication method used to authenticate to a HashiCorp Vault or OpenBao secret archive. */
+export enum KnownVaultAuthenticationMethod {
+  /** AppRole authentication method. */
+  AppRole = "AppRole",
+  /** Client certificate authentication method. */
+  ClientCertificate = "ClientCertificate",
+}
+
+/**
+ * The authentication method used to authenticate to a HashiCorp Vault or OpenBao secret archive. \
+ * {@link KnownVaultAuthenticationMethod} can be used interchangeably with VaultAuthenticationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AppRole**: AppRole authentication method. \
+ * **ClientCertificate**: Client certificate authentication method.
+ */
+export type VaultAuthenticationMethod = string;
+
+/** The configuration for an OpenBao secret archive provider. Authentication credentials required by the selected authenticationMethod (for example, the AppRole secret, or client certificate and private key) are supplied out of band. */
+export interface OpenBaoSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+  /** The provider of the secret archive. Literal value OpenBao. */
+  provider: "OpenBao";
+  /** The key value secrets engine mount path. When not specified, the service uses `secret`. */
+  mountPath?: string;
+  /** The key value engine version. Supports values `V1` and `V2`. When not specified, the service uses `V2`. */
+  keyValueVersion?: KeyValueVersion;
+  /** The vault namespace. */
+  namespace?: string;
+  /** The secret path pattern. The tokens `{namespace}` and `{name}` may appear in the template and are substituted at archive time. When not specified, the service uses `edge-credentials/{namespace}/{name}`. */
+  pathTemplate?: string;
+  /** The authentication method used for the archive. When set to `AppRole`, `applicationRoleId` is required; when set to `ClientCertificate`, `applicationRoleId` is ignored. */
+  authenticationMethod: VaultAuthenticationMethod;
+  /** The Role ID, required when `authenticationMethod` is `AppRole`; ignored for other authentication methods. */
+  applicationRoleId?: string;
+  /** The authentication method mount path in the archive. */
+  authenticationMountPath?: string;
+}
+
+export function openBaoSecretArchiveProviderConfigurationSerializer(
+  item: OpenBaoSecretArchiveProviderConfiguration,
+): any {
+  return {
+    provider: item["provider"],
+    mountPath: item["mountPath"],
+    keyValueVersion: item["keyValueVersion"],
+    namespace: item["namespace"],
+    pathTemplate: item["pathTemplate"],
+    authenticationMethod: item["authenticationMethod"],
+    applicationRoleId: item["applicationRoleId"],
+    authenticationMountPath: item["authenticationMountPath"],
+  };
+}
+
+export function openBaoSecretArchiveProviderConfigurationDeserializer(
+  item: any,
+): OpenBaoSecretArchiveProviderConfiguration {
+  return {
+    provider: item["provider"],
+    mountPath: item["mountPath"],
+    keyValueVersion: item["keyValueVersion"],
+    namespace: item["namespace"],
+    pathTemplate: item["pathTemplate"],
+    authenticationMethod: item["authenticationMethod"],
+    applicationRoleId: item["applicationRoleId"],
+    authenticationMountPath: item["authenticationMountPath"],
   };
 }
 
@@ -3754,7 +4075,7 @@ export function secretArchiveSettingsDeserializer(item: any): SecretArchiveSetti
 export interface ClusterUpdateStrategy {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType: ClusterUpdateStrategyType;
   /** Selection of how the threshold should be evaluated. */
   thresholdType: ValidationThresholdType;
@@ -3784,7 +4105,7 @@ export function clusterUpdateStrategyDeserializer(item: any): ClusterUpdateStrat
   };
 }
 
-/** The mode of operation for runtime protection. */
+/** The strategy for updating the cluster. */
 export enum KnownClusterUpdateStrategyType {
   /** Update the cluster in rack-by-rack increments. */
   Rack = "Rack",
@@ -3793,7 +4114,7 @@ export enum KnownClusterUpdateStrategyType {
 }
 
 /**
- * The mode of operation for runtime protection. \
+ * The strategy for updating the cluster. \
  * {@link KnownClusterUpdateStrategyType} can be used interchangeably with ClusterUpdateStrategyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -4384,7 +4705,7 @@ export function clusterSecretArchivePatchSerializer(item: ClusterSecretArchivePa
 export interface ClusterUpdateStrategyPatch {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType?: ClusterUpdateStrategyType;
   /** Selection of how the threshold should be evaluated. */
   thresholdType?: ValidationThresholdType;
@@ -7524,16 +7845,16 @@ export interface StorageAppliance extends TrackedResource {
   readonly etag?: string;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: ExtendedLocation;
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7597,16 +7918,16 @@ export function storageApplianceDeserializer(item: any): StorageAppliance {
 
 /** StorageApplianceProperties represents the properties of the storage appliance. */
 export interface StorageApplianceProperties {
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7643,23 +7964,23 @@ export interface StorageApplianceProperties {
 
 export function storageAppliancePropertiesSerializer(item: StorageApplianceProperties): any {
   return {
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
+    storageApplianceSkuId: item["storageApplianceSkuId"],
   };
 }
 
 export function storageAppliancePropertiesDeserializer(item: any): StorageApplianceProperties {
   return {
-    rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
+    rackId: item["rackId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
@@ -10767,8 +11088,14 @@ export function clusterMetricsConfigurationArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
   /** The 2026-07-01 API version. */
   V20260701 = "2026-07-01",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }
 
 export function _accessBridgePropertiesSerializer(item: AccessBridge): any {
@@ -10981,6 +11308,7 @@ export function _clusterManagerPropertiesSerializer(item: ClusterManager): any {
     managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
       ? item["managedResourceGroupConfiguration"]
       : managedResourceGroupConfigurationSerializer(item["managedResourceGroupConfiguration"]),
+    rolloutRing: item["rolloutRing"],
     vmSize: item["vmSize"],
   };
 }
@@ -11009,6 +11337,7 @@ export function _clusterManagerPropertiesDeserializer(item: any) {
     relayConfiguration: !item["relayConfiguration"]
       ? item["relayConfiguration"]
       : clusterManagerRelayConfigurationDeserializer(item["relayConfiguration"]),
+    rolloutRing: item["rolloutRing"],
     vmSize: item["vmSize"],
   };
 }
@@ -11119,6 +11448,9 @@ export function _clusterPropertiesDeserializer(item: any) {
     clusterManagerId: item["clusterManagerId"],
     detailedStatus: item["detailedStatus"],
     detailedStatusMessage: item["detailedStatusMessage"],
+    edgeManagementServiceCaCertificate: !item["edgeManagementServiceCaCertificate"]
+      ? item["edgeManagementServiceCaCertificate"]
+      : certificateInfoDeserializer(item["edgeManagementServiceCaCertificate"]),
     hybridAksExtendedLocation: !item["hybridAksExtendedLocation"]
       ? item["hybridAksExtendedLocation"]
       : extendedLocationDeserializer(item["hybridAksExtendedLocation"]),
@@ -11426,23 +11758,23 @@ export function _rackPatchParametersPropertiesSerializer(item: RackPatchParamete
 
 export function _storageAppliancePropertiesSerializer(item: StorageAppliance): any {
   return {
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
+    storageApplianceSkuId: item["storageApplianceSkuId"],
   };
 }
 
 export function _storageAppliancePropertiesDeserializer(item: any) {
   return {
-    rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
+    rackId: item["rackId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
