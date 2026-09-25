@@ -68,7 +68,7 @@ const events = await createReconnectingSseStream(
 );
 for await (const event of events) {
   if (event.data === "[DONE]") {
-    // Returning or breaking cancels the active response and prevents reconnecting.
+    // Breaking cancels the active response and stops later reconnect attempts.
     break;
   }
   console.log(event);
@@ -76,8 +76,10 @@ for await (const event of events) {
 ```
 
 The initial request is made before `createReconnectingSseStream` resolves, and an
-initial connection failure rejects immediately. Reconnects happen while the returned
-stream is consumed. The reconnect delay starts at 3000 ms and is replaced by valid
+initial connection failure rejects immediately. The stream can read ahead and
+reconnect even without a reader; backpressure pauses it if an event is buffered.
+Breaking iteration stops further reconnects but cannot undo a request already
+started. The reconnect delay starts at 3000 ms and is replaced by valid
 `retry:` fields from the service. A nonempty event ID is provided to the connection
 factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
 on the next request.

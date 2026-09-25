@@ -37,8 +37,8 @@ async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<vo
  * Creates an SSE stream that reconnects when a connection ends unexpectedly.
  *
  * The initial connection is established and validated before this function
- * resolves. Subsequent connections are established while the returned stream
- * is being consumed.
+ * resolves. The response body can be read and reconnection can begin before
+ * a reader attaches to the returned stream.
  *
  * @param connect - A factory that establishes a fresh SSE connection.
  * @param options - Options that control response validation, abort, and reconnection.

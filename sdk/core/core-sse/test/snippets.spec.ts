@@ -44,7 +44,7 @@ describe("snippets", () => {
 
     for await (const event of events) {
       if (event.data === "[DONE]") {
-        // Returning or breaking cancels the active response and prevents reconnecting.
+        // Breaking cancels the active response and stops later reconnect attempts.
         break;
       }
       console.log(event);

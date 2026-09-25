@@ -604,6 +604,53 @@ export function buildReconnectingSseTests(
       }
     });
 
+    it("reconnects an unread metadata-only stream", async () => {
+      vi.useFakeTimers();
+      try {
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({ chunks: ["id: retained\n\n"] })))
+          .mockResolvedValueOnce(response(createBody({ chunks: ["data: next\n\n"], hang: true })));
+        const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+        await vi.advanceTimersByTimeAsync(1);
+        assert.equal(connect.mock.calls.length, 2);
+        assert.equal(connect.mock.calls[1][0].lastEventId, "retained");
+
+        const reader = stream.getReader();
+        assert.equal((await reader.read()).value?.data, "next");
+        await reader.cancel();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("can reconnect while a consumer handles the last event before breaking", async () => {
+      vi.useFakeTimers();
+      try {
+        let canceled = false;
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({ chunks: ["data: last\n\n"] })))
+          .mockResolvedValueOnce(
+            response(createBody({ hang: true, onCancel: () => (canceled = true) })),
+          );
+        const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+        for await (const event of stream) {
+          assert.equal(event.data, "last");
+          await vi.advanceTimersByTimeAsync(1);
+          assert.equal(connect.mock.calls.length, 2);
+          break;
+        }
+        await vi.advanceTimersByTimeAsync(1);
+        assert.isTrue(canceled);
+        assert.equal(connect.mock.calls.length, 2);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
     it("supports UTF-8 string chunks from Node-style readable streams", async () => {
       if (runtimeName !== "Node") {
         return;
