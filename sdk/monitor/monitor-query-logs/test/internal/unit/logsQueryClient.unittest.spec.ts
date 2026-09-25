@@ -130,4 +130,48 @@ describe("LogsQueryClient unit tests", () => {
       testOptions,
     );
   });
+
+  it("normalizes a leading slash in queryResource resourceId", async () => {
+    const requestUrls: string[] = [];
+    const client = new LogsQueryClient(
+      {
+        getToken: async () => Promise.resolve({ token: "token", expiresOnTimestamp: 1234567890 }),
+      },
+      {
+        endpoint: "https://customEndpoint1/v1",
+      },
+    );
+    const testPipelinePolicy = {
+      name: "captureUrlPolicy",
+      sendRequest: async (request: any) => {
+        requestUrls.push(request.url);
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: `{ "tables": [] }`,
+        };
+      },
+    };
+    client.pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
+
+    const resourceId =
+      "/subscriptions/sub/resourceGroups/rg/providers/microsoft.insights/components/comp";
+
+    await client.queryResource(resourceId, "query", { duration: Durations.fiveMinutes });
+    await client.queryResource(resourceId.slice(1), "query", { duration: Durations.fiveMinutes });
+
+    assert.lengthOf(requestUrls, 2);
+    // A leading slash on the resource ID must not produce a double slash after the
+    // API version segment (regression test for the malformed-URL 403 bug).
+    for (const url of requestUrls) {
+      assert.notInclude(url, "/v1//", `URL should not contain a double slash: ${url}`);
+      assert.include(
+        url,
+        "/v1/subscriptions/sub/resourceGroups/rg/providers/microsoft.insights/components/comp/query",
+      );
+    }
+    // Both a leading-slash and a no-leading-slash resource ID resolve to the same URL.
+    assert.equal(requestUrls[0], requestUrls[1]);
+  });
 });
