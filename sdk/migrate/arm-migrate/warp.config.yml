@@ -1,5 +1,16 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/tasks": "./src/api/tasks/index.ts"
+  "./api/migrationEntityGroups": "./src/api/migrationEntityGroups/index.ts"
+  "./api/migrationEntities": "./src/api/migrationEntities/index.ts"
+  "./api/waves": "./src/api/waves/index.ts"
+  "./api/migrateProjects": "./src/api/migrateProjects/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
