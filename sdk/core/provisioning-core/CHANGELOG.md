@@ -13,4 +13,3 @@
 - Require mandatory resource-name arguments for Bicep ID helper functions. [#39825](https://github.com/Azure/azure-sdk-for-js/pull/39825)
 - Reject ISO 8601 durations with fractional values on non-rightmost components. [#39825](https://github.com/Azure/azure-sdk-for-js/pull/39825)
 - Compare object and array parameter defaults structurally during serialization round trips. [#39825](https://github.com/Azure/azure-sdk-for-js/pull/39825)
-- Reject whole-record resource-group tag expressions that cannot be inherited safely. [#39825](https://github.com/Azure/azure-sdk-for-js/pull/39825)

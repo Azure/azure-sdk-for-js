@@ -7,7 +7,6 @@ import {
   type Expression,
   type ExpressionOrValue,
   type InputRecord,
-  isExpression,
 } from "../../expression/expressions.js";
 import type { ResourceNamingRules } from "../../naming/naming-rules.js";
 import { deref } from "../resource/resource-proxy.js";
@@ -31,28 +30,8 @@ const resourceGroupNamingRules: ResourceNamingRules = {
 export interface ResourceGroupProps {
   name?: ExpressionOrValue<string> | undefined;
   location: ExpressionOrValue<string>;
-  /**
-   * Literal tags inherited by child resources. Whole-record expressions are
-   * not supported because inherited tags are merged by key.
-   */
   tags?: Record<string, ExpressionOrValue<string>>;
   managedBy?: ExpressionOrValue<string>;
-}
-
-function validateResourceGroupProps<
-  T extends
-    (ResourceGroupProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
->(props: T): T {
-  if ("tags" in props) assertLiteralTags(props.tags);
-  return props;
-}
-
-function assertLiteralTags(value: unknown): void {
-  if (isExpression(value)) {
-    throw new TypeError(
-      "Resource group tags must be a literal record because inherited tags are merged by key.",
-    );
-  }
 }
 
 /**
@@ -102,7 +81,7 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
       (ResourceGroupProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ) {
     super(context, {
-      ...validateResourceGroupProps(props),
+      ...props,
       type: ResourceGroup.resourceType,
       apiVersion: ResourceGroup.apiVersion,
     });
@@ -138,8 +117,7 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
       ? undefined
       : (this.expr("tags") as InputRecord<ExpressionOrValue<string>, Record<string, string>>);
   }
-  set tags(value: Record<string, ExpressionOrValue<string>> | undefined) {
-    assertLiteralTags(value);
+  set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined) {
     this.setProperty("tags", value);
     this._localDeploymentContext = {
       ...this._localDeploymentContext,
