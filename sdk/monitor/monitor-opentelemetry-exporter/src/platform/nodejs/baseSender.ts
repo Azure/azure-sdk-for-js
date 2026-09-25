@@ -66,6 +66,7 @@ export abstract class BaseSender {
   private readonly statsbeatManager: StatsbeatManager;
   private isShutdown: boolean = false;
   private readonly replayOperations = new Set<Promise<void>>();
+  private replayPending = false;
   private customerSDKStatsManager: CustomerSDKStatsManager | undefined;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -80,7 +81,6 @@ export abstract class BaseSender {
     }
     const enabled = evaluateFeature(ONE_SETTINGS_FEATURE_LOCAL_STORAGE, settings);
     if (typeof enabled !== "boolean") {
-      diag.debug("Ignoring invalid OneSettings local storage setting.");
       return;
     }
     if (enabled === this.remoteStorageEnabled) {
@@ -188,6 +188,7 @@ export abstract class BaseSender {
   }
 
   private cancelStorageTimers(): void {
+    this.replayPending = false;
     if (this.retryTimer) {
       clearTimeout(this.retryTimer);
       this.retryTimer = null;
@@ -590,20 +591,19 @@ export abstract class BaseSender {
 
   private trackReplay(operation: () => Promise<void>): Promise<void> {
     if (this.replayOperations.size > 0) {
+      this.replayPending = true;
       return Promise.resolve();
     }
     const replay = operation();
     this.replayOperations.add(replay);
-    void replay.then(
-      () => {
-        this.replayOperations.delete(replay);
-        return;
-      },
-      () => {
-        this.replayOperations.delete(replay);
-        return;
-      },
-    );
+    const onSettled = (): void => {
+      this.replayOperations.delete(replay);
+      if (this.replayPending) {
+        this.replayPending = false;
+        this.scheduleRetryTimer(0);
+      }
+    };
+    void replay.then(onSettled, onSettled);
     return replay;
   }
 

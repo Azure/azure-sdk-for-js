@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { diag } from "@opentelemetry/api";
 import {
   ENV_DISABLE_SDKSTATS,
   LEGACY_ENV_DISABLE_STATSBEAT,
@@ -33,7 +32,6 @@ export class CustomerSDKStatsManager {
     }
     const enabled = evaluateFeature(ONE_SETTINGS_FEATURE_CUSTOMER_SDK_STATS, settings);
     if (typeof enabled !== "boolean") {
-      diag.debug("Ignoring invalid OneSettings customer SDK Stats setting.");
       return;
     }
     this.oneSettingsEnabled = enabled;

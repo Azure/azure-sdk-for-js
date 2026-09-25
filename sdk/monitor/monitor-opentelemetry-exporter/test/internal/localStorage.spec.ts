@@ -151,7 +151,7 @@ describe("OneSettings local storage", () => {
     expect(await readdir(directory)).toEqual([]);
   });
 
-  it("preserves state silently for missing settings and logs invalid values", async () => {
+  it("updates and preserves state without logging feature settings", async () => {
     const sender = createSender();
     const debug = vi.spyOn(diag, "debug");
     await sender["storageCallback"]({});
@@ -160,9 +160,20 @@ describe("OneSettings local storage", () => {
     await sender["storageCallback"]({ other: "setting" });
     expect(sender["storageEnabled"]).toBe(false);
     expect(debug).not.toHaveBeenCalled();
+    await sender["storageCallback"]({ FEATURE_LOCAL_STORAGE: '{"default":"unexpected"}' });
+    expect(sender["storageEnabled"]).toBe(false);
+    await sender["storageCallback"](enabled);
+    expect(sender["storageEnabled"]).toBe(true);
+    expect(debug).not.toHaveBeenCalled();
+  });
+
+  it("preserves enabled and disabled states for malformed feature settings", async () => {
+    const sender = createSender();
+    await sender["storageCallback"]({ FEATURE_LOCAL_STORAGE: "invalid" });
+    expect(sender["storageEnabled"]).toBe(true);
+    await sender["storageCallback"](disabled);
     await sender["storageCallback"]({ FEATURE_LOCAL_STORAGE: "invalid" });
     expect(sender["storageEnabled"]).toBe(false);
-    expect(debug).toHaveBeenCalledWith("Ignoring invalid OneSettings local storage setting.");
   });
 
   it("evaluates targeted overrides using the SDK profile", async () => {
@@ -205,7 +216,8 @@ describe("OneSettings local storage", () => {
     expect(await readdir(directory)).toEqual([]);
   });
 
-  it("counts new paused writes as storage-disabled drops", async () => {
+  it("counts new paused writes as storage-disabled drops without logging feature state", async () => {
+    const debug = vi.spyOn(diag, "debug");
     const metrics = { countDroppedItems: vi.fn() };
     const persister = new FileSystemPersist(
       "stats-test",
@@ -214,11 +226,12 @@ describe("OneSettings local storage", () => {
       () => false,
     );
     persisters.push(persister);
-    await persister.push(batch);
+    expect(await persister.push(batch)).toBe(false);
     expect(metrics.countDroppedItems).toHaveBeenCalledExactlyOnceWith(
       batch,
       DropCode.CLIENT_STORAGE_DISABLED,
     );
+    expect(debug).not.toHaveBeenCalled();
   });
 
   it("restores a destructively shifted batch when disable wins the race", async () => {
@@ -326,6 +339,100 @@ describe("OneSettings local storage", () => {
     await vi.advanceTimersByTimeAsync(1);
     await Promise.all([...sender["replayOperations"]]);
     expect(shift).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    { statusCode: 400, retryAfterMs: undefined, delay: 0 },
+    { statusCode: 503, retryAfterMs: 5000, delay: 5000 },
+  ])(
+    "coalesces overlapping replay requests and honors a $statusCode response deadline",
+    async ({ statusCode, retryAfterMs, delay }) => {
+      const sender = createSender();
+      await vi.advanceTimersByTimeAsync(1000);
+      await Promise.all([...sender["replayOperations"]]);
+      await sender["persister"].push(batch);
+      const shift = vi.spyOn(sender["persister"], "shift");
+      const sending = deferred<void>();
+      const result = deferred<SenderResult>();
+      sender.send.mockImplementationOnce(() => {
+        sending.resolve();
+        return result.promise;
+      });
+      const replay = sender["sendFirstPersistedFile"]();
+      await sending.promise;
+      const queuedBatch = [{ name: "queued", time: new Date(0) }];
+      sender.send.mockResolvedValueOnce({ statusCode: 503, result: "", retryAfterMs: 1000 });
+      await sender.exportEnvelopes(queuedBatch);
+      await vi.advanceTimersByTimeAsync(1000);
+      await Promise.all([sender["sendFirstPersistedFile"](), sender["sendAllPersistedFiles"]()]);
+      const shiftsWhileSending = shift.mock.calls.length;
+
+      result.resolve({ statusCode, result: "", retryAfterMs });
+      await replay;
+      expect(shiftsWhileSending).toBe(1);
+      expect(sender["retryTimer"]).not.toBeNull();
+      if (delay > 0) {
+        await vi.advanceTimersByTimeAsync(delay - 1);
+        expect(sender.send).toHaveBeenCalledTimes(2);
+      }
+      await vi.advanceTimersByTimeAsync(delay > 0 ? 1 : 0);
+      await Promise.all([...sender["replayOperations"]]);
+
+      expect(shift).toHaveBeenCalledTimes(2);
+      expect(sender.send).toHaveBeenCalledTimes(3);
+      expect(sender.send).toHaveBeenLastCalledWith(JSON.parse(JSON.stringify(queuedBatch)));
+    },
+  );
+
+  it("reschedules overlapping replay requests even when the active replay rejects", async () => {
+    const sender = createSender();
+    await vi.advanceTimersByTimeAsync(1000);
+    await Promise.all([...sender["replayOperations"]]);
+    await sender["persister"].push(batch);
+    const shift = deferred<unknown[]>();
+    vi.spyOn(sender["persister"], "shift").mockReturnValueOnce(shift.promise);
+    const replay = sender["sendFirstPersistedFile"]();
+    await sender["sendFirstPersistedFile"]();
+    const rejected = expect(replay).rejects.toThrow("Disk read failed");
+    shift.reject(new Error("Disk read failed"));
+    await rejected;
+    expect(sender["retryTimer"]).not.toBeNull();
+    await vi.advanceTimersByTimeAsync(0);
+    await Promise.all([...sender["replayOperations"]]);
+    expect(sender.send).toHaveBeenCalledExactlyOnceWith(JSON.parse(JSON.stringify(batch)));
+  });
+
+  it.each(["pause", "shutdown"])("cancels overlapping replay requests on %s", async (action) => {
+    const sender = createSender();
+    await vi.advanceTimersByTimeAsync(1000);
+    await Promise.all([...sender["replayOperations"]]);
+    await sender["persister"].push(batch);
+    const sending = deferred<void>();
+    const result = deferred<SenderResult>();
+    sender.send.mockImplementationOnce(() => {
+      sending.resolve();
+      return result.promise;
+    });
+    const replay = sender["sendFirstPersistedFile"]();
+    await sending.promise;
+    const queuedBatch = [{ name: "queued", time: new Date(0) }];
+    sender.send.mockResolvedValueOnce({ statusCode: 503, result: "", retryAfterMs: 1000 });
+    await sender.exportEnvelopes(queuedBatch);
+    await vi.advanceTimersByTimeAsync(1000);
+    const stopping = action === "pause" ? sender["storageCallback"](disabled) : sender.shutdown();
+    result.resolve({ statusCode: 400, result: "" });
+    await Promise.all([replay, stopping]);
+    await vi.advanceTimersByTimeAsync(60000);
+
+    expect(sender["retryTimer"]).toBeNull();
+    expect(sender.send).toHaveBeenCalledTimes(2);
+    if (action === "pause") {
+      await sender["storageCallback"](enabled);
+      await vi.advanceTimersByTimeAsync(1000);
+      await Promise.all([...sender["replayOperations"]]);
+      expect(sender.send).toHaveBeenCalledTimes(3);
+      expect(sender.send).toHaveBeenLastCalledWith(JSON.parse(JSON.stringify(queuedBatch)));
+    }
   });
 
   it("unregisters shutdown senders and cancels their maintenance timer", async () => {

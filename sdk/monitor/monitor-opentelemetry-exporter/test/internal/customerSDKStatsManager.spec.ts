@@ -193,7 +193,7 @@ describe("CustomerSDKStatsManager", () => {
   );
 
   it.each([{}, { FEATURE_SDK_STATS: '{"default":"disabled"}' }])(
-    "does not log when the customer setting is missing: %j",
+    "does not log customer feature transitions or missing settings: %j",
     async (settings) => {
       const debug = vi.spyOn(diag, "debug");
       await manager.initialize(options);
@@ -201,22 +201,22 @@ describe("CustomerSDKStatsManager", () => {
       await callback()(settings);
       await callback()(disabledSettings);
       await callback()(settings);
+      await callback()(enabledSettings);
 
       expect(debug).not.toHaveBeenCalled();
     },
   );
 
-  it.each(["invalid-json", '{"default":"unexpected"}', { default: true }, null, undefined])(
-    "logs a present but invalid customer setting: %j",
+  it.each(['{"default":"unexpected"}', { default: true }, null, undefined])(
+    "ignores invalid customer feature settings without logging: %j",
     async (value) => {
       const debug = vi.spyOn(diag, "debug");
       await manager.initialize(options);
 
       await callback()({ FEATURE_CUSTOMER_SDK_STATS: value });
 
-      expect(debug).toHaveBeenCalledWith(
-        "Ignoring invalid OneSettings customer SDK Stats setting.",
-      );
+      expect(manager.customerSDKStatsMetrics).toBe(metrics);
+      expect(debug).not.toHaveBeenCalled();
     },
   );
 

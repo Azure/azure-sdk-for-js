@@ -251,7 +251,6 @@ export class FileSystemPersist implements PersistentStorage {
       envelopes,
       DropCode.CLIENT_STORAGE_DISABLED,
     );
-    diag.debug("Not persisting telemetry because OneSettings disabled local storage.");
     return false;
   }
 
