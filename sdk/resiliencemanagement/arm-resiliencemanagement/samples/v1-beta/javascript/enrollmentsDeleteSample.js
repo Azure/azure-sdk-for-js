@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an Enrollment.
  *
  * @summary delete an Enrollment.
- * x-ms-original-file: 2026-04-01-preview/Enrollments_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Enrollments_Delete_MaximumSet_Gen.json
  */
 async function enrollmentsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

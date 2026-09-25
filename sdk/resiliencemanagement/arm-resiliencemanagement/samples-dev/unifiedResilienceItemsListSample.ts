@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list UnifiedResilienceItem resources by tenant
  *
  * @summary list UnifiedResilienceItem resources by tenant
- * x-ms-original-file: 2026-04-01-preview/UnifiedResilienceItems_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UnifiedResilienceItems_List_MaximumSet_Gen.json
  */
 async function unifiedResilienceItemsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function unifiedResilienceItemsListMaximumSet(): Promise<void> {
  * This sample demonstrates how to list UnifiedResilienceItem resources by tenant
  *
  * @summary list UnifiedResilienceItem resources by tenant
- * x-ms-original-file: 2026-04-01-preview/UnifiedResilienceItems_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UnifiedResilienceItems_List_MinimumSet_Gen.json
  */
 async function unifiedResilienceItemsListMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
