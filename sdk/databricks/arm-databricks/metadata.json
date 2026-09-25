@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Databricks": "2026-01-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Databricks",
     "CrossLanguageDefinitionId": {
@@ -56,9 +56,6 @@
       "@azure/arm-databricks!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-databricks!AccessConnectorUpdate:interface": "Microsoft.Databricks.AccessConnectorUpdate",
       "@azure/arm-databricks!AccessConnectorListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-databricks!OutboundEnvironmentEndpoint:interface": "Microsoft.Databricks.OutboundEnvironmentEndpoint",
-      "@azure/arm-databricks!EndpointDependency:interface": "Microsoft.Databricks.EndpointDependency",
-      "@azure/arm-databricks!EndpointDetail:interface": "Microsoft.Databricks.EndpointDetail",
       "@azure/arm-databricks!GroupIdInformation:interface": "Microsoft.Databricks.GroupIdInformation",
       "@azure/arm-databricks!GroupIdInformationProperties:interface": "Microsoft.Databricks.GroupIdInformationProperties",
       "@azure/arm-databricks!PrivateLinkResourcesList:interface": "Microsoft.Databricks.PrivateLinkResourcesList",
@@ -96,7 +93,6 @@
       "@azure/arm-databricks!VNetPeeringOperations#get:member": "Microsoft.Databricks.VirtualNetworkPeerings.get",
       "@azure/arm-databricks!PrivateLinkResourcesOperations#list:member": "Microsoft.Databricks.GroupIdInformations.list",
       "@azure/arm-databricks!PrivateLinkResourcesOperations#get:member": "Microsoft.Databricks.GroupIdInformations.get",
-      "@azure/arm-databricks!OutboundNetworkDependenciesEndpointsOperations#list:member": "Microsoft.Databricks.Workspaces.list",
       "@azure/arm-databricks!AccessConnectorsOperations#listBySubscription:member": "Microsoft.Databricks.AccessConnectors.listBySubscription",
       "@azure/arm-databricks!AccessConnectorsOperations#listByResourceGroup:member": "Microsoft.Databricks.AccessConnectors.listByResourceGroup",
       "@azure/arm-databricks!AccessConnectorsOperations#delete:member": "Microsoft.Databricks.AccessConnectors.delete",

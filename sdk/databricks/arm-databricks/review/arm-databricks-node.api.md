@@ -110,7 +110,6 @@ export class AzureDatabricksManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
     readonly accessConnectors: AccessConnectorsOperations;
     readonly operations: OperationsOperations;
-    readonly outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpointsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
@@ -195,20 +194,6 @@ export interface EncryptionV2KeyVaultProperties {
     keyName: string;
     keyVaultUri: string;
     keyVersion: string;
-}
-
-// @public
-export interface EndpointDependency {
-    domainName?: string;
-    endpointDetails?: EndpointDetail[];
-}
-
-// @public
-export interface EndpointDetail {
-    ipAddress?: string;
-    isAccessible?: boolean;
-    latency?: number;
-    port?: number;
 }
 
 // @public
@@ -467,21 +452,6 @@ export interface OperationsOperations {
 }
 
 // @public
-export interface OutboundEnvironmentEndpoint {
-    category?: string;
-    endpoints?: EndpointDependency[];
-}
-
-// @public
-export interface OutboundNetworkDependenciesEndpointsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OutboundNetworkDependenciesEndpointsOperations {
-    list: (resourceGroupName: string, workspaceName: string, options?: OutboundNetworkDependenciesEndpointsListOptionalParams) => Promise<OutboundEnvironmentEndpoint[]>;
-}
-
-// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -729,7 +699,7 @@ export interface VNetPeeringOperations {
     beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, workspaceName: string, peeringName: string, virtualNetworkPeeringParameters: VirtualNetworkPeering, options?: VNetPeeringCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkPeering>, VirtualNetworkPeering>;
     delete: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringGetOptionalParams) => Promise<VirtualNetworkPeering | undefined>;
+    get: (resourceGroupName: string, workspaceName: string, peeringName: string, options?: VNetPeeringGetOptionalParams) => Promise<VirtualNetworkPeering | void>;
     listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: VNetPeeringListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkPeering>;
 }
 

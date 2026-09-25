@@ -233,7 +233,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<VirtualNetworkPeering | undefined> {
+): Promise<VirtualNetworkPeering | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -244,7 +244,11 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? virtualNetworkPeeringDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return virtualNetworkPeeringDeserializer(result.body);
 }
 
 /** Gets the workspace vNet Peering. */
@@ -254,7 +258,7 @@ export async function get(
   workspaceName: string,
   peeringName: string,
   options: VNetPeeringGetOptionalParams = { requestOptions: {} },
-): Promise<VirtualNetworkPeering | undefined> {
+): Promise<VirtualNetworkPeering | void> {
   const result = await _getSend(context, resourceGroupName, workspaceName, peeringName, options);
   return _getDeserialize(result);
 }

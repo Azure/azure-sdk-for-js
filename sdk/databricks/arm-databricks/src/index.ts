@@ -75,9 +75,6 @@ export type {
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   AccessConnectorUpdate,
-  OutboundEnvironmentEndpoint,
-  EndpointDependency,
-  EndpointDetail,
   GroupIdInformation,
   GroupIdInformationProperties,
   VirtualNetworkPeering,
@@ -120,7 +117,6 @@ export type {
   AccessConnectorsGetOptionalParams,
 } from "./api/accessConnectors/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
-export type { OutboundNetworkDependenciesEndpointsListOptionalParams } from "./api/outboundNetworkDependenciesEndpoints/index.js";
 export type {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
@@ -148,7 +144,6 @@ export type {
 export type {
   AccessConnectorsOperations,
   OperationsOperations,
-  OutboundNetworkDependenciesEndpointsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
   VNetPeeringOperations,

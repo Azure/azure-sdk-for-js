@@ -6,7 +6,6 @@ exports:
   "./api": "./src/api/index.ts"
   "./api/vNetPeering": "./src/api/vNetPeering/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
-  "./api/outboundNetworkDependenciesEndpoints": "./src/api/outboundNetworkDependenciesEndpoints/index.ts"
   "./api/accessConnectors": "./src/api/accessConnectors/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/workspaces": "./src/api/workspaces/index.ts"

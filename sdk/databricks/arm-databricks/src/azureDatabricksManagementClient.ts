@@ -10,8 +10,6 @@ import type { AccessConnectorsOperations } from "./classic/accessConnectors/inde
 import { _getAccessConnectorsOperations } from "./classic/accessConnectors/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
-import { _getOutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
 import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
 import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
@@ -51,20 +49,10 @@ export class AzureDatabricksManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureDatabricksManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureDatabricksManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.vNetPeering = _getVNetPeeringOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
-    this.outboundNetworkDependenciesEndpoints = _getOutboundNetworkDependenciesEndpointsOperations(
-      this._client,
-    );
     this.accessConnectors = _getAccessConnectorsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.workspaces = _getWorkspacesOperations(this._client);
@@ -75,8 +63,6 @@ export class AzureDatabricksManagementClient {
   public readonly vNetPeering: VNetPeeringOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
-  /** The operation groups for outboundNetworkDependenciesEndpoints */
-  public readonly outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpointsOperations;
   /** The operation groups for accessConnectors */
   public readonly accessConnectors: AccessConnectorsOperations;
   /** The operation groups for privateEndpointConnections */
