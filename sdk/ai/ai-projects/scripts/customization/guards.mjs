@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
   "aiProjectClient.ts",
@@ -599,6 +600,19 @@ function checkModels(trees, renames, report) {
           "Lost maintained model declaration; no generated-backed removal was established across the model inventory.",
         );
       } else if (!incoming) {
+        const alias = aliasTarget(custom.node);
+        if (alias && candidates(indexes.incoming, alias, renames).length) {
+          // A custom-only alias of an emitted declaration takes that
+          // declaration's validated shape; it must keep the same target.
+          const target = aliasTarget(output.node);
+          if (!target || mapped(target, renames) !== mapped(alias, renames))
+            report(
+              output.file,
+              output.name,
+              "Changed the target of a maintained custom-only alias.",
+            );
+          continue;
+        }
         checkDeclaration(base, custom, undefined, output, indexes, renames, report);
       }
     }
@@ -803,7 +817,7 @@ function checkExports(trees, renames, report) {
   }
 }
 
-function containsObject(expected, actual, renames) {
+function containsObject(expected, actual, renames, ignored) {
   expected = unwrap(expected);
   actual = unwrap(actual);
   if (!expected || !actual) return false;
@@ -817,15 +831,25 @@ function containsObject(expected, actual, renames) {
           ts.isSpreadAssignment(candidate) &&
           nodeKey(property, renames) === nodeKey(candidate, renames),
       );
+    if (ignored !== undefined && nameOf(property.name) === ignored) return true;
     const candidates = actual.properties.filter(
       (candidate) => nameOf(candidate.name) === nameOf(property.name),
     );
     return candidates.some((candidate) =>
       ts.isPropertyAssignment(property) && ts.isPropertyAssignment(candidate)
-        ? containsObject(property.initializer, candidate.initializer, renames)
+        ? containsObject(property.initializer, candidate.initializer, renames, ignored)
         : nodeKey(property, renames) === nodeKey(candidate, renames),
     );
   });
+}
+
+function sendsPreviewHeader(node) {
+  let found = false;
+  if (node)
+    walk(node, (child) => {
+      if (ts.isPropertyAssignment(child) && nameOf(child.name) === previewHeader) found = true;
+    });
+  return found;
 }
 
 function propertiesNamed(node, names) {
@@ -866,6 +890,14 @@ function checkOperations(trees, matches, renames, report) {
       continue;
     }
     const module = trees.output.get(incoming.file);
+    // The emitter retired this operation's preview opt-in, so the maintained
+    // constant header may leave its follow-up requests as well. A header the
+    // emitter never sent is a customization and cannot be retired this way.
+    const retiredPreview =
+      sendsPreviewHeader(base?.send) &&
+      sendsPreviewHeader(customized?.send) &&
+      !sendsPreviewHeader(incoming.send) &&
+      !sendsPreviewHeader(module?.byName.get(names.send)?.node);
     for (const role of ["publicNode", "send", "deserialize"]) {
       const expectedName = names[role];
       const output = module?.byName.get(expectedName);
@@ -905,7 +937,20 @@ function checkOperations(trees, matches, renames, report) {
       for (const [property, values] of propertiesNamed(oldNode, behaviorProperties)) {
         const actual = propertiesNamed(output.node, behaviorProperties).get(property) ?? [];
         for (const value of values) {
-          if (!actual.some((candidate) => containsObject(value, candidate, renames))) {
+          // Poll headers that only carried the retired opt-in beside the
+          // forwarded request headers may return to the emitted poller shape.
+          const forwardsOnly =
+            ts.isObjectLiteralExpression(unwrap(value)) &&
+            unwrap(value).properties.every(
+              (item) => forwardsRequestHeaders(item) || nameOf(item.name) === previewHeader,
+            );
+          if (retiredPreview && property === "pollHeaders" && forwardsOnly && !actual.length)
+            continue;
+          if (
+            !actual.some((candidate) =>
+              containsObject(value, candidate, renames, retiredPreview ? previewHeader : undefined),
+            )
+          ) {
             report(
               output.file,
               output.name,
