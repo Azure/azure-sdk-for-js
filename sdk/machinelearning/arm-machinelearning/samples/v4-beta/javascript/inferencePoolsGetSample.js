@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get InferencePool.
  *
  * @summary get InferencePool.
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferencePool/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferencePool/get.json
  */
 async function getWorkspaceInferencePool() {
   const credential = new DefaultAzureCredential();

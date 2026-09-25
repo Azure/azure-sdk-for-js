@@ -145,7 +145,6 @@ export interface OnlineDeploymentsOperations {
     options?: OnlineDeploymentsGetOptionalParams,
   ) => Promise<OnlineDeployment>;
 }
-
 function _getOnlineDeployments(context: AzureMachineLearningServicesManagementContext) {
   return {
     listSkus: (
@@ -338,7 +337,6 @@ function _getOnlineDeployments(context: AzureMachineLearningServicesManagementCo
     ) => get(context, resourceGroupName, workspaceName, endpointName, deploymentName, options),
   };
 }
-
 export function _getOnlineDeploymentsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): OnlineDeploymentsOperations {

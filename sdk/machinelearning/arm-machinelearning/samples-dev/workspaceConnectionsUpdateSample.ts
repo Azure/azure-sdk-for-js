@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update machine learning workspaces connections under the specified workspace.
  *
  * @summary update machine learning workspaces connections under the specified workspace.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/update.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/update.json
  */
 async function updateWorkspaceConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

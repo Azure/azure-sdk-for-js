@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update Serverless Endpoint (asynchronous).
  *
  * @summary update Serverless Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/ServerlessEndpoint/update.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ServerlessEndpoint/update.json
  */
 async function updateWorkspaceServerlessEndpoint() {
   const credential = new DefaultAzureCredential();

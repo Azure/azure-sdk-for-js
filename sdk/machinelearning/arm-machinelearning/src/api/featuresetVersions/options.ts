@@ -9,7 +9,6 @@ export interface FeaturesetVersionsBackfillOptionalParams extends OperationOptio
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesetVersionsListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
@@ -31,18 +30,15 @@ export interface FeaturesetVersionsListOptionalParams extends OperationOptions {
   /** Specifies the featurestore stage */
   stage?: string;
 }
-
 /** Optional parameters. */
 export interface FeaturesetVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesetVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesetVersionsGetOptionalParams extends OperationOptions {}

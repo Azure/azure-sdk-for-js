@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the GET API for retrieveing a single outbound rule of the managed network associated with the machine learning workspace.
  *
  * @summary the GET API for retrieveing a single outbound rule of the managed network associated with the machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/getRuleV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/getRuleV2.json
  */
 async function getOutboundRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

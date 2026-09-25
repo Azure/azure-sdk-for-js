@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list component versions.
  *
  * @summary list component versions.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ComponentVersion/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ComponentVersion/list.json
  */
 async function listWorkspaceComponentVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

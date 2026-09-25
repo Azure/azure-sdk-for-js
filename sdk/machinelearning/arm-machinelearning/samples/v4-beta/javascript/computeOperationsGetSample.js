@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
  *
  * @summary gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
- * x-ms-original-file: 2026-03-15-preview/Compute/get/AKSCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/get/AKSCompute.json
  */
 async function getAAKSCompute() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAAKSCompute() {
  * This sample demonstrates how to gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
  *
  * @summary gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
- * x-ms-original-file: 2026-03-15-preview/Compute/get/AmlCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/get/AmlCompute.json
  */
 async function getAAMLCompute() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getAAMLCompute() {
  * This sample demonstrates how to gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
  *
  * @summary gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
- * x-ms-original-file: 2026-03-15-preview/Compute/get/ComputeInstance.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/get/ComputeInstance.json
  */
 async function getAnComputeInstance() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getAnComputeInstance() {
  * This sample demonstrates how to gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
  *
  * @summary gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
- * x-ms-original-file: 2026-03-15-preview/Compute/get/KubernetesCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/get/KubernetesCompute.json
  */
 async function getAKubernetesCompute() {
   const credential = new DefaultAzureCredential();

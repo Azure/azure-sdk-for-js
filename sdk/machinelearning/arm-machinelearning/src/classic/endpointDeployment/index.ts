@@ -105,7 +105,6 @@ export interface EndpointDeploymentOperations {
     options?: EndpointDeploymentGetOptionalParams,
   ) => Promise<EndpointDeploymentResourcePropertiesBasicResource>;
 }
-
 function _getEndpointDeployment(context: AzureMachineLearningServicesManagementContext) {
   return {
     getInWorkspace: (
@@ -224,7 +223,6 @@ function _getEndpointDeployment(context: AzureMachineLearningServicesManagementC
     ) => get(context, resourceGroupName, workspaceName, endpointName, deploymentName, options),
   };
 }
-
 export function _getEndpointDeploymentOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): EndpointDeploymentOperations {

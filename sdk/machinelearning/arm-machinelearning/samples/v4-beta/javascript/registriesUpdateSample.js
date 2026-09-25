@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update tags
  *
  * @summary update tags
- * x-ms-original-file: 2026-03-15-preview/Registries/update.json
+ * x-ms-original-file: 2026-05-15-preview/Registries/update.json
  */
 async function updateRegistryWithSystemCreatedAccounts() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Batch Inference Endpoint (asynchronous).
  *
  * @summary delete Batch Inference Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchEndpoint/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchEndpoint/delete.json
  */
 async function deleteWorkspaceBatchEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
