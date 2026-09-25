@@ -3,8 +3,13 @@
 
 import type { CosmosDBManagementContext as Client } from "../index.js";
 import type {
+  MergeParameters,
+  PhysicalPartitionStorageInfoCollection,
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
+  RetrieveThroughputParameters,
+  PhysicalPartitionThroughputInfoResult,
+  RedistributeThroughputParameters,
   ContinuousBackupRestoreLocation,
   BackupInformation,
   MongoDBDatabaseGetResults,
@@ -22,9 +27,14 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  cloudErrorDeserializer,
+  mergeParametersSerializer,
+  physicalPartitionStorageInfoCollectionDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
-  cloudErrorDeserializer,
+  retrieveThroughputParametersSerializer,
+  physicalPartitionThroughputInfoResultDeserializer,
+  redistributeThroughputParametersSerializer,
   continuousBackupRestoreLocationSerializer,
   backupInformationDeserializer,
   mongoDBDatabaseGetResultsDeserializer,
@@ -54,18 +64,24 @@ import type {
   MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   MongoDBResourcesGetMongoRoleDefinitionOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
+  MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
   MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
@@ -87,7 +103,7 @@ export function _listMongoUserDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +143,11 @@ export function listMongoUserDefinitions(
     () => _listMongoUserDefinitionsSend(context, resourceGroupName, accountName, options),
     _listMongoUserDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -145,7 +165,7 @@ export function _deleteMongoUserDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoUserDefinitionId: mongoUserDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +214,7 @@ export function deleteMongoUserDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -214,7 +234,7 @@ export function _createUpdateMongoUserDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoUserDefinitionId: mongoUserDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +292,7 @@ export function createUpdateMongoUserDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<MongoUserDefinitionGetResults>, MongoUserDefinitionGetResults>;
 }
@@ -291,7 +311,7 @@ export function _getMongoUserDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoUserDefinitionId: mongoUserDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +369,7 @@ export function _listMongoRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -389,7 +409,11 @@ export function listMongoRoleDefinitions(
     () => _listMongoRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listMongoRoleDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -407,7 +431,7 @@ export function _deleteMongoRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoRoleDefinitionId: mongoRoleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,7 +480,7 @@ export function deleteMongoRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -476,7 +500,7 @@ export function _createUpdateMongoRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoRoleDefinitionId: mongoRoleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -534,7 +558,7 @@ export function createUpdateMongoRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<MongoRoleDefinitionGetResults>, MongoRoleDefinitionGetResults>;
 }
@@ -553,7 +577,7 @@ export function _getMongoRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       mongoRoleDefinitionId: mongoRoleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +642,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -678,9 +702,99 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
+}
+
+export function _listMongoDBCollectionPartitionMergeSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  mergeParameters: MergeParameters,
+  options: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      collectionName: collectionName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: mergeParametersSerializer(mergeParameters),
+  });
+}
+
+export async function _listMongoDBCollectionPartitionMergeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionStorageInfoCollection> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionStorageInfoCollectionDeserializer(result.body);
+}
+
+/** Merges the partitions of a MongoDB Collection */
+export function listMongoDBCollectionPartitionMerge(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  mergeParameters: MergeParameters,
+  options: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<PhysicalPartitionStorageInfoCollection>,
+  PhysicalPartitionStorageInfoCollection
+> {
+  return getLongRunningPoller(
+    context,
+    _listMongoDBCollectionPartitionMergeDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _listMongoDBCollectionPartitionMergeSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          collectionName,
+          mergeParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionStorageInfoCollection>,
+    PhysicalPartitionStorageInfoCollection
+  >;
 }
 
 export function _listMongoDBCollectionsSend(
@@ -697,7 +811,7 @@ export function _listMongoDBCollectionsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -739,7 +853,11 @@ export function listMongoDBCollections(
       _listMongoDBCollectionsSend(context, resourceGroupName, accountName, databaseName, options),
     _listMongoDBCollectionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -759,7 +877,7 @@ export function _deleteMongoDBCollectionSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -806,7 +924,7 @@ export function deleteMongoDBCollection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -827,7 +945,7 @@ export function _createUpdateMongoDBCollectionSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -887,7 +1005,7 @@ export function createUpdateMongoDBCollection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<MongoDBCollectionGetResults>, MongoDBCollectionGetResults>;
 }
@@ -908,7 +1026,7 @@ export function _getMongoDBCollectionSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -956,6 +1074,88 @@ export async function getMongoDBCollection(
   return _getMongoDBCollectionDeserialize(result);
 }
 
+export function _mongoDBDatabasePartitionMergeSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  mergeParameters: MergeParameters,
+  options: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/partitionMerge{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: mergeParametersSerializer(mergeParameters),
+  });
+}
+
+export async function _mongoDBDatabasePartitionMergeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionStorageInfoCollection> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionStorageInfoCollectionDeserializer(result.body);
+}
+
+/** Merges the partitions of a MongoDB database */
+export function mongoDBDatabasePartitionMerge(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  mergeParameters: MergeParameters,
+  options: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<PhysicalPartitionStorageInfoCollection>,
+  PhysicalPartitionStorageInfoCollection
+> {
+  return getLongRunningPoller(
+    context,
+    _mongoDBDatabasePartitionMergeDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoDBDatabasePartitionMergeSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          mergeParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionStorageInfoCollection>,
+    PhysicalPartitionStorageInfoCollection
+  >;
+}
+
 export function _listMongoDBDatabasesSend(
   context: Client,
   resourceGroupName: string,
@@ -968,7 +1168,7 @@ export function _listMongoDBDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1008,7 +1208,11 @@ export function listMongoDBDatabases(
     () => _listMongoDBDatabasesSend(context, resourceGroupName, accountName, options),
     _listMongoDBDatabasesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -1026,7 +1230,7 @@ export function _deleteMongoDBDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1065,7 +1269,7 @@ export function deleteMongoDBDatabase(
     getInitialResponse: () =>
       _deleteMongoDBDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1084,7 +1288,7 @@ export function _createUpdateMongoDBDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1140,7 +1344,7 @@ export function createUpdateMongoDBDatabase(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<MongoDBDatabaseGetResults>, MongoDBDatabaseGetResults>;
 }
@@ -1159,7 +1363,7 @@ export function _getMongoDBDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1223,7 +1427,7 @@ export function _migrateMongoDBCollectionToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1279,7 +1483,7 @@ export function migrateMongoDBCollectionToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1302,7 +1506,7 @@ export function _migrateMongoDBCollectionToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1358,9 +1562,189 @@ export function migrateMongoDBCollectionToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
+}
+
+export function _mongoDBContainerRedistributeThroughputSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  redistributeThroughputParameters: RedistributeThroughputParameters,
+  options: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/redistributeThroughput{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      collectionName: collectionName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
+  });
+}
+
+export async function _mongoDBContainerRedistributeThroughputDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionThroughputInfoResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionThroughputInfoResultDeserializer(result.body);
+}
+
+/** Redistribute throughput for an Azure Cosmos DB MongoDB container */
+export function mongoDBContainerRedistributeThroughput(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  redistributeThroughputParameters: RedistributeThroughputParameters,
+  options: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<PhysicalPartitionThroughputInfoResult>,
+  PhysicalPartitionThroughputInfoResult
+> {
+  return getLongRunningPoller(
+    context,
+    _mongoDBContainerRedistributeThroughputDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoDBContainerRedistributeThroughputSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          collectionName,
+          redistributeThroughputParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionThroughputInfoResult>,
+    PhysicalPartitionThroughputInfoResult
+  >;
+}
+
+export function _mongoDBContainerRetrieveThroughputDistributionSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  retrieveThroughputParameters: RetrieveThroughputParameters,
+  options: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/retrieveThroughputDistribution{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      collectionName: collectionName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
+  });
+}
+
+export async function _mongoDBContainerRetrieveThroughputDistributionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionThroughputInfoResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionThroughputInfoResultDeserializer(result.body);
+}
+
+/** Retrieve throughput distribution for an Azure Cosmos DB MongoDB container */
+export function mongoDBContainerRetrieveThroughputDistribution(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  collectionName: string,
+  retrieveThroughputParameters: RetrieveThroughputParameters,
+  options: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<PhysicalPartitionThroughputInfoResult>,
+  PhysicalPartitionThroughputInfoResult
+> {
+  return getLongRunningPoller(
+    context,
+    _mongoDBContainerRetrieveThroughputDistributionDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoDBContainerRetrieveThroughputDistributionSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          collectionName,
+          retrieveThroughputParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionThroughputInfoResult>,
+    PhysicalPartitionThroughputInfoResult
+  >;
 }
 
 export function _updateMongoDBCollectionThroughputSend(
@@ -1380,7 +1764,7 @@ export function _updateMongoDBCollectionThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1438,7 +1822,7 @@ export function updateMongoDBCollectionThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1459,7 +1843,7 @@ export function _getMongoDBCollectionThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       collectionName: collectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1507,6 +1891,178 @@ export async function getMongoDBCollectionThroughput(
   return _getMongoDBCollectionThroughputDeserialize(result);
 }
 
+export function _mongoDBDatabaseRedistributeThroughputSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  redistributeThroughputParameters: RedistributeThroughputParameters,
+  options: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/redistributeThroughput{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
+  });
+}
+
+export async function _mongoDBDatabaseRedistributeThroughputDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionThroughputInfoResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionThroughputInfoResultDeserializer(result.body);
+}
+
+/** Redistribute throughput for an Azure Cosmos DB MongoDB database */
+export function mongoDBDatabaseRedistributeThroughput(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  redistributeThroughputParameters: RedistributeThroughputParameters,
+  options: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<PhysicalPartitionThroughputInfoResult>,
+  PhysicalPartitionThroughputInfoResult
+> {
+  return getLongRunningPoller(
+    context,
+    _mongoDBDatabaseRedistributeThroughputDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoDBDatabaseRedistributeThroughputSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          redistributeThroughputParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionThroughputInfoResult>,
+    PhysicalPartitionThroughputInfoResult
+  >;
+}
+
+export function _mongoDBDatabaseRetrieveThroughputDistributionSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  retrieveThroughputParameters: RetrieveThroughputParameters,
+  options: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      databaseName: databaseName,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
+  });
+}
+
+export async function _mongoDBDatabaseRetrieveThroughputDistributionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PhysicalPartitionThroughputInfoResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return physicalPartitionThroughputInfoResultDeserializer(result.body);
+}
+
+/** Retrieve throughput distribution for an Azure Cosmos DB MongoDB database */
+export function mongoDBDatabaseRetrieveThroughputDistribution(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  databaseName: string,
+  retrieveThroughputParameters: RetrieveThroughputParameters,
+  options: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<PhysicalPartitionThroughputInfoResult>,
+  PhysicalPartitionThroughputInfoResult
+> {
+  return getLongRunningPoller(
+    context,
+    _mongoDBDatabaseRetrieveThroughputDistributionDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoDBDatabaseRetrieveThroughputDistributionSend(
+          context,
+          resourceGroupName,
+          accountName,
+          databaseName,
+          retrieveThroughputParameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<PhysicalPartitionThroughputInfoResult>,
+    PhysicalPartitionThroughputInfoResult
+  >;
+}
+
 export function _migrateMongoDBDatabaseToManualThroughputSend(
   context: Client,
   resourceGroupName: string,
@@ -1523,7 +2079,7 @@ export function _migrateMongoDBDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1577,7 +2133,7 @@ export function migrateMongoDBDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1596,7 +2152,7 @@ export function _migrateMongoDBDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1648,7 +2204,7 @@ export function migrateMongoDBDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1668,7 +2224,7 @@ export function _updateMongoDBDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1724,7 +2280,7 @@ export function updateMongoDBDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1743,7 +2299,7 @@ export function _getMongoDBDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
