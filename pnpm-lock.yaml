@@ -601,6 +601,31 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
+  eng/tools/generate-doc:
+    dependencies:
+      typedoc:
+        specifier: ^0.28.20
+        version: 0.28.20(typescript@6.0.3)
+      yargs:
+        specifier: ^18.0.0
+        version: 18.1.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.2
+      '@types/yargs':
+        specifier: ^17.0.35
+        version: 17.0.35
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.6
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
   eng/tools/versioning:
     dependencies:
       '@azure-tools/eng-package-utils':
@@ -36709,6 +36734,9 @@ packages:
   '@fastify/proxy-addr@5.1.0':
     resolution: {integrity: sha1-9TYLXdg8fePUG0Fb5Kq4SuRKoQY=}
 
+  '@gerrit0/mini-shiki@3.23.0':
+    resolution: {integrity: sha1-2UFPMIC4gwOxjzoxGEbjfkJNgAw=}
+
   '@grpc/grpc-js@1.14.4':
     resolution: {integrity: sha1-5z/1fZeALwY5mVRfQ+uyseymXZ0=}
     engines: {node: '>=12.10.0'}
@@ -37914,6 +37942,21 @@ packages:
     resolution: {integrity: sha1-hLd0oV8PTyv+fFfPUc2MtzHVUNg=}
     engines: {node: '>=20.9.0'}
 
+  '@shikijs/engine-oniguruma@3.23.0':
+    resolution: {integrity: sha1-eJQhBI1mrBszYTFp1tGLnMbjQO0=}
+
+  '@shikijs/langs@3.23.0':
+    resolution: {integrity: sha1-AJWdixbH9nEiGuebOtjN5+alwRI=}
+
+  '@shikijs/themes@3.23.0':
+    resolution: {integrity: sha1-/ZbKWtUmOQV5lbwgk2gohOGEbyc=}
+
+  '@shikijs/types@3.23.0':
+    resolution: {integrity: sha1-1EFXGgWGQZJgGK496Zhm855bvfI=}
+
+  '@shikijs/vscode-textmate@10.0.2':
+    resolution: {integrity: sha1-qQqzHQzB37VMZqaeUVv2JPp7IiQ=}
+
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha1-DKzTz/BHoyk2sazkfqfIbqq2Cn8=}
 
@@ -38033,6 +38076,9 @@ packages:
   '@types/graceful-fs@4.1.9':
     resolution: {integrity: sha1-Kga8D2iiCrN7PjaqI4vmq99J6LQ=}
 
+  '@types/hast@3.0.5':
+    resolution: {integrity: sha1-SAIN5MDmNJL0yp20IGjBCPaLf48=}
+
   '@types/http-errors@2.0.5':
     resolution: {integrity: sha1-W3SasrFroRNCP+saZKldzTA5hHI=}
 
@@ -38147,6 +38193,9 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha1-usywepcLkXB986PoumiWxX6tLRE=}
+
+  '@types/unist@3.0.3':
+    resolution: {integrity: sha1-rKqw+RnOaczmKcLU7S60rcG2wgw=}
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha1-KmBa5jn8IO5ohr4PfSjcYcHm09M=}
@@ -40384,6 +40433,9 @@ packages:
     resolution: {integrity: sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=}
     engines: {node: '>=10'}
 
+  lunr@2.3.9:
+    resolution: {integrity: sha1-GLEjFCgyM33W6WTfGlp3B7JdNeE=}
+
   magic-string@0.30.21:
     resolution: {integrity: sha1-VnY+wJoPqAkd8nh5/ZTRkHjADZE=}
 
@@ -41901,6 +41953,13 @@ packages:
   typed-array-length@1.0.8:
     resolution: {integrity: sha1-C3Dpgsnp2v4t721kWP9LPy0rbXA=}
     engines: {node: '>= 0.4'}
+
+  typedoc@0.28.20:
+    resolution: {integrity: sha1-I8nIQVh8UotWz5wNAXynF3RbsNk=}
+    engines: {node: '>= 18', pnpm: '>= 10'}
+    hasBin: true
+    peerDependencies:
+      typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x || 6.0.x
 
   typescript-eslint@8.65.0:
     resolution: {integrity: sha1-dUyVP9apo9NvpUAVvbqApusqSVc=}
@@ -43714,6 +43773,14 @@ snapshots:
       '@fastify/forwarded': 3.0.2
       ipaddr.js: 2.5.0
 
+  '@gerrit0/mini-shiki@3.23.0':
+    dependencies:
+      '@shikijs/engine-oniguruma': 3.23.0
+      '@shikijs/langs': 3.23.0
+      '@shikijs/themes': 3.23.0
+      '@shikijs/types': 3.23.0
+      '@shikijs/vscode-textmate': 10.0.2
+
   '@grpc/grpc-js@1.14.4':
     dependencies:
       '@grpc/proto-loader': 0.8.1
@@ -45011,6 +45078,26 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  '@shikijs/engine-oniguruma@3.23.0':
+    dependencies:
+      '@shikijs/types': 3.23.0
+      '@shikijs/vscode-textmate': 10.0.2
+
+  '@shikijs/langs@3.23.0':
+    dependencies:
+      '@shikijs/types': 3.23.0
+
+  '@shikijs/themes@3.23.0':
+    dependencies:
+      '@shikijs/types': 3.23.0
+
+  '@shikijs/types@3.23.0':
+    dependencies:
+      '@shikijs/vscode-textmate': 10.0.2
+      '@types/hast': 3.0.5
+
+  '@shikijs/vscode-textmate@10.0.2': {}
+
   '@sinclair/typebox@0.27.12': {}
 
   '@sindresorhus/is@4.6.0': {}
@@ -45139,6 +45226,10 @@ snapshots:
     dependencies:
       '@types/node': 22.20.2
 
+  '@types/hast@3.0.5':
+    dependencies:
+      '@types/unist': 3.0.3
+
   '@types/http-errors@2.0.5': {}
 
   '@types/is-buffer@2.0.2':
@@ -45258,6 +45349,8 @@ snapshots:
   '@types/triple-beam@1.3.5': {}
 
   '@types/trusted-types@2.0.7': {}
+
+  '@types/unist@3.0.3': {}
 
   '@types/unzipper@0.10.11':
     dependencies:
@@ -47830,6 +47923,8 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
+  lunr@2.3.9: {}
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -49618,6 +49713,15 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
+
+  typedoc@0.28.20(typescript@6.0.3):
+    dependencies:
+      '@gerrit0/mini-shiki': 3.23.0
+      lunr: 2.3.9
+      markdown-it: 14.3.2
+      minimatch: 10.2.6
+      typescript: 6.0.3
+      yaml: 2.9.1
 
   typescript-eslint@8.65.0(eslint@10.10.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3):
     dependencies:

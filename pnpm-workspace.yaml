@@ -8,6 +8,7 @@ packages:
   - eng/tools/versioning
   - eng/tools/dependency-testing
   - eng/tools/analyze-deps
+  - eng/tools/generate-doc
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'
