@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { list, enable, disable } from "../../api/intelligencePacks/operations.js";
-import {
+import type {
   IntelligencePacksListOptionalParams,
   IntelligencePacksEnableOptionalParams,
   IntelligencePacksDisableOptionalParams,
 } from "../../api/intelligencePacks/options.js";
-import { IntelligencePack } from "../../models/models.js";
+import type { IntelligencePack } from "../../models/models.js";
 
 /** Interface representing a IntelligencePacks operations. */
 export interface IntelligencePacksOperations {
@@ -33,7 +33,6 @@ export interface IntelligencePacksOperations {
     options?: IntelligencePacksDisableOptionalParams,
   ) => Promise<void>;
 }
-
 function _getIntelligencePacks(context: OperationalInsightsManagementContext) {
   return {
     list: (
@@ -55,7 +54,6 @@ function _getIntelligencePacks(context: OperationalInsightsManagementContext) {
     ) => disable(context, resourceGroupName, workspaceName, intelligencePackName, options),
   };
 }
-
 export function _getIntelligencePacksOperations(
   context: OperationalInsightsManagementContext,
 ): IntelligencePacksOperations {

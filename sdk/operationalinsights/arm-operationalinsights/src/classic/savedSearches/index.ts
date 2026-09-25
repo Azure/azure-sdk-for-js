@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/savedSearches/operations.js";
-import {
+import type {
   SavedSearchesListByWorkspaceOptionalParams,
   SavedSearchesDeleteOptionalParams,
   SavedSearchesCreateOrUpdateOptionalParams,
   SavedSearchesGetOptionalParams,
 } from "../../api/savedSearches/options.js";
-import { SavedSearch, SavedSearchesListResult } from "../../models/models.js";
+import type { SavedSearch, SavedSearchesListResult } from "../../models/models.js";
 
 /** Interface representing a SavedSearches operations. */
 export interface SavedSearchesOperations {
@@ -47,7 +47,6 @@ export interface SavedSearchesOperations {
     options?: SavedSearchesGetOptionalParams,
   ) => Promise<SavedSearch>;
 }
-
 function _getSavedSearches(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -77,7 +76,6 @@ function _getSavedSearches(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, savedSearchId, options),
   };
 }
-
 export function _getSavedSearchesOperations(
   context: OperationalInsightsManagementContext,
 ): SavedSearchesOperations {

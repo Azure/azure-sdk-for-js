@@ -1,5 +1,27 @@
 # Release History
 
+## 11.1.0 (2026-08-09)
+
+### Features Added
+  - Added operation WorkspacePurgeOperations.beginPurgeLakeData
+  - Added operation WorkspacePurgeOperations.beginPurgeLakeDataAndWait
+  - Added operation WorkspacePurgeOperations.purgeLakeData
+  - Added Interface SummaryLogsIdentity
+  - Added Interface SummaryLogsUserIdentityProperties
+  - Added Interface WorkspacePurgeLakeDataBody
+  - Added Interface WorkspacePurgeLakeDataTimeRange
+  - Added Interface WorkspacePurgePurgeLakeDataOptionalParams
+  - Interface SummaryLogs has a new optional parameter identity
+  - Interface Table has a new optional parameter protectionLevel
+  - Interface TableProperties has a new optional parameter protectionLevel
+  - Interface WorkspaceFeatures has a new optional parameter dataAuthorizationMode
+  - Added Type Alias SummaryLogsIdentityType
+  - Added Type Alias TableProtectionLevelEnum
+  - Added Enum KnownSummaryLogsIdentityType
+  - Added Enum KnownTableProtectionLevelEnum
+  - Enum KnownColumnDataTypeHintEnum has a new value Vector16
+  - Enum KnownVersions has a new value V20260301
+
 ## 11.0.0 (2026-07-16)
 
 ### Features Added

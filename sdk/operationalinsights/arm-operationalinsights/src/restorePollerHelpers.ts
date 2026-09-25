@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementClient } from "./operationalInsightsManagementClient.js";
+import type { OperationalInsightsManagementClient } from "./operationalInsightsManagementClient.js";
 import {
   _retryBinDeserialize,
   _startDeserialize,
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/summaryLogs/operations.js";
+import { _purgeLakeDataDeserialize } from "./api/workspacePurge/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeTables,
   _updateDeserialize,
@@ -30,14 +31,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeClusters,
 } from "./api/clusters/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -111,6 +108,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/summaryLogs/{summaryLogsName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purgeLakeData":
+    { deserializer: _purgeLakeDataDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}":
     { deserializer: _$deleteDeserializeTables, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}":

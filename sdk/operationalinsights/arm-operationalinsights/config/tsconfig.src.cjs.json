@@ -1,4 +1,31 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/deletedWorkspaces/index.ts",
+    "../src/api/operationStatuses/index.ts",
+    "../src/api/summaryLogs/index.ts",
+    "../src/api/storageInsightConfigs/index.ts",
+    "../src/api/queryPacks/index.ts",
+    "../src/api/queries/index.ts",
+    "../src/api/linkedStorageAccounts/index.ts",
+    "../src/api/workspacePurge/index.ts",
+    "../src/api/usages/index.ts",
+    "../src/api/sharedKeys/index.ts",
+    "../src/api/schema/index.ts",
+    "../src/api/managementGroups/index.ts",
+    "../src/api/intelligencePacks/index.ts",
+    "../src/api/gateways/index.ts",
+    "../src/api/availableServiceTiers/index.ts",
+    "../src/api/tables/index.ts",
+    "../src/api/savedSearches/index.ts",
+    "../src/api/linkedServices/index.ts",
+    "../src/api/dataSources/index.ts",
+    "../src/api/workspaces/index.ts",
+    "../src/api/dataExports/index.ts",
+    "../src/api/clusters/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
