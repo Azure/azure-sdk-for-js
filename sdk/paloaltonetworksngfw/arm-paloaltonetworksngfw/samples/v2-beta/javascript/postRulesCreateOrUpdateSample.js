@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a PostRulesResource
  *
  * @summary create a PostRulesResource
- * x-ms-original-file: 2026-05-11-preview/PostRules_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function postRulesCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to create a PostRulesResource
  *
  * @summary create a PostRulesResource
- * x-ms-original-file: 2026-05-11-preview/PostRules_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();

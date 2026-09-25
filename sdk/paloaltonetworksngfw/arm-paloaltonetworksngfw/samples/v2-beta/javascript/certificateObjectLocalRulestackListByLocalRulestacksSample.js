@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list CertificateObjectLocalRulestackResource resources by LocalRulestacks
  *
  * @summary list CertificateObjectLocalRulestackResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectLocalRulestack_ListByLocalRulestacks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectLocalRulestack_ListByLocalRulestacks_MaximumSet_Gen.json
  */
 async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen
  * This sample demonstrates how to list CertificateObjectLocalRulestackResource resources by LocalRulestacks
  *
  * @summary list CertificateObjectLocalRulestackResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectLocalRulestack_ListByLocalRulestacks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectLocalRulestack_ListByLocalRulestacks_MinimumSet_Gen.json
  */
 async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen() {
   const credential = new DefaultAzureCredential();

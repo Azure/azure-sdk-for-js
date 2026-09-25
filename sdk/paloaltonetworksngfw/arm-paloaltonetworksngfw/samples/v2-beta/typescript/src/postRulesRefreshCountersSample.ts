@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refresh counters
  *
  * @summary refresh counters
- * x-ms-original-file: 2026-05-11-preview/PostRules_refreshCounters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_refreshCounters_MaximumSet_Gen.json
  */
 async function postRulesRefreshCountersMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function postRulesRefreshCountersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to refresh counters
  *
  * @summary refresh counters
- * x-ms-original-file: 2026-05-11-preview/PostRules_refreshCounters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_refreshCounters_MinimumSet_Gen.json
  */
 async function postRulesRefreshCountersMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FqdnListGlobalRulestackResource resources by Tenant
  *
  * @summary list FqdnListGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_List_MaximumSet_Gen.json
  */
 async function fqdnListGlobalRulestackListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function fqdnListGlobalRulestackListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list FqdnListGlobalRulestackResource resources by Tenant
  *
  * @summary list FqdnListGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_List_MinimumSet_Gen.json
  */
 async function fqdnListGlobalRulestackListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

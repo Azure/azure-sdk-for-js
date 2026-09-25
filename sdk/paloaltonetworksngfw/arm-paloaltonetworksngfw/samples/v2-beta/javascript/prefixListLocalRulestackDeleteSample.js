@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a PrefixListResource
  *
  * @summary delete a PrefixListResource
- * x-ms-original-file: 2026-05-11-preview/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
  */
 async function prefixListLocalRulestackDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function prefixListLocalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to delete a PrefixListResource
  *
  * @summary delete a PrefixListResource
- * x-ms-original-file: 2026-05-11-preview/PrefixListLocalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PrefixListLocalRulestack_Delete_MinimumSet_Gen.json
  */
 async function prefixListLocalRulestackDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();

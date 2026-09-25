@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list predefined URL categories for rulestack
  *
  * @summary list predefined URL categories for rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
 async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen() {
  * This sample demonstrates how to list predefined URL categories for rulestack
  *
  * @summary list predefined URL categories for rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
 async function localRulestacksListPredefinedUrlCategoriesMinimumSetGen() {
   const credential = new DefaultAzureCredential();

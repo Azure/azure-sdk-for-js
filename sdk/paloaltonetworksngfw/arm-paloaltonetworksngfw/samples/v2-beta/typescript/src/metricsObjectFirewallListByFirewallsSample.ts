@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list MetricsObjectFirewallResource resources by Firewalls
  *
  * @summary list MetricsObjectFirewallResource resources by Firewalls
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_ListByFirewalls_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_ListByFirewalls_MaximumSet_Gen.json
  */
 async function metricsObjectFirewallListByFirewallsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function metricsObjectFirewallListByFirewallsMaximumSetGen(): Promise<void
  * This sample demonstrates how to list MetricsObjectFirewallResource resources by Firewalls
  *
  * @summary list MetricsObjectFirewallResource resources by Firewalls
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_ListByFirewalls_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_ListByFirewalls_MinimumSet_Gen.json
  */
 async function metricsObjectFirewallListByFirewallsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

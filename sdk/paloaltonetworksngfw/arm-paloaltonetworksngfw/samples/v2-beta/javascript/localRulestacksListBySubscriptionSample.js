@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list LocalRulestackResource resources by subscription ID
  *
  * @summary list LocalRulestackResource resources by subscription ID
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListBySubscription_MaximumSet_Gen.json
  */
 async function localRulestacksListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function localRulestacksListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to list LocalRulestackResource resources by subscription ID
  *
  * @summary list LocalRulestackResource resources by subscription ID
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListBySubscription_MinimumSet_Gen.json
  */
 async function localRulestacksListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();

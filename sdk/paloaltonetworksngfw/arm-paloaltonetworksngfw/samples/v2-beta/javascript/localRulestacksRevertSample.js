@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to revert rulestack configuration
  *
  * @summary revert rulestack configuration
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_revert_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_revert_MaximumSet_Gen.json
  */
 async function localRulestacksRevertMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function localRulestacksRevertMaximumSetGen() {
  * This sample demonstrates how to revert rulestack configuration
  *
  * @summary revert rulestack configuration
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_revert_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_revert_MinimumSet_Gen.json
  */
 async function localRulestacksRevertMinimumSetGen() {
   const credential = new DefaultAzureCredential();

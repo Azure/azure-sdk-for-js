@@ -26,6 +26,8 @@ import type { LocalRulesOperations } from "./classic/localRules/index.js";
 import { _getLocalRulesOperations } from "./classic/localRules/index.js";
 import type { LocalRulestacksOperations } from "./classic/localRulestacks/index.js";
 import { _getLocalRulestacksOperations } from "./classic/localRulestacks/index.js";
+import type { LogIngestionSettingsResourcesOperations } from "./classic/logIngestionSettingsResources/index.js";
+import { _getLogIngestionSettingsResourcesOperations } from "./classic/logIngestionSettingsResources/index.js";
 import type { MetricsObjectFirewallOperations } from "./classic/metricsObjectFirewall/index.js";
 import { _getMetricsObjectFirewallOperations } from "./classic/metricsObjectFirewall/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -70,14 +72,7 @@ export class PaloAltoNetworksCloudngfw {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPaloAltoNetworksCloudngfw(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPaloAltoNetworksCloudngfw(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.paloAltoNetworksCloudngfwOperations = _getPaloAltoNetworksCloudngfwOperationsOperations(
       this._client,
@@ -100,6 +95,7 @@ export class PaloAltoNetworksCloudngfw {
       this._client,
     );
     this.globalRulestack = _getGlobalRulestackOperations(this._client);
+    this.logIngestionSettingsResources = _getLogIngestionSettingsResourcesOperations(this._client);
     this.customCaptureConfigurationsFirewallResources =
       _getCustomCaptureConfigurationsFirewallResourcesOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -135,6 +131,8 @@ export class PaloAltoNetworksCloudngfw {
   public readonly certificateObjectGlobalRulestack: CertificateObjectGlobalRulestackOperations;
   /** The operation groups for globalRulestack */
   public readonly globalRulestack: GlobalRulestackOperations;
+  /** The operation groups for logIngestionSettingsResources */
+  public readonly logIngestionSettingsResources: LogIngestionSettingsResourcesOperations;
   /** The operation groups for customCaptureConfigurationsFirewallResources */
   public readonly customCaptureConfigurationsFirewallResources: CustomCaptureConfigurationsFirewallResourcesOperations;
   /** The operation groups for operations */

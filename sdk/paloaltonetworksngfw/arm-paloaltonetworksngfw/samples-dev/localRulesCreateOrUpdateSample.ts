@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a LocalRulesResource
  *
  * @summary create a LocalRulesResource
- * x-ms-original-file: 2026-05-11-preview/LocalRules_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function localRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function localRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to create a LocalRulesResource
  *
  * @summary create a LocalRulesResource
- * x-ms-original-file: 2026-05-11-preview/LocalRules_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulesCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
