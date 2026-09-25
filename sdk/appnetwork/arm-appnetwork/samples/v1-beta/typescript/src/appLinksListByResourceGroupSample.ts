@@ -5,10 +5,10 @@ import { AppLinkClient } from "@azure/arm-appnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list AppLink resources by resource group.
+ * This sample demonstrates how to list Azure Kubernetes Application Network resources by resource group.
  *
- * @summary list AppLink resources by resource group.
- * x-ms-original-file: 2025-08-01-preview/AppLinks_ListByResourceGroup.json
+ * @summary list Azure Kubernetes Application Network resources by resource group.
+ * x-ms-original-file: 2026-08-01-preview/AppLinks_ListByResourceGroup.json
  */
 async function appLinksListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
