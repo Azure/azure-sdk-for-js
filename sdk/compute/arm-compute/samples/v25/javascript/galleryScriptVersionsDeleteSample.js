@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a gallery Script Version.
  *
  * @summary delete a gallery Script Version.
- * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScriptVersion_Delete.json
+ * x-ms-original-file: 2026-03-03/galleryScriptExamples/GalleryScriptVersion_Delete.json
  */
 async function deleteAGalleryScriptVersion() {
   const credential = new DefaultAzureCredential();

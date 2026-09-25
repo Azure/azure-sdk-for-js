@@ -28,7 +28,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return sharingUpdateDeserializer(result.body);
 }
+
 /** Update sharing profile of a gallery. */
 export function update(
   context: Client,
@@ -69,6 +70,6 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, galleryName, sharingUpdate, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-12-03",
+    apiVersion: "2026-03-03",
   }) as PollerLike<OperationState<SharingUpdate>, SharingUpdate>;
 }

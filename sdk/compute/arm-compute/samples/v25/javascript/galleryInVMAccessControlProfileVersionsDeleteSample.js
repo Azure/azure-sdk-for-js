@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a gallery inVMAccessControlProfile version.
  *
  * @summary delete a gallery inVMAccessControlProfile version.
- * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Delete.json
+ * x-ms-original-file: 2026-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Delete.json
  */
 async function deleteAGalleryInVMAccessControlProfileVersion() {
   const credential = new DefaultAzureCredential();

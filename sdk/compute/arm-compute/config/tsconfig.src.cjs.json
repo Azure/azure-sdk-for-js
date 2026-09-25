@@ -1,5 +1,8 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
