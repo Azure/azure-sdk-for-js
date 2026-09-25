@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import chalk from "chalk";
 import path from "node:path";
+import { styleText } from "node:util";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
@@ -94,11 +94,11 @@ function getCaller(): NodeJS.CallSite | undefined {
 }
 
 const colors: ModeMap<Fn<string>> = {
-  info: chalk.blueBright,
-  warn: chalk.yellow,
-  error: chalk.red,
-  debug: chalk.magenta,
-  success: chalk.green,
+  info: (value) => styleText("blueBright", String(value)),
+  warn: (value) => styleText("yellow", String(value)),
+  error: (value) => styleText("red", String(value)),
+  debug: (value) => styleText("magenta", String(value)),
+  success: (value) => styleText("green", String(value)),
 };
 
 const finalLogger: ModeMap<Fn> = {
@@ -135,7 +135,7 @@ const finalLogger: ModeMap<Fn> = {
  * log level can be specified (`log.error("An error message")`).
  *
  * The printer outputs `[<name>]` before each message and colorizes terminal
- * output as appropriate using `chalk` according to the log level. The colors are:
+ * output as appropriate using `styleText` according to the log level. The colors are:
  *
  * - no log level (called directly): white
  * - info: bright blue (ANSI #12)
@@ -149,7 +149,7 @@ const finalLogger: ModeMap<Fn> = {
 export function createPrinter(name: string): Printer {
   const prefix = "[" + name + "]";
   const base = ((...values: string[]) => {
-    console.log(chalk.reset(prefix, ...values));
+    console.log(styleText("reset", [prefix, ...values].join(" ")));
   }) as Printer;
 
   for (const mode of printModes) {
