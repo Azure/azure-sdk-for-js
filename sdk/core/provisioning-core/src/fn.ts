@@ -343,52 +343,38 @@ export function lastIndexOf(
 // ---------------------------------------------------------------------------
 
 /** Creates a deterministic string from the supplied values. */
-export function uniqueString(
-  value: ExpressionOrValue<string>,
-  ...values: ExpressionOrValue<string>[]
-): Expression<string> {
-  return createFunctionCallExpression<string>("uniqueString", [value, ...values]);
+export function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string> {
+  return createFunctionCallExpression<string>("uniqueString", values);
 }
 
 /** Creates a deterministic GUID from the supplied values. */
-export function guid(
-  value: ExpressionOrValue<string>,
-  ...values: ExpressionOrValue<string>[]
-): Expression<string> {
-  return createFunctionCallExpression<string>("guid", [value, ...values]);
+export function guid(...values: ExpressionOrValue<string>[]): Expression<string> {
+  return createFunctionCallExpression<string>("guid", values);
 }
 
 /** Constructs a resource ID at the current deployment scope. */
 export function resourceId(
   type: ExpressionOrValue<string>,
-  name: ExpressionOrValue<string>,
   ...names: ExpressionOrValue<string>[]
 ): Expression<string> {
-  return createFunctionCallExpression<string>("resourceId", [type, name, ...names]);
+  return createFunctionCallExpression<string>("resourceId", [type, ...names]);
 }
 
 /** Constructs an ID for a subscription-scoped resource. */
 export function subscriptionResourceId(
   type: ExpressionOrValue<string>,
-  name: ExpressionOrValue<string>,
   ...names: ExpressionOrValue<string>[]
 ): Expression<string> {
-  return createFunctionCallExpression<string>("subscriptionResourceId", [type, name, ...names]);
+  return createFunctionCallExpression<string>("subscriptionResourceId", [type, ...names]);
 }
 
 /** Constructs an extension resource ID relative to `baseId`. */
 export function extensionResourceId(
   baseId: ExpressionOrValue<string>,
   type: ExpressionOrValue<string>,
-  name: ExpressionOrValue<string>,
   ...names: ExpressionOrValue<string>[]
 ): Expression<string> {
-  return createFunctionCallExpression<string>("extensionResourceId", [
-    baseId,
-    type,
-    name,
-    ...names,
-  ]);
+  return createFunctionCallExpression<string>("extensionResourceId", [baseId, type, ...names]);
 }
 
 // ---------------------------------------------------------------------------

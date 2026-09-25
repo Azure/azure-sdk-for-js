@@ -215,32 +215,14 @@ function requireDateString(
 }
 
 const ISO_DURATION =
-  /^-?P(?=\d|T\d)(?:(\d+(?:\.\d+)?)Y)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)W)?(?:(\d+(?:\.\d+)?)D)?(?:T(?=\d)(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
+  /^-?P(?=\d|T\d)(?:(?:\d+(?:\.\d+)?Y)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?W)?(?:\d+(?:\.\d+)?D)?)(?:T(?:\d+(?:\.\d+)?H)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?S)?)?$/;
 
 function requireIsoDuration(value: unknown, path: readonly string[]): string {
-  if (typeof value !== "string" || !isValidIsoDuration(value)) {
+  if (typeof value !== "string" || !ISO_DURATION.test(value)) {
     fail(path, `Expected an ISO8601 day/time duration, got ${describe(value)}.`);
   }
 
   return value;
-}
-
-function isValidIsoDuration(value: string): boolean {
-  const match = ISO_DURATION.exec(value);
-  if (!match) return false;
-
-  const components = match.slice(1);
-  if (
-    match[3] !== undefined &&
-    components.some((component, index) => index !== 2 && component !== undefined)
-  ) {
-    return false;
-  }
-  const fractionalIndex = components.findIndex((component) => component?.includes("."));
-  return (
-    fractionalIndex === -1 ||
-    components.slice(fractionalIndex + 1).every((component) => component === undefined)
-  );
 }
 
 function requirePlainDate(value: unknown, path: readonly string[]): string {

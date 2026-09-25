@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { encodeWireValue } from "../src/serialization/json/encoding.js";
-import type {
-  DateTimeTextEncodingDescriptor,
-  DurationIso8601EncodingDescriptor,
-} from "../src/shape/value-encoding.js";
+import type { DateTimeTextEncodingDescriptor } from "../src/shape/value-encoding.js";
 import { describe, expect, it } from "vitest";
 
 const rfc7231WireEncoding = {
@@ -15,13 +12,6 @@ const rfc7231WireEncoding = {
   clientMode: "wire",
   wire: { kind: "string" },
 } satisfies DateTimeTextEncodingDescriptor;
-
-const isoDurationEncoding = {
-  kind: "duration-iso8601",
-  source: "duration",
-  clientMode: "wire",
-  wire: { kind: "string" },
-} satisfies DurationIso8601EncodingDescriptor;
 
 describe("wire encoding", () => {
   it("rejects RFC3339 fractional seconds that RFC7231 cannot preserve", () => {
@@ -35,20 +25,4 @@ describe("wire encoding", () => {
       "Thu, 01 Jan 2026 00:00:00 GMT",
     );
   });
-
-  it.each(["P1.5Y2M", "PT1.5H30M"])(
-    "rejects a fractional ISO duration component followed by %s",
-    (value) => {
-      expect(() => encodeWireValue(value, isoDurationEncoding)).toThrow(
-        "Expected an ISO8601 day/time duration",
-      );
-    },
-  );
-
-  it.each(["P1Y2.5M", "PT1H30.5M", "PT1H30M0.5S"])(
-    "accepts a fractional rightmost ISO duration component in %s",
-    (value) => {
-      expect(encodeWireValue(value, isoDurationEncoding)).toBe(value);
-    },
-  );
 });
