@@ -4,13 +4,14 @@ import shell from "shelljs";
 import { logger } from "../../utils/logger.js";
 import { getPackageNameFromTspConfig } from "../utils.js";
 import { tryGetNpmView } from "../npmUtils.js";
-import { RunMode, ModularSDKType } from "../types.js";
+import { EmitterName, RunMode, ModularSDKType } from "../types.js";
 import { getModularSDKType } from "../../utils/generateInputUtils.js";
 
 export const codeOwnersAndIgnoreLinkGenerator = async (
   packageDirectory: string,
   typeSpecDirectory: string,
   runMode?: RunMode,
+  emitterName?: EmitterName,
 ): Promise<void> => {
   // Only proceed for management + Modular clients
   logger.info(`Generating CODEOWNERS and ignore link for packages`);
@@ -18,7 +19,7 @@ export const codeOwnersAndIgnoreLinkGenerator = async (
     logger.warn("Failed to get package directory");
     return;
   }
-  const packageName = await getPackageNameFromTspConfig(typeSpecDirectory);
+  const packageName = await getPackageNameFromTspConfig(typeSpecDirectory, emitterName);
   if (!packageName) {
     logger.warn("Failed to get package name");
     return;
