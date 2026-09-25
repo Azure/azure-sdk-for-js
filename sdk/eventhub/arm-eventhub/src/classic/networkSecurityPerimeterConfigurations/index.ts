@@ -54,7 +54,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: EventHubManagementContext) {
   return {
     createOrUpdate: (
@@ -109,7 +108,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: EventHubManagementC
       ),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: EventHubManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

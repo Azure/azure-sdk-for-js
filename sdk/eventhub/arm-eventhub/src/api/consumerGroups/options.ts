@@ -10,12 +10,9 @@ export interface ConsumerGroupsListByEventHubOptionalParams extends OperationOpt
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface ConsumerGroupsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ConsumerGroupsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ConsumerGroupsGetOptionalParams extends OperationOptions {}
