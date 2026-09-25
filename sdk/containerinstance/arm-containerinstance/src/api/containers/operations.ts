@@ -38,7 +38,7 @@ export function _attachSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _attachDeserialize(
 
   return containerAttachResponseDeserializer(result.body);
 }
-
 /** Attach to the output stream of a specific container instance in a specified resource group and container group. */
 export async function attach(
   context: Client,
@@ -99,7 +98,7 @@ export function _executeCommandSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +127,6 @@ export async function _executeCommandDeserialize(
 
   return containerExecResponseDeserializer(result.body);
 }
-
 /** Executes a command for a specific container instance in a specified resource group and container group. */
 export async function executeCommand(
   context: Client,
@@ -163,7 +161,7 @@ export function _listLogsSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       tail: options?.tail,
       timestamps: options?.timestamps,
     },
@@ -190,7 +188,6 @@ export async function _listLogsDeserialize(result: PathUncheckedResponse): Promi
 
   return logsDeserializer(result.body);
 }
-
 /** Get the logs for a specified container instance in a specified resource group and container group. */
 export async function listLogs(
   context: Client,

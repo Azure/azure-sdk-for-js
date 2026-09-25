@@ -5,16 +5,16 @@ const { ContainerInstanceManagementClient } = require("@azure/arm-containerinsta
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create a SandboxGroup
+ * This sample demonstrates how to create an AiAgentsGroup
  *
- * @summary create a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsCreateOrUpdate.json
+ * @summary create an AiAgentsGroup
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsCreateOrUpdate.json
  */
-async function createOrUpdateASandboxGroup() {
+async function createOrUpdateAAiAgentsGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.sandboxGroups.createOrUpdate("myResourceGroup", "mySandboxGroup", {
+  const result = await client.aiAgentsGroups.createOrUpdate("myResourceGroup", "myAiAgentsGroup", {
     location: "eastus",
     tags: { environment: "test" },
     properties: {
@@ -31,7 +31,7 @@ async function createOrUpdateASandboxGroup() {
 }
 
 async function main() {
-  await createOrUpdateASandboxGroup();
+  await createOrUpdateAAiAgentsGroup();
 }
 
 main().catch(console.error);
