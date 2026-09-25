@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -37,7 +38,11 @@ export type {
   ConfigurationAssignmentFilterProperties,
   TagSettingsProperties,
   TagOperators,
-  ScheduledEventApproveResponse,
+  ScheduledEventsApproveResponse,
+  ScheduledEventsIdList,
+  ScheduledEventsListAcknowledgeError,
+  ScheduledEventsListAcknowledgeErrorDetails,
+  ScheduledEventsAcknowledgeErrorDetails,
   Update,
   ImpactType,
   UpdateProperties,
@@ -99,7 +104,10 @@ export type {
   PublicMaintenanceConfigurationsListOptionalParams,
   PublicMaintenanceConfigurationsGetOptionalParams,
 } from "./api/publicMaintenanceConfigurations/index.js";
-export type { ScheduledEventAcknowledgeOptionalParams } from "./api/scheduledEvent/index.js";
+export type {
+  ScheduledEventsAcknowledgeListOptionalParams,
+  ScheduledEventsAcknowledgeOptionalParams,
+} from "./api/scheduledEvents/index.js";
 export type {
   UpdatesListOptionalParams,
   UpdatesListParentOptionalParams,
@@ -115,7 +123,7 @@ export type {
   MaintenanceConfigurationsForResourceGroupOperations,
   OperationsOperations,
   PublicMaintenanceConfigurationsOperations,
-  ScheduledEventOperations,
+  ScheduledEventsOperations,
   UpdatesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

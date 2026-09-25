@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Public Maintenance Configuration record
  *
  * @summary get Public Maintenance Configuration record
- * x-ms-original-file: 2023-10-01-preview/PublicMaintenanceConfigurations_GetForResource.json
+ * x-ms-original-file: 2025-10-01-preview/PublicMaintenanceConfigurations_GetForResource.json
  */
 async function publicMaintenanceConfigurationsGetForResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

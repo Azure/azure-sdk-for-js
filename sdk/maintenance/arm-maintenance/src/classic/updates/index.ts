@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import { list, listParent } from "../../api/updates/operations.js";
-import {
+import type {
   UpdatesListOptionalParams,
   UpdatesListParentOptionalParams,
 } from "../../api/updates/options.js";
-import { Update } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Update } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Updates operations. */
 export interface UpdatesOperations {

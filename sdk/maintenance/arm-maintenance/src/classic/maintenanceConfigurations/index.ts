@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import {
   list,
   $delete,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/maintenanceConfigurations/operations.js";
-import {
+import type {
   MaintenanceConfigurationsListOptionalParams,
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsUpdateOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsGetOptionalParams,
 } from "../../api/maintenanceConfigurations/options.js";
-import { MaintenanceConfiguration } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MaintenanceConfiguration } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MaintenanceConfigurations operations. */
 export interface MaintenanceConfigurationsOperations {
@@ -30,7 +30,7 @@ export interface MaintenanceConfigurationsOperations {
     resourceGroupName: string,
     resourceName: string,
     options?: MaintenanceConfigurationsDeleteOptionalParams,
-  ) => Promise<MaintenanceConfiguration>;
+  ) => Promise<MaintenanceConfiguration | void>;
   /** Patch configuration record */
   update: (
     resourceGroupName: string,
