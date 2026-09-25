@@ -10,30 +10,21 @@ export interface QueuesListByNamespaceOptionalParams extends OperationOptions {
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface QueuesDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesRegenerateKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesListKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesListAuthorizationRulesOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesDeleteAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface QueuesGetAuthorizationRuleOptionalParams extends OperationOptions {}
