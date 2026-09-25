@@ -75,6 +75,7 @@
     "@opentelemetry/sdk-trace-node": "^2.9.0",
     "@types/node": "catalog:",
     "@types/ws": "^8.18.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
@@ -85,7 +86,7 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.0.0",
     "vitest": "catalog:testing",
     "zod": "^4.2.1"
