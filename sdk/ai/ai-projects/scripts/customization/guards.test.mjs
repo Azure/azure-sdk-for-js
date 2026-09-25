@@ -936,3 +936,28 @@ test("follows a simple forwarding converter alias for wire-member parity", () =>
   assert.deepEqual(validate(modelFixture(base, custom, incoming, output)), []);
   has(validate(modelFixture(base, custom, incoming, custom)), "widgetSerializer", "preview");
 });
+
+test("custom-only aliases of emitted models follow the emitted shape but keep their target", () => {
+  const base = "export interface Widget { id: string; legacy?: string; }";
+  const customized = `${base}\nexport type OldWidget = Widget;`;
+  const incoming = "export interface Widget { id: string; current?: string; }";
+  assert.deepEqual(
+    validate(
+      modelFixture(base, customized, incoming, `${incoming}\nexport type OldWidget = Widget;`),
+    ),
+    [],
+  );
+  has(
+    validate(
+      modelFixture(
+        base,
+        customized,
+        incoming,
+        `${incoming}\nexport interface Gadget { id: string; }\nexport type OldWidget = Gadget;`,
+      ),
+    ),
+    "OldWidget",
+    undefined,
+    "target of a maintained custom-only alias",
+  );
+});

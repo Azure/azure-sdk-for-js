@@ -1167,3 +1167,22 @@ test("merging is deterministic and applying the same incoming baseline is idempo
   assert.deepEqual(mergeDeclaration(base, custom, incoming, context), result);
   assert.deepEqual(mergeDeclaration(incoming, result.text, incoming, context), result);
 });
+
+test("element-wise list merges keep comments without inserting blank lines", () => {
+  const base = `function send() {
+  const path = "base";
+  return call({
+    first: 1,
+    // Maintained note.
+    second: 2,
+  });
+}`;
+  const custom = base.replace('"base"', '"custom"').replace("first: 1", "first: 10");
+  const incoming = base.replace("second: 2", "second: 20");
+  const text = merged(base, custom, incoming);
+  assert.match(text, /"custom"/);
+  assert.match(text, /first: 10/);
+  assert.match(text, /second: 20/);
+  assert.match(text, /\/\/ Maintained note\./);
+  assert.doesNotMatch(text, /\n[ \t]*\n/);
+});

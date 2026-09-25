@@ -40,6 +40,25 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
   Ambiguous matches are errors.
+- Classic modules that are plain delegating factories are regenerated from
+  their resolved operations. A customized classic module (custom-only members,
+  overloads, or factory behavior) is not regenerated: the emitter's member
+  delta is applied to it instead. Emitted additions, including operations
+  relocated from another group, are rendered from the resolved API contract;
+  uncustomized members follow emitted changes and removals; customized members
+  the emitter changes are merged by identity or reported. Relocating a
+  customized member out of its classic module requires review.
+- Preview opt-ins are sent as constant `foundry-features` headers rather than
+  the emitter's optional `foundryFeatures` option. The emitted optional header
+  is normalized into the customized constant form before merging, so a changed
+  opt-in literal follows the emitter. When the emitter retires an operation's
+  opt-in, its constant header, local opt-in constant, and continuation header
+  are removed; poll headers that only carried the opt-in beside forwarded
+  request headers return to the emitted poller shape.
+- A custom-only declaration or export may reuse a generated name the
+  customization renamed away, for example a compatibility alias. It is retained
+  beside the renamed declaration rather than collapsed into it, and a
+  custom-only alias of an emitted model follows that model's emitted shape.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
   model module remains canonical, with re-export modules where necessary.

@@ -4,7 +4,14 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import { classicApiFile, classicMember, resolvedOperationImports } from "./classic.mjs";
 import { customizeNewOperation, modelMemberIndex } from "./new-operations.mjs";
+import {
+  applyPreviewHeaderPolicy,
+  previewLiteral,
+  retirePreviewHeaders,
+  sendsPreviewHeader,
+} from "./preview-headers.mjs";
 import {
   declarations,
   edit,
@@ -451,8 +458,31 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
         snippets[0] = normalizePoller(snippets[0], snippets[1]);
         snippets[2] = normalizePoller(snippets[2], snippets[1]);
       }
+      if (member === "send" && snippets[1]) {
+        const optionsOf = (tree, maps, file, kind) =>
+          moduleFor(tree, maps, file.replace(/operations\.ts$/, "options.ts"), kind).nodes.get(
+            names.options,
+          );
+        if (base)
+          snippets[0] = applyPreviewHeaderPolicy(
+            snippets[0],
+            snippets[1],
+            previewLiteral(optionsOf(baseGenerated, baseMaps, base.file, "base")),
+          );
+        snippets[2] = applyPreviewHeaderPolicy(
+          snippets[2],
+          snippets[1],
+          previewLiteral(optionsOf(generated, incomingMaps, incoming.file, "incoming")),
+        );
+      }
       const merged = mergeDeclaration(...snippets, { file: outputFile, declaration: outputName });
       diagnostics.push(...merged.diagnostics);
+      if (member === "publicNode" && merged.text && customized) {
+        const customSend = textOf(modules[1].nodes.get(names.send), modules[1].source);
+        const outputSend = outputDeclarations.get(outputFile)?.get(names.send);
+        if (sendsPreviewHeader(customSend) && outputSend && !sendsPreviewHeader(outputSend))
+          merged.text = retirePreviewHeaders(merged.text);
+      }
       if (!base && member === "publicNode" && merged.text) {
         const nodes = outputDeclarations.get(outputFile);
         merged.text = customizeNewOperation({
@@ -520,8 +550,13 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       const oldGenerated = declarations(parse(baseGenerated.get(oldFile), oldFile));
       const custom = moduleFor(baseSource, sourceMaps, oldFile, "custom");
       const mapped = new Set((sourceMaps.get(oldFile) ?? new Map()).values());
+      // A generated name the customization renamed away may be reused by a
+      // custom-only declaration, such as a compatibility alias.
+      const renamed = baseMaps.get(oldFile) ?? new Map();
+      const generatedBacked = (name) =>
+        mapped.has(name) || (oldGenerated.has(name) && (renamed.get(name) ?? name) === name);
       for (const [name, node] of custom.nodes) {
-        if (!oldGenerated.has(name) && !mapped.has(name) && !nodes.has(name)) {
+        if (!generatedBacked(name) && !nodes.has(name)) {
           nodes.set(name, textOf(node, custom.source));
         }
       }
@@ -540,53 +575,16 @@ export function classicFromOperations(file, incomingText, operations, sourceOper
   const source = parse(incomingText, file);
   const interfaceNode = source.statements.find(ts.isInterfaceDeclaration);
   if (!interfaceNode) throw new Error(`${file}: missing operations interface`);
-  const apiFile = file.replace(/^classic\//, "api/").replace(/index\.ts$/, "operations.ts");
-  const matches = operations.filter((item) => item.incoming.file === apiFile);
+  const apiFile = classicApiFile(file);
   const resolved = parse(sourceOperations, apiFile);
-  const functions = declarations(resolved);
-  const members = [];
-  const properties = [];
-  const imports = importsOf(source).filter((item) => item.imported === "AIProjectContext");
-  imports.push(
-    ...importsOf(resolved).map((item) => ({
-      ...item,
-      module: item.module.startsWith(".")
-        ? relativeImport(file, resolveImport(apiFile, item.module))
-        : item.module,
-    })),
-  );
-  for (const match of matches) {
-    const node = functions.get(match.names.publicNode);
-    const parameters = node.parameters.slice(1).map((parameter) => {
-      const type = parameter.type?.getText(resolved);
-      if (!type || !ts.isIdentifier(parameter.name))
-        throw new Error(`${file}: unsupported operation parameter`);
-      return `${parameter.name.text}${parameter.questionToken || parameter.initializer ? "?" : ""}: ${type}`;
-    });
-    const args = node.parameters.slice(1).map((parameter) => parameter.name.text);
-    const incomingMember = interfaceNode.members.find(
-      (member) =>
-        nameOf(member.name) ===
-        (match.incoming.name === "$delete" ? "delete" : match.incoming.name),
-    );
-    if (!incomingMember)
-      throw new Error(`${file}: missing interface member for ${match.incoming.name}`);
-    const name = match.names.publicNode === "$delete" ? "delete" : match.names.publicNode;
-    const comment = source.text
-      .slice(incomingMember.getFullStart(), incomingMember.getStart(source))
-      .trim();
-    members.push(
-      `${comment}\n${name}: (${parameters.join(", ")}) => ${node.type.getText(resolved)};`,
-    );
-    properties.push(
-      `${name}: (${parameters.join(", ")}) => ${match.names.publicNode}(context${args.length ? ", " : ""}${args.join(", ")})`,
-    );
-    imports.push({
-      module: relativeImport(file, apiFile.replace(/\.ts$/, ".js")),
-      imported: match.names.publicNode,
-      local: match.names.publicNode,
-    });
-  }
-  const body = `/** Operations for ${interfaceNode.name.text}. */\nexport interface ${interfaceNode.name.text} {\n${members.join("\n")}\n}\n\nexport function _get${interfaceNode.name.text}(context: AIProjectContext): ${interfaceNode.name.text} {\nreturn {${properties.join(",\n")}};\n}`;
+  const rendered = operations
+    .filter((item) => item.incoming.file === apiFile)
+    .map((match) => classicMember(file, match, resolved, interfaceNode, source));
+  const imports = [
+    ...importsOf(source).filter((item) => item.imported === "AIProjectContext"),
+    ...resolvedOperationImports(file, resolved),
+    ...rendered.map((item) => item.importItem),
+  ];
+  const body = `/** Operations for ${interfaceNode.name.text}. */\nexport interface ${interfaceNode.name.text} {\n${rendered.map((item) => item.member).join("\n")}\n}\n\nexport function _get${interfaceNode.name.text}(context: AIProjectContext): ${interfaceNode.name.text} {\nreturn {${rendered.map((item) => item.property).join(",\n")}};\n}`;
   return `${header}${renderImports(file, body, imports)}\n\n${body}\n`;
 }
