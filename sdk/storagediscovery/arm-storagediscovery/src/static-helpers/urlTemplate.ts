@@ -72,7 +72,8 @@ function getExpandedValue(option: ValueOptions): string {
       // prepare the following parts: separator, varName, value
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
-        vals.push(`${encodeURIComponent(varName)}`);
+        // No need to encode varName considering it is already encoded
+        vals.push(`${varName}`);
         if (val === "") {
           vals.push(ifEmpty);
         } else {
@@ -111,7 +112,8 @@ function getNonExpandedValue(option: ValueOptions): string | undefined {
   const first = getFirstOrSep(op, isFirst);
   const [named, ifEmpty] = getNamedAndIfEmpty(op);
   if (named && varName) {
-    vals.push(encodeComponent(varName, reserved, op));
+    // No need to encode varName considering it is already encoded
+    vals.push(varName);
     if (value === "") {
       if (!ifEmpty) {
         vals.push(ifEmpty);
@@ -177,7 +179,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  return template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -187,14 +189,14 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
-    const result = [];
+    const innerResult = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: result.length === 0,
+        isFirst: innerResult.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -202,9 +204,26 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        result.push(varValue);
+        innerResult.push(varValue);
       }
     }
-    return result.join("");
+    return innerResult.join("");
+  });
+
+  return normalizeUnreserved(result);
+}
+
+/**
+ * Normalize an expanded URI by decoding percent-encoded unreserved characters.
+ * RFC 3986 unreserved: "-" / "." / "~"
+ */
+function normalizeUnreserved(uri: string): string {
+  return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
+    const char = String.fromCharCode(parseInt(hex, 16));
+    // Decode only if it's unreserved
+    if (/[.~-]/.test(char)) {
+      return char;
+    }
+    return match; // leave other encodings intact
   });
 }

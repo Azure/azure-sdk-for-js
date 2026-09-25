@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a StorageDiscoveryWorkspace
  *
  * @summary update a StorageDiscoveryWorkspace
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_Update.json
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_Update.json
  */
 async function updateAStorageDiscoveryWorkspace() {
   const credential = new DefaultAzureCredential();
@@ -22,6 +22,28 @@ async function updateAStorageDiscoveryWorkspace() {
         sku: "Free",
         workspaceRoots: ["/subscriptions/b79cb3ba-745e-5d9a-8903-4a02327a7e09"],
         description: "Updated Sample Storage Discovery Workspace",
+        capabilities: {
+          azureBlobStorage: {
+            capacityDetails: { status: "Enabled" },
+            prefixConfigurations: [
+              {
+                storageAccountName: "firstsa",
+                containerName: "samplecontainer",
+                prefix: "sampleDir",
+              },
+              {
+                storageAccountName: "secondsa",
+                containerName: "samplecontainer",
+                prefix: "sampleDir/sampleSubDir",
+              },
+              {
+                storageAccountName: "thirdsa",
+                containerName: "anothersamplecontainer",
+                prefix: "anotherSampleDir",
+              },
+            ],
+          },
+        },
         scopes: [
           {
             displayName: "Updated-Sample-Collection",
