@@ -3,6 +3,7 @@
 
 import path from "node:path";
 import ts from "typescript";
+import { isTrainingJobsInitialization } from "./training-jobs-client.mjs";
 import { canonicalize } from "./ast-merge.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
@@ -1116,7 +1117,11 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
             walk(generated, (candidate) => {
               if (
                 ts.isStatement(candidate) &&
-                nodeKey(candidate, renames) === nodeKey(statement, renames)
+                (nodeKey(candidate, renames) === nodeKey(statement, renames) ||
+                  (before.name?.text === "AIProjectClient" &&
+                    !before.members.some((item) => nameOf(item.name) === "jobs") &&
+                    !baseGenerated?.members?.some((item) => nameOf(item.name) === "jobs") &&
+                    isTrainingJobsInitialization(candidate, statement)))
               )
                 generatedAddition = true;
             });
