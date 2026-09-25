@@ -31,11 +31,13 @@ export function classicMemberName(operationName) {
 
 /**
  * Explain why a customized classic module is not a plain delegating factory
- * that can be regenerated wholesale from its resolved operations.
+ * that can be regenerated wholesale from its resolved operations. Every member
+ * must be unchanged from the emitted baseline or exactly mirror its customized
+ * operation; overloads and signature customizations need the member-aware merge.
  *
  * @returns {string | undefined}
  */
-export function simpleFactoryProblem(custom, base, file) {
+export function simpleFactoryProblem(custom, base, file, customApiText) {
   const source = parse(custom, file);
   const previous = parse(base, file);
   const originalInterface = previous.statements.find(ts.isInterfaceDeclaration);
@@ -88,6 +90,24 @@ export function simpleFactoryProblem(custom, base, file) {
       }
       return `${file}::${declaration.name.text}: customized factory behavior requires explicit preservation`;
     }
+  }
+  const customized = shapeOf(source, originalInterface.name.text);
+  const generated = shapeOf(previous, originalInterface.name.text);
+  if (!customized || !generated) return `${file}: unrecognized operations factory`;
+  const contextName = contextParameter(customized.factory);
+  const api = operationDeclarations(customApiText, classicApiFile(file));
+  const names = new Set(
+    [...customized.members, ...customized.properties].map((slot) => slot.name).filter(Boolean),
+  );
+  for (const name of names) {
+    const members = group(customized.members, name);
+    const properties = group(customized.properties, name);
+    if (members?.length > 1) return `${file}::${name}: overloaded classic member`;
+    const unchanged =
+      sameNodes("member", group(generated.members, name), members) &&
+      sameNodes("property", group(generated.properties, name), properties);
+    if (!unchanged && !mirrorsOperation(members, properties, contextName, api))
+      return `${file}::${name}: customized classic member signature`;
   }
   return undefined;
 }

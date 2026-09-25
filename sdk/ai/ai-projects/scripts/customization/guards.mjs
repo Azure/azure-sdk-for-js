@@ -4,7 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { previewHeader } from "./preview-headers.mjs";
+import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
   "aiProjectClient.ts",
@@ -937,12 +937,12 @@ function checkOperations(trees, matches, renames, report) {
       for (const [property, values] of propertiesNamed(oldNode, behaviorProperties)) {
         const actual = propertiesNamed(output.node, behaviorProperties).get(property) ?? [];
         for (const value of values) {
-          // Poll headers that only carried the retired opt-in beside forwarded
-          // request headers may return to the emitted poller shape.
+          // Poll headers that only carried the retired opt-in beside the
+          // forwarded request headers may return to the emitted poller shape.
           const forwardsOnly =
             ts.isObjectLiteralExpression(unwrap(value)) &&
             unwrap(value).properties.every(
-              (item) => ts.isSpreadAssignment(item) || nameOf(item.name) === previewHeader,
+              (item) => forwardsRequestHeaders(item) || nameOf(item.name) === previewHeader,
             );
           if (retiredPreview && property === "pollHeaders" && forwardsOnly && !actual.length)
             continue;

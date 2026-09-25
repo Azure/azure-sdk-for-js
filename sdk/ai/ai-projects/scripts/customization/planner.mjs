@@ -204,7 +204,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     if (
       customText !== undefined &&
       baseText !== undefined &&
-      simpleFactoryProblem(customText, baseText, file)
+      simpleFactoryProblem(customText, baseText, file, baseSource.get(apiFile))
     ) {
       const baseRenames = new Map(modelRenames);
       const incomingRenames = new Map(modelRenames);

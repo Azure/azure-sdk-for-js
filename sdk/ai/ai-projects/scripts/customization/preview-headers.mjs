@@ -180,12 +180,28 @@ export function sendsPreviewHeader(text) {
   return found;
 }
 
+/** Whether an object member forwards the caller's `options.requestOptions.headers`. */
+export function forwardsRequestHeaders(property) {
+  if (!ts.isSpreadAssignment(property)) return false;
+  const headers = unwrap(property.expression);
+  if (!ts.isPropertyAccessExpression(headers) || headers.name.text !== "headers") return false;
+  const requestOptions = unwrap(headers.expression);
+  if (
+    !ts.isPropertyAccessExpression(requestOptions) ||
+    requestOptions.name.text !== "requestOptions"
+  )
+    return false;
+  const options = unwrap(requestOptions.expression);
+  return ts.isIdentifier(options) && options.text === "options";
+}
+
 /**
  * When the emitter stops declaring an operation's preview opt-in, the
  * maintained constant header on its poll and continuation requests is stale
  * too. Drop it along with a local opt-in constant that no longer has readers.
  * Poll headers exist to carry that opt-in, so a `pollHeaders` object left with
- * only forwarded request headers returns to the emitted poller shape.
+ * only the forwarded request headers returns to the emitted poller shape;
+ * any other maintained poll headers are kept.
  */
 export function retirePreviewHeaders(text) {
   let source = parse(text);
@@ -201,7 +217,7 @@ export function retirePreviewHeaders(text) {
           nameOf(item.name) === "pollHeaders" &&
           ts.isObjectLiteralExpression(item.initializer) &&
           item.initializer.properties.some((header) => nameOf(header.name) === previewHeader) &&
-          retained(item.initializer).every(ts.isSpreadAssignment),
+          retained(item.initializer).every(forwardsRequestHeaders),
       );
       if (obsolete.length) {
         edits.push({

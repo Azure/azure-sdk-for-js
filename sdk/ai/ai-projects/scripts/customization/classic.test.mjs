@@ -172,6 +172,8 @@ test("relocates operations into a customized classic module without regenerating
   const beta = plan.source.get("classic/beta/items/index.ts");
   assert.doesNotMatch(beta, /archiveItem/);
   assert.match(beta, /restoreItem: \(id: string, options\?: BetaItemsRestoreItemOptionalParams\)/);
+  // Plain delegating factories are still regenerated from their operations.
+  assert.doesNotMatch(beta, /function _getBetaItems\(/);
   assert.deepEqual(
     validateCustomization({
       ...inputs,
@@ -181,6 +183,68 @@ test("relocates operations into a customized classic module without regenerating
     }),
     [],
   );
+});
+
+test("merges overload and signature-only classic customizations instead of regenerating", () => {
+  const generatedItems = classic(2, "Items", "items", [getItem]);
+  const trees = (customClassic) => {
+    const baseGenerated = new Map(
+      Object.entries({
+        ...models(),
+        "api/items/options.ts": options([getItem[3]]),
+        "api/items/operations.ts": operations(1, [getItem]),
+        "classic/items/index.ts": generatedItems,
+      }),
+    );
+    const baseSource = new Map(baseGenerated);
+    baseSource.set("classic/items/index.ts", customClassic);
+    const generated = new Map(
+      Object.entries({
+        ...models(),
+        "api/items/options.ts": options([getItem[3], archive[3]]),
+        "api/items/operations.ts": operations(1, [getItem, archive]),
+        "classic/items/index.ts": classic(2, "Items", "items", [getItem, archive]),
+      }),
+    );
+    return { baseGenerated, baseSource, generated };
+  };
+  const member =
+    "  getItem: (id: string, options?: ItemsGetItemOptionalParams) => Promise<string>;";
+  for (const [custom, preserved] of [
+    [
+      generatedItems.replace(
+        member,
+        "  getItem: (id: string, options?: ItemsGetItemOptionalParams) => Promise<unknown>;",
+      ),
+      /getItem: \(id: string, options\?: ItemsGetItemOptionalParams\) => Promise<unknown>;/,
+    ],
+    [
+      generatedItems.replace(
+        member,
+        "  getItem(id: string): Promise<string>;\n  getItem(id: string, options: ItemsGetItemOptionalParams): Promise<string>;",
+      ),
+      /getItem\(id: string\): Promise<string>;\s*getItem\(id: string, options: ItemsGetItemOptionalParams\): Promise<string>;/,
+    ],
+  ]) {
+    const inputs = trees(custom);
+    const plan = planCustomization(inputs);
+    assert.deepEqual(plan.diagnostics, []);
+    const items = plan.source.get("classic/items/index.ts");
+    assert.match(items, preserved);
+    assert.match(
+      items,
+      /archiveItem: \(id: string, options\?: ItemsArchiveItemOptionalParams\) => archiveItem\(context, id, options\)/,
+    );
+    assert.deepEqual(
+      validateCustomization({
+        ...inputs,
+        source: plan.source,
+        matches: plan.matches,
+        modelRenames: plan.modelRenames,
+      }),
+      [],
+    );
+  }
 });
 
 test("reports a customized classic member instead of dropping it with its operation", () => {

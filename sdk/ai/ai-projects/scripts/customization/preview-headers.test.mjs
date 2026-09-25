@@ -119,6 +119,12 @@ test("retires stale preview headers from poll and continuation requests", () => 
   );
   assert.doesNotMatch(custom, /foundryFeatures|foundry-features/);
 
+  const spread = retirePreviewHeaders(
+    poller.replace("...options?.requestOptions?.headers", "...customPollingHeaders"),
+  );
+  assert.match(spread, /pollHeaders: \{ \.\.\.customPollingHeaders \}/);
+  assert.doesNotMatch(spread, /foundryFeatures|foundry-features/);
+
   const paging =
     retirePreviewHeaders(`export function listItems(context: Client, options: ListItemsOptionalParams) {
   const requestParameters = operationOptionsToRequestParameters(options);
@@ -211,5 +217,35 @@ test("does not treat a custom-only preview header as an emitter retirement", () 
   assert.ok(
     guarded(dropped).some((item) => item.member === "pollHeaders"),
     "a maintained header the emitter never sent must not pass as retired",
+  );
+});
+
+test("keeps maintained poll header spreads when the emitter retires the opt-in", () => {
+  const custom = operations({ header: "local", poll: true }).replace(
+    "pollHeaders: { ...options?.requestOptions?.headers,",
+    "pollHeaders: { ...pollingHeaders(options),",
+  );
+  const baseGenerated = tree(operations(), options(true));
+  const baseSource = tree(custom, options(true));
+  const generated = tree(operations({ header: "none" }), options(false));
+  const result = planOperations({ baseGenerated, baseSource, generated });
+  assert.deepEqual(result.diagnostics, []);
+  const output = result.files.get("api/items/operations.ts");
+  assert.match(output, /pollHeaders: \{ \.\.\.pollingHeaders\(options\) \}/);
+  assert.doesNotMatch(output, /foundry-features|foundryFeatures/);
+  const guarded = (source) =>
+    validateCustomization({
+      baseGenerated,
+      baseSource,
+      generated,
+      source,
+      matches: result.matches,
+    });
+  assert.deepEqual(guarded(result.files), []);
+  const dropped = new Map(result.files);
+  dropped.set("api/items/operations.ts", output.replace(/pollHeaders: \{[^}]*\},?/, ""));
+  assert.ok(
+    guarded(dropped).some((item) => item.member === "pollHeaders"),
+    "maintained poll headers must survive an opt-in retirement",
   );
 });
