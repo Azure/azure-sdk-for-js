@@ -4,7 +4,7 @@
 
 ```ts
 
-// @public (undocumented)
+// @public
 function add(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public
@@ -43,10 +43,10 @@ export interface ArrayShape {
 // @public
 export function asDiscriminator<L extends string>(value: ExpressionOrValue<L>): L;
 
-// @public (undocumented)
+// @public
 function base64(value: ExpressionOrValue<string>): Expression<string>;
 
-// @public (undocumented)
+// @public
 function base64ToJson(value: ExpressionOrValue<string>): Expression<unknown>;
 
 // @public (undocumented)
@@ -127,22 +127,22 @@ export type BytesValueEncodingDescriptor = BytesEncodingDescriptor & {
     readonly clientMode: "client";
 };
 
-// @public (undocumented)
+// @public
 function coalesce<T>(left: ExpressionOrValue<T>, right: ExpressionOrValue<T>): Expression<T>;
 
-// @public (undocumented)
+// @public
 function concat(strings: TemplateStringsArray, ...values: ExpressionOrValue<string>[]): Expression<string>;
 
-// @public (undocumented)
+// @public
 function concat(...values: ExpressionOrValue<string>[]): Expression<string>;
 
-// @public (undocumented)
+// @public
 function cond<T>(condition: ExpressionOrValue<boolean>, trueValue: ExpressionOrValue<T>, falseValue: ExpressionOrValue<T>): Expression<T>;
 
 // @public
 export type ContainerShape = ArrayShape | RecordShape | TupleShape;
 
-// @public (undocumented)
+// @public
 function contains(container: ExpressionOrValue<unknown>, value: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
@@ -238,7 +238,7 @@ export interface DiscriminatorNames {
     readonly jsName: string;
 }
 
-// @public (undocumented)
+// @public
 function div(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public (undocumented)
@@ -272,10 +272,10 @@ export interface DurationNumericEncodingDescriptor {
     };
 }
 
-// @public (undocumented)
+// @public
 function empty(value: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public (undocumented)
+// @public
 function endsWith(value: ExpressionOrValue<string>, suffix: ExpressionOrValue<string>): Expression<boolean>;
 
 // @public
@@ -287,7 +287,7 @@ export interface EnumShape {
 // @public
 function environment(): Expression<unknown>;
 
-// @public (undocumented)
+// @public
 function eq(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
@@ -333,10 +333,10 @@ export interface ExpressionTag {
 // @public (undocumented)
 export type ExpressionValue<T> = T extends Expression<infer U> ? U : T;
 
-// @public (undocumented)
+// @public
 function extensionResourceId(baseId: ExpressionOrValue<string>, type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
-// @public (undocumented)
+// @public
 function first<T>(arr: ExpressionOrValue<T[]>): Expression<T>;
 
 // @public
@@ -347,7 +347,7 @@ export interface FlatModelShape {
     readonly kind: "flatModel";
 }
 
-// @public (undocumented)
+// @public
 function flatten<T>(arr: ExpressionOrValue<T[][]>): Expression<T[]>;
 
 // @public
@@ -388,7 +388,6 @@ declare namespace fn {
         replace,
         split,
         join,
-        readEnvironmentVariable,
         trim,
         startsWith,
         endsWith,
@@ -431,7 +430,7 @@ declare namespace fn {
     }
 }
 
-// @public (undocumented)
+// @public
 function format(formatString: ExpressionOrValue<string>, ...values: ExpressionOrValue<unknown>[]): Expression<string>;
 
 // @public (undocumented)
@@ -444,13 +443,13 @@ export interface FunctionCallExpressionNode<_TValue = unknown, TOperator extends
     readonly operator: TOperator;
 }
 
-// @public (undocumented)
+// @public
 function gt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public (undocumented)
+// @public
 function gte(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public (undocumented)
+// @public
 function guid(...values: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
@@ -461,7 +460,7 @@ export interface IdentifierExpressionNode<_TValue = unknown> {
     readonly kind: "identifier";
 }
 
-// @public (undocumented)
+// @public
 function indexOf<T>(arr: ExpressionOrValue<T[]>, value: ExpressionOrValue<T>): Expression<number>;
 
 // @public (undocumented)
@@ -491,7 +490,7 @@ export interface InstanceFunctionCallExpressionNode<_TValue = unknown> {
     readonly name: string;
 }
 
-// @public (undocumented)
+// @public
 function int(value: ExpressionOrValue<unknown>): Expression<number>;
 
 // @public (undocumented)
@@ -508,7 +507,7 @@ export interface InterpolatedStringExpressionNode<_TValue = unknown> {
     readonly segments: readonly unknown[];
 }
 
-// @public (undocumented)
+// @public
 function intersect<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T & U>;
 
 // @public
@@ -523,28 +522,28 @@ export function isResourceDeclaration(x: unknown): x is ResourceDeclaration;
 // @public
 export function isResourceOf<T extends Resource>(x: unknown, ctor: ResourceCtor<T>): x is T;
 
-// @public (undocumented)
+// @public
 function items(obj: ExpressionOrValue<object>): Expression<unknown[]>;
 
-// @public (undocumented)
+// @public
 function join(values: ExpressionOrValue<unknown[]>, delimiter: ExpressionOrValue<string>): Expression<string>;
 
-// @public (undocumented)
+// @public
 function json(value: ExpressionOrValue<string>): Expression<unknown>;
 
-// @public (undocumented)
+// @public
 function last<T>(arr: ExpressionOrValue<T[]>): Expression<T>;
 
-// @public (undocumented)
+// @public
 function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionOrValue<string>): Expression<number>;
 
-// @public (undocumented)
+// @public
 function length(value: ExpressionOrValue<unknown>): Expression<number>;
 
-// @public (undocumented)
+// @public
 function lt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public (undocumented)
+// @public
 function lte(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
@@ -561,19 +560,19 @@ interface ManagementGroupScope {
     readonly name: string;
 }
 
-// @public (undocumented)
+// @public
 function max(...values: ExpressionOrValue<number>[]): Expression<number>;
 
-// @public (undocumented)
+// @public
 function min(...values: ExpressionOrValue<number>[]): Expression<number>;
 
-// @public (undocumented)
+// @public
 function mod(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public
 export type ModelShape = FlatModelShape | DiscriminatedModelShape;
 
-// @public (undocumented)
+// @public
 function mul(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public (undocumented)
@@ -605,13 +604,13 @@ export interface NamingPolicyOptions {
 // @public
 export const namingRequiredPolicy: NamingPolicy;
 
-// @public (undocumented)
+// @public
 function neg(value: ExpressionOrValue<number>): Expression<number>;
 
-// @public (undocumented)
+// @public
 function neq(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public (undocumented)
+// @public
 function not(value: ExpressionOrValue<boolean>): Expression<boolean>;
 
 // @public
@@ -662,7 +661,7 @@ export interface NumericStringEncodingDescriptor {
     };
 }
 
-// @public (undocumented)
+// @public
 function objectKeys(obj: ExpressionOrValue<object>): Expression<string[]>;
 
 // @public
@@ -675,9 +674,9 @@ export class OutputCollection {
     add<T extends OutputType>(name: string, type: T, value: OutputValueFor<NoInfer<T>>, options?: OutputOptions): OutputMetadata;
     delete(name: string): boolean;
     get(name: string): OutputMetadata | undefined;
-    getAll(): readonly OutputMetadata[];
     // (undocumented)
     has(name: string): boolean;
+    list(): readonly OutputMetadata[];
     // (undocumented)
     get size(): number;
 }
@@ -726,11 +725,11 @@ export class ParameterCollection {
     add<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap, const A extends readonly PrimitiveTypeMap[T][] | undefined = undefined>(name: string, type: T, options?: ParameterOptions<T, A>): Parameter<T, A>;
     delete(name: string): boolean;
     get(name: string): Parameter | undefined;
-    getAll(): readonly Parameter[];
-    getAllMetadata(): readonly ParameterMetadata[];
     getMetadata(name: string): ParameterMetadata | undefined;
     // (undocumented)
     has(name: string): boolean;
+    list(): readonly Parameter[];
+    listMetadata(): readonly ParameterMetadata[];
     // (undocumented)
     get size(): number;
 }
@@ -844,9 +843,6 @@ export interface QueryOptions {
     readonly recursive?: boolean;
 }
 
-// @public (undocumented)
-function readEnvironmentVariable(name: ExpressionOrValue<string>, defaultValue?: ExpressionOrValue<string>): Expression<string>;
-
 // @public
 export interface RecordShape {
     // (undocumented)
@@ -855,7 +851,7 @@ export interface RecordShape {
     readonly value: ValueShape;
 }
 
-// @public (undocumented)
+// @public
 function replace(value: ExpressionOrValue<string>, oldValue: ExpressionOrValue<string>, newValue: ExpressionOrValue<string>): Expression<string>;
 
 // @public
@@ -966,7 +962,7 @@ interface ResourceGroupScope {
     readonly name: string;
 }
 
-// @public (undocumented)
+// @public
 function resourceId(type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
@@ -1031,7 +1027,7 @@ export interface ResourceState<TType extends string = string> {
     readonly type: TType;
 }
 
-// @public (undocumented)
+// @public
 function reverse<T>(arr: ExpressionOrValue<T[]>): Expression<T[]>;
 
 // @public (undocumented)
@@ -1040,10 +1036,10 @@ export type ScalarOutputType = "string" | "int" | "bool";
 // @public
 export type ScopeExpression = Expression<unknown>;
 
-// @public (undocumented)
+// @public
 function skip<T>(arr: ExpressionOrValue<T[]>, count: ExpressionOrValue<number>): Expression<T[]>;
 
-// @public (undocumented)
+// @public
 function split(value: ExpressionOrValue<string>, delimiter: ExpressionOrValue<string>): Expression<string[]>;
 
 // @public
@@ -1080,7 +1076,7 @@ export interface StackOptions {
     readonly targetScope?: TargetScope | undefined;
 }
 
-// @public (undocumented)
+// @public
 function startsWith(value: ExpressionOrValue<string>, prefix: ExpressionOrValue<string>): Expression<boolean>;
 
 // @public
@@ -1108,7 +1104,7 @@ export type StringValueEncodingDescriptor = (DateTimeTextEncodingDescriptor & {
     readonly clientMode: "wire";
 });
 
-// @public (undocumented)
+// @public
 function sub(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public
@@ -1117,7 +1113,7 @@ function subscription(): Expression<SubscriptionScope>;
 // @public (undocumented)
 function subscription(subscriptionId: ExpressionOrValue<string>): Expression<SubscriptionScope>;
 
-// @public (undocumented)
+// @public
 function subscriptionResourceId(type: ExpressionOrValue<string>, ...names: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public
@@ -1128,7 +1124,7 @@ interface SubscriptionScope {
     readonly tenantId: string;
 }
 
-// @public (undocumented)
+// @public
 function substring(value: ExpressionOrValue<string>, start?: ExpressionOrValue<number>, count?: ExpressionOrValue<number>): Expression<string>;
 
 // @public (undocumented)
@@ -1139,7 +1135,7 @@ export interface SymbolicValueExpressionNode<_TValue = unknown, TPath extends st
     readonly path: TPath;
 }
 
-// @public (undocumented)
+// @public
 function take(value: ExpressionOrValue<string>, count: ExpressionOrValue<number>): Expression<string>;
 
 // @public
@@ -1171,13 +1167,13 @@ export interface TernaryExpressionNode<_TValue = unknown> {
     readonly trueValue: unknown;
 }
 
-// @public (undocumented)
+// @public
 function toLower(value: ExpressionOrValue<string>): Expression<string>;
 
-// @public (undocumented)
+// @public
 function toUpper(value: ExpressionOrValue<string>): Expression<string>;
 
-// @public (undocumented)
+// @public
 function trim(value: ExpressionOrValue<string>): Expression<string>;
 
 // @public
@@ -1201,8 +1197,11 @@ export interface UnaryExpressionNode<_TValue = unknown> {
 // @public
 export type UnaryOperator = "!" | "-";
 
-// @public (undocumented)
-function union<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T | U>;
+// @public
+function union<TElement, UElement>(a: ExpressionOrValue<readonly TElement[]>, b: ExpressionOrValue<readonly UElement[]>): Expression<(TElement | UElement)[]>;
+
+// @public
+function union<T extends object, U extends object>(a: T extends readonly unknown[] ? never : ExpressionOrValue<T>, b: U extends readonly unknown[] ? never : ExpressionOrValue<U>): Expression<T & U>;
 
 // @public
 export interface UnionShape {
@@ -1210,7 +1209,7 @@ export interface UnionShape {
     readonly kind: "union";
 }
 
-// @public (undocumented)
+// @public
 function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string>;
 
 // @public (undocumented)
@@ -1246,11 +1245,11 @@ export class VariableCollection {
     add<TValue extends VariableValue = VariableValue>(name: string, value: TValue, options?: VariableOptions): Variable<TValue>;
     delete(name: string): boolean;
     get(name: string): Variable | undefined;
-    getAll(): readonly Variable[];
-    getAllMetadata(): readonly VariableMetadata[];
     getMetadata(name: string): VariableMetadata | undefined;
     // (undocumented)
     has(name: string): boolean;
+    list(): readonly Variable[];
+    listMetadata(): readonly VariableMetadata[];
     // (undocumented)
     get size(): number;
 }

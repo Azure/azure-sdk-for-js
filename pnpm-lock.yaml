@@ -18715,7 +18715,7 @@ importers:
   sdk/keyvault/provisioning-keyvault:
     dependencies:
       '@azure/provisioning-core':
-        specifier: workspace:1.0.0-beta.1
+        specifier: 1.0.0-beta.1
         version: link:../../core/provisioning-core
       tslib:
         specifier: 'catalog:'

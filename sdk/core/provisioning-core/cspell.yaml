@@ -4,3 +4,6 @@ import:
   - ../../../.vscode/cspell.json
 words:
   - infras
+  - navigations
+  - navs
+  - vitestconfigs

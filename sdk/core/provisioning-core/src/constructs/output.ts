@@ -119,7 +119,7 @@ export class OutputCollection {
  * A deployment output, compiled to a Bicep `output` declaration.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *

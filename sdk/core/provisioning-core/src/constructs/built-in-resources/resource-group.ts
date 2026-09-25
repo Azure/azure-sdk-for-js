@@ -43,7 +43,7 @@ export interface ResourceGroupProps {
  * in the generated Bicep.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
@@ -119,6 +119,10 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
   }
   set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined) {
     this.setProperty("tags", value);
+    this._localDeploymentContext = {
+      ...this._localDeploymentContext,
+      tags: deref(this.tags),
+    };
   }
 
   add<T extends new (context: ProvisioningComponent, ...args: any[]) => ProvisioningComponent>(

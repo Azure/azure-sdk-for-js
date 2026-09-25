@@ -70,7 +70,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/provisioning-core": "workspace:1.0.0-beta.1",
+    "@azure/provisioning-core": "1.0.0-beta.1",
     "tslib": "catalog:"
   },
   "scripts": {

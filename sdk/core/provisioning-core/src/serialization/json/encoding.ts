@@ -189,8 +189,8 @@ function encodePlainDate(value: unknown, path: readonly string[]): string {
 }
 
 function requireWholeSecondDateTime(value: string, path: readonly string[]): void {
-  const date = new Date(value);
-  if (date.getUTCMilliseconds() !== 0) {
+  const fraction = /\.(\d+)(?:Z|[+-]\d{2}:\d{2})$/.exec(value)?.[1];
+  if (fraction !== undefined && /[1-9]/.test(fraction)) {
     fail(path, "RFC7231 conversion would lose subsecond precision.");
   }
 }

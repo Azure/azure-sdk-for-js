@@ -444,7 +444,7 @@ export abstract class ResourceDeclaration<
  * property getters and `this.setProperty()` for setters.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { ResourceGroup, Stack } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
