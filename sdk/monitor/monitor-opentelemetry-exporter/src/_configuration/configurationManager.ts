@@ -117,6 +117,7 @@ export class ConfigurationManager {
    * @returns A function that unregisters this subscription.
    */
   public registerCallback(callback: ConfigurationChangeCallback): () => void {
+    // Wrap each registration so it can be unregistered independently, even for the same callback.
     const subscription: ConfigurationChangeCallback = (settings) => callback(settings);
     this.callbacks.push(subscription);
     if (Object.keys(this.state.settings).length > 0) {
