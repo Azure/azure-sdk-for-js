@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
+  unstageSolutionVersion,
   updateExternalValidationStatus,
   publishSolutionVersion,
   reviewSolutionVersion,
@@ -17,7 +18,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/targets/operations.js";
-import {
+import type {
+  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -32,23 +34,30 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "../../api/targets/options.js";
-import {
+import type {
   SolutionVersion,
   InstallSolutionParameter,
+  SolutionVersionParameter,
+  UninstallSolutionParameter,
   Target,
   TargetUpdate,
-  UninstallSolutionParameter,
   RemoveRevisionParameter,
   SolutionTemplateParameter,
   ResolvedConfiguration,
-  SolutionVersionParameter,
   UpdateExternalValidationStatusParameter,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {
+  /** Post request to unstage solution version */
+  unstageSolutionVersion: (
+    resourceGroupName: string,
+    targetName: string,
+    body: SolutionVersionParameter,
+    options?: TargetsUnstageSolutionVersionOptionalParams,
+  ) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
   /** Post request to update external validation status */
   updateExternalValidationStatus: (
     resourceGroupName: string,
@@ -108,11 +117,6 @@ export interface TargetsOperations {
     options?: TargetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Target>;
   /** Delete a Target Resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     targetName: string,
@@ -142,6 +146,12 @@ export interface TargetsOperations {
 
 function _getTargets(context: WorkloadOrchestrationManagementContext) {
   return {
+    unstageSolutionVersion: (
+      resourceGroupName: string,
+      targetName: string,
+      body: SolutionVersionParameter,
+      options?: TargetsUnstageSolutionVersionOptionalParams,
+    ) => unstageSolutionVersion(context, resourceGroupName, targetName, body, options),
     updateExternalValidationStatus: (
       resourceGroupName: string,
       targetName: string,
