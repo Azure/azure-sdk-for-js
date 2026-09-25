@@ -32,8 +32,8 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
         existing: true;
     })): ResourceProps<"Microsoft.KeyVault/vaults/accessPolicies"> & Record<string, unknown>;
     get location(): Expression<string>;
-    get name(): Expression<string>;
-    set name(value: ExpressionOrValue<string>);
+    get name(): Expression<"add" | "replace" | "remove">;
+    set name(value: ExpressionOrValue<"add" | "replace" | "remove">);
     // (undocumented)
     protected static namingRules: ResourceNamingRules;
     get properties(): VaultAccessPolicyPropertiesView;
@@ -66,7 +66,7 @@ type AccessPolicyEntryView = AccessPolicyEntryInput;
 
 // @public (undocumented)
 export interface AccessPolicyProps {
-    name?: ExpressionOrValue<string> | undefined;
+    name?: ExpressionOrValue<"add" | "replace" | "remove"> | undefined;
     properties: VaultAccessPolicyPropertiesInput;
 }
 

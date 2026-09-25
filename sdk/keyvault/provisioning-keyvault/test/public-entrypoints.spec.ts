@@ -29,7 +29,7 @@ describe("public entrypoints", () => {
       },
     });
 
-    new AccessPolicy(vault, {
+    const accessPolicy = new AccessPolicy(vault, {
       name: "add",
       properties: {
         accessPolicies: [
@@ -41,6 +41,12 @@ describe("public entrypoints", () => {
         ],
       },
     });
+    accessPolicy.name = "replace";
+    const invalidOperationKind = (): void => {
+      // @ts-expect-error Access-policy operation kinds are restricted by the service.
+      accessPolicy.name = "invalid";
+    };
+    expect(invalidOperationKind).toBeTypeOf("function");
     new Secret(vault, {
       name: "sample-secret",
       properties: { value: "secret-value" },

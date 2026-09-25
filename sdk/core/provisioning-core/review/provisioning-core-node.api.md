@@ -928,7 +928,7 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
     static readonly resourceType: "Microsoft.Resources/resourceGroups";
     // (undocumented)
     get tags(): InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
-    set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined);
+    set tags(value: Record<string, ExpressionOrValue<string>> | undefined);
 }
 
 // @public
@@ -948,7 +948,6 @@ export interface ResourceGroupProps {
     managedBy?: ExpressionOrValue<string>;
     // (undocumented)
     name?: ExpressionOrValue<string> | undefined;
-    // (undocumented)
     tags?: Record<string, ExpressionOrValue<string>>;
 }
 

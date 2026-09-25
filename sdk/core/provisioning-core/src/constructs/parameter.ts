@@ -3,8 +3,7 @@
 
 import type { PrimitiveTypeMap } from "../serialization/contract/index.js";
 import type { Expression, ExpressionOrValue } from "../expression/expressions.js";
-import { wrapExpression } from "../expression/expressions.js";
-import { isExpression } from "../expression/expressions.js";
+import { isExpression, unwrapExpression, wrapExpression } from "../expression/expressions.js";
 import { symbolicValueExpressionNode } from "../expression/ast-nodes.js";
 import type { Stack } from "./stack.js";
 import { assertBicepIdentifier, assertValueAssignableToType } from "../util.js";
@@ -61,6 +60,65 @@ interface ParameterEntry {
   readonly parameter: Expression<unknown>;
 }
 
+function parameterValuesEqual(
+  left: unknown,
+  right: unknown,
+  seen: WeakMap<object, WeakSet<object>> = new WeakMap(),
+): boolean {
+  if (isExpression(left)) {
+    return (
+      isExpression(right) &&
+      parameterValuesEqual(unwrapExpression(left), unwrapExpression(right), seen)
+    );
+  }
+  if (isExpression(right)) return false;
+  if (Object.is(left, right)) return true;
+  if (typeof left !== "object" || left === null || typeof right !== "object" || right === null) {
+    return false;
+  }
+
+  if (Array.isArray(left) || Array.isArray(right)) {
+    if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) {
+      return false;
+    }
+    if (markComparedPair(left, right, seen)) return true;
+    return left.every((value, index) => parameterValuesEqual(value, right[index], seen));
+  }
+
+  if (!isPlainObject(left) || !isPlainObject(right)) return false;
+  if (markComparedPair(left, right, seen)) return true;
+
+  const leftKeys = Object.keys(left);
+  const rightKeys = Object.keys(right);
+  return (
+    leftKeys.length === rightKeys.length &&
+    leftKeys.every(
+      (key) => Object.hasOwn(right, key) && parameterValuesEqual(left[key], right[key], seen),
+    )
+  );
+}
+
+function markComparedPair(
+  left: object,
+  right: object,
+  seen: WeakMap<object, WeakSet<object>>,
+): boolean {
+  const comparedRights = seen.get(left);
+  if (comparedRights?.has(right)) return true;
+
+  if (comparedRights) {
+    comparedRights.add(right);
+  } else {
+    seen.set(left, new WeakSet([right]));
+  }
+  return false;
+}
+
+function isPlainObject(value: object): value is Record<string, unknown> {
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
 export type Parameter<
   T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap,
   A extends readonly PrimitiveTypeMap[T][] | undefined = undefined,
@@ -88,7 +146,9 @@ export class ParameterCollection {
       options?.defaultValue !== undefined &&
       !isExpression(options.defaultValue) &&
       options.allowed !== undefined &&
-      !options.allowed.includes(options.defaultValue as PrimitiveTypeMap[T])
+      !options.allowed.some((allowedValue) =>
+        parameterValuesEqual(options.defaultValue, allowedValue),
+      )
     ) {
       throw new Error(
         `Deployment parameter "${name}" default value must be one of its allowed values.`,

@@ -62,7 +62,7 @@ export interface AccessPolicyProps {
   /**
    * The resource name of the access policy.
    */
-  name?: ExpressionOrValue<string> | undefined;
+  name?: ExpressionOrValue<"add" | "replace" | "remove"> | undefined;
   /**
    * Properties of the access policy
    */
@@ -138,10 +138,10 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   /**
    * The resource name of the access policy.
    */
-  get name(): Expression<string> {
+  get name(): Expression<"add" | "replace" | "remove"> {
     return this.expr("name");
   }
-  set name(value: ExpressionOrValue<string>) {
+  set name(value: ExpressionOrValue<"add" | "replace" | "remove">) {
     this.setProperty("name", value);
   }
 

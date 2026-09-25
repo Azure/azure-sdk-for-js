@@ -61,4 +61,31 @@ describe("provisioning core", () => {
     const child = new ProvisioningComponent(resourceGroup);
     expect(child.deploymentContext.tags).toEqual({ environment: "updated" });
   });
+
+  it("rejects whole-record expressions for inherited resource group tags", () => {
+    const stack = new Stack("core-test");
+    const tagExpression = fn.cond<Record<string, string>>(
+      true,
+      { environment: "production" },
+      { environment: "development" },
+    );
+
+    expect(
+      () =>
+        new ResourceGroup(stack, {
+          name: "rg-expression-tags",
+          location: "eastus",
+          tags: tagExpression,
+        }),
+    ).toThrow("Resource group tags must be a literal record");
+
+    const resourceGroup = new ResourceGroup(stack, {
+      name: "rg-literal-tags",
+      location: "eastus",
+      tags: { environment: "initial" },
+    });
+    expect(() => {
+      resourceGroup.tags = tagExpression;
+    }).toThrow("Resource group tags must be a literal record");
+  });
 });
