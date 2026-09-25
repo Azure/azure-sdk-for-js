@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets latest heatmap for Traffic Manager profile.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/HeatMap-GET-With-Null-Values.json
  */
-async function heatMapGETWithNullValues(): Promise<void> {
+async function heatMapGETWithNullValues() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function heatMapGETWithNullValues(): Promise<void> {
  * @summary gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/HeatMap-GET-With-TopLeft-BotRight.json
  */
-async function heatMapGETWithTopLeftBotRight(): Promise<void> {
+async function heatMapGETWithTopLeftBotRight() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function heatMapGETWithTopLeftBotRight(): Promise<void> {
  * @summary gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/HeatMap-GET.json
  */
-async function heatMapGET(): Promise<void> {
+async function heatMapGET() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -56,7 +56,7 @@ async function heatMapGET(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await heatMapGETWithNullValues();
   await heatMapGETWithTopLeftBotRight();
   await heatMapGET();

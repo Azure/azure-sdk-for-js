@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a Traffic Manager endpoint.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PATCH-External-Target.json
  */
-async function endpointPatchExternalTarget(): Promise<void> {
+async function endpointPatchExternalTarget() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function endpointPatchExternalTarget(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await endpointPatchExternalTarget();
 }
 
