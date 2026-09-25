@@ -295,6 +295,61 @@ single session. If the target agent is disabled, the WebSocket handshake fails w
 and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
 function tools, and PCM audio streaming.
 
+#### WebRTC signaling (preview)
+
+Pass `transport: "webrtc"` to use the same authenticated WebSocket for SDP signaling while your
+browser owns the `RTCPeerConnection`, media tracks, and data channel. Omitting `transport` or
+setting it to `"websocket"` preserves the default JSON event and audio streaming behavior.
+The existing managed voice agent must have WebRTC enabled. Its saved definition supplies the
+instructions, voice, tools, and turn detection; do not send session configuration for this flow.
+
+The following shows the SDK signaling calls, not a complete media setup:
+
+```ts snippet:ReadmeSampleVoiceAgentWebRTC
+const agentName = "<existing WebRTC-enabled managed voice agent>";
+const sdpOffer = "<peerConnection.localDescription.sdp after ICE gathering>";
+const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
+  transport: "webrtc",
+});
+try {
+  await connection.sendEvent({ type: "rtc.call.sdp.create", sdp_offer: sdpOffer });
+  for await (const event of connection) {
+    if (event.type === "rtc.call.sdp.created") {
+      // Apply event.sdp_answer with peerConnection.setRemoteDescription().
+      // Keep iterating: breaking the loop closes the signaling connection.
+      console.log("WebRTC signaling answer received.");
+    } else if (event.type === "session.created") {
+      console.log("Voice-agent session created.");
+    } else if (event.type === "rtc.call.error" || event.type === "error") {
+      throw new Error(`Voice-agent signaling failed (${event.type}).`);
+    }
+  }
+} finally {
+  await connection.dispose();
+  // Also close your peer connection/data channel and stop your microphone tracks.
+}
+```
+
+See [the browser WebRTC sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWebRTC.ts)
+for microphone capture, remote audio playback, ICE gathering, cancellation, and cleanup. Run
+it in a browser application with a browser-compatible credential and invoke it from a user
+gesture. Create the `voice-live-events` data channel before creating the offer, attach the
+microphone tracks, wait for ICE gathering to finish, and send `peerConnection.localDescription.sdp`.
+Media travels over WebRTC: do not append PCM buffers or play `response.output_audio.delta` events.
+
+`session.created` may arrive before the SDP answer and exposes `conversation_id` at the top
+level. The typed `rtc.call.sdp.created` answer contains `event_id`, `rtc_call_id`, and
+`sdp_answer`. `rtc.call.error` and `error` are typed events for the application to handle.
+Keep one event iterator and the signaling connection open throughout the call; do not break
+after the answer. `dispose()` closes signaling, not your peer connection or microphone.
+The `connect()` abort signal cancels connection establishment, not the lifetime of an already
+connected call. Dispose the connection explicitly when hanging up, including one returned
+after cancellation.
+
+WebRTC is not supported for bring-your-own-model or hosted-agent voice agents. An enabled
+agent without WebRTC capability returns `404` at the handshake; unsupported agent engines
+return `400`. Never log access tokens, authentication subprotocols, or raw SDP.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:

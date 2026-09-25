@@ -1,5 +1,11 @@
 # Release History
 
+## 2.8.0 (Unreleased)
+
+### Features Added
+
+- Add the optional `transport: "webrtc"` setting to `project.beta.voiceAgents.realtime.connect()` for managed voice-agent WebRTC signaling using the existing typed `rtc.call.sdp.create`, `rtc.call.sdp.created`, and `rtc.call.error` events. The application owns the peer connection, media tracks, and data channel. The default WebSocket transport is unchanged.
+
 ## 2.7.1 (2026-09-23)
 
 ### Bugs Fixed

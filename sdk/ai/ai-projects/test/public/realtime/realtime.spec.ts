@@ -17,6 +17,9 @@ import type {
   VoiceAgentConnectionState,
   VoiceAgentRealtimeEvent,
   VoiceAgentServerEvent,
+  VoiceAgentClientEventRtcCallSdpCreate,
+  VoiceAgentServerEventRtcCallSdpCreated,
+  VoiceAgentServerEventRtcCallError,
   VoiceAgentUnknownEvent,
 } from "@azure/ai-projects";
 import type {
@@ -499,6 +502,162 @@ describe("AIProjectClient realtime", () => {
     assert.equal(messages[5].item.call_id, "call-1");
 
     await connection.close();
+  });
+
+  it.each([undefined, "websocket", "webrtc"] as const)(
+    "selects transport %s without changing authentication or connection options",
+    async (transport) => {
+      const factory = new MockWebSocketFactory();
+      const credential = new TestCredential();
+      const connection = await createClient(factory, credential).beta.voiceAgents.realtime.connect(
+        "agent / name",
+        { transport, store: false, agentVersionOverride: "2" },
+      );
+      const options = factory.transport.connectOptions!;
+      const url = new URL(options.url);
+
+      expect(url.searchParams.get("transport")).toBe(transport ?? null);
+      expect(url.protocol).toBe("wss:");
+      expect(url.pathname).toBe(
+        "/api/projects/example-project/agents/agent%20%2F%20name/endpoint/protocols/voice",
+      );
+      expect(url.searchParams.get("api-version")).toBe("v1");
+      expect(url.searchParams.get("store")).toBe("false");
+      expect(url.searchParams.get("x-agent-version-override")).toBe("2");
+      expect(url.searchParams.has("authorization")).toBe(false);
+      expect(options.url).not.toContain("test-token");
+      expect(options.protocols).toEqual(["realtime"]);
+      expect(options.headers["foundry-features"]).toBe("VoiceAgents=V1Preview");
+      expect(credential.requestedScopes).toBe("https://ai.azure.com/.default");
+      await connection.dispose();
+    },
+  );
+
+  it.each([true, false])(
+    "keeps WebRTC signaling open after the answer (session first: %s)",
+    async (sessionFirst) => {
+      const factory = new MockWebSocketFactory();
+      const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+        transport: "webrtc",
+      });
+      const offer: VoiceAgentClientEventRtcCallSdpCreate = {
+        type: "rtc.call.sdp.create",
+        event_id: "offer-1",
+        sdp_offer: "test-sdp-offer",
+      };
+      await connection.sendEvent(offer);
+      expect(factory.transport.sentMessages.map((message) => JSON.parse(message))).toEqual([offer]);
+
+      const session = {
+        type: "session.created",
+        event_id: "session-1",
+        conversation_id: "conversation-1",
+        session: { type: "realtime" },
+      };
+      const answer: VoiceAgentServerEventRtcCallSdpCreated = {
+        type: "rtc.call.sdp.created",
+        event_id: "answer-1",
+        rtc_call_id: "rtc-1",
+        sdp_answer: "test-sdp-answer",
+      };
+      // Events can arrive before iteration begins; the same iterator stays active after negotiation.
+      for (const event of sessionFirst ? [session, answer] : [answer, session]) {
+        factory.transport.receive(event);
+      }
+      const iterator = connection[Symbol.asyncIterator]();
+      const events: VoiceAgentRealtimeEvent[] = [
+        (await iterator.next()).value!,
+        (await iterator.next()).value!,
+      ];
+      expect(events.map((event) => event.type)).toEqual(
+        sessionFirst
+          ? ["session.created", "rtc.call.sdp.created"]
+          : ["rtc.call.sdp.created", "session.created"],
+      );
+      for (const event of events) {
+        if (event.type === "rtc.call.sdp.created") {
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentServerEventRtcCallSdpCreated>();
+          expect(event).toEqual(answer);
+        } else if (event.type === "session.created") {
+          expect(event.conversation_id).toBe("conversation-1");
+        }
+      }
+      const closed = vi.fn();
+      void connection.closed.then(closed);
+      const rtcError: VoiceAgentServerEventRtcCallError = {
+        type: "rtc.call.error",
+        error: { type: "invalid_request_error", code: "invalid_sdp", message: "Invalid offer." },
+      };
+      factory.transport.receive(rtcError);
+      const errorEvent: VoiceAgentRealtimeEvent = (await iterator.next()).value!;
+      if (errorEvent.type !== "rtc.call.error") {
+        assert.fail("Expected a typed RTC error.");
+      }
+      expectTypeOf(errorEvent).toEqualTypeOf<VoiceAgentServerEventRtcCallError>();
+      expect(errorEvent).toMatchObject(rtcError);
+      expect(errorEvent.event_id).toBeUndefined();
+      expect(errorEvent.rtc_call_id).toBeUndefined();
+      expect(connection.state).toBe("connected");
+      expect(closed).not.toHaveBeenCalled();
+
+      await connection.sendEvent({ ...offer, event_id: "offer-2" });
+      expect(factory.transport.sentMessages).toHaveLength(2);
+      await connection.dispose();
+      await expect(connection.closed).resolves.toMatchObject({ code: 1000, wasClean: true });
+      expect((await iterator.next()).done).toBe(true);
+      await expect(connection.sendEvent(offer)).rejects.toMatchObject({ code: "invalidState" });
+    },
+  );
+
+  it.each(["event_id", "rtc_call_id", "sdp_answer"])(
+    "rejects an SDP answer missing TypeSpec-required %s and closes signaling",
+    async (field) => {
+      const factory = new MockWebSocketFactory();
+      const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+        transport: "webrtc",
+      });
+      const answer: Record<string, string> = {
+        type: "rtc.call.sdp.created",
+        event_id: "answer-1",
+        rtc_call_id: "rtc-1",
+        sdp_answer: "test-sdp-answer",
+      };
+      delete answer[field];
+      const next = connection[Symbol.asyncIterator]().next();
+      factory.transport.receive(answer);
+      await expect(next).rejects.toBeInstanceOf(VoiceAgentProtocolError);
+      await expect(connection.closed).resolves.toMatchObject({ code: 1002, wasClean: false });
+    },
+  );
+
+  it("closes WebRTC signaling when its event iterator is exited early", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+      transport: "webrtc",
+    });
+    factory.transport.receive({
+      type: "rtc.call.sdp.created",
+      event_id: "answer-1",
+      rtc_call_id: "rtc-1",
+      sdp_answer: "test-sdp-answer",
+    });
+    for await (const event of connection) {
+      expect(event.type).toBe("rtc.call.sdp.created");
+      break;
+    }
+    expect(connection.state).toBe("disconnected");
+    await expect(connection.closed).resolves.toMatchObject({ code: 1000 });
+  });
+
+  it("surfaces WebRTC transport failures to the pending event read", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+      transport: "webrtc",
+    });
+    const next = connection[Symbol.asyncIterator]().next();
+    factory.transport.handlers!.onError(new Error("Signaling failed."));
+    await expect(next).rejects.toMatchObject({ code: "connectionClosed" });
+    await expect(connection.closed).resolves.toMatchObject({ code: 1006, wasClean: false });
   });
 
   it("streams events and surfaces protocol and transport failures", async () => {

@@ -67,6 +67,12 @@ export interface VoiceAgentRealtimeClientOptions {
 
 /** Options for connecting the realtime client to a voice agent. */
 export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions {
+  /**
+   * Selects the media transport. Omit or use `websocket` for audio and events over WebSocket.
+   * With `webrtc`, the WebSocket carries SDP signaling; the caller owns the peer connection,
+   * media tracks, and data channel. The agent must have WebRTC enabled.
+   */
+  transport?: "websocket" | "webrtc";
   /** Identifier used to correlate the voice session. */
   agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
@@ -135,7 +141,7 @@ export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions 
 }
 
 /**
- * A connected, bidirectional voice-agent stream.
+ * A connected, bidirectional voice-agent WebSocket stream, including WebRTC signaling.
  *
  * Supports exactly one `for await` iteration over server events; a second attempt throws.
  * Exiting the loop early (`break`, `return`, or an uncaught error in the loop body) closes
@@ -177,7 +183,7 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEv
   cancelResponse(options?: VoiceAgentCancelResponseOptions): Promise<void>;
   /** Gracefully closes the WebSocket connection. */
   close(code?: number, reason?: string): Promise<void>;
-  /** Releases the connection. Equivalent to close(). */
+  /** Releases the WebSocket connection. Equivalent to close(); does not close caller-owned WebRTC resources. */
   dispose(): Promise<void>;
 }
 
@@ -210,7 +216,11 @@ export class VoiceAgentRealtimeClient {
     };
   }
 
-  /** Establishes a WebSocket connection to a managed voice agent. */
+  /**
+   * Establishes a WebSocket connection to a managed voice agent.
+   * For WebRTC, select `transport: "webrtc"` and send an `rtc.call.sdp.create` event with
+   * the gathered SDP offer. Keep consuming events and keep the connection open for the call's lifetime.
+   */
   public async connect(
     agentName: string,
     options: VoiceAgentRealtimeClientConnectOptions = {},
@@ -627,6 +637,9 @@ function buildWebSocketUrl(
   url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
   url.searchParams.set("api-version", apiVersion);
   url.searchParams.set("x-ms-client-sdk", `azsdk-js-ai-projects/${SDK_VERSION}`);
+  if (options.transport !== undefined) {
+    url.searchParams.set("transport", options.transport);
+  }
   if (options.agentSessionId) {
     url.searchParams.set("agent_session_id", options.agentSessionId);
   }

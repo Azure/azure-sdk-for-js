@@ -166,6 +166,31 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleVoiceAgentWebRTC", async function () {
+    const agentName = "<existing WebRTC-enabled managed voice agent>";
+    const sdpOffer = "<peerConnection.localDescription.sdp after ICE gathering>";
+    const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
+      transport: "webrtc",
+    });
+    try {
+      await connection.sendEvent({ type: "rtc.call.sdp.create", sdp_offer: sdpOffer });
+      for await (const event of connection) {
+        if (event.type === "rtc.call.sdp.created") {
+          // Apply event.sdp_answer with peerConnection.setRemoteDescription().
+          // Keep iterating: breaking the loop closes the signaling connection.
+          console.log("WebRTC signaling answer received.");
+        } else if (event.type === "session.created") {
+          console.log("Voice-agent session created.");
+        } else if (event.type === "rtc.call.error" || event.type === "error") {
+          throw new Error(`Voice-agent signaling failed (${event.type}).`);
+        }
+      }
+    } finally {
+      await connection.dispose();
+      // Also close your peer connection/data channel and stop your microphone tracks.
+    }
+  });
+
   it("agent-code-interpreter", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({

@@ -155,6 +155,60 @@ describe("AIProjectClient browser realtime", () => {
     expect((await iterator.next()).done).toBe(true);
   });
 
+  it("uses authenticated WebRTC signaling and keeps delivering events after the answer", async () => {
+    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+      transport: "webrtc",
+    });
+    const socket = getSocket();
+    const url = new URL(socket.url);
+    expect(url.searchParams.get("transport")).toBe("webrtc");
+    expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
+    expect(url.searchParams.get("api-version")).toBe("v1");
+    expect(socket.url).not.toContain("browser-test-token");
+    expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
+
+    const offer = { type: "rtc.call.sdp.create", sdp_offer: "test-sdp-offer" } as const;
+    await connection.sendEvent(offer);
+    expect(socket.sentMessages.map((message) => JSON.parse(message))).toEqual([offer]);
+    const iterator = connection[Symbol.asyncIterator]();
+    const incoming = [
+      {
+        type: "session.created",
+        event_id: "session-1",
+        conversation_id: "conversation-1",
+        session: { type: "realtime" },
+      },
+      {
+        type: "rtc.call.sdp.created",
+        event_id: "answer-1",
+        rtc_call_id: "rtc-1",
+        sdp_answer: "test-sdp-answer",
+      },
+      {
+        type: "rtc.call.error",
+        operation: "rtc.call.sdp.create",
+        rtc_call_id: "rtc-1",
+        error: { type: "server_error", message: "Call failed." },
+      },
+      {
+        type: "error",
+        event_id: "error-1",
+        error: { type: "server_error", code: "service_error", message: "Service failed." },
+      },
+    ];
+    for (const event of incoming) {
+      socket.receive(new Blob([JSON.stringify(event)]));
+    }
+    for (const expected of incoming) {
+      expect((await iterator.next()).value).toMatchObject(expected);
+      expect(connection.state).toBe("connected");
+      expect(socket.readyState).toBe(MockBrowserWebSocket.OPEN);
+    }
+    await connection.dispose();
+    await expect(connection.closed).resolves.toMatchObject({ code: 1000, wasClean: true });
+    expect((await iterator.next()).done).toBe(true);
+  });
+
   it("fails the iterator on malformed server data", async () => {
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
     const nextEvent = connection[Symbol.asyncIterator]().next();
