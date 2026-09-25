@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listByResourceGroup, $delete, update, createOrReplace, get } from "./operations.js";
+export { listByNamespace, $delete, update, createOrReplace, get } from "./operations.js";
 export type {
-  NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
+  NamespaceDiscoveredAssetsListByNamespaceOptionalParams,
   NamespaceDiscoveredAssetsDeleteOptionalParams,
   NamespaceDiscoveredAssetsUpdateOptionalParams,
   NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
