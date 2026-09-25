@@ -87,6 +87,8 @@ const mockStatsbeatManager = {
 // Helper type for our mock
 interface MockFilePersist {
   push: Mock<(envelopes: unknown[]) => Promise<boolean>>;
+  restore: Mock<(envelopes: unknown[]) => Promise<boolean>>;
+  shutdown: Mock<() => void>;
   shift: Mock<() => Promise<unknown[] | null>>;
   cleanExpiredFiles: Mock<() => Promise<void>>;
   _getFirstFileOnDisk?: Mock<() => Promise<string | null>>;
@@ -97,6 +99,8 @@ interface MockFilePersist {
 // Global mock instance that we can modify in tests
 export const mockPersist: MockFilePersist = {
   push: vi.fn().mockResolvedValue(true),
+  restore: vi.fn((envelopes: unknown[]) => mockPersist.push(envelopes)),
+  shutdown: vi.fn(),
   shift: vi.fn().mockResolvedValue(null),
   cleanExpiredFiles: vi.fn().mockResolvedValue(undefined),
   _getFirstFileOnDisk: vi.fn(),
@@ -297,6 +301,7 @@ describe("BaseSender", () => {
   beforeEach(async () => {
     // Reset all mocks
     vi.clearAllMocks();
+    mockPersist.restore.mockImplementation((envelopes) => mockPersist.push(envelopes));
     vi.mocked(CustomerSDKStatsManager.getInstance().initialize).mockResolvedValue(undefined);
     vi.mocked(CustomerSDKStatsManager.getInstance().shutdown).mockResolvedValue(undefined);
     mockStatsbeatManager.shutdown.mockResolvedValue(undefined);
@@ -334,6 +339,7 @@ describe("BaseSender", () => {
   });
 
   afterEach(() => {
+    void sender.shutdown();
     const retryTimer = (sender as any).retryTimer as NodeJS.Timeout | null;
     if (retryTimer) {
       clearTimeout(retryTimer);
@@ -1023,43 +1029,49 @@ describe("BaseSender", () => {
     });
 
     it("should schedule retry timer with retryAfterMs on 429", async () => {
+      const clock = vi.spyOn(Date, "now").mockReturnValue(Date.now());
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      try {
+        vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
-      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
+        sender.sendMock.mockResolvedValue({
+          statusCode: 429,
+          result: "",
+          retryAfterMs: 30_000,
+        });
+        mockPersist.push.mockResolvedValue(true);
 
-      sender.sendMock.mockResolvedValue({
-        statusCode: 429,
-        result: "",
-        retryAfterMs: 30_000,
-      });
-      mockPersist.push.mockResolvedValue(true);
+        const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(mockPersist.push).toHaveBeenCalled();
-      // Verify setTimeout was called with the retryAfterMs delay
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
-
-      setTimeoutSpy.mockRestore();
+        expect(result.code).toBe(ExportResultCode.SUCCESS);
+        expect(mockPersist.push).toHaveBeenCalled();
+        // Verify setTimeout was called with the retryAfterMs delay
+        expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+      } finally {
+        clock.mockRestore();
+        setTimeoutSpy.mockRestore();
+      }
     });
 
     it("should schedule retry timer with retryAfterMs on 200 success", async () => {
+      const clock = vi.spyOn(Date, "now").mockReturnValue(Date.now());
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      try {
+        sender.sendMock.mockResolvedValue({
+          statusCode: 200,
+          result: "success",
+          retryAfterMs: 15_000,
+        });
 
-      sender.sendMock.mockResolvedValue({
-        statusCode: 200,
-        result: "success",
-        retryAfterMs: 15_000,
-      });
+        await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
-      // Verify setTimeout was called with the retryAfterMs delay
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 15_000);
-
-      setTimeoutSpy.mockRestore();
+        expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
+        // Verify setTimeout was called with the retryAfterMs delay
+        expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 15_000);
+      } finally {
+        clock.mockRestore();
+        setTimeoutSpy.mockRestore();
+      }
     });
 
     it("should reschedule retry timer when new retryAfterMs results in a later absolute deadline", async () => {
@@ -1912,7 +1924,7 @@ describe("BaseSender", () => {
         endpointUrl: "https://westus-0.in.applicationinsights.azure.com",
         instrumentationKey: "statsbeat-key",
         trackStatsbeat: false,
-        exporterOptions: { disableOfflineStorage: true },
+        exporterOptions: {},
         isStatsbeatSender: true,
       });
       Object.defineProperty(statsbeatSender, "networkStatsbeatMetrics", { value: undefined });

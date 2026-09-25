@@ -100,7 +100,10 @@ export type SenderResult = {
 export interface PersistentStorage {
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
+  /** Restore an already-dequeued batch even if remote storage is paused. */
+  restore(value: unknown[]): Promise<boolean>;
   cleanExpiredFiles(): Promise<void>;
+  shutdown(): void;
 }
 
 /**
