@@ -6,5 +6,6 @@
       "@azure/ai-projects/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["./src", "./test", "./samples-dev/agents/agentVoiceRealtimeWebRTC.ts"]
 }

@@ -330,7 +330,7 @@ try {
 }
 ```
 
-See [the browser WebRTC sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWebRTC.ts)
+See [the browser WebRTC sample](./samples-dev/agents/agentVoiceRealtimeWebRTC.ts)
 for microphone capture, remote audio playback, ICE gathering, cancellation, and cleanup. Run
 it in a browser application with a browser-compatible credential and invoke it from a user
 gesture. Create the `voice-live-events` data channel before creating the offer, attach the

@@ -22,6 +22,7 @@ export async function main(
   const peerConnection = new RTCPeerConnection();
   const dataChannel = peerConnection.createDataChannel("voice-live-events");
   let microphone: MediaStream | undefined;
+  let remoteStream: MediaStream | undefined;
   let connection: VoiceAgentConnection | undefined;
   const stopSignaling = (): void => {
     void connection?.dispose().catch(() => {
@@ -30,7 +31,11 @@ export async function main(
   };
   remoteAudio.autoplay = true;
   peerConnection.ontrack = (event) => {
-    remoteAudio.srcObject = event.streams[0] ?? new MediaStream([event.track]);
+    if (signal.aborted) {
+      return;
+    }
+    remoteStream = event.streams[0] ?? new MediaStream([event.track]);
+    remoteAudio.srcObject = remoteStream;
   };
 
   try {
@@ -74,10 +79,13 @@ export async function main(
     }
   } finally {
     signal.removeEventListener("abort", stopSignaling);
+    peerConnection.ontrack = null;
     dataChannel.close();
     peerConnection.close();
     microphone?.getTracks().forEach((track) => track.stop());
-    remoteAudio.srcObject = null;
+    if (remoteStream && remoteAudio.srcObject === remoteStream) {
+      remoteAudio.srcObject = null;
+    }
     await connection?.dispose();
   }
 }

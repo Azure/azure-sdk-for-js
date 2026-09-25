@@ -4,6 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AIProjectClient, VoiceAgentProtocolError } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
+import { main as runWebRTCSample } from "../../../../samples-dev/agents/agentVoiceRealtimeWebRTC.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 class BrowserTestCredential implements TokenCredential {
@@ -208,6 +209,59 @@ describe("AIProjectClient browser realtime", () => {
     await expect(connection.closed).resolves.toMatchObject({ code: 1000, wasClean: true });
     expect((await iterator.next()).done).toBe(true);
   });
+
+  it.each([false, true])(
+    "does not detach a newer call's audio after cancellation (older call had audio: %s)",
+    async (hadRemoteAudio) => {
+      const controller = new AbortController();
+      const audio = document.createElement("audio");
+      const oldStream = new MediaStream();
+      const newStream = new MediaStream();
+      const lateStream = new MediaStream();
+      const microphone = Promise.withResolvers<MediaStream>();
+      const getUserMedia = vi
+        .spyOn(navigator.mediaDevices, "getUserMedia")
+        .mockReturnValue(microphone.promise);
+      const closeDataChannel = vi.fn();
+      class MockPeerConnection {
+        public ontrack: ((event: Pick<RTCTrackEvent, "streams">) => void) | null = null;
+        public createDataChannel = vi.fn(() => ({ close: closeDataChannel }));
+        public close = vi.fn();
+      }
+      const peer = new MockPeerConnection();
+      vi.stubGlobal(
+        "RTCPeerConnection",
+        vi.fn(function () {
+          return peer;
+        }),
+      );
+      const call = runWebRTCSample(createClient(), "browser-agent", audio, controller.signal);
+      const stopped = expect(call).rejects.toMatchObject({ name: "AbortError" });
+      try {
+        const onTrack = peer.ontrack!;
+        if (hadRemoteAudio) {
+          onTrack({ streams: [oldStream] });
+          expect(audio.srcObject).toBe(oldStream);
+        }
+        controller.abort();
+        audio.srcObject = newStream;
+        onTrack({ streams: [lateStream] });
+        expect(audio.srcObject).toBe(newStream);
+
+        // A late permission grant must not let the old call clear the new call's audio.
+        microphone.resolve(new MediaStream());
+        await stopped;
+        expect(audio.srcObject).toBe(newStream);
+        expect(peer.close).toHaveBeenCalledOnce();
+        expect(closeDataChannel).toHaveBeenCalledOnce();
+      } finally {
+        controller.abort();
+        microphone.resolve(new MediaStream());
+        getUserMedia.mockRestore();
+        await stopped;
+      }
+    },
+  );
 
   it("fails the iterator on malformed server data", async () => {
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
