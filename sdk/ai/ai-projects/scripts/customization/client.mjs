@@ -89,11 +89,7 @@ function operationGroups(source, className) {
   return { node, constructor, groups };
 }
 
-/**
- * The maintained form of an emitted plain operation-group initializer, or
- * undefined when the statement is not one.
- */
-export function wiredOperationGroup(statementText) {
+function wiredAssignment(statementText) {
   let statement;
   try {
     statement = parse(statementText).statements[0];
@@ -102,7 +98,24 @@ export function wiredOperationGroup(statementText) {
   }
   const assignment = statement && groupAssignment(statement);
   if (!assignment || !isPlain(assignment)) return undefined;
-  return `this.${assignment.name} = ${assignment.factory}(this.${operationGroupContext});`;
+  return {
+    name: assignment.name,
+    initializer: `${assignment.factory}(this.${operationGroupContext})`,
+  };
+}
+
+/**
+ * The maintained form of an emitted plain operation-group initializer, or
+ * undefined when the statement is not one.
+ */
+export function wiredOperationGroup(statementText) {
+  const wired = wiredAssignment(statementText);
+  return wired && `this.${wired.name} = ${wired.initializer};`;
+}
+
+/** The maintained initializer expression for an emitted plain operation group. */
+export function wiredOperationGroupInitializer(statementText) {
+  return wiredAssignment(statementText)?.initializer;
 }
 
 /**
@@ -151,10 +164,45 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
         "The emitter changed the wiring of an existing top-level operation group; review the maintained client.",
       );
   }
-  const additions = [...incoming.groups.values()].filter(
-    (group) =>
-      !base.groups.has(group.name) && !members.has(group.name) && !assigned.has(group.name),
-  );
+  const property = (name) =>
+    customClass.members.find(
+      (member) => ts.isPropertyDeclaration(member) && nameOf(member.name) === name,
+    );
+  // A maintained member that already matches the reviewed wiring needs no
+  // change; any other collision with a newly emitted group needs review.
+  const bindings = importsOf(customSource);
+  const memberKey = (node, source) => canonicalize(`class GuardType {\n${textOf(node, source)}\n}`);
+  const alreadyWired = (group) => {
+    const existing = property(group.name);
+    const statement = assigned.get(group.name);
+    const initializer = wiredOperationGroup(group.statement.getText(incomingSource));
+    return (
+      existing !== undefined &&
+      statement !== undefined &&
+      initializer !== undefined &&
+      memberKey(existing, customSource) === memberKey(group.property, incomingSource) &&
+      canonicalize(statement.getText(customSource)) === canonicalize(initializer) &&
+      [group.type, group.factory].every((local) =>
+        bindings.some(
+          (item) => item.local === local && item.imported === local && item.module === group.module,
+        ),
+      )
+    );
+  };
+  const additions = [];
+  for (const group of incoming.groups.values()) {
+    if (base.groups.has(group.name)) continue;
+    if (members.has(group.name) || assigned.has(group.name)) {
+      if (!alreadyWired(group))
+        report(
+          className,
+          group.name,
+          "A newly emitted operation group collides with a maintained client member; review the client.",
+        );
+      continue;
+    }
+    additions.push(group);
+  }
   if (!additions.length) return { text: customText, diagnostics };
   if (!members.has(operationGroupContext)) {
     for (const group of additions)
@@ -183,10 +231,6 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
     }
     return undefined;
   };
-  const property = (name) =>
-    customClass.members.find(
-      (member) => ts.isPropertyDeclaration(member) && nameOf(member.name) === name,
-    );
   const imports = customSource.statements.filter(ts.isImportDeclaration);
   const importAnchor =
     imports.filter((statement) => statement.moduleSpecifier.text.startsWith("./classic/")).at(-1) ??

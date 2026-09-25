@@ -4,7 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { clientFile, wiredOperationGroup } from "./client.mjs";
+import { clientFile, wiredOperationGroup, wiredOperationGroupInitializer } from "./client.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1281,14 +1281,24 @@ function checkProtectedAdditions(trees, renames, report) {
         }
         const expected = unwrap(initializer);
         const actual = unwrap(initializers.get(member));
+        // A plain emitted operation group must use the reviewed client
+        // context; calling the same factory some other way is not proof.
+        const wired =
+          file === clientFile
+            ? wiredOperationGroupInitializer(`this.${member} = ${initializer.getText()};`)
+            : undefined;
         const matchesFactory =
           actual &&
-          ts.isCallExpression(expected) &&
-          ts.isCallExpression(actual) &&
-          nodeKey(expected.expression, renames) === nodeKey(actual.expression, renames);
+          (wired !== undefined
+            ? canonicalize(`const guardValue = ${renameText(wired, renames)};`) ===
+              nodeKey(actual, renames)
+            : ts.isCallExpression(expected) &&
+              ts.isCallExpression(actual) &&
+              nodeKey(expected.expression, renames) === nodeKey(actual.expression, renames));
         if (
           !actual ||
-          (!matchesFactory && nodeKey(expected, renames) !== nodeKey(actual, renames))
+          (!matchesFactory &&
+            (wired !== undefined || nodeKey(expected, renames) !== nodeKey(actual, renames)))
         ) {
           report(
             file,

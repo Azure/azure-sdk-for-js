@@ -214,3 +214,30 @@ test("reports emitted wiring changes to an existing operation group", () => {
     "the guards also reject stale wiring of an existing group",
   );
 });
+
+test("reports a newly emitted group that collides with a maintained client member", () => {
+  const groups = ["connections", "jobs", "agents"];
+  const wired = wire(trees(groups)).text;
+  // A maintained client already wired exactly per the policy needs no change.
+  const prewired = trees(groups, wired);
+  assert.deepEqual(wire(prewired), { text: wired, diagnostics: [] });
+  assert.deepEqual(validateCustomization({ ...prewired, source: prewired.baseSource }), []);
+  // Wired some other way, the collision is reviewed instead of kept silently.
+  const cognitive = wired.replace(
+    "_getJobsOperations(this._azureScopeClient)",
+    "_getJobsOperations(this._cognitiveScopeClient)",
+  );
+  assert.notEqual(cognitive, wired);
+  const collided = trees(groups, cognitive);
+  const result = wire(collided);
+  assert.equal(result.text, cognitive);
+  assert.ok(
+    result.diagnostics.some((item) => item.member === "jobs" && /collides/.test(item.message)),
+  );
+  assert.ok(
+    validateCustomization({ ...collided, source: collided.baseSource }).some(
+      (item) => item.member === "jobs" && /unproven initialization/.test(item.message),
+    ),
+    "the guards require the reviewed context for a newly emitted group",
+  );
+});
