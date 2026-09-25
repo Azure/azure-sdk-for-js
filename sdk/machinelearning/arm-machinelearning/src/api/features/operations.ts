@@ -31,7 +31,7 @@ export function _listSend(
       workspaceName: workspaceName,
       featuresetName: featuresetName,
       featuresetVersion: featuresetVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24skip": options?.skip,
       tags: options?.tags,
       featureName: options?.featureName,
@@ -87,11 +87,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -113,7 +109,7 @@ export function _getSend(
       featuresetName: featuresetName,
       featuresetVersion: featuresetVersion,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

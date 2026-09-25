@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-machinelearning",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0",
   "description": "A generated SDK for AzureMachineLearningServicesManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -48,20 +48,6 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/ptuQuota": {
-      "browser": {
-        "types": "./dist/browser/api/ptuQuota/index.d.ts",
-        "default": "./dist/browser/api/ptuQuota/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/ptuQuota/index.d.ts",
-        "default": "./dist/esm/api/ptuQuota/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/ptuQuota/index.d.ts",
-        "default": "./dist/commonjs/api/ptuQuota/index.js"
-      }
-    },
     "./api/quotas": {
       "browser": {
         "types": "./dist/browser/api/quotas/index.d.ts",
@@ -104,48 +90,6 @@
         "default": "./dist/commonjs/api/usages/index.js"
       }
     },
-    "./api/outboundRules": {
-      "browser": {
-        "types": "./dist/browser/api/outboundRules/index.d.ts",
-        "default": "./dist/browser/api/outboundRules/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/outboundRules/index.d.ts",
-        "default": "./dist/esm/api/outboundRules/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/outboundRules/index.d.ts",
-        "default": "./dist/commonjs/api/outboundRules/index.js"
-      }
-    },
-    "./api/managedNetworkSettings": {
-      "browser": {
-        "types": "./dist/browser/api/managedNetworkSettings/index.d.ts",
-        "default": "./dist/browser/api/managedNetworkSettings/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/managedNetworkSettings/index.d.ts",
-        "default": "./dist/esm/api/managedNetworkSettings/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/managedNetworkSettings/index.d.ts",
-        "default": "./dist/commonjs/api/managedNetworkSettings/index.js"
-      }
-    },
-    "./api/outboundRule": {
-      "browser": {
-        "types": "./dist/browser/api/outboundRule/index.d.ts",
-        "default": "./dist/browser/api/outboundRule/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/outboundRule/index.d.ts",
-        "default": "./dist/esm/api/outboundRule/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/outboundRule/index.d.ts",
-        "default": "./dist/commonjs/api/outboundRule/index.js"
-      }
-    },
     "./api/managedNetworkSettingsRule": {
       "browser": {
         "types": "./dist/browser/api/managedNetworkSettingsRule/index.d.ts",
@@ -158,118 +102,6 @@
       "require": {
         "types": "./dist/commonjs/api/managedNetworkSettingsRule/index.d.ts",
         "default": "./dist/commonjs/api/managedNetworkSettingsRule/index.js"
-      }
-    },
-    "./api/endpoint": {
-      "browser": {
-        "types": "./dist/browser/api/endpoint/index.d.ts",
-        "default": "./dist/browser/api/endpoint/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/endpoint/index.d.ts",
-        "default": "./dist/esm/api/endpoint/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/endpoint/index.d.ts",
-        "default": "./dist/commonjs/api/endpoint/index.js"
-      }
-    },
-    "./api/raiPolicies": {
-      "browser": {
-        "types": "./dist/browser/api/raiPolicies/index.d.ts",
-        "default": "./dist/browser/api/raiPolicies/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/raiPolicies/index.d.ts",
-        "default": "./dist/esm/api/raiPolicies/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/raiPolicies/index.d.ts",
-        "default": "./dist/commonjs/api/raiPolicies/index.js"
-      }
-    },
-    "./api/connectionRaiPolicies": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiPolicies/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiPolicies/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiPolicies/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiPolicies/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiPolicies/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiPolicies/index.js"
-      }
-    },
-    "./api/connectionRaiPolicy": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiPolicy/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiPolicy/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiPolicy/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiPolicy/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiPolicy/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiPolicy/index.js"
-      }
-    },
-    "./api/connectionRaiBlocklistItems": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiBlocklistItems/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiBlocklistItems/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiBlocklistItems/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiBlocklistItems/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiBlocklistItems/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiBlocklistItems/index.js"
-      }
-    },
-    "./api/connectionRaiBlocklistItem": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiBlocklistItem/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiBlocklistItem/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiBlocklistItem/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiBlocklistItem/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiBlocklistItem/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiBlocklistItem/index.js"
-      }
-    },
-    "./api/connectionRaiBlocklists": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiBlocklists/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiBlocklists/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiBlocklists/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiBlocklists/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiBlocklists/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiBlocklists/index.js"
-      }
-    },
-    "./api/connectionRaiBlocklist": {
-      "browser": {
-        "types": "./dist/browser/api/connectionRaiBlocklist/index.d.ts",
-        "default": "./dist/browser/api/connectionRaiBlocklist/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connectionRaiBlocklist/index.d.ts",
-        "default": "./dist/esm/api/connectionRaiBlocklist/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connectionRaiBlocklist/index.d.ts",
-        "default": "./dist/commonjs/api/connectionRaiBlocklist/index.js"
       }
     },
     "./api/workspaceConnections": {
@@ -482,20 +314,6 @@
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
-    "./api/connection": {
-      "browser": {
-        "types": "./dist/browser/api/connection/index.d.ts",
-        "default": "./dist/browser/api/connection/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/connection/index.d.ts",
-        "default": "./dist/esm/api/connection/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/connection/index.d.ts",
-        "default": "./dist/commonjs/api/connection/index.js"
-      }
-    },
     "./api/workspaceFeatures": {
       "browser": {
         "types": "./dist/browser/api/workspaceFeatures/index.d.ts",
@@ -536,20 +354,6 @@
       "require": {
         "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
         "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
-      }
-    },
-    "./api/raiPolicy": {
-      "browser": {
-        "types": "./dist/browser/api/raiPolicy/index.d.ts",
-        "default": "./dist/browser/api/raiPolicy/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/raiPolicy/index.d.ts",
-        "default": "./dist/esm/api/raiPolicy/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/raiPolicy/index.d.ts",
-        "default": "./dist/commonjs/api/raiPolicy/index.js"
       }
     },
     "./api/serverlessEndpoints": {
@@ -620,48 +424,6 @@
       "require": {
         "types": "./dist/commonjs/api/marketplaceSubscriptions/index.d.ts",
         "default": "./dist/commonjs/api/marketplaceSubscriptions/index.js"
-      }
-    },
-    "./api/inferenceGroups": {
-      "browser": {
-        "types": "./dist/browser/api/inferenceGroups/index.d.ts",
-        "default": "./dist/browser/api/inferenceGroups/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/inferenceGroups/index.d.ts",
-        "default": "./dist/esm/api/inferenceGroups/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/inferenceGroups/index.d.ts",
-        "default": "./dist/commonjs/api/inferenceGroups/index.js"
-      }
-    },
-    "./api/inferenceEndpoints": {
-      "browser": {
-        "types": "./dist/browser/api/inferenceEndpoints/index.d.ts",
-        "default": "./dist/browser/api/inferenceEndpoints/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/inferenceEndpoints/index.d.ts",
-        "default": "./dist/esm/api/inferenceEndpoints/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/inferenceEndpoints/index.d.ts",
-        "default": "./dist/commonjs/api/inferenceEndpoints/index.js"
-      }
-    },
-    "./api/inferencePools": {
-      "browser": {
-        "types": "./dist/browser/api/inferencePools/index.d.ts",
-        "default": "./dist/browser/api/inferencePools/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/inferencePools/index.d.ts",
-        "default": "./dist/esm/api/inferencePools/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/inferencePools/index.d.ts",
-        "default": "./dist/commonjs/api/inferencePools/index.js"
       }
     },
     "./api/featurestoreEntityVersions": {
@@ -958,20 +720,6 @@
         "default": "./dist/commonjs/api/workspaces/index.js"
       }
     },
-    "./api/endpointDeployment": {
-      "browser": {
-        "types": "./dist/browser/api/endpointDeployment/index.d.ts",
-        "default": "./dist/browser/api/endpointDeployment/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/endpointDeployment/index.d.ts",
-        "default": "./dist/esm/api/endpointDeployment/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/endpointDeployment/index.d.ts",
-        "default": "./dist/commonjs/api/endpointDeployment/index.js"
-      }
-    },
     "./api/operations": {
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
@@ -1038,11 +786,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -1088,6 +836,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning"
   }
 }

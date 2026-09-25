@@ -4,18 +4,6 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ComputeOperationsResizeOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface ComputeOperationsGetAllowedResizeSizesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ComputeOperationsUpdateIdleShutdownSettingOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface ComputeOperationsRestartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -34,16 +22,10 @@ export interface ComputeOperationsStartOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ComputeOperationsUpdateDataMountsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface ComputeOperationsListKeysOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ComputeOperationsListNodesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ComputeOperationsUpdateCustomServicesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ComputeOperationsListOptionalParams extends OperationOptions {

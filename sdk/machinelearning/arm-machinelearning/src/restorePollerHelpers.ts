@@ -2,28 +2,10 @@
 // Licensed under the MIT License.
 
 import type { AzureMachineLearningServicesManagementClient } from "./azureMachineLearningServicesManagementClient.js";
-import { _patchDeserialize, _putDeserialize } from "./api/managedNetworkSettings/operations.js";
-import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/outboundRule/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeManagedNetworkSettingsRule,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedNetworkSettingsRule,
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
 } from "./api/managedNetworkSettingsRule/operations.js";
-import { _createOrUpdateDeserialize as _createOrUpdateDeserializeEndpoint } from "./api/endpoint/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeConnectionRaiPolicy,
-  _createDeserialize,
-} from "./api/connectionRaiPolicy/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeConnectionRaiBlocklistItem,
-  _createDeserialize as _createDeserializeConnectionRaiBlocklistItem,
-  _deleteBulkDeserialize,
-  _addBulkDeserialize,
-} from "./api/connectionRaiBlocklistItem/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeConnectionRaiBlocklist,
-  _createDeserialize as _createDeserializeConnectionRaiBlocklist,
-} from "./api/connectionRaiBlocklist/operations.js";
-import { _testConnectionDeserialize } from "./api/workspaceConnections/operations.js";
 import {
   _cancelDeserialize,
   _$deleteDeserialize as _$deleteDeserializeJobs,
@@ -70,11 +52,6 @@ import {
 } from "./api/registryCodeContainers/operations.js";
 import { _provisionManagedNetworkDeserialize } from "./api/managedNetworkProvisions/operations.js";
 import {
-  _deleteDeploymentDeserialize,
-  _createOrUpdateDeploymentDeserialize,
-} from "./api/connection/operations.js";
-import {
-  _resizeDeserialize,
   _restartDeserialize,
   _stopDeserialize,
   _startDeserialize,
@@ -82,10 +59,6 @@ import {
   _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeComputeOperations,
 } from "./api/computeOperations/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeRaiPolicy,
-  _createDeserialize as _createDeserializeRaiPolicy,
-} from "./api/raiPolicy/operations.js";
 import {
   _regenerateKeysDeserialize,
   _$deleteDeserialize as _$deleteDeserializeServerlessEndpoints,
@@ -111,22 +84,6 @@ import {
   _$deleteDeserialize as _$deleteDeserializeMarketplaceSubscriptions,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeMarketplaceSubscriptions,
 } from "./api/marketplaceSubscriptions/operations.js";
-import {
-  _modifyDeltaModelsAsyncDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeInferenceGroups,
-  _updateDeserialize as _updateDeserializeInferenceGroups,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeInferenceGroups,
-} from "./api/inferenceGroups/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeInferenceEndpoints,
-  _updateDeserialize as _updateDeserializeInferenceEndpoints,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeInferenceEndpoints,
-} from "./api/inferenceEndpoints/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeInferencePools,
-  _updateDeserialize as _updateDeserializeInferencePools,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeInferencePools,
-} from "./api/inferencePools/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeFeaturestoreEntityVersions,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFeaturestoreEntityVersions,
@@ -176,10 +133,6 @@ import {
   _updateDeserialize as _updateDeserializeWorkspaces,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaces,
 } from "./api/workspaces/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeEndpointDeployment,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeEndpointDeployment,
-} from "./api/endpointDeployment/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -250,59 +203,10 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}":
-    { deserializer: _patchDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}":
-    { deserializer: _putDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules/{ruleName}":
-    {
-      deserializer: _$deleteDeserializeManagedNetworkSettingsRule,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules/{ruleName}":
-    {
-      deserializer: _createOrUpdateDeserializeManagedNetworkSettingsRule,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}":
-    { deserializer: _createOrUpdateDeserializeEndpoint, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiPolicies/{raiPolicyName}":
-    {
-      deserializer: _$deleteDeserializeConnectionRaiPolicy,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiPolicies/{raiPolicyName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems/{raiBlocklistItemName}":
-    {
-      deserializer: _$deleteDeserializeConnectionRaiBlocklistItem,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems/{raiBlocklistItemName}":
-    {
-      deserializer: _createDeserializeConnectionRaiBlocklistItem,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}/deleteRaiBlocklistItems":
-    { deserializer: _deleteBulkDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}/addRaiBlocklistItems":
-    { deserializer: _addBulkDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}":
-    {
-      deserializer: _$deleteDeserializeConnectionRaiBlocklist,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/raiBlocklists/{raiBlocklistName}":
-    {
-      deserializer: _createDeserializeConnectionRaiBlocklist,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/testconnection":
-    { deserializer: _testConnectionDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}/cancel":
     { deserializer: _cancelDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}":
@@ -409,12 +313,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/provisionManagedNetwork":
     { deserializer: _provisionManagedNetworkDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/deployments/{deploymentName}":
-    { deserializer: _deleteDeploymentDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/deployments/{deploymentName}":
-    { deserializer: _createOrUpdateDeploymentDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/resize":
-    { deserializer: _resizeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/restart":
     { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop":
@@ -430,10 +328,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeComputeOperations,
       expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/raiPolicies/{raiPolicyName}":
-    { deserializer: _$deleteDeserializeRaiPolicy, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/raiPolicies/{raiPolicyName}":
-    { deserializer: _createDeserializeRaiPolicy, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}/regenerateKeys":
     { deserializer: _regenerateKeysDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}":
@@ -486,38 +380,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions/{name}":
     {
       deserializer: _createOrUpdateDeserializeMarketplaceSubscriptions,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/groups/{groupName}/deltaModels/modify":
-    { deserializer: _modifyDeltaModelsAsyncDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/groups/{groupName}":
-    { deserializer: _$deleteDeserializeInferenceGroups, expectedStatuses: ["200", "202", "204"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/groups/{groupName}":
-    { deserializer: _updateDeserializeInferenceGroups, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/groups/{groupName}":
-    {
-      deserializer: _createOrUpdateDeserializeInferenceGroups,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/endpoints/{endpointName}":
-    {
-      deserializer: _$deleteDeserializeInferenceEndpoints,
-      expectedStatuses: ["200", "202", "204"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/endpoints/{endpointName}":
-    { deserializer: _updateDeserializeInferenceEndpoints, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{poolName}/endpoints/{endpointName}":
-    {
-      deserializer: _createOrUpdateDeserializeInferenceEndpoints,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{inferencePoolName}":
-    { deserializer: _$deleteDeserializeInferencePools, expectedStatuses: ["200", "202", "204"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{inferencePoolName}":
-    { deserializer: _updateDeserializeInferencePools, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/inferencePools/{inferencePoolName}":
-    {
-      deserializer: _createOrUpdateDeserializeInferencePools,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions/{version}":
@@ -618,16 +480,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeWorkspaces, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}":
     { deserializer: _createOrUpdateDeserializeWorkspaces, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/deployments/{deploymentName}":
-    {
-      deserializer: _$deleteDeserializeEndpointDeployment,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/deployments/{deploymentName}":
-    {
-      deserializer: _createOrUpdateDeserializeEndpointDeployment,
-      expectedStatuses: ["200", "202", "201"],
-    },
 };
 
 function getDeserializationHelper(
