@@ -8,7 +8,14 @@ import { runCommand, runCommandOptions, cleanupSamplesFolder } from "./utils.js"
 
 import { glob } from "glob";
 import { logger } from "../utils/logger.js";
-import { customizeCodes, formatSdk, lintFix, updateSnippets } from "./devToolUtils.js";
+import {
+  customizeCodes,
+  formatSdk,
+  lintFix,
+  resetToGeneratedOutput,
+  updateSnippets,
+  warnCustomizationFallback,
+} from "./devToolUtils.js";
 import { getModularSDKType } from "../utils/generateInputUtils.js";
 
 async function packPackage(packageDirectory: string, packageName: string) {
@@ -118,18 +125,39 @@ export async function buildPackage(
   if (modularSDKType === ModularSDKType.DataPlane) {
     errorAsWarning = true;
   }
-  try {
-    await runCommand(
-      "pnpm",
-      ["turbo", "build", "--filter", `${name}...`, "--token 1"],
-      runCommandOptions,
-      true,
-      undefined,
-      errorAsWarning,
-    );
-  } catch (error) {
-    logger.warn(`Failed to build data plane package due to ${(error as Error)?.stack ?? error}`);
-    buildStatus = `failed`;
+  const buildOnce = async (): Promise<"succeeded" | "failed"> => {
+    try {
+      await runCommand(
+        "pnpm",
+        ["turbo", "build", "--filter", `${name}...`, "--token 1"],
+        runCommandOptions,
+        true,
+        undefined,
+        errorAsWarning,
+      );
+      return "succeeded";
+    } catch (error) {
+      logger.warn(`Failed to build data plane package due to ${(error as Error)?.stack ?? error}`);
+      return "failed";
+    }
+  };
+
+  buildStatus = await buildOnce();
+
+  // Mirror the Java generator: in the automated spec-PR / batch pipelines a
+  // customization that is incompatible with the newly generated code cannot be
+  // resolved by a human, so fall back to the clean (uncustomized) generated
+  // output and rebuild. Gating on the build result also catches customizations
+  // that merged without conflict markers but no longer compile.
+  if (
+    buildStatus === "failed" &&
+    (options.runMode === RunMode.SpecPullRequest || options.runMode === RunMode.Batch)
+  ) {
+    const didReset = await resetToGeneratedOutput(packageDirectory);
+    if (didReset) {
+      warnCustomizationFallback(name);
+      buildStatus = await buildOnce();
+    }
   }
   if (buildStatus === `succeeded`) {
     const apiViewContext = await addApiViewInfo(
