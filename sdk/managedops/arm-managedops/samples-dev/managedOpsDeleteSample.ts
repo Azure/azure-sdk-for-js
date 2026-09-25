@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the ManagedOps instance.
  *
  * @summary deletes the ManagedOps instance.
- * x-ms-original-file: 2025-07-28-preview/ManagedOps_Delete.json
+ * x-ms-original-file: 2026-01-06-preview/ManagedOps_Delete.json
  */
 async function managedOpsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
