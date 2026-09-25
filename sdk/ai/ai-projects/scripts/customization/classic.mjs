@@ -37,7 +37,7 @@ export function classicMemberName(operationName) {
  *
  * @returns {string | undefined}
  */
-export function simpleFactoryProblem(custom, base, file, customApiText) {
+export function simpleFactoryProblem(custom, base, file, customApiText, matches = []) {
   const source = parse(custom, file);
   const previous = parse(base, file);
   const originalInterface = previous.statements.find(ts.isInterfaceDeclaration);
@@ -96,6 +96,7 @@ export function simpleFactoryProblem(custom, base, file, customApiText) {
   if (!customized || !generated) return `${file}: unrecognized operations factory`;
   const contextName = contextParameter(customized.factory);
   const api = operationDeclarations(customApiText, classicApiFile(file));
+  const callees = operationCallees(file, matches);
   const names = new Set(
     [...customized.members, ...customized.properties].map((slot) => slot.name).filter(Boolean),
   );
@@ -106,7 +107,8 @@ export function simpleFactoryProblem(custom, base, file, customApiText) {
     const unchanged =
       sameNodes("member", group(generated.members, name), members) &&
       sameNodes("property", group(generated.properties, name), properties);
-    if (!unchanged && !mirrorsOperation(members, properties, contextName, api))
+    const callee = callees.get(name) ?? calleeOf(group(generated.properties, name));
+    if (!unchanged && !mirrorsOperation(members, properties, contextName, api, callee))
       return `${file}::${name}: customized classic member signature`;
   }
   return undefined;
@@ -220,6 +222,14 @@ function isSimpleMember(members, properties, contextName) {
   if (!ts.isPropertyAssignment(property) || !ts.isArrowFunction(property.initializer)) return false;
   const arrow = property.initializer;
   if (!ts.isCallExpression(arrow.body) || !ts.isIdentifier(arrow.body.expression)) return false;
+  // Emitted delegates use plain optional parameters; defaults and rest
+  // parameters are maintained behavior.
+  if (
+    [...arrow.parameters, ...member.type.parameters].some(
+      (parameter) => parameter.initializer || parameter.dotDotDotToken,
+    )
+  )
+    return false;
   const names = (nodes) => nodes.map((node) => (ts.isIdentifier(node) ? node.text : null));
   const same = (left, right) =>
     left.length === right.length &&
@@ -245,17 +255,42 @@ function parameterKeys(parameters) {
   );
 }
 
+function calleeOf(properties) {
+  const property = properties?.length === 1 ? properties[0] : undefined;
+  const body =
+    property && ts.isPropertyAssignment(property) && ts.isArrowFunction(property.initializer)
+      ? property.initializer.body
+      : undefined;
+  return body && ts.isCallExpression(body) && ts.isIdentifier(body.expression)
+    ? body.expression.text
+    : undefined;
+}
+
+/**
+ * The customized API function each classic member of a module delegates to,
+ * keyed by the emitted member name.
+ */
+function operationCallees(file, matches = []) {
+  const apiFile = classicApiFile(file);
+  return new Map(
+    matches
+      .filter((match) => match.base?.file === apiFile && match.customized)
+      .map((match) => [classicMemberName(match.base.name), match.customized.name]),
+  );
+}
+
 /**
  * Whether a classic member is exactly the delegation that would be rendered
- * from its operation's customized signature. Only such members, or members
+ * from its own operation's customized signature. Only such members, or members
  * unchanged from the emitted baseline, can follow the resolved contract
  * without losing a classic-level customization.
  */
-function mirrorsOperation(members, properties, contextName, api) {
-  if (!api || !isSimpleMember(members, properties, contextName)) return false;
+function mirrorsOperation(members, properties, contextName, api, callee) {
+  if (!api || !callee || !isSimpleMember(members, properties, contextName)) return false;
   const [member] = members;
   const arrow = properties[0].initializer;
-  const node = api.get(arrow.body.expression.text);
+  if (arrow.body.expression.text !== callee) return false;
+  const node = api.get(callee);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type) return false;
   const expected = parameterKeys(node.parameters.slice(1));
   const matches = (parameters) =>
@@ -354,17 +389,20 @@ export function relocatedMemberDiagnostics(oldFile, customText, baseText, matche
   }
   const contextName = contextParameter(custom.factory);
   const api = operationDeclarations(customApiText, classicApiFile(oldFile));
+  const callees = operationCallees(oldFile, matches);
   const diagnostics = [];
   for (const match of matches) {
     const name = classicMemberName(match.base.name);
     const members = group(custom.members, name);
     const properties = group(custom.properties, name);
     if (!members && !properties) continue;
+    const baseProperties = base && group(base.properties, name);
     const unchanged =
       base &&
       sameNodes("member", group(base.members, name), members) &&
-      sameNodes("property", group(base.properties, name), properties);
-    if (!unchanged && !mirrorsOperation(members, properties, contextName, api)) {
+      sameNodes("property", baseProperties, properties);
+    const callee = callees.get(name) ?? calleeOf(baseProperties);
+    if (!unchanged && !mirrorsOperation(members, properties, contextName, api, callee)) {
       diagnostics.push({
         file: oldFile,
         declaration: name,
@@ -415,6 +453,7 @@ export function mergeCustomizedClassic({
   }
   const resolved = parse(resolvedText, apiFile);
   const customApi = operationDeclarations(customApiText, apiFile);
+  const callees = operationCallees(file, matches);
   const contextName = contextParameter(custom.factory);
   const operationMatches = new Map(
     matches
@@ -459,7 +498,13 @@ export function mergeCustomizedClassic({
       owned &&
       ((sameNodes("member", before.member, current.member) &&
         sameNodes("property", before.property, current.property)) ||
-        mirrorsOperation(current.member, current.property, contextName, customApi));
+        mirrorsOperation(
+          current.member,
+          current.property,
+          contextName,
+          customApi,
+          callees.get(name) ?? calleeOf(before.property),
+        ));
     if (!retained) {
       if (!owned) continue;
       if (!uncustomized) {

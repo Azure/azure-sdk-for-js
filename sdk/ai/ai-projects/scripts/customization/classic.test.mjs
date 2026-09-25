@@ -187,7 +187,7 @@ test("relocates operations into a customized classic module without regenerating
 
 test("merges overload and signature-only classic customizations instead of regenerating", () => {
   const generatedItems = classic(2, "Items", "items", [getItem]);
-  const trees = (customClassic) => {
+  const trees = (customClassic, customApi) => {
     const baseGenerated = new Map(
       Object.entries({
         ...models(),
@@ -198,6 +198,7 @@ test("merges overload and signature-only classic customizations instead of regen
     );
     const baseSource = new Map(baseGenerated);
     baseSource.set("classic/items/index.ts", customClassic);
+    if (customApi) baseSource.set("api/items/operations.ts", customApi);
     const generated = new Map(
       Object.entries({
         ...models(),
@@ -210,7 +211,13 @@ test("merges overload and signature-only classic customizations instead of regen
   };
   const member =
     "  getItem: (id: string, options?: ItemsGetItemOptionalParams) => Promise<string>;";
-  for (const [custom, preserved] of [
+  const property =
+    "getItem: (id: string, options?: ItemsGetItemOptionalParams) => getItem(context, id, options),";
+  const retryApi = `${operations(1, [getItem])}
+export async function getItemWithRetry(context: Client, id: string, options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<string> {
+  return getItem(context, id, options);
+}`;
+  for (const [custom, preserved, customApi] of [
     [
       generatedItems.replace(
         member,
@@ -225,8 +232,23 @@ test("merges overload and signature-only classic customizations instead of regen
       ),
       /getItem\(id: string\): Promise<string>;\s*getItem\(id: string, options: ItemsGetItemOptionalParams\): Promise<string>;/,
     ],
+    [
+      generatedItems.replace(
+        property,
+        "getItem: (id: string, options: ItemsGetItemOptionalParams = { requestOptions: { timeout: 1000 } }) => getItem(context, id, options),",
+      ),
+      /options: ItemsGetItemOptionalParams = \{ requestOptions: \{ timeout: 1000 \} \}/,
+    ],
+    [
+      generatedItems
+        .replace(property, property.replace("=> getItem(", "=> getItemWithRetry("))
+        .replace("import { getItem }", "import { getItem, getItemWithRetry }"),
+      /=> getItemWithRetry\(context, id, options\)/,
+      retryApi,
+    ],
   ]) {
-    const inputs = trees(custom);
+    assert.notEqual(custom, generatedItems);
+    const inputs = trees(custom, customApi);
     const plan = planCustomization(inputs);
     assert.deepEqual(plan.diagnostics, []);
     const items = plan.source.get("classic/items/index.ts");
@@ -312,6 +334,20 @@ test("reports a customized classic member instead of dropping it with its operat
   );
   assert.deepEqual(mirrored.diagnostics, []);
   assert.doesNotMatch(mirrored.text, /deleteItem/);
+  // A delegate rerouted to another customized function is maintained behavior.
+  const softApi = `${operations(1, [getItem, deleteItem])}
+export async function deleteItemSoftly(context: Client, id: string, options: ItemsDeleteItemOptionalParams = { requestOptions: {} }): Promise<string> {
+  return deleteItem(context, id, options);
+}`;
+  const rerouted = withApi(
+    customText.replace(
+      "=> deleteItem(context, id, options)",
+      "=> deleteItemSoftly(context, id, options)",
+    ),
+    softApi,
+  );
+  assert.equal(rerouted.text, undefined);
+  assert.ok(rerouted.diagnostics.some((item) => item.declaration === "deleteItem"));
 });
 
 test("reports a customized classic member whose operation moves to another group", () => {
@@ -363,6 +399,32 @@ test("reports a customized classic member whose operation moves to another group
     ),
     [],
   );
+  // Defaults and rerouted callees are maintained behavior, not emitted delegation.
+  const defaulted = baseText.replace(
+    "archiveItem: (id: string, options?: BetaItemsArchiveItemOptionalParams) => archiveItem(",
+    "archiveItem: (id: string, options: BetaItemsArchiveItemOptionalParams = { requestOptions: { timeout: 5 } }) => archiveItem(",
+  );
+  const rerouted = baseText.replace(
+    "=> archiveItem(context, id, options)",
+    "=> archiveItemWithAudit(context, id, options)",
+  );
+  const auditedApi = `${api}
+export async function archiveItemWithAudit(context: Client, id: string, options: BetaItemsArchiveItemOptionalParams = { requestOptions: {} }): Promise<string> {
+  return archiveItem(context, id, options);
+}`;
+  for (const custom of [defaulted, rerouted]) {
+    assert.notEqual(custom, baseText);
+    assert.equal(
+      relocatedMemberDiagnostics(
+        "classic/beta/items/index.ts",
+        custom,
+        baseText,
+        [{ ...matches[0], customized: { name: "archiveItem" } }],
+        auditedApi,
+      ).length,
+      1,
+    );
+  }
 });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {

@@ -48,9 +48,10 @@ or unsafe change exits nonzero before formatting can disguise the failure.
   from the resolved API contract; uncustomized members follow emitted changes
   and removals; customized members the emitter changes are merged by identity
   or reported. A member is uncustomized only when it is unchanged from the
-  emitted baseline or is exactly the delegation rendered from its operation's
-  customized signature. Relocating a customized member out of its classic
-  module requires review.
+  emitted baseline or is exactly the delegation rendered from its own
+  operation's customized signature: the same callee, parameter names and types,
+  plain optional parameters, and return type. Relocating a customized member
+  out of its classic module requires review.
 - Preview opt-ins are sent as constant `foundry-features` headers rather than
   the emitter's optional `foundryFeatures` option. The emitted optional header
   is normalized into the customized constant form before merging, so a changed
