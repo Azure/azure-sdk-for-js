@@ -41,7 +41,7 @@ export function _disableHttpsSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       frontendEndpointName: frontendEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,7 @@ export function disableHttps(
     getInitialResponse: () =>
       _disableHttpsSend(context, resourceGroupName, frontDoorName, frontendEndpointName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -97,7 +97,7 @@ export function _enableHttpsSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       frontendEndpointName: frontendEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,7 +146,7 @@ export function enableHttps(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +162,7 @@ export function _listByFrontDoorSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +202,7 @@ export function listByFrontDoor(
     () => _listByFrontDoorSend(context, resourceGroupName, frontDoorName, options),
     _listByFrontDoorDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -220,7 +220,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       frontendEndpointName: frontendEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

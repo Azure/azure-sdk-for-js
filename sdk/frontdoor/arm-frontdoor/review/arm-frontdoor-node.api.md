@@ -827,6 +827,14 @@ export enum KnownManagedRuleSetActionType {
 }
 
 // @public
+export enum KnownManagedRuleSetStatus {
+    Deprecated = "Deprecated",
+    GA = "GA",
+    Preview = "Preview",
+    Supported = "Supported"
+}
+
+// @public
 export enum KnownMatchProcessingBehavior {
     Continue = "Continue",
     Stop = "Stop"
@@ -879,6 +887,14 @@ export enum KnownOperator {
     LessThanOrEqual = "LessThanOrEqual",
     RegEx = "RegEx",
     ServiceTagMatch = "ServiceTagMatch"
+}
+
+// @public
+export enum KnownParanoiaLevel {
+    PL1 = "PL1",
+    PL2 = "PL2",
+    PL3 = "PL3",
+    PL4 = "PL4"
 }
 
 // @public
@@ -1046,7 +1062,9 @@ export enum KnownTransformType {
 
 // @public
 export enum KnownVariableName {
+    Asn = "Asn",
     GeoLocation = "GeoLocation",
+    Ja4 = "Ja4",
     None = "None",
     SocketAddr = "SocketAddr"
 }
@@ -1054,7 +1072,8 @@ export enum KnownVariableName {
 // @public
 export enum KnownVersions {
     V20251001 = "2025-10-01",
-    V20251101 = "2025-11-01"
+    V20251101 = "2025-11-01",
+    V20260401 = "2026-04-01"
 }
 
 // @public
@@ -1134,6 +1153,7 @@ export interface ManagedRuleDefinition {
     readonly defaultSensitivity?: SensitivityType;
     readonly defaultState?: ManagedRuleEnabledState;
     readonly description?: string;
+    readonly paranoiaLevel?: ParanoiaLevel;
     readonly ruleId?: string;
 }
 
@@ -1190,20 +1210,24 @@ export type ManagedRuleSetActionType = string;
 
 // @public
 export interface ManagedRuleSetDefinition extends Resource {
+    readonly displayName?: string;
     readonly provisioningState?: string;
     readonly ruleGroups?: ManagedRuleGroupDefinition[];
     readonly ruleSetId?: string;
     readonly ruleSetType?: string;
     readonly ruleSetVersion?: string;
+    readonly status?: ManagedRuleSetStatus;
 }
 
 // @public
 export interface ManagedRuleSetDefinitionProperties {
+    readonly displayName?: string;
     readonly provisioningState?: string;
     readonly ruleGroups?: ManagedRuleGroupDefinition[];
     readonly ruleSetId?: string;
     readonly ruleSetType?: string;
     readonly ruleSetVersion?: string;
+    readonly status?: ManagedRuleSetStatus;
 }
 
 // @public
@@ -1242,6 +1266,9 @@ export interface ManagedRuleSetsListOptionalParams extends OperationOptions {
 export interface ManagedRuleSetsOperations {
     list: (options?: ManagedRuleSetsListOptionalParams) => PagedAsyncIterableIterator<ManagedRuleSetDefinition>;
 }
+
+// @public
+export type ManagedRuleSetStatus = string;
 
 // @public
 export interface MatchCondition {
@@ -1328,6 +1355,9 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type ParanoiaLevel = string;
 
 // @public
 export interface PoliciesCreateOrUpdateOptionalParams extends OperationOptions {
