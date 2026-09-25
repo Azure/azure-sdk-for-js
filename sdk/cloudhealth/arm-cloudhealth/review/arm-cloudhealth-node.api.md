@@ -128,6 +128,16 @@ export interface AzureResourceHealthSignalStatus {
 }
 
 // @public
+export interface AzureResourceMetricRecommendationConfiguration extends SignalRecommendationConfiguration {
+    aggregationType: MetricAggregationType;
+    dimensionFilter?: string;
+    metricName: string;
+    metricNamespace: string;
+    signalKind: "AzureResourceMetric";
+    timeGrain: string;
+}
+
+// @public
 export interface AzureResourceSignal extends SignalInstanceProperties {
     aggregationType?: MetricAggregationType;
     dataUnit?: string;
@@ -720,11 +730,29 @@ export enum KnownSignalOperator {
 }
 
 // @public
+export enum KnownSignalRecommendationKind {
+    AzureResourceMetric = "AzureResourceMetric",
+    LogAnalyticsQuery = "LogAnalyticsQuery",
+    PrometheusMetricsQuery = "PrometheusMetricsQuery"
+}
+
+// @public
 export enum KnownVersions {
     V20250501Preview = "2025-05-01-preview",
     V20260101Preview = "2026-01-01-preview",
     V20260501Preview = "2026-05-01-preview",
-    V20260901Preview = "2026-09-01-preview"
+    V20260901Preview = "2026-09-01-preview",
+    V20261001Preview = "2026-10-01-preview"
+}
+
+// @public
+export interface LogAnalyticsQueryRecommendationConfiguration extends SignalRecommendationConfiguration {
+    queryText: string;
+    requiredDiagnosticSettingCategories?: string[];
+    requiredTables?: string[];
+    signalKind: "LogAnalyticsQuery";
+    timeGrain?: string;
+    valueColumnName?: string;
 }
 
 // @public
@@ -813,6 +841,15 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+}
+
+// @public
+export interface PrometheusMetricsRecommendationConfiguration extends SignalRecommendationConfiguration {
+    queryText: string;
+    requiredMetrics?: string[];
+    requiredScrapeTargets?: string[];
+    signalKind: "PrometheusMetricsQuery";
+    timeGrain?: string;
 }
 
 // @public
@@ -949,14 +986,14 @@ export interface SignalAggregationGroup {
 
 // @public
 export interface SignalConfiguration {
-    aggregationType?: MetricAggregationType;
-    dimensionFilter?: string;
+    applicableResourceTypes?: string[];
+    configuration: SignalRecommendationConfigurationUnion;
+    dataUnit?: string;
+    description?: string;
+    displayName?: string;
     evaluationRules?: EvaluationRule;
-    metricName?: string;
-    metricNamespace?: string;
+    refreshInterval?: RefreshInterval;
     signalId: string;
-    timeGrain?: string;
-    unit?: string;
 }
 
 // @public
@@ -1055,6 +1092,17 @@ export type SignalKind = string;
 
 // @public
 export type SignalOperator = string;
+
+// @public
+export interface SignalRecommendationConfiguration {
+    signalKind: SignalRecommendationKind;
+}
+
+// @public
+export type SignalRecommendationConfigurationUnion = AzureResourceMetricRecommendationConfiguration | LogAnalyticsQueryRecommendationConfiguration | PrometheusMetricsRecommendationConfiguration | SignalRecommendationConfiguration;
+
+// @public
+export type SignalRecommendationKind = string;
 
 // @public
 export interface SignalStatus {

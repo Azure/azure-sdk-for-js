@@ -2578,18 +2578,18 @@ export function signalConfigurationArrayDeserializer(result: Array<SignalConfigu
 export interface SignalConfiguration {
   /** Unique identifier of the recommended signal configuration. */
   signalId: string;
-  /** Metric namespace (e.g. 'microsoft.compute/virtualmachines'). */
-  metricNamespace?: string;
-  /** Name of the metric (e.g. 'Percentage CPU'). */
-  metricName?: string;
-  /** Type of aggregation to apply to the metric. */
-  aggregationType?: MetricAggregationType;
-  /** Unit of the metric (e.g. Percent, Bytes, Count). */
-  unit?: string;
-  /** Time range of the metric. ISO 8601 duration format (e.g. 'PT5M'). */
-  timeGrain?: string;
-  /** Optional dimension filter to apply to the metric. */
-  dimensionFilter?: string;
+  /** Display name of the recommended signal configuration. */
+  displayName?: string;
+  /** Description of the recommended signal configuration. */
+  description?: string;
+  /** Azure resource types to which the recommended signal configuration applies. */
+  applicableResourceTypes?: string[];
+  /** Interval in which the recommended signal is evaluated. */
+  refreshInterval?: RefreshInterval;
+  /** Unit of the recommended signal result (e.g. Bytes, MilliSeconds, Percent, Count). */
+  dataUnit?: string;
+  /** Kind-specific settings for the recommended signal. */
+  configuration: SignalRecommendationConfigurationUnion;
   /** Evaluation rules with recommended thresholds. */
   evaluationRules?: EvaluationRule;
 }
@@ -2597,15 +2597,186 @@ export interface SignalConfiguration {
 export function signalConfigurationDeserializer(item: any): SignalConfiguration {
   return {
     signalId: item["signalId"],
-    metricNamespace: item["metricNamespace"],
-    metricName: item["metricName"],
-    aggregationType: item["aggregationType"],
-    unit: item["unit"],
-    timeGrain: item["timeGrain"],
-    dimensionFilter: item["dimensionFilter"],
+    displayName: item["displayName"],
+    description: item["description"],
+    applicableResourceTypes: !item["applicableResourceTypes"]
+      ? item["applicableResourceTypes"]
+      : item["applicableResourceTypes"].map((p: any) => {
+          return p;
+        }),
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    configuration: signalRecommendationConfigurationUnionDeserializer(item["configuration"]),
     evaluationRules: !item["evaluationRules"]
       ? item["evaluationRules"]
       : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+/** Kind-specific signal recommendation configuration. */
+export interface SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  /** The discriminator possible values: AzureResourceMetric, LogAnalyticsQuery, PrometheusMetricsQuery */
+  signalKind: SignalRecommendationKind;
+}
+
+export function signalRecommendationConfigurationDeserializer(
+  item: any,
+): SignalRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+  };
+}
+
+/** Alias for SignalRecommendationConfigurationUnion */
+export type SignalRecommendationConfigurationUnion =
+  | AzureResourceMetricRecommendationConfiguration
+  | LogAnalyticsQueryRecommendationConfiguration
+  | PrometheusMetricsRecommendationConfiguration
+  | SignalRecommendationConfiguration;
+
+export function signalRecommendationConfigurationUnionDeserializer(
+  item: any,
+): SignalRecommendationConfigurationUnion {
+  switch (item["signalKind"]) {
+    case "AzureResourceMetric":
+      return azureResourceMetricRecommendationConfigurationDeserializer(
+        item as AzureResourceMetricRecommendationConfiguration,
+      );
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsQueryRecommendationConfigurationDeserializer(
+        item as LogAnalyticsQueryRecommendationConfiguration,
+      );
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsRecommendationConfigurationDeserializer(
+        item as PrometheusMetricsRecommendationConfiguration,
+      );
+
+    default:
+      return signalRecommendationConfigurationDeserializer(item);
+  }
+}
+
+/** Supported signal recommendation kinds. */
+export enum KnownSignalRecommendationKind {
+  /** Azure Resource Metric recommendation. */
+  AzureResourceMetric = "AzureResourceMetric",
+  /** Log Analytics Query recommendation. */
+  LogAnalyticsQuery = "LogAnalyticsQuery",
+  /** Prometheus Metrics Query recommendation. */
+  PrometheusMetricsQuery = "PrometheusMetricsQuery",
+}
+
+/**
+ * Supported signal recommendation kinds. \
+ * {@link KnownSignalRecommendationKind} can be used interchangeably with SignalRecommendationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureResourceMetric**: Azure Resource Metric recommendation. \
+ * **LogAnalyticsQuery**: Log Analytics Query recommendation. \
+ * **PrometheusMetricsQuery**: Prometheus Metrics Query recommendation.
+ */
+export type SignalRecommendationKind = string;
+
+/** Azure Resource Metric recommendation configuration. */
+export interface AzureResourceMetricRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: "AzureResourceMetric";
+  /** Metric namespace. */
+  metricNamespace: string;
+  /** Name of the metric. */
+  metricName: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType: MetricAggregationType;
+  /** Time range of the metric in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string;
+}
+
+export function azureResourceMetricRecommendationConfigurationDeserializer(
+  item: any,
+): AzureResourceMetricRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    aggregationType: item["aggregationType"],
+    timeGrain: item["timeGrain"],
+    dimensionFilter: item["dimensionFilter"],
+  };
+}
+
+/** Log Analytics Query recommendation configuration. */
+export interface LogAnalyticsQueryRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. This value indicates that a Log Analytics workspace is required. */
+  signalKind: "LogAnalyticsQuery";
+  /** Query text in KQL syntax. Supported entity template variables, such as `{{entity.azureResourceId}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). If not specified, the KQL query must define a time range. */
+  timeGrain?: string;
+  /** Name of the numeric result column to evaluate against the thresholds. */
+  valueColumnName?: string;
+  /** Log Analytics tables required by the query. */
+  requiredTables?: string[];
+  /** Diagnostic setting categories required to populate the query's tables. */
+  requiredDiagnosticSettingCategories?: string[];
+}
+
+export function logAnalyticsQueryRecommendationConfigurationDeserializer(
+  item: any,
+): LogAnalyticsQueryRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+    requiredTables: !item["requiredTables"]
+      ? item["requiredTables"]
+      : item["requiredTables"].map((p: any) => {
+          return p;
+        }),
+    requiredDiagnosticSettingCategories: !item["requiredDiagnosticSettingCategories"]
+      ? item["requiredDiagnosticSettingCategories"]
+      : item["requiredDiagnosticSettingCategories"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Prometheus Metrics Query recommendation configuration. */
+export interface PrometheusMetricsRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. This value indicates that an Azure Monitor workspace is required. */
+  signalKind: "PrometheusMetricsQuery";
+  /** Query text in PromQL syntax. Supported entity template variables, such as `{{entity.name}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string;
+  /** Prometheus metrics required by the query. */
+  requiredMetrics?: string[];
+  /** Prometheus scrape targets required to populate the query's metrics. */
+  requiredScrapeTargets?: string[];
+}
+
+export function prometheusMetricsRecommendationConfigurationDeserializer(
+  item: any,
+): PrometheusMetricsRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    requiredMetrics: !item["requiredMetrics"]
+      ? item["requiredMetrics"]
+      : item["requiredMetrics"].map((p: any) => {
+          return p;
+        }),
+    requiredScrapeTargets: !item["requiredScrapeTargets"]
+      ? item["requiredScrapeTargets"]
+      : item["requiredScrapeTargets"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3009,4 +3180,6 @@ export enum KnownVersions {
   V20260501Preview = "2026-05-01-preview",
   /** 2026-09-01-preview */
   V20260901Preview = "2026-09-01-preview",
+  /** 2026-10-01-preview */
+  V20261001Preview = "2026-10-01-preview",
 }
