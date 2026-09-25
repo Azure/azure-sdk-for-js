@@ -19,7 +19,13 @@ import type {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  RestError,
+  createHttpHeaders,
+  createPipelineRequest,
+  isRestError,
+} from "@azure/core-rest-pipeline";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
   getInitialTransactionBody,
   getTransactionHttpRequestBody,
@@ -36,6 +42,7 @@ import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 
 /**
  * Helper to build a list of transaction actions
@@ -293,17 +300,39 @@ export class InternalTableTransaction {
       "TableTransaction.submitTransaction",
       options,
       async (updatedOptions) => {
+        const { onResponse, ...requestOptions } = operationOptionsToRequestParameters(
+          toRestOperationOptions(updatedOptions),
+        );
+        const requestHeaders = createHttpHeaders(requestOptions.headers);
+        for (const [name, value] of Object.entries(headers)) {
+          requestHeaders.set(name, value);
+        }
         const request = createPipelineRequest({
-          ...updatedOptions,
+          ...requestOptions,
           url: this.url,
           method: "POST",
           body,
-          headers: createHttpHeaders(headers),
-          allowInsecureConnection: this.allowInsecureConnection,
+          headers: requestHeaders,
+          allowInsecureConnection:
+            requestOptions.allowInsecureConnection ?? this.allowInsecureConnection,
         });
 
-        const rawTransactionResponse = await this.client.sendRequest(request);
-        return parseTransactionResponse(rawTransactionResponse);
+        let rawTransactionResponse: PipelineResponse | undefined;
+        let transactionResponse: TableTransactionResponse;
+        try {
+          rawTransactionResponse = await this.client.sendRequest(request);
+          transactionResponse = parseTransactionResponse(rawTransactionResponse);
+        } catch (error) {
+          const response = isRestError(error)
+            ? (error.response ?? rawTransactionResponse)
+            : rawTransactionResponse;
+          if (response) {
+            onResponse?.(response, undefined, error);
+          }
+          throw error;
+        }
+        onResponse?.(rawTransactionResponse, transactionResponse);
+        return transactionResponse;
       },
     );
   }
