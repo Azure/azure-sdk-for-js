@@ -4,7 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { wiredOperationGroup } from "./client.mjs";
+import { clientFile, wiredOperationGroup } from "./client.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1104,6 +1104,16 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
       if (!ts.isConstructorDeclaration(member) || !ts.isConstructorDeclaration(next)) return false;
       const oldStatements = member.body?.statements ?? [];
       const nextStatements = next.body?.statements ?? [];
+      // Only statements the emitter newly added are generated-backed wiring;
+      // re-emitting a baseline statement could replace maintained behavior.
+      const baselineStatements = new Set();
+      if (baseGenerated)
+        walk(baseGenerated, (candidate) => {
+          if (ts.isStatement(candidate)) baselineStatements.add(nodeKey(candidate, renames));
+        });
+      const baselineMembers = new Set(
+        baseGenerated ? classInitializers({ node: baseGenerated }).keys() : [],
+      );
       let index = 0;
       for (const statement of nextStatements) {
         if (
@@ -1115,10 +1125,13 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
           let generatedAddition = false;
           if (generated)
             walk(generated, (candidate) => {
-              if (!ts.isStatement(candidate)) return;
-              const wired = ts.isExpressionStatement(candidate)
-                ? wiredOperationGroup(candidate.getText())
-                : undefined;
+              if (!ts.isStatement(candidate) || baselineStatements.has(nodeKey(candidate, renames)))
+                return;
+              const wired =
+                ts.isExpressionStatement(candidate) &&
+                !baselineMembers.has(assignedMember(candidate))
+                  ? wiredOperationGroup(candidate.getText())
+                  : undefined;
               if (
                 nodeKey(candidate, renames) === nodeKey(statement, renames) ||
                 (wired !== undefined &&
@@ -1158,6 +1171,21 @@ function isProtectedFile(file) {
   return (
     protectedFiles.has(file) || file.startsWith("static-helpers/") || file.startsWith("tracing/")
   );
+}
+
+/** The member a `this.<member> = ...` statement assigns. */
+function assignedMember(statement) {
+  const expression = ts.isExpressionStatement(statement) ? unwrap(statement.expression) : undefined;
+  if (
+    !expression ||
+    !ts.isBinaryExpression(expression) ||
+    expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken
+  )
+    return undefined;
+  const left = unwrap(expression.left);
+  return ts.isPropertyAccessExpression(left) && left.expression.kind === ts.SyntaxKind.ThisKeyword
+    ? left.name.text
+    : undefined;
 }
 
 function classInitializers(entry) {
@@ -1227,8 +1255,24 @@ function checkProtectedAdditions(trees, renames, report) {
         report,
       );
       const initializers = classInitializers(output);
+      const previousInitializers = classInitializers(base);
       for (const [member, initializer] of classInitializers(incoming)) {
-        if (previousMembers.has(member)) continue;
+        if (previousMembers.has(member)) {
+          // Maintained client wiring cannot silently keep a stale initialization.
+          const previous = previousInitializers.get(member);
+          if (
+            file === clientFile &&
+            (!previous ||
+              nodeKey(unwrap(previous), renames) !== nodeKey(unwrap(initializer), renames))
+          )
+            report(
+              file,
+              name,
+              "The emitter changed the initialization of an existing protected member; review the maintained wiring.",
+              member,
+            );
+          continue;
+        }
         const expected = unwrap(initializer);
         const actual = unwrap(initializers.get(member));
         const matchesFactory =

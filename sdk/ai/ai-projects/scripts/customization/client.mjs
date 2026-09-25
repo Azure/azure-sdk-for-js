@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import ts from "typescript";
+import { canonicalize } from "./ast-merge.mjs";
 import { edit, importsOf, nameOf, parse, textOf } from "./modules.mjs";
 
 /** The protected client module that wires the top-level operation groups. */
@@ -135,6 +136,19 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
         className,
         name,
         "The emitter removed a top-level operation group that the maintained client still wires; review the client.",
+      );
+  }
+  // An existing group's maintained wiring cannot follow an emitted change to
+  // its factory, arguments, context, or type without review.
+  const wiring = (group) =>
+    JSON.stringify([canonicalize(group.statement.getText()), group.type, group.module]);
+  for (const [name, previous] of base.groups) {
+    const next = incoming.groups.get(name);
+    if (next && wiring(previous) !== wiring(next))
+      report(
+        className,
+        name,
+        "The emitter changed the wiring of an existing top-level operation group; review the maintained client.",
       );
   }
   const additions = [...incoming.groups.values()].filter(

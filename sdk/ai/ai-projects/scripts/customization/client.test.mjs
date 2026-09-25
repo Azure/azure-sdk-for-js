@@ -172,3 +172,45 @@ test("only plain emitted operation-group initializers have a maintained form", (
   assert.equal(wiredOperationGroup("this.pipeline = this._client.pipeline;"), undefined);
   assert.equal(wiredOperationGroup("return value;"), undefined);
 });
+
+test("does not accept re-emitted baseline wiring that replaces a maintained group", () => {
+  const inputs = trees(["connections", "jobs", "agents"]);
+  const result = wire(inputs);
+  assert.deepEqual(result.diagnostics, []);
+  const replaced = result.text.replace(
+    "this.agents = _getAgentsOperations(this._azureScopeClient, resolveTracingConfig(options));",
+    "this.agents = _getAgentsOperations(this._azureScopeClient, resolveTracingConfig(options));\nthis.agents = _getAgentsOperations(this._azureScopeClient);",
+  );
+  assert.notEqual(replaced, result.text);
+  assert.ok(
+    validateCustomization({ ...inputs, source: new Map([[file, replaced]]) }).some(
+      (item) => item.file === file && /additive wiring/.test(item.message),
+    ),
+    "a second initializer for an existing group must not pass as generated wiring",
+  );
+});
+
+test("reports emitted wiring changes to an existing operation group", () => {
+  const inputs = trees(["connections", "jobs", "agents"]);
+  inputs.generated.set(
+    file,
+    inputs.generated
+      .get(file)
+      .replace(
+        "_getConnectionsOperations(this._client)",
+        "_getConnectionsOperations(this._client, options)",
+      ),
+  );
+  const result = wire(inputs);
+  assert.ok(
+    result.diagnostics.some(
+      (item) => item.member === "connections" && /changed/.test(item.message),
+    ),
+  );
+  assert.ok(
+    validateCustomization({ ...inputs, source: new Map([[file, result.text]]) }).some(
+      (item) => item.member === "connections" && /changed the initialization/.test(item.message),
+    ),
+    "the guards also reject stale wiring of an existing group",
+  );
+});
