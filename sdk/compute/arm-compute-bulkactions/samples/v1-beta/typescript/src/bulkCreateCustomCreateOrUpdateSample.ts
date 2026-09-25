@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates BulkCreateCustoms.
  *
  * @summary creates or updates BulkCreateCustoms.
- * x-ms-original-file: 2026-09-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,31 +24,7 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
         capacityType: "VM",
         minCapacity: 1,
         partialFulfillmentPolicy: { mode: "Enabled" },
-        priorityProfile: {
-          type: "Spot",
-          maxPricePerVM: 0.2,
-          evictionPolicy: "Delete",
-          allocationStrategy: "LowestPrice",
-        },
-        vmSizesProfile: [
-          { name: "Standard_D2s_v5", rank: 1 },
-          {
-            name: "Standard_D4s_v5",
-            rank: 2,
-            override: {
-              virtualMachineProfile: {
-                storageProfile: {
-                  imageReference: {
-                    publisher: "Canonical",
-                    offer: "0001-com-ubuntu-server-jammy",
-                    sku: "22_04-lts-arm64",
-                    version: "latest",
-                  },
-                },
-              },
-            },
-          },
-        ],
+        priorityProfile: { type: "Spot", maxPricePerVM: 0.2, evictionPolicy: "Delete" },
         computeProfile: {
           virtualMachineProfile: {
             storageProfile: {
@@ -66,6 +42,7 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
                 deleteOption: "Delete",
               },
             },
+            hardwareProfile: { vmSize: "Standard_D2s_v5" },
             osProfile: {
               computerName: "bulkvm",
               adminUsername: "azureuser",
@@ -107,13 +84,6 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
             },
           },
           computeApiVersion: "2024-11-01",
-        },
-        zoneAllocationPolicy: {
-          distributionStrategy: "BestEffortBalanced",
-          zonePreferences: [
-            { zone: "1", rank: 1 },
-            { zone: "2", rank: 2 },
-          ],
         },
         overridesProfile: {
           virtualMachineNamePrefix: "bulkvm",
