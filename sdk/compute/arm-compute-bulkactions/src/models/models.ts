@@ -176,11 +176,11 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** The ExecuteDeallocateRequest request for executeDeallocate operations */
+/** The virtual machines and execution settings for a bulk deallocate action. */
 export interface ExecuteDeallocateContent {
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources?: Resources;
   /** The resources for the request with resource context information. Cannot be provided together with `resources` - exactly one must be specified. */
   resourcesWithContext?: ResourcesWithContext;
@@ -196,14 +196,16 @@ export function executeDeallocateContentSerializer(item: ExecuteDeallocateConten
   };
 }
 
-/** Extra details needed to run the user's request */
+/** The execution settings for a bulk action. */
 export interface ExecutionParameters {
-  /** Retry policy the user can pass */
+  /** The retry settings for the bulk action. */
   retryPolicy?: RetryPolicy;
-  /** When true on an executeStart request, run a post-Start VM agent health check and engage the fallback chain if the guest agent does not report Ready. Ignored for non-Start operations. */
+  /** If true, Bulk Actions verifies the virtual machine guest agent health after a start operation. Setting this property to true for any other operation causes the request to fail. */
   verifyVmAgentHealth?: boolean;
   /** Capacity recommendation parameters for the request. When provided on an executeStart request, the service computes placement recommendations only if the VM fails to start due to an allocation failure; the recommendations for the desired sizes and locations are then surfaced in the operation's capacityRecommendation response. */
   capacityRecommendationParameters?: CapacityRecommendationParameters;
+  /** Additional configuration for Create. */
+  additionalCreateParameters?: Record<string, any>;
 }
 
 export function executionParametersSerializer(item: ExecutionParameters): any {
@@ -215,6 +217,7 @@ export function executionParametersSerializer(item: ExecutionParameters): any {
     capacityRecommendationParameters: !item["capacityRecommendationParameters"]
       ? item["capacityRecommendationParameters"]
       : capacityRecommendationParametersSerializer(item["capacityRecommendationParameters"]),
+    additionalCreateParameters: item["additionalCreateParameters"],
   };
 }
 
@@ -227,16 +230,21 @@ export function executionParametersDeserializer(item: any): ExecutionParameters 
     capacityRecommendationParameters: !item["capacityRecommendationParameters"]
       ? item["capacityRecommendationParameters"]
       : capacityRecommendationParametersDeserializer(item["capacityRecommendationParameters"]),
+    additionalCreateParameters: !item["additionalCreateParameters"]
+      ? item["additionalCreateParameters"]
+      : Object.fromEntries(
+          Object.entries(item["additionalCreateParameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
-/** The retry policy for the user request */
+/** The retry settings for a bulk action. */
 export interface RetryPolicy {
-  /** Retry count for user request */
+  /** The maximum number of retry attempts. */
   retryCount?: number;
-  /** Retry window in minutes for user request */
+  /** The period, in minutes, during which Bulk Actions can retry the operation. */
   retryWindowInMinutes?: number;
-  /** Action to take on failure */
+  /** The operation that Bulk Actions attempts when the requested operation fails. */
   onFailureAction?: ResourceOperationType;
 }
 
@@ -256,30 +264,30 @@ export function retryPolicyDeserializer(item: any): RetryPolicy {
   };
 }
 
-/** The kind of bulk operation that can be performed on resources using Bulkactions API */
+/** The type of operation performed by Bulk Actions. */
 export enum KnownResourceOperationType {
-  /** Start operations on the resources */
+  /** Starts the specified virtual machines. */
   Start = "Start",
-  /** Deallocate operations on the resources */
+  /** Deallocates the specified virtual machines. */
   Deallocate = "Deallocate",
-  /** Hibernate operations on the resources */
+  /** Hibernates the specified virtual machines. */
   Hibernate = "Hibernate",
-  /** Create operations on the resources */
+  /** Creates the specified virtual machines. */
   Create = "Create",
-  /** Delete operations on the resources */
+  /** Deletes the specified virtual machines. */
   Delete = "Delete",
 }
 
 /**
- * The kind of bulk operation that can be performed on resources using Bulkactions API \
+ * The type of operation performed by Bulk Actions. \
  * {@link KnownResourceOperationType} can be used interchangeably with ResourceOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Start**: Start operations on the resources \
- * **Deallocate**: Deallocate operations on the resources \
- * **Hibernate**: Hibernate operations on the resources \
- * **Create**: Create operations on the resources \
- * **Delete**: Delete operations on the resources
+ * **Start**: Starts the specified virtual machines. \
+ * **Deallocate**: Deallocates the specified virtual machines. \
+ * **Hibernate**: Hibernates the specified virtual machines. \
+ * **Create**: Creates the specified virtual machines. \
+ * **Delete**: Deletes the specified virtual machines.
  */
 export type ResourceOperationType = string;
 
@@ -329,9 +337,9 @@ export function capacityRecommendationParametersDeserializer(
   };
 }
 
-/** The resources needed for the user request */
+/** The virtual machines targeted by a bulk action. */
 export interface Resources {
-  /** The resource ids used for the request */
+  /** The Azure resource IDs of the target virtual machines. */
   ids: string[];
 }
 
@@ -371,15 +379,15 @@ export function resourceWithContextSerializer(item: ResourceWithContext): any {
   return { resourceId: item["resourceId"], resourceContext: item["resourceContext"] };
 }
 
-/** The response from a deallocate request */
+/** The result of a bulk deallocate action. */
 export interface DeallocateResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the deallocate request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the deallocate request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the deallocate request if no errors exist */
+  /** The result for each virtual machine. */
   results?: ResourceOperation[];
 }
 
@@ -402,17 +410,17 @@ export function resourceOperationArrayDeserializer(result: Array<ResourceOperati
   });
 }
 
-/** High level response from an operation on a resource */
+/** The result of a bulk action for one virtual machine. */
 export interface ResourceOperation {
-  /** Unique identifier for the resource involved in the operation, for example Azure resource ID */
+  /** The virtual machine Azure resource ID. */
   resourceId?: string;
-  /** Resource level error code if it exists */
+  /** A code that identifies the error for the virtual machine operation. */
   errorCode?: string;
-  /** Resource level error details if they exist */
+  /** A message that describes the error for the virtual machine operation. */
   errorDetails?: string;
-  /** Details of the operation performed on a resource */
+  /** The virtual machine operation details. */
   operation?: ResourceOperationDetails;
-  /** Information about the virtual machine */
+  /** Details of the virtual machine on which the operation is performed. */
   virtualMachineInfo?: VirtualMachineInfo;
 }
 
@@ -430,33 +438,33 @@ export function resourceOperationDeserializer(item: any): ResourceOperation {
   };
 }
 
-/** The details of a response from an operation on a resource */
+/** The status and settings for an operation on one virtual machine. */
 export interface ResourceOperationDetails {
-  /** Operation identifier for the unique operation */
+  /** The operation ID used to track the action for this virtual machine. */
   operationId: string;
-  /** Unique identifier for the resource involved in the operation, for example Azure resource ID */
+  /** The virtual machine's Azure resource ID. */
   resourceId?: string;
-  /** Type of operation performed on the resources */
+  /** The type of operation performed on the virtual machine. */
   opType?: ResourceOperationType;
-  /** Subscription id attached to the request */
+  /** The subscription ID associated with the bulk action. */
   subscriptionId?: string;
-  /** Deadline for the operation */
+  /** The requested deadline for the operation. */
   deadline?: string;
-  /** Type of deadline of the operation */
+  /** Specifies whether the deadline time indicates the time at which the operation should start or should be complete. */
   deadlineType?: DeadlineType;
-  /** Current state of the operation */
+  /** The current state of the operation. */
   state?: OperationState;
-  /** Timezone for the operation */
+  /** The time zone used to interpret the operation deadline. */
   timezone?: string;
-  /** Operation level errors if they exist */
+  /** Contains error details if the operation does not succeed. */
   resourceOperationError?: ResourceOperationError;
-  /** Fallback operation details if a fallback was performed */
+  /** Information about the fallback operation attempted after the requested operation did not succeed. */
   fallbackOperationInfo?: FallbackOperationInfo;
-  /** Time the operation was complete if errors are null */
+  /** The date and time when the operation completed. */
   completedAt?: string;
-  /** Retry policy the user can pass */
+  /** The retry settings for the bulk action. */
   retryPolicy?: RetryPolicy;
-  /** Resource notification details. */
+  /** Caller-provided context associated with the virtual machine operation. */
   resourceNotificationDetails?: ResourceNotificationDetails;
   /** The capacity/placement recommendation computed for the operation, if requested */
   capacityRecommendation?: CapacityRecommendation;
@@ -491,59 +499,59 @@ export function resourceOperationDetailsDeserializer(item: any): ResourceOperati
   };
 }
 
-/** The types of deadlines supported by Bulkactions */
+/** The deadline behavior for a bulk action. */
 export enum KnownDeadlineType {
-  /** Initiate the operation at the given deadline. */
+  /** Bulk Actions attempts to start the operation at the specified deadline. */
   InitiateAt = "InitiateAt",
-  /** Complete the operation by the given deadline. */
+  /** Bulk Actions attempts to complete the operation by the specified deadline. */
   CompleteBy = "CompleteBy",
 }
 
 /**
- * The types of deadlines supported by Bulkactions \
+ * The deadline behavior for a bulk action. \
  * {@link KnownDeadlineType} can be used interchangeably with DeadlineType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InitiateAt**: Initiate the operation at the given deadline. \
- * **CompleteBy**: Complete the operation by the given deadline.
+ * **InitiateAt**: Bulk Actions attempts to start the operation at the specified deadline. \
+ * **CompleteBy**: Bulk Actions attempts to complete the operation by the specified deadline.
  */
 export type DeadlineType = string;
 
-/** Values that define the states of operations in Bulkactions */
+/** The current state of a bulk action. */
 export enum KnownOperationState {
-  /** Operations that have been scheduled */
+  /** The operation has been scheduled. */
   Scheduled = "Scheduled",
-  /** Operations that are in the process of being executed */
+  /** The operation is in progress. */
   Executing = "Executing",
-  /** Operations that succeeded */
+  /** The operation completed successfully. */
   Succeeded = "Succeeded",
-  /** Operations that have failed */
+  /** The operation failed. */
   Failed = "Failed",
-  /** Operations that have been Cancelled by the user */
+  /** The operation was canceled by the caller. */
   Cancelled = "Cancelled",
-  /** Operations that are blocked */
+  /** The operation cannot currently make progress. */
   Blocked = "Blocked",
 }
 
 /**
- * Values that define the states of operations in Bulkactions \
+ * The current state of a bulk action. \
  * {@link KnownOperationState} can be used interchangeably with OperationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Scheduled**: Operations that have been scheduled \
- * **Executing**: Operations that are in the process of being executed \
- * **Succeeded**: Operations that succeeded \
- * **Failed**: Operations that have failed \
- * **Cancelled**: Operations that have been Cancelled by the user \
- * **Blocked**: Operations that are blocked
+ * **Scheduled**: The operation has been scheduled. \
+ * **Executing**: The operation is in progress. \
+ * **Succeeded**: The operation completed successfully. \
+ * **Failed**: The operation failed. \
+ * **Cancelled**: The operation was canceled by the caller. \
+ * **Blocked**: The operation cannot currently make progress.
  */
 export type OperationState = string;
 
-/** These describe errors that occur at the resource level */
+/** An error that occurred while processing one virtual machine. */
 export interface ResourceOperationError {
-  /** Code for the error eg 404, 500 */
+  /** A code that identifies the error. */
   errorCode: string;
-  /** Detailed message about the error */
+  /** A message that describes the error. */
   errorDetails: string;
 }
 
@@ -554,13 +562,13 @@ export function resourceOperationErrorDeserializer(item: any): ResourceOperation
   };
 }
 
-/** Describes the fallback operation that was performed */
+/** Information about the fallback operation attempted after the requested operation did not succeed. */
 export interface FallbackOperationInfo {
-  /** The last operation type that was performed as a fallback */
+  /** The type of the additional operation. */
   lastOpType: ResourceOperationType;
-  /** The status of the fallback operation */
+  /** The status of the additional operation. */
   status: string;
-  /** The error code if the fallback operation failed */
+  /** The error returned when the additional operation did not succeed. */
   error?: ResourceOperationError;
 }
 
@@ -572,9 +580,9 @@ export function fallbackOperationInfoDeserializer(item: any): FallbackOperationI
   };
 }
 
-/** Resource notification details containing notification metadata like the resource context */
+/** Caller-provided context associated with a virtual machine operation. */
 export interface ResourceNotificationDetails {
-  /** Resource context for notification tracking */
+  /** Caller-provided context string returned with the virtual machine operation result notification. Do not include secrets or personal data. */
   resourceContext?: string;
 }
 
@@ -723,9 +731,9 @@ export function capacityRecommendationPlacementScoreDeserializer(
 
 /** Information about a virtual machine. */
 export interface VirtualMachineInfo {
-  /** The name of the VM size, eg Standard_D2ads_v5 */
+  /** The virtual machine SKU, for example `Standard_D2ads_v5`. */
   vmSize?: string;
-  /** The zone identifier */
+  /** The availability zone identifier. */
   zone?: string;
   /** The resolved Azure virtual machine name. */
   name: string;
@@ -739,11 +747,11 @@ export function virtualMachineInfoDeserializer(item: any): VirtualMachineInfo {
   };
 }
 
-/** The ExecuteHibernateRequest request for executeHibernate operations */
+/** The virtual machines and execution settings for a bulk hibernate action. */
 export interface ExecuteHibernateContent {
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources?: Resources;
   /** The resources for the request with resource context information. Cannot be provided together with `resources` - exactly one must be specified. */
   resourcesWithContext?: ResourcesWithContext;
@@ -759,15 +767,15 @@ export function executeHibernateContentSerializer(item: ExecuteHibernateContent)
   };
 }
 
-/** The response from a Hibernate request */
+/** The result of a bulk hibernate action. */
 export interface HibernateResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the Hibernate request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the Hibernate request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the Hibernate request if no errors exist */
+  /** The result for each virtual machine. */
   results?: ResourceOperation[];
 }
 
@@ -784,11 +792,11 @@ export function hibernateResourceOperationResponseDeserializer(
   };
 }
 
-/** The ExecuteStartRequest request for executeStart operations */
+/** The virtual machines and execution settings for a bulk start action. */
 export interface ExecuteStartContent {
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources?: Resources;
   /** The resources for the request with resource context information. Cannot be provided together with `resources` - exactly one must be specified. */
   resourcesWithContext?: ResourcesWithContext;
@@ -804,15 +812,15 @@ export function executeStartContentSerializer(item: ExecuteStartContent): any {
   };
 }
 
-/** The response from a start request */
+/** The result of a bulk start action. */
 export interface StartResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the start request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the start request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the start request if no errors exist */
+  /** The result for each virtual machine. */
   results?: ResourceOperation[];
 }
 
@@ -829,15 +837,15 @@ export function startResourceOperationResponseDeserializer(
   };
 }
 
-/** The ExecuteDeleteRequest for delete VM operation */
+/** The virtual machines and execution settings for a bulk delete action. */
 export interface ExecuteDeleteContent {
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources?: Resources;
   /** The resources for the request with resource context information. Cannot be provided together with `resources` - exactly one must be specified. */
   resourcesWithContext?: ResourcesWithContext;
-  /** Forced delete resource item */
+  /** Indicates whether Bulk Actions uses forced deletion for the target virtual machines. */
   forceDeletion?: boolean;
 }
 
@@ -852,15 +860,15 @@ export function executeDeleteContentSerializer(item: ExecuteDeleteContent): any 
   };
 }
 
-/** The response from a delete request */
+/** The result of a bulk delete action. */
 export interface DeleteResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the delete request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the delete request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the delete request if no errors exist */
+  /** The result for each virtual machine. */
   results?: ResourceOperation[];
 }
 
@@ -877,9 +885,9 @@ export function deleteResourceOperationResponseDeserializer(
   };
 }
 
-/** This is the request to get operation status using operationids */
+/** The operation for which current status should be returned. */
 export interface GetOperationStatusContent {
-  /** The list of operation ids to get the status of */
+  /** The Bulk Action Operation Ids that identify the operations for which current status should be returned. */
   operationIds: string[];
 }
 
@@ -891,9 +899,9 @@ export function getOperationStatusContentSerializer(item: GetOperationStatusCont
   };
 }
 
-/** This is the response from a get operations status request */
+/** The current results for the requested operations. */
 export interface GetOperationStatusResponse {
-  /** An array of resource operations based on their operation ids */
+  /** The current result for each requested operation. */
   results: ResourceOperation[];
 }
 
@@ -903,9 +911,9 @@ export function getOperationStatusResponseDeserializer(item: any): GetOperationS
   };
 }
 
-/** This is the request to cancel running operations in scheduled actions using the operation ids */
+/** The eligible operations to cancel. */
 export interface CancelOperationsContent {
-  /** The list of operation ids to cancel operations on */
+  /** The Bulk Action Operation Ids that identify the operations to cancel. */
   operationIds: string[];
 }
 
@@ -917,9 +925,9 @@ export function cancelOperationsContentSerializer(item: CancelOperationsContent)
   };
 }
 
-/** This is the response from a cancel operations request */
+/** The results of the cancellation requests. */
 export interface CancelOperationsResponse {
-  /** An array of resource operations that were successfully cancelled */
+  /** The current result for each operation submitted for cancellation. */
   results: ResourceOperation[];
 }
 
@@ -929,15 +937,15 @@ export function cancelOperationsResponseDeserializer(item: any): CancelOperation
   };
 }
 
-/** The ExecuteReimageRequest request for reimage operations */
+/** The virtual machines and configuration for a bulk reimage action. */
 export interface ExecuteReimageRequest {
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources?: Resources;
   /** The resources for the request with resource context information. Cannot be provided together with `resources` - exactly one must be specified. */
   resourcesWithContext?: ResourcesWithContext;
-  /** Reimage parameters including base profile and per-resource overrides */
+  /** The shared and per-virtual-machine reimage configuration. */
   reimageParameters?: ReimagePayload;
 }
 
@@ -954,11 +962,11 @@ export function executeReimageRequestSerializer(item: ExecuteReimageRequest): an
   };
 }
 
-/** Reimage payload with common profile and per-resource overrides */
+/** The shared and per-virtual-machine configuration for a bulk reimage action. */
 export interface ReimagePayload {
-  /** Common reimage profile applied to all resources unless overridden */
+  /** The reimage configuration applied to every virtual machine unless a per-virtual-machine override is provided. */
   baseProfile?: VirtualMachineReimageParameters;
-  /** Per-resource reimage overrides */
+  /** The reimage configuration overrides for individual virtual machines. */
   resourceOverrides?: ReimageResourceOverride[];
 }
 
@@ -973,13 +981,13 @@ export function reimagePayloadSerializer(item: ReimagePayload): any {
   };
 }
 
-/** Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will always be reimaged */
+/** The parameters for reimaging a virtual machine. The operating system disk is always reimaged. */
 export interface VirtualMachineReimageParameters {
-  /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
+  /** Indicates whether to reimage the temporary disk. The default value is `false`. This option is supported only for virtual machines or virtual machine scale sets that use an ephemeral operating system disk. */
   tempDisk?: boolean;
-  /** Specifies in decimal number, the version the OS disk should be reimaged to. If exact version is not provided, the OS disk is reimaged to the existing version of OS Disk. */
+  /** The exact image version to use when reimaging the operating system disk. When omitted, the disk is reimaged to its current image version. */
   exactVersion?: string;
-  /** Specifies information required for reimaging the non-ephemeral OS disk. */
+  /** The operating system profile used when reimaging a non-ephemeral operating system disk. */
   osProfile?: OSProfileProvisioningData;
 }
 
@@ -995,11 +1003,11 @@ export function virtualMachineReimageParametersSerializer(
   };
 }
 
-/** Additional parameters for Reimaging Non-Ephemeral Virtual Machine. */
+/** Additional parameters for reimaging a virtual machine that does not use an ephemeral operating system disk. */
 export interface OSProfileProvisioningData {
-  /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
+  /** The password for the virtual machine administrator account. The password must be 8 to 123 characters long for Windows virtual machines or 6 to 72 characters long for Linux virtual machines. It must contain characters from at least three of these categories: lowercase letters, uppercase letters, digits, and special characters. The following values are not allowed: `abc@123`, `P@$$w0rd`, `P@ssw0rd`, `P@ssword123`, `Pa$$word`, `pass@word1`, `Password!`, `Password1`, `Password22`, and `iloveyou!`. This secret is accepted only in the request and is not returned in responses. */
   adminPassword?: string;
-  /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. **Note: Do not pass any secrets or passwords in customData property.** This property cannot be updated after the VM is created. The property customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/). If using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init). */
+  /** Base64-encoded custom data provided to the virtual machine. The decoded data can contain up to 65,535 bytes. Do not include secrets or passwords. */
   customData?: string;
 }
 
@@ -1015,11 +1023,11 @@ export function reimageResourceOverrideArraySerializer(
   });
 }
 
-/** Per-resource override entry for reimage requests */
+/** A reimage configuration override for one virtual machine. */
 export interface ReimageResourceOverride {
-  /** The Azure resource ID of the virtual machine for this override */
+  /** The Azure resource ID of the virtual machine to which the override applies. */
   resourceId: string;
-  /** Per-resource reimage profile override */
+  /** The reimage configuration for this virtual machine. */
   profile: VirtualMachineReimageParameters;
 }
 
@@ -1030,15 +1038,15 @@ export function reimageResourceOverrideSerializer(item: ReimageResourceOverride)
   };
 }
 
-/** The response from a reimage request */
+/** The result of a bulk reimage action. */
 export interface ReimageResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the reimage request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the reimage request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the reimage request if no errors exist */
+  /** The result for each virtual machine. */
   results?: ResourceOperation[];
 }
 
@@ -1052,6 +1060,23 @@ export function reimageResourceOperationResponseDeserializer(
     results: !item["results"]
       ? item["results"]
       : resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
+/** A paged list of recent bulk action errors. */
+export interface _ListBulkOperationErrorsResponse {
+  /** The ResourceOperation items on this page */
+  value: ResourceOperation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _listBulkOperationErrorsResponseDeserializer(
+  item: any,
+): _ListBulkOperationErrorsResponse {
+  return {
+    value: resourceOperationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -1133,12 +1158,8 @@ export interface BulkCreateCustomProperties {
   readonly resources?: BulkCreateCustomResource[];
   /** Configuration Options for Regular or Spot instances in BulkCreateCustom. */
   priorityProfile: BulkCreateCustomPriorityProfile;
-  /** List of VM sizes supported for BulkCreateCustom */
-  vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
   /** Compute Profile to configure the Virtual Machines. */
   computeProfile: ComputeProfile;
-  /** Zone Allocation Policy for launching instances. */
-  zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
   /** Per-VM overrides and the shared name prefix, specified when the operation is created. */
   overridesProfile?: BulkCreateCustomOverridesProfile;
   /** Extra parameters that control how the request is executed, including the retry policy. */
@@ -1154,13 +1175,7 @@ export function bulkCreateCustomPropertiesSerializer(item: BulkCreateCustomPrope
       ? item["partialFulfillmentPolicy"]
       : partialFulfillmentPolicySerializer(item["partialFulfillmentPolicy"]),
     priorityProfile: bulkCreateCustomPriorityProfileSerializer(item["priorityProfile"]),
-    vmSizesProfile: !item["vmSizesProfile"]
-      ? item["vmSizesProfile"]
-      : bulkCreateCustomVmSizeProfileArraySerializer(item["vmSizesProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : bulkCreateCustomZoneAllocationPolicySerializer(item["zoneAllocationPolicy"]),
     overridesProfile: !item["overridesProfile"]
       ? item["overridesProfile"]
       : bulkCreateCustomOverridesProfileSerializer(item["overridesProfile"]),
@@ -1184,13 +1199,7 @@ export function bulkCreateCustomPropertiesDeserializer(item: any): BulkCreateCus
       ? item["resources"]
       : bulkCreateCustomResourceArrayDeserializer(item["resources"]),
     priorityProfile: bulkCreateCustomPriorityProfileDeserializer(item["priorityProfile"]),
-    vmSizesProfile: !item["vmSizesProfile"]
-      ? item["vmSizesProfile"]
-      : bulkCreateCustomVmSizeProfileArrayDeserializer(item["vmSizesProfile"]),
     computeProfile: computeProfileDeserializer(item["computeProfile"]),
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : bulkCreateCustomZoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
     overridesProfile: !item["overridesProfile"]
       ? item["overridesProfile"]
       : bulkCreateCustomOverridesProfileDeserializer(item["overridesProfile"]),
@@ -1356,8 +1365,6 @@ export interface BulkCreateCustomPriorityProfile {
   maxPricePerVM?: number;
   /** Eviction Policy to follow when evicting Spot VMs. */
   evictionPolicy?: EvictionPolicy;
-  /** The allocation strategy for VM size selection */
-  allocationStrategy?: BulkCreateCustomAllocationStrategy;
 }
 
 export function bulkCreateCustomPriorityProfileSerializer(
@@ -1367,7 +1374,6 @@ export function bulkCreateCustomPriorityProfileSerializer(
     type: item["type"],
     maxPricePerVM: item["maxPricePerVM"],
     evictionPolicy: item["evictionPolicy"],
-    allocationStrategy: item["allocationStrategy"],
   };
 }
 
@@ -1378,25 +1384,24 @@ export function bulkCreateCustomPriorityProfileDeserializer(
     type: item["type"],
     maxPricePerVM: item["maxPricePerVM"],
     evictionPolicy: item["evictionPolicy"],
-    allocationStrategy: item["allocationStrategy"],
   };
 }
 
-/** The priority type for VM allocation */
+/** The priority type for virtual machine allocation. */
 export enum KnownPriorityType {
-  /** Regular priority VMs */
+  /** Regular, non-Spot virtual machines. */
   Regular = "Regular",
-  /** Spot priority VMs */
+  /** Azure Spot Virtual Machines. */
   Spot = "Spot",
 }
 
 /**
- * The priority type for VM allocation \
+ * The priority type for virtual machine allocation. \
  * {@link KnownPriorityType} can be used interchangeably with PriorityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Regular**: Regular priority VMs \
- * **Spot**: Spot priority VMs
+ * **Regular**: Regular, non-Spot virtual machines. \
+ * **Spot**: Azure Spot Virtual Machines.
  */
 export type PriorityType = string;
 
@@ -1418,117 +1423,33 @@ export enum KnownEvictionPolicy {
  */
 export type EvictionPolicy = string;
 
-/** The allocation strategy for VM size selection in BulkCreateCustom. */
-export enum KnownBulkCreateCustomAllocationStrategy {
-  /** Platform prioritizes VM sizes with the lowest hourly cost */
-  LowestPrice = "LowestPrice",
-  /** Customer specifies a rank for each VM size, platform uses VM sizes in rank order */
-  Prioritized = "Prioritized",
-}
-
-/**
- * The allocation strategy for VM size selection in BulkCreateCustom. \
- * {@link KnownBulkCreateCustomAllocationStrategy} can be used interchangeably with BulkCreateCustomAllocationStrategy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LowestPrice**: Platform prioritizes VM sizes with the lowest hourly cost \
- * **Prioritized**: Customer specifies a rank for each VM size, platform uses VM sizes in rank order
- */
-export type BulkCreateCustomAllocationStrategy = string;
-
-export function bulkCreateCustomVmSizeProfileArraySerializer(
-  result: Array<BulkCreateCustomVmSizeProfile>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateCustomVmSizeProfileSerializer(item);
-  });
-}
-
-export function bulkCreateCustomVmSizeProfileArrayDeserializer(
-  result: Array<BulkCreateCustomVmSizeProfile>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateCustomVmSizeProfileDeserializer(item);
-  });
-}
-
-/** A VM size profile entry that may additionally carry an optional per-VM-size profile override. Every VM that the service assigns to this size inherits the override, layered on top of the operation-level base profile and beneath any per-VM override. Present only on the bulkCreateCustom endpoint; the uniform endpoint rejects a non-null override. */
-export interface BulkCreateCustomVmSizeProfile {
-  /** The name of the VM size, eg Standard_D2ads_v5 */
-  name: string;
-  /** The rank of this VM size in the priority order */
-  rank: number;
-  /** Optional per-VM-size profile override applied to every VM the service assigns to this size. A size maps to many VMs, so virtualMachineName is not part of this shape. virtualMachineProfile is layered beneath any per-VM override; tags, identity, and plan are merged with the per-VM override, with the per-VM value winning. */
-  override?: BulkCreateCustomOverrideBase;
-}
-
-export function bulkCreateCustomVmSizeProfileSerializer(item: BulkCreateCustomVmSizeProfile): any {
-  return {
-    name: item["name"],
-    rank: item["rank"],
-    override: !item["override"]
-      ? item["override"]
-      : bulkCreateCustomOverrideBaseSerializer(item["override"]),
-  };
-}
-
-export function bulkCreateCustomVmSizeProfileDeserializer(
-  item: any,
-): BulkCreateCustomVmSizeProfile {
-  return {
-    name: item["name"],
-    rank: item["rank"],
-    override: !item["override"]
-      ? item["override"]
-      : bulkCreateCustomOverrideBaseDeserializer(item["override"]),
-  };
-}
-
-/** Override fields shared by per-VM and per-VM-size overrides. Each set field takes precedence over the operation-level value. VM size, zone, priority, eviction policy, and billing are owned by the service and cannot be set here. */
-export interface BulkCreateCustomOverrideBase {
-  /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
-  virtualMachineProfile?: BulkactionVMProperties;
-  /** Tags overriding the operation-level tags. */
-  tags?: Record<string, string>;
-  /** Identity overriding the operation-level identity. */
-  identity?: VirtualMachineIdentity;
-  /** Plan overriding the operation-level plan. */
-  plan?: Plan;
-  /** Extensions. When non-empty they replace the operation-level extensions; when omitted the operation-level extensions are inherited. */
+/** Compute Profile to configure the Virtual Machines. */
+export interface ComputeProfile {
+  /** Base Virtual Machine Profile Properties to be specified according to specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachine.json#/definitions/VirtualMachineProperties */
+  virtualMachineProfile: BulkactionVMProperties;
+  /** Virtual Machine Extensions Array to be specified according to specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachine.json#/definitions/VirtualMachineExtension */
   extensions?: BulkactionVMExtension[];
+  /** Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machines. The default value will be the latest supported computeApiVersion by LaunchBulkInstancesOperation. */
+  computeApiVersion?: string;
 }
 
-export function bulkCreateCustomOverrideBaseSerializer(item: BulkCreateCustomOverrideBase): any {
+export function computeProfileSerializer(item: ComputeProfile): any {
   return {
-    virtualMachineProfile: !item["virtualMachineProfile"]
-      ? item["virtualMachineProfile"]
-      : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : virtualMachineIdentitySerializer(item["identity"]),
-    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+    virtualMachineProfile: bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
     extensions: !item["extensions"]
       ? item["extensions"]
       : bulkactionVMExtensionArraySerializer(item["extensions"]),
+    computeApiVersion: item["computeApiVersion"],
   };
 }
 
-export function bulkCreateCustomOverrideBaseDeserializer(item: any): BulkCreateCustomOverrideBase {
+export function computeProfileDeserializer(item: any): ComputeProfile {
   return {
-    virtualMachineProfile: !item["virtualMachineProfile"]
-      ? item["virtualMachineProfile"]
-      : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : virtualMachineIdentityDeserializer(item["identity"]),
-    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
+    virtualMachineProfile: bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
     extensions: !item["extensions"]
       ? item["extensions"]
       : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
+    computeApiVersion: item["computeApiVersion"],
   };
 }
 
@@ -1995,11 +1916,11 @@ export function diskEncryptionSettingsDeserializer(item: any): DiskEncryptionSet
   };
 }
 
-/** Describes a reference to Key Vault Secret */
+/** A reference to a secret stored in Azure Key Vault. */
 export interface KeyVaultSecretReference {
-  /** The URL referencing a secret in a Key Vault. */
+  /** The URL of the secret in Azure Key Vault. */
   secretUrl: string;
-  /** The relative URL of the Key Vault containing the secret. */
+  /** The Azure resource ID of the Key Vault that contains the secret. */
   sourceVault: SubResource;
 }
 
@@ -2014,9 +1935,9 @@ export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretRe
   };
 }
 
-/** Describes a reference to a sub-resource. */
+/** A reference to an Azure resource. */
 export interface SubResource {
-  /** The ID of the sub-resource. */
+  /** The Azure resource ID. */
   id?: string;
 }
 
@@ -4429,6 +4350,104 @@ export function bulkActionVmExtensionPropertiesDeserializer(
   };
 }
 
+/** Groups the per-VM overrides with the name prefix that names any override that does not supply its own VM name. */
+export interface BulkCreateCustomOverridesProfile {
+  /** Prefix used to build the ARM VM name ({prefix}_{index}) for overrides that omit a virtualMachineName. Required when any override is unnamed and rejected when every override is named. */
+  virtualMachineNamePrefix?: string;
+  /** Per-VM overrides. The count is the VM count and must equal capacity. Each override maps to VM index i. */
+  overrides?: BulkCreateCustomOverride[];
+}
+
+export function bulkCreateCustomOverridesProfileSerializer(
+  item: BulkCreateCustomOverridesProfile,
+): any {
+  return {
+    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
+    overrides: !item["overrides"]
+      ? item["overrides"]
+      : bulkCreateCustomOverrideArraySerializer(item["overrides"]),
+  };
+}
+
+export function bulkCreateCustomOverridesProfileDeserializer(
+  item: any,
+): BulkCreateCustomOverridesProfile {
+  return {
+    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
+    overrides: !item["overrides"]
+      ? item["overrides"]
+      : bulkCreateCustomOverrideArrayDeserializer(item["overrides"]),
+  };
+}
+
+export function bulkCreateCustomOverrideArraySerializer(
+  result: Array<BulkCreateCustomOverride>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomOverrideSerializer(item);
+  });
+}
+
+export function bulkCreateCustomOverrideArrayDeserializer(
+  result: Array<BulkCreateCustomOverride>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomOverrideDeserializer(item);
+  });
+}
+
+/** A single per-VM override. Extends the shared override fields with a per-VM name. */
+export interface BulkCreateCustomOverride {
+  /** ARM VM name for this VM. Optional; when omitted the name is generated from the prefix as {prefix}_{index}. */
+  virtualMachineName?: string;
+  /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
+  virtualMachineProfile?: BulkactionVMProperties;
+  /** Tags overriding the operation-level tags. */
+  tags?: Record<string, string>;
+  /** Identity overriding the operation-level identity. */
+  identity?: VirtualMachineIdentity;
+  /** Plan overriding the operation-level plan. */
+  plan?: Plan;
+  /** Extensions. When non-empty they replace the operation-level extensions; when omitted the operation-level extensions are inherited. */
+  extensions?: BulkactionVMExtension[];
+}
+
+export function bulkCreateCustomOverrideSerializer(item: BulkCreateCustomOverride): any {
+  return {
+    virtualMachineName: item["virtualMachineName"],
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentitySerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArraySerializer(item["extensions"]),
+  };
+}
+
+export function bulkCreateCustomOverrideDeserializer(item: any): BulkCreateCustomOverride {
+  return {
+    virtualMachineName: item["virtualMachineName"],
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentityDeserializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
+  };
+}
+
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
   /** The principal id of virtual machine identity. This property will only be provided for a system assigned identity. */
@@ -4535,219 +4554,6 @@ export function planDeserializer(item: any): Plan {
     product: item["product"],
     promotionCode: item["promotionCode"],
     version: item["version"],
-  };
-}
-
-/** Compute Profile to configure the Virtual Machines. */
-export interface ComputeProfile {
-  /** Base Virtual Machine Profile Properties to be specified according to specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachine.json#/definitions/VirtualMachineProperties */
-  virtualMachineProfile: BulkactionVMProperties;
-  /** Virtual Machine Extensions Array to be specified according to specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachine.json#/definitions/VirtualMachineExtension */
-  extensions?: BulkactionVMExtension[];
-  /** Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machines. The default value will be the latest supported computeApiVersion by LaunchBulkInstancesOperation. */
-  computeApiVersion?: string;
-}
-
-export function computeProfileSerializer(item: ComputeProfile): any {
-  return {
-    virtualMachineProfile: bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : bulkactionVMExtensionArraySerializer(item["extensions"]),
-    computeApiVersion: item["computeApiVersion"],
-  };
-}
-
-export function computeProfileDeserializer(item: any): ComputeProfile {
-  return {
-    virtualMachineProfile: bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
-    computeApiVersion: item["computeApiVersion"],
-  };
-}
-
-/** The zone allocation policy for distributing VMs across availability zones in BulkCreateCustom. */
-export interface BulkCreateCustomZoneAllocationPolicy {
-  /** The distribution strategy for zone allocation. Defaults to BestEffortBalanced. */
-  distributionStrategy?: BulkCreateCustomDistributionStrategy;
-  /** The zone preferences for allocation priority */
-  zonePreferences?: ZonePreference[];
-}
-
-export function bulkCreateCustomZoneAllocationPolicySerializer(
-  item: BulkCreateCustomZoneAllocationPolicy,
-): any {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArraySerializer(item["zonePreferences"]),
-  };
-}
-
-export function bulkCreateCustomZoneAllocationPolicyDeserializer(
-  item: any,
-): BulkCreateCustomZoneAllocationPolicy {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArrayDeserializer(item["zonePreferences"]),
-  };
-}
-
-/** The distribution strategy for zone allocation in BulkCreateCustom. */
-export enum KnownBulkCreateCustomDistributionStrategy {
-  /** Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed */
-  BestEffortSingleZone = "BestEffortSingleZone",
-  /** Platform uses customer-provided zone rankings to allocate VMs */
-  Prioritized = "Prioritized",
-  /** Platform attempts to evenly distribute VMs across all available zones with best effort */
-  BestEffortBalanced = "BestEffortBalanced",
-}
-
-/**
- * The distribution strategy for zone allocation in BulkCreateCustom. \
- * {@link KnownBulkCreateCustomDistributionStrategy} can be used interchangeably with BulkCreateCustomDistributionStrategy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BestEffortSingleZone**: Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed \
- * **Prioritized**: Platform uses customer-provided zone rankings to allocate VMs \
- * **BestEffortBalanced**: Platform attempts to evenly distribute VMs across all available zones with best effort
- */
-export type BulkCreateCustomDistributionStrategy = string;
-
-export function zonePreferenceArraySerializer(result: Array<ZonePreference>): any[] {
-  return result.map((item) => {
-    return zonePreferenceSerializer(item);
-  });
-}
-
-export function zonePreferenceArrayDeserializer(result: Array<ZonePreference>): any[] {
-  return result.map((item) => {
-    return zonePreferenceDeserializer(item);
-  });
-}
-
-/** A zone preference with a zone identifier and rank */
-export interface ZonePreference {
-  /** The zone identifier */
-  zone: string;
-  /** The rank of this zone in the priority order */
-  rank: number;
-  /** The maximum capacity to place in this zone. The sum across capped zones must not exceed the requested capacity, and when every zone preference is capped the sum must equal the requested capacity. */
-  targetMaxCapacity?: number;
-}
-
-export function zonePreferenceSerializer(item: ZonePreference): any {
-  return { zone: item["zone"], rank: item["rank"], targetMaxCapacity: item["targetMaxCapacity"] };
-}
-
-export function zonePreferenceDeserializer(item: any): ZonePreference {
-  return {
-    zone: item["zone"],
-    rank: item["rank"],
-    targetMaxCapacity: item["targetMaxCapacity"],
-  };
-}
-
-/** Groups the per-VM overrides with the name prefix that names any override that does not supply its own VM name. */
-export interface BulkCreateCustomOverridesProfile {
-  /** Prefix used to build the ARM VM name ({prefix}_{index}) for overrides that omit a virtualMachineName. Required when any override is unnamed and rejected when every override is named. */
-  virtualMachineNamePrefix?: string;
-  /** Per-VM overrides. The count is the VM count and must equal capacity. Each override maps to VM index i. */
-  overrides?: BulkCreateCustomOverride[];
-}
-
-export function bulkCreateCustomOverridesProfileSerializer(
-  item: BulkCreateCustomOverridesProfile,
-): any {
-  return {
-    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
-    overrides: !item["overrides"]
-      ? item["overrides"]
-      : bulkCreateCustomOverrideArraySerializer(item["overrides"]),
-  };
-}
-
-export function bulkCreateCustomOverridesProfileDeserializer(
-  item: any,
-): BulkCreateCustomOverridesProfile {
-  return {
-    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
-    overrides: !item["overrides"]
-      ? item["overrides"]
-      : bulkCreateCustomOverrideArrayDeserializer(item["overrides"]),
-  };
-}
-
-export function bulkCreateCustomOverrideArraySerializer(
-  result: Array<BulkCreateCustomOverride>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateCustomOverrideSerializer(item);
-  });
-}
-
-export function bulkCreateCustomOverrideArrayDeserializer(
-  result: Array<BulkCreateCustomOverride>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateCustomOverrideDeserializer(item);
-  });
-}
-
-/** A single per-VM override. Extends the shared override fields with a per-VM name. */
-export interface BulkCreateCustomOverride {
-  /** ARM VM name for this VM. Optional; when omitted the name is generated from the prefix as {prefix}_{index}. */
-  virtualMachineName?: string;
-  /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
-  virtualMachineProfile?: BulkactionVMProperties;
-  /** Tags overriding the operation-level tags. */
-  tags?: Record<string, string>;
-  /** Identity overriding the operation-level identity. */
-  identity?: VirtualMachineIdentity;
-  /** Plan overriding the operation-level plan. */
-  plan?: Plan;
-  /** Extensions. When non-empty they replace the operation-level extensions; when omitted the operation-level extensions are inherited. */
-  extensions?: BulkactionVMExtension[];
-}
-
-export function bulkCreateCustomOverrideSerializer(item: BulkCreateCustomOverride): any {
-  return {
-    virtualMachineName: item["virtualMachineName"],
-    virtualMachineProfile: !item["virtualMachineProfile"]
-      ? item["virtualMachineProfile"]
-      : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : virtualMachineIdentitySerializer(item["identity"]),
-    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : bulkactionVMExtensionArraySerializer(item["extensions"]),
-  };
-}
-
-export function bulkCreateCustomOverrideDeserializer(item: any): BulkCreateCustomOverride {
-  return {
-    virtualMachineName: item["virtualMachineName"],
-    virtualMachineProfile: !item["virtualMachineProfile"]
-      ? item["virtualMachineProfile"]
-      : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : virtualMachineIdentityDeserializer(item["identity"]),
-    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
   };
 }
 
@@ -5092,12 +4898,8 @@ export interface BulkCreateProperties {
   partialFulfillmentPolicy?: PartialFulfillmentPolicy;
   /** Configuration Options for Regular or Spot instances in BulkCreate. */
   priorityProfile: PriorityProfile;
-  /** List of VM sizes supported for BulkCreate. Every virtual machine is created from the operation-level computeProfile regardless of the size selected, so no per-VM-size override can be supplied here. */
-  vmSizesProfile?: BulkCreateVmSizeProfile[];
   /** Compute Profile to configure the Virtual Machines. Applied uniformly to every virtual machine created by the operation. */
   computeProfile: ComputeProfile;
-  /** Zone Allocation Policy for launching instances. */
-  zoneAllocationPolicy?: ZoneAllocationPolicy;
   /** Extra parameters that control how the request is executed, including the retry policy. */
   executionParameters?: ExecutionParameters;
 }
@@ -5111,13 +4913,7 @@ export function bulkCreatePropertiesSerializer(item: BulkCreateProperties): any 
       ? item["partialFulfillmentPolicy"]
       : partialFulfillmentPolicySerializer(item["partialFulfillmentPolicy"]),
     priorityProfile: priorityProfileSerializer(item["priorityProfile"]),
-    vmSizesProfile: !item["vmSizesProfile"]
-      ? item["vmSizesProfile"]
-      : bulkCreateVmSizeProfileArraySerializer(item["vmSizesProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : zoneAllocationPolicySerializer(item["zoneAllocationPolicy"]),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
       : executionParametersSerializer(item["executionParameters"]),
@@ -5135,29 +4931,21 @@ export function bulkCreatePropertiesDeserializer(item: any): BulkCreatePropertie
       ? item["partialFulfillmentPolicy"]
       : partialFulfillmentPolicyDeserializer(item["partialFulfillmentPolicy"]),
     priorityProfile: priorityProfileDeserializer(item["priorityProfile"]),
-    vmSizesProfile: !item["vmSizesProfile"]
-      ? item["vmSizesProfile"]
-      : bulkCreateVmSizeProfileArrayDeserializer(item["vmSizesProfile"]),
     computeProfile: computeProfileDeserializer(item["computeProfile"]),
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : zoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
       : executionParametersDeserializer(item["executionParameters"]),
   };
 }
 
-/** The priority profile for flex VM creation */
+/** The priority and allocation preferences for virtual machines. */
 export interface PriorityProfile {
-  /** The priority type for VM allocation */
+  /** The priority type for virtual machine allocation. */
   type?: PriorityType;
-  /** Price per hour of each Spot VM will never exceed this. Available from 2026-04-06-preview. */
+  /** The maximum hourly price, in US dollars, for each Spot virtual machine. */
   maxPricePerVM?: number;
-  /** Eviction Policy to follow when evicting Spot VMs. Available from 2026-04-06-preview. */
+  /** The action applied to a Spot virtual machine when Azure evicts it. */
   evictionPolicy?: EvictionPolicy;
-  /** The allocation strategy for VM size selection */
-  allocationStrategy?: AllocationStrategy;
 }
 
 export function priorityProfileSerializer(item: PriorityProfile): any {
@@ -5165,7 +4953,6 @@ export function priorityProfileSerializer(item: PriorityProfile): any {
     type: item["type"],
     maxPricePerVM: item["maxPricePerVM"],
     evictionPolicy: item["evictionPolicy"],
-    allocationStrategy: item["allocationStrategy"],
   };
 }
 
@@ -5174,115 +4961,8 @@ export function priorityProfileDeserializer(item: any): PriorityProfile {
     type: item["type"],
     maxPricePerVM: item["maxPricePerVM"],
     evictionPolicy: item["evictionPolicy"],
-    allocationStrategy: item["allocationStrategy"],
   };
 }
-
-/** The allocation strategy for VM size selection */
-export enum KnownAllocationStrategy {
-  /** Platform prioritizes VM sizes with the lowest hourly cost */
-  LowestPrice = "LowestPrice",
-  /** Customer specifies a rank for each VM size, platform uses VM sizes in rank order */
-  Prioritized = "Prioritized",
-  /** Platform prioritizes VM sizes with the highest available capacity first */
-  CapacityOptimized = "CapacityOptimized",
-}
-
-/**
- * The allocation strategy for VM size selection \
- * {@link KnownAllocationStrategy} can be used interchangeably with AllocationStrategy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LowestPrice**: Platform prioritizes VM sizes with the lowest hourly cost \
- * **Prioritized**: Customer specifies a rank for each VM size, platform uses VM sizes in rank order \
- * **CapacityOptimized**: Platform prioritizes VM sizes with the highest available capacity first
- */
-export type AllocationStrategy = string;
-
-export function bulkCreateVmSizeProfileArraySerializer(
-  result: Array<BulkCreateVmSizeProfile>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateVmSizeProfileSerializer(item);
-  });
-}
-
-export function bulkCreateVmSizeProfileArrayDeserializer(
-  result: Array<BulkCreateVmSizeProfile>,
-): any[] {
-  return result.map((item) => {
-    return bulkCreateVmSizeProfileDeserializer(item);
-  });
-}
-
-/** A VM size that the service may select for a BulkCreate operation. */
-export interface BulkCreateVmSizeProfile {
-  /** The name of the VM size, eg Standard_D2ads_v5 */
-  name: string;
-  /** The rank of this VM size in the priority order, starting at 0, where a lower value is preferred. Used when priorityProfile.allocationStrategy is Prioritized. */
-  rank?: number;
-}
-
-export function bulkCreateVmSizeProfileSerializer(item: BulkCreateVmSizeProfile): any {
-  return { name: item["name"], rank: item["rank"] };
-}
-
-export function bulkCreateVmSizeProfileDeserializer(item: any): BulkCreateVmSizeProfile {
-  return {
-    name: item["name"],
-    rank: item["rank"],
-  };
-}
-
-/** The zone allocation policy for distributing VMs across availability zones */
-export interface ZoneAllocationPolicy {
-  /** The distribution strategy for zone allocation */
-  distributionStrategy?: DistributionStrategy;
-  /** The zone preferences for allocation priority */
-  zonePreferences?: ZonePreference[];
-}
-
-export function zoneAllocationPolicySerializer(item: ZoneAllocationPolicy): any {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArraySerializer(item["zonePreferences"]),
-  };
-}
-
-export function zoneAllocationPolicyDeserializer(item: any): ZoneAllocationPolicy {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArrayDeserializer(item["zonePreferences"]),
-  };
-}
-
-/** The distribution strategy for zone allocation */
-export enum KnownDistributionStrategy {
-  /** Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed */
-  BestEffortSingleZone = "BestEffortSingleZone",
-  /** Platform uses customer-provided zone rankings to allocate VMs */
-  Prioritized = "Prioritized",
-  /** Platform attempts to evenly distribute VMs across all available zones with best effort */
-  BestEffortBalanced = "BestEffortBalanced",
-  /** Platform must evenly distribute VMs across zones, request is rejected if exact balance cannot be achieved */
-  StrictBalanced = "StrictBalanced",
-}
-
-/**
- * The distribution strategy for zone allocation \
- * {@link KnownDistributionStrategy} can be used interchangeably with DistributionStrategy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BestEffortSingleZone**: Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed \
- * **Prioritized**: Platform uses customer-provided zone rankings to allocate VMs \
- * **BestEffortBalanced**: Platform attempts to evenly distribute VMs across all available zones with best effort \
- * **StrictBalanced**: Platform must evenly distribute VMs across zones, request is rejected if exact balance cannot be achieved
- */
-export type DistributionStrategy = string;
 
 /** The paged response for virtual machine operation statuses in a BulkCreate operation. */
 export interface _BulkCreateOperationStatusListResult {
@@ -6558,7 +6238,7 @@ export function occurrenceExtensionPropertiesDeserializer(
   };
 }
 
-/** ComputeSchedule API versions */
+/** Bulk Actions API versions. */
 export enum KnownVersions {
   /** 2026-04-06-preview version */
   V20260406Preview = "2026-04-06-preview",
@@ -6570,4 +6250,6 @@ export enum KnownVersions {
   V20260806Preview = "2026-08-06-preview",
   /** 2026-09-06-preview version */
   V20260906Preview = "2026-09-06-preview",
+  /** 2026-10-06-preview version */
+  V20261006Preview = "2026-10-06-preview",
 }
