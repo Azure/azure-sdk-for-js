@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cloudhealth",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "A generated SDK for CloudHealthClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -88,7 +88,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-cloudhealth",

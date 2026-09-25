@@ -1,5 +1,32 @@
 # Release History
 
+## 1.0.0-beta.5 (2026-09-25)
+Compared with version 1.0.0-beta.4
+
+### Features Added
+  - Added Interface AzureResourceMetricRecommendationConfiguration
+  - Added Interface LogAnalyticsQueryRecommendationConfiguration
+  - Added Interface PrometheusMetricsRecommendationConfiguration
+  - Added Interface SignalRecommendationConfiguration
+  - Interface SignalConfiguration has a new optional parameter applicableResourceTypes
+  - Interface SignalConfiguration has a new optional parameter dataUnit
+  - Interface SignalConfiguration has a new optional parameter description
+  - Interface SignalConfiguration has a new optional parameter displayName
+  - Interface SignalConfiguration has a new optional parameter refreshInterval
+  - Added Type Alias SignalRecommendationConfigurationUnion
+  - Added Type Alias SignalRecommendationKind
+  - Added Enum KnownSignalRecommendationKind
+  - Enum KnownVersions has a new value V20261001Preview
+
+### Breaking Changes
+  - Interface SignalConfiguration has a new required parameter configuration
+  - Interface SignalConfiguration no longer has parameter aggregationType
+  - Interface SignalConfiguration no longer has parameter dimensionFilter
+  - Interface SignalConfiguration no longer has parameter metricName
+  - Interface SignalConfiguration no longer has parameter metricNamespace
+  - Interface SignalConfiguration no longer has parameter timeGrain
+  - Interface SignalConfiguration no longer has parameter unit
+
 ## 1.0.0-beta.4 (2026-08-25)
 Compared with version 1.0.0-beta.3
 

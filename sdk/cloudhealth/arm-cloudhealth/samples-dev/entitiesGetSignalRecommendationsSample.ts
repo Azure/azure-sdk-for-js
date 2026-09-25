@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get recommended signal configurations for a given Entity (only applicable for Entities representing Azure resources)
  *
  * @summary get recommended signal configurations for a given Entity (only applicable for Entities representing Azure resources)
- * x-ms-original-file: 2026-09-01-preview/Entities_GetSignalRecommendations.json
+ * x-ms-original-file: 2026-10-01-preview/Entities_GetSignalRecommendations.json
  */
 async function entitiesGetSignalRecommendations(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function entitiesGetSignalRecommendations(): Promise<void> {
   const result = await client.entities.getSignalRecommendations(
     "online-store-rg",
     "online-store",
-    "orders-db",
+    "online-store-aks",
   );
   console.log(result);
 }
