@@ -296,6 +296,7 @@ export class LiveMetrics {
 
       if (!this.isCollectingData && (this.meterProvider || this.isDeactivating)) {
         this.etag = "";
+        this.quickpulseExporter.setEtag("");
         await this.restartMetrics(false);
       } else if (this.isCollectingData && wasBackingOff && !this.isDeactivating) {
         await this.restartMetrics();
@@ -304,7 +305,7 @@ export class LiveMetrics {
   }
 
   private async restartMetrics(preserveConfiguration = true): Promise<void> {
-    // A reader's interval is fixed at construction. Preserve configuration when
+    // A reader's interval is fixed at construction. Preserve collection state when
     // replacing it, and let the shutdown flush update the desired interval.
     try {
       await this.deactivateMetrics(preserveConfiguration);
@@ -428,8 +429,8 @@ export class LiveMetrics {
    * Deactivate metric collection
    */
   public async deactivateMetrics(preserveConfiguration = false): Promise<void> {
-    this.documents = [];
     if (!preserveConfiguration) {
+      this.documents = [];
       this.validDocumentFilterConjuctionGroupInfos.clear();
       this.errorTracker.clearRunTimeErrors();
       this.errorTracker.clearValidationTimeErrors();

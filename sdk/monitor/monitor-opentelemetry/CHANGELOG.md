@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
+- Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration or buffered telemetry. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
 
 ### Other Changes
 

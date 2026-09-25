@@ -57,6 +57,9 @@ describe("QuickpulseSender responses", () => {
           expect(response?.xMsQpsServiceEndpointRedirectV2).toBe(
             "https://westeurope.livediagnostics.monitor.azure.com",
           );
+        } else {
+          expect(response?.xMsQpsServicePollingIntervalHint).toBeUndefined();
+          expect(response?.xMsQpsServiceEndpointRedirectV2).toBeUndefined();
         }
         expect(warning).not.toHaveBeenCalled();
         expect(info).not.toHaveBeenCalled();
