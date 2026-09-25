@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- Remove the `foundryFeatures` option from evaluator generation-job, credential, and pending-upload operations after the upstream GA promotion. Operations remain under `project.beta.evaluators` but no longer send the `Evaluations=V1Preview` header automatically. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301)
+- Remove the `foundryFeatures` option from evaluator generation-job, credential, and pending-upload operations after the upstream GA promotion. Operations remain under `project.beta.evaluators` but no longer send the `Evaluations=V1Preview` header automatically. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ### Features Added
 
@@ -13,13 +13,13 @@
 
 ### Bugs Fixed
 
-- Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors.
-- Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header.
+- Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+- Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ### Other Changes
 
 - Regenerate the client from azure-rest-api-specs commit `404147453dd87cd0816988d86a93c8b6a1220e2f`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/404147453dd87cd0816988d86a93c8b6a1220e2f)
-- Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301)
+- Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ## 2.7.1 (2026-09-23)
 
