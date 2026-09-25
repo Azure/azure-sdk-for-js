@@ -15,6 +15,8 @@
 
 ### Other Changes
 
+- Resolve the internal SDKStats connection string from OneSettings data-boundary configuration, falling back to the existing Breeze endpoint when configuration is unavailable or invalid.
+
 ## 1.0.0-beta.45 (2026-09-04)
 
 ### Features Added
