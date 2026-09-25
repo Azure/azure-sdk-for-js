@@ -20,7 +20,7 @@ const applicationInsightsResource = "https://monitor.azure.com/.default";
  * Response type that includes the body and response headers from the Live Metrics service.
  * @internal
  */
-export interface QuickpulseResponse extends CollectionConfigurationInfo {
+export interface QuickpulseResponse extends Partial<CollectionConfigurationInfo> {
   /** Whether the instrumentation key is subscribed. */
   xMsQpsSubscribed?: string;
   /** Configuration ETag. */

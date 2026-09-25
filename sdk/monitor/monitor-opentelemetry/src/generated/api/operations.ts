@@ -56,7 +56,7 @@ export function _publishSend(
 
 export async function _publishDeserialize(
   result: PathUncheckedResponse,
-): Promise<CollectionConfigurationInfo> {
+): Promise<CollectionConfigurationInfo | undefined> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -64,7 +64,7 @@ export async function _publishDeserialize(
     throw error;
   }
 
-  return collectionConfigurationInfoDeserializer(result.body);
+  return result.body == null ? undefined : collectionConfigurationInfoDeserializer(result.body);
 }
 
 /** Publish live metrics to the Live Metrics service when there is an active subscription to the metrics. */
@@ -72,7 +72,7 @@ export async function publish(
   context: Client,
   ikey: string,
   options: PublishOptionalParams = { requestOptions: {} },
-): Promise<CollectionConfigurationInfo> {
+): Promise<CollectionConfigurationInfo | undefined> {
   const result = await _publishSend(context, ikey, options);
   return _publishDeserialize(result);
 }
@@ -126,7 +126,7 @@ export function _isSubscribedSend(
 
 export async function _isSubscribedDeserialize(
   result: PathUncheckedResponse,
-): Promise<CollectionConfigurationInfo> {
+): Promise<CollectionConfigurationInfo | undefined> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -134,7 +134,7 @@ export async function _isSubscribedDeserialize(
     throw error;
   }
 
-  return collectionConfigurationInfoDeserializer(result.body);
+  return result.body == null ? undefined : collectionConfigurationInfoDeserializer(result.body);
 }
 
 /** Determine whether there is any subscription to the metrics and documents. */
@@ -142,7 +142,7 @@ export async function isSubscribed(
   context: Client,
   ikey: string,
   options: IsSubscribedOptionalParams = { requestOptions: {} },
-): Promise<CollectionConfigurationInfo> {
+): Promise<CollectionConfigurationInfo | undefined> {
   const result = await _isSubscribedSend(context, ikey, options);
   return _isSubscribedDeserialize(result);
 }

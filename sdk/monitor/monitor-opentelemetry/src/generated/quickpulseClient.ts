@@ -36,7 +36,7 @@ export class QuickpulseClient {
   publish(
     ikey: string,
     options: PublishOptionalParams = { requestOptions: {} },
-  ): Promise<CollectionConfigurationInfo> {
+  ): Promise<CollectionConfigurationInfo | undefined> {
     return publish(this._client, ikey, options);
   }
 
@@ -44,7 +44,7 @@ export class QuickpulseClient {
   isSubscribed(
     ikey: string,
     options: IsSubscribedOptionalParams = { requestOptions: {} },
-  ): Promise<CollectionConfigurationInfo> {
+  ): Promise<CollectionConfigurationInfo | undefined> {
     return isSubscribed(this._client, ikey, options);
   }
 }
