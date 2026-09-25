@@ -1,5 +1,11 @@
 # Release History
 
+## 2.8.0 (Unreleased)
+
+### Features Added
+
+- Add `transport` option to `VoiceAgentRealtimeClientConnectOptions` for selecting between the `"websocket"` (default) and `"webrtc"` realtime connection transports.
+
 ## 2.7.1 (2026-09-23)
 
 ### Bugs Fixed

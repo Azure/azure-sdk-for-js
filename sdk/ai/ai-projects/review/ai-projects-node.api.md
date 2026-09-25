@@ -6644,6 +6644,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
     onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
     store?: boolean;
     structuredInputs?: Record<string, unknown>;
+    transport?: VoiceAgentTransport;
 }
 
 // @public

@@ -191,6 +191,87 @@ describe("AIProjectClient realtime", () => {
     expect(() => deserializeVoiceAgentServerEvent("not-json")).toThrow(VoiceAgentProtocolError);
   });
 
+  it("serializes and deserializes the WebRTC call-signaling events", () => {
+    const offer = serializeVoiceAgentClientEvent({
+      type: "rtc.call.sdp.create",
+      sdp_offer: "v=0 offer",
+      session: {
+        type: "realtime",
+        audio: {
+          input: {
+            turn_detection: {
+              type: "azure_semantic_vad_multilingual",
+              prefix_padding_ms: 200,
+              silence_duration_ms: 500,
+              speech_duration_ms: 100,
+              end_of_utterance_detection: {
+                model: "semantic_detection_v1_multilingual",
+                timeout_ms: 800,
+              },
+            },
+          },
+        },
+      },
+    });
+    const parsedOffer = JSON.parse(offer);
+    assert.equal(parsedOffer.type, "rtc.call.sdp.create");
+    assert.equal(parsedOffer.sdp_offer, "v=0 offer");
+    // The `session` field shares the same discriminated-union settings as `session.update`, and
+    // protocol.ts special-cases `rtc.call.sdp.create` to run it through the same normalization.
+    assert.equal(parsedOffer.session.audio.input.turn_detection.prefix_padding_ms, 200);
+    assert.equal(
+      parsedOffer.session.audio.input.turn_detection.end_of_utterance_detection.timeout_ms,
+      800,
+    );
+
+    const sdpCreated = deserializeVoiceAgentServerEvent(
+      JSON.stringify({
+        type: "rtc.call.sdp.created",
+        event_id: "rtc-event-1",
+        rtc_call_id: "call-1",
+        sdp_answer: "v=0 answer",
+      }),
+    );
+    assert.equal(sdpCreated.type, "rtc.call.sdp.created");
+    if (sdpCreated.type === "rtc.call.sdp.created") {
+      assert.equal(sdpCreated.rtc_call_id, "call-1");
+      assert.equal(sdpCreated.sdp_answer, "v=0 answer");
+    }
+    expect(() =>
+      deserializeVoiceAgentServerEvent(
+        JSON.stringify({ type: "rtc.call.sdp.created", event_id: "rtc-event-1" }),
+      ),
+    ).toThrow('required "rtc_call_id"');
+
+    // `rtc.call.error` is the one server event where `event_id` is genuinely optional (see
+    // `optionalEventIdServerEvents` in protocol.ts), so this also exercises that special case.
+    const rtcError = deserializeVoiceAgentServerEvent(
+      JSON.stringify({
+        type: "rtc.call.error",
+        operation: "rtc.call.sdp.create",
+        rtc_call_id: "call-1",
+        error: { type: "invalid_request_error", code: "invalid_sdp", message: "Malformed offer." },
+      }),
+    );
+    assert.equal(rtcError.type, "rtc.call.error");
+    if (rtcError.type === "rtc.call.error") {
+      assert.equal(rtcError.event_id, undefined);
+      assert.equal(rtcError.operation, "rtc.call.sdp.create");
+      assert.equal(rtcError.rtc_call_id, "call-1");
+      assert.deepEqual(rtcError.error, {
+        type: "invalid_request_error",
+        code: "invalid_sdp",
+        message: "Malformed offer.",
+      });
+    }
+    // The generated deserializer dereferences the nested `error` object unconditionally (the same
+    // pattern used by the plain `error` event's deserializer), so an entirely absent `error` key
+    // throws before the friendlier `VoiceAgentProtocolError` required-field check ever runs.
+    expect(() =>
+      deserializeVoiceAgentServerEvent(JSON.stringify({ type: "rtc.call.error" })),
+    ).toThrow();
+  });
+
   it.each(["future.event", "unknown", "constructor", "toString", "__proto__"])(
     "preserves the complete unknown %s event without known-schema validation",
     (type) => {
@@ -466,6 +547,28 @@ describe("AIProjectClient realtime", () => {
     assert.equal((await connection.closed).code, 1000);
     assert.equal(connection.state, KnownVoiceAgentConnectionState.Disconnected);
   });
+
+  it.each([
+    [undefined, null],
+    ["websocket", "websocket"],
+    ["webrtc", "webrtc"],
+  ] as const)(
+    "sets the connect-time transport query parameter (transport: %s)",
+    async (transport, expectedQueryValue) => {
+      const factory = new MockWebSocketFactory();
+      const connection = await createClient(factory).beta.voiceAgents.realtime.connect(
+        "support-agent",
+        transport === undefined ? {} : { transport },
+      );
+
+      const connectOptions = factory.transport.connectOptions;
+      assert.ok(connectOptions);
+      const url = new URL(connectOptions.url);
+      assert.equal(url.searchParams.get("transport"), expectedQueryValue);
+
+      await connection.close();
+    },
+  );
 
   it("sends text, audio, session settings, and tool outputs", async () => {
     const factory = new MockWebSocketFactory();

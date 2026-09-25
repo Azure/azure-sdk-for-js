@@ -11,6 +11,7 @@ import type {
   VoiceAgentClientEvent,
   VoiceAgentResponseCreateParams,
   VoiceAgentSessionUpdateConfig,
+  VoiceAgentTransport,
 } from "../models/models.js";
 import { logger } from "../logger.js";
 import { AsyncQueue } from "./asyncQueue.js";
@@ -73,6 +74,13 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   store?: boolean;
   /** Selects a specific immutable agent version. */
   agentVersionOverride?: string;
+  /**
+   * Selects the transport used for the realtime connection. Defaults to `"websocket"`. Set to
+   * `"webrtc"` to negotiate a WebRTC peer connection instead; the caller is responsible for
+   * completing the SDP offer/answer exchange using the `rtc.call.sdp.create` and
+   * `rtc.call.sdp.created` events (see {@link VoiceAgentRealtimeEvent}).
+   */
+  transport?: VoiceAgentTransport;
   /** Values used to render the agent's structured prompt inputs. */
   structuredInputs?: Record<string, unknown>;
   /** Overrides the client connection timeout in milliseconds. */
@@ -635,6 +643,9 @@ function buildWebSocketUrl(
   }
   if (options.agentVersionOverride) {
     url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
+  }
+  if (options.transport) {
+    url.searchParams.set("transport", options.transport);
   }
   return url.toString();
 }
