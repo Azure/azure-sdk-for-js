@@ -318,6 +318,7 @@ export interface AcsIncomingCallEventData {
     customContext: AcsIncomingCallCustomContext;
     fromCommunicationIdentifier: CommunicationIdentifierModel;
     incomingCallContext?: string;
+    onBehalfOf?: CommunicationIdentifierModel;
     onBehalfOfCallee?: CommunicationIdentifierModel;
     serverCallId?: string;
     toCommunicationIdentifier: CommunicationIdentifierModel;
@@ -355,6 +356,7 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
     channelKind: AcsMessageChannelKind;
     messageId?: string;
     status: AcsMessageDeliveryStatus;
+    toBsuid?: string;
 }
 
 // @public
@@ -406,6 +408,7 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
     channelKind: AcsMessageChannelKind;
     content?: string;
     context?: AcsMessageContext;
+    fromBsuid?: string;
     interactiveContent?: AcsMessageInteractiveContent;
     mediaContent?: AcsMessageMediaContent;
     messageId?: string;
@@ -731,6 +734,11 @@ export interface ApiCenterApiDefinitionUpdatedEventData {
 export interface ApiCenterApiSpecification {
     name: string;
     version?: string;
+}
+
+// @public
+export interface ApiEntityReference {
+    id: string;
 }
 
 // @public
@@ -1906,6 +1914,19 @@ export enum KnownHealthcareFhirResourceType {
 }
 
 // @public
+export enum KnownLifecycleHookAction {
+    Approve = "Approve",
+    Reject = "Reject"
+}
+
+// @public
+export enum KnownLifecycleHookActionState {
+    Approved = "Approved",
+    Rejected = "Rejected",
+    Waiting = "Waiting"
+}
+
+// @public
 export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
@@ -1942,6 +1963,32 @@ export enum KnownStorageTaskCompletedStatus {
 
 // @public
 export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
+
+// @public
+export enum KnownVirtualMachineScaleSetLifecycleHookEventState {
+    Active = "Active",
+    Completed = "Completed"
+}
+
+// @public
+export enum KnownVirtualMachineScaleSetLifecycleHookEventType {
+    UpgradeAutoOSRollingBatchStarting = "UpgradeAutoOSRollingBatchStarting",
+    UpgradeAutoOSScheduling = "UpgradeAutoOSScheduling"
+}
+
+// @public
+export type LifecycleHookAction = string;
+
+// @public
+export type LifecycleHookActionState = string;
+
+// @public
+export interface LifecycleHookEventsEventData {
+    id: string;
+    name: string;
+    operationalInfo: OperationalInfo;
+    properties: VirtualMachineScaleSetLifecycleHookEventProperties;
+}
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
@@ -2034,6 +2081,11 @@ export interface MicrosoftTeamsUserIdentifierModel {
     cloud: CommunicationCloudEnvironmentModel;
     isAnonymous?: boolean;
     userId: string;
+}
+
+// @public
+export interface OperationalInfo {
+    activityId: string;
 }
 
 // @public
@@ -2675,6 +2727,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
+    "Microsoft.Compute.VirtualMachineScaleSets.LifecycleHookEvents": LifecycleHookEventsEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
@@ -2776,6 +2829,35 @@ export interface SystemEventNameToEventData {
     "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
     "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
 }
+
+// @public
+export interface VirtualMachineScaleSetLifecycleHookEventAdditionalContext {
+    priority?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetLifecycleHookEventProperties {
+    additionalContext?: VirtualMachineScaleSetLifecycleHookEventAdditionalContext;
+    defaultAction: LifecycleHookAction;
+    maxWaitUntil: string;
+    state: VirtualMachineScaleSetLifecycleHookEventState;
+    readonly targetResources: VirtualMachineScaleSetLifecycleHookEventTargetResource[];
+    timeCreated: string;
+    type: VirtualMachineScaleSetLifecycleHookEventType;
+    waitUntil: string;
+}
+
+// @public
+export type VirtualMachineScaleSetLifecycleHookEventState = string;
+
+// @public
+export interface VirtualMachineScaleSetLifecycleHookEventTargetResource {
+    actionState: LifecycleHookActionState;
+    resource: ApiEntityReference;
+}
+
+// @public
+export type VirtualMachineScaleSetLifecycleHookEventType = string;
 
 // @public
 export interface WebAppServicePlanUpdatedEventData {
