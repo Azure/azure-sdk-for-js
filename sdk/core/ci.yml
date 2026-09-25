@@ -38,6 +38,8 @@ pr:
 # NOTE: common/tools/warp/ is already included via the "common" path above.
 # Each artifact below also lists it in triggeringPaths so that warp changes
 # trigger a full build and test of all core packages.
+# Unlike the pipeline path filters above, artifact triggeringPaths need a leading
+# "/" to resolve from the repository root instead of sdk/core/.
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -47,102 +49,102 @@ extends:
       - name: azure-abort-controller
         safeName: azureabortcontroller
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-amqp
         safeName: azurecoreamqp
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-auth
         safeName: azurecoreauth
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-client
         safeName: azurecoreclient
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-lro
         safeName: azurecorelro
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-paging
         safeName: azurecorepaging
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-tracing
         safeName: azurecoretracing
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-xml
         safeName: azurecorexml
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-util
         safeName: azurecoreutil
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-logger
         safeName: azurelogger
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-sse
         safeName: azurecoresse
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-core-process
         safeName: azurecoreprocess
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: azure-provisioning-core
         safeName: azureprovisioningcore
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
         triggeringPaths:
-        - pnpm-*.yaml
-        - tsconfig*.json
-        - common/tools/warp/
+        - /pnpm-*.yaml
+        - /tsconfig*.json
+        - /common/tools/warp/

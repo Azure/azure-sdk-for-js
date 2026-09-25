@@ -1,0 +1,1295 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const assert = require("node:assert/strict");
+const { readFileSync } = require("node:fs");
+const path = require("node:path");
+const { test } = require("node:test");
+const { prepareReview, routeReviewRequest } = require("./review-request.cjs");
+
+const headSha = "a".repeat(40);
+const updatedSha = "b".repeat(40);
+const label = "architecture-review-needed";
+const reviewFlows = {
+  archie: "architecture",
+  dash: "performance",
+  dexter: "dependency",
+  "mgmt-review": "mgmt",
+  scribe: "docs",
+  sentinel: "security",
+  tester: "test",
+};
+const automationBot = { id: 5, login: "azure-sdk-automation[bot]", type: "Bot" };
+const workflowBot = { id: 7, login: "github-actions[bot]", type: "Bot" };
+const allLabels = () =>
+  Object.values(reviewFlows).map((prefix) => ({ name: `${prefix}-review-needed` }));
+const labelEventTime = "2026-09-23T21:00:00Z";
+const intakeTime = "2026-09-23T21:00:02Z";
+const eventIdFor = (reviewerId) => 1000 + Object.keys(reviewFlows).indexOf(reviewerId);
+
+function recordedLabels(state, labels = state.pr.labels) {
+  return labels.map(({ name }) => ({
+    id: 1000 + allLabels().findIndex((label) => label.name === name),
+    event: "labeled",
+    label: { name },
+    actor: state.run.actor,
+    created_at: labelEventTime,
+  }));
+}
+
+function changeLabel(state, name, event, actor = workflowBot) {
+  if (event === "labeled") {
+    if (!state.pr.labels.some((label) => label.name === name)) {
+      state.pr.labels.push({ name });
+    }
+  } else {
+    state.pr.labels = state.pr.labels.filter((label) => label.name !== name);
+  }
+  state.labelEvents.push({
+    id: Math.max(2000, ...state.labelEvents.map((entry) => entry.id)) + 1,
+    event,
+    label: { name },
+    actor,
+    created_at: intakeTime,
+  });
+}
+
+function fixture(reviewerId = "archie") {
+  const state = {
+    context: {
+      eventName: "workflow_run",
+      actor: "maintainer",
+      ref: "refs/heads/main",
+      repo: { owner: "Azure", repo: "azure-sdk-for-js" },
+      payload: {
+        repository: { id: 1, default_branch: "main" },
+        workflow_run: { id: 100 },
+      },
+    },
+    run: {
+      id: 100,
+      run_attempt: 1,
+      created_at: intakeTime,
+      workflow_id: 10,
+      event: "pull_request",
+      status: "completed",
+      conclusion: "success",
+      repository: { id: 1 },
+      head_repository: { id: 2, fork: true },
+      head_sha: headSha,
+      actor: { id: 3, login: "maintainer", type: "User" },
+      triggering_actor: { id: 3, login: "maintainer", type: "User" },
+      pull_requests: [],
+    },
+    jobsByAttempt: {
+      1: [{ name: "request", status: "completed", conclusion: "success" }],
+    },
+    pr: {
+      number: 42,
+      state: "open",
+      base: { repo: { id: 1 } },
+      head: { repo: { id: 2 }, sha: headSha },
+      labels: [{ name: `${reviewFlows[reviewerId]}-review-needed` }],
+    },
+    roles: { maintainer: "write", outsider: "read" },
+    calls: {
+      dispatches: [],
+      additions: [],
+      removals: [],
+      actors: [],
+      jobAttempts: [],
+      messages: [],
+      errors: [],
+    },
+  };
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = recordedLabels(state);
+  state.core = {
+    info: (message) => state.calls.messages.push(message),
+    error: (message) => state.calls.errors.push(message),
+  };
+  state.github = {
+    rest: {
+      actions: {
+        getWorkflowRun: async ({ run_id }) => {
+          assert.equal(run_id, 100);
+          return { data: state.run };
+        },
+        getWorkflow: async ({ workflow_id }) => {
+          assert.equal(workflow_id, "pr-review-intake.yml");
+          return { data: { id: 10 } };
+        },
+        listJobsForWorkflowRunAttempt: async ({ run_id, attempt_number }) => {
+          assert.equal(run_id, 100);
+          state.calls.jobAttempts.push(attempt_number);
+          return { data: { jobs: state.jobsByAttempt[attempt_number] ?? [] } };
+        },
+        createWorkflowDispatch: async (request) => state.calls.dispatches.push(request),
+      },
+      repos: {
+        getCollaboratorPermissionLevel: async ({ username }) => {
+          state.calls.actors.push(username);
+          return { data: { permission: state.roles[username] ?? "none" } };
+        },
+        listPullRequestsAssociatedWithCommit: async ({ commit_sha }) => {
+          assert.equal(commit_sha, state.run.head_sha);
+          return { data: structuredClone(state.associatedPRs) };
+        },
+      },
+      pulls: {
+        get: async ({ pull_number }) => {
+          const pr =
+            pull_number === state.pr.number
+              ? state.pr
+              : state.associatedPRs.find((candidate) => candidate.number === pull_number);
+          assert.ok(pr, `No fixture PR #${pull_number}`);
+          return { data: structuredClone(pr) };
+        },
+      },
+      issues: {
+        listEvents: async ({ issue_number, per_page }) => {
+          assert.equal(issue_number, 42);
+          assert.equal(per_page, 100);
+          return { data: structuredClone(state.labelEvents) };
+        },
+        addLabels: async (request) => {
+          state.calls.additions.push(request);
+          for (const name of request.labels) {
+            if (!state.pr.labels.some((label) => label.name === name)) {
+              changeLabel(state, name, "labeled");
+            }
+          }
+        },
+        removeLabel: async (request) => {
+          state.calls.removals.push(request);
+          changeLabel(state, request.name, "unlabeled");
+        },
+      },
+    },
+    paginate: async (method, parameters) => {
+      const { data } = await method(parameters);
+      return Array.isArray(data) ? data : data.jobs;
+    },
+  };
+  return state;
+}
+
+function dispatchFixture(automatic = true, reviewerId = "archie") {
+  const state = fixture(reviewerId);
+  state.context.eventName = "workflow_dispatch";
+  state.context.actor = automatic ? "github-actions[bot]" : "maintainer";
+  state.context.payload.sender = {
+    login: state.context.actor,
+    type: automatic ? "Bot" : "User",
+  };
+  state.context.payload.inputs = {
+    item_number: "42",
+    head_sha: automatic ? headSha : "",
+    request_run_id: automatic ? "100" : "",
+    request_event_id: automatic ? String(eventIdFor(reviewerId)) : "",
+  };
+  return state;
+}
+
+test("routes a fork PR with empty run.pull_requests using API-owned commit metadata", async () => {
+  const state = fixture();
+  await routeReviewRequest(state);
+  assert.deepEqual(state.calls.dispatches, [
+    {
+      owner: "Azure",
+      repo: "azure-sdk-for-js",
+      workflow_id: "archie.lock.yml",
+      ref: "main",
+      inputs: {
+        item_number: "42",
+        head_sha: headSha,
+        request_run_id: "100",
+        request_event_id: "1000",
+      },
+    },
+  ]);
+  assert.deepEqual(state.calls.actors, ["maintainer"]);
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("routes same-repository PRs as well as forks", async () => {
+  const state = fixture();
+  state.run.head_repository = { id: 1, fork: false };
+  state.pr.head.repo.id = 1;
+  state.associatedPRs[0].head.repo.id = 1;
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 1);
+});
+
+for (const [name, change] of [
+  ["a different workflow", (state) => (state.run.workflow_id = 11)],
+  ["a different repository", (state) => (state.run.repository.id = 3)],
+  ["a non-PR run", (state) => (state.run.event = "push")],
+  ["a failed run", (state) => (state.run.conclusion = "failure")],
+  ["an unfinished run", (state) => (state.run.status = "in_progress")],
+]) {
+  test(`rejects intake provenance from ${name}`, async () => {
+    const state = fixture();
+    change(state);
+    await assert.rejects(routeReviewRequest(state), /successful PR Review Intake run/);
+    assert.equal(state.calls.dispatches.length, 0);
+  });
+}
+
+for (const entryPoint of ["router", "reviewer"]) {
+  const makeFixture = () => (entryPoint === "router" ? fixture() : dispatchFixture());
+  const run = (state) =>
+    entryPoint === "router" ? routeReviewRequest(state) : prepareReview(state, "archie");
+
+  test(`${entryPoint} ignores a skipped intake job despite a successful workflow conclusion`, async () => {
+    const state = makeFixture();
+    state.jobsByAttempt[1][0].conclusion = "skipped";
+    assert.equal(await run(state), undefined);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.ok(state.calls.messages.some((message) => message.includes("request job was skipped")));
+  });
+
+  for (const [name, jobs] of [
+    ["a missing request job", []],
+    [
+      "only an unrelated successful job",
+      [{ name: "other", status: "completed", conclusion: "success" }],
+    ],
+    ["a failed request job", [{ name: "request", status: "completed", conclusion: "failure" }]],
+    ["an unfinished request job", [{ name: "request", status: "in_progress", conclusion: null }]],
+    [
+      "duplicate request jobs",
+      [
+        { name: "request", status: "completed", conclusion: "success" },
+        { name: "request", status: "completed", conclusion: "skipped" },
+      ],
+    ],
+  ]) {
+    test(`${entryPoint} rejects ${name}`, async () => {
+      const state = makeFixture();
+      state.jobsByAttempt[1] = jobs;
+      await assert.rejects(run(state), /intake request job must complete successfully/);
+      assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+    });
+  }
+
+  test(`${entryPoint} checks the current run attempt instead of reusing an earlier success`, async () => {
+    const state = makeFixture();
+    state.run.run_attempt = 2;
+    state.jobsByAttempt[2] = [{ name: "request", status: "completed", conclusion: "skipped" }];
+    assert.equal(await run(state), undefined);
+    assert.deepEqual(state.calls.jobAttempts, [2]);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+  });
+
+  test(`${entryPoint} accepts a successful current attempt after an earlier skipped attempt`, async () => {
+    const state = makeFixture();
+    state.run.run_attempt = 2;
+    state.jobsByAttempt[1][0].conclusion = "skipped";
+    state.jobsByAttempt[2] = [{ name: "request", status: "completed", conclusion: "success" }];
+    await run(state);
+    assert.deepEqual(state.calls.jobAttempts, [2]);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 1);
+  });
+
+  test(`${entryPoint} surfaces failures to read the intake job status`, async () => {
+    const state = makeFixture();
+    state.github.rest.actions.listJobsForWorkflowRunAttempt = async () => {
+      throw new Error("Jobs API unavailable");
+    };
+    await assert.rejects(run(state), /Jobs API unavailable/);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+  });
+}
+
+test("does not let a maintainer rerun authorize the original untrusted actor", async () => {
+  const state = fixture();
+  state.run.actor.login = "outsider";
+  await assert.rejects(routeReviewRequest(state), /outsider needs repository write/);
+  assert.deepEqual(state.calls.actors, ["outsider"]);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+for (const permission of ["admin", "maintain", "write"]) {
+  test(`allows an originating actor with ${permission} permission`, async () => {
+    const state = fixture();
+    state.roles.maintainer = permission;
+    await routeReviewRequest(state);
+    assert.equal(state.calls.dispatches.length, 1);
+  });
+}
+
+test("does not dispatch unrelated labels", async () => {
+  const state = fixture();
+  state.associatedPRs[0].labels = [{ name: "customer-reported" }];
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 0);
+  assert.match(state.calls.messages[0], /nothing to dispatch/);
+});
+
+test("a PR-controlled successful intake cannot authorize labels absent from GitHub's event history", async () => {
+  const state = fixture();
+  state.labelEvents = [];
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 0);
+  assert.deepEqual(state.calls.actors, []);
+  assert.ok(
+    state.calls.messages.some((message) => message.includes("No attributable label events")),
+  );
+});
+
+test("an unauthorized label cannot piggyback on a later writer's review request", async () => {
+  const state = fixture();
+  state.pr.labels.push({ name: "test-review-needed" });
+  state.associatedPRs[0].labels = structuredClone(state.pr.labels);
+  state.labelEvents = recordedLabels(state);
+  state.labelEvents[1].actor = { id: 4, login: "triager", type: "User" };
+  state.roles.triager = "triage";
+  await routeReviewRequest(state);
+  assert.deepEqual(
+    state.calls.dispatches.map((request) => request.workflow_id),
+    ["archie.lock.yml"],
+  );
+  assert.equal(state.calls.dispatches[0].inputs.request_event_id, "1000");
+});
+
+test("an old authorized label cannot piggyback on a later request from the same actor", async () => {
+  const state = fixture();
+  state.pr.labels.push({ name: "test-review-needed" });
+  state.associatedPRs[0].labels = structuredClone(state.pr.labels);
+  state.labelEvents = recordedLabels(state);
+  state.labelEvents[1].created_at = "2026-09-23T20:00:00Z";
+  await routeReviewRequest(state);
+  assert.deepEqual(
+    state.calls.dispatches.map((request) => request.workflow_id),
+    ["archie.lock.yml"],
+  );
+});
+
+for (const entryPoint of ["router", "reviewer"]) {
+  const makeFixture = () => (entryPoint === "router" ? fixture() : dispatchFixture());
+  const invoke = (state) =>
+    entryPoint === "router" ? routeReviewRequest(state) : prepareReview(state, "archie");
+
+  for (const [name, change] of [
+    ["a missing label event", (state) => (state.labelEvents = [])],
+    [
+      "a label added by another account with the same login",
+      (state) => (state.labelEvents[0].actor = { id: 99, login: "maintainer", type: "User" }),
+    ],
+    ["a missing event actor", (state) => (state.labelEvents[0].actor = null)],
+    ["a label removal", (state) => (state.labelEvents[0].event = "unlabeled")],
+    [
+      "a newer removal hidden behind an older addition",
+      (state) => {
+        state.labelEvents.unshift({ ...state.labelEvents[0], id: 2000, event: "unlabeled" });
+      },
+    ],
+    [
+      "a newer unauthorized re-addition",
+      (state) => {
+        state.labelEvents.push({
+          ...state.labelEvents[0],
+          id: 2000,
+          actor: { id: 4, login: "triager", type: "User" },
+        });
+      },
+    ],
+  ]) {
+    test(`${entryPoint} does not trust successful intake jobs with ${name}`, async () => {
+      const state = makeFixture();
+      change(state);
+      assert.equal(await invoke(state), undefined);
+      assert.equal(
+        state.calls.dispatches.length + state.calls.additions.length + state.calls.removals.length,
+        0,
+      );
+      assert.ok(state.calls.messages.length > 0);
+    });
+  }
+
+  for (const ageSeconds of [-1, 0, 299, 300, 301]) {
+    test(`${entryPoint} enforces the label-event window at ${ageSeconds} seconds`, async () => {
+      const state = makeFixture();
+      state.labelEvents[0].created_at = new Date(
+        Date.parse(intakeTime) - ageSeconds * 1000,
+      ).toISOString();
+      await invoke(state);
+      const accepted = ageSeconds >= 0 && ageSeconds <= 300;
+      assert.equal(state.calls.dispatches.length + state.calls.additions.length, accepted ? 1 : 0);
+    });
+  }
+
+  test(`${entryPoint} cannot use a rerun's start time to authorize a newly added label`, async () => {
+    const state = makeFixture();
+    state.run.run_attempt = 2;
+    state.run.run_started_at = "2026-09-23T22:00:02Z";
+    state.run.updated_at = state.run.run_started_at;
+    state.jobsByAttempt[2] = state.jobsByAttempt[1];
+    state.labelEvents[0].created_at = "2026-09-23T22:00:00Z";
+    assert.equal(await invoke(state), undefined);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+  });
+
+  test(`${entryPoint} surfaces failures to read authoritative label events`, async () => {
+    const state = makeFixture();
+    state.github.rest.issues.listEvents = async () => {
+      throw new Error("Issue events unavailable");
+    };
+    await assert.rejects(invoke(state), /Issue events unavailable/);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+  });
+
+  for (const [name, change, expected] of [
+    ["run creation time", (state) => (state.run.created_at = null), /intake creation time/],
+    [
+      "event creation time",
+      (state) => (state.labelEvents[0].created_at = "invalid"),
+      /label event creation time/,
+    ],
+    ["event ID", (state) => (state.labelEvents[0].id = 0), /label event ID/],
+    ["run actor ID", (state) => (state.run.actor.id = undefined), /intake actor ID/],
+  ]) {
+    test(`${entryPoint} fails closed on malformed ${name}`, async () => {
+      const state = makeFixture();
+      change(state);
+      await assert.rejects(invoke(state), expected);
+      assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+    });
+  }
+}
+
+test("reviewer refuses a replacement label event even when the actor and timestamp match", async () => {
+  const state = dispatchFixture();
+  state.labelEvents.push({ ...state.labelEvents[0], id: 2000 });
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("reviewer refuses an event ID for a different reviewer", async () => {
+  const state = dispatchFixture();
+  state.pr.labels = allLabels();
+  state.labelEvents = recordedLabels(state);
+  state.context.payload.inputs.request_event_id = String(eventIdFor("tester"));
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+for (const eventId of ["", "0", "-1", "1000junk", "9007199254740992"]) {
+  test(`automatic reviews reject invalid request_event_id ${JSON.stringify(eventId)}`, async () => {
+    const state = dispatchFixture();
+    state.context.payload.inputs.request_event_id = eventId;
+    await assert.rejects(
+      prepareReview(state, "archie"),
+      /request_event_id must be a positive integer/,
+    );
+    assert.equal(state.calls.additions.length, 0);
+  });
+}
+
+test("a manual review cannot supply label-event provenance without an intake run", async () => {
+  const state = dispatchFixture(false);
+  state.context.payload.inputs.request_event_id = "1000";
+  await assert.rejects(prepareReview(state, "archie"), /request_event_id requires request_run_id/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
+  test(`routes ${prefix}-review-needed only to ${reviewerId}`, async () => {
+    const state = fixture(reviewerId);
+    await routeReviewRequest(state);
+    assert.deepEqual(
+      state.calls.dispatches.map((request) => request.workflow_id),
+      [`${reviewerId}.lock.yml`],
+    );
+    assert.deepEqual(state.calls.dispatches[0].inputs, {
+      item_number: "42",
+      head_sha: headSha,
+      request_run_id: "100",
+      request_event_id: String(eventIdFor(reviewerId)),
+    });
+  });
+
+  test(`${reviewerId} validates, claims, and deduplicates its own label`, async () => {
+    const state = dispatchFixture(true, reviewerId);
+    assert.deepEqual(await prepareReview(state, reviewerId), { number: 42, headSha });
+    assert.deepEqual(state.calls.additions[0].labels, [`${prefix}-review-in-progress`]);
+    assert.equal(state.calls.removals[0].name, `${prefix}-review-needed`);
+    assert.equal(await prepareReview(state, reviewerId), undefined);
+    assert.equal(state.calls.additions.length, 1);
+  });
+
+  test(`${reviewerId} supports manual reviews without a request label`, async () => {
+    const state = dispatchFixture(false, reviewerId);
+    state.pr.labels = [];
+    assert.deepEqual(await prepareReview(state, reviewerId), { number: 42, headSha });
+    assert.equal(state.calls.removals.length, 0);
+  });
+}
+
+test("one intake can dispatch all requested reviewers independently", async () => {
+  const state = fixture();
+  state.pr.labels = allLabels();
+  state.associatedPRs[0].labels = allLabels();
+  state.labelEvents = recordedLabels(state);
+  await routeReviewRequest(state);
+  assert.deepEqual(
+    state.calls.dispatches.map((request) => request.workflow_id).sort(),
+    Object.keys(reviewFlows)
+      .map((id) => `${id}.lock.yml`)
+      .sort(),
+  );
+  assert.deepEqual(state.calls.actors, ["maintainer"]);
+});
+
+test("a failed reviewer dispatch does not block other reviewers and is reported", async () => {
+  const state = fixture();
+  state.pr.labels = allLabels();
+  state.associatedPRs[0].labels = allLabels();
+  state.labelEvents = recordedLabels(state);
+  const dispatch = state.github.rest.actions.createWorkflowDispatch;
+  state.github.rest.actions.createWorkflowDispatch = async (request) => {
+    if (request.workflow_id === "archie.lock.yml") throw new Error("Archie dispatch unavailable");
+    await dispatch(request);
+  };
+  await assert.rejects(routeReviewRequest(state), /Archie dispatch unavailable/);
+  assert.equal(state.calls.dispatches.length, 6);
+  assert.deepEqual(state.calls.errors, ["Archie dispatch unavailable"]);
+  assert.deepEqual(state.pr.labels, allLabels());
+});
+
+test("claiming one review does not consume another reviewer's request", async () => {
+  const state = dispatchFixture();
+  state.pr.labels = allLabels();
+  state.labelEvents = recordedLabels(state);
+  for (const reviewerId of Object.keys(reviewFlows)) {
+    state.context.payload.inputs.request_event_id = String(eventIdFor(reviewerId));
+    assert.deepEqual(await prepareReview(state, reviewerId), { number: 42, headSha });
+  }
+  assert.equal(state.calls.removals.length, 7);
+  for (const reviewerId of Object.keys(reviewFlows)) {
+    state.context.payload.inputs.request_event_id = String(eventIdFor(reviewerId));
+    assert.equal(await prepareReview(state, reviewerId), undefined);
+  }
+  assert.equal(state.calls.additions.length, 7);
+});
+
+test("management automation can route only the management reviewer", async () => {
+  const state = fixture("mgmt-review");
+  state.run.actor = automationBot;
+  state.pr.labels = allLabels();
+  state.associatedPRs[0].labels = allLabels();
+  state.labelEvents = recordedLabels(state);
+  await routeReviewRequest(state);
+  assert.deepEqual(
+    state.calls.dispatches.map((request) => request.workflow_id),
+    ["mgmt-review.lock.yml"],
+  );
+  assert.deepEqual(state.calls.actors, []);
+  assert.ok(state.calls.messages.some((message) => message.includes("Skipping archie")));
+});
+
+test("management review independently authorizes the original automation bot", async () => {
+  const state = dispatchFixture(true, "mgmt-review");
+  state.run.actor = automationBot;
+  state.labelEvents = recordedLabels(state);
+  assert.deepEqual(await prepareReview(state, "mgmt-review"), { number: 42, headSha });
+  assert.deepEqual(state.calls.actors, []);
+});
+
+test("management automation retains direct dispatch access", async () => {
+  const state = dispatchFixture(false, "mgmt-review");
+  state.context.actor = automationBot.login;
+  state.context.payload.sender = automationBot;
+  assert.deepEqual(await prepareReview(state, "mgmt-review"), { number: 42, headSha });
+});
+
+for (const reviewerId of Object.keys(reviewFlows).filter((id) => id !== "mgmt-review")) {
+  test(`management automation cannot authorize ${reviewerId} through intake`, async () => {
+    const state = dispatchFixture(true, reviewerId);
+    state.run.actor = automationBot;
+    state.labelEvents = recordedLabels(state);
+    await assert.rejects(prepareReview(state, reviewerId), /not authorized to request/);
+    assert.equal(state.calls.additions.length, 0);
+  });
+
+  test(`management automation cannot directly dispatch ${reviewerId}`, async () => {
+    const state = dispatchFixture(false, reviewerId);
+    state.context.actor = automationBot.login;
+    state.context.payload.sender = automationBot;
+    await assert.rejects(prepareReview(state, reviewerId), /not authorized to request/);
+    assert.equal(state.calls.additions.length, 0);
+  });
+}
+
+test("a bot's name without GitHub's Bot identity does not grant access", async () => {
+  const state = fixture("mgmt-review");
+  state.run.actor = { id: 5, login: automationBot.login, type: "User" };
+  state.labelEvents = recordedLabels(state);
+  await assert.rejects(routeReviewRequest(state), /needs repository write/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("unlisted bots are rejected even if they have a collaborator permission", async () => {
+  const state = fixture("mgmt-review");
+  state.run.actor = { id: 6, login: "unlisted[bot]", type: "Bot" };
+  state.labelEvents = recordedLabels(state);
+  state.roles["unlisted[bot]"] = "write";
+  await assert.rejects(routeReviewRequest(state), /not authorized to request any reviewer/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+for (const [name, change] of [
+  ["a different head repository", (pr) => (pr.head.repo.id = 3)],
+  ["a different base repository", (pr) => (pr.base.repo.id = 3)],
+  ["an older commit", (pr) => (pr.head.sha = updatedSha)],
+  ["a closed PR", (pr) => (pr.state = "closed")],
+  ["a deleted fork", (pr) => (pr.head.repo = null)],
+]) {
+  test(`ignores commit associations with ${name}`, async () => {
+    const state = fixture();
+    change(state.associatedPRs[0]);
+    await routeReviewRequest(state);
+    assert.equal(state.calls.dispatches.length, 0);
+  });
+}
+
+test("refuses to choose between multiple labeled PRs for the same head", async () => {
+  const state = fixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("rejects different reviewer labels on different PRs before dispatching any reviewer", async () => {
+  const state = fixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("does not resolve PR ambiguity by filtering to the requester's allowed reviewers", async () => {
+  const state = fixture("mgmt-review");
+  state.run.actor = automationBot;
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: label }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("ignores unlabeled commit associations when resolving a unique review target", async () => {
+  const state = fixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "customer-reported" }];
+  state.associatedPRs.push(secondPR);
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 1);
+  assert.equal(state.calls.dispatches[0].inputs.item_number, "42");
+});
+
+test("the reviewer independently rejects cross-PR ambiguity before claiming a label", async () => {
+  const state = dispatchFixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(prepareReview(state, "archie"), /Multiple PRs match/);
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("an automatic dispatch cannot choose a PR other than the resolved intake target", async () => {
+  const state = dispatchFixture();
+  state.associatedPRs[0].number = 43;
+  await assert.rejects(
+    prepareReview(state, "archie"),
+    /does not match the intake's uniquely resolved target/,
+  );
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("manual dispatch can explicitly select a PR when commit associations are ambiguous", async () => {
+  const state = dispatchFixture(false);
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  assert.deepEqual(await prepareReview(state, "archie"), { number: 42, headSha });
+});
+
+for (const [name, change] of [
+  ["head SHA", (pr) => (pr.head.sha = updatedSha)],
+  ["request label", (pr) => (pr.labels = [])],
+  ["open state", (pr) => (pr.state = "closed")],
+]) {
+  test(`rechecks the ${name} after resolving the commit association`, async () => {
+    const state = fixture();
+    change(state.pr);
+    await routeReviewRequest(state);
+    assert.equal(state.calls.dispatches.length, 0);
+  });
+}
+
+test("surfaces dispatch failures without consuming the request label", async () => {
+  const state = fixture();
+  state.github.rest.actions.createWorkflowDispatch = async () => {
+    throw new Error("Dispatch unavailable");
+  };
+  await assert.rejects(routeReviewRequest(state), /Dispatch unavailable/);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+test("the worker independently authorizes and consumes an automatic request", async () => {
+  const state = dispatchFixture();
+  assert.deepEqual(await prepareReview(state, "archie"), { number: 42, headSha });
+  assert.deepEqual(state.calls.actors, ["maintainer"]);
+  assert.deepEqual(state.calls.additions[0].labels, ["architecture-review-in-progress"]);
+  assert.equal(state.calls.removals[0].name, label);
+
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.additions.length, 1);
+  assert.match(state.calls.messages.at(-1), /removed or already consumed/);
+});
+
+test("requires an intake run for bot dispatches", async () => {
+  const state = dispatchFixture();
+  state.context.payload.inputs.request_run_id = "";
+  await assert.rejects(prepareReview(state, "archie"), /must include an intake run/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+test("requires the dispatched SHA to match the intake run", async () => {
+  const state = dispatchFixture();
+  state.context.payload.inputs.head_sha = updatedSha;
+  await assert.rejects(prepareReview(state, "archie"), /does not match the intake run/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+for (const [name, change] of [
+  ["the head SHA changed", (pr) => (pr.head.sha = updatedSha)],
+  ["the fork changed", (pr) => (pr.head.repo.id = 3)],
+  ["the PR closed", (pr) => (pr.state = "closed")],
+  ["the request was withdrawn", (pr) => (pr.labels = [])],
+]) {
+  test(`skips an automatic worker when ${name}`, async () => {
+    const state = dispatchFixture();
+    change(state.pr);
+    assert.equal(await prepareReview(state, "archie"), undefined);
+    assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+    assert.ok(state.calls.messages.length > 0);
+  });
+}
+
+test("manual reviews capture the current head and do not require the request label", async () => {
+  const state = dispatchFixture(false);
+  state.pr.labels = [];
+  assert.deepEqual(await prepareReview(state, "archie"), { number: 42, headSha });
+  assert.deepEqual(state.calls.actors, ["maintainer"]);
+  assert.equal(state.calls.removals.length, 0);
+});
+
+test("manual reviews still require repository write access", async () => {
+  const state = dispatchFixture(false);
+  state.context.actor = "outsider";
+  await assert.rejects(prepareReview(state, "archie"), /outsider needs repository write/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+test("an intake run does not authorize an untrusted human dispatcher", async () => {
+  const state = dispatchFixture();
+  state.context.actor = "outsider";
+  state.context.payload.sender = { login: "outsider", type: "User" };
+  await assert.rejects(prepareReview(state, "archie"), /outsider needs repository write/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+for (const number of ["0", "-1", "1.5", "42; echo unsafe", "9007199254740992"]) {
+  test(`rejects invalid item_number ${JSON.stringify(number)}`, async () => {
+    const state = dispatchFixture();
+    state.context.payload.inputs.item_number = number;
+    await assert.rejects(prepareReview(state, "archie"), /item_number must be a positive integer/);
+    assert.equal(state.calls.additions.length, 0);
+  });
+}
+
+test("rejects abbreviated head SHAs", async () => {
+  const state = dispatchFixture();
+  state.context.payload.inputs.head_sha = "abcdef";
+  await assert.rejects(prepareReview(state, "archie"), /head_sha must be a full commit SHA/);
+});
+
+test("both routing and execution require the default branch", async () => {
+  const router = fixture();
+  router.context.ref = "refs/heads/feature";
+  await assert.rejects(routeReviewRequest(router), /default branch/);
+  const worker = dispatchFixture();
+  worker.context.ref = "refs/heads/feature";
+  await assert.rejects(prepareReview(worker, "archie"), /default branch/);
+});
+
+test("keeps the request label when starting the review fails", async () => {
+  const state = dispatchFixture();
+  state.github.rest.issues.addLabels = async () => {
+    throw new Error("Labels unavailable");
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Labels unavailable/);
+  assert.equal(state.calls.removals.length, 0);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+for (const automatic of [true, false]) {
+  const mode = automatic ? "automatic" : "manual";
+
+  test(`${mode} review preserves a replacement request added while marking in-progress`, async () => {
+    const state = dispatchFixture(automatic);
+    const addLabels = state.github.rest.issues.addLabels;
+    state.github.rest.issues.addLabels = async (request) => {
+      await addLabels(request);
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    };
+    assert.equal(await prepareReview(state, "archie"), undefined);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.removals.some((request) => request.name === label),
+      false,
+    );
+  });
+
+  test(`${mode} review does not claim a request withdrawn while marking in-progress`, async () => {
+    const state = dispatchFixture(automatic);
+    const addLabels = state.github.rest.issues.addLabels;
+    state.github.rest.issues.addLabels = async (request) => {
+      await addLabels(request);
+      changeLabel(state, label, "unlabeled", state.run.actor);
+    };
+    assert.equal(await prepareReview(state, "archie"), undefined);
+    assert.deepEqual(state.pr.labels, []);
+    assert.equal(
+      state.calls.removals.some((request) => request.name === label),
+      false,
+    );
+  });
+
+  test(`${mode} review restores a replacement request consumed during the DELETE call`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    const restored = state.labelEvents.filter((event) => event.label.name === label).at(-1);
+    assert.equal(restored.event, "labeled");
+    assert.equal(restored.actor.login, workflowBot.login);
+  });
+
+  test(`${mode} review restores a consumed replacement even when the PR head advances`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.head.sha = updatedSha;
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.equal(state.pr.head.sha, updatedSha);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    const restored = state.labelEvents.filter((event) => event.label.name === label).at(-1);
+    assert.equal(restored.event, "labeled");
+    assert.equal(restored.actor.login, workflowBot.login);
+  });
+
+  test(`${mode} rollback leaves a label already restored on the current head untouched`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    const getPR = state.github.rest.pulls.get;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.head.sha = updatedSha;
+      }
+      await removeLabel(request);
+    };
+    state.github.rest.pulls.get = async (request) => {
+      if (state.calls.removals.some((removal) => removal.name === label)) {
+        changeLabel(state, label, "labeled", state.run.actor);
+      }
+      return getPR(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+    assert.equal(
+      state.labelEvents.filter((event) => event.label.name === label).at(-1).actor.id,
+      state.run.actor.id,
+    );
+  });
+
+  test(`${mode} rollback does not restore a request on a PR that closed during deletion`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.state = "closed";
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, []);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+  });
+
+  test(`${mode} review preserves a new request added after the DELETE completes`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      await removeLabel(request);
+      if (request.name === label) changeLabel(state, label, "labeled", state.run.actor);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+    assert.equal(
+      state.labelEvents.filter((event) => event.label.name === label).at(-1).actor.id,
+      state.run.actor.id,
+    );
+  });
+}
+
+test("a changed head while marking in-progress prevents request consumption", async () => {
+  const state = dispatchFixture();
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.addLabels = async (request) => {
+    await addLabels(request);
+    state.pr.head.sha = updatedSha;
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+  assert.equal(
+    state.calls.removals.some((request) => request.name === label),
+    false,
+  );
+});
+
+test("a pre-existing in-progress label is not removed when a claim is superseded", async () => {
+  const state = dispatchFixture();
+  state.pr.labels.push({ name: "architecture-review-in-progress" });
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.addLabels = async (request) => {
+    await addLabels(request);
+    changeLabel(state, label, "unlabeled", state.run.actor);
+    changeLabel(state, label, "labeled", state.run.actor);
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.removals.length, 0);
+  assert.ok(state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
+test("a restored bot label cannot authorize the original automatic request", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    }
+    await removeLabel(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+  const additions = state.calls.additions.length;
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.additions.length, additions);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+test("a concurrent request removal returning 404 skips review and cleans up its marker", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      throw Object.assign(new Error("Label no longer exists"), { status: 404 });
+    }
+    await removeLabel(request);
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.deepEqual(state.pr.labels, []);
+  assert.ok(state.calls.messages.some((message) => message.includes("withdrawn during the claim")));
+});
+
+test("a failed label deletion is not treated as a successful claim", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label)
+      throw Object.assign(new Error("Permission denied"), { status: 403 });
+    await removeLabel(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Permission denied/);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+test("failure to verify the removal does not start a review", async () => {
+  const state = dispatchFixture();
+  const listEvents = state.github.rest.issues.listEvents;
+  state.github.rest.issues.listEvents = async (request) => {
+    if (state.calls.removals.some((removal) => removal.name === label)) {
+      throw new Error("Event verification unavailable");
+    }
+    return listEvents(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Event verification unavailable/);
+  assert.ok(!state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
+test("failure to restore a consumed replacement is surfaced", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    }
+    await removeLabel(request);
+  };
+  state.github.rest.issues.addLabels = async (request) => {
+    if (request.labels.includes(label)) throw new Error("Restoring request label failed");
+    await addLabels(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Restoring request label failed/);
+  assert.ok(!state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
+test("does not hide API failures while validating the PR", async () => {
+  const state = dispatchFixture();
+  state.github.rest.pulls.get = async () => {
+    throw new Error("API unavailable");
+  };
+  await assert.rejects(prepareReview(state, "archie"), /API unavailable/);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+const repoRoot = path.resolve(__dirname, "..", "..", "..");
+const workflowText = (name) =>
+  readFileSync(path.join(repoRoot, ".github", "workflows", name), "utf8").replace(/\r\n/g, "\n");
+
+function assertIssueEventReadPermission(job) {
+  const permissions = job.match(/^    permissions:\n((?:      [\w-]+: \w+\n)+)/m)?.[1];
+  // https://docs.github.com/en/rest/issues/events#list-issue-events accepts either scope.
+  assert.ok(permissions && /^      (issues|pull-requests): (read|write)$/m.test(permissions));
+}
+
+test("the shared intake and router preserve the trust boundary", () => {
+  const intake = workflowText("pr-review-intake.yml");
+  assert.match(intake, /permissions: \{\}/);
+  assert.doesNotMatch(intake, /uses:|secrets\./);
+  assert.doesNotMatch(intake, /concurrency:/);
+  const labels = JSON.parse(intake.match(/fromJSON\('([^']+)'\)/)[1]);
+  assert.deepEqual(
+    labels.sort(),
+    allLabels()
+      .map(({ name }) => name)
+      .sort(),
+  );
+  const router = workflowText("pr-review-router.yml");
+  assertIssueEventReadPermission(router.split("\n  dispatch:\n")[1]);
+  assert.match(router, /ref: \$\{\{ github\.sha \}\}/);
+  assert.doesNotMatch(router, /ref:.*workflow_run\.head|download-artifact/);
+});
+
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
+  const source = workflowText(`${reviewerId}.md`);
+
+  test(`${reviewerId} uses validated dispatch inputs and independent worker concurrency`, () => {
+    assertIssueEventReadPermission(
+      source.split("\n  validate_request:\n")[1].split("\ncheckout:")[0],
+    );
+    assert.doesNotMatch(source, /pull_request_target:|pull_request:|github\.event\.pull_request/);
+    assert.match(source, /checkout: false/);
+    assert.match(source, /request_event_id:\n\s+description: GitHub label-event ID/);
+    assert.match(source, /if: needs\.validate_request\.outputs\.ready == 'true'/);
+    assert.match(source, /jobs:\n  safe_outputs:\n    needs: \[validate_request\]/);
+    assert.doesNotMatch(source, /safe-outputs:\n  needs:/);
+    assert.ok(source.includes(`prepareReview({ github, context, core }, '${reviewerId}')`));
+    assert.ok(
+      source.includes(
+        'group: "gh-aw-${{ github.workflow }}-${{ github.event.inputs.item_number }}"',
+      ),
+    );
+    assert.match(source, /cancel-in-progress: false/);
+    assert.match(source, /allowed-events: \[COMMENT\]/);
+    assert.equal(
+      source.match(/commit-id: "\$\{\{ needs\.validate_request\.outputs\.head_sha \}\}"/g).length,
+      2,
+    );
+    assert.equal(
+      source.match(/target: "\$\{\{ needs\.validate_request\.outputs\.pr_number \}\}"/g).length,
+      4,
+    );
+    assert.doesNotMatch(source, /bash: true|git:\*|node bench\.mjs/);
+    assert.match(source, /do not check out or execute PR code/);
+    assert.doesNotMatch(source, /and stop\./);
+    assert.match(source, /Use the `remove-labels` and `add-labels` safe outputs/);
+  });
+
+  test(`${reviewerId} compiles to commit-pinned reviews and scoped label writes`, () => {
+    const compiled = workflowText(`${reviewerId}.lock.yml`);
+    assertIssueEventReadPermission(
+      compiled.split("\n  validate_request:\n")[1].split(/\n  [\w-]+:\n/)[0],
+    );
+    assert.match(compiled, /request_event_id:\n\s+description: GitHub label-event ID/);
+    assert.doesNotMatch(compiled, /^\s+pull_request_target:/m);
+    assert.match(
+      compiled,
+      /^  safe_outputs:\n    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m,
+    );
+    const jobStart = compiled.indexOf("\n  safe_outputs:\n");
+    const guard = compiled.indexOf("- name: Reject stale review outputs", jobStart);
+    const publish = compiled.indexOf("- name: Process Safe Outputs", jobStart);
+    assert.ok(guard > jobStart && publish > guard);
+    const encoded = compiled.match(/^\s+GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: (.+)$/m)[1];
+    const config = JSON.parse(JSON.parse(encoded));
+    for (const handler of ["create_pull_request_review_comment", "submit_pull_request_review"]) {
+      assert.equal(config[handler].target, "${{ needs.validate_request.outputs.pr_number }}");
+      assert.equal(config[handler].commit_id, "${{ needs.validate_request.outputs.head_sha }}");
+    }
+    assert.deepEqual(config.submit_pull_request_review.allowed_events, ["COMMENT"]);
+    assert.deepEqual(config.add_labels.allowed, [`${prefix}-review-added`]);
+    assert.deepEqual(config.remove_labels.allowed, [`${prefix}-review-in-progress`]);
+    const agent = compiled.split("\n  agent:\n")[1].split(/\n  [\w-]+:\n/)[0];
+    assert.doesNotMatch(agent, /uses: actions\/checkout@/);
+    assert.doesNotMatch(agent, /^\s+(?:contents|pull-requests|issues|actions): write$/m);
+  });
+
+  test(`${reviewerId} preserves validated targets in the agent-side safe-output config`, () => {
+    const compiled = workflowText(`${reviewerId}.lock.yml`);
+    const agent = compiled.split("\n  agent:\n")[1].split(/\n  [\w-]+:\n/)[0];
+    assert.match(agent, /^    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m);
+    const encoded = compiled.match(/^\s+GH_AW_SAFE_OUTPUTS_CONFIG: (.+)$/m)[1];
+    const configText = JSON.parse(encoded);
+    const config = JSON.parse(configText);
+    const handlerConfig = JSON.parse(
+      JSON.parse(compiled.match(/^\s+GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: (.+)$/m)[1]),
+    );
+    for (const handler of [
+      "add_labels",
+      "remove_labels",
+      "create_pull_request_review_comment",
+      "submit_pull_request_review",
+    ]) {
+      assert.equal(config[handler].target, "${{ needs.validate_request.outputs.pr_number }}");
+      assert.deepEqual(config[handler], handlerConfig[handler]);
+    }
+    for (const handler of ["create_pull_request_review_comment", "submit_pull_request_review"]) {
+      assert.equal(config[handler].commit_id, "${{ needs.validate_request.outputs.head_sha }}");
+    }
+
+    // Actions resolves these expressions before create_files writes the MCP config.
+    // In particular, a manual dispatch's optional head_sha input may be empty.
+    const rendered = JSON.parse(
+      configText
+        .replaceAll("${{ needs.validate_request.outputs.pr_number }}", "42")
+        .replaceAll("${{ needs.validate_request.outputs.head_sha }}", headSha),
+    );
+    assert.equal(rendered.add_labels.target, "42");
+    assert.equal(rendered.remove_labels.target, "42");
+    for (const handler of ["create_pull_request_review_comment", "submit_pull_request_review"]) {
+      assert.equal(rendered[handler].target, "42");
+      assert.equal(rendered[handler].commit_id, headSha);
+    }
+    const fileConfig = JSON.parse(JSON.parse(agent.match(/^\s+GH_AW_FILE_CONFIG: (.+)$/m)[1]));
+    assert.deepEqual(
+      fileConfig.files.find((file) => file.path === "safeoutputs/config.json"),
+      { path: "safeoutputs/config.json", content_env: "GH_AW_SAFE_OUTPUTS_CONFIG" },
+    );
+  });
+
+  // Exercise each actual safe-output step, not a separate copy of its logic.
+  const guardStep = source
+    .split("    - name: Reject stale review outputs\n")[1]
+    .split(/\n  [\w-]+:/)[0];
+  const guardScript = guardStep
+    .split("        script: |\n")[1]
+    .split("\n")
+    .map((line) => line.slice(10))
+    .join("\n");
+  const runOutputGuard = new AsyncFunction("github", "context", "process", guardScript);
+
+  test(`${reviewerId} allows publication at the reviewed head`, async () => {
+    const state = fixture();
+    await runOutputGuard(state.github, state.context, {
+      env: { REVIEW_PR_NUMBER: "42", REVIEW_HEAD_SHA: headSha },
+    });
+  });
+
+  for (const [name, change] of [
+    ["a new commit", (pr) => (pr.head.sha = updatedSha)],
+    ["a closed PR", (pr) => (pr.state = "closed")],
+  ]) {
+    test(`${reviewerId} blocks safe outputs after ${name}`, async () => {
+      const state = fixture();
+      change(state.pr);
+      await assert.rejects(
+        runOutputGuard(state.github, state.context, {
+          env: { REVIEW_PR_NUMBER: "42", REVIEW_HEAD_SHA: headSha },
+        }),
+        /No review outputs were published/,
+      );
+    });
+  }
+}
+
+test("Dash requires external benchmark evidence instead of executing PR-derived benchmarks", () => {
+  const dash = workflowText("dash.md");
+  assert.match(dash, /existing benchmark\s+results from unprivileged CI/);
+  assert.match(dash, /performance claim\s+is unverified/);
+  assert.doesNotMatch(dash, /write and run a quick|Run it with `node/);
+});
+
+test("management review retains its specialized threat detection and format-fix dispatch", () => {
+  const management = workflowText("mgmt-review.md");
+  assert.match(management, /bots: \[github-actions, azure-sdk-automation\]/);
+  assert.match(management, /threat-detection:/);
+  assert.match(management, /model: gpt-5\.6-sol/);
+  assert.match(management, /dispatch-workflow:\s+- format-auto-fix/);
+});
+
+test("management API exclusions remain explicit within the public-surface review step", () => {
+  const management = workflowText("mgmt-review.md");
+  const apiStep = management.split("### Step 3")[1].split("### Step 4")[0];
+  assert.match(
+    apiStep,
+    /^   Do not review submodules such as `\/models` or `\/api`, or issues outside the\n   guidelines such as `undocumented`\./m,
+  );
+  assert.doesNotMatch(apiStep, /^- (Review submodules|Focus on issues)/m);
+});

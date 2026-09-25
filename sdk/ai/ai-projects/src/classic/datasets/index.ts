@@ -13,9 +13,8 @@ import {
   get,
   list,
   listVersions,
-  uploadFile,
-  uploadFolder,
 } from "../../api/datasets/operations.js";
+import { uploadFile, uploadFolder } from "#platform/api/datasets/uploads";
 import type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
@@ -71,14 +70,14 @@ export interface DatasetsOperations {
     name: string,
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-  /** Upload a file to the DatasetVersion */
+  /** Upload a file to the DatasetVersion. Only supported in Node.js. */
   uploadFile: (
     name: string,
     version: string,
     filePath: string,
     options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
-  /** Upload a folder to the DatasetVersion */
+  /** Upload a folder to the DatasetVersion. Only supported in Node.js. */
   uploadFolder: (
     name: string,
     version: string,
