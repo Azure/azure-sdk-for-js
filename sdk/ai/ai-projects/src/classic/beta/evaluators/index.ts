@@ -77,7 +77,7 @@ export interface BetaEvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    job: EvaluatorGenerationJob,
+    body: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
   ) => JobPoller<EvaluatorVersion>;
   /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
@@ -145,9 +145,9 @@ function _getBetaEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: EvaluatorGenerationJob,
+      body: EvaluatorGenerationJob,
       options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, job, options),
+    ) => createGenerationJob(context, body, options),
     getCredentials: (
       name: string,
       credentialRequest: EvaluatorCredentialRequest,

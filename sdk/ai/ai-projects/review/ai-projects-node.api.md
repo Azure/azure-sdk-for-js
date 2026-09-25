@@ -1219,12 +1219,10 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 
 // @public
 export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
     operationId?: string;
     updateIntervalInMs?: number;
 }
@@ -1235,7 +1233,6 @@ export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1244,12 +1241,10 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1261,7 +1256,6 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
     after?: string;
     before?: string;
     category?: EvaluatorCategory;
-    foundryFeatures?: "Evaluations=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -1281,7 +1275,7 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 // @public
 export interface BetaEvaluatorsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
+    createGenerationJob: (body: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
@@ -1297,7 +1291,6 @@ export interface BetaEvaluatorsOperations {
 
 // @public
 export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
