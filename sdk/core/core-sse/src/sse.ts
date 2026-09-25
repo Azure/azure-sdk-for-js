@@ -47,6 +47,12 @@ interface SseParserCallbacks {
   onRetry?(value: number): void;
 }
 
+export class InvalidSseRetryError extends RangeError {
+  constructor() {
+    super("SSE retry fields must be non-negative safe integers.");
+  }
+}
+
 export function createSseParser(
   chunkStream: SseStream,
   callbacks?: SseParserCallbacks,
@@ -184,6 +190,9 @@ async function* toMessage(
         case "retry": {
           if (/^[0-9]+$/.test(value)) {
             const retry = Number(value);
+            if (!Number.isSafeInteger(retry)) {
+              throw new InvalidSseRetryError();
+            }
             message.retry = retry;
             callbacks?.onRetry?.(retry);
           }

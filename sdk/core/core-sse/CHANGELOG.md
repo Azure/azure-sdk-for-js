@@ -12,7 +12,12 @@
 
 ### Bugs Fixed
 
-- Process colonless SSE fields, including empty `id` resets. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+- Process colonless SSE fields, including empty `id` resets. Preserve committed
+  IDs on subsequent `createSseStream` events without an `id` field; those events
+  previously reported an empty `id`. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+- Reject server-provided `retry:` values outside the safe integer range instead
+  of reporting imprecise values; honor longer safe delays in full.
+  [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
 
 ### Other Changes
 

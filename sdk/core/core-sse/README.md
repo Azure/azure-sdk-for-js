@@ -84,6 +84,11 @@ started. The reconnect delay starts at 3000 ms and is replaced by valid
 factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
 on the next request.
 
+Retry delays must be non-negative safe integer milliseconds. Malformed `retry:`
+fields are ignored, but a digit-only field exceeding `Number.MAX_SAFE_INTEGER`
+ends the stream with a `RangeError`. A safe delay longer than one timer interval
+is waited in full rather than shortened.
+
 Events without an explicit `id:` field inherit the last committed event ID, even
 across reconnections. The `lastEventId` option seeds this value for the initial
 connection. An empty `id:` field or a colonless `id` field clears it for

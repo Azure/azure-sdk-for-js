@@ -105,7 +105,8 @@ export interface ReconnectingSseStreamOptions<TResponse extends SseConnectRespon
   lastEventId?: string;
 
   /**
-   * The initial delay, in milliseconds, before reconnecting. Defaults to 3000.
+   * The initial delay, in non-negative safe integer milliseconds, before reconnecting.
+   * Defaults to 3000.
    *
    * A valid `retry:` field received from the service replaces this value for
    * subsequent reconnections.

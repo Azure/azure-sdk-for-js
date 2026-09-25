@@ -225,7 +225,13 @@ export function buildReconnectingSseTests(
     it("rejects invalid retryDelayInMs and maxRetries options", async () => {
       const connect = vi.fn(async () => response(createBody({ hang: true })));
 
-      for (const retryDelayInMs of [-1, Number.NaN, Number.POSITIVE_INFINITY]) {
+      for (const retryDelayInMs of [
+        -1,
+        0.5,
+        Number.NaN,
+        Number.POSITIVE_INFINITY,
+        Number.MAX_SAFE_INTEGER + 1,
+      ]) {
         await expect(
           createReconnectingSseStream(connect, acceptedOptions({ retryDelayInMs })),
         ).rejects.toThrow(RangeError);
@@ -236,30 +242,85 @@ export function buildReconnectingSseTests(
         ).rejects.toThrow(RangeError);
       }
       assert.equal(connect.mock.calls.length, 0);
+
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ retryDelayInMs: Number.MAX_SAFE_INTEGER }),
+      );
+      await stream.cancel();
     });
 
-    it("clamps an oversized retry delay to the largest value timers can honor", async () => {
+    it("waits the full safe retry delay across multiple timers", async () => {
       vi.useFakeTimers();
       try {
-        const connect = vi
-          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
-          .mockResolvedValueOnce(response(createBody({ chunks: ["retry: 999999999999\n\n"] })))
-          .mockResolvedValueOnce(
-            response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
+        const maxTimerDelayInMs = 2147483647;
+        const longDelayInMs = maxTimerDelayInMs + 25;
+        for (const source of ["option", "server"] as const) {
+          const connect = vi
+            .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+            .mockResolvedValueOnce(
+              response(
+                createBody({
+                  chunks: source === "server" ? [`retry: ${longDelayInMs}\n\n`] : [],
+                }),
+              ),
+            )
+            .mockResolvedValueOnce(
+              response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
+            );
+          const stream = await createReconnectingSseStream(
+            connect,
+            acceptedOptions({ retryDelayInMs: source === "option" ? longDelayInMs : 0 }),
           );
-        const stream = await createReconnectingSseStream(connect, {
-          validateResponse: () => "accept",
-        });
-        const reader = stream.getReader();
-        const read = reader.read();
+          const reader = stream.getReader();
+          const read = reader.read();
 
-        await vi.advanceTimersByTimeAsync(2147483646);
-        assert.equal(connect.mock.calls.length, 1);
-        await vi.advanceTimersByTimeAsync(1);
-        assert.equal((await read).value?.data, "reconnected");
-        await reader.cancel();
+          await vi.advanceTimersByTimeAsync(maxTimerDelayInMs);
+          assert.equal(connect.mock.calls.length, 1);
+          await vi.advanceTimersByTimeAsync(24);
+          assert.equal(connect.mock.calls.length, 1);
+          await vi.advanceTimersByTimeAsync(1);
+          assert.equal((await read).value?.data, "reconnected");
+          await reader.cancel();
+        }
       } finally {
         vi.useRealTimers();
+      }
+    });
+
+    it("aborts a long retry delay after its first timer interval", async () => {
+      vi.useFakeTimers();
+      try {
+        const aborter = new AbortController();
+        const connect = vi.fn(async () => response(createBody({})));
+        const stream = await createReconnectingSseStream(
+          connect,
+          acceptedOptions({
+            abortSignal: aborter.signal,
+            retryDelayInMs: 2147483647 + 25,
+          }),
+        );
+        const read = stream.getReader().read();
+
+        await vi.advanceTimersByTimeAsync(2147483647);
+        aborter.abort();
+        await expect(read).rejects.toMatchObject({ name: "AbortError" });
+        await vi.advanceTimersByTimeAsync(25);
+        assert.equal(connect.mock.calls.length, 1);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("fails the stream rather than rounding an unsafe server retry delay", async () => {
+      for (const retry of ["9007199254740992", "999999999999999999999999999999999"]) {
+        const connect = vi.fn(async () =>
+          response(createBody({ chunks: [`retry: ${retry}\n\n`] })),
+        );
+        const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+        await expect(stream.getReader().read()).rejects.toThrow(RangeError);
+        assert.equal(connect.mock.calls.length, 1);
       }
     });
 

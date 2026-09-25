@@ -18,7 +18,7 @@ import {
   genStrs,
   createRetry,
 } from "./util.js";
-import { describe, it, assert, type SuiteCollector } from "vitest";
+import { describe, it, assert, expect, type SuiteCollector } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(
@@ -137,6 +137,22 @@ export function buildSseTests(
       await assertAsyncIterable(stream, 1, (event) => {
         assert.equal(event.retry, 1);
       });
+    });
+
+    it("accepts the largest safe retry value and rejects larger values", async function () {
+      const safeStream = createStream((write) => {
+        write(encoder.encode(`retry: ${Number.MAX_SAFE_INTEGER}\ndata: valid\n\n`));
+      });
+      await assertAsyncIterable(safeStream, 1, (event) => {
+        assert.equal(event.retry, Number.MAX_SAFE_INTEGER);
+      });
+
+      for (const retry of ["9007199254740992", "999999999999999999999999999999999"]) {
+        const stream = createStream((write) => {
+          write(encoder.encode(`retry: ${retry}\n\n`));
+        });
+        await expect(stream.getReader().read()).rejects.toThrow(RangeError);
+      }
     });
 
     it("handles multiple colons", async function () {

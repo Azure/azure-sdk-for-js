@@ -12,14 +12,19 @@ import type {
   SseStream,
 } from "./models.js";
 import { SseRetryError } from "./models.js";
-import { createSseParser } from "./sse.js";
+import { createSseParser, InvalidSseRetryError } from "./sse.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 const defaultRetryDelayInMs = 3000;
 const maxTimerDelayInMs = 2147483647;
 
-function clampDelay(delayInMs: number): number {
-  return Math.min(delayInMs, maxTimerDelayInMs);
+async function waitForReconnect(delayInMs: number, abortSignal: AbortSignal): Promise<void> {
+  let remaining = delayInMs;
+  do {
+    const interval = Math.min(remaining, maxTimerDelayInMs);
+    await delay(interval, { abortSignal });
+    remaining -= interval;
+  } while (remaining > 0);
 }
 
 async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<void> {
@@ -74,13 +79,13 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
   try {
     throwIfAborted(options.abortSignal);
     let lastEventId = options.lastEventId ?? "";
-    let reconnectDelayInMs = clampDelay(retryDelayInMs);
+    let reconnectDelayInMs = retryDelayInMs;
     const parserCallbacks = {
       onId: (value: string) => {
         lastEventId = value;
       },
       onRetry: (value: number) => {
-        reconnectDelayInMs = clampDelay(value);
+        reconnectDelayInMs = value;
       },
     };
     const initial = await establishConnection(
@@ -107,6 +112,9 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
             yield* current.iterable;
             lastTransportError = undefined;
           } catch (error: unknown) {
+            if (error instanceof InvalidSseRetryError) {
+              throw error;
+            }
             if (stopped || aborter.signal.aborted || options.abortSignal?.aborted) {
               throw new AbortError("The operation was aborted.");
             }
@@ -122,7 +130,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
             throw new SseRetryError(lastTransportError);
           }
 
-          await delay(reconnectDelayInMs, { abortSignal: aborter.signal });
+          await waitForReconnect(reconnectDelayInMs, aborter.signal);
           throwIfAborted(options.abortSignal);
           reconnects++;
 
@@ -152,7 +160,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
               if (options.maxRetries !== undefined && reconnects >= options.maxRetries) {
                 throw new SseRetryError(lastTransportError);
               }
-              await delay(reconnectDelayInMs, { abortSignal: aborter.signal });
+              await waitForReconnect(reconnectDelayInMs, aborter.signal);
               reconnects++;
               try {
                 const next = await establishConnection(
@@ -196,8 +204,8 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
 }
 
 function validateOptions(retryDelayInMs: number, maxRetries: number | undefined): void {
-  if (!Number.isFinite(retryDelayInMs) || retryDelayInMs < 0) {
-    throw new RangeError("retryDelayInMs must be a non-negative finite number.");
+  if (!Number.isSafeInteger(retryDelayInMs) || retryDelayInMs < 0) {
+    throw new RangeError("retryDelayInMs must be a non-negative safe integer.");
   }
   if (maxRetries !== undefined && (!Number.isSafeInteger(maxRetries) || maxRetries < 0)) {
     throw new RangeError("maxRetries must be a non-negative safe integer.");
