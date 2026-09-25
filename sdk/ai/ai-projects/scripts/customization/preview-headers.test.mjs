@@ -181,3 +181,35 @@ test("keeps the constant preview header while the emitter still declares the opt
     "poll headers stay required while the emitter still sends the opt-in",
   );
 });
+
+test("does not treat a custom-only preview header as an emitter retirement", () => {
+  const baseGenerated = tree(operations({ header: "none" }), options(false));
+  const baseSource = tree(operations({ header: "local", poll: true }), options(false));
+  const generated = tree(operations({ header: "none", extra: true }), options(false));
+  const result = planOperations({ baseGenerated, baseSource, generated });
+  assert.deepEqual(result.diagnostics, []);
+  const output = result.files.get("api/items/operations.ts");
+  assert.match(output, /"foundry-features": foundryFeatures/);
+  assert.match(output, /pollHeaders: \{[^}]*"foundry-features": "Items=V1Preview"/);
+  const guarded = (source) =>
+    validateCustomization({
+      baseGenerated,
+      baseSource,
+      generated,
+      source,
+      matches: result.matches,
+    });
+  assert.deepEqual(guarded(result.files), []);
+  const dropped = new Map(result.files);
+  dropped.set(
+    "api/items/operations.ts",
+    output
+      .replace(/const foundryFeatures = "Items=V1Preview";\s*/, "")
+      .replace(/"foundry-features": foundryFeatures,?\s*/, "")
+      .replace(/pollHeaders: \{[^}]*\},?/, ""),
+  );
+  assert.ok(
+    guarded(dropped).some((item) => item.member === "pollHeaders"),
+    "a maintained header the emitter never sent must not pass as retired",
+  );
+});

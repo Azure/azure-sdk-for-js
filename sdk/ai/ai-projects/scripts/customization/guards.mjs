@@ -891,8 +891,10 @@ function checkOperations(trees, matches, renames, report) {
     }
     const module = trees.output.get(incoming.file);
     // The emitter retired this operation's preview opt-in, so the maintained
-    // constant header may leave its follow-up requests as well.
+    // constant header may leave its follow-up requests as well. A header the
+    // emitter never sent is a customization and cannot be retired this way.
     const retiredPreview =
+      sendsPreviewHeader(base?.send) &&
       sendsPreviewHeader(customized?.send) &&
       !sendsPreviewHeader(incoming.send) &&
       !sendsPreviewHeader(module?.byName.get(names.send)?.node);

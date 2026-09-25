@@ -477,10 +477,15 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       }
       const merged = mergeDeclaration(...snippets, { file: outputFile, declaration: outputName });
       diagnostics.push(...merged.diagnostics);
-      if (member === "publicNode" && merged.text && customized) {
-        const customSend = textOf(modules[1].nodes.get(names.send), modules[1].source);
+      if (member === "publicNode" && merged.text && base && customized) {
+        const sendOf = (module) => textOf(module.nodes.get(names.send), module.source);
         const outputSend = outputDeclarations.get(outputFile)?.get(names.send);
-        if (sendsPreviewHeader(customSend) && outputSend && !sendsPreviewHeader(outputSend))
+        if (
+          sendsPreviewHeader(sendOf(modules[0])) &&
+          sendsPreviewHeader(sendOf(modules[1])) &&
+          outputSend &&
+          !sendsPreviewHeader(outputSend)
+        )
           merged.text = retirePreviewHeaders(merged.text);
       }
       if (!base && member === "publicNode" && merged.text) {

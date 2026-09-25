@@ -219,6 +219,35 @@ test("reports a customized classic member instead of dropping it with its operat
       (item) => item.declaration === "deleteItem" && /customized member/.test(item.message),
     ),
   );
+  // A plain delegation that customizes its signature is still a customization.
+  const retyped = customText.replace(
+    "deleteItem: (id: string, options?: ItemsDeleteItemOptionalParams) => Promise<string>;",
+    "deleteItem: (id: string, options?: ItemsDeleteItemOptionalParams) => Promise<void>;",
+  );
+  const withApi = (custom, api) =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText: custom,
+      incomingText,
+      matches: [],
+      resolvedText: operations(1, [getItem]),
+      resolvedOptionsText: options([getItem[3]]),
+      customApiText: api,
+    });
+  const signature = withApi(retyped, operations(1, [getItem, deleteItem]));
+  assert.equal(signature.text, undefined);
+  assert.ok(signature.diagnostics.some((item) => item.declaration === "deleteItem"));
+  // Mirroring the customized operation signature can follow the operation.
+  const mirrored = withApi(
+    retyped,
+    operations(1, [getItem, deleteItem]).replace(
+      "export async function deleteItem(context: Client, id: string, options: ItemsDeleteItemOptionalParams = { requestOptions: {} }): Promise<string>",
+      "export async function deleteItem(context: Client, id: string, options: ItemsDeleteItemOptionalParams = { requestOptions: {} }): Promise<void>",
+    ),
+  );
+  assert.deepEqual(mirrored.diagnostics, []);
+  assert.doesNotMatch(mirrored.text, /deleteItem/);
 });
 
 test("reports a customized classic member whose operation moves to another group", () => {
@@ -245,6 +274,31 @@ test("reports a customized classic member whose operation moves to another group
   );
   assert.equal(diagnostics.length, 1);
   assert.match(diagnostics[0].message, /classic\/items\/index\.ts/);
+  // A plain delegation that customizes its signature is still a customization.
+  const api = operations(2, [betaArchive, restore]);
+  const retyped = baseText.replaceAll(
+    "archiveItem: (id: string, options?: BetaItemsArchiveItemOptionalParams)",
+    "archiveItem: (id: string, options?: ArchiveOptions)",
+  );
+  assert.equal(
+    relocatedMemberDiagnostics("classic/beta/items/index.ts", retyped, baseText, matches, api)
+      .length,
+    1,
+  );
+  // Mirroring the customized operation signature can follow the operation.
+  assert.deepEqual(
+    relocatedMemberDiagnostics(
+      "classic/beta/items/index.ts",
+      retyped,
+      baseText,
+      matches,
+      api.replace(
+        "export async function archiveItem(context: Client, id: string, options: BetaItemsArchiveItemOptionalParams",
+        "export async function archiveItem(context: Client, id: string, options: ArchiveOptions",
+      ),
+    ),
+    [],
+  );
 });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {

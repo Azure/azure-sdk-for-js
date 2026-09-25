@@ -211,6 +211,52 @@ function isSimpleMember(members, properties, contextName) {
   );
 }
 
+function typeKey(node) {
+  return node ? canonicalize(`type GuardType = ${node.getText(node.getSourceFile())};`) : null;
+}
+
+function parameterKeys(parameters) {
+  return parameters.map((parameter) =>
+    JSON.stringify([
+      ts.isIdentifier(parameter.name) ? parameter.name.text : null,
+      Boolean(parameter.questionToken || parameter.initializer),
+      typeKey(parameter.type),
+    ]),
+  );
+}
+
+/**
+ * Whether a classic member is exactly the delegation that would be rendered
+ * from its operation's customized signature. Only such members, or members
+ * unchanged from the emitted baseline, can follow the resolved contract
+ * without losing a classic-level customization.
+ */
+function mirrorsOperation(members, properties, contextName, api) {
+  if (!api || !isSimpleMember(members, properties, contextName)) return false;
+  const [member] = members;
+  const arrow = properties[0].initializer;
+  const node = api.get(arrow.body.expression.text);
+  if (!node || !ts.isFunctionDeclaration(node) || !node.type) return false;
+  const expected = parameterKeys(node.parameters.slice(1));
+  const matches = (parameters) =>
+    parameterKeys(parameters).join("\n") === expected.join("\n") &&
+    !expected.some((key) => JSON.parse(key).includes(null));
+  return (
+    matches(member.type.parameters) &&
+    matches(arrow.parameters) &&
+    typeKey(member.type.type) === typeKey(node.type)
+  );
+}
+
+function operationDeclarations(text, file) {
+  if (text === undefined) return undefined;
+  try {
+    return declarations(parse(text, file));
+  } catch {
+    return undefined;
+  }
+}
+
 function wrap(kind, text) {
   return kind === "member"
     ? `interface GuardType {\n${text}\n}`
@@ -267,12 +313,14 @@ function place(slots, name, text, anchors) {
 /**
  * An operation relocated out of a customized classic module is rendered from
  * its resolved API contract in the destination module. That is lossless only
- * when the source member is a plain delegation, so report any customized
- * member instead of silently dropping its classic-level behavior.
+ * when the source member is unchanged from the emitted baseline or mirrors its
+ * operation's signature, so report any other member instead of silently
+ * dropping its classic-level customization.
  */
-export function relocatedMemberDiagnostics(oldFile, customText, baseText, matches) {
-  const interfaceName = parse(baseText, oldFile).statements.find(ts.isInterfaceDeclaration)?.name
-    .text;
+export function relocatedMemberDiagnostics(oldFile, customText, baseText, matches, customApiText) {
+  const baseSource = parse(baseText, oldFile);
+  const interfaceName = baseSource.statements.find(ts.isInterfaceDeclaration)?.name.text;
+  const base = shapeOf(baseSource, interfaceName);
   const custom = shapeOf(parse(customText, oldFile), interfaceName);
   if (!custom) {
     return [
@@ -285,12 +333,18 @@ export function relocatedMemberDiagnostics(oldFile, customText, baseText, matche
     ];
   }
   const contextName = contextParameter(custom.factory);
+  const api = operationDeclarations(customApiText, classicApiFile(oldFile));
   const diagnostics = [];
   for (const match of matches) {
     const name = classicMemberName(match.base.name);
     const members = group(custom.members, name);
     const properties = group(custom.properties, name);
-    if ((members || properties) && !isSimpleMember(members, properties, contextName)) {
+    if (!members && !properties) continue;
+    const unchanged =
+      base &&
+      sameNodes("member", group(base.members, name), members) &&
+      sameNodes("property", group(base.properties, name), properties);
+    if (!unchanged && !mirrorsOperation(members, properties, contextName, api)) {
       diagnostics.push({
         file: oldFile,
         declaration: name,
@@ -315,6 +369,7 @@ export function mergeCustomizedClassic({
   matches,
   resolvedText,
   resolvedOptionsText,
+  customApiText,
   baseRenames = new Map(),
   incomingRenames = new Map(),
   mapImport = (item) => item,
@@ -339,6 +394,7 @@ export function mergeCustomizedClassic({
     return { text: undefined, diagnostics };
   }
   const resolved = parse(resolvedText, apiFile);
+  const customApi = operationDeclarations(customApiText, apiFile);
   const contextName = contextParameter(custom.factory);
   const operationMatches = new Map(
     matches
@@ -381,9 +437,9 @@ export function mergeCustomizedClassic({
     const owned = Boolean(current.member || current.property);
     const uncustomized =
       owned &&
-      (isSimpleMember(current.member, current.property, contextName) ||
-        (sameNodes("member", before.member, current.member) &&
-          sameNodes("property", before.property, current.property)));
+      ((sameNodes("member", before.member, current.member) &&
+        sameNodes("property", before.property, current.property)) ||
+        mirrorsOperation(current.member, current.property, contextName, customApi));
     if (!retained) {
       if (!owned) continue;
       if (!uncustomized) {

@@ -187,6 +187,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
             baseSource.get(oldFile),
             baseGenerated.get(oldFile),
             relocated.filter((match) => classicFile(match.base.file) === oldFile),
+            baseSource.get(classicApiFile(oldFile)),
           ),
         );
       }
@@ -225,6 +226,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
         matches: operations.matches,
         resolvedText: operations.files.get(apiFile),
         resolvedOptionsText: operations.files.get(apiFile.replace(/operations\.ts$/, "options.ts")),
+        customApiText: baseSource.get(apiFile),
         baseRenames,
         incomingRenames,
         mapImport: knownImport,
