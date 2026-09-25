@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create and associate an IP filter with your Elastic monitor resource to control and manage network traffic.
  *
  * @summary create and associate an IP filter with your Elastic monitor resource to control and manage network traffic.
- * x-ms-original-file: 2025-06-01/IPTrafficFilter_Create.json
+ * x-ms-original-file: 2026-03-15-preview/IPTrafficFilter_Create.json
  */
 async function createAndAssociateIPFilterCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

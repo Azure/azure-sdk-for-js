@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
  *
  * @summary get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/MonitoredSubscriptions_Get.json
+ * x-ms-original-file: 2026-03-15-preview/MonitoredSubscriptions_Get.json
  */
 async function monitorsGetMonitoredSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

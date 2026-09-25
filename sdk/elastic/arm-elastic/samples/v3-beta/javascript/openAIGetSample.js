@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get detailed information about OpenAI integration rules for a given Elastic monitor resource.
  *
  * @summary get detailed information about OpenAI integration rules for a given Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/OpenAI_Get.json
+ * x-ms-original-file: 2026-03-15-preview/OpenAI_Get.json
  */
 async function openAIGet() {
   const credential = new DefaultAzureCredential();
