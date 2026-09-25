@@ -372,29 +372,32 @@ describe("cleanUpPackageDirectory", () => {
     }
   });
 
-  test("preserves merge-based data-plane customizations in SpecPullRequest and Batch mode", async () => {
+  test("preserves data-plane customization layouts in SpecPullRequest and Batch mode", async () => {
     const runModes = [RunMode.SpecPullRequest, RunMode.Batch];
     const packageTypes = ["dataplane", "restlevel"] as const;
+    const generatedLayouts = [
+      ["generated", "index.ts"],
+      ["src", "generated", "index.ts"],
+    ];
 
     for (const packageType of packageTypes) {
       for (const runMode of runModes) {
-        const tempPackageDir = await createTestDirectoryStructure(__dirname, packageType);
+        for (const generatedLayout of generatedLayouts) {
+          const tempPackageDir = await createTestDirectoryStructure(__dirname, packageType);
 
-        try {
-          await ensureDir(path.join(tempPackageDir, "generated"));
-          await writeFile(
-            path.join(tempPackageDir, "generated", "index.ts"),
-            "// Generated baseline",
-            "utf8",
-          );
+          try {
+            const generatedFile = path.join(tempPackageDir, ...generatedLayout);
+            await ensureDir(path.dirname(generatedFile));
+            await writeFile(generatedFile, "// Generated source", "utf8");
 
-          await cleanUpPackageDirectory(tempPackageDir, runMode);
+            await cleanUpPackageDirectory(tempPackageDir, runMode);
 
-          expect(await pathExists(path.join(tempPackageDir, "generated", "index.ts"))).toBe(true);
-          expect(await pathExists(path.join(tempPackageDir, "src", "index.ts"))).toBe(true);
-          expect(await pathExists(path.join(tempPackageDir, "package.json"))).toBe(true);
-        } finally {
-          await remove(tempPackageDir);
+            expect(await pathExists(generatedFile)).toBe(true);
+            expect(await pathExists(path.join(tempPackageDir, "src", "index.ts"))).toBe(true);
+            expect(await pathExists(path.join(tempPackageDir, "package.json"))).toBe(true);
+          } finally {
+            await remove(tempPackageDir);
+          }
         }
       }
     }

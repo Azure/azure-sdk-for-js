@@ -5,6 +5,7 @@
 > 📖 Read `references/skill-template.md` for the full template.
 
 Using the package profile from Phase 0, generate a `SKILL.md` at:
+
 ```
 sdk/<service>/<package-name>/.github/skills/<package-short-name>/SKILL.md
 ```
@@ -26,7 +27,7 @@ The skill directory name MUST match the `name` field in frontmatter. Use the sho
 ```yaml
 ---
 name: <package-short-name>
-description: '<Brief description>. WHEN: regenerate <package>; modify <package>; fix <package> bug; add <package> feature; <package> tsp-client update.'
+description: "<Brief description>. WHEN: regenerate <package>; modify <package>; fix <package> bug; add <package> feature; <package> tsp-client update."
 ---
 ```
 
@@ -36,17 +37,18 @@ Use semicolons for trigger phrases (YAML-safe). Include package name in every tr
 
 List the most dangerous mistakes. Include items **conditionally based on the package shape** detected in Phase 0:
 
-- **Never hand-edit files in `generated/`** — these are overwritten on every `tsp-client update`. All modifications go through editing `src/` files directly (the 3-way merge preserves your changes).
-- **(If customization layout exists)** **"Check for merge conflicts in `src/` FIRST after regeneration"** — `dev-tool customization apply` performs a 3-way merge that can produce conflict markers.
+- **Never hand-edit files in `src/generated/` or root `generated/`** — these files are overwritten during generation.
+- **(If separated customization layout exists)** **"Make changes in the handwritten `src/` layer."**
+- **(If legacy merge customization exists)** **"Check for merge conflicts in `src/` FIRST after regeneration."**
 - **(If `--skip index.ts` detected in generation script)** **`src/index.ts` is skipped during customization apply** — new exports must be manually added to the barrel export file.
-- **(If customization layout exists)** **"Hand-authored files in `src/` with counterparts in `generated/` are merged. Files without counterparts are preserved as-is."**
+- **(If legacy merge customization exists)** **"Files with matching paths in `src/` and `generated/` are merged."**
 - **(If mostly generated / thin wrapper)** Focus pitfalls on generation workflow, entrypoints, and exports — not convenience layer patterns.
 - Any package-specific gotchas found during scanning
 
 ### 3. Architecture
 
-- Source layout with `generated/` vs `src/` distinction
-- Customization mechanism (`dev-tool customization apply`)
+- Source layout with generated and handwritten source locations
+- Customization mechanism (`src/generated/` wrappers or the legacy merge command)
 - Key modules and their purpose
 
 ### 4. Regeneration
@@ -55,7 +57,8 @@ List the most dangerous mistakes. Include items **conditionally based on the pac
 
 - **Package-specific generation command** — document the actual script content from `package.json` (detected in Phase 0). Note any special flags. Do NOT assume the command shape — different packages use different scripts (`generate:client`, `customize`, `customization apply-v2`, or generation may be disabled).
 - **Error categorization table** — which file to fix based on error type:
-  - **(If customization layout)** Generated file in `generated/`, merged file in `src/`, hand-authored file in `src/`
+  - **(If separated customization layout)** Generated file in `src/generated/`, handwritten wrapper in `src/`
+  - **(If legacy customization layout)** Generated file in root `generated/`, merged file in `src/`, handwritten file in `src/`
   - **(If no customization layout)** Generated file in `src/`, hand-authored file in `src/`
 - **Package-specific customization patterns** — what hand-authored files do and when they need updating
 - **Breaking change detection** — what to look for after spec changes
@@ -65,14 +68,15 @@ List the most dangerous mistakes. Include items **conditionally based on the pac
 
 Add a table mapping goals to edit locations:
 
-| Goal | Where to edit |
-|---|---|
-| Add/modify type conversions | `src/<relevant-utils>.ts` |
+| Goal                          | Where to edit              |
+| ----------------------------- | -------------------------- |
+| Add/modify type conversions   | `src/<relevant-utils>.ts`  |
 | Add/modify public model types | `src/<relevant-models>.ts` |
-| Change how operations work | `src/<relevant-client>.ts` |
-| Export a new public symbol | `src/index.ts` |
+| Change how operations work    | `src/<relevant-client>.ts` |
+| Export a new public symbol    | `src/index.ts`             |
 
-**Prefer extension points over editing generated-mirrored code.** Many files in `src/` are copies from `generated/` and will be updated on regeneration (via 3-way merge). Instead, add conversion helpers or custom models in hand-authored files.
+**Prefer extension points over generated-code copies.** Keep generated source in `src/generated/`.
+Add conversion helpers, wrappers, or custom models in handwritten `src/` files.
 
 ### 6. Testing Notes
 
@@ -95,5 +99,7 @@ If confirmed, create the skill directory and SKILL.md file.
 📍 **Phase 1 complete** | Created: SKILL.md | Next: Phase 2
 
 ---
+
 ## → Next: Phase 2 — Generate References
+
 Read [02-generate-references.md](02-generate-references.md) and begin immediately.
