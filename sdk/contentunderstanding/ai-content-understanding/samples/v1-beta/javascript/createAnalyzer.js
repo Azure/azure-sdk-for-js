@@ -4,18 +4,53 @@
 /**
  * @summary Create a custom analyzer with a field schema to extract structured data.
  *
- * This sample demonstrates how to create a custom analyzer with a field schema to extract
- * structured data from documents.
+ * This sample demonstrates how to create a custom analyzer with a field schema to
+ * extract structured data from documents. While this sample shows document modalities,
+ * custom analyzers can also be created for video, audio, and image content. The same
+ * concepts apply across all modalities.
  *
- * Custom analyzers allow you to:
+ * Alternatively, you can create custom analyzers using
+ * [Content Understanding Studio](https://contentunderstanding.ai.azure.com/), a web-based
+ * UI that provides a convenient way to build and test analyzers in the same interface.
+ * Content Understanding Studio also allows you to opt-in to in-context learning by
+ * providing a knowledge base of labeled data, which can further improve model quality
+ * for document-based analyzers.
+ *
+ * ## About custom analyzers
+ *
+ * Custom analyzers allow you to define a field schema that specifies what structured data
+ * to extract from documents. You can:
  * - Define custom fields (string, number, date, object, array)
- * - Specify extraction methods:
- *   - extract: Values are extracted as they appear in the content (literal text extraction)
- *   - generate: Values are generated freely based on the content using AI models
- *   - classify: Values are classified against a predefined set of categories
- * - Use prebuilt analyzers as a base (prebuilt-document, prebuilt-audio, prebuilt-video, prebuilt-image)
- * - Configure analysis options (OCR, layout, formulas)
- * - Enable source and confidence tracking for extracted field values
+ * - Specify extraction methods to control how field values are extracted (see
+ *   [method](https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/analyzer-reference#method)
+ *   for details):
+ *   - **`generate`** — Values are generated freely based on the content using AI models
+ *     (best for complex or variable fields requiring interpretation).
+ *   - **`classify`** — Values are classified against a predefined set of categories
+ *     (best when using `enum` with a fixed set of possible values).
+ *   - **`extract`** — Values are extracted as they appear in the content (best for literal
+ *     text extraction from specific locations). **Note**: This method is only available
+ *     for document content. Requires `estimateSourceAndConfidence` to be set to `true`
+ *     for the field.
+ *
+ *   When not specified, the system automatically determines the best method based on the
+ *   field type and description.
+ * - Use prebuilt analyzers as a base. Supported base analyzers include:
+ *   - `prebuilt-document` — for document-based custom analyzers
+ *   - `prebuilt-audio` — for audio-based custom analyzers
+ *   - `prebuilt-video` — for video-based custom analyzers
+ *   - `prebuilt-image` — for image-based custom analyzers
+ * - Configure analysis options (OCR, layout, formulas).
+ * - Enable source and confidence tracking: Set `estimateFieldSourceAndConfidence` to
+ *   `true` at the analyzer level (in `ContentAnalyzerConfig`) or `estimateSourceAndConfidence`
+ *   to `true` at the field level to get source location (page number, bounding box) and
+ *   confidence scores for extracted field values. This is required for fields with
+ *   `method` = `extract` and is useful for validation, quality assurance, debugging, and
+ *   highlighting source text in user interfaces. Field-level settings override analyzer-level
+ *   settings.
+ *
+ * `estimateFieldSourceAndConfidence` can also provide confidence and grounding for `generate`
+ * and `classify` fields.
  */
 
 require("dotenv/config");
@@ -93,7 +128,7 @@ async function main() {
     config,
     fieldSchema,
     models: {
-      completion: "gpt-4.1",
+      completion: "gpt-5.2",
       embedding: "text-embedding-3-large",
     },
   };
@@ -149,18 +184,27 @@ async function main() {
         console.log(`  Source: ${totalAmountField.source ?? "N/A"}`);
       }
 
-      // Generate field (AI-generated value)
       const summaryField = content.fields["document_summary"];
       if (summaryField) {
-        console.log(`Document Summary (generate): ${summaryField.value ?? "(not found)"}`);
+        console.log(`Document Summary: ${summaryField.value ?? "(not found)"}`);
         console.log(`  Confidence: ${summaryField.confidence?.toFixed(2) ?? "N/A"}`);
+        // `source` is the wire-format grounding string (for example
+        // `D(1,0.10,0.20,0.50,0.20,0.50,0.25,0.10,0.25)` for a document page +
+        // polygon, or `AV(1500,0.10,0.20,0.30,0.40)` for an audio/visual timestamp
+        // + optional bounding box). Multiple regions are separated by `;`.
+        // See https://aka.ms/cu-content-source for the full grammar.
+        if (summaryField.source) {
+          console.log(`  Source: ${summaryField.source}`);
+        }
       }
 
-      // Classify field (classification against predefined categories)
       const documentTypeField = content.fields["document_type"];
       if (documentTypeField) {
-        console.log(`Document Type (classify): ${documentTypeField.value ?? "(not found)"}`);
+        console.log(`Document Type: ${documentTypeField.value ?? "(not found)"}`);
         console.log(`  Confidence: ${documentTypeField.confidence?.toFixed(2) ?? "N/A"}`);
+        if (documentTypeField.source) {
+          console.log(`  Source: ${documentTypeField.source}`);
+        }
       }
     }
   }

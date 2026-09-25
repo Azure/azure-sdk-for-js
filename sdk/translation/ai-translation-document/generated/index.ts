@@ -39,11 +39,11 @@ export { KnownVersions } from "./models/index.js";
 export type {
   DocumentTranslationClientOptionalParams,
   GetSupportedFormatsOptionalParams,
-  GetDocumentsStatusOptionalParams,
+  ListDocumentStatusesOptionalParams,
   CancelTranslationOptionalParams,
   GetTranslationStatusOptionalParams,
   GetDocumentStatusOptionalParams,
-  GetTranslationsStatusOptionalParams,
+  ListTranslationStatusesOptionalParams,
   StartTranslationOptionalParams,
 } from "./documentTranslation/api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

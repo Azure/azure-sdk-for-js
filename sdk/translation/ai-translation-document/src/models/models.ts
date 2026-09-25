@@ -187,7 +187,7 @@ export interface TranslationStatus {
   /** Operation created date time */
   createdAt: Date;
   /** Date time in which the operation's status has been updated */
-  lastActionAt: Date;
+  updatedAt: Date;
   /** List of possible statuses for job or document */
   status: Status;
   /**
@@ -203,7 +203,7 @@ export function translationStatusDeserializer(item: any): TranslationStatus {
   return {
     id: item["id"],
     createdAt: new Date(item["createdDateTimeUtc"]),
-    lastActionAt: new Date(item["lastActionDateTimeUtc"]),
+    updatedAt: new Date(item["lastActionDateTimeUtc"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : translationErrorDeserializer(item["error"]),
     summary: translationStatusSummaryDeserializer(item["summary"]),

@@ -3,18 +3,23 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  listKeys,
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/expressRouteCircuitAuthorizations/operations.js";
 import type {
+  ExpressRouteCircuitAuthorizationsListKeysOptionalParams,
   ExpressRouteCircuitAuthorizationsListOptionalParams,
   ExpressRouteCircuitAuthorizationsDeleteOptionalParams,
   ExpressRouteCircuitAuthorizationsCreateOrUpdateOptionalParams,
   ExpressRouteCircuitAuthorizationsGetOptionalParams,
 } from "../../api/expressRouteCircuitAuthorizations/options.js";
-import type { ExpressRouteCircuitAuthorization } from "../../models/microsoft/network/models.js";
+import type {
+  ExpressRouteCircuitAuthorization,
+  ExpressRouteAuthorizationKey,
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -22,6 +27,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExpressRouteCircuitAuthorizations operations. */
 export interface ExpressRouteCircuitAuthorizationsOperations {
+  /** Gets the authorization key associated with the specified express route circuit authorization. */
+  listKeys: (
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options?: ExpressRouteCircuitAuthorizationsListKeysOptionalParams,
+  ) => Promise<ExpressRouteAuthorizationKey>;
   /** Gets all authorizations in an express route circuit. */
   list: (
     resourceGroupName: string,
@@ -92,6 +104,12 @@ export interface ExpressRouteCircuitAuthorizationsOperations {
 
 function _getExpressRouteCircuitAuthorizations(context: NetworkManagementContext) {
   return {
+    listKeys: (
+      resourceGroupName: string,
+      circuitName: string,
+      authorizationName: string,
+      options?: ExpressRouteCircuitAuthorizationsListKeysOptionalParams,
+    ) => listKeys(context, resourceGroupName, circuitName, authorizationName, options),
     list: (
       resourceGroupName: string,
       circuitName: string,

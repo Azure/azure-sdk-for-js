@@ -98,7 +98,7 @@ export function _listQuotaReportSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +127,7 @@ export async function _listQuotaReportDeserialize(
 
   return listQuotaReportResultDeserializer(result.body);
 }
+
 /** Get quota report for volume (with filter support) */
 export function listQuotaReport(
   context: Client,
@@ -142,7 +143,7 @@ export function listQuotaReport(
     getInitialResponse: () =>
       _listQuotaReportSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
 }
 
@@ -162,7 +163,7 @@ export function _revertRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,6 +185,7 @@ export async function _revertRelocationDeserialize(result: PathUncheckedResponse
 
   return;
 }
+
 /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
 export function revertRelocation(
   context: Client,
@@ -199,7 +201,7 @@ export function revertRelocation(
     getInitialResponse: () =>
       _revertRelocationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -219,7 +221,7 @@ export function _finalizeRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,6 +243,7 @@ export async function _finalizeRelocationDeserialize(result: PathUncheckedRespon
 
   return;
 }
+
 /** Finalizes the relocation of the volume and cleans up the old volume. */
 export function finalizeRelocation(
   context: Client,
@@ -263,7 +266,7 @@ export function finalizeRelocation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -283,7 +286,7 @@ export function _relocateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,6 +312,7 @@ export async function _relocateDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Relocates volume to a new stamp */
 export function relocate(
   context: Client,
@@ -324,7 +328,7 @@ export function relocate(
     getInitialResponse: () =>
       _relocateSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -345,7 +349,7 @@ export function _poolChangeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,6 +375,7 @@ export async function _poolChangeDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Moves volume to another pool */
 export function poolChange(
   context: Client,
@@ -387,7 +392,7 @@ export function poolChange(
     getInitialResponse: () =>
       _poolChangeSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -407,7 +412,7 @@ export function _performReplicationTransferSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -431,6 +436,7 @@ export async function _performReplicationTransferDeserialize(
 
   return;
 }
+
 /** Performs an adhoc replication transfer on a volume with volumeType Migration */
 export function performReplicationTransfer(
   context: Client,
@@ -457,7 +463,7 @@ export function performReplicationTransfer(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -478,7 +484,7 @@ export function _finalizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -502,6 +508,7 @@ export async function _finalizeExternalReplicationDeserialize(
 
   return;
 }
+
 /** Finalizes the migration of an external volume by releasing the replication and breaking the external cluster peering if no other migration is active. */
 export function finalizeExternalReplication(
   context: Client,
@@ -528,7 +535,7 @@ export function finalizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -549,7 +556,7 @@ export function _authorizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -576,6 +583,7 @@ export async function _authorizeExternalReplicationDeserialize(
 
   return svmPeerCommandResponseDeserializer(result.body);
 }
+
 /** Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM have been peered a SnapMirror will be created */
 export function authorizeExternalReplication(
   context: Client,
@@ -602,7 +610,7 @@ export function authorizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   ) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
 }
@@ -624,7 +632,7 @@ export function _peerExternalClusterSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -653,6 +661,7 @@ export async function _peerExternalClusterDeserialize(
 
   return clusterPeerCommandResponseDeserializer(result.body);
 }
+
 /** Starts peering the external cluster for this migration volume */
 export function peerExternalCluster(
   context: Client,
@@ -677,7 +686,7 @@ export function peerExternalCluster(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
 }
 
@@ -697,7 +706,7 @@ export function _reInitializeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -721,6 +730,7 @@ export async function _reInitializeReplicationDeserialize(
 
   return;
 }
+
 /** Re-Initializes the replication connection on the destination volume */
 export function reInitializeReplication(
   context: Client,
@@ -743,7 +753,7 @@ export function reInitializeReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -764,7 +774,7 @@ export function _authorizeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -792,6 +802,7 @@ export async function _authorizeReplicationDeserialize(
 
   return;
 }
+
 /** Authorize the replication connection on the source volume */
 export function authorizeReplication(
   context: Client,
@@ -816,7 +827,7 @@ export function authorizeReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -836,7 +847,7 @@ export function _deleteReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -858,6 +869,7 @@ export async function _deleteReplicationDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /** Delete the replication connection on the destination volume, and send release to the source replication */
 export function deleteReplication(
   context: Client,
@@ -880,7 +892,7 @@ export function deleteReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -900,7 +912,7 @@ export function _resyncReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -922,6 +934,7 @@ export async function _resyncReplicationDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /** Resync the connection on the destination volume. If the operation is ran on the source volume it will reverse-resync the connection and sync from destination to source. */
 export function resyncReplication(
   context: Client,
@@ -944,7 +957,7 @@ export function resyncReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -964,7 +977,7 @@ export function _listReplicationsSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -993,6 +1006,7 @@ export async function _listReplicationsDeserialize(
 
   return _listReplicationsDeserializer(result.body);
 }
+
 /** List all replications for a specified volume */
 export function listReplications(
   context: Client,
@@ -1008,7 +1022,11 @@ export function listReplications(
       _listReplicationsSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listReplicationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -1028,7 +1046,7 @@ export function _replicationStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1055,6 +1073,7 @@ export async function _replicationStatusDeserialize(
 
   return replicationStatusDeserializer(result.body);
 }
+
 /** Get the status of the replication */
 export async function replicationStatus(
   context: Client,
@@ -1092,7 +1111,7 @@ export function _reestablishReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1120,6 +1139,7 @@ export async function _reestablishReplicationDeserialize(
 
   return;
 }
+
 /** Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots */
 export function reestablishReplication(
   context: Client,
@@ -1144,7 +1164,7 @@ export function reestablishReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1164,7 +1184,7 @@ export function _breakReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1190,6 +1210,7 @@ export async function _breakReplicationDeserialize(result: PathUncheckedResponse
 
   return;
 }
+
 /** Break the replication connection on the destination volume */
 export function breakReplication(
   context: Client,
@@ -1205,7 +1226,7 @@ export function breakReplication(
     getInitialResponse: () =>
       _breakReplicationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1226,7 +1247,7 @@ export function _listGetGroupIdListForLdapUserSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1255,6 +1276,7 @@ export async function _listGetGroupIdListForLdapUserDeserialize(
 
   return getGroupIdListForLdapUserResponseDeserializer(result.body);
 }
+
 /** Returns the list of group Ids for a specific LDAP User */
 export function listGetGroupIdListForLdapUser(
   context: Client,
@@ -1286,7 +1308,7 @@ export function listGetGroupIdListForLdapUser(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   ) as PollerLike<
     OperationState<GetGroupIdListForLdapUserResponse>,
@@ -1310,7 +1332,7 @@ export function _breakFileLocksSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1336,6 +1358,7 @@ export async function _breakFileLocksDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Break all the file locks on a volume */
 export function breakFileLocks(
   context: Client,
@@ -1351,7 +1374,7 @@ export function breakFileLocks(
     getInitialResponse: () =>
       _breakFileLocksSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1371,7 +1394,7 @@ export function _splitCloneFromParentSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1398,6 +1421,7 @@ export async function _splitCloneFromParentDeserialize(
 
   return volumeDeserializer(result.body);
 }
+
 /** Split operation to convert clone volume to an independent volume. */
 export function splitCloneFromParent(
   context: Client,
@@ -1420,7 +1444,7 @@ export function splitCloneFromParent(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1440,7 +1464,7 @@ export function _resetCifsPasswordSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1462,6 +1486,7 @@ export async function _resetCifsPasswordDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /** Reset cifs password from volume */
 export function resetCifsPassword(
   context: Client,
@@ -1484,7 +1509,7 @@ export function resetCifsPassword(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1505,7 +1530,7 @@ export function _revertSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1531,6 +1556,7 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Revert a volume to the snapshot specified in the body */
 export function revert(
   context: Client,
@@ -1547,7 +1573,7 @@ export function revert(
     getInitialResponse: () =>
       _revertSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1567,7 +1593,7 @@ export function _populateAvailabilityZoneSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1594,6 +1620,7 @@ export async function _populateAvailabilityZoneDeserialize(
 
   return volumeDeserializer(result.body);
 }
+
 /** This operation will populate availability zone information for a volume */
 export function populateAvailabilityZone(
   context: Client,
@@ -1620,7 +1647,7 @@ export function populateAvailabilityZone(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   ) as PollerLike<OperationState<Volume>, Volume>;
 }
@@ -1639,7 +1666,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1664,6 +1691,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _volumeListDeserializer(result.body);
 }
+
 /** List all volumes within the capacity pool */
 export function list(
   context: Client,
@@ -1677,7 +1705,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -1697,7 +1729,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       forceDelete: options?.forceDelete,
     },
     {
@@ -1720,6 +1752,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete the specified volume */
 export function $delete(
   context: Client,
@@ -1735,7 +1768,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1756,7 +1789,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1783,6 +1816,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return volumeDeserializer(result.body);
 }
+
 /** Patch the specified volume */
 export function update(
   context: Client,
@@ -1799,7 +1833,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1820,7 +1854,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1847,6 +1881,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return volumeDeserializer(result.body);
 }
+
 /** Create or update the specified volume within the capacity pool */
 export function createOrUpdate(
   context: Client,
@@ -1871,7 +1906,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1891,7 +1926,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1916,6 +1951,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
 
   return volumeDeserializer(result.body);
 }
+
 /** Get the details of the specified volume */
 export async function get(
   context: Client,

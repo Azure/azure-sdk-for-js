@@ -21,12 +21,11 @@ export interface ConversationsOperations {
   /** List Conversation resources */
   list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
   /** Deletes a Conversation. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
+  /** Delete a conversation. */
+  deleteConversation: (
+    conversationName: string,
+    options?: ConversationsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a Conversation. */
   update: (
     conversationName: string,
@@ -47,7 +46,7 @@ export interface ConversationsOperations {
 function _getConversations(context: WorkspaceContext) {
   return {
     list: (options?: ConversationsListOptionalParams) => list(context, options),
-    delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) =>
+    deleteConversation: (conversationName: string, options?: ConversationsDeleteOptionalParams) =>
       $delete(context, conversationName, options),
     update: (
       conversationName: string,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the advanced platform metrics rules associated with the storage account.
  *
  * @summary list the advanced platform metrics rules associated with the storage account.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_List.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_List.json
  */
 async function advancedPlatformMetricsRulesListListAdvancedPlatformMetricsRules() {
   const credential = new DefaultAzureCredential();

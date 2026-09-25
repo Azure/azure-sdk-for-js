@@ -8,7 +8,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 --- NodeJS
 +++ browser
 @@ -170,9 +170,9 @@
-     V20260301 = "2026-03-01"
+     translationIds?: string[];
  }
  
  // @public

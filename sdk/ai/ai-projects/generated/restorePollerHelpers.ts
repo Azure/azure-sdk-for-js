@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
+import { _createGenerationJobDeserialize } from "./api/beta/datasets/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
+import { _createGenerationJobDeserialize as _createGenerationJobDeserializeBetaEvaluators } from "./api/beta/evaluators/operations.js";
+import { _createRunDeserialize } from "./api/beta/agentInsightMonitors/operations.js";
+import { _createOptimizationJobDeserialize } from "./api/beta/agents/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -46,8 +50,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -78,9 +81,25 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /data_generation_jobs": {
+    deserializer: _createGenerationJobDeserialize,
+    expectedStatuses: ["201", "200", "202"],
+  },
   "POST /memory_stores/{name}:update_memories": {
     deserializer: _updateMemoriesDeserialize,
     expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /evaluator_generation_jobs": {
+    deserializer: _createGenerationJobDeserializeBetaEvaluators,
+    expectedStatuses: ["201", "200", "202"],
+  },
+  "POST /agent_insight_monitors/{monitor_id}/runs": {
+    deserializer: _createRunDeserialize,
+    expectedStatuses: ["201", "200", "202"],
+  },
+  "POST /agent_optimization_jobs": {
+    deserializer: _createOptimizationJobDeserialize,
+    expectedStatuses: ["201", "200", "202"],
   },
 };
 

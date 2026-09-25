@@ -1,5 +1,11 @@
 # Release History
 
+## 1.7.1 (Unreleased)
+
+### Other Changes
+
+- Document pagination best practices on `PageSettings` and remove `maxPageSize` from the README paging examples.
+
 ## 1.7.0 (2026-07-13)
 
 ### Other Changes

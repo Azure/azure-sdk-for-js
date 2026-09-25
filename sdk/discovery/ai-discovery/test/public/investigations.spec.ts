@@ -92,7 +92,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
       description: "Task for engine start test",
     });
     const engine = await client.investigations.startDiscoveryEngine(projectName, investigationName);
-    await client.tasks.delete(projectName, investigationName, task.name);
+    await client.tasks.deleteTask(projectName, investigationName, task.name);
     assert.isDefined(engine);
     assert.property(engine, "discoveryEngineStatus");
   });
@@ -143,7 +143,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
 
     // Start the delete LRO without waiting and capture its operation id.
     const capture = captureOperationId();
-    const poller = client.investigations.delete(projectName, opStatusName, {
+    const poller = client.investigations.deleteInvestigation(projectName, opStatusName, {
       onResponse: capture.onResponse,
     });
     await poller.submitted();
@@ -165,7 +165,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
       displayName: "Delete Status Test",
     });
 
-    const poller = client.investigations.delete(projectName, deleteName);
+    const poller = client.investigations.deleteInvestigation(projectName, deleteName);
     await poller.pollUntilDone();
     assert.isTrue(poller.isDone);
     assert.equal(poller.operationState?.status, "succeeded");

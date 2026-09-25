@@ -49,7 +49,7 @@ export interface ProtectionPoliciesOperations {
     policyName: string,
     parameters: ProtectionPolicyResource,
     options?: ProtectionPoliciesCreateOrUpdateOptionalParams,
-  ) => Promise<ProtectionPolicyResource>;
+  ) => Promise<ProtectionPolicyResource | void>;
   /**
    * Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
    * operation. Status of the operation can be fetched using GetPolicyOperationResult API.

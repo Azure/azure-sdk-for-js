@@ -28,7 +28,7 @@ export interface BookshelfClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export function BookshelfClientRestorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BookshelfClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: BookshelfClientRestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+export function bookshelfClientRestorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BookshelfClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: BookshelfClientRestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
 export interface BookshelfClientRestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -106,7 +106,7 @@ export interface ConversationsListOptionalParams extends OperationOptions {
 // @public
 export interface ConversationsOperations {
     create: (projectName: string, options?: ConversationsCreateOptionalParams) => Promise<Conversation>;
-    delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
+    deleteConversation: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
     get: (conversationName: string, options?: ConversationsGetOptionalParams) => Promise<Conversation>;
     list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
     update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsUpdateOptionalParams) => Promise<Conversation>;
@@ -262,7 +262,7 @@ export interface InvestigationsListOptionalParams extends OperationOptions {
 // @public
 export interface InvestigationsOperations {
     createOrReplace: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
-    delete: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    deleteInvestigation: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (projectName: string, investigationName: string, options?: InvestigationsGetOptionalParams) => Promise<Investigation>;
     getDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     getOperationStatus: (projectName: string, investigationName: string, operationId: string, options?: InvestigationsGetOperationStatusOptionalParams) => Promise<InvestigationOperationStatus>;
@@ -381,7 +381,7 @@ export interface KnowledgeBasesListOptionalParams extends OperationOptions {
 export interface KnowledgeBasesOperations {
     cancelIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesCancelIndexingOptionalParams) => PollerLike<OperationState_2<void>, void>;
     createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBaseCreateOrUpdateContent, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<KnowledgeBase>, KnowledgeBase>;
-    delete: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    deleteKnowledgeBase: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (knowledgeBaseName: string, options?: KnowledgeBasesGetOptionalParams) => Promise<KnowledgeBase>;
     getOperationStatus: (knowledgeBaseName: string, operationId: string, options?: KnowledgeBasesGetOperationStatusOptionalParams) => Promise<KnowledgeBaseOperationResponseUnion>;
     list: (options?: KnowledgeBasesListOptionalParams) => PagedAsyncIterableIterator<KnowledgeBase>;
@@ -609,16 +609,6 @@ export type RepeatabilityResult = "accepted" | "rejected";
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkspaceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface RunResult {
     readonly completedAt?: Date;
     readonly createdAt?: Date;
@@ -761,7 +751,7 @@ export interface TasksOperations {
     addComment: (projectName: string, investigationName: string, taskName: string, body: TaskComment, options?: TasksAddCommentOptionalParams) => Promise<Task>;
     addExecutionHistory: (projectName: string, investigationName: string, taskName: string, body: ExecutionHistoryEntry, options?: TasksAddExecutionHistoryOptionalParams) => Promise<Task>;
     create: (projectName: string, investigationName: string, body: TaskCreateOrUpdateContent, options?: TasksCreateOptionalParams) => Promise<Task>;
-    delete: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
+    deleteTask: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
     get: (projectName: string, investigationName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
     start: (projectName: string, investigationName: string, taskName: string, options?: TasksStartOptionalParams) => Promise<Task>;
@@ -846,6 +836,16 @@ export class WorkspaceClient {
 
 // @public
 export interface WorkspaceClientOptionalParams extends ClientOptions {
+}
+
+// @public
+export function workspaceClientRestorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkspaceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: WorkspaceClientRestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
+// @public (undocumented)
+export interface WorkspaceClientRestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an alert configuration in the specified managed cluster.
  *
  * @summary creates or updates an alert configuration in the specified managed cluster.
- * x-ms-original-file: 2026-05-02-preview/AlertConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-02-preview/AlertConfigurations_CreateOrUpdate.json
  */
 async function createOrUpdateAlertConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

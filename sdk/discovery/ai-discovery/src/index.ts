@@ -8,8 +8,8 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { WorkspaceClient } from "./workspace/workspaceClient.js";
-export type { RestorePollerOptions } from "./workspace/restorePollerHelpers.js";
-export { restorePoller } from "./workspace/restorePollerHelpers.js";
+export type { RestorePollerOptions as WorkspaceClientRestorePollerOptions } from "./workspace/restorePollerHelpers.js";
+export { restorePoller as workspaceClientRestorePoller } from "./workspace/restorePollerHelpers.js";
 export type {
   OperationState,
   PagedInvestigation,
@@ -137,7 +137,7 @@ export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { BookshelfClient } from "./bookshelf/bookshelfClient.js";
 export type { RestorePollerOptions as BookshelfClientRestorePollerOptions } from "./bookshelf/restorePollerHelpers.js";
-export { restorePoller as BookshelfClientRestorePoller } from "./bookshelf/restorePollerHelpers.js";
+export { restorePoller as bookshelfClientRestorePoller } from "./bookshelf/restorePollerHelpers.js";
 export type { BookshelfClientOptionalParams } from "./bookshelf/api/index.js";
 export type {
   KnowledgeBasesDeleteOptionalParams,

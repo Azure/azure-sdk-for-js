@@ -36,7 +36,7 @@ describe("DocumentFilter tests", () => {
     const succeededStatusList = ["Succeeded"];
 
     // get DocumentsStatus
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       statuses: succeededStatusList,
     })) {
       assert.isTrue(succeededStatusList.includes(documentStatus.status));
@@ -51,12 +51,12 @@ describe("DocumentFilter tests", () => {
 
     // get Documents Status with operationID
     const testIds: string[] = [];
-    for await (const documentStatus of client.getDocumentsStatus(operationId)) {
+    for await (const documentStatus of client.listDocumentStatuses(operationId)) {
       testIds.push(documentStatus.id);
     }
 
     // get Documents Status with testIds filter
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       documentIds: testIds,
     })) {
       assert.isTrue(testIds.includes(documentStatus.id));
@@ -74,7 +74,7 @@ describe("DocumentFilter tests", () => {
 
     // get Documents Status w.r.t orderby
     const testCreatedOnDateTimes: Date[] = [];
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       orderBy: orderByList,
     })) {
       testCreatedOnDateTimes.push(documentStatus.createdAt);
@@ -82,7 +82,7 @@ describe("DocumentFilter tests", () => {
 
     // Asserting that only the last document is returned
     let itemCount = 0;
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       createdAfter: testCreatedOnDateTimes[4],
     })) {
       assert.isNotNull(documentStatus);
@@ -103,7 +103,7 @@ describe("DocumentFilter tests", () => {
 
     // get Documents Status w.r.t orderby
     const testCreatedOnDateTimes: Date[] = [];
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       orderBy: orderByList,
     })) {
       testCreatedOnDateTimes.push(documentStatus.createdAt);
@@ -111,7 +111,7 @@ describe("DocumentFilter tests", () => {
 
     // Asserting that only the first document is returned
     let itemCount2 = 0;
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       // Add 1ms: JS Date truncates the service's sub-millisecond createdDateTimeUtc,
       // so the raw value would fall just before the doc and exclude it from the range.
       createdBefore: new Date(testCreatedOnDateTimes[0].getTime() + 1),
@@ -124,7 +124,7 @@ describe("DocumentFilter tests", () => {
 
     // Asserting that the first 4/5 docs are returned
     let itemCount3 = 0;
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       // Add 1ms to compensate for JS Date sub-millisecond truncation (see above).
       createdBefore: new Date(testCreatedOnDateTimes[3].getTime() + 1),
     })) {
@@ -146,7 +146,7 @@ describe("DocumentFilter tests", () => {
 
     // get Documents Status
     const timestamp = new Date();
-    for await (const documentStatus of client.getDocumentsStatus(operationId, {
+    for await (const documentStatus of client.listDocumentStatuses(operationId, {
       orderBy: orderByList,
     })) {
       const createdDateTime = new Date(documentStatus.createdAt);

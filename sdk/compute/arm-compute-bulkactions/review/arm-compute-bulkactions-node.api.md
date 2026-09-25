@@ -17,24 +17,6 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AcceleratorManufacturer = string;
-
-// @public
-export type AcceleratorType = string;
-
-// @public
-export interface AcknowledgeBulkOperationErrorsRequest {
-    operationIds: string[];
-}
-
-// @public
-export interface AcknowledgeBulkOperationErrorsResponse {
-    acknowledged: string[];
-    notFound: string[];
-    skipped: string[];
-}
-
-// @public
 export type ActionType = string;
 
 // @public
@@ -65,28 +47,9 @@ export interface ApiEntityReference {
 }
 
 // @public
-export interface ApiError {
-    code?: string;
-    details?: ApiErrorBase[];
-    innererror?: BulkInstancesInnerError;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface ApiErrorBase {
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
 export interface ApplicationProfile {
     galleryApplications?: VMGalleryApplication[];
 }
-
-// @public
-export type ArchitectureType = string;
 
 // @public
 export enum AzureClouds {
@@ -145,6 +108,16 @@ export interface BulkactionVMProperties {
 }
 
 // @public
+export interface BulkCreateCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BulkCreateCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type BulkCreateCustomAllocationStrategy = string;
 
 // @public
@@ -191,6 +164,7 @@ export interface BulkCreateCustomOperations {
     getAsyncOperationStatus: (location: string, asyncOperationId: string, options?: BulkCreateCustomGetAsyncOperationStatusOptionalParams) => Promise<OperationStatusResult>;
     listByResourceGroup: (resourceGroupName: string, location: string, options?: BulkCreateCustomListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
     listBySubscription: (location: string, options?: BulkCreateCustomListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
+    virtualMachinesGetOperationStatus: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams) => PagedAsyncIterableIterator<ResourceOperation>;
 }
 
 // @public
@@ -233,11 +207,30 @@ export interface BulkCreateCustomProperties {
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
+    minCapacity?: number;
     overridesProfile?: BulkCreateCustomOverridesProfile;
+    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
     priorityProfile: BulkCreateCustomPriorityProfile;
     readonly provisioningState?: ProvisioningState;
+    readonly resources?: BulkCreateCustomResource[];
     vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
     zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
+}
+
+// @public
+export interface BulkCreateCustomResource {
+    virtualMachineInfo?: BulkCreateCustomVirtualMachineInfo;
+}
+
+// @public
+export interface BulkCreateCustomVirtualMachineInfo {
+    name?: string;
+    vmSize?: string;
+    zone?: string;
+}
+
+// @public
+export interface BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -254,9 +247,62 @@ export interface BulkCreateCustomZoneAllocationPolicy {
 }
 
 // @public
-export interface BulkInstancesInnerError {
-    errorDetail?: string;
-    exceptionType?: string;
+export interface BulkCreateDeleteOptionalParams extends OperationOptions {
+    deleteInstances?: boolean;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BulkCreateGetAsyncOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateOperations {
+    cancel: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCancelOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    createOrUpdate: (resourceGroupName: string, location: string, name: string, resource: LocationBasedBulkCreate, options?: BulkCreateCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<LocationBasedBulkCreate>, LocationBasedBulkCreate>;
+    delete: (resourceGroupName: string, location: string, name: string, options?: BulkCreateDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (resourceGroupName: string, location: string, name: string, options?: BulkCreateGetOptionalParams) => Promise<LocationBasedBulkCreate>;
+    getAsyncOperationStatus: (location: string, asyncOperationId: string, options?: BulkCreateGetAsyncOperationStatusOptionalParams) => Promise<OperationStatusResult>;
+    listByResourceGroup: (resourceGroupName: string, location: string, options?: BulkCreateListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreate>;
+    listBySubscription: (location: string, options?: BulkCreateListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreate>;
+    virtualMachinesGetOperationStatus: (resourceGroupName: string, location: string, name: string, options?: BulkCreateVirtualMachinesGetOperationStatusOptionalParams) => PagedAsyncIterableIterator<ResourceOperation>;
+}
+
+// @public
+export interface BulkCreateProperties {
+    capacity: number;
+    capacityType?: CapacityType;
+    computeProfile: ComputeProfile;
+    readonly createdTime?: Date;
+    executionParameters?: ExecutionParameters;
+    minCapacity?: number;
+    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
+    priorityProfile: PriorityProfile;
+    readonly provisioningState?: ProvisioningState;
+    vmSizesProfile?: BulkCreateVmSizeProfile[];
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
+}
+
+// @public
+export interface BulkCreateVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateVmSizeProfile {
+    name: string;
+    rank?: number;
 }
 
 // @public
@@ -278,6 +324,47 @@ export interface CancelOperationsResponse {
 }
 
 // @public
+export interface CapacityRecommendation {
+    details?: CapacityRecommendationDetails;
+    error?: string;
+    errorDetails?: string;
+    status: CapacityRecommendationStatus;
+}
+
+// @public
+export interface CapacityRecommendationDetails {
+    availabilityZones?: boolean;
+    desiredLocations?: string[];
+    desiredSizes?: CapacityRecommendationSize[];
+    placementScores?: CapacityRecommendationPlacementScore[];
+    recommendationRequestedAtUtc?: Date;
+}
+
+// @public
+export interface CapacityRecommendationParameters {
+    availabilityZones?: boolean;
+    desiredLocations?: string[];
+    desiredSizes?: string[];
+}
+
+// @public
+export interface CapacityRecommendationPlacementScore {
+    availabilityZone?: string;
+    isQuotaAvailable?: boolean;
+    region?: string;
+    score?: string;
+    sku?: string;
+}
+
+// @public
+export interface CapacityRecommendationSize {
+    sku?: string;
+}
+
+// @public
+export type CapacityRecommendationStatus = string;
+
+// @public
 export interface CapacityReservationProfile {
     capacityReservationGroup?: SubResource;
 }
@@ -289,8 +376,8 @@ export type CapacityType = string;
 export class ComputeClient {
     constructor(credential: TokenCredential, options?: ComputeClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+    readonly bulkCreate: BulkCreateOperations;
     readonly bulkCreateCustom: BulkCreateCustomOperations;
-    readonly launchBulkInstancesOperation: LaunchBulkInstancesOperationOperations;
     readonly occurrenceExtension: OccurrenceExtensionOperations;
     readonly occurrences: OccurrencesOperations;
     readonly operations: OperationsOperations;
@@ -320,18 +407,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
-export type CpuManufacturer = string;
-
-// @public
 export type CreatedByType = string;
-
-// @public
-export interface CreateResourceOperationResponse {
-    description: string;
-    location: string;
-    results?: ResourceOperation[];
-    type: string;
-}
 
 // @public
 export interface DataDisk {
@@ -459,12 +535,6 @@ export interface EventGridAndResourceGraph {
 export type EvictionPolicy = string;
 
 // @public
-export interface ExecuteCreateContent {
-    executionParameters: ExecutionParameters;
-    resourceConfigParameters: ResourceProvisionPayload;
-}
-
-// @public
 export interface ExecuteDeallocateContent {
     executionParameters: ExecutionParameters;
     resources?: Resources;
@@ -502,14 +572,8 @@ export interface ExecuteStartContent {
 }
 
 // @public
-export interface ExecuteVdiCreateRequest {
-    executionParameters: ExecutionParameters;
-    resourceConfigParameters: ResourceProvisionVdiPayload;
-}
-
-// @public
 export interface ExecutionParameters {
-    optimizationPreference?: OptimizationPreference;
+    capacityRecommendationParameters?: CapacityRecommendationParameters;
     retryPolicy?: RetryPolicy;
     verifyVmAgentHealth?: boolean;
 }
@@ -523,15 +587,6 @@ export interface FallbackOperationInfo {
     error?: ResourceOperationError;
     lastOpType: ResourceOperationType;
     status: string;
-}
-
-// @public
-export interface FlexProperties {
-    minCapacity?: number;
-    osType: OsType;
-    priorityProfile: PriorityProfile;
-    vmSizeProfiles: VmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -565,9 +620,6 @@ export interface HostEndpointSettings {
 }
 
 // @public
-export type HyperVGeneration = string;
-
-// @public
 export interface ImageReference extends SubResource {
     communityGalleryImageId?: string;
     offer?: string;
@@ -595,19 +647,6 @@ export interface KeyVaultSecretReference {
 }
 
 // @public
-export enum KnownAcceleratorManufacturer {
-    AMD = "AMD",
-    Nvidia = "Nvidia",
-    Xilinx = "Xilinx"
-}
-
-// @public
-export enum KnownAcceleratorType {
-    Fpga = "FPGA",
-    GPU = "GPU"
-}
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -617,12 +656,6 @@ export enum KnownAllocationStrategy {
     CapacityOptimized = "CapacityOptimized",
     LowestPrice = "LowestPrice",
     Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownArchitectureType {
-    ARM64 = "ARM64",
-    X64 = "X64"
 }
 
 // @public
@@ -646,17 +679,17 @@ export enum KnownCachingTypes {
 }
 
 // @public
-export enum KnownCapacityType {
-    VCpu = "VCpu",
-    VM = "VM"
+export enum KnownCapacityRecommendationStatus {
+    Failed = "Failed",
+    NotInitiated = "NotInitiated",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownCpuManufacturer {
-    AMD = "AMD",
-    Ampere = "Ampere",
-    Intel = "Intel",
-    Microsoft = "Microsoft"
+export enum KnownCapacityType {
+    VCpu = "VCpu",
+    VM = "VM"
 }
 
 // @public
@@ -670,8 +703,7 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownDeadlineType {
     CompleteBy = "CompleteBy",
-    InitiateAt = "InitiateAt",
-    Unknown = "Unknown"
+    InitiateAt = "InitiateAt"
 }
 
 // @public
@@ -741,12 +773,6 @@ export enum KnownEvictionPolicy {
 }
 
 // @public
-export enum KnownHyperVGeneration {
-    Gen1 = "Gen1",
-    Gen2 = "Gen2"
-}
-
-// @public
 export enum KnownIPVersions {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -775,12 +801,6 @@ export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
 export enum KnownLinuxVMGuestPatchMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     ImageDefault = "ImageDefault"
-}
-
-// @public
-export enum KnownLocalStorageDiskType {
-    HDD = "HDD",
-    SSD = "SSD"
 }
 
 // @public
@@ -849,6 +869,18 @@ export enum KnownNotificationType {
 }
 
 // @public
+export enum KnownOccurrenceResourceProvisioningState {
+    Canceled = "Canceled",
+    Cancelling = "Cancelling",
+    Created = "Created",
+    Failed = "Failed",
+    InvalidState = "InvalidState",
+    Rescheduling = "Rescheduling",
+    Scheduled = "Scheduled",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownOccurrenceState {
     Canceled = "Canceled",
     Cancelling = "Cancelling",
@@ -871,18 +903,8 @@ export enum KnownOperationState {
     Cancelled = "Cancelled",
     Executing = "Executing",
     Failed = "Failed",
-    PendingExecution = "PendingExecution",
-    PendingScheduling = "PendingScheduling",
     Scheduled = "Scheduled",
-    Succeeded = "Succeeded",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownOptimizationPreference {
-    Availability = "Availability",
-    Cost = "Cost",
-    CostAvailabilityBalanced = "CostAvailabilityBalanced"
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -893,9 +915,16 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownOsType {
-    Linux = "Linux",
-    Windows = "Windows"
+export enum KnownPartialFulfillmentMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownPartialFulfillmentReason {
+    InsufficientCapacity = "InsufficientCapacity",
+    InsufficientQuota = "InsufficientQuota",
+    None = "None"
 }
 
 // @public
@@ -938,31 +967,6 @@ export enum KnownPublicIPAllocationMethod {
 }
 
 // @public
-export enum KnownRecurringScheduledActionsDeadlineType {
-    CompleteBy = "CompleteBy",
-    InitiateAt = "InitiateAt",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownRecurringScheduledActionsProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownRecurringScheduledActionsResourceOperationType {
-    Create = "Create",
-    Deallocate = "Deallocate",
-    Delete = "Delete",
-    Hibernate = "Hibernate",
-    Start = "Start",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownResourceOperationStatus {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -973,23 +977,38 @@ export enum KnownResourceOperationType {
     Create = "Create",
     Deallocate = "Deallocate",
     Delete = "Delete",
-    GetInstanceView = "GetInstanceView",
     Hibernate = "Hibernate",
-    Start = "Start",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+    Start = "Start"
 }
 
 // @public
 export enum KnownResourceType {
     VirtualMachine = "VirtualMachine",
     VirtualMachineScaleSet = "VirtualMachineScaleSet"
+}
+
+// @public
+export enum KnownScheduledActionsDeadlineType {
+    CompleteBy = "CompleteBy",
+    InitiateAt = "InitiateAt"
+}
+
+// @public
+export enum KnownScheduledActionsProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownScheduledActionsResourceOperationType {
+    Create = "Create",
+    Deallocate = "Deallocate",
+    Delete = "Delete",
+    Hibernate = "Hibernate",
+    Start = "Start"
 }
 
 // @public
@@ -1033,36 +1052,9 @@ export enum KnownStorageAccountTypes {
 export enum KnownVersions {
     V20260406Preview = "2026-04-06-preview",
     V20260606 = "2026-06-06",
-    V20260706Preview = "2026-07-06-preview"
-}
-
-// @public
-export enum KnownVMAttributeSupport {
-    Excluded = "Excluded",
-    Included = "Included",
-    Required = "Required"
-}
-
-// @public
-export enum KnownVMCategory {
-    ComputeOptimized = "ComputeOptimized",
-    FpgaAccelerated = "FpgaAccelerated",
-    GeneralPurpose = "GeneralPurpose",
-    GpuAccelerated = "GpuAccelerated",
-    HighPerformanceCompute = "HighPerformanceCompute",
-    MemoryOptimized = "MemoryOptimized",
-    StorageOptimized = "StorageOptimized"
-}
-
-// @public
-export enum KnownVMOperationStatus {
-    Canceled = "Canceled",
-    CancelFailedStatusUnknown = "CancelFailedStatusUnknown",
-    Cancelling = "Cancelling",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+    V20260706Preview = "2026-07-06-preview",
+    V20260806Preview = "2026-08-06-preview",
+    V20260906Preview = "2026-09-06-preview"
 }
 
 // @public
@@ -1102,70 +1094,6 @@ export enum KnownWindowsVMGuestPatchMode {
 export type Language = string;
 
 // @public
-export interface LaunchBulkInstancesOperationCancelOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LaunchBulkInstancesOperationCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LaunchBulkInstancesOperationDeleteOptionalParams extends OperationOptions {
-    deleteInstances?: boolean;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LaunchBulkInstancesOperationGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LaunchBulkInstancesOperationGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LaunchBulkInstancesOperationListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LaunchBulkInstancesOperationListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LaunchBulkInstancesOperationListVirtualMachinesOptionalParams extends OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-}
-
-// @public
-export interface LaunchBulkInstancesOperationOperations {
-    cancel: (resourceGroupName: string, location: string, name: string, options?: LaunchBulkInstancesOperationCancelOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    createOrUpdate: (resourceGroupName: string, location: string, name: string, resource: LocationBasedLaunchBulkInstancesOperation, options?: LaunchBulkInstancesOperationCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<LocationBasedLaunchBulkInstancesOperation>, LocationBasedLaunchBulkInstancesOperation>;
-    delete: (resourceGroupName: string, location: string, name: string, options?: LaunchBulkInstancesOperationDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    get: (resourceGroupName: string, location: string, name: string, options?: LaunchBulkInstancesOperationGetOptionalParams) => Promise<LocationBasedLaunchBulkInstancesOperation>;
-    getOperationStatus: (location: string, asyncOperationId: string, options?: LaunchBulkInstancesOperationGetOperationStatusOptionalParams) => Promise<OperationStatusResult>;
-    listByResourceGroup: (resourceGroupName: string, location: string, options?: LaunchBulkInstancesOperationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocationBasedLaunchBulkInstancesOperation>;
-    listBySubscription: (location: string, options?: LaunchBulkInstancesOperationListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocationBasedLaunchBulkInstancesOperation>;
-    listVirtualMachines: (resourceGroupName: string, location: string, name: string, options?: LaunchBulkInstancesOperationListVirtualMachinesOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
-}
-
-// @public
-export interface LaunchBulkInstancesOperationProperties {
-    capacity: number;
-    capacityType?: CapacityType;
-    computeProfile: ComputeProfile;
-    readonly createdTime?: Date;
-    priorityProfile: PriorityProfile;
-    readonly provisioningState?: ProvisioningState;
-    retryPolicy?: RetryPolicy;
-    vmAttributes?: VMAttributes;
-    vmSizesProfile?: VmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
-}
-
-// @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
     enableVMAgentPlatformUpdates?: boolean;
@@ -1197,22 +1125,19 @@ export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
 export type LinuxVMGuestPatchMode = string;
 
 // @public
-export type LocalStorageDiskType = string;
+export interface LocationBasedBulkCreate extends ProxyResource {
+    identity?: ManagedServiceIdentity;
+    plan?: Plan;
+    properties?: BulkCreateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
 
 // @public
 export interface LocationBasedBulkCreateCustom extends ProxyResource {
     identity?: ManagedServiceIdentity;
     plan?: Plan;
     properties?: BulkCreateCustomProperties;
-    tags?: Record<string, string>;
-    zones?: string[];
-}
-
-// @public
-export interface LocationBasedLaunchBulkInstancesOperation extends ProxyResource {
-    identity?: ManagedServiceIdentity;
-    plan?: Plan;
-    properties?: LaunchBulkInstancesOperationProperties;
     tags?: Record<string, string>;
     zones?: string[];
 }
@@ -1300,7 +1225,7 @@ export interface OccurrenceExtensionOperations {
 export interface OccurrenceExtensionProperties {
     readonly errorDetails?: ErrorModel;
     notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: OccurrenceResourceProvisioningState;
     resourceId: string;
     scheduledActionId: string;
     readonly scheduledTime: Date;
@@ -1324,11 +1249,14 @@ export interface OccurrenceResource {
     readonly id: string;
     readonly name: string;
     notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: OccurrenceResourceProvisioningState;
     resourceId: string;
     readonly scheduledTime: Date;
     readonly type?: string;
 }
+
+// @public
+export type OccurrenceResourceProvisioningState = string;
 
 // @public
 export interface OccurrenceResultSummary {
@@ -1416,9 +1344,6 @@ export interface OperationStatusResult {
 }
 
 // @public
-export type OptimizationPreference = string;
-
-// @public
 export type Origin = string;
 
 // @public
@@ -1463,9 +1388,6 @@ export interface OSProfileProvisioningData {
 }
 
 // @public
-export type OsType = string;
-
-// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -1476,6 +1398,19 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type PartialFulfillmentMode = string;
+
+// @public
+export interface PartialFulfillmentPolicy {
+    readonly fulfilledCapacity?: number;
+    mode?: PartialFulfillmentMode;
+    readonly reason?: PartialFulfillmentReason;
+}
+
+// @public
+export type PartialFulfillmentReason = string;
 
 // @public
 export interface PatchSettings {
@@ -1541,28 +1476,6 @@ export type PublicIPAddressSkuTier = string;
 export type PublicIPAllocationMethod = string;
 
 // @public
-export type RecurringScheduledActionsDeadlineType = string;
-
-// @public
-export interface RecurringScheduledActionsExecutionParameters {
-    optimizationPreference?: OptimizationPreference;
-    retryPolicy?: RecurringScheduledActionsRetryPolicy;
-}
-
-// @public
-export type RecurringScheduledActionsProvisioningState = string;
-
-// @public
-export type RecurringScheduledActionsResourceOperationType = string;
-
-// @public
-export interface RecurringScheduledActionsRetryPolicy {
-    onFailureAction?: RecurringScheduledActionsResourceOperationType;
-    retryCount?: number;
-    retryWindowInMinutes?: number;
-}
-
-// @public
 export interface ReimagePayload {
     baseProfile?: VirtualMachineReimageParameters;
     resourceOverrides?: ReimageResourceOverride[];
@@ -1619,6 +1532,7 @@ export interface ResourceOperation {
 
 // @public
 export interface ResourceOperationDetails {
+    capacityRecommendation?: CapacityRecommendation;
     completedAt?: string;
     deadline?: string;
     deadlineType?: DeadlineType;
@@ -1655,26 +1569,6 @@ export type ResourceOperationType = string;
 // @public
 export interface ResourcePatchRequest {
     resources: ScheduledActionResourceInput[];
-}
-
-// @public
-export type ResourceProvisioningState = string;
-
-// @public
-export interface ResourceProvisionPayload {
-    baseProfile?: Record<string, any>;
-    resourceCount: number;
-    resourceOverrides?: Record<string, any>[];
-    resourcePrefix?: string;
-}
-
-// @public
-export interface ResourceProvisionVdiPayload {
-    baseProfile?: Record<string, any>;
-    flexProperties: FlexProperties;
-    resourceCount: number;
-    resourceOverrides?: Record<string, any>[];
-    resourcePrefix?: string;
 }
 
 // @public
@@ -1758,7 +1652,7 @@ export interface ScheduledActionProperties {
     disabled?: boolean;
     endTime?: string;
     notificationSettings: NotificationProperties[];
-    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    readonly provisioningState?: ScheduledActionsProvisioningState;
     resourceType: ResourceType;
     schedule: ScheduledActionsSchedule;
     startTime: string;
@@ -1800,6 +1694,9 @@ export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationO
 }
 
 // @public
+export type ScheduledActionsDeadlineType = string;
+
+// @public
 export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1820,12 +1717,17 @@ export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ScheduledActionsExecutionParameters {
+    retryPolicy?: ScheduledActionsRetryPolicy;
+}
+
+// @public
 export interface ScheduledActionsExtensionProperties {
     actionType: ScheduledActionType;
     disabled?: boolean;
     endTime?: string;
     notificationSettings: NotificationProperties[];
-    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    readonly provisioningState?: ScheduledActionsProvisioningState;
     readonly resourceNotificationSettings?: NotificationProperties[];
     resourceType: ResourceType;
     schedule: ScheduledActionsSchedule;
@@ -1871,9 +1773,22 @@ export interface ScheduledActionsPatchResourcesOptionalParams extends OperationO
 }
 
 // @public
+export type ScheduledActionsProvisioningState = string;
+
+// @public
+export type ScheduledActionsResourceOperationType = string;
+
+// @public
+export interface ScheduledActionsRetryPolicy {
+    onFailureAction?: ScheduledActionsResourceOperationType;
+    retryCount?: number;
+    retryWindowInMinutes?: number;
+}
+
+// @public
 export interface ScheduledActionsSchedule {
-    deadlineType?: RecurringScheduledActionsDeadlineType;
-    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    deadlineType?: ScheduledActionsDeadlineType;
+    executionParameters?: ScheduledActionsExecutionParameters;
     requestedDaysOfTheMonth?: number[];
     requestedMonths?: Month[];
     requestedWeekDays?: WeekDay[];
@@ -1883,8 +1798,8 @@ export interface ScheduledActionsSchedule {
 
 // @public
 export interface ScheduledActionsScheduleUpdate {
-    deadlineType?: RecurringScheduledActionsDeadlineType;
-    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    deadlineType?: ScheduledActionsDeadlineType;
+    executionParameters?: ScheduledActionsExecutionParameters;
     requestedDaysOfTheMonth?: number[];
     requestedMonths?: Month[];
     requestedWeekDays?: WeekDay[];
@@ -2062,24 +1977,7 @@ export interface VirtualHardDisk {
 }
 
 // @public
-export interface VirtualMachine {
-    readonly error?: ApiError;
-    readonly id: string;
-    readonly name: string;
-    readonly operationStatus: VMOperationStatus;
-    readonly type?: string;
-}
-
-// @public
-export interface VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VirtualMachineBulkOperationsBulkCreateOperationOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2099,11 +1997,6 @@ export interface VirtualMachineBulkOperationsBulkHibernateOperationOptionalParam
 }
 
 // @public
-export interface VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams extends OperationOptions {
-    lookbackInMinutes?: number;
-}
-
-// @public
 export interface VirtualMachineBulkOperationsBulkReimageOperationOptionalParams extends OperationOptions {
 }
 
@@ -2112,22 +2005,14 @@ export interface VirtualMachineBulkOperationsBulkStartOperationOptionalParams ex
 }
 
 // @public
-export interface VirtualMachineBulkOperationsBulkVdiFlexCreateOperationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface VirtualMachineBulkOperationsOperations {
-    bulkAcknowledgeOperationErrors: (resourceGroupName: string, location: string, body: AcknowledgeBulkOperationErrorsRequest, options?: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams) => Promise<AcknowledgeBulkOperationErrorsResponse>;
     bulkCancelOperations: (resourceGroupName: string, location: string, requestBody: CancelOperationsContent, options?: VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
-    bulkCreateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteCreateContent, options?: VirtualMachineBulkOperationsBulkCreateOperationOptionalParams) => Promise<CreateResourceOperationResponse>;
     bulkDeallocateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteDeallocateContent, options?: VirtualMachineBulkOperationsBulkDeallocateOperationOptionalParams) => Promise<DeallocateResourceOperationResponse>;
     bulkDeleteOperation: (resourceGroupName: string, location: string, requestBody: ExecuteDeleteContent, options?: VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams) => Promise<DeleteResourceOperationResponse>;
     bulkGetOperationsStatus: (resourceGroupName: string, location: string, requestBody: GetOperationStatusContent, options?: VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams) => Promise<GetOperationStatusResponse>;
     bulkHibernateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteHibernateContent, options?: VirtualMachineBulkOperationsBulkHibernateOperationOptionalParams) => Promise<HibernateResourceOperationResponse>;
-    bulkListOperationErrors: (resourceGroupName: string, location: string, options?: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams) => PagedAsyncIterableIterator<ResourceOperation>;
     bulkReimageOperation: (resourceGroupName: string, location: string, requestBody: ExecuteReimageRequest, options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams) => Promise<ReimageResourceOperationResponse>;
     bulkStartOperation: (resourceGroupName: string, location: string, requestBody: ExecuteStartContent, options?: VirtualMachineBulkOperationsBulkStartOperationOptionalParams) => Promise<StartResourceOperationResponse>;
-    bulkVdiFlexCreateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteVdiCreateRequest, options?: VirtualMachineBulkOperationsBulkVdiFlexCreateOperationOptionalParams) => Promise<CreateResourceOperationResponse>;
 }
 
 // @public
@@ -2140,6 +2025,7 @@ export interface VirtualMachineIdentity {
 
 // @public
 export interface VirtualMachineInfo {
+    name: string;
     vmSize?: string;
     zone?: string;
 }
@@ -2228,50 +2114,6 @@ export interface VirtualMachineReimageParameters {
 }
 
 // @public
-export interface VMAttributeMinMaxDouble {
-    max?: number;
-    min?: number;
-}
-
-// @public
-export interface VMAttributeMinMaxInteger {
-    max?: number;
-    min?: number;
-}
-
-// @public
-export interface VMAttributes {
-    acceleratorCount?: VMAttributeMinMaxInteger;
-    acceleratorManufacturers?: AcceleratorManufacturer[];
-    acceleratorSupport?: VMAttributeSupport;
-    acceleratorTypes?: AcceleratorType[];
-    allowedVMSizes?: string[];
-    architectureTypes: ArchitectureType[];
-    burstableSupport?: VMAttributeSupport;
-    cpuManufacturers?: CpuManufacturer[];
-    dataDiskCount?: VMAttributeMinMaxInteger;
-    excludedVMSizes?: string[];
-    hyperVGenerations?: HyperVGeneration[];
-    localStorageDiskTypes?: LocalStorageDiskType[];
-    localStorageInGiB?: VMAttributeMinMaxDouble;
-    localStorageSupport?: VMAttributeSupport;
-    memoryInGiB: VMAttributeMinMaxDouble;
-    memoryInGiBPerVCpu?: VMAttributeMinMaxDouble;
-    networkBandwidthInMbps?: VMAttributeMinMaxDouble;
-    networkInterfaceCount?: VMAttributeMinMaxInteger;
-    rdmaNetworkInterfaceCount?: VMAttributeMinMaxInteger;
-    rdmaSupport?: VMAttributeSupport;
-    vCpuCount: VMAttributeMinMaxInteger;
-    vmCategories?: VMCategory[];
-}
-
-// @public
-export type VMAttributeSupport = string;
-
-// @public
-export type VMCategory = string;
-
-// @public
 export interface VMDiskSecurityProfile {
     diskEncryptionSet?: DiskEncryptionSetParametersContent;
     securityEncryptionType?: SecurityEncryptionTypes;
@@ -2285,15 +2127,6 @@ export interface VMGalleryApplication {
     packageReferenceId: string;
     tags?: string;
     treatFailureAsDeploymentFailure?: boolean;
-}
-
-// @public
-export type VMOperationStatus = string;
-
-// @public
-export interface VmSizeProfile {
-    name: string;
-    rank: number;
 }
 
 // @public
@@ -2350,6 +2183,7 @@ export interface ZoneAllocationPolicy {
 // @public
 export interface ZonePreference {
     rank: number;
+    targetMaxCapacity?: number;
     zone: string;
 }
 

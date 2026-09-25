@@ -12,7 +12,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a HorizonDbPrivateLinkResources operations. */
 export interface HorizonDbPrivateLinkResourcesOperations {
-  /** Lists private link resources in a HorizonDb cluster. */
+  /** Lists private link resources in a HorizonDB cluster. */
   list: (
     resourceGroupName: string,
     clusterName: string,

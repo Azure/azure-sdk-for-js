@@ -23,35 +23,23 @@ export interface CancelTranslationOptionalParams extends OperationOptions {
 export class DocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: DocumentTranslationClientOptionalParams);
     cancelTranslation(translationId: string, options?: CancelTranslationOptionalParams): Promise<TranslationStatus>;
-    getDocumentsStatus(translationId: string, options?: GetDocumentsStatusOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
     getDocumentStatus(translationId: string, documentId: string, options?: GetDocumentStatusOptionalParams): Promise<DocumentStatus>;
     getSupportedFormats(typeParam: FileFormatType, options?: GetSupportedFormatsOptionalParams): Promise<SupportedFileFormats>;
-    getTranslationsStatus(options?: GetTranslationsStatusOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
     getTranslationStatus(translationId: string, options?: GetTranslationStatusOptionalParams): Promise<TranslationStatus>;
+    listDocumentStatuses(translationId: string, options?: ListDocumentStatusesOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
+    listTranslationStatuses(options?: ListTranslationStatusesOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
     readonly pipeline: Pipeline;
     startTranslation(body: StartTranslationDetails, options?: StartTranslationOptionalParams): PollerLike<OperationState<TranslationStatus>, TranslationStatus>;
 }
 
 // @public
 export interface DocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public
 export interface DocumentTranslationContext extends Client {
     apiVersion?: string;
-}
-
-// @public
-export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdAfter?: Date;
-    createdBefore?: Date;
-    documentIds?: string[];
-    maxPageSize?: number;
-    orderBy?: string[];
-    skip?: number;
-    statuses?: string[];
-    top?: number;
 }
 
 // @public
@@ -63,7 +51,23 @@ export interface GetSupportedFormatsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetTranslationsStatusOptionalParams extends OperationOptions {
+export interface GetTranslationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ListDocumentStatusesOptionalParams extends OperationOptions {
+    createdAfter?: Date;
+    createdBefore?: Date;
+    documentIds?: string[];
+    maxPageSize?: number;
+    orderBy?: string[];
+    skip?: number;
+    statuses?: string[];
+    top?: number;
+}
+
+// @public
+export interface ListTranslationStatusesOptionalParams extends OperationOptions {
     createdAfter?: Date;
     createdBefore?: Date;
     maxPageSize?: number;
@@ -72,10 +76,6 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
     statuses?: string[];
     top?: number;
     translationIds?: string[];
-}
-
-// @public
-export interface GetTranslationStatusOptionalParams extends OperationOptions {
 }
 
 // @public

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified maintenance window.
  *
  * @summary gets the specified maintenance window.
- * x-ms-original-file: 2026-05-02-preview/MaintenanceWindowsGet.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceWindowsGet.json
  */
 async function getMaintenanceWindow(): Promise<void> {
   const credential = new DefaultAzureCredential();

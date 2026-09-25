@@ -78,12 +78,7 @@ export interface InvestigationsOperations {
     options?: InvestigationsListOptionalParams,
   ) => PagedAsyncIterableIterator<Investigation>;
   /** Delete a Investigation. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteInvestigation: (
     projectName: string,
     investigationName: string,
     options?: InvestigationsDeleteOptionalParams,
@@ -146,7 +141,7 @@ function _getInvestigations(context: WorkspaceContext) {
     ) => getDiscoveryEngine(context, projectName, investigationName, options),
     list: (projectName: string, options?: InvestigationsListOptionalParams) =>
       list(context, projectName, options),
-    delete: (
+    deleteInvestigation: (
       projectName: string,
       investigationName: string,
       options?: InvestigationsDeleteOptionalParams,

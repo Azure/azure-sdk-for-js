@@ -16,9 +16,8 @@ export interface SingleDocumentTranslationContext extends Client {
 
 /** Optional parameters for the client. */
 export interface SingleDocumentTranslationClientOptionalParams extends ClientOptions {
-  /** The API version to use for this operation. */
-  /** Known values of {@link KnownVersions} that the service accepts. */
-  apiVersion?: string;
+  /** The service API version to use for this operation. */
+  serviceVersion?: `${KnownVersions}`;
 }
 
 /** Client for the Azure AI Document Translation service, used to translate a single document. */
@@ -29,11 +28,11 @@ export function createSingleDocumentTranslation(
 ): SingleDocumentTranslationContext {
   const endpointUrl = options.endpoint ?? `${endpointParam}/translator`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
-  const { apiVersion: _, ...updatedOptions } = {
+  const { serviceVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
@@ -43,6 +42,6 @@ export function createSingleDocumentTranslation(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  const apiVersion = options.apiVersion;
+  const apiVersion = options.serviceVersion;
   return { ...clientContext, apiVersion } as SingleDocumentTranslationContext;
 }

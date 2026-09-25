@@ -16,20 +16,20 @@ import {
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   getSupportedFormats,
-  getDocumentsStatus,
+  listDocumentStatuses,
   cancelTranslation,
   getTranslationStatus,
   getDocumentStatus,
-  getTranslationsStatus,
+  listTranslationStatuses,
   startTranslation,
 } from "./api/operations.js";
 import {
   GetSupportedFormatsOptionalParams,
-  GetDocumentsStatusOptionalParams,
+  ListDocumentStatusesOptionalParams,
   CancelTranslationOptionalParams,
   GetTranslationStatusOptionalParams,
   GetDocumentStatusOptionalParams,
-  GetTranslationsStatusOptionalParams,
+  ListTranslationStatusesOptionalParams,
   StartTranslationOptionalParams,
 } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -114,11 +114,11 @@ export class DocumentTranslationClient {
    * This reduces the risk of the client making assumptions about
    * the data returned.
    */
-  getDocumentsStatus(
+  listDocumentStatuses(
     translationId: string,
-    options: GetDocumentsStatusOptionalParams = { requestOptions: {} },
+    options: ListDocumentStatusesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<DocumentStatus> {
-    return getDocumentsStatus(this._client, translationId, options);
+    return listDocumentStatuses(this._client, translationId, options);
   }
 
   /**
@@ -217,10 +217,10 @@ export class DocumentTranslationClient {
    * This reduces the risk of the client
    * making assumptions about the data returned.
    */
-  getTranslationsStatus(
-    options: GetTranslationsStatusOptionalParams = { requestOptions: {} },
+  listTranslationStatuses(
+    options: ListTranslationStatusesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<TranslationStatus> {
-    return getTranslationsStatus(this._client, options);
+    return listTranslationStatuses(this._client, options);
   }
 
   /**

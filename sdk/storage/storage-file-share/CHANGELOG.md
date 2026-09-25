@@ -1,5 +1,17 @@
 # Release History
 
+## 12.34.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Restored the core v1 user agent string prefix, `azsdk-js-storagefile`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
+### Other Changes
+
 ## 12.33.0 (2026-09-24)
 
 ### Features Added

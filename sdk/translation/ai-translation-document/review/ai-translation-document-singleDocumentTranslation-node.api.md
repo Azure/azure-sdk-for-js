@@ -20,7 +20,7 @@ export class SingleDocumentTranslationClient {
 
 // @public
 export interface SingleDocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public

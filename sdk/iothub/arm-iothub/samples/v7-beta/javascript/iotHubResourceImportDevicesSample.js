@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to import, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
  *
  * @summary import, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
- * x-ms-original-file: 2026-03-01-preview/iothub_importdevices.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_importdevices.json
  */
 async function iotHubResourceImportDevices() {
   const credential = new DefaultAzureCredential();

@@ -25,11 +25,11 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   GetSupportedFormatsOptionalParams,
-  GetDocumentsStatusOptionalParams,
+  ListDocumentStatusesOptionalParams,
   CancelTranslationOptionalParams,
   GetTranslationStatusOptionalParams,
   GetDocumentStatusOptionalParams,
-  GetTranslationsStatusOptionalParams,
+  ListTranslationStatusesOptionalParams,
   StartTranslationOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -82,10 +82,10 @@ export async function getSupportedFormats(
   return _getSupportedFormatsDeserialize(result);
 }
 
-export function _getDocumentsStatusSend(
+export function _listDocumentStatusesSend(
   context: Client,
   translationId: string,
-  options: GetDocumentsStatusOptionalParams = { requestOptions: {} },
+  options: ListDocumentStatusesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/document/batches/{id}/documents{?api%2Dversion,top,skip,maxpagesize,ids,statuses,createdDateTimeUtcStart,createdDateTimeUtcEnd,orderby}",
@@ -127,7 +127,7 @@ export function _getDocumentsStatusSend(
   });
 }
 
-export async function _getDocumentsStatusDeserialize(
+export async function _listDocumentStatusesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_DocumentsStatus> {
   const expectedStatuses = ["200"];
@@ -185,15 +185,15 @@ export async function _getDocumentsStatusDeserialize(
  * This reduces the risk of the client making assumptions about
  * the data returned.
  */
-export function getDocumentsStatus(
+export function listDocumentStatuses(
   context: Client,
   translationId: string,
-  options: GetDocumentsStatusOptionalParams = { requestOptions: {} },
+  options: ListDocumentStatusesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DocumentStatus> {
   return buildPagedAsyncIterator(
     context,
-    () => _getDocumentsStatusSend(context, translationId, options),
-    _getDocumentsStatusDeserialize,
+    () => _listDocumentStatusesSend(context, translationId, options),
+    _listDocumentStatusesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
@@ -342,9 +342,9 @@ export async function getDocumentStatus(
   return _getDocumentStatusDeserialize(result);
 }
 
-export function _getTranslationsStatusSend(
+export function _listTranslationStatusesSend(
   context: Client,
-  options: GetTranslationsStatusOptionalParams = { requestOptions: {} },
+  options: ListTranslationStatusesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/document/batches{?api%2Dversion,top,skip,maxpagesize,ids,statuses,createdDateTimeUtcStart,createdDateTimeUtcEnd,orderby}",
@@ -385,7 +385,7 @@ export function _getTranslationsStatusSend(
   });
 }
 
-export async function _getTranslationsStatusDeserialize(
+export async function _listTranslationStatusesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_TranslationsStatus> {
   const expectedStatuses = ["200"];
@@ -449,14 +449,14 @@ export async function _getTranslationsStatusDeserialize(
  * This reduces the risk of the client
  * making assumptions about the data returned.
  */
-export function getTranslationsStatus(
+export function listTranslationStatuses(
   context: Client,
-  options: GetTranslationsStatusOptionalParams = { requestOptions: {} },
+  options: ListTranslationStatusesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TranslationStatus> {
   return buildPagedAsyncIterator(
     context,
-    () => _getTranslationsStatusSend(context, options),
-    _getTranslationsStatusDeserialize,
+    () => _listTranslationStatusesSend(context, options),
+    _listTranslationStatusesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );

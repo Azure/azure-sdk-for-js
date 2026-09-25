@@ -26,7 +26,6 @@ export interface CapabilityTypesOperations {
     options?: CapabilityTypesGetOptionalParams,
   ) => Promise<CapabilityType>;
 }
-
 function _getCapabilityTypes(context: ChaosManagementContext) {
   return {
     list: (location: string, targetTypeName: string, options?: CapabilityTypesListOptionalParams) =>
@@ -39,7 +38,6 @@ function _getCapabilityTypes(context: ChaosManagementContext) {
     ) => get(context, location, targetTypeName, capabilityTypeName, options),
   };
 }
-
 export function _getCapabilityTypesOperations(
   context: ChaosManagementContext,
 ): CapabilityTypesOperations {

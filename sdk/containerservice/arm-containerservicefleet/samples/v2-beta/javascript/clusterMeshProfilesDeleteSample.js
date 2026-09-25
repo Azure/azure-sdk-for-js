@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a ClusterMeshProfile
  *
  * @summary delete a ClusterMeshProfile
- * x-ms-original-file: 2026-03-02-preview/ClusterMeshProfiles_Delete.json
+ * x-ms-original-file: 2026-06-02-preview/ClusterMeshProfiles_Delete.json
  */
 async function deleteAnClusterMeshProfileResource() {
   const credential = new DefaultAzureCredential();

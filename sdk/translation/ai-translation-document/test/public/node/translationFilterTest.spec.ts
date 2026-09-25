@@ -50,7 +50,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
     const testStartTime = recorder.variable("testStartTime", new Date().toISOString());
 
     // get Translation Status
-    for await (const translationStatus of client.getTranslationsStatus({
+    for await (const translationStatus of client.listTranslationStatuses({
       statuses: cancelledStatusList,
       createdAfter: new Date(testStartTime),
     })) {
@@ -70,7 +70,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
     targetIds.push((await allIds)[0]);
 
     // get Translation Status
-    for await (const translationStatus of client.getTranslationsStatus({
+    for await (const translationStatus of client.listTranslationStatuses({
       translationIds: targetIds,
     })) {
       assert.isTrue(targetIds.includes(translationStatus.id));
@@ -87,7 +87,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
     );
 
     // get Translation Status
-    for await (const translationStatus of client.getTranslationsStatus({
+    for await (const translationStatus of client.listTranslationStatuses({
       createdAfter: new Date(testStartTime),
     })) {
       assert.isTrue((await targetIds).includes(translationStatus.id));
@@ -120,7 +120,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
 
     // get Translation Status
     let idExists = false;
-    for await (const translationStatus of client.getTranslationsStatus({
+    for await (const translationStatus of client.listTranslationStatuses({
       createdAfter: new Date(startDateTime),
       createdBefore: new Date(endDateTime),
     })) {
@@ -150,7 +150,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
 
     let timestamp = new Date(-8640000000000000); // Minimum valid Date value in JavaScript
 
-    for await (const translationStatus of client.getTranslationsStatus({
+    for await (const translationStatus of client.listTranslationStatuses({
       createdAfter: new Date(startDateTime),
       orderBy: orderByList,
     })) {

@@ -7,6 +7,7 @@ import { useAzureMonitor } from "../src";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
 import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 // @ts-ignore
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
 import {
@@ -67,8 +68,10 @@ describe("snippets", () => {
         // Instrumentations generating logs
         bunyan: { enabled: true },
         winston: { enabled: true },
-        // Console log collection is opt-in (disabled by default)
-        console: { enabled: false },
+        // Console log collection is opt-in (disabled by default).
+        // `logSeverity` takes precedence over the
+        // APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL environment variable.
+        console: { enabled: false, logSeverity: SeverityNumber.WARN },
       },
       enableLiveMetrics: true,
       enableStandardMetrics: true,

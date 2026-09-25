@@ -42,7 +42,7 @@ export interface ConversationsListOptionalParams extends OperationOptions {
 // @public
 export interface ConversationsOperations {
     create: (projectName: string, options?: ConversationsCreateOptionalParams) => Promise<Conversation>;
-    delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
+    deleteConversation: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
     get: (conversationName: string, options?: ConversationsGetOptionalParams) => Promise<Conversation>;
     list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
     update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsUpdateOptionalParams) => Promise<Conversation>;
@@ -91,7 +91,7 @@ export interface InvestigationsListOptionalParams extends OperationOptions {
 // @public
 export interface InvestigationsOperations {
     createOrReplace: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
-    delete: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteInvestigation: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (projectName: string, investigationName: string, options?: InvestigationsGetOptionalParams) => Promise<Investigation>;
     getDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     getOperationStatus: (projectName: string, investigationName: string, operationId: string, options?: InvestigationsGetOperationStatusOptionalParams) => Promise<InvestigationOperationStatus>;
@@ -159,7 +159,7 @@ export interface TasksOperations {
     addComment: (projectName: string, investigationName: string, taskName: string, body: TaskComment, options?: TasksAddCommentOptionalParams) => Promise<Task>;
     addExecutionHistory: (projectName: string, investigationName: string, taskName: string, body: ExecutionHistoryEntry, options?: TasksAddExecutionHistoryOptionalParams) => Promise<Task>;
     create: (projectName: string, investigationName: string, body: TaskCreateOrUpdateContent, options?: TasksCreateOptionalParams) => Promise<Task>;
-    delete: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
+    deleteTask: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
     get: (projectName: string, investigationName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
     start: (projectName: string, investigationName: string, taskName: string, options?: TasksStartOptionalParams) => Promise<Task>;

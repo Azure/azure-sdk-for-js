@@ -15,7 +15,7 @@ export function createSingleDocumentTranslation(endpointParam: string, credentia
 
 // @public
 export interface SingleDocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public

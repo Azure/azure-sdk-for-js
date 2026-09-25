@@ -1,21 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import {
-  DedicatedHsm,
-  DedicatedHsmPatchParameters,
-  OutboundEnvironmentEndpoint,
-} from "../../models/models.js";
-import {
-  DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-  DedicatedHsmListBySubscriptionOptionalParams,
-  DedicatedHsmListByResourceGroupOptionalParams,
-  DedicatedHsmDeleteOptionalParams,
-  DedicatedHsmUpdateOptionalParams,
-  DedicatedHsmCreateOrUpdateOptionalParams,
-  DedicatedHsmGetOptionalParams,
-} from "../../api/dedicatedHsm/options.js";
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
 import {
   listOutboundNetworkDependenciesEndpoints,
   listBySubscription,
@@ -25,8 +11,22 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dedicatedHsm/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
+  DedicatedHsmListBySubscriptionOptionalParams,
+  DedicatedHsmListByResourceGroupOptionalParams,
+  DedicatedHsmDeleteOptionalParams,
+  DedicatedHsmUpdateOptionalParams,
+  DedicatedHsmCreateOrUpdateOptionalParams,
+  DedicatedHsmGetOptionalParams,
+} from "../../api/dedicatedHsm/options.js";
+import type {
+  DedicatedHsm,
+  DedicatedHsmPatchParameters,
+  OutboundEnvironmentEndpoint,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DedicatedHsm operations. */
 export interface DedicatedHsmOperations {
@@ -46,11 +46,6 @@ export interface DedicatedHsmOperations {
     options?: DedicatedHsmListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DedicatedHsm>;
   /** Deletes the specified Azure Dedicated HSM. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -77,7 +72,6 @@ export interface DedicatedHsmOperations {
     options?: DedicatedHsmGetOptionalParams,
   ) => Promise<DedicatedHsm>;
 }
-
 function _getDedicatedHsm(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     listOutboundNetworkDependenciesEndpoints: (
@@ -109,7 +103,6 @@ function _getDedicatedHsm(context: AzureDedicatedHSMResourceProviderContext) {
       get(context, resourceGroupName, name, options),
   };
 }
-
 export function _getDedicatedHsmOperations(
   context: AzureDedicatedHSMResourceProviderContext,
 ): DedicatedHsmOperations {

@@ -86,7 +86,7 @@ describe("Conversations operations (WorkspaceClient)", () => {
   });
 
   it("delete removes a conversation", async () => {
-    const result = await client.conversations.delete(createdConversationName);
+    const result = await client.conversations.deleteConversation(createdConversationName);
     assert.isUndefined(result);
   });
 });

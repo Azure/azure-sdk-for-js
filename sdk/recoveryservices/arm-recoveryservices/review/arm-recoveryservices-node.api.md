@@ -542,7 +542,8 @@ export enum KnownVersions {
     V20250801 = "2025-08-01",
     V20260101 = "2026-01-01",
     V20260201 = "2026-02-01",
-    V20260501 = "2026-05-01"
+    V20260501 = "2026-05-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -702,7 +703,7 @@ export class RecoveryServicesClient {
     constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
     readonly deletedVaults: DeletedVaultsOperations;
-    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | undefined>;
+    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | void>;
     getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<OperationResource>;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -726,6 +727,11 @@ export interface RecoveryServicesClientOptionalParams extends ClientOptions {
 export interface RecoveryServicesOperations {
     capabilities: (location: string, input: ResourceCapabilities, options?: RecoveryServicesCapabilitiesOptionalParams) => Promise<CapabilitiesResponse>;
     checkNameAvailability: (resourceGroupName: string, location: string, input: CheckNameAvailabilityParameters, options?: RecoveryServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+}
+
+// @public
+export interface RegionOfChoiceSettings {
+    status?: State;
 }
 
 // @public
@@ -1029,6 +1035,7 @@ export interface VaultProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    regionOfChoiceSettings?: RegionOfChoiceSettings;
     resourceGuardOperationRequests?: string[];
     restoreSettings?: RestoreSettings;
     readonly secureScore?: SecureScoreLevel;

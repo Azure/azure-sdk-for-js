@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Relay": "2024-01-01"
+    "Microsoft.Relay": "2026-01-01"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Relay",
     "CrossLanguageDefinitionId": {
@@ -57,6 +57,7 @@
       "@azure/arm-relay!KnownEndPointProvisioningState:enum": "Microsoft.Relay.EndPointProvisioningState",
       "@azure/arm-relay!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-relay!KnownPublicNetworkAccess:enum": "Microsoft.Relay.PublicNetworkAccess",
+      "@azure/arm-relay!KnownTlsVersion:enum": "Microsoft.Relay.TlsVersion",
       "@azure/arm-relay!KnownSkuName:enum": "Microsoft.Relay.SkuName",
       "@azure/arm-relay!KnownSkuTier:enum": "Microsoft.Relay.SkuTier",
       "@azure/arm-relay!KnownDefaultAction:enum": "Microsoft.Relay.DefaultAction",
@@ -84,16 +85,16 @@
       "@azure/arm-relay!PrivateEndpointConnectionsOperations#delete:member": "Microsoft.Relay.PrivateEndpointConnections.delete",
       "@azure/arm-relay!PrivateEndpointConnectionsOperations#createOrUpdate:member": "Microsoft.Relay.PrivateEndpointConnections.createOrUpdate",
       "@azure/arm-relay!PrivateEndpointConnectionsOperations#get:member": "Microsoft.Relay.PrivateEndpointConnections.get",
-      "@azure/arm-relay!WCFRelaysOperations#listByNamespace:member": "Microsoft.Relay.WcfRelaysOps.listByNamespace",
-      "@azure/arm-relay!WCFRelaysOperations#delete:member": "Microsoft.Relay.WcfRelaysOps.delete",
-      "@azure/arm-relay!WCFRelaysOperations#createOrUpdate:member": "Microsoft.Relay.WcfRelaysOps.createOrUpdate",
-      "@azure/arm-relay!WCFRelaysOperations#get:member": "Microsoft.Relay.WcfRelaysOps.get",
-      "@azure/arm-relay!WCFRelaysOperations#regenerateKeys:member": "Microsoft.Relay.WCFRelays.regenerateKeys",
-      "@azure/arm-relay!WCFRelaysOperations#listKeys:member": "Microsoft.Relay.WCFRelays.listKeys",
-      "@azure/arm-relay!WCFRelaysOperations#listAuthorizationRules:member": "Microsoft.Relay.WCFRelays.listAuthorizationRules",
-      "@azure/arm-relay!WCFRelaysOperations#deleteAuthorizationRule:member": "Microsoft.Relay.WCFRelays.deleteAuthorizationRule",
-      "@azure/arm-relay!WCFRelaysOperations#createOrUpdateAuthorizationRule:member": "Microsoft.Relay.WCFRelays.createOrUpdateAuthorizationRule",
-      "@azure/arm-relay!WCFRelaysOperations#getAuthorizationRule:member": "Microsoft.Relay.WCFRelays.getAuthorizationRule",
+      "@azure/arm-relay!wCFRelaysOperations#listByNamespace:member": "Microsoft.Relay.WcfRelaysOps.listByNamespace",
+      "@azure/arm-relay!wCFRelaysOperations#delete:member": "Microsoft.Relay.WcfRelaysOps.delete",
+      "@azure/arm-relay!wCFRelaysOperations#createOrUpdate:member": "Microsoft.Relay.WcfRelaysOps.createOrUpdate",
+      "@azure/arm-relay!wCFRelaysOperations#get:member": "Microsoft.Relay.WcfRelaysOps.get",
+      "@azure/arm-relay!wCFRelaysOperations#regenerateKeys:member": "Microsoft.Relay.WCFRelays.regenerateKeys",
+      "@azure/arm-relay!wCFRelaysOperations#listKeys:member": "Microsoft.Relay.WCFRelays.listKeys",
+      "@azure/arm-relay!wCFRelaysOperations#listAuthorizationRules:member": "Microsoft.Relay.WCFRelays.listAuthorizationRules",
+      "@azure/arm-relay!wCFRelaysOperations#deleteAuthorizationRule:member": "Microsoft.Relay.WCFRelays.deleteAuthorizationRule",
+      "@azure/arm-relay!wCFRelaysOperations#createOrUpdateAuthorizationRule:member": "Microsoft.Relay.WCFRelays.createOrUpdateAuthorizationRule",
+      "@azure/arm-relay!wCFRelaysOperations#getAuthorizationRule:member": "Microsoft.Relay.WCFRelays.getAuthorizationRule",
       "@azure/arm-relay!HybridConnectionsOperations#listByNamespace:member": "Microsoft.Relay.HybridConnectionOperationGroup.listByNamespace",
       "@azure/arm-relay!HybridConnectionsOperations#delete:member": "Microsoft.Relay.HybridConnectionOperationGroup.delete",
       "@azure/arm-relay!HybridConnectionsOperations#createOrUpdate:member": "Microsoft.Relay.HybridConnectionOperationGroup.createOrUpdate",

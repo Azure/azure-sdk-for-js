@@ -8,10 +8,10 @@ export type {
   DocumentTranslationContext,
   DocumentTranslationClientOptionalParams,
   GetSupportedFormatsOptionalParams,
-  GetDocumentsStatusOptionalParams,
+  ListDocumentStatusesOptionalParams,
   CancelTranslationOptionalParams,
   GetTranslationStatusOptionalParams,
   GetDocumentStatusOptionalParams,
-  GetTranslationsStatusOptionalParams,
+  ListTranslationStatusesOptionalParams,
   StartTranslationOptionalParams,
 } from "./api/index.js";

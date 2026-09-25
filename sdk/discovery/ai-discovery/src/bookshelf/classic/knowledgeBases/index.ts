@@ -35,12 +35,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a KnowledgeBases operations. */
 export interface KnowledgeBasesOperations {
   /** Delete a KnowledgeBase. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteKnowledgeBase: (
     knowledgeBaseName: string,
     options?: KnowledgeBasesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
@@ -85,8 +80,10 @@ export interface KnowledgeBasesOperations {
 }
 function _getKnowledgeBases(context: BookshelfContext) {
   return {
-    delete: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) =>
-      $delete(context, knowledgeBaseName, options),
+    deleteKnowledgeBase: (
+      knowledgeBaseName: string,
+      options?: KnowledgeBasesDeleteOptionalParams,
+    ) => $delete(context, knowledgeBaseName, options),
     search: (
       knowledgeBaseName: string,
       body: SearchRequest,

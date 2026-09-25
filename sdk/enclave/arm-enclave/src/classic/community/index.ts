@@ -74,6 +74,7 @@ export interface CommunityOperations {
     options?: CommunityGetOptionalParams,
   ) => Promise<CommunityResource>;
 }
+
 function _getCommunity(context: MissionContext) {
   return {
     checkAddressSpaceAvailability: (
@@ -116,6 +117,7 @@ function _getCommunity(context: MissionContext) {
       get(context, resourceGroupName, communityName, options),
   };
 }
+
 export function _getCommunityOperations(context: MissionContext): CommunityOperations {
   return {
     ..._getCommunity(context),

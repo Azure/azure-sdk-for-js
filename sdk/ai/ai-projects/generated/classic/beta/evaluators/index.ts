@@ -41,6 +41,7 @@ import {
   EvaluatorGenerationJob,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -57,7 +58,12 @@ export interface BetaEvaluatorsOperations {
     jobId: string,
     options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
   ) => Promise<EvaluatorGenerationJob>;
-  /** Returns a list of evaluator generation jobs. */
+  /**
+   * Returns a list of evaluator generation jobs. The List API has up to a few
+   * seconds of propagation delay, so a recently created job may not appear
+   * immediately; use the Get evaluator generation job API with the job ID to
+   * retrieve a specific job without delay.
+   */
   listGenerationJobs: (
     options?: BetaEvaluatorsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
@@ -73,7 +79,7 @@ export interface BetaEvaluatorsOperations {
   createGenerationJob: (
     job: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-  ) => Promise<EvaluatorGenerationJob>;
+  ) => PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;
   /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
   getCredentials: (
     name: string,
@@ -117,7 +123,7 @@ export interface BetaEvaluatorsOperations {
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Lists the latest version of each evaluator */
+  /** Lists the latest version of each evaluator. */
   list: (
     foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluatorsListOptionalParams,

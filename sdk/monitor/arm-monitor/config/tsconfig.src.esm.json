@@ -1,4 +1,28 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/actionGroupsApi/index.ts",
+    "../src/models/activityLogAlertsApi/index.ts",
+    "../src/models/activityLogsApi/index.ts",
+    "../src/models/alertRulesIncidentsApi/index.ts",
+    "../src/models/autoScaleApi/index.ts",
+    "../src/models/dataCollectionApi/index.ts",
+    "../src/models/diagnosticsSettings/index.ts",
+    "../src/models/logProfilesApi/index.ts",
+    "../src/models/metricAlertApi/index.ts",
+    "../src/models/metricBaselinesApi/index.ts",
+    "../src/models/metricsApi/index.ts",
+    "../src/models/privateLinkScopesApi/index.ts",
+    "../src/models/scheduledQueryRuleApi/index.ts",
+    "../src/models/serviceDiagnosticsSettingsApi/index.ts",
+    "../src/models/tenantActionGroups/index.ts",
+    "../src/models/vmInsightsOnboarding/index.ts",
+    "../src/models/microsoft/common/index.ts"
+  ]
 }

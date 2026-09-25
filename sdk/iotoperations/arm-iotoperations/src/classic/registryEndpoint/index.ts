@@ -27,11 +27,6 @@ export interface RegistryEndpointOperations {
     options?: RegistryEndpointListByInstanceResourceOptionalParams,
   ) => PagedAsyncIterableIterator<RegistryEndpointResource>;
   /** Delete a RegistryEndpointResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -54,7 +49,6 @@ export interface RegistryEndpointOperations {
     options?: RegistryEndpointGetOptionalParams,
   ) => Promise<RegistryEndpointResource>;
 }
-
 function _getRegistryEndpoint(context: IoTOperationsContext) {
   return {
     listByInstanceResource: (
@@ -91,7 +85,6 @@ function _getRegistryEndpoint(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, registryEndpointName, options),
   };
 }
-
 export function _getRegistryEndpointOperations(
   context: IoTOperationsContext,
 ): RegistryEndpointOperations {

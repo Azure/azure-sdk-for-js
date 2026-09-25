@@ -147,9 +147,9 @@ export interface TranslationStatus {
     createdAt: Date;
     error?: TranslationError;
     id: string;
-    lastActionAt: Date;
     status: Status;
     summary: TranslationStatusSummary;
+    updatedAt: Date;
 }
 
 // @public

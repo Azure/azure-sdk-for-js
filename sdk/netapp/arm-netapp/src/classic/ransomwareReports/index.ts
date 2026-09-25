@@ -54,6 +54,7 @@ export interface RansomwareReportsOperations {
     options?: RansomwareReportsGetOptionalParams,
   ) => Promise<RansomwareReport>;
 }
+
 function _getRansomwareReports(context: NetAppManagementContext) {
   return {
     clearSuspects: (
@@ -101,6 +102,7 @@ function _getRansomwareReports(context: NetAppManagementContext) {
       ),
   };
 }
+
 export function _getRansomwareReportsOperations(
   context: NetAppManagementContext,
 ): RansomwareReportsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DataflowProfileResource
  *
  * @summary get a DataflowProfileResource
- * x-ms-original-file: 2026-03-01/DataflowProfile_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/DataflowProfile_Get_MaximumSet_Gen.json
  */
 async function dataflowProfileGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

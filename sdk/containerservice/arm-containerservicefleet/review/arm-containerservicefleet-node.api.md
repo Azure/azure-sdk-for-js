@@ -27,6 +27,11 @@ export interface Affinity {
 }
 
 // @public
+export interface AffinityPatch {
+    clusterAffinity?: ClusterAffinityPatch;
+}
+
+// @public
 export interface AgentProfile {
     subnetId?: string;
     vmSize?: string;
@@ -116,6 +121,7 @@ export interface AutoUpgradeProfilesOperations {
 export interface AutoUpgradeProfileStatus {
     readonly lastTriggeredAt?: Date;
     readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerMessage?: string;
     readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
     readonly lastTriggerUpgradeVersions?: string[];
 }
@@ -139,6 +145,11 @@ export interface CiliumProperties {
 // @public
 export interface ClusterAffinity {
     requiredDuringSchedulingIgnoredDuringExecution?: ClusterSelector;
+}
+
+// @public
+export interface ClusterAffinityPatch {
+    requiredDuringSchedulingIgnoredDuringExecution?: ClusterSelectorPatch;
 }
 
 // @public
@@ -209,6 +220,13 @@ export type ClusterMeshState = string;
 // @public
 export interface ClusterResourcePlacementSpec {
     policy?: PlacementPolicy;
+    rolloutStrategy?: RolloutStrategy;
+}
+
+// @public
+export interface ClusterResourcePlacementSpecPatch {
+    policy?: PlacementPolicyPatch;
+    rolloutStrategy?: RolloutStrategy;
 }
 
 // @public
@@ -217,9 +235,25 @@ export interface ClusterSelector {
 }
 
 // @public
+export interface ClusterSelectorPatch {
+    clusterSelectorTerms?: ClusterSelectorTermPatch[];
+}
+
+// @public
 export interface ClusterSelectorTerm {
     labelSelector?: LabelSelector;
     propertySelector?: PropertySelector;
+}
+
+// @public
+export interface ClusterSelectorTermPatch {
+    labelSelector?: LabelSelectorPatch;
+    propertySelector?: PropertySelectorPatch;
+}
+
+// @public
+export interface ClusterUpdateStrategyReference {
+    name?: string;
 }
 
 // @public (undocumented)
@@ -251,6 +285,9 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export type DayOfWeek = string;
 
 // @public
 export type DeletePolicy = string;
@@ -317,6 +354,7 @@ export interface FleetManagedNamespace extends TrackedResource {
 
 // @public
 export interface FleetManagedNamespacePatch {
+    properties?: FleetManagedNamespacePropertiesPatch;
     tags?: Record<string, string>;
 }
 
@@ -329,6 +367,14 @@ export interface FleetManagedNamespaceProperties {
     propagationPolicy?: PropagationPolicy;
     readonly provisioningState?: FleetManagedNamespaceProvisioningState;
     readonly status?: FleetManagedNamespaceStatus;
+}
+
+// @public
+export interface FleetManagedNamespacePropertiesPatch {
+    adoptionPolicy?: AdoptionPolicy;
+    deletePolicy?: DeletePolicy;
+    managedNamespaceProperties?: ManagedNamespaceProperties;
+    propagationPolicy?: PropagationPolicyPatch;
 }
 
 // @public
@@ -576,6 +622,7 @@ export interface Gate extends ProxyResource {
 // @public
 export interface GateConfiguration {
     displayName?: string;
+    scheduledStartConfiguration?: ScheduledStartConfiguration;
     type: GateType;
 }
 
@@ -594,6 +641,7 @@ export interface GateProperties {
     displayName?: string;
     gateType: GateType;
     readonly provisioningState?: GateProvisioningState;
+    scheduledStartProperties?: ScheduledStartProperties;
     state: GateState;
     target: GateTarget;
 }
@@ -701,6 +749,17 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDayOfWeek {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
+}
+
+// @public
 export enum KnownDeletePolicy {
     Delete = "Delete",
     Keep = "Keep"
@@ -759,7 +818,8 @@ export enum KnownGateState {
 
 // @public
 export enum KnownGateType {
-    Approval = "Approval"
+    Approval = "Approval",
+    ScheduledStart = "ScheduledStart"
 }
 
 // @public
@@ -836,6 +896,12 @@ export enum KnownPropertySelectorOperator {
 }
 
 // @public
+export enum KnownRolloutStrategyType {
+    External = "External",
+    RollingUpdate = "RollingUpdate"
+}
+
+// @public
 export enum KnownTaintEffect {
     NoSchedule = "NoSchedule"
 }
@@ -883,6 +949,7 @@ export enum KnownUpdateState {
 export enum KnownUpgradeChannel {
     NodeImage = "NodeImage",
     Rapid = "Rapid",
+    SecurityPatch = "SecurityPatch",
     Stable = "Stable",
     TargetKubernetesVersion = "TargetKubernetesVersion"
 }
@@ -901,7 +968,9 @@ export enum KnownVersions {
     V20250401Preview = "2025-04-01-preview",
     V20250801Preview = "2025-08-01-preview",
     V20260201Preview = "2026-02-01-preview",
-    V20260302Preview = "2026-03-02-preview"
+    V20260302Preview = "2026-03-02-preview",
+    V20260601 = "2026-06-01",
+    V20260602Preview = "2026-06-02-preview"
 }
 
 // @public
@@ -914,9 +983,22 @@ export interface LabelSelector {
 export type LabelSelectorOperator = string;
 
 // @public
+export interface LabelSelectorPatch {
+    matchExpressions?: LabelSelectorRequirementPatch[];
+    matchLabels?: Record<string, string>;
+}
+
+// @public
 export interface LabelSelectorRequirement {
     key: string;
     operator: LabelSelectorOperator;
+    values?: string[];
+}
+
+// @public
+export interface LabelSelectorRequirementPatch {
+    key?: string;
+    operator?: LabelSelectorOperator;
     values?: string[];
 }
 
@@ -1061,8 +1143,21 @@ export interface PlacementPolicy {
 }
 
 // @public
+export interface PlacementPolicyPatch {
+    affinity?: AffinityPatch;
+    clusterNames?: string[];
+    placementType?: PlacementType;
+    tolerations?: Toleration[];
+}
+
+// @public
 export interface PlacementProfile {
     defaultClusterResourcePlacement?: ClusterResourcePlacementSpec;
+}
+
+// @public
+export interface PlacementProfilePatch {
+    defaultClusterResourcePlacement?: ClusterResourcePlacementSpecPatch;
 }
 
 // @public
@@ -1078,6 +1173,12 @@ export interface PropagationPolicy {
 }
 
 // @public
+export interface PropagationPolicyPatch {
+    placementProfile?: PlacementProfilePatch;
+    type?: PropagationType;
+}
+
+// @public
 export type PropagationType = string;
 
 // @public
@@ -1089,10 +1190,22 @@ export interface PropertySelector {
 export type PropertySelectorOperator = string;
 
 // @public
+export interface PropertySelectorPatch {
+    matchExpressions?: PropertySelectorRequirementPatch[];
+}
+
+// @public
 export interface PropertySelectorRequirement {
     name: string;
     operator: PropertySelectorOperator;
     values: string[];
+}
+
+// @public
+export interface PropertySelectorRequirementPatch {
+    name?: string;
+    operator?: PropertySelectorOperator;
+    values?: string[];
 }
 
 // @public
@@ -1125,6 +1238,30 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface RolloutStrategy {
+    clusterUpdateStrategy?: ClusterUpdateStrategyReference;
+    type?: RolloutStrategyType;
+}
+
+// @public
+export type RolloutStrategyType = string;
+
+// @public
+export interface ScheduledStartConfiguration {
+    startDay: DayOfWeek;
+    startTime: string;
+    utcOffset: string;
+}
+
+// @public
+export interface ScheduledStartProperties {
+    readonly absoluteStartTime?: Date;
+    startDay: DayOfWeek;
+    startTime: string;
+    utcOffset: string;
 }
 
 // @public
@@ -1178,7 +1315,9 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
+    maxAllowedFailures?: string;
     maxConcurrency?: string;
+    memberSelector?: MemberSelector;
     name: string;
 }
 
@@ -1186,6 +1325,8 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly failureCount?: number;
+    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
@@ -1280,6 +1421,7 @@ export interface UpdateRunsStopOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateRunStatus {
+    readonly failureCount?: number;
     readonly nodeImageSelection?: NodeImageSelectionStatus;
     readonly stages?: UpdateStageStatus[];
     readonly status?: UpdateStatus;
@@ -1296,7 +1438,9 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
+    maxAllowedFailures?: string;
     maxConcurrency?: string;
+    memberSelector?: MemberSelector;
     name: string;
 }
 
@@ -1305,7 +1449,9 @@ export interface UpdateStageStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly failureCount?: number;
     readonly groups?: UpdateGroupStatus[];
+    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;
