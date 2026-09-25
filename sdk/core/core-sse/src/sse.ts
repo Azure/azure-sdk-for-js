@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NodeIncomingMessage } from "#platform/types";
-import type { EventMessage, EventMessageStream, NodeJSReadableStream } from "./models.js";
+import type {
+  EventMessage,
+  EventMessageStream,
+  NodeJSReadableStream,
+  SseStream,
+} from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -32,12 +37,33 @@ export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageS
  * @returns A stream of EventMessage objects
  */
 export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
-export function createSseStream(
-  chunkStream: NodeIncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
-): EventMessageStream {
+export function createSseStream(chunkStream: SseStream): EventMessageStream {
+  const { cancel, iterable } = createSseParser(chunkStream);
+  return createStream(iterable, cancel);
+}
+
+interface SseParserCallbacks {
+  onId?(value: string): void;
+  onRetry?(value: number): void;
+}
+
+export class InvalidSseRetryError extends RangeError {
+  constructor() {
+    super("SSE retry fields must be non-negative safe integers.");
+  }
+}
+
+export function createSseParser(
+  chunkStream: SseStream,
+  callbacks?: SseParserCallbacks,
+  initialLastEventId = "",
+): {
+  cancel(): Promise<void>;
+  iterable: AsyncIterableIterator<EventMessage>;
+} {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
-  const asyncIter = toMessage(toLine(iterable));
-  return createStream(asyncIter, cancel);
+  const asyncIter = toMessage(toLine(iterable), callbacks, initialLastEventId);
+  return { cancel, iterable: asyncIter };
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
@@ -120,36 +146,55 @@ async function* toLine(
 
 async function* toMessage(
   lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>,
+  callbacks?: SseParserCallbacks,
+  initialLastEventId = "",
 ): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
+  let pendingId: string | undefined;
+  let lastEventId = initialLastEventId;
   const decoder = new TextDecoder();
   for await (const { line, fieldLen } of lineIter) {
-    if (line.length === 0 && message.data !== undefined) {
-      // empty line denotes end of message. Yield and start a new message:
-      yield message as EventMessage;
+    if (line.length === 0) {
+      if (pendingId !== undefined) {
+        lastEventId = pendingId;
+        callbacks?.onId?.(pendingId);
+      }
+      if (message.data !== undefined) {
+        yield { ...message, id: lastEventId } as EventMessage;
+      }
       message = createMessage();
-    } else if (fieldLen > 0) {
-      // exclude comments and lines with no values
-      // line is of format "<field>:<value>" or "<field>: <value>"
+      pendingId = undefined;
+    } else if (fieldLen !== 0) {
+      // A line without a colon is a field with an empty value; lines starting with ":" are comments.
       // https://html.spec.whatwg.org/multipage/server-sent-events.html#event-stream-interpretation
-      const field = decoder.decode(line.subarray(0, fieldLen));
-      const valueOffset = fieldLen + (line[fieldLen + 1] === ControlChars.Space ? 2 : 1);
-      const value = decoder.decode(line.subarray(valueOffset));
+      const field = decoder.decode(fieldLen === -1 ? line : line.subarray(0, fieldLen));
+      const value =
+        fieldLen === -1
+          ? ""
+          : decoder.decode(
+              line.subarray(fieldLen + (line[fieldLen + 1] === ControlChars.Space ? 2 : 1)),
+            );
 
       switch (field) {
         case "data":
-          message.data = message.data ? message.data + "\n" + value : value;
+          message.data = message.data === undefined ? value : message.data + "\n" + value;
           break;
         case "event":
           message.event = value;
           break;
         case "id":
-          message.id = value;
+          if (!value.includes("\0")) {
+            pendingId = value;
+          }
           break;
         case "retry": {
-          const retry = parseInt(value, 10);
-          if (!isNaN(retry)) {
+          if (/^[0-9]+$/.test(value)) {
+            const retry = Number(value);
+            if (!Number.isSafeInteger(retry)) {
+              throw new InvalidSseRetryError();
+            }
             message.retry = retry;
+            callbacks?.onRetry?.(retry);
           }
           break;
         }

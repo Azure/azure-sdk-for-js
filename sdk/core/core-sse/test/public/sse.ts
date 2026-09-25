@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventMessage } from "../../src/index.js";
+import type { EventMessageStream } from "../../src/index.js";
 import {
   assertAsyncIterable,
   genChunks,
@@ -18,12 +18,12 @@ import {
   genStrs,
   createRetry,
 } from "./util.js";
-import { describe, it, assert, type SuiteCollector } from "vitest";
+import { describe, it, assert, expect, type SuiteCollector } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(
   rtName: string,
-  createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => AsyncIterable<EventMessage>,
+  createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => EventMessageStream,
 ): SuiteCollector {
   return describe(`[${rtName}] Server-sent Events`, () => {
     matrix([[0, 1, 2, 10000]], async function (count: number) {
@@ -93,13 +93,27 @@ export function buildSseTests(
         write(createDataLine(encoder.encode("foo")));
         write(createId(encoder.encode("1")));
         write(encoder.encode("\n"));
-        write(createDataEvent(encoder.encode("bar")));
+        write(createDataEvent(encoder.encode("retains the preceding ID")));
+        write(createDataLine(encoder.encode("bar")));
         write(createId(Uint8Array.from([])));
         write(encoder.encode("\n"));
       });
-      const ids = ["1", ""];
-      await assertAsyncIterable(stream, 2, (event, i) => {
+      const ids = ["1", "1", ""];
+      await assertAsyncIterable(stream, 3, (event, i) => {
         assert.equal(event.id, ids[i]);
+      });
+    });
+
+    it("treats colonless fields as having empty values", async function () {
+      const stream = createStream((write) => {
+        write(encoder.encode("id: previous\ndata: first\n\n"));
+        write(encoder.encode(": ignored\nevent: named\nevent\nid\ndata\n\n"));
+        write(encoder.encode("data\ndata: next\n\n"));
+      });
+      await assertAsyncIterable(stream, 3, (event, index) => {
+        assert.equal(event.id, index === 0 ? "previous" : "");
+        assert.equal(event.data, ["first", "", "\nnext"][index]);
+        assert.equal(event.event, "");
       });
     });
 
@@ -123,6 +137,22 @@ export function buildSseTests(
       await assertAsyncIterable(stream, 1, (event) => {
         assert.equal(event.retry, 1);
       });
+    });
+
+    it("accepts the largest safe retry value and rejects larger values", async function () {
+      const safeStream = createStream((write) => {
+        write(encoder.encode(`retry: ${Number.MAX_SAFE_INTEGER}\ndata: valid\n\n`));
+      });
+      await assertAsyncIterable(safeStream, 1, (event) => {
+        assert.equal(event.retry, Number.MAX_SAFE_INTEGER);
+      });
+
+      for (const retry of ["9007199254740992", "999999999999999999999999999999999"]) {
+        const stream = createStream((write) => {
+          write(encoder.encode(`retry: ${retry}\n\n`));
+        });
+        await expect(stream.getReader().read()).rejects.toThrow(RangeError);
+      }
     });
 
     it("handles multiple colons", async function () {
@@ -153,15 +183,41 @@ export function buildSseTests(
       });
     });
 
-    it("ignores non-integer retry", async function () {
+    it("only handles retry values made entirely of ASCII digits", async function () {
+      const values = ["0", "42", "", "bar", "1.5", "1ms", "+1", "-1", " 1", "1 "];
+      for (const value of values) {
+        const stream = createStream((write) => {
+          write(createDataLine(encoder.encode("foo")));
+          write(createRetry(encoder.encode(value)));
+          write(encoder.encode("\n\n"));
+        });
+        await assertAsyncIterable(stream, 1, (event) => {
+          if (/^[0-9]+$/.test(value)) {
+            assert.equal(event.retry, Number(value));
+          } else {
+            assert.isUndefined(event.retry);
+          }
+        });
+      }
+    });
+
+    it("ignores IDs containing U+0000", async function () {
       const stream = createStream((write) => {
         write(createDataLine(encoder.encode("foo")));
-        write(createRetry(encoder.encode("bar")));
-        write(encoder.encode("\n\n"));
+        write(createId(encoder.encode("before\0after")));
+        write(encoder.encode("\n"));
       });
       await assertAsyncIterable(stream, 1, (event) => {
-        assert.isUndefined(event.retry);
+        assert.equal(event.id, "");
       });
+    });
+
+    it("can be disposed after being consumed", async function () {
+      const stream = createStream((write) => {
+        write(createDataEvent(encoder.encode("foo")));
+      });
+      await assertAsyncIterable(stream, 1, () => {});
+      await stream[Symbol.asyncDispose]();
     });
   });
 }

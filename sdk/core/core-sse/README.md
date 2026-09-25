@@ -23,6 +23,77 @@ This package is primarily used in generated code and not meant to be consumed di
 
 A `EventMessage` represents a [message](https://developer.mozilla.org/docs/Web/API/Server-sent_events/Using_server-sent_events#event_stream_format) sent in an event stream.
 
+### Reconnecting streams
+
+`createSseStream` parses one response body. Use `createReconnectingSseStream` when the
+library that issues the HTTP request also needs EventSource-style reconnection:
+
+```ts snippet:ReadmeSampleReconnectingSseStream
+import { getClient } from "@azure-rest/core-client";
+import { createReconnectingSseStream } from "@azure/core-sse";
+
+const client = getClient("https://example.com");
+const abortSignal = new AbortController().signal;
+const events = await createReconnectingSseStream(
+  async ({ abortSignal, lastEventId }) => {
+    return client
+      .pathUnchecked("/events")
+      .get({
+        accept: "text/event-stream",
+        abortSignal,
+        headers: lastEventId === undefined ? undefined : { "Last-Event-ID": lastEventId },
+      })
+      .asBrowserStream();
+  },
+  {
+    abortSignal,
+    validateResponse: async (response) => {
+      // HTTP 204 tells an EventSource client to stop reconnecting.
+      if (response.status === "204") {
+        return "stop";
+      }
+      if (response.status !== "200") {
+        throw new Error(`Unexpected status code: ${response.status}`);
+      }
+      const contentType = response.headers["content-type"];
+      if (contentType?.split(";", 1)[0].trim().toLowerCase() !== "text/event-stream") {
+        throw new Error(`Unexpected content type: ${contentType}`);
+      }
+      return "accept";
+    },
+    // Reconnection is unlimited by default. Set maxRetries to bound the total
+    // number of reconnection requests over the lifetime of this stream.
+    maxRetries: 5,
+  },
+);
+for await (const event of events) {
+  if (event.data === "[DONE]") {
+    // Breaking cancels the active response and stops later reconnect attempts.
+    break;
+  }
+  console.log(event);
+}
+```
+
+The initial request is made before `createReconnectingSseStream` resolves, and an
+initial connection failure rejects immediately. The stream can read ahead and
+reconnect even without a reader; backpressure pauses it if an event is buffered.
+Breaking iteration stops further reconnects but cannot undo a request already
+started. The reconnect delay starts at 3000 ms and is replaced by valid
+`retry:` fields from the service. A nonempty event ID is provided to the connection
+factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
+on the next request.
+
+Retry delays must be non-negative safe integer milliseconds. Malformed `retry:`
+fields are ignored, but a digit-only field exceeding `Number.MAX_SAFE_INTEGER`
+ends the stream with a `RangeError`. A safe delay longer than one timer interval
+is waited in full rather than shortened.
+
+Events without an explicit `id:` field inherit the last committed event ID, even
+across reconnections. The `lastEventId` option seeds this value for the initial
+connection. An empty `id:` field or a colonless `id` field clears it for
+subsequent events and reconnects once the block ends with a blank line.
+
 ## Examples
 
 Examples can be found in the `samples` folder.
