@@ -241,3 +241,36 @@ test("reports a newly emitted group that collides with a maintained client membe
     "the guards require the reviewed context for a newly emitted group",
   );
 });
+
+test("preserves aliased classic bindings when wiring a new operation group", () => {
+  const inputs = trees(["connections", "jobs", "agents"]);
+  const emitted = inputs.generated.get(file);
+  const aliased = emitted
+    .replace(
+      "import { JobsOperations, _getJobsOperations } from",
+      "import { JobsOperations as JobsOps, _getJobsOperations as getJobs } from",
+    )
+    .replace("this.jobs = _getJobsOperations(this._client);", "this.jobs = getJobs(this._client);")
+    .replace("public readonly jobs: JobsOperations;", "public readonly jobs: JobsOps;");
+  assert.notEqual(aliased, emitted);
+  inputs.generated.set(file, aliased);
+  const result = wire(inputs);
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /import type \{ JobsOperations as JobsOps \} from "\.\/classic\/jobs\/index\.js";/,
+  );
+  assert.match(
+    result.text,
+    /import \{ _getJobsOperations as getJobs \} from "\.\/classic\/jobs\/index\.js";/,
+  );
+  assert.match(result.text, /this\.jobs = getJobs\(this\._azureScopeClient\);/);
+  assert.match(result.text, /public readonly jobs: JobsOps;/);
+  assert.deepEqual(
+    validateCustomization({ ...inputs, source: new Map([[file, result.text]]) }),
+    [],
+  );
+  // The same aliased wiring already in the maintained client needs no change.
+  const prewired = { ...inputs, baseSource: new Map([[file, result.text]]) };
+  assert.deepEqual(wire(prewired), { text: result.text, diagnostics: [] });
+});

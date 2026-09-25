@@ -83,10 +83,17 @@ function operationGroups(source, className) {
       statement,
       property,
       type,
+      // Local names as used in the class, with the classic exports they bind.
+      typeImport: typeBinding.imported,
+      factoryImport: factory.imported,
       module: factory.module,
     });
   }
   return { node, constructor, groups };
+}
+
+function specifier(imported, local) {
+  return imported === local ? local : `${imported} as ${local}`;
 }
 
 function wiredAssignment(statementText) {
@@ -154,7 +161,13 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
   // An existing group's maintained wiring cannot follow an emitted change to
   // its factory, arguments, context, or type without review.
   const wiring = (group) =>
-    JSON.stringify([canonicalize(group.statement.getText()), group.type, group.module]);
+    JSON.stringify([
+      canonicalize(group.statement.getText()),
+      group.type,
+      group.typeImport,
+      group.factoryImport,
+      group.module,
+    ]);
   for (const [name, previous] of base.groups) {
     const next = incoming.groups.get(name);
     if (next && wiring(previous) !== wiring(next))
@@ -182,9 +195,13 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
       initializer !== undefined &&
       memberKey(existing, customSource) === memberKey(group.property, incomingSource) &&
       canonicalize(statement.getText(customSource)) === canonicalize(initializer) &&
-      [group.type, group.factory].every((local) =>
+      [
+        [group.typeImport, group.type],
+        [group.factoryImport, group.factory],
+      ].every(([imported, local]) =>
         bindings.some(
-          (item) => item.local === local && item.imported === local && item.module === group.module,
+          (item) =>
+            item.local === local && item.imported === imported && item.module === group.module,
         ),
       )
     );
@@ -254,7 +271,7 @@ export function wireOperationGroups({ file = clientFile, baseText, customText, i
     if (statementAnchor?.after) insert(statementAnchor.node.end, `\n${initializer}`);
     else if (statementAnchor) insert(statementAnchor.node.getFullStart(), `\n${initializer}`);
     else insert(customConstructor.body.end - 1, `\n${initializer}\n`);
-    const binding = `import type { ${group.type} } from ${JSON.stringify(group.module)};\nimport { ${group.factory} } from ${JSON.stringify(group.module)};`;
+    const binding = `import type { ${specifier(group.typeImport, group.type)} } from ${JSON.stringify(group.module)};\nimport { ${specifier(group.factoryImport, group.factory)} } from ${JSON.stringify(group.module)};`;
     insert(importAnchor ? importAnchor.end : 0, importAnchor ? `\n${binding}` : `${binding}\n`);
   }
   const edits = [...insertions].map(([position, texts]) => ({
