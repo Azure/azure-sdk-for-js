@@ -235,6 +235,10 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
       tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
     }
   }
+  const sessionId = attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
+  }
 
   return tags;
 }

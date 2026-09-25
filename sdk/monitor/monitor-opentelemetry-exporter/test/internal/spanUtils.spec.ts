@@ -1955,6 +1955,37 @@ describe("spanUtils.ts", () => {
         itemsProcessed: 42,
       });
     });
+
+    it("should prefer an event session ID and otherwise fall back to the span session ID", () => {
+      const span = tracer.startSpan(
+        "parent span",
+        {
+          attributes: {
+            [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: "span-session-id",
+          },
+        },
+        ROOT_CONTEXT,
+      );
+      span.addEvent("exception", {
+        [ATTR_EXCEPTION_TYPE]: "Error",
+        [ATTR_EXCEPTION_MESSAGE]: "test error",
+        [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: "event-session-id",
+        "session.previous_id": "test-previous-session-id",
+      });
+      span.addEvent("test event", {
+        [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: 42,
+      });
+      span.end();
+
+      const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+      assert.strictEqual(envelopes[0].tags?.[KnownContextTagKeys.AiSessionId], "event-session-id");
+      assert.deepStrictEqual((envelopes[0].data?.baseData as TelemetryExceptionData).properties, {
+        "session.previous_id": "test-previous-session-id",
+      });
+      assert.strictEqual(envelopes[1].tags?.[KnownContextTagKeys.AiSessionId], "span-session-id");
+      assert.deepStrictEqual((envelopes[1].data?.baseData as MessageData).properties, {});
+    });
   });
   it("should create an envelope for internal exception span events", () => {
     const testError = new Error("test error");
@@ -2077,6 +2108,28 @@ describe("spanUtils.ts", () => {
       "Custom properties on span events should be truncated at 13-bit limit",
     );
   });
+  it("should map session.id to span tags and exclude it from properties", () => {
+    const span = tracer.startSpan(
+      "span",
+      {
+        kind: SpanKind.SERVER,
+        attributes: {
+          [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: "test-session-id",
+          "session.previous_id": "test-previous-session-id",
+        },
+      },
+      ROOT_CONTEXT,
+    );
+    span.end();
+
+    const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+
+    assert.strictEqual(envelope.tags?.[KnownContextTagKeys.AiSessionId], "test-session-id");
+    assert.deepStrictEqual((envelope.data?.baseData as RequestData).properties, {
+      "session.previous_id": "test-previous-session-id",
+    });
+  });
+
   it("should ensure ATTR_ENDUSER_ID is not included in properties", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
