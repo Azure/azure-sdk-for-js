@@ -5,44 +5,111 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
+ * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
- * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MaximumSet_Gen.json
+ * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_BasicSuccess.json
  */
-async function virtualMachineBulkOperationsBulkGetOperationsStatusExample(): Promise<void> {
+async function _01GetTheStatusOfSuccessfullyCompletedOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["406e7856-f94b-48ae-93ee-b062afee54e5"] },
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      ],
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
+ * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
- * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MinimumSet_Gen.json
+ * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackAfterHibernateFail.json
  */
-async function virtualMachineBulkOperationsBulkGetOperationsStatusExampleGeneratedByMinimumSetRule(): Promise<void> {
+async function _04ResponseWithSuccessfulDeallocationFallbackAfterHibernationFails(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["406e7856-f94b-48ae-93ee-b062afee54e5"] },
+    "example-rg",
+    "eastus",
+    { operationIds: ["ffffffff-ffff-ffff-ffff-ffffffffffff"] },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ *
+ * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackFailedAfterHibernateFail.json
+ */
+async function _05ResponseWithFailedDeallocationFallbackAfterHibernationFails(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
+    "example-rg",
+    "eastus",
+    { operationIds: ["7f3c98a4-64b8-4d6a-b215-890c16d27643"] },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ *
+ * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_FailedOperation.json
+ */
+async function _02GetTheStatusOfAFailedOperation(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
+    "example-rg",
+    "eastus",
+    { operationIds: ["e69c80d2-4f31-46ac-9e35-c6a7cb63fe12"] },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ *
+ * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_OperationNotFoundError.json
+ */
+async function _03ResponseWithAnOperationNotFoundError(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      ],
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkGetOperationsStatusExample();
-  await virtualMachineBulkOperationsBulkGetOperationsStatusExampleGeneratedByMinimumSetRule();
+  await _01GetTheStatusOfSuccessfullyCompletedOperations();
+  await _04ResponseWithSuccessfulDeallocationFallbackAfterHibernationFails();
+  await _05ResponseWithFailedDeallocationFallbackAfterHibernationFails();
+  await _02GetTheStatusOfAFailedOperation();
+  await _03ResponseWithAnOperationNotFoundError();
 }
 
 main().catch(console.error);

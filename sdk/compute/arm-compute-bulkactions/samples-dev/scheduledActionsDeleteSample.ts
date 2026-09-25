@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified scheduled action.
  *
  * @summary deletes the specified scheduled action.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Delete_BasicSuccess.json
  */
-async function deleteAScheduledAction(): Promise<void> {
+async function deleteARecurringScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.delete("rgcompute", "myScheduledAction");
+  await client.scheduledActions.delete("example-rg", "weekday-start");
 }
 
 async function main(): Promise<void> {
-  await deleteAScheduledAction();
+  await deleteARecurringScheduledAction();
 }
 
 main().catch(console.error);

@@ -5,29 +5,24 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
- * @summary bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_MaximumSet_Gen.json
+ * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_Basic.json
  */
-async function virtualMachineBulkOperationsBulkHibernateExample(): Promise<void> {
+async function _01HibernateMultipleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkHibernateOperation(
-    "rgBulkactions",
-    "useast2euap",
+    "example-rg",
+    "eastus",
     {
-      executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Hibernate" },
-      },
-      resourcesWithContext: {
-        resources: [
-          {
-            resourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
-            resourceContext: "hibernateContext",
-          },
+      executionParameters: {},
+      resources: {
+        ids: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-02",
         ],
       },
     },
@@ -36,23 +31,51 @@ async function virtualMachineBulkOperationsBulkHibernateExample(): Promise<void>
 }
 
 /**
- * This sample demonstrates how to bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
- * @summary bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_MinimumSet_Gen.json
+ * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_VmNotFoundError.json
  */
-async function virtualMachineBulkOperationsBulkHibernateGeneratedByMinimumSetRule(): Promise<void> {
+async function _03ResponseWhenAVirtualMachineDoesNotExist(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkHibernateOperation(
-    "myResourceGroup",
-    "eastus2euap",
+    "example-rg",
+    "eastus",
     {
       executionParameters: {},
       resources: {
         ids: [
-          "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/missing-vm",
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ *
+ * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_WithFallback.json
+ */
+async function _02HibernateVirtualMachinesAndFallbackToDeallocationIfHibernateIsNotSuccessful(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkHibernateOperation(
+    "example-rg",
+    "eastus",
+    {
+      executionParameters: {
+        retryPolicy: { retryWindowInMinutes: 30, onFailureAction: "Deallocate" },
+      },
+      resources: {
+        ids: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
         ],
       },
     },
@@ -61,8 +84,9 @@ async function virtualMachineBulkOperationsBulkHibernateGeneratedByMinimumSetRul
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkHibernateExample();
-  await virtualMachineBulkOperationsBulkHibernateGeneratedByMinimumSetRule();
+  await _01HibernateMultipleVirtualMachines();
+  await _03ResponseWhenAVirtualMachineDoesNotExist();
+  await _02HibernateVirtualMachinesAndFallbackToDeallocationIfHibernateIsNotSuccessful();
 }
 
 main().catch(console.error);

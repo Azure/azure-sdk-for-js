@@ -5,34 +5,24 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * This sample demonstrates how to start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
- * @summary bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_MaximumSet_Gen.json
+ * @summary start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_BasicSuccess.json
  */
-async function virtualMachineBulkOperationsBulkStartExample() {
+async function _01StartMultipleVirtualMachines() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkStartOperation(
-    "rgBulkactions",
-    "useast2euap",
+    "example-rg",
+    "eastus",
     {
-      executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Start" },
-        capacityRecommendationParameters: {
-          desiredLocations: ["eastus", "westus2"],
-          desiredSizes: ["Standard_D2s_v5", "Standard_D4s_v5"],
-          availabilityZones: true,
-        },
-      },
-      resourcesWithContext: {
-        resources: [
-          {
-            resourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
-            resourceContext: "startContext",
-          },
+      executionParameters: {},
+      resources: {
+        ids: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-02",
         ],
       },
     },
@@ -41,23 +31,83 @@ async function virtualMachineBulkOperationsBulkStartExample() {
 }
 
 /**
- * This sample demonstrates how to bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * This sample demonstrates how to start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
- * @summary bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_MinimumSet_Gen.json
+ * @summary start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_VmNotFoundError.json
  */
-async function virtualMachineBulkOperationsBulkStartGeneratedByMinimumSetRule() {
+async function _04ResponseWhenAVirtualMachineDoesNotExist() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkStartOperation(
-    "myResourceGroup",
-    "eastus2euap",
+    "example-rg",
+    "eastus",
     {
       executionParameters: {},
       resources: {
         ids: [
-          "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/missing-vm",
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ *
+ * @summary start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_WithCapacityRecommendations.json
+ */
+async function _03StartVirtualMachinesWithCapacityRecommendations() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkStartOperation(
+    "example-rg",
+    "eastus",
+    {
+      executionParameters: {
+        retryPolicy: { retryWindowInMinutes: 30 },
+        capacityRecommendationParameters: {
+          desiredLocations: ["eastus", "westus2"],
+          desiredSizes: ["Standard_D2s_v5", "Standard_D4s_v5"],
+          availabilityZones: true,
+        },
+      },
+      resources: {
+        ids: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-02",
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ *
+ * @summary start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_WithVmAgentHealthVerification.json
+ */
+async function _02StartVirtualMachinesWithVMAgentHealthVerification() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkStartOperation(
+    "example-rg",
+    "eastus",
+    {
+      executionParameters: { retryPolicy: { retryWindowInMinutes: 30 }, verifyVmAgentHealth: true },
+      resources: {
+        ids: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-01",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/bulk-vm-02",
         ],
       },
     },
@@ -66,8 +116,10 @@ async function virtualMachineBulkOperationsBulkStartGeneratedByMinimumSetRule() 
 }
 
 async function main() {
-  await virtualMachineBulkOperationsBulkStartExample();
-  await virtualMachineBulkOperationsBulkStartGeneratedByMinimumSetRule();
+  await _01StartMultipleVirtualMachines();
+  await _04ResponseWhenAVirtualMachineDoesNotExist();
+  await _03StartVirtualMachinesWithCapacityRecommendations();
+  await _02StartVirtualMachinesWithVMAgentHealthVerification();
 }
 
 main().catch(console.error);

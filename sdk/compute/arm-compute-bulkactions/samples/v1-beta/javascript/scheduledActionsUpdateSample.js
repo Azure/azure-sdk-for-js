@@ -8,38 +8,43 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the specified scheduled action.
  *
  * @summary updates the specified scheduled action.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Update_BasicSuccess.json
  */
-async function updateAScheduledAction() {
+async function _01UpdateTheActionTypeOfARecurringScheduledAction() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.update("rgcompute", "myScheduledAction", {
+  await client.scheduledActions.update("example-rg", "weekday-start", {
+    properties: { actionType: "Deallocate" },
+  });
+}
+
+/**
+ * This sample demonstrates how to updates the specified scheduled action.
+ *
+ * @summary updates the specified scheduled action.
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Update_ComprehensiveSuccess.json
+ */
+async function _02UpdateARecurringScheduledActionSchedule() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  await client.scheduledActions.update("example-rg", "weekday-start", {
     properties: {
-      resourceType: "VirtualMachine",
-      actionType: "Start",
-      startTime: "2025-04-17T00:23:58.149Z",
-      endTime: "2025-04-17T00:23:58.149Z",
       schedule: {
         scheduledTime: "19:00:00",
         timeZone: "America/Los_Angeles",
         requestedWeekDays: ["Monday"],
         requestedMonths: ["January"],
         requestedDaysOfTheMonth: [15],
-        executionParameters: { retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 } },
-        deadlineType: "InitiateAt",
       },
-      notificationSettings: [
-        { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
-      ],
-      disabled: true,
     },
-    tags: { key9989: "myTagValue" },
   });
 }
 
 async function main() {
-  await updateAScheduledAction();
+  await _01UpdateTheActionTypeOfARecurringScheduledAction();
+  await _02UpdateARecurringScheduledActionSchedule();
 }
 
 main().catch(console.error);

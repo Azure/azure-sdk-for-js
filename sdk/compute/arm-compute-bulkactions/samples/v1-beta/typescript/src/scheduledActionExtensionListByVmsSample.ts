@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists scheduled actions associated with the specified VM.
  * x-ms-original-file: 2026-09-06-preview/ScheduledActionExtension_ListByVms_MaximumSet_Gen.json
  */
-async function listScheduledActionsForAComputeResource(): Promise<void> {
+async function listRecurringScheduledActionsForAVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeClient(credential);
   const resArray = new Array();
@@ -24,7 +24,7 @@ async function listScheduledActionsForAComputeResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listScheduledActionsForAComputeResource();
+  await listRecurringScheduledActionsForAVM();
 }
 
 main().catch(console.error);
