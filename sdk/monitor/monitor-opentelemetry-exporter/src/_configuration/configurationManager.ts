@@ -125,6 +125,7 @@ export class ConfigurationManager {
       // than leaving the consumer stale until another change occurs (which may never happen).
       this.invokeCallback(subscription, this.state.settings);
     }
+    // Return a cleanup function that unregisters this callback subscription.
     return () => {
       const index = this.callbacks.indexOf(subscription);
       if (index !== -1) {
