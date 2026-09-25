@@ -104,21 +104,21 @@ test("wires a newly emitted operation group into the protected client", () => {
   assert.equal(stripped, customClient);
   const source = new Map([[file, result.text]]);
   assert.deepEqual(validateCustomization({ ...inputs, source }), []);
-  const cognitive = new Map([
-    [
-      file,
-      result.text.replace(
-        "_getJobsOperations(this._azureScopeClient)",
-        "_getJobsOperations(this._cognitiveScopeClient)",
+  // Neither another maintained context nor the raw emitted `_client` form
+  // passes as generated-backed wiring.
+  for (const context of ["this._cognitiveScopeClient", "this._client"]) {
+    const rewired = result.text.replace(
+      "_getJobsOperations(this._azureScopeClient)",
+      `_getJobsOperations(${context})`,
+    );
+    assert.notEqual(rewired, result.text);
+    assert.ok(
+      validateCustomization({ ...inputs, source: new Map([[file, rewired]]) }).some(
+        (item) => item.file === file && /additive wiring/.test(item.message),
       ),
-    ],
-  ]);
-  assert.ok(
-    validateCustomization({ ...inputs, source: cognitive }).some(
-      (item) => item.file === file && /additive wiring/.test(item.message),
-    ),
-    "only the reviewed client context is accepted",
-  );
+      `${context} is not the reviewed client context`,
+    );
+  }
 });
 
 test("reports operation groups the client cannot wire and groups the emitter removed", () => {

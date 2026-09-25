@@ -1086,7 +1086,7 @@ function memberIdentity(node) {
   return `${node.kind}:${name}${ts.isMethodDeclaration(node) && !node.body ? `:${nodeKey(node)}` : ""}`;
 }
 
-function additiveProtected(before, after, baseGenerated, generated, renames) {
+function additiveProtected(before, after, baseGenerated, generated, renames, client = false) {
   if (nodeKey(before, renames) === nodeKey(after, renames)) return true;
   if (before.kind !== after.kind) return false;
   if (ts.isClassDeclaration(before) || ts.isInterfaceDeclaration(before)) {
@@ -1128,15 +1128,21 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
               if (!ts.isStatement(candidate) || baselineStatements.has(nodeKey(candidate, renames)))
                 return;
               const wired =
-                ts.isExpressionStatement(candidate) &&
-                !baselineMembers.has(assignedMember(candidate))
+                client && ts.isExpressionStatement(candidate)
                   ? wiredOperationGroup(candidate.getText())
                   : undefined;
-              if (
-                nodeKey(candidate, renames) === nodeKey(statement, renames) ||
-                (wired !== undefined &&
-                  canonicalize(renameText(wired, renames)) === nodeKey(statement, renames))
-              )
+              // The maintained client has no emitted `_client` context: a plain
+              // operation-group initializer is accepted only in its maintained
+              // form, and only for a newly emitted member.
+              if (wired !== undefined) {
+                if (
+                  !baselineMembers.has(assignedMember(candidate)) &&
+                  canonicalize(renameText(wired, renames)) === nodeKey(statement, renames)
+                )
+                  generatedAddition = true;
+                return;
+              }
+              if (nodeKey(candidate, renames) === nodeKey(statement, renames))
                 generatedAddition = true;
             });
           if (!generatedAddition) return false;
@@ -1310,7 +1316,17 @@ function checkProtected(trees, renames, report) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
-      if (!next || !additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames)) {
+      if (
+        !next ||
+        !additiveProtected(
+          entry.node,
+          next.node,
+          base?.node,
+          incoming?.node,
+          renames,
+          file === clientFile,
+        )
+      ) {
         report(
           file,
           entry.name,
