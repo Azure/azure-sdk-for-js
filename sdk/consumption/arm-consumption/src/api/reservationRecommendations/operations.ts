@@ -26,7 +26,7 @@ export function _listSend(
     "/{+resourceScope}/providers/Microsoft.Consumption/reservationRecommendations{?api%2Dversion,%24filter}",
     {
       resourceScope: resourceScope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -66,6 +66,6 @@ export function list(
     () => _listSend(context, resourceScope, options),
     _listDeserialize,
     ["200", "204"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
