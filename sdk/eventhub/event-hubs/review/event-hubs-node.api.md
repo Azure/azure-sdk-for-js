@@ -351,6 +351,7 @@ export interface SubscribeOptions {
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     prefetchCount?: number;
+    skipConvertingDate?: boolean;
     skipParsingBodyAsJson?: boolean;
     startPosition?: EventPosition | {
         [partitionId: string]: EventPosition;

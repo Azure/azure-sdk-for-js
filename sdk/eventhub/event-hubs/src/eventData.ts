@@ -172,11 +172,14 @@ const messagePropertiesMap = {
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
  * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
+ * @param skipConvertingDate - Boolean to skip converting Date type on properties of message annotations or application
+ * properties into numbers. Defaults to `false`, which converts Date type into UNIX epoch number for compatibility.
  * @internal
  */
 export function fromRheaMessage(
   msg: RheaMessage,
   skipParsingBodyAsJson: boolean,
+  skipConvertingDate: boolean = false,
 ): EventDataInternal {
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
   const { body, bodyType } = defaultDataTransformer.decode(msg.body, skipParsingBodyAsJson);
@@ -208,15 +211,17 @@ export function fromRheaMessage(
           if (!data.systemProperties) {
             data.systemProperties = {};
           }
-          data.systemProperties[annotationKey] = convertDatesToNumbers(
-            msg.message_annotations[annotationKey],
-          );
+          data.systemProperties[annotationKey] = skipConvertingDate
+            ? msg.message_annotations[annotationKey]
+            : convertDatesToNumbers(msg.message_annotations[annotationKey]);
           break;
       }
     }
   }
   if (msg.application_properties) {
-    data.properties = convertDatesToNumbers(msg.application_properties);
+    data.properties = skipConvertingDate
+      ? msg.application_properties
+      : convertDatesToNumbers(msg.application_properties);
   }
   if (msg.delivery_annotations) {
     data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
@@ -235,9 +240,9 @@ export function fromRheaMessage(
       data.systemProperties = {};
     }
     if (msg[messageProperty] != null) {
-      data.systemProperties[messagePropertiesMap[messageProperty]] = convertDatesToNumbers(
-        msg[messageProperty],
-      );
+      data.systemProperties[messagePropertiesMap[messageProperty]] = skipConvertingDate
+        ? msg[messageProperty]
+        : convertDatesToNumbers(msg[messageProperty]);
     }
   }
 
