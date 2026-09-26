@@ -15,7 +15,10 @@ never make a network request.
   lifecycle, error handling) shared behavior of `VoiceAgentRealtimeClient`.
 - **browser/realtime.spec.ts**: the browser-specific transport (Entra bearer token carried via the
   WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on the upgrade
-  request).
+  request). Arbitrary headers are not forwarded into query parameters: only `foundry-features`,
+  `x-ms-client-request-id`, and `x-ms-voice-structured-inputs` map to `foundry_features`,
+  `client-request-id`, and `h-x-ms-voice-structured-inputs`, respectively. The existing
+  `x-ms-client-sdk` URL parameter is retained without forwarding duplicate SDK headers.
 - **node/webSocketTransport.spec.ts**: the Node `ws`-backed transport implementation.
 
 ### Live Tests (voiceAgentRealtimeLive.spec.ts)
