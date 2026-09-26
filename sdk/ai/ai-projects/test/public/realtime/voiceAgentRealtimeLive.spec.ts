@@ -46,6 +46,58 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     }
   }
 
+  it.each([
+    { structuredInputs: undefined, expectedName: "Ada" },
+    { structuredInputs: { agent_name: "Grace" }, expectedName: "Grace" },
+  ])(
+    "renders structured instruction inputs as $expectedName",
+    async ({ structuredInputs, expectedName }) => {
+      const agentName = `voice-agent-template-${Date.now()}`;
+      createdAgents.push(agentName);
+      await client.agents.create(
+        agentName,
+        {
+          kind: "voice",
+          model_type: "managed",
+          model: modelName,
+          instructions: "You are {{agent_name}}, a helpful voice assistant. Reply briefly.",
+          structured_inputs: {
+            agent_name: {
+              schema: { type: "string" },
+              default_value: "Ada",
+            },
+          },
+          output_modalities: ["text"],
+        },
+        { foundryFeatures: preview },
+      );
+
+      const connection = await client.beta.voiceAgents.realtime.connect(agentName, {
+        structuredInputs,
+      });
+      let instructions: string | undefined;
+      try {
+        for await (const event of connection) {
+          if (event.type === "error") {
+            throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
+          }
+          if (event.type === "session.updated") {
+            instructions = event.session.instructions;
+            break;
+          }
+        }
+      } finally {
+        await connection.dispose();
+      }
+
+      assert.equal(
+        instructions,
+        `You are ${expectedName}, a helpful voice assistant. Reply briefly.`,
+      );
+    },
+    120_000,
+  );
+
   it("streams text output and handles tool calls", async () => {
     const agentName = `voice-agent-streaming-${Date.now()}`;
     const definition: VoiceAgentDefinition = {

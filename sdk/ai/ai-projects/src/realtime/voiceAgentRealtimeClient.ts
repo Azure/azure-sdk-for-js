@@ -317,7 +317,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
           this.connectOptions,
         ),
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.connectOptions),
+        headers: buildHeaders(token, this.clientOptions),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -636,16 +636,18 @@ function buildWebSocketUrl(
   if (options.agentVersionOverride) {
     url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
   }
+  if (options.structuredInputs !== undefined) {
+    url.searchParams.set("structured_input", JSON.stringify(options.structuredInputs));
+  }
   return url.toString();
 }
 
 function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  connectOptions: VoiceAgentRealtimeClientConnectOptions,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
-  const headers: Record<string, string> = {
+  return {
     authorization: `Bearer ${token}`,
     "foundry-features": voiceAgentsPreview,
     "x-ms-client-request-id": createRequestId(),
@@ -654,10 +656,6 @@ function buildHeaders(
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
-  if (connectOptions.structuredInputs) {
-    headers["x-ms-voice-structured-inputs"] = JSON.stringify(connectOptions.structuredInputs);
-  }
-  return headers;
 }
 
 function createRequestId(): string {
