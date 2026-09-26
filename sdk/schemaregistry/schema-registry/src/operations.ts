@@ -12,7 +12,22 @@ import type {
 } from "./models.js";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions.js";
 import type { SchemaRegistryClient } from "./clientDefinitions.js";
-import { createRestError } from "@azure-rest/core-client";
+import type { OperationRequestOptions, RequestParameters } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+
+function toRequestParameters(options: GetSchemaOptions = {}): RequestParameters {
+  const requestOptions: OperationRequestOptions & NonNullable<GetSchemaOptions["requestOptions"]> =
+    options.requestOptions ?? {};
+  const headers = createHttpHeaders(requestOptions.customHeaders);
+  for (const [name, value] of Object.entries(requestOptions.headers ?? {})) {
+    headers.set(name, String(value));
+  }
+  return operationOptionsToRequestParameters({
+    ...options,
+    requestOptions: { ...requestOptions, headers: headers.toJSON() },
+  });
+}
 
 export async function registerSchema(
   context: SchemaRegistryClient,
@@ -23,9 +38,9 @@ export async function registerSchema(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
+      ...toRequestParameters(options),
       contentType: buildContentType(format),
       body: prepareSchemaContent(schemaContent),
-      ...options,
     });
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -47,9 +62,9 @@ export async function getSchemaProperties(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName, schemaName)
     .post({
+      ...toRequestParameters(options),
       contentType: buildContentType(format),
       body: schemaContent,
-      ...options,
     });
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -63,7 +78,9 @@ export async function getSchemaById(
   schemaId: string,
   options?: GetSchemaOptions,
 ): Promise<Schema> {
-  const response = await context.path("/$schemaGroups/$schemas/{id}", schemaId).get({ ...options });
+  const response = await context
+    .path("/$schemaGroups/$schemas/{id}", schemaId)
+    .get(toRequestParameters(options));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -86,7 +103,7 @@ export async function getSchemaByVersion(
       name,
       version,
     )
-    .get({ ...options });
+    .get(toRequestParameters(options));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
