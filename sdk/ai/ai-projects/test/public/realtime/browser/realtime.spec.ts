@@ -101,9 +101,10 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
     expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
     expect(url.searchParams.get("client-request-id")).toBeTruthy();
-    expect(url.searchParams.get("h-x-ms-voice-structured-inputs")).toBe(
+    expect(url.searchParams.getAll("structured_inputs")).toEqual([
       JSON.stringify({ customer: "Ada" }),
-    );
+    ]);
+    expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("user-agent")).toBe(false);
     expect(url.searchParams.has("h-user-agent")).toBe(false);
@@ -133,7 +134,7 @@ describe("AIProjectClient browser realtime", () => {
       "x-ms-client-sdk": "sdk-version",
       foundry_features: "VoiceAgents=V1Preview",
       "client-request-id": "request-1",
-      "h-x-ms-voice-structured-inputs": structuredInputs,
+      structured_inputs: structuredInputs,
     });
   });
 

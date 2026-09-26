@@ -222,7 +222,7 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
         target.searchParams.set("client-request-id", value);
         break;
       case "x-ms-voice-structured-inputs":
-        target.searchParams.set("h-x-ms-voice-structured-inputs", value);
+        target.searchParams.set("structured_inputs", value);
         break;
     }
   }
