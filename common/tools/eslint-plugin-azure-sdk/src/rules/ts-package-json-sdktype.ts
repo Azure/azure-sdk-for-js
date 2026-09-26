@@ -20,13 +20,13 @@ export default createRule({
     type: "suggestion",
     docs: {
       description:
-        "force package.json's sdk-type to exist and for its value to be 'client' or 'mgmt'",
+        "force package.json's sdk-type to exist and have a recognized SDK package category",
     },
     messages: {
       ...VerifierMessages,
       SdkTypeNotString: "sdk-type is not set to a string",
       SdkTypeNotValid:
-        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
     },
     schema: [],
     fixable: "code",
@@ -43,7 +43,7 @@ export default createRule({
       // check to see if package.json includes 'sdk-type'
       "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-      // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
+      // Check the node corresponding to sdk-type for a recognized category.
       "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
         node: TSESTree.Property,
       ): void => {
@@ -59,7 +59,7 @@ export default createRule({
 
         const strValue = stripPath(value.value);
 
-        if (!["client", "mgmt", "perf-test", "utility"].includes(strValue)) {
+        if (!["client", "mgmt", "provisioning", "perf-test", "utility"].includes(strValue)) {
           return context.report({
             node: node.value,
             messageId: "SdkTypeNotValid",

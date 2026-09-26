@@ -140,7 +140,7 @@ export const repository = packageJsonCheck({
   },
 });
 
-const sdkTypes = ["client", "mgmt", "utility"];
+const sdkTypes = ["client", "mgmt", "provisioning", "perf-test", "utility"];
 
 export const sdkType = packageJsonCheck({
   description: `package.json sdk-type field must be one of: ${sdkTypes.join(", ")}`,
@@ -150,11 +150,11 @@ export const sdkType = packageJsonCheck({
 });
 
 export const sideEffects = packageJsonCheck({
-  description: "package.json sideEffects field must be false",
+  description: "package.json sideEffects field must match the SDK type",
   fix({ packageJson }) {
     return {
       ...packageJson,
-      sideEffects: false,
+      sideEffects: packageJson["sdk-type"] === "provisioning",
     };
   },
 });
