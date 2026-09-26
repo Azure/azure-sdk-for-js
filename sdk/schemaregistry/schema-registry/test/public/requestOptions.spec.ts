@@ -55,7 +55,7 @@ function createClient(capture: (request: PipelineRequest) => void): SchemaRegist
 describe("operation request options", () => {
   for (const [name, operation] of operations) {
     describe(name, () => {
-      it("forwards nested transport options and preserves abort and response callbacks", async () => {
+      it("forwards nested transport options and preserves tracing, abort and response callbacks", async () => {
         const abortSignal = new AbortController().signal;
         const onUploadProgress = (): void => {};
         const onDownloadProgress = (): void => {};
@@ -81,6 +81,7 @@ describe("operation request options", () => {
         assert.equal(captured!.headers.get("x-custom-header"), "custom-value");
         assert.equal(captured!.timeout, 1234);
         assert.strictEqual(captured!.abortSignal, abortSignal);
+        assert.isDefined(captured!.tracingOptions?.tracingContext);
         assert.strictEqual(captured!.onUploadProgress, onUploadProgress);
         assert.strictEqual(captured!.onDownloadProgress, onDownloadProgress);
         assert.isTrue(captured!.allowInsecureConnection);

@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Forward nested request options, including custom headers and timeouts, in Schema Registry operations. [#40035](https://github.com/Azure/azure-sdk-for-js/issues/40035)
+- Forward nested request options, including custom headers, timeouts, and tracing, in Schema Registry operations. [#40035](https://github.com/Azure/azure-sdk-for-js/issues/40035)
 
 ### Other Changes
 

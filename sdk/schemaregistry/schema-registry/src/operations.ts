@@ -12,22 +12,7 @@ import type {
 } from "./models.js";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions.js";
 import type { SchemaRegistryClient } from "./clientDefinitions.js";
-import type { OperationRequestOptions, RequestParameters } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
-
-function toRequestParameters(options: GetSchemaOptions = {}): RequestParameters {
-  const requestOptions: OperationRequestOptions & NonNullable<GetSchemaOptions["requestOptions"]> =
-    options.requestOptions ?? {};
-  const headers = createHttpHeaders(requestOptions.customHeaders);
-  for (const [name, value] of Object.entries(requestOptions.headers ?? {})) {
-    headers.set(name, String(value));
-  }
-  return operationOptionsToRequestParameters({
-    ...options,
-    requestOptions: { ...requestOptions, headers: headers.toJSON() },
-  });
-}
 
 export async function registerSchema(
   context: SchemaRegistryClient,
@@ -38,7 +23,7 @@ export async function registerSchema(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
-      ...toRequestParameters(options),
+      ...operationOptionsToRequestParameters(options ?? {}),
       contentType: buildContentType(format),
       body: prepareSchemaContent(schemaContent),
     });
@@ -62,7 +47,7 @@ export async function getSchemaProperties(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName, schemaName)
     .post({
-      ...toRequestParameters(options),
+      ...operationOptionsToRequestParameters(options ?? {}),
       contentType: buildContentType(format),
       body: schemaContent,
     });
@@ -80,7 +65,7 @@ export async function getSchemaById(
 ): Promise<Schema> {
   const response = await context
     .path("/$schemaGroups/$schemas/{id}", schemaId)
-    .get(toRequestParameters(options));
+    .get(operationOptionsToRequestParameters(options ?? {}));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -103,7 +88,7 @@ export async function getSchemaByVersion(
       name,
       version,
     )
-    .get(toRequestParameters(options));
+    .get(operationOptionsToRequestParameters(options ?? {}));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
