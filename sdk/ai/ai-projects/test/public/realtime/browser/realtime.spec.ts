@@ -4,6 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AIProjectClient, VoiceAgentProtocolError } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
+import { addHeadersToUrl } from "$internal/webSocketTransport.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 class BrowserTestCredential implements TokenCredential {
@@ -77,7 +78,7 @@ describe("AIProjectClient browser realtime", () => {
     vi.unstubAllGlobals();
   });
 
-  it("sends bearer auth as a WebSocket subprotocol and other headers as query parameters", async () => {
+  it("sends bearer auth as a WebSocket subprotocol and supported connection query parameters", async () => {
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
       agentSessionId: "session-1",
       store: false,
@@ -94,28 +95,74 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("agent_session_id")).toBe("session-1");
     expect(url.searchParams.get("store")).toBe("false");
     expect(url.searchParams.has("authorization")).toBe(false);
-    expect(url.searchParams.get("x-ms-client-sdk")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
+    expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    ]);
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
-    expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
-    expect(url.searchParams.get("h-x-ms-voice-structured-inputs")).toBe(
+    expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
+    expect(url.searchParams.get("client-request-id")).toBeTruthy();
+    expect(url.searchParams.getAll("structured_inputs")).toEqual([
       JSON.stringify({ customer: "Ada" }),
-    );
+    ]);
+    expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
+    expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("user-agent")).toBe(false);
-    expect(url.searchParams.get("h-user-agent")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
+    expect(url.searchParams.has("h-user-agent")).toBe(false);
+    expect(url.searchParams.has("h-x-ms-client-sdk")).toBe(false);
     expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
 
     await connection.close();
   });
 
-  it("prefixes the user-agent query parameter with a custom userAgentPrefix", async () => {
+  it("maps only supported headers, case-insensitively, without generic header forwarding", () => {
+    const structuredInputs = JSON.stringify({ customer: "Ada & Bob" });
+    const url = new URL(
+      addHeadersToUrl("wss://example.test/voice?api-version=v1&x-ms-client-sdk=sdk-version", {
+        Authorization: "Bearer browser-test-token",
+        "Foundry-Features": "VoiceAgents=V1Preview",
+        "X-MS-Client-Request-ID": "request-1",
+        "X-MS-Voice-Structured-Inputs": structuredInputs,
+        "User-Agent": "custom-prefix sdk-version",
+        "X-MS-Client-SDK": "sdk-version",
+        "X-Custom-Header": "custom-value",
+        Accept: "application/json",
+      }),
+    );
+
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      "api-version": "v1",
+      "x-ms-client-sdk": "sdk-version",
+      foundry_features: "VoiceAgents=V1Preview",
+      "client-request-id": "request-1",
+      structured_inputs: structuredInputs,
+    });
+  });
+
+  it("replaces existing preview parameters using standard URL encoding", () => {
+    const urlWithHeaders = addHeadersToUrl(
+      "wss://example.test/voice?foundry_features=old&foundry_features=duplicate",
+      { "foundry-features": "VoiceAgents=V1Preview" },
+    );
+
+    expect(urlWithHeaders).toBe(
+      "wss://example.test/voice?foundry_features=VoiceAgents%3DV1Preview",
+    );
+    expect(new URL(urlWithHeaders).searchParams.getAll("foundry_features")).toEqual([
+      "VoiceAgents=V1Preview",
+    ]);
+  });
+
+  it("keeps only the SDK query parameter when a custom userAgentPrefix is configured", async () => {
     const connection =
       await createClient("custom-prefix").beta.voiceAgents.realtime.connect("browser-agent");
     const url = new URL(getSocket().url);
 
+    expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    ]);
     expect(url.searchParams.has("user-agent")).toBe(false);
-    expect(url.searchParams.get("h-user-agent")).toBe(
-      `custom-prefix azsdk-js-ai-projects/${SDK_VERSION}`,
-    );
+    expect(url.searchParams.has("h-user-agent")).toBe(false);
+    expect(url.searchParams.has("h-x-ms-client-sdk")).toBe(false);
 
     await connection.close();
   });
