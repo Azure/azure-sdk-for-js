@@ -10,6 +10,7 @@
 
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
 - Add `OpenAPI` and `RemoteA2A` connection types. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
+- Add `transport` option to `VoiceAgentRealtimeClientConnectOptions` for selecting between the `"websocket"` (default) and `"webrtc"` realtime connection transports.
 
 ### Bugs Fixed
 
