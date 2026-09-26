@@ -11,7 +11,7 @@ import { IdentityClient } from "../client/identityClient.js";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { credentialLogger } from "../util/logging.js";
-import { AzureAuthorityHosts } from "../constants.js";
+import { getAuthorityHost } from "../util/authorityHost.js";
 
 const credentialName = "GitHubActionsCredential";
 const logger = credentialLogger(credentialName);
@@ -25,9 +25,10 @@ const ErrorMessages = {
   UNSUPPORTED_AUTHORITY_HOST: (authorityHost: string) =>
     `${credentialName}: is unavailable. The authority host "${authorityHost}" is not supported.`,
   NULL_OIDC_TOKEN: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
+  OIDC_REQUEST_FAILED: (status: number) =>
+    `${credentialName}: Authentication Failed. OIDC request returned status code ${status}.`,
   OIDC_VALUE_MISSING: `${credentialName}: Authentication Failed. "value" field not detected in the response.`,
-  OIDC_RESPONSE_PARSE_FAILED: (text: string, errorMessage: string) =>
-    `${credentialName}: Authentication Failed. Failed to parse OIDC response. Response = ${text}. Error: ${errorMessage}`,
+  OIDC_RESPONSE_PARSE_FAILED: `${credentialName}: Authentication Failed. Failed to parse OIDC response.`,
 };
 
 const audienceByAuthorityHost: Readonly<Record<string, string>> = {
@@ -111,10 +112,12 @@ export class GitHubActionsCredential implements TokenCredential {
       throw new CredentialUnavailableError(ErrorMessages.GITHUB_ENV_VARS_REQUIRED(missing));
     }
 
-    const authorityHost = options.authorityHost ?? AzureAuthorityHosts.AzurePublicCloud;
+    const authorityHost = getAuthorityHost(options);
     const audience = deriveAudience(authorityHost);
 
-    logger.info("Invoking GitHubActionsCredential");
+    logger.info(
+      `Invoking GitHubActionsCredential with tenant ID: ${tenantId}, client ID: ${clientId}`,
+    );
 
     this.clientAssertionCredential = new ClientAssertionCredential(
       tenantId,
@@ -152,11 +155,9 @@ export class GitHubActionsCredential implements TokenCredential {
     logger.info("Requesting OIDC token from GitHub Actions...");
 
     // GitHub OIDC endpoint uses GET (not POST like Azure Pipelines).
-    // Audience is appended as query param; omit if empty.
+    // Audience is appended as a query parameter.
     const url = new URL(oidcRequestUrl);
-    if (audience) {
-      url.searchParams.set("audience", audience);
-    }
+    url.searchParams.set("audience", audience);
 
     const request = createPipelineRequest({
       url: url.toString(),
@@ -185,15 +186,22 @@ export function handleOidcResponse(response: PipelineResponse): string {
     });
   }
 
+  if (response.status !== 200) {
+    const errorMessage = ErrorMessages.OIDC_REQUEST_FAILED(response.status);
+    logger.error(errorMessage);
+    throw new AuthenticationError(response.status, {
+      error: errorMessage,
+      error_description: `See the troubleshooting guide for more information: ${troubleshootingGuide}`,
+    });
+  }
+
   let result: unknown;
   try {
     result = JSON.parse(text) as unknown;
-  } catch (e: unknown) {
-    const errorMessage = e instanceof Error ? e.message : String(e);
-    const errorDetails = ErrorMessages.OIDC_RESPONSE_PARSE_FAILED(text, errorMessage);
-    logger.error(errorDetails);
+  } catch {
+    logger.error(ErrorMessages.OIDC_RESPONSE_PARSE_FAILED);
     throw new AuthenticationError(response.status, {
-      error: errorDetails,
+      error: ErrorMessages.OIDC_RESPONSE_PARSE_FAILED,
       error_description: `See the troubleshooting guide for more information: ${troubleshootingGuide}`,
     });
   }
@@ -209,14 +217,9 @@ export function handleOidcResponse(response: PipelineResponse): string {
   }
 
   const errorMessage = ErrorMessages.OIDC_VALUE_MISSING;
-  let errorDescription = "";
-  if (response.status !== 200) {
-    errorDescription = `Response body = ${text}. Status code: ${response.status}. See the troubleshooting guide for more information: ${troubleshootingGuide}`;
-  }
   logger.error(errorMessage);
-  logger.error(errorDescription);
   throw new AuthenticationError(response.status, {
     error: errorMessage,
-    error_description: errorDescription,
+    error_description: `See the troubleshooting guide for more information: ${troubleshootingGuide}`,
   });
 }

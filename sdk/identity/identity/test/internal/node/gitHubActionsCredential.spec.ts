@@ -10,6 +10,8 @@ import {
 } from "$internal/credentials/gitHubActionsCredential.js";
 import { IdentityClient } from "$internal/client/identityClient.js";
 import { afterEach, describe, it, assert, vi } from "vitest";
+import type { ClientAssertionCredential } from "@azure/identity";
+import type { MsalClient } from "$internal/msal/nodeFlows/msalClient.js";
 
 describe("GitHubActionsCredential (internal)", function () {
   afterEach(function () {
@@ -72,6 +74,50 @@ describe("GitHubActionsCredential (internal)", function () {
     });
   });
 
+  it("retrieves the OIDC assertion through getToken and returns the access token", async function () {
+    let capturedRequest: PipelineRequest | undefined;
+    vi.spyOn(IdentityClient.prototype, "sendRequest").mockImplementation(async (request) => {
+      capturedRequest = request;
+      return {
+        request,
+        status: 200,
+        headers: createHttpHeaders(),
+        bodyAsText: JSON.stringify({ value: "test-jwt-token" }),
+      };
+    });
+
+    vi.stubEnv("AZURE_TENANT_ID", "test-tenant-id");
+    vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
+    vi.stubEnv("AZURE_AUTHORITY_HOST", "https://login.microsoftonline.us");
+    vi.stubEnv(
+      "ACTIONS_ID_TOKEN_REQUEST_URL",
+      "https://token.actions.githubusercontent.com/request?api-version=1.0",
+    );
+    vi.stubEnv("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "test-request-token");
+
+    const credential = new GitHubActionsCredential();
+    const clientAssertionCredential = Reflect.get(
+      credential,
+      "clientAssertionCredential",
+    ) as ClientAssertionCredential;
+    const msalClient = Reflect.get(clientAssertionCredential, "msalClient") as MsalClient;
+    vi.spyOn(msalClient, "getTokenByClientAssertion").mockImplementation(
+      async (_scopes, getAssertion) => {
+        assert.strictEqual(await getAssertion(), "test-jwt-token");
+        return { token: "test-access-token", expiresOnTimestamp: Date.now() + 60_000 };
+      },
+    );
+
+    const accessToken = await credential.getToken("https://management.azure.com/.default");
+
+    assert.strictEqual(accessToken.token, "test-access-token");
+    assert.isDefined(capturedRequest);
+    assert.strictEqual(
+      new URL(capturedRequest.url).searchParams.get("audience"),
+      "api://AzureADTokenExchangeUSGov",
+    );
+  });
+
   describe("handleOidcResponse", function () {
     function createResponse(status: number, bodyAsText?: string): PipelineResponse {
       return {
@@ -103,7 +149,7 @@ describe("GitHubActionsCredential (internal)", function () {
     });
 
     it("throws Authentication Error when 'value' field is missing", function () {
-      const response = createResponse(400, JSON.stringify({ error: "Bad Request" }));
+      const response = createResponse(200, JSON.stringify({ error: "Bad Request" }));
       assert.throws(
         () => handleOidcResponse(response),
         /GitHubActionsCredential: Authentication Failed. "value" field not detected in the response/,
@@ -111,11 +157,17 @@ describe("GitHubActionsCredential (internal)", function () {
     });
 
     it("throws Authentication Error when response is not valid JSON", function () {
-      const response = createResponse(500, "Internal Server Error");
-      assert.throws(
+      const response = createResponse(200, "test-sensitive-assertion");
+      const error = assert.throws(
         () => handleOidcResponse(response),
         /GitHubActionsCredential: Authentication Failed. Failed to parse OIDC response/,
       );
+      assert.notInclude(error.message, "test-sensitive-assertion");
+    });
+
+    it("rejects a token value returned with a non-200 response", function () {
+      const response = createResponse(500, JSON.stringify({ value: "test-jwt-token" }));
+      assert.throws(() => handleOidcResponse(response), /OIDC request returned status code 500/);
     });
 
     it("includes status code in error for null body", function () {
@@ -125,46 +177,19 @@ describe("GitHubActionsCredential (internal)", function () {
   });
 
   describe("deriveAudience", function () {
-    it("returns public cloud audience for login.microsoftonline.com", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.microsoftonline.com"),
-        "api://AzureADTokenExchange",
-      );
-    });
+    const audienceCases: Array<[string, string]> = [
+      ["https://login.microsoftonline.com", "api://AzureADTokenExchange"],
+      ["https://login.microsoftonline.us", "api://AzureADTokenExchangeUSGov"],
+      ["https://login.chinacloudapi.cn", "api://AzureADTokenExchangeChina"],
+      ["https://login.sovcloud-identity.fr", "api://AzureADTokenExchangeFrance"],
+      ["https://login.sovcloud-identity.de", "api://AzureADTokenExchangeGermany"],
+      ["https://login.sovcloud-identity.sg", "api://AzureADTokenExchangeGovSG"],
+    ];
 
-    it("returns US Gov audience for login.microsoftonline.us", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.microsoftonline.us"),
-        "api://AzureADTokenExchangeUSGov",
-      );
-    });
-
-    it("returns China audience for login.chinacloudapi.cn", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.chinacloudapi.cn"),
-        "api://AzureADTokenExchangeChina",
-      );
-    });
-
-    it("returns France audience for login.sovcloud-identity.fr", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.sovcloud-identity.fr"),
-        "api://AzureADTokenExchangeFrance",
-      );
-    });
-
-    it("returns Germany audience for login.sovcloud-identity.de", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.sovcloud-identity.de"),
-        "api://AzureADTokenExchangeGermany",
-      );
-    });
-
-    it("returns Singapore Government audience for login.sovcloud-identity.sg", function () {
-      assert.strictEqual(
-        deriveAudience("https://login.sovcloud-identity.sg"),
-        "api://AzureADTokenExchangeGovSG",
-      );
+    audienceCases.forEach(([authorityHost, audience]) => {
+      it(`returns ${audience} for ${authorityHost}`, function () {
+        assert.strictEqual(deriveAudience(authorityHost), audience);
+      });
     });
 
     it("throws for unknown hosts", function () {
