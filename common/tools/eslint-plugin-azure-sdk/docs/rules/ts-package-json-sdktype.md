@@ -1,6 +1,6 @@
 # ts-package-json-sdktype
 
-Requires the existence of the `sdk-type` field and be either 'client', 'mgmt', or 'utility'.
+Requires the existence of the `sdk-type` field and be one of `client`, `mgmt`, `provisioning`, `perf-test`, or `utility`.
 
 ## Examples
 
@@ -15,6 +15,12 @@ Requires the existence of the `sdk-type` field and be either 'client', 'mgmt', o
 ```json
 {
   "sdk-type": "mgmt"
+}
+```
+
+```json
+{
+  "sdk-type": "provisioning"
 }
 ```
 
