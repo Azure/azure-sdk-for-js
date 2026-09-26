@@ -36,6 +36,9 @@ import {
   BrowserAutomationPreviewTool,
   browserAutomationPreviewToolSerializer,
   browserAutomationPreviewToolDeserializer,
+  BrowserAutomationTool,
+  browserAutomationToolSerializer,
+  browserAutomationToolDeserializer,
   AzureFunctionTool,
   azureFunctionToolSerializer,
   azureFunctionToolDeserializer,
@@ -229,6 +232,7 @@ export type ToolUnion =
   | OpenApiTool
   | BingCustomSearchPreviewTool
   | BrowserAutomationPreviewTool
+  | BrowserAutomationTool
   | AzureFunctionTool
   | CaptureStructuredOutputsTool
   | A2APreviewTool
@@ -280,6 +284,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "browser_automation_preview":
       return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "browser_automation":
+      return browserAutomationToolSerializer(item as BrowserAutomationTool);
 
     case "azure_function":
       return azureFunctionToolSerializer(item as AzureFunctionTool);
@@ -383,6 +390,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 
     case "browser_automation_preview":
       return browserAutomationPreviewToolDeserializer(item as BrowserAutomationPreviewTool);
+
+    case "browser_automation":
+      return browserAutomationToolDeserializer(item as BrowserAutomationTool);
 
     case "azure_function":
       return azureFunctionToolDeserializer(item as AzureFunctionTool);

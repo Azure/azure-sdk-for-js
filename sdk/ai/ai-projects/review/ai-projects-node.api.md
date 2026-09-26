@@ -1219,12 +1219,10 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 
 // @public
 export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
     operationId?: string;
     updateIntervalInMs?: number;
 }
@@ -1235,7 +1233,6 @@ export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1244,12 +1241,10 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1261,7 +1256,6 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
     after?: string;
     before?: string;
     category?: EvaluatorCategory;
-    foundryFeatures?: "Evaluations=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -1281,7 +1275,7 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 // @public
 export interface BetaEvaluatorsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
+    createGenerationJob: (body: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
@@ -1297,7 +1291,6 @@ export interface BetaEvaluatorsOperations {
 
 // @public
 export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1996,6 +1989,19 @@ export interface BrowserAutomationPreviewToolboxTool extends ToolboxTool {
 }
 
 // @public
+export interface BrowserAutomationTool extends Tool {
+    browser_automation: BrowserAutomationToolParameters;
+    type: "browser_automation";
+}
+
+// @public
+export interface BrowserAutomationToolboxTool extends ToolboxTool {
+    browser_automation: BrowserAutomationToolParameters;
+    // (undocumented)
+    type: "browser_automation";
+}
+
+// @public
 export interface BrowserAutomationToolConnectionParameters {
     project_connection_id: string;
 }
@@ -2152,7 +2158,7 @@ export interface ConnectionsOperations {
 }
 
 // @public
-export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys" | "RemoteTool_Preview";
+export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys" | "RemoteTool_Preview" | "OpenAPI" | "RemoteA2A";
 
 // @public
 export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
@@ -5959,10 +5965,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview" | "browser_automation";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | BrowserAutomationToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -6099,7 +6105,7 @@ export interface ToolSearchToolParam extends Tool {
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation";
 
 // @public
-export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -6644,6 +6650,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
     onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
     store?: boolean;
     structuredInputs?: Record<string, unknown>;
+    transport?: VoiceAgentTransport;
 }
 
 // @public

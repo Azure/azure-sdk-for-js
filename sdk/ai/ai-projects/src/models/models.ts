@@ -487,6 +487,7 @@ export type ToolUnion =
   | OpenApiTool
   | BingCustomSearchPreviewTool
   | BrowserAutomationPreviewTool
+  | BrowserAutomationTool
   | AzureFunctionTool
   | CaptureStructuredOutputsTool
   | A2APreviewTool
@@ -538,6 +539,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "browser_automation_preview":
       return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "browser_automation":
+      return browserAutomationToolSerializer(item as BrowserAutomationTool);
 
     case "azure_function":
       return azureFunctionToolSerializer(item as AzureFunctionTool);
@@ -641,6 +645,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 
     case "browser_automation_preview":
       return browserAutomationPreviewToolDeserializer(item as BrowserAutomationPreviewTool);
+
+    case "browser_automation":
+      return browserAutomationToolDeserializer(item as BrowserAutomationTool);
 
     case "azure_function":
       return azureFunctionToolDeserializer(item as AzureFunctionTool);
@@ -1618,6 +1625,28 @@ export function browserAutomationToolConnectionParametersDeserializer(
 ): BrowserAutomationToolConnectionParameters {
   return {
     project_connection_id: item["project_connection_id"],
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationTool extends Tool {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolSerializer(item: BrowserAutomationTool): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+export function browserAutomationToolDeserializer(item: any): BrowserAutomationTool {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
 
@@ -6436,7 +6465,9 @@ export type ConnectionType =
   | "AppConfig"
   | "AppInsights"
   | "CustomKeys"
-  | "RemoteTool_Preview";
+  | "RemoteTool_Preview"
+  | "OpenAPI"
+  | "RemoteA2A";
 
 /** A base class for connection credentials */
 export interface BaseCredentials {
@@ -7688,6 +7719,7 @@ export type ToolboxToolUnion =
   | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
+  | BrowserAutomationToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
   | FabricIQPreviewToolboxTool
@@ -7729,6 +7761,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
       return browserAutomationPreviewToolboxToolSerializer(
         item as BrowserAutomationPreviewToolboxTool,
       );
+
+    case "browser_automation":
+      return browserAutomationToolboxToolSerializer(item as BrowserAutomationToolboxTool);
 
     case "reminder_preview":
       return reminderPreviewToolboxToolSerializer(item as ReminderPreviewToolboxTool);
@@ -7787,6 +7822,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
         item as BrowserAutomationPreviewToolboxTool,
       );
 
+    case "browser_automation":
+      return browserAutomationToolboxToolDeserializer(item as BrowserAutomationToolboxTool);
+
     case "reminder_preview":
       return reminderPreviewToolboxToolDeserializer(item as ReminderPreviewToolboxTool);
 
@@ -7827,7 +7865,8 @@ export type ToolboxToolType =
   | "toolbox_search_preview"
   | "a2a"
   | "shell"
-  | "web_iq_preview";
+  | "web_iq_preview"
+  | "browser_automation";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -8286,6 +8325,37 @@ export function browserAutomationPreviewToolboxToolDeserializer(
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
+  };
+}
+
+/** A browser automation tool stored in a toolbox. */
+export interface BrowserAutomationToolboxTool extends ToolboxTool {
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolboxToolSerializer(item: BrowserAutomationToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+export function browserAutomationToolboxToolDeserializer(item: any): BrowserAutomationToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
 

@@ -66,7 +66,6 @@ export function _deleteGenerationJobSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -119,7 +118,6 @@ export function _cancelGenerationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -172,7 +170,6 @@ export function _listGenerationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -210,7 +207,13 @@ export function listGenerationJobs(
     () => _listGenerationJobsSend(context, options),
     _listGenerationJobsDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
+    },
   );
 }
 
@@ -232,7 +235,6 @@ export function _getGenerationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -267,7 +269,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -283,12 +285,11 @@ export function _createGenerationJobSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluatorGenerationJobSerializer(job),
+    body: evaluatorGenerationJobSerializer(body),
   });
 }
 
@@ -321,20 +322,22 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<EvaluatorVersion> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    getInitialResponse: () => _createGenerationJobSend(context, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
-    pollHeaders: {
-      ...options?.requestOptions?.headers,
-      "foundry-features": "Evaluations=V1Preview",
-    },
+    pollHeaders: Object.fromEntries(
+      Object.entries(options?.requestOptions?.headers ?? {}).map(([name, value]) => [
+        name,
+        String(value),
+      ]),
+    ),
   });
 }
 
@@ -360,7 +363,6 @@ export function _getCredentialsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -418,7 +420,6 @@ export function _pendingUploadSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -461,7 +462,6 @@ export function _updateVersionSend(
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -477,7 +477,6 @@ export function _updateVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -514,7 +513,6 @@ export function _createVersionSend(
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions{?api-version}",
     {
@@ -529,7 +527,6 @@ export function _createVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -565,7 +562,6 @@ export function _deleteVersionSend(
   version: string,
   options: BetaEvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -579,7 +575,7 @@ export function _deleteVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    headers: { ...options.requestOptions?.headers },
   });
 }
 
@@ -609,7 +605,6 @@ export function _getVersionSend(
   version: string,
   options: BetaEvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -624,7 +619,6 @@ export function _getVersionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -657,7 +651,6 @@ export function _listSend(
   context: Client,
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators{?api-version,type,limit}",
     {
@@ -672,7 +665,6 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -704,11 +696,7 @@ export function list(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Evaluations=V1Preview",
-        },
-      },
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
     },
   );
 }
@@ -718,7 +706,6 @@ export function _listVersionsSend(
   name: string,
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions{?api-version,type,limit}",
     {
@@ -734,7 +721,6 @@ export function _listVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -767,11 +753,7 @@ export function listVersions(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Evaluations=V1Preview",
-        },
-      },
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
     },
   );
 }

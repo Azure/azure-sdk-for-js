@@ -1,5 +1,26 @@
 # Release History
 
+## 2.8.0 (Unreleased)
+
+### Breaking Changes
+
+- Remove the `foundryFeatures` option from evaluator generation-job, credential, and pending-upload operations after the upstream GA promotion. Operations remain under `project.beta.evaluators` but no longer send the `Evaluations=V1Preview` header automatically. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+
+### Features Added
+
+- Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
+- Add `OpenAPI` and `RemoteA2A` connection types. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
+- Add `transport` option to `VoiceAgentRealtimeClientConnectOptions` for selecting between the `"websocket"` (default) and `"webrtc"` realtime connection transports.
+
+### Bugs Fixed
+
+- Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+- Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+
 ## 2.7.1 (2026-09-23)
 
 ### Bugs Fixed

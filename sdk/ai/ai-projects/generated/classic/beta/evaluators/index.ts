@@ -77,7 +77,7 @@ export interface BetaEvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    job: EvaluatorGenerationJob,
+    body: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
   ) => PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;
   /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
@@ -97,7 +97,6 @@ export interface BetaEvaluatorsOperations {
   /** Updates the specified evaluator version in place. */
   updateVersion: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     evaluatorVersion: EvaluatorVersion,
     options?: BetaEvaluatorsUpdateVersionOptionalParams,
@@ -105,33 +104,28 @@ export interface BetaEvaluatorsOperations {
   /** Creates a new evaluator version with an auto-incremented version identifier. */
   createVersion: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     evaluatorVersion: EvaluatorVersion,
     options?: BetaEvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
   deleteVersion: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     options?: BetaEvaluatorsDeleteVersionOptionalParams,
   ) => Promise<void>;
   /** Retrieves the specified evaluator version, returning 404 if it does not exist. */
   getVersion: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Lists the latest version of each evaluator. */
   list: (
-    foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluatorsListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
   /** Returns the available versions for the specified evaluator. */
   listVersions: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluatorsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
 }
@@ -151,9 +145,9 @@ function _getBetaEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: EvaluatorGenerationJob,
+      body: EvaluatorGenerationJob,
       options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, job, options),
+    ) => createGenerationJob(context, body, options),
     getCredentials: (
       name: string,
       credentialRequest: EvaluatorCredentialRequest,
@@ -168,36 +162,25 @@ function _getBetaEvaluators(context: AIProjectContext) {
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     updateVersion: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       version: string,
       evaluatorVersion: EvaluatorVersion,
       options?: BetaEvaluatorsUpdateVersionOptionalParams,
-    ) => updateVersion(context, name, foundryFeatures, version, evaluatorVersion, options),
+    ) => updateVersion(context, name, version, evaluatorVersion, options),
     createVersion: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       evaluatorVersion: EvaluatorVersion,
       options?: BetaEvaluatorsCreateVersionOptionalParams,
-    ) => createVersion(context, name, foundryFeatures, evaluatorVersion, options),
+    ) => createVersion(context, name, evaluatorVersion, options),
     deleteVersion: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       version: string,
       options?: BetaEvaluatorsDeleteVersionOptionalParams,
-    ) => deleteVersion(context, name, foundryFeatures, version, options),
-    getVersion: (
-      name: string,
-      foundryFeatures: "Evaluations=V1Preview",
-      version: string,
-      options?: BetaEvaluatorsGetVersionOptionalParams,
-    ) => getVersion(context, name, foundryFeatures, version, options),
-    list: (foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListOptionalParams) =>
-      list(context, foundryFeatures, options),
-    listVersions: (
-      name: string,
-      foundryFeatures: "Evaluations=V1Preview",
-      options?: BetaEvaluatorsListVersionsOptionalParams,
-    ) => listVersions(context, name, foundryFeatures, options),
+    ) => deleteVersion(context, name, version, options),
+    getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) =>
+      getVersion(context, name, version, options),
+    list: (options?: BetaEvaluatorsListOptionalParams) => list(context, options),
+    listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) =>
+      listVersions(context, name, options),
   };
 }
 

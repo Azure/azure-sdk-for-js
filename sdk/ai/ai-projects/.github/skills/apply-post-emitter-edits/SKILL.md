@@ -11,7 +11,7 @@ When the preceding `regenerate-from-typespec` skill produced `temp/typespec-comm
 
 ## When to Use
 
-- Right after the `regenerate-from-typespec` skill has run `npm run generate:client`.
+- Right after the `regenerate-from-typespec` skill has run the emitter (`scripts/generate-client.ps1` or `npm run generate:client`).
 - `git status` shows uncommitted changes under `src/` and/or `generated/`.
 - `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
 - You need to apply the standing list of search/replace/rename workarounds to emitted code.

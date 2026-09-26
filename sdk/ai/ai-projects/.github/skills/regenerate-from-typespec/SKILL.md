@@ -69,10 +69,12 @@ See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
 ### Step 3: Run the emitter
 
 ```powershell
-npm run generate:client
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
 ```
 
-This runs `tsp-client update -d && npm run customize`. The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
+See [scripts/generate-client.ps1](./scripts/generate-client.ps1). It is equivalent to `npm run generate:client` (`tsp-client update -d && npm run customize`), but runs `tsp-client sync` and `tsp-client generate` separately. Between them, it rewrites Azure Artifacts tarball URLs (`https://<host>/.../_packaging/<feed>/npm/registry/`) in the temporary `TempTypeSpecFiles/package-lock.json` to `https://registry.npmjs.org/`. The committed `eng/emitter-package-lock.json` can pin internal feeds such as `ms-feed-25.pkgs.visualstudio.com`, which the Copilot cloud agent firewall cannot resolve (`npm ci` fails with `ENOTFOUND`). Integrity hashes are unchanged, so npm still verifies every tarball, and the repository lockfile is never modified. Always use this script rather than `npm run generate:client` in the cloud agent. If it reports a remaining non-public host, stop and report it.
+
+The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
 
 ### Step 4: Restore the saved-yaml filename
 
