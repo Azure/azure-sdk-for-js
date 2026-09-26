@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Send voice-agent realtime `structuredInputs` as JSON in the `structured_input` query parameter on every transport instead of the obsolete `x-ms-voice-structured-inputs` header. Requires the service gateway update for structured-input query forwarding.
+- Send voice-agent realtime `structuredInputs` as JSON in the `structured_input` query parameter on every transport instead of the obsolete `x-ms-voice-structured-inputs` header. Requires the service gateway update for structured-input query forwarding. [#40105](https://github.com/Azure/azure-sdk-for-js/pull/40105)
 
 ## 2.7.1 (2026-09-23)
 
