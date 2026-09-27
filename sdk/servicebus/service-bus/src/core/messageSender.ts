@@ -10,12 +10,7 @@ import type {
   OnAmqpEvent,
 } from "rhea-promise";
 import { message as RheaMessageUtil } from "rhea-promise";
-import type {
-  MessagingError,
-  RetryConfig,
-  RetryOptions,
-  AmqpAnnotatedMessage,
-} from "@azure/core-amqp";
+import type { RetryConfig, RetryOptions, AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants, ErrorNameConditionMapper, RetryOperationType, retry } from "@azure/core-amqp";
 import type { ServiceBusMessage } from "../serviceBusMessage.js";
 import { toRheaMessage } from "../serviceBusMessage.js";
@@ -295,11 +290,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         translatedError,
         `${this.logPrefix} An error occurred while creating the sender`,
       );
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
-        translatedError.message =
-          "Failed to create a sender within allocated time and retry attempts.";
-      }
       throw translatedError;
     }
   }
