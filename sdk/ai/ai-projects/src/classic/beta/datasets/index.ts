@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
-import {
-  deleteGenerationJob,
-  cancelGenerationJob,
-  createGenerationJob,
-  listGenerationJobs,
-  getGenerationJob,
-} from "../../../api/beta/datasets/operations.js";
+import type {
+  DataGenerationJobResult,
+  DataGenerationJobUnion,
+  DataGenerationJobInputsUnion,
+} from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
   BetaDatasetsCancelGenerationJobOptionalParams,
@@ -16,11 +15,16 @@ import type {
   BetaDatasetsListGenerationJobsOptionalParams,
   BetaDatasetsGetGenerationJobOptionalParams,
 } from "../../../api/beta/datasets/options.js";
-import type { DataGenerationJob, DataGenerationJobResult } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  createGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+} from "../../../api/beta/datasets/operations.js";
 
-/** Interface representing a BetaDatasets operations. */
+/** Operations for BetaDatasetsOperations. */
 export interface BetaDatasetsOperations {
   /** Removes the specified data generation job and its associated output. */
   deleteGenerationJob: (
@@ -31,42 +35,36 @@ export interface BetaDatasetsOperations {
   cancelGenerationJob: (
     jobId: string,
     options?: BetaDatasetsCancelGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => Promise<DataGenerationJobUnion>;
   /** Submits a new data generation job for asynchronous execution. */
   createGenerationJob: (
-    job: DataGenerationJob,
+    job: DataGenerationJobInputsUnion,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
   ) => JobPoller<DataGenerationJobResult>;
   /** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,
-  ) => PagedAsyncIterableIterator<DataGenerationJob>;
+  ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
   /** Retrieves the specified data generation job and its current status. */
   getGenerationJob: (
     jobId: string,
     options?: BetaDatasetsGetGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => Promise<DataGenerationJobUnion>;
 }
 
-function _getBetaDatasets(context: AIProjectContext) {
+export function _getBetaDatasetsOperations(context: AIProjectContext): BetaDatasetsOperations {
   return {
     deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) =>
       deleteGenerationJob(context, jobId, options),
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) =>
       cancelGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: DataGenerationJob,
+      job: DataGenerationJobInputsUnion,
       options?: BetaDatasetsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) =>
       listGenerationJobs(context, options),
     getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
-  };
-}
-
-export function _getBetaDatasetsOperations(context: AIProjectContext): BetaDatasetsOperations {
-  return {
-    ..._getBetaDatasets(context),
   };
 }
