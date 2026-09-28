@@ -29,7 +29,6 @@ import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
-import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
 import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
@@ -46,8 +45,16 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
-// Track the global console patch because NodeSDK does not disable instrumentations.
-let consoleInstrumentation: Instrumentation | undefined;
+// NodeSDK shuts down providers, but leaves instrumentation hooks enabled.
+let instrumentations: Instrumentation[] = [];
+const instrumentationCache = new Map<string, Instrumentation>();
+
+function disableInstrumentations(): void {
+  for (const instrumentation of instrumentations) {
+    instrumentation.disable();
+  }
+  instrumentations = [];
+}
 
 /**
  * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
@@ -74,6 +81,7 @@ function sendAttachWarning(): void {
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
+  disableInstrumentations();
   patchOpenTelemetryInstrumentationEnable();
   // Omit disabled log instrumentations from Statsbeat.
   const logInstrumentationsEnabled = !isLogCollectionDisabled();
@@ -107,9 +115,6 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
-  // Restore any console patch from the previous initialization.
-  consoleInstrumentation?.disable();
-  consoleInstrumentation = undefined;
 
   // Clear the entire OpenTelemetry API global state to avoid version conflicts.
   // The disable() calls above remove individual providers but leave the `version` field
@@ -123,13 +128,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 
   // Create internal handlers
   const metricHandler = new MetricHandler(config);
-  const traceHandler = new TraceHandler(config, metricHandler);
-  const logHandler = new LogHandler(config, metricHandler);
+  const traceHandler = new TraceHandler(config, metricHandler, instrumentationCache);
+  const logHandler = new LogHandler(config, metricHandler, instrumentationCache);
 
-  const instrumentations = traceHandler
-    .getInstrumentations()
-    .concat(logHandler.getInstrumentations());
-  consoleInstrumentation = logHandler.getConsoleInstrumentation();
+  instrumentations = traceHandler.getInstrumentations().concat(logHandler.getInstrumentations());
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
@@ -170,10 +172,6 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   setSdkPrefix();
   sendAttachWarning();
   sdk.start();
-
-  // Eagerly install the Azure SDK tracing bridge in case @azure/core-tracing
-  // was loaded before useAzureMonitor() (the RITM hook misses it otherwise).
-  ensureAzureSdkTracingBridge();
 }
 
 /**
@@ -182,9 +180,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  // NodeSDK.shutdown() does not restore the global console.
-  consoleInstrumentation?.disable();
-  consoleInstrumentation = undefined;
+  disableInstrumentations();
   return sdk?.shutdown();
 }
 

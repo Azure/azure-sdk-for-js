@@ -1,5 +1,17 @@
 # Release History
 
+## 1.20.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Disabled integrations no longer collect telemetry after shutdown and reinitialization. Instrumentation hooks are reused when re-enabled, and the Azure SDK bridge follows its instrumentation's lifecycle without replacing customer-installed instrumenters during cleanup. [#39936](https://github.com/Azure/azure-sdk-for-js/issues/39936)
+
+### Other Changes
+
 ## 1.20.0 (2026-09-04)
 
 ### Features Added
