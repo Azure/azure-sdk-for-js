@@ -867,7 +867,11 @@ function joinPieces(pieces, mode) {
         : ",\n";
   const text = pieces.map((value, index) => {
     const terminate = terminatedKinds.has(value.kind) && !value.text.trimEnd().endsWith(";");
-    return (index ? value.leading : "") + value.text + (terminate ? ";" : "");
+    // The separator already ends the previous line; keep comments and any
+    // intentional blank line, but do not double the element's own line break.
+    const leading =
+      index && separator.endsWith("\n") ? value.leading.replace(/^[ \t]*\r?\n/, "") : value.leading;
+    return (index ? leading : "") + value.text + (terminate ? ";" : "");
   });
   return { leading: pieces[0]?.leading ?? "", text: text.join(separator) };
 }
