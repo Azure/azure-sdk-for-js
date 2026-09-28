@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { diag } from "@opentelemetry/api";
@@ -99,16 +99,14 @@ describe("QuickpulseSender responses", () => {
       });
       const sender = createSender(undefined, 200, { getToken });
       const requests: PipelineRequest[] = [];
-      sender["quickpulseClient"].pipeline.addPolicy(
-        {
-          name: "captureQuickpulseRequest",
-          sendRequest(request, next) {
-            requests.push(request);
-            return next(request);
-          },
+      const capturePolicy: PipelinePolicy = {
+        name: "captureQuickpulseRequest",
+        sendRequest(request, next) {
+          requests.push(request);
+          return next(request);
         },
-        { phase: "Serialize" },
-      );
+      };
+      sender["quickpulseClient"].pipeline.addPolicy(capturePolicy, { phase: "Serialize" });
       const options = { configurationEtag: "request-etag", transmissionTime: 123 };
       const point = {
         version: "test-version",
@@ -153,7 +151,9 @@ describe("QuickpulseSender responses", () => {
       );
       expect(getToken.mock.calls[0][0]).toEqual(["https://monitor.azure.com/.default"]);
       expect(
-        sender["quickpulseClient"].pipeline.getOrderedPolicies().map((policy) => policy.name),
+        sender["quickpulseClient"].pipeline
+          .getOrderedPolicies()
+          .map((policy: PipelinePolicy) => policy.name),
       ).not.toContain("redirectPolicy");
     });
 
