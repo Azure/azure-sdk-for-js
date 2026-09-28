@@ -210,13 +210,33 @@ while silently deleting unrelated maintained API and import customizations.
 
 It compares those additions with the corresponding declaration in `src/` and accounts for the known customized agent declaration names such as `AgentsCreateAgentOptionalParams` → `AgentsCreateOptionalParams` and `_createAgentSend` → `_createSend`. It does not require broad generated/source equality and does not change either tree.
 
-If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If it reports missing previously exported symbols, stop: restore the affected additions-only/public-export file from clean `HEAD`, then repeat the three-way test in Step 2 and propagate only verified additions. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member or export merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
+If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If it reports missing previously exported symbols, first check the operation-promotion exception below. For unexplained removals, stop: restore the affected additions-only/public-export file from clean `HEAD`, then repeat the three-way test in Step 2 and propagate only verified additions. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member or export merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
 
 Rerun the guard until it passes. Validate the guard itself after editing it:
 
 ```powershell
 node --test .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.test.mjs
 ```
+
+#### Retain beta options only for unpromoted beta operations
+
+After an operation is promoted out of `project.beta.*`, pre-existing `Beta*OptionalParams`
+types must remain available only if an existing, unpromoted beta operation still uses them.
+Apply this rule per type, including when only some operations in a group are promoted.
+
+Verify the promotion against upstream intent and the clean generated baseline, then inspect
+the remaining beta operation signatures and implementations in both `src/api/beta/` and
+`src/classic/beta/`, including indirect use through shared option types. Keep declarations
+and public exports required by those operations. Otherwise remove the obsolete declarations
+and their re-exports; do not retain compatibility aliases solely to satisfy baseline-export
+preservation. Promoted operations must use their corresponding non-beta option types.
+
+This exception also applies to generated-backed option types, such as
+`BetaAgents*OptimizationJobOptionalParams`; it is not a model-removal synchronization rule.
+Do not misuse `--allow-source-removal`, which accepts custom-only removals, or disable export
+preservation wholesale. If the parity guard rejects a verified promotion removal, update its
+promotion handling narrowly and add regression coverage for both fully promoted operations
+and types still used by unpromoted beta operations before proceeding. The guard must pass.
 
 #### Distinguish emitter additions from customization renames
 
