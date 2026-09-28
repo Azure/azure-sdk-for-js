@@ -189,6 +189,16 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, the operation fails.
    *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. Operations on paths within the file system, including
+   * reads and writes, may continue to succeed for up to 30 seconds after the delete
+   * request is accepted. After this period, all operations on the file system and
+   * its paths fail with status code 404 (Not Found).
+   *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param options - Optional. Options when creating file system.
@@ -211,6 +221,16 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, it is not changed.
+   *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. Operations on paths within the file system, including
+   * reads and writes, may continue to succeed for up to 30 seconds after the delete
+   * request is accepted. After this period, all operations on the file system and
+   * its paths fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
@@ -255,6 +275,16 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system.
    *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. Operations on paths within the file system, including
+   * reads and writes, may continue to succeed for up to 30 seconds after the delete
+   * request is accepted. After this period, all operations on the file system and
+   * its paths fail with status code 404 (Not Found).
+   *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Optional. Options when deleting file system.
@@ -274,6 +304,16 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   /**
    * Delete current file system if it exists.
+   *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. Operations on paths within the file system, including
+   * reads and writes, may continue to succeed for up to 30 seconds after the delete
+   * request is accepted. After this period, all operations on the file system and
+   * its paths fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
