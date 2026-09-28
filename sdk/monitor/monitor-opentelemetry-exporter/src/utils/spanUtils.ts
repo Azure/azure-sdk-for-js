@@ -109,6 +109,11 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     tags[KnownContextTagKeys.AiUserId] = String(endUserPseudoId);
   }
 
+  const sessionId = span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
+  }
+
   const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
@@ -484,6 +489,14 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       const spanId = span.spanContext().spanId;
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+      }
+      const eventSessionId = event.attributes?.[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      const sessionId =
+        typeof eventSessionId === "string"
+          ? eventSessionId
+          : span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      if (typeof sessionId === "string") {
+        tags[KnownContextTagKeys.AiSessionId] = sessionId;
       }
 
       // Only generate exception telemetry for incoming requests

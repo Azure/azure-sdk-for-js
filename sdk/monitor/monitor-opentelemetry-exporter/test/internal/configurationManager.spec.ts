@@ -156,6 +156,60 @@ describe("ConfigurationManager", () => {
     assert.deepStrictEqual(callback.mock.calls, [[{ FEATURE_SDK_STATS: '{"default":"enabled"}' }]]);
   });
 
+  it("unregisters a callback without removing other subscriptions", async () => {
+    const removed = vi.fn();
+    const retained = vi.fn();
+    const unregister = manager.registerCallback(removed);
+    manager.registerCallback(retained);
+    unregister();
+    unregister();
+    request
+      .mockResolvedValueOnce(response({ etag: '"storage"' }))
+      .mockResolvedValueOnce(
+        response({ settings: { FEATURE_LOCAL_STORAGE: '{"default":"disabled"}' } }),
+      );
+
+    await manager.getConfigurationAndRefreshInterval();
+
+    assert.strictEqual(removed.mock.calls.length, 0);
+    assert.strictEqual(retained.mock.calls.length, 1);
+  });
+
+  it("disposes only its own registration when a callback is registered twice", async () => {
+    const callback = vi.fn();
+    const unregisterFirst = manager.registerCallback(callback);
+    const unregisterSecond = manager.registerCallback(callback);
+    unregisterFirst();
+    unregisterFirst();
+    request
+      .mockResolvedValueOnce(response({ etag: '"first"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "first" } }))
+      .mockResolvedValueOnce(response({ etag: '"second"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "second" } }));
+
+    await manager.getConfigurationAndRefreshInterval();
+    assert.deepStrictEqual(callback.mock.calls, [[{ setting: "first" }]]);
+
+    unregisterSecond();
+    await manager.getConfigurationAndRefreshInterval();
+    assert.strictEqual(callback.mock.calls.length, 1);
+  });
+
+  it("does not let a stale disposer remove a registration created after reset", async () => {
+    const callback = vi.fn();
+    const unregisterOld = manager.registerCallback(callback);
+    manager.reset();
+    manager.registerCallback(callback);
+    unregisterOld();
+    request
+      .mockResolvedValueOnce(response({ etag: '"new"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "new" } }));
+
+    await manager.getConfigurationAndRefreshInterval();
+
+    assert.deepStrictEqual(callback.mock.calls, [[{ setting: "new" }]]);
+  });
+
   it("keeps cached settings and skips the config endpoint on 304", async () => {
     request
       .mockResolvedValueOnce(

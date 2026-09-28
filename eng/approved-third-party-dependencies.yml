@@ -103,6 +103,9 @@ exceptions:
   - dependency: "prompts"
     packages:
       - "@azure/create-playwright"
+  - dependency: "pluralize"
+    packages:
+      - "@azure/provisioning-core"
   - dependency: "protobufjs"
     packages:
       - "@azure/web-pubsub-client-protobuf"

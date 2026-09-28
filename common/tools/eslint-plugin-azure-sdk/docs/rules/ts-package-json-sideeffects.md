@@ -1,6 +1,6 @@
 # ts-package-json-sideeffects
 
-Requires `sideEffects` in `package.json` to be set to `false`.
+Requires `sideEffects` in `package.json` to be `true` for `sdk-type: provisioning` and `false` for other SDK types. Provisioning resources register constructors and shapes at load time.
 
 This rule is fixable using the `--fix` option.
 
@@ -10,7 +10,15 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
+  "sdk-type": "client",
   "sideEffects": false
+}
+```
+
+```json
+{
+  "sdk-type": "provisioning",
+  "sideEffects": true
 }
 ```
 
@@ -18,7 +26,15 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
+  "sdk-type": "client",
   "sideEffects": true
+}
+```
+
+```json
+{
+  "sdk-type": "provisioning",
+  "sideEffects": false
 }
 ```
 

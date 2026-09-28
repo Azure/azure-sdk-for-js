@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      resourceTypes: SignedResourceTypes;
      services: Services;
      sharedAccessExpiryTime: Date;
-@@ -820,9 +820,9 @@
+@@ -986,9 +986,9 @@
  
  // @public
  export interface EncryptionService {
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1255,9 +1255,10 @@
+@@ -1435,9 +1435,10 @@
  // @public
  export type KeySource = string;
  
@@ -41,7 +41,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyVaultProperties {
      readonly currentVersionedKeyExpirationTimestamp?: Date;
-@@ -2440,9 +2441,10 @@
+@@ -2670,9 +2671,10 @@
      continuationToken?: string;
  }
  
@@ -53,7 +53,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface PermissionScope {
      permissions: string;
-@@ -2745,9 +2747,9 @@
+@@ -2980,9 +2982,9 @@
      iPAddressOrRange?: string;
      keyToSign?: string;
      partitionKeyEnd?: string;
