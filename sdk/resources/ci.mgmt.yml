@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -15,6 +15,7 @@ trigger:
       - sdk/resources/arm-resources
       - sdk/resources/arm-resourcesdeployments
       - sdk/resources/arm-resourcesbicep
+      - sdk/resources/arm-resourcestemplatespecs
 pr:
   branches:
     include:
@@ -31,6 +32,7 @@ pr:
       - sdk/resources/arm-resources
       - sdk/resources/arm-resourcesdeployments
       - sdk/resources/arm-resourcesbicep
+      - sdk/resources/arm-resourcestemplatespecs
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -52,3 +54,5 @@ extends:
         safeName: azurearmresourcesdeployments
       - name: azure-arm-resourcesbicep
         safeName: azurearmresourcesbicep
+      - name: azure-arm-resourcestemplatespecs
+        safeName: azurearmresourcestemplatespecs

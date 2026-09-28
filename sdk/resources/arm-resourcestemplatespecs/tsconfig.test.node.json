@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-resourcestemplatespecs": ["./src/index.ts"],
+      "@azure/arm-resourcestemplatespecs/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
