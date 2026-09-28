@@ -7,17 +7,17 @@ import type { BlobChangeFeedEvent } from "../src/index.js";
 import { describe, it, assert, afterEach, vi } from "vitest";
 
 vi.mock("@azure/storage-internal-avro", async (importActual) => {
-  const AvroReader = vi.fn();
-  AvroReader.prototype.hasNext = vi.fn();
-  AvroReader.prototype.parseObjects = vi.fn();
-  AvroReader.prototype.blockOffset = 0;
-  AvroReader.prototype.objectIndex = 0;
-  AvroReader.prototype.blockSize = 0;
+  const MockAvroReader = vi.fn();
+  MockAvroReader.prototype.hasNext = vi.fn();
+  MockAvroReader.prototype.parseObjects = vi.fn();
+  MockAvroReader.prototype.blockOffset = 0;
+  MockAvroReader.prototype.objectIndex = 0;
+  MockAvroReader.prototype.blockSize = 0;
 
   const actual = await importActual<typeof import("@azure/storage-internal-avro")>();
   return {
     ...actual,
-    AvroReader,
+    AvroReader: MockAvroReader,
   };
 });
 
