@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restore resource for a protected items in given protection group.
  *
  * @summary restore resource for a protected items in given protection group.
- * x-ms-original-file: 2026-07-03-preview/ProtectionGroups_Restore_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ProtectionGroups_Restore_MaximumSet_Gen.json
  */
 async function protectionGroupsRestoreMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

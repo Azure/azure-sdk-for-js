@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the latest SaaS linked to the cloud account.
  *
  * @summary returns the latest SaaS linked to the cloud account.
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_LatestLinkedSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_LatestLinkedSaaS_MaximumSet_Gen.json
  */
 async function returnsTheLatestSaaSLinkedToTheCloudAccountGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

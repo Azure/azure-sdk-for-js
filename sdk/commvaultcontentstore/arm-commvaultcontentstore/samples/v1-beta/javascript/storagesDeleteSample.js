@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Storage
  *
  * @summary delete a Storage
- * x-ms-original-file: 2026-07-03-preview/Storages_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Storages_Delete_MaximumSet_Gen.json
  */
 async function storagesDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

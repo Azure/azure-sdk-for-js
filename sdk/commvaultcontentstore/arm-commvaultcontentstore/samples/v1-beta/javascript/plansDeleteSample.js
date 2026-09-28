@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a CommvaultPlan
  *
  * @summary delete a CommvaultPlan
- * x-ms-original-file: 2026-07-03-preview/Plans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Plans_Delete_MaximumSet_Gen.json
  */
 async function plansDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

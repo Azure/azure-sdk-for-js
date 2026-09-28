@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ProtectedItem
  *
  * @summary get a ProtectedItem
- * x-ms-original-file: 2026-07-03-preview/ProtectedItems_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ProtectedItems_Get_MaximumSet_Gen.json
  */
 async function protectedItemsGetMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

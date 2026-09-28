@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a CloudAccount
  *
  * @summary get a CloudAccount
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_Get_MaximumSet_Gen.json
  */
 async function cloudAccountsGetMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

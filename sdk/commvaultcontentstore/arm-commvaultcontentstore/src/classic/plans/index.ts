@@ -9,7 +9,7 @@ import type {
   PlansCreateOrupdateOptionalParams,
   PlansGetOptionalParams,
 } from "../../api/plans/options.js";
-import type { CommvaultPlan } from "../../models/models.js";
+import type { CommvaultPlan, CommvaultPlanCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -33,7 +33,7 @@ export interface PlansOperations {
     resourceGroupName: string,
     cloudAccountName: string,
     planName: string,
-    resource: CommvaultPlan,
+    resource: CommvaultPlanCreateOrUpdate,
     options?: PlansCreateOrupdateOptionalParams,
   ) => PollerLike<OperationState<CommvaultPlan>, CommvaultPlan>;
   /** Get a CommvaultPlan */
@@ -62,7 +62,7 @@ function _getPlans(context: ContentStoreContext) {
       resourceGroupName: string,
       cloudAccountName: string,
       planName: string,
-      resource: CommvaultPlan,
+      resource: CommvaultPlanCreateOrUpdate,
       options?: PlansCreateOrupdateOptionalParams,
     ) => createOrupdate(context, resourceGroupName, cloudAccountName, planName, resource, options),
     get: (
