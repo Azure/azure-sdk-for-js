@@ -106,7 +106,9 @@ safe-outputs:
           );
           for (const item of writes) {
             const number = item.type === 'add_comment' ? item.item_number : item.issue_number;
+            // Native target resolution prefers item_number over issue_number when both exist.
             if (String(number) !== process.env.ISSUE_NUMBER ||
+                (item.item_number !== undefined && String(item.item_number) !== process.env.ISSUE_NUMBER) ||
                 (item.repo !== undefined &&
                  (typeof item.repo !== 'string' ||
                   item.repo.toLowerCase() !== `${context.repo.owner}/${context.repo.repo}`.toLowerCase()))) {

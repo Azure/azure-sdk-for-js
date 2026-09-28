@@ -160,7 +160,7 @@ test("eligibility uses colors rather than service/category name allowlists", asy
   issue.labels[1] = { name: "New service", color: "E99695" };
   issue.labels[2] = { name: "New category", color: "FFEB77" };
   issue.assignees = [{ login: "human-owner" }];
-  await verify(issue, [comment(), assign()]);
+  await verify(issue, [comment(), { ...assign(), item_number: 42 }]);
 });
 
 for (const excluded of [
@@ -206,6 +206,7 @@ for (const item of [
   { ...comment(), item_number: 43 },
   { ...close(), issue_number: 43 },
   { ...assign(), issue_number: 43 },
+  { ...assign(), item_number: 43 },
   { ...comment(), repo: "other/repository" },
   { ...comment(), repo: null },
   { ...assign(), repo: 42 },
