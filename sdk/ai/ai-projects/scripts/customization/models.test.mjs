@@ -142,7 +142,8 @@ export function exampleSerializer(item: Example): any {
   assert.match(output, /source: string/);
   assert.doesNotMatch(output, /old_name/);
   assert.equal((output.match(/export interface Example\b/g) ?? []).length, 1);
-  assert.match(result.files.get("models/openAI/models.ts"), /from "\.\.\/models\.js"/);
+  assert.equal(result.files.has("models/openAI/models.ts"), false);
+  assert.match(result.reexportModules.get("models/openAI/models.ts"), /from "\.\.\/models\.js"/);
   const actual = evaluate(output).exampleSerializer({
     connection_name: "connection",
     source: "+14255550100",

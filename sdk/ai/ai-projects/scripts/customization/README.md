@@ -67,7 +67,11 @@ or unsafe change exits nonzero before formatting can disguise the failure.
   custom-only alias of an emitted model follows that model's emitted shape.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
-  model module remains canonical, with re-export modules where necessary.
+  model module `src/models/models.ts` remains canonical and `src/models/index.ts`
+  exports the public models, so emitted namespace modules such as
+  `models/openAI/` and `models/typeSpec/` are not mirrored into `src/`. A
+  re-export module for another model path is kept only while another customized
+  file imports that path; one that nothing imports is removed.
 - Retained legacy models keep their existing polymorphic union membership,
   discriminator values, and terminal serializer/deserializer registrations.
   Unrelated removed values and intentionally customized-away models are not

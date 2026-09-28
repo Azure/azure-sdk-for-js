@@ -687,7 +687,13 @@ function mergedImports(references, base, custom, incoming, diagnostics) {
  */
 export function reconcileModels({ baseGenerated, baseSource, generated, mergeDeclaration }) {
   const diagnostics = [];
-  const result = { files: new Map(), diagnostics, exports: [], renames: new Map() };
+  const result = {
+    files: new Map(),
+    reexportModules: new Map(),
+    diagnostics,
+    exports: [],
+    renames: new Map(),
+  };
   const old = inventory(baseGenerated, diagnostics);
   const custom = inventory(baseSource, diagnostics);
   const next = inventory(generated, diagnostics);
@@ -829,6 +835,8 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
   );
   result.exports = [...publicModels.values()].map(({ name, isTypeOnly }) => ({ name, isTypeOnly }));
 
+  // Re-export modules for other model paths are only candidates; the planner keeps one
+  // while another source file imports that path.
   for (const file of new Set([...custom.modules.keys(), ...incoming.modules.keys()])) {
     if (file === canonicalFile || file === modelBarrel) continue;
     const entries = new Map();
@@ -857,7 +865,7 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
         }
       }
     }
-    result.files.set(file, `${header}${renderExports([...entries.values()])}\n`);
+    result.reexportModules.set(file, `${header}${renderExports([...entries.values()])}\n`);
   }
   return result;
 }
