@@ -10,6 +10,7 @@ import {
   findMissingAdditions,
   findMissingPreservedExports,
   findIndexInvariantViolations,
+  findPromotedOptionRemovals,
 } from "./check-generated-member-parity.mjs";
 
 const scriptPath = path.join(
@@ -265,4 +266,163 @@ test("rejects an invalid configured ref", () => {
 
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Invalid --generated-ref value: invalid-ref-for-parity-test/);
+});
+
+function promotionFixture() {
+  const operations = [
+    "DeleteOptimizationJob",
+    "CancelOptimizationJob",
+    "ListOptimizationJobs",
+    "GetOptimizationJob",
+    "CreateOptimizationJob",
+  ];
+  const previousGenerated = new Map();
+  const currentGenerated = new Map();
+  for (const [files, prefix, directory] of [
+    [previousGenerated, "BetaAgents", "beta/agents"],
+    [currentGenerated, "Agents", "agents"],
+  ]) {
+    files.set(
+      `api/${directory}/options.ts`,
+      operations.map((suffix) => `export interface ${prefix}${suffix}OptionalParams {}`).join("\n"),
+    );
+    files.set(
+      `api/${directory}/operations.ts`,
+      operations
+        .map(
+          (suffix) =>
+            `export function ${suffix[0].toLowerCase() + suffix.slice(1)}(options: ${prefix}${suffix}OptionalParams) {}`,
+        )
+        .join("\n"),
+    );
+    files.set(
+      `classic/${directory}/index.ts`,
+      `export interface Operations {
+      ${operations
+        .map(
+          (suffix) =>
+            `${suffix[0].toLowerCase() + suffix.slice(1)}: (options: ${prefix}${suffix}OptionalParams) => void;`,
+        )
+        .join("\n")}
+    }`,
+    );
+  }
+  return { previousGenerated, currentGenerated, currentSource: new Map(currentGenerated) };
+}
+
+test("permits only the five verified fully promoted optimization option removals", () => {
+  assert.deepEqual(
+    [...findPromotedOptionRemovals(promotionFixture())],
+    [
+      "BetaAgentsDeleteOptimizationJobOptionalParams",
+      "BetaAgentsCancelOptimizationJobOptionalParams",
+      "BetaAgentsListOptimizationJobsOptionalParams",
+      "BetaAgentsGetOptimizationJobOptionalParams",
+      "BetaAgentsCreateOptimizationJobOptionalParams",
+    ],
+  );
+});
+
+for (const directory of ["api", "classic"]) {
+  test(`preserves options still used by an unpromoted ${directory} beta operation`, () => {
+    const fixture = promotionFixture();
+    fixture.currentSource.set(
+      `${directory}/beta/agents/${directory === "api" ? "operations" : "index"}.ts`,
+      `export function remaining(options: BetaAgentsGetOptimizationJobOptionalParams) {}`,
+    );
+    const removals = findPromotedOptionRemovals(fixture);
+    assert.equal(removals.has("BetaAgentsGetOptimizationJobOptionalParams"), false);
+    assert.equal(removals.size, 4);
+  });
+}
+
+test("preserves indirect beta use through shared option aliases and inheritance", () => {
+  const fixture = promotionFixture();
+  fixture.currentSource.set(
+    "api/shared/options.ts",
+    `
+    export type Shared = BetaAgentsGetOptimizationJobOptionalParams;
+    export interface Remaining extends Shared {}
+  `,
+  );
+  fixture.currentSource.set(
+    "classic/beta/agents/index.ts",
+    `
+    import type { Remaining as Local } from "../../../api/shared/options.js";
+    export interface BetaAgentsOperations { remaining: (options: Local) => void; }
+  `,
+  );
+  assert.equal(
+    findPromotedOptionRemovals(fixture).has("BetaAgentsGetOptimizationJobOptionalParams"),
+    false,
+  );
+});
+
+test("does not treat imports, comments, or re-exports alone as beta operation usage", () => {
+  const fixture = promotionFixture();
+  fixture.currentSource.set(
+    "api/beta/agents/index.ts",
+    `
+    // BetaAgentsGetOptimizationJobOptionalParams
+    import type { BetaAgentsGetOptimizationJobOptionalParams } from "./options.js";
+    export type { BetaAgentsGetOptimizationJobOptionalParams } from "./options.js";
+  `,
+  );
+  assert.equal(findPromotedOptionRemovals(fixture).size, 5);
+});
+
+test("follows re-exported shared options and function-valued variables", () => {
+  const fixture = promotionFixture();
+  fixture.currentSource.set(
+    "api/shared/index.ts",
+    `
+    export { BetaAgentsGetOptimizationJobOptionalParams as Shared } from "../beta/agents/options.js";
+  `,
+  );
+  fixture.currentSource.set(
+    "api/shared/operations.ts",
+    `
+    export const shared = (options: Shared) => {};
+    export type SharedOperation = typeof shared;
+  `,
+  );
+  fixture.currentSource.set(
+    "classic/beta/agents/index.ts",
+    `
+    export interface BetaAgentsOperations { remaining: SharedOperation; }
+  `,
+  );
+  assert.equal(
+    findPromotedOptionRemovals(fixture).has("BetaAgentsGetOptimizationJobOptionalParams"),
+    false,
+  );
+});
+
+test("requires generated removal and both GA implementations for each promotion", () => {
+  for (const file of [
+    "api/agents/options.ts",
+    "api/agents/operations.ts",
+    "classic/agents/index.ts",
+  ]) {
+    const fixture = promotionFixture();
+    fixture.currentSource.delete(file);
+    assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+  }
+  const fixture = promotionFixture();
+  fixture.currentGenerated.set(
+    "api/beta/agents/options.ts",
+    fixture.previousGenerated.get("api/beta/agents/options.ts"),
+  );
+  assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+});
+
+test("does not allow other beta options or a deletion without a generated promotion", () => {
+  const fixture = promotionFixture();
+  fixture.previousGenerated.set(
+    "api/beta/agents/options.ts",
+    fixture.previousGenerated.get("api/beta/agents/options.ts") +
+      "\nexport interface BetaAgentsCreateFromPromptOptionalParams {}",
+  );
+  fixture.currentGenerated.delete("api/agents/operations.ts");
+  assert.equal(findPromotedOptionRemovals(fixture).size, 0);
 });

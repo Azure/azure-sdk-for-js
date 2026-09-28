@@ -105,6 +105,7 @@ import type {
   Microsoft365PublishResponse,
   AgentsDownloadAgentCodeResponse,
   AgentOptimizationJob,
+  AgentOptimizationJobCreateParameters,
   AgentOptimizationJobResult,
   AgentOptimizationEstimateInputs,
   AgentOptimizationEstimateResult,
@@ -224,7 +225,7 @@ export interface AgentsOperations {
   ) => Promise<AgentOptimizationEstimateResult>;
   /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
   createOptimizationJob: (
-    body: AgentOptimizationJob,
+    body: AgentOptimizationJobCreateParameters,
     options?: AgentsCreateOptimizationJobOptionalParams,
   ) => JobPoller<AgentOptimizationJobResult>;
   /**
@@ -490,7 +491,7 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       options?: AgentsEstimateOptimizationJobOptionalParams,
     ) => estimateOptimizationJob(context, inputs, options),
     createOptimizationJob: (
-      body: AgentOptimizationJob,
+      body: AgentOptimizationJobCreateParameters,
       options?: AgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, body, options),
     getSessionLogStream: (

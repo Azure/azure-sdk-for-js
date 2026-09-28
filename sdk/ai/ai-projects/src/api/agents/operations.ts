@@ -24,6 +24,7 @@ import type {
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
   AgentOptimizationJob,
+  AgentOptimizationJobCreateParameters,
   AgentOptimizationJobResult,
   AgentOptimizationEstimateInputs,
   AgentOptimizationEstimateResult,
@@ -122,7 +123,7 @@ export function _deleteSessionFileSend(
   options: AgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?api-version,path,recursive}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,recursive,api-version}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -178,7 +179,7 @@ export function _listSessionFilesSend(
   options: AgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?after,api-version,before,limit,order,path}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -250,7 +251,7 @@ export function _downloadSessionFileSend(
   options: AgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -317,7 +318,7 @@ export function _uploadSessionFileSend(
   options: AgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -384,7 +385,7 @@ export function _getMicrosoft365PublishDefaultsSend(
   options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/microsoft365/publishdefaults{?api-version,publishAsDigitalWorker}",
+    "/agents/{agent_name}/microsoft365/publishdefaults{?publishAsDigitalWorker,api-version}",
     {
       agent_name: agentName,
       publishAsDigitalWorker: options?.publishAsDigitalWorker,
@@ -997,7 +998,7 @@ export async function estimateOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  body: AgentOptimizationJob,
+  body: AgentOptimizationJobCreateParameters,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1047,7 +1048,7 @@ export async function _createOptimizationJobDeserialize(
 /** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
 export function createOptimizationJob(
   context: Client,
-  body: AgentOptimizationJob,
+  body: AgentOptimizationJobCreateParameters,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<AgentOptimizationJobResult> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
@@ -1057,6 +1058,12 @@ export function createOptimizationJob(
     getInitialResponse: () => _createOptimizationJobSend(context, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: Object.fromEntries(
+      Object.entries(options.requestOptions?.headers ?? {}).map(([name, value]) => [
+        name,
+        String(value),
+      ]),
+    ),
   });
 }
 
@@ -1148,7 +1155,7 @@ export function _listSessionsSend(
   options: AgentsListSessionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions{?after,api-version,before,limit,order}",
+    "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
@@ -1699,7 +1706,7 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?after,api-version,before,include_drafts,limit,order}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,include_drafts,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
@@ -1778,7 +1785,7 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version,force}",
+    "/agents/{agent_name}/versions/{agent_version}{?force,api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
@@ -2015,7 +2022,7 @@ export function _listSend(
   options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?after,api-version,before,kind,limit,order}",
+    "/agents{?kind,limit,order,after,before,api-version}",
     {
       kind: options?.kind,
       limit: options?.limit,
@@ -2075,7 +2082,7 @@ export function _$deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version,force}",
+    "/agents/{agent_name}{?force,api-version}",
     {
       agent_name: agentName,
       force: options?.force,

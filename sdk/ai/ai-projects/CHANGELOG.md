@@ -5,21 +5,27 @@
 ### Breaking Changes
 
 - Remove the `foundryFeatures` option from evaluator generation-job, credential, and pending-upload operations after the upstream GA promotion. Operations remain under `project.beta.evaluators` but no longer send the `Evaluations=V1Preview` header automatically. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+- Move optimization job operations from `project.beta.agents` to `project.agents`. Replace their five `BetaAgents*OptimizationJob*OptionalParams` types with the corresponding `Agents*` types and remove the `AgentsOptimization=V2Preview` opt-in. Keep `project.beta.agents.createFromPrompt` and its options unchanged. [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
+- Replace the preview optimization inputs, datasets, options, progress, and list-item models, including their deprecated `Optimization*` aliases, with the GA configuration contracts. Job creation uses flat configuration fields; job listing returns full jobs; results expose candidate summaries, token usage, and latency metrics. Candidate output, evaluation, lifecycle, and promotion details use the redesigned GA shapes. [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
+- Change `project.beta.datasets.createGenerationJob` to accept `DataGenerationJobInputsUnion` directly instead of a job with an `inputs` wrapper. Rename `options` to `generation_configuration`, replace `DataGenerationJobOutputOptions` with scenario-specific `output_configuration` types, and return `DataGenerationJobUnion` from get, list, and cancel operations. [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
 
 ### Features Added
 
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
 - Add `OpenAPI` and `RemoteA2A` connection types. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
 - Add `transport` option to `VoiceAgentRealtimeClientConnectOptions` for selecting between the `"websocket"` (default) and `"webrtc"` realtime connection transports.
+- Add `project.agents.estimateOptimizationJob`, `listOptimizationCandidates`, `getOptimizationCandidate`, and `promoteOptimizationCandidate` for estimating optimization costs and inspecting or promoting generated candidates. Support agent and prompt optimization configurations, typed mutations, and training and validation sets. [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
 
 ### Bugs Fixed
 
 - Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 - Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+- Accept optimization job creation parameters without requiring service-generated response fields. Preserve `JobPoller` job identity and caller headers after GA promotion, and retain existing agent query ordering for recording compatibility. [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
 
 ### Other Changes
 
 - Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
+- Regenerate the client from azure-rest-api-specs commit `440f064dc22045f5cb212bc9fca82c9263d35cf7`. Add a GA optimization sample, offline integration tests, and a skipped service test awaiting recordings; update the existing data generation sample for the new input shape. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/440f064dc22045f5cb212bc9fca82c9263d35cf7). [#40119](https://github.com/Azure/azure-sdk-for-js/issues/40119)
 
 ## 2.7.1 (2026-09-23)
 
