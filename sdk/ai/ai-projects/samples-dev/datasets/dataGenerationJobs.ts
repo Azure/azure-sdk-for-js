@@ -24,24 +24,26 @@ export async function main(): Promise<void> {
   console.log("Creating data generation job...");
   const jobName = `sample-data-generation-job-${Date.now()}`;
   const generationPoller = project.beta.datasets.createGenerationJob({
-    inputs: {
-      name: jobName,
-      scenario: "supervised_finetuning",
-      sources: [
-        {
-          type: "prompt",
-          prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
-          description: "Prompt source for generating sample supervised fine-tuning data.",
-        },
-      ],
-      options: {
-        type: "simple_qna",
-        max_samples: 15,
-        model_options: {
-          model: deploymentName,
-        },
-        question_types: ["short_answer"],
+    name: jobName,
+    scenario: "supervised_finetuning",
+    sources: [
+      {
+        type: "prompt",
+        prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
+        description: "Prompt source for generating sample supervised fine-tuning data.",
       },
+    ],
+    generation_configuration: {
+      type: "simple_qna",
+      max_samples: 15,
+      model_options: {
+        model: deploymentName,
+      },
+      question_types: ["short_answer"],
+    },
+    output_configuration: {
+      name: `${jobName}.jsonl`,
+      write_mode: "overwrite",
     },
   });
 

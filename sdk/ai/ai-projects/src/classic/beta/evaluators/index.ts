@@ -2,6 +2,31 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type {
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+  EvaluatorVersion,
+  EvaluatorCredentialRequest,
+  EvaluatorGenerationJob,
+} from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsUpdateVersionOptionalParams,
+  BetaEvaluatorsCreateVersionOptionalParams,
+  BetaEvaluatorsDeleteVersionOptionalParams,
+  BetaEvaluatorsGetVersionOptionalParams,
+  BetaEvaluatorsListOptionalParams,
+  BetaEvaluatorsListVersionsOptionalParams,
+} from "../../../api/beta/evaluators/options.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 import {
   deleteGenerationJob,
   cancelGenerationJob,
@@ -17,31 +42,6 @@ import {
   list,
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
-import type {
-  BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsPendingUploadOptionalParams,
-  BetaEvaluatorsUpdateVersionOptionalParams,
-  BetaEvaluatorsCreateVersionOptionalParams,
-  BetaEvaluatorsDeleteVersionOptionalParams,
-  BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListOptionalParams,
-  BetaEvaluatorsListVersionsOptionalParams,
-  BetaEvaluatorsDeleteGenerationJobOptionalParams,
-  BetaEvaluatorsCancelGenerationJobOptionalParams,
-  BetaEvaluatorsListGenerationJobsOptionalParams,
-  BetaEvaluatorsGetGenerationJobOptionalParams,
-  BetaEvaluatorsCreateGenerationJobOptionalParams,
-} from "../../../api/beta/evaluators/options.js";
-import type {
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-  EvaluatorVersion,
-  EvaluatorCredentialRequest,
-  EvaluatorGenerationJob,
-} from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -77,7 +77,7 @@ export interface BetaEvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    body: EvaluatorGenerationJob,
+    job: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
   ) => JobPoller<EvaluatorVersion>;
   /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
@@ -130,7 +130,7 @@ export interface BetaEvaluatorsOperations {
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
 }
 
-function _getBetaEvaluators(context: AIProjectContext) {
+export function _getBetaEvaluatorsOperations(context: AIProjectContext): BetaEvaluatorsOperations {
   return {
     deleteGenerationJob: (
       jobId: string,
@@ -145,9 +145,9 @@ function _getBetaEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      body: EvaluatorGenerationJob,
+      job: EvaluatorGenerationJob,
       options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, body, options),
+    ) => createGenerationJob(context, job, options),
     getCredentials: (
       name: string,
       credentialRequest: EvaluatorCredentialRequest,
@@ -181,11 +181,5 @@ function _getBetaEvaluators(context: AIProjectContext) {
     list: (options?: BetaEvaluatorsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-  };
-}
-
-export function _getBetaEvaluatorsOperations(context: AIProjectContext): BetaEvaluatorsOperations {
-  return {
-    ..._getBetaEvaluators(context),
   };
 }

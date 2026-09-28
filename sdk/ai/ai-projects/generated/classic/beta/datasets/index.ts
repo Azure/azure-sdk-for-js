@@ -16,7 +16,11 @@ import {
   BetaDatasetsListGenerationJobsOptionalParams,
   BetaDatasetsGetGenerationJobOptionalParams,
 } from "../../../api/beta/datasets/options.js";
-import { DataGenerationJob, DataGenerationJobResult } from "../../../models/models.js";
+import {
+  DataGenerationJobUnion,
+  DataGenerationJobResult,
+  DataGenerationJobInputsUnion,
+} from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -31,21 +35,21 @@ export interface BetaDatasetsOperations {
   cancelGenerationJob: (
     jobId: string,
     options?: BetaDatasetsCancelGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => Promise<DataGenerationJobUnion>;
   /** Submits a new data generation job for asynchronous execution. */
   createGenerationJob: (
-    job: DataGenerationJob,
+    job: DataGenerationJobInputsUnion,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
   ) => PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
   /** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,
-  ) => PagedAsyncIterableIterator<DataGenerationJob>;
+  ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
   /** Retrieves the specified data generation job and its current status. */
   getGenerationJob: (
     jobId: string,
     options?: BetaDatasetsGetGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => Promise<DataGenerationJobUnion>;
 }
 
 function _getBetaDatasets(context: AIProjectContext) {
@@ -55,7 +59,7 @@ function _getBetaDatasets(context: AIProjectContext) {
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) =>
       cancelGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: DataGenerationJob,
+      job: DataGenerationJobInputsUnion,
       options?: BetaDatasetsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) =>
