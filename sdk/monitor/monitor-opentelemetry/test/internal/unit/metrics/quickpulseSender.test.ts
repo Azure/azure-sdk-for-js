@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { diag } from "@opentelemetry/api";
 import { QuickpulseSender } from "../../../../src/metrics/quickpulse/export/sender.js";
@@ -11,10 +13,15 @@ describe("QuickpulseSender responses", () => {
     vi.restoreAllMocks();
   });
 
-  function createSender(bodyAsText: string | undefined, status = 200): QuickpulseSender {
+  function createSender(
+    bodyAsText: string | undefined,
+    status = 200,
+    credential?: TokenCredential,
+  ): QuickpulseSender {
     const sender = new QuickpulseSender({
       endpointUrl: "https://live.example.invalid",
       instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      credential,
     });
     sender["quickpulseClient"].pipeline.addPolicy(
       {
@@ -35,7 +42,7 @@ describe("QuickpulseSender responses", () => {
           });
         },
       },
-      { phase: "Serialize" },
+      { afterPhase: "Sign" },
     );
     return sender;
   }
@@ -78,8 +85,76 @@ describe("QuickpulseSender responses", () => {
       });
     });
 
-    it(`${operation} does not treat an HTTP error as success`, async () => {
-      expect(await createSender(undefined, 403)[operation]({})).toBeUndefined();
+    it.each([undefined, "null", '{"message":"Forbidden"}'])(
+      `${operation} does not treat an HTTP error as success (%s)`,
+      async (body) => {
+        expect(await createSender(body, 403)[operation]({})).toBeUndefined();
+      },
+    );
+
+    it(`${operation} preserves generated request serialization and authentication`, async () => {
+      const getToken = vi.fn<TokenCredential["getToken"]>().mockResolvedValue({
+        token: "test-token",
+        expiresOnTimestamp: Date.now() + 3600000,
+      });
+      const sender = createSender(undefined, 200, { getToken });
+      const requests: PipelineRequest[] = [];
+      sender["quickpulseClient"].pipeline.addPolicy(
+        {
+          name: "captureQuickpulseRequest",
+          sendRequest(request, next) {
+            requests.push(request);
+            return next(request);
+          },
+        },
+        { phase: "Serialize" },
+      );
+      const options = { configurationEtag: "request-etag", transmissionTime: 123 };
+      const point = {
+        version: "test-version",
+        invariantVersion: 5,
+        instance: "test-instance",
+        roleName: "test-role",
+        machineName: "test-machine",
+        streamId: "test-stream",
+        isWebApp: false,
+        performanceCollectionSupported: true,
+      };
+      const response =
+        operation === "isSubscribed"
+          ? await sender.isSubscribed({ ...options, monitoringDataPoint: point })
+          : await sender.publish({ ...options, monitoringDataPoints: [point] });
+      expect(response?.xMsQpsSubscribed).toBe("true");
+      expect(requests).toHaveLength(1);
+      const request = requests[0];
+      const url = new URL(request.url);
+      expect(url.pathname).toBe(
+        `/QuickPulseService.svc/${operation === "isSubscribed" ? "ping" : "post"}`,
+      );
+      expect(url.searchParams.get("ikey")).toBe("1aa11111-bbbb-1ccc-8ddd-eeeeffff3333");
+      expect(url.searchParams.get("api-version")).toBe("2024-04-01-preview");
+      expect(request.method).toBe("POST");
+      expect(request.headers.get("x-ms-qps-configuration-etag")).toBe("request-etag");
+      expect(request.headers.get("x-ms-qps-transmission-time")).toBe("123");
+      expect(request.headers.get("authorization")).toBe("Bearer test-token");
+      expect(request.headers.get("user-agent")).toContain("azsdk-js-client");
+      const serializedPoint = {
+        Version: "test-version",
+        InvariantVersion: 5,
+        Instance: "test-instance",
+        RoleName: "test-role",
+        MachineName: "test-machine",
+        StreamId: "test-stream",
+        IsWebApp: false,
+        PerformanceCollectionSupported: true,
+      };
+      expect(request.body).toBe(
+        JSON.stringify(operation === "isSubscribed" ? serializedPoint : [serializedPoint]),
+      );
+      expect(getToken.mock.calls[0][0]).toEqual(["https://monitor.azure.com/.default"]);
+      expect(
+        sender["quickpulseClient"].pipeline.getOrderedPolicies().map((policy) => policy.name),
+      ).not.toContain("redirectPolicy");
     });
 
     it(`${operation} does not hide malformed nonempty configuration bodies`, async () => {

@@ -3,7 +3,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MockInstance } from "vitest";
-import { SpanKind } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   BasicTracerProvider,
   InMemorySpanExporter,
@@ -13,6 +13,7 @@ import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import type { FilterConjunctionGroupInfo } from "../../../../src/generated/index.js";
 import { createMockSdkLogRecord } from "../../../utils/breezeTestUtils.js";
+import { QuickPulseMetricNames } from "../../../../src/metrics/quickpulse/types.js";
 import type {
   QuickpulseResponse,
   QuickpulseSender,
@@ -57,13 +58,25 @@ describe("Live Metrics recovery", () => {
     expect(liveMetrics.getMeterProvider()).toBeDefined();
   }
 
-  async function recordTelemetry(name: string): Promise<void> {
+  async function recordTelemetry(
+    name: string,
+    options: { kind?: SpanKind; durationMillis?: number; failed?: boolean } = {},
+  ): Promise<void> {
     const exporter = new InMemorySpanExporter();
     const provider = new BasicTracerProvider({
       spanProcessors: [new SimpleSpanProcessor(exporter)],
     });
     try {
-      provider.getTracer("test").startSpan(name, { kind: SpanKind.SERVER }).end();
+      const endTime = Date.now();
+      const span = provider.getTracer("test").startSpan(name, {
+        kind: options.kind ?? SpanKind.SERVER,
+        startTime: new Date(endTime - (options.durationMillis ?? 0)),
+      });
+      if (options.failed) {
+        span.setStatus({ code: SpanStatusCode.ERROR });
+        span.recordException(new Error(name));
+      }
+      span.end(new Date(endTime));
       await vi.advanceTimersByTimeAsync(0);
       await provider.forceFlush();
       liveMetrics.recordSpan(exporter.getFinishedSpans()[0]);
@@ -188,6 +201,162 @@ describe("Live Metrics recovery", () => {
       completeFlush(subscribed);
     }
   });
+
+  it.each(["fallback", "recovery"])(
+    "preserves counters and sampling baselines during a pending %s flush",
+    async (transition) => {
+      await startCollecting();
+      await recordTelemetry("previous-request", { durationMillis: 900, failed: true });
+      await recordTelemetry("previous-dependency", {
+        kind: SpanKind.CLIENT,
+        durationMillis: 1200,
+        failed: true,
+      });
+      await vi.advanceTimersByTimeAsync(1000);
+      if (transition === "recovery") {
+        publish.mockResolvedValue(undefined);
+        await vi.advanceTimersByTimeAsync(20000);
+      } else {
+        liveMetrics["lastSuccessTime"] = Date.now() - 20000;
+      }
+      const response = transition === "recovery" ? subscribed : undefined;
+      let completeRequest!: (response: QuickpulseResponse | undefined) => void;
+      let completeFlush!: (response: QuickpulseResponse | undefined) => void;
+      const request = new Promise<QuickpulseResponse | undefined>((resolve) => {
+        completeRequest = resolve;
+      });
+      const flush = new Promise<QuickpulseResponse | undefined>((resolve) => {
+        completeFlush = resolve;
+      });
+      publish
+        .mockClear()
+        .mockResolvedValue(response)
+        .mockReturnValueOnce(request)
+        .mockReturnValueOnce(flush);
+
+      try {
+        await vi.advanceTimersByTimeAsync(liveMetrics["postInterval"]);
+        expect(publish).toHaveBeenCalledTimes(1);
+        await vi.advanceTimersByTimeAsync(500);
+        completeRequest(response);
+        await vi.advanceTimersByTimeAsync(0);
+        expect(publish).toHaveBeenCalledTimes(2);
+        expect(liveMetrics["isDeactivating"]).toBe(true);
+        const lastCollectionTime = Date.now();
+
+        await recordTelemetry("pending-successful-request", { durationMillis: 100 });
+        await recordTelemetry("pending-failed-request", { durationMillis: 300, failed: true });
+        await recordTelemetry("pending-successful-dependency", {
+          kind: SpanKind.CLIENT,
+          durationMillis: 250,
+        });
+        await recordTelemetry("pending-failed-dependency", {
+          kind: SpanKind.CLIENT,
+          durationMillis: 750,
+          failed: true,
+        });
+        liveMetrics.recordLog(
+          createMockSdkLogRecord(undefined, undefined, {
+            body: "pending-log-exception",
+            attributes: {
+              "exception.type": "Error",
+              "exception.message": "pending-log-exception",
+            },
+          }),
+        );
+        await vi.advanceTimersByTimeAsync(250);
+        completeFlush(response);
+        await vi.advanceTimersByTimeAsync(0);
+        const nextInterval = transition === "recovery" ? 1000 : 60000;
+        expect(liveMetrics["postInterval"]).toBe(nextInterval);
+        await vi.advanceTimersByTimeAsync(nextInterval);
+        expect(publish).toHaveBeenCalledTimes(3);
+        const elapsedSeconds = (Date.now() - lastCollectionTime) / 1000;
+        const expectedMetrics = new Map([
+          [QuickPulseMetricNames.REQUEST_RATE, 2 / elapsedSeconds],
+          [QuickPulseMetricNames.REQUEST_FAILURE_RATE, 1 / elapsedSeconds],
+          [QuickPulseMetricNames.REQUEST_DURATION, 200],
+          [QuickPulseMetricNames.DEPENDENCY_RATE, 2 / elapsedSeconds],
+          [QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE, 1 / elapsedSeconds],
+          [QuickPulseMetricNames.DEPENDENCY_DURATION, 500],
+          [QuickPulseMetricNames.EXCEPTION_RATE, 3 / elapsedSeconds],
+        ]);
+        const exportedMetrics = new Map(
+          publish.mock.calls[2][0].monitoringDataPoints?.[0].metrics?.map((metric) => [
+            metric.name,
+            metric.value,
+          ]),
+        );
+        for (const [name, expected] of expectedMetrics) {
+          expect(exportedMetrics.get(name), name).toBeCloseTo(expected, 8);
+        }
+        await vi.advanceTimersByTimeAsync(nextInterval);
+        expect(publish).toHaveBeenCalledTimes(4);
+        const nextMetrics = new Map(
+          publish.mock.calls[3][0].monitoringDataPoints?.[0].metrics?.map((metric) => [
+            metric.name,
+            metric.value,
+          ]),
+        );
+        for (const name of expectedMetrics.keys()) {
+          expect(nextMetrics.get(name), name).toBe(0);
+        }
+      } finally {
+        completeRequest(response);
+        completeFlush(response);
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "resets counters on resubscription after unsubscribe (overlapping restart: %s)",
+    async (overlappingRestart) => {
+      await startCollecting();
+      await recordTelemetry("previous-request", { durationMillis: 900, failed: true });
+      await recordTelemetry("previous-dependency", {
+        kind: SpanKind.CLIENT,
+        durationMillis: 1200,
+        failed: true,
+      });
+      await vi.advanceTimersByTimeAsync(1000);
+      const unsubscribed = { xMsQpsSubscribed: "false" };
+      if (overlappingRestart) {
+        let completeFlush!: (response: QuickpulseResponse) => void;
+        publish.mockReturnValueOnce(
+          new Promise((resolve) => {
+            completeFlush = resolve;
+          }),
+        );
+        liveMetrics["lastSuccessTime"] = Date.now() - 20000;
+        const restart = liveMetrics["quickPulseDone"](undefined);
+        await vi.advanceTimersByTimeAsync(0);
+        const unsubscribe = liveMetrics["quickPulseDone"](unsubscribed);
+        completeFlush(subscribed);
+        await Promise.all([restart, unsubscribe]);
+      } else {
+        publish.mockResolvedValue(unsubscribed);
+        await vi.advanceTimersByTimeAsync(1000);
+        expect(liveMetrics.getMeterProvider()).toBeUndefined();
+        publish.mockResolvedValue(subscribed);
+        await vi.advanceTimersByTimeAsync(5000);
+      }
+      expect(liveMetrics.getMeterProvider()).toBeDefined();
+      expect(liveMetrics["totalRequestCount"]).toBe(0);
+      expect(liveMetrics["totalFailedRequestCount"]).toBe(0);
+      expect(liveMetrics["requestDuration"]).toBe(0);
+      expect(liveMetrics["totalDependencyCount"]).toBe(0);
+      expect(liveMetrics["totalFailedDependencyCount"]).toBe(0);
+      expect(liveMetrics["dependencyDuration"]).toBe(0);
+      expect(liveMetrics["totalExceptionCount"]).toBe(0);
+      expect(liveMetrics["lastRequestDuration"]).toEqual({ count: 0, duration: 0, time: 0 });
+      expect(liveMetrics["lastRequestRate"]).toEqual({ count: 0, time: 0 });
+      expect(liveMetrics["lastFailedRequestRate"]).toEqual({ count: 0, time: 0 });
+      expect(liveMetrics["lastDependencyDuration"]).toEqual({ count: 0, duration: 0, time: 0 });
+      expect(liveMetrics["lastDependencyRate"]).toEqual({ count: 0, time: 0 });
+      expect(liveMetrics["lastFailedDependencyRate"]).toEqual({ count: 0, time: 0 });
+      expect(liveMetrics["lastExceptionRate"]).toEqual({ count: 0, time: 0 });
+    },
+  );
 
   it.each(["unsubscribe", "shutdown"])("still clears buffered telemetry on %s", async (action) => {
     await startCollecting();

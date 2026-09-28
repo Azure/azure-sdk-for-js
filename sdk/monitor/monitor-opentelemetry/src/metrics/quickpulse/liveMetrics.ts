@@ -101,6 +101,7 @@ export class LiveMetrics {
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
   private isShutdown = false;
+  private resetCountersOnActivation = true;
   private isDeactivating: boolean = false;
   private deactivatingPromise: Promise<void> | undefined;
   private lastSuccessTime: number = Date.now();
@@ -329,20 +330,25 @@ export class LiveMetrics {
       getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
-    this.totalDependencyCount = 0;
-    this.totalExceptionCount = 0;
-    this.totalFailedDependencyCount = 0;
-    this.totalFailedRequestCount = 0;
-    this.totalRequestCount = 0;
-    this.requestDuration = 0;
-    this.dependencyDuration = 0;
-    this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
-    this.lastRequestRate = { count: 0, time: 0 };
-    this.lastFailedRequestRate = { count: 0, time: 0 };
-    this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
-    this.lastDependencyRate = { count: 0, time: 0 };
-    this.lastFailedDependencyRate = { count: 0, time: 0 };
-    this.lastExceptionRate = { count: 0, time: 0 };
+    // Reader replacement must retain both totals and sampling baselines so
+    // telemetry recorded during the final flush is collected exactly once.
+    if (this.resetCountersOnActivation) {
+      this.totalDependencyCount = 0;
+      this.totalExceptionCount = 0;
+      this.totalFailedDependencyCount = 0;
+      this.totalFailedRequestCount = 0;
+      this.totalRequestCount = 0;
+      this.requestDuration = 0;
+      this.dependencyDuration = 0;
+      this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
+      this.lastRequestRate = { count: 0, time: 0 };
+      this.lastFailedRequestRate = { count: 0, time: 0 };
+      this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
+      this.lastDependencyRate = { count: 0, time: 0 };
+      this.lastFailedDependencyRate = { count: 0, time: 0 };
+      this.lastExceptionRate = { count: 0, time: 0 };
+      this.resetCountersOnActivation = false;
+    }
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.quickpulseExporter,
@@ -430,6 +436,7 @@ export class LiveMetrics {
    */
   public async deactivateMetrics(preserveConfiguration = false): Promise<void> {
     if (!preserveConfiguration) {
+      this.resetCountersOnActivation = true;
       this.documents = [];
       this.validDocumentFilterConjuctionGroupInfos.clear();
       this.errorTracker.clearRunTimeErrors();
