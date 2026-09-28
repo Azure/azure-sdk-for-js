@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fixed three unreachable error-handling guards that compared an error code against its un-normalized name after `translateServiceBusError` had already normalized it: `peekMessages` / `peekMessagesBySession` now return an empty result instead of throwing when the service reports the requested messages are not found (matching .NET); the streaming receiver no longer attempts a doomed abandon when a message's lock is already lost; and a session-lock-expired error now carries its descriptive message. [#39312](https://github.com/Azure/azure-sdk-for-js/pull/39312)
+- Fixed unhandled `OperationTimeoutError` promise rejections that could crash the application when an AMQP link close timed out while a receiver was draining credits (during a `close()` or a `receiveMessages()` timeout). The close timeout is now logged instead of surfacing as an unhandled rejection. This extends the fix for [#35342](https://github.com/Azure/azure-sdk-for-js/issues/35342). [#39348](https://github.com/Azure/azure-sdk-for-js/issues/39348)
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
