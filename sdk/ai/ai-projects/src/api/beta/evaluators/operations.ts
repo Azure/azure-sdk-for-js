@@ -2,33 +2,31 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type {
-  _PagedEvaluatorVersion,
-  EvaluatorVersion,
-  EvaluatorGenerationJob,
-  _AgentsPagedResultEvaluatorGenerationJob,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-  EvaluatorCredentialRequest,
-} from "../../../models/models.js";
 import {
+  apiErrorResponseDeserializer,
   pendingUploadRequestSerializer,
   pendingUploadResponseDeserializer,
   datasetCredentialDeserializer,
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  evaluatorCredentialRequestSerializer,
   evaluatorGenerationJobSerializer,
   evaluatorGenerationJobDeserializer,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
-  evaluatorCredentialRequestSerializer,
-  apiErrorResponseDeserializer,
+} from "../../../models/models.js";
+import type {
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+  _PagedEvaluatorVersion,
+  EvaluatorVersion,
+  EvaluatorCredentialRequest,
+  EvaluatorGenerationJob,
+  _AgentsPagedResultEvaluatorGenerationJob,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
-import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
@@ -47,6 +45,8 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -155,7 +155,7 @@ export function _listGenerationJobsSend(
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs{?limit,order,after,before,api-version}",
+    "/evaluator_generation_jobs{?after,api-version,before,limit,order}",
     {
       limit: options?.limit,
       order: options?.order,
@@ -269,7 +269,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -289,7 +289,7 @@ export function _createGenerationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluatorGenerationJobSerializer(body),
+    body: evaluatorGenerationJobSerializer(job),
   });
 }
 
@@ -322,14 +322,14 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<EvaluatorVersion> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createGenerationJobSend(context, body, options),
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
     pollHeaders: Object.fromEntries(
@@ -652,7 +652,7 @@ export function _listSend(
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators{?api-version,type,limit}",
+    "/evaluators{?api-version,limit,type}",
     {
       "api-version": context.apiVersion,
       type: options?.evaluatorType as any,
@@ -707,7 +707,7 @@ export function _listVersionsSend(
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators/{name}/versions{?api-version,type,limit}",
+    "/evaluators/{name}/versions{?api-version,limit,type}",
     {
       name: name,
       "api-version": context.apiVersion,

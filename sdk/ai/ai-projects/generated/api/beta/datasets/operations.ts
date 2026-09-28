@@ -4,13 +4,14 @@
 import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
-  DataGenerationJob,
-  dataGenerationJobSerializer,
-  dataGenerationJobDeserializer,
+  dataGenerationJobUnionDeserializer,
+  DataGenerationJobUnion,
   DataGenerationJobResult,
   dataGenerationJobResultDeserializer,
   _AgentsPagedResultDataGenerationJob,
   _agentsPagedResultDataGenerationJobDeserializer,
+  dataGenerationJobInputsUnionSerializer,
+  DataGenerationJobInputsUnion,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -118,7 +119,7 @@ export function _cancelGenerationJobSend(
 
 export async function _cancelGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -129,7 +130,7 @@ export async function _cancelGenerationJobDeserialize(
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  return dataGenerationJobUnionDeserializer(result.body);
 }
 
 /** Cancels the specified data generation job if it is still in progress. */
@@ -137,14 +138,14 @@ export async function cancelGenerationJob(
   context: Client,
   jobId: string,
   options: BetaDatasetsCancelGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const result = await _cancelGenerationJobSend(context, jobId, options);
   return _cancelGenerationJobDeserialize(result);
 }
 
 export function _createGenerationJobSend(
   context: Client,
-  job: DataGenerationJob,
+  job: DataGenerationJobInputsUnion,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -169,7 +170,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: dataGenerationJobSerializer(job),
+      body: dataGenerationJobInputsUnionSerializer(job),
     });
 }
 
@@ -199,7 +200,7 @@ export async function _createGenerationJobDeserialize(
 /** Submits a new data generation job for asynchronous execution. */
 export function createGenerationJob(
   context: Client,
-  job: DataGenerationJob,
+  job: DataGenerationJobInputsUnion,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult> {
   return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
@@ -262,7 +263,7 @@ export async function _listGenerationJobsDeserialize(
 export function listGenerationJobs(
   context: Client,
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DataGenerationJob> {
+): PagedAsyncIterableIterator<DataGenerationJobUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listGenerationJobsSend(context, options),
@@ -303,7 +304,7 @@ export function _getGenerationJobSend(
 
 export async function _getGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -314,7 +315,7 @@ export async function _getGenerationJobDeserialize(
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  return dataGenerationJobUnionDeserializer(result.body);
 }
 
 /** Retrieves the specified data generation job and its current status. */
@@ -322,7 +323,7 @@ export async function getGenerationJob(
   context: Client,
   jobId: string,
   options: BetaDatasetsGetGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const result = await _getGenerationJobSend(context, jobId, options);
   return _getGenerationJobDeserialize(result);
 }

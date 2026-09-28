@@ -4,21 +4,29 @@
 
 ### Breaking Changes
 
+- Move optimization job operations from `project.beta.agents` to `project.agents`, replace their `BetaAgents*OptimizationJobOptionalParams` types with `Agents*OptimizationJobOptionalParams`, and remove the `AgentsOptimization=V2Preview` opt-in. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
+- Replace optimization job `inputs` and `progress` with top-level `optimization_configuration`, `optimization_model_configuration`, optional `target_configuration`, and read-only `run_duration_ms`. Replace the old dataset, evaluator, options, progress, list-item, and promotion models and their dependent deprecated aliases with the redesigned optimization configuration and candidate contracts. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
+- Reshape optimization candidates around required candidate/job identifiers, lifecycle status and start time, optional typed output mutations, evaluation, and promotion metadata. Replace embedded job-result candidates with `candidate_summary`, required `token_usage` and `latency_metrics`, and optional `termination_reason`; retrieve candidates through the new candidate operations. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
+- Flatten `project.beta.datasets.createGenerationJob` inputs into `DataGenerationJobInputsUnion`, rename `options` to `generation_configuration`, and replace `DataGenerationJobOutputOptions` with scenario-specific `output_configuration` models. Return `DataGenerationJobUnion` from get, list, and cancel operations, with top-level input fields instead of an `inputs` wrapper. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Remove the `foundryFeatures` option from evaluator generation-job, credential, and pending-upload operations after the upstream GA promotion. Operations remain under `project.beta.evaluators` but no longer send the `Evaluations=V1Preview` header automatically. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ### Features Added
 
+- Add `project.agents.estimateOptimizationJob`, `listOptimizationCandidates`, `getOptimizationCandidate`, and `promoteOptimizationCandidate` for estimating optimization costs and inspecting or promoting generated candidates. Support agent and prompt optimization configurations, typed mutations, and target-completion or conversation-simulation evaluation sets. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
+- Add scenario-specific evaluation, supervised fine-tuning, and reinforcement fine-tuning data-generation output configurations under `project.beta.datasets`, including fine-tuning filenames, write modes, and merge-file identifiers. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
 - Add `OpenAPI` and `RemoteA2A` connection types. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
 - Add `transport` option to `VoiceAgentRealtimeClientConnectOptions` for selecting between the `"websocket"` (default) and `"webrtc"` realtime connection transports.
 
 ### Bugs Fixed
 
+- Follow `last_id` / `has_more` cursors and forward caller headers when listing optimization jobs. Preserve caller polling headers and the queued job identity after the GA promotion without injecting the retired preview header. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 - Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `35f603d55852190612789712f9812461903a3c58`. Rename the `project.beta.evaluators.createGenerationJob` parameter back from `body` to `job` without changing its position or behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/35f603d55852190612789712f9812461903a3c58). [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
 ## 2.7.1 (2026-09-23)

@@ -2,22 +2,21 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type {
-  DataGenerationJob,
-  DataGenerationJobResult,
-  _AgentsPagedResultDataGenerationJob,
-} from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  dataGenerationJobSerializer,
-  dataGenerationJobDeserializer,
   dataGenerationJobResultDeserializer,
   _agentsPagedResultDataGenerationJobDeserializer,
+  dataGenerationJobUnionDeserializer,
+  dataGenerationJobInputsUnionSerializer,
+} from "../../../models/models.js";
+import type {
+  DataGenerationJobResult,
+  _AgentsPagedResultDataGenerationJob,
+  DataGenerationJobUnion,
+  DataGenerationJobInputsUnion,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
-import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -28,6 +27,8 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -106,7 +107,7 @@ export function _cancelGenerationJobSend(
 
 export async function _cancelGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -117,7 +118,7 @@ export async function _cancelGenerationJobDeserialize(
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  return dataGenerationJobUnionDeserializer(result.body);
 }
 
 /** Cancels the specified data generation job if it is still in progress. */
@@ -125,14 +126,14 @@ export async function cancelGenerationJob(
   context: Client,
   jobId: string,
   options: BetaDatasetsCancelGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const result = await _cancelGenerationJobSend(context, jobId, options);
   return _cancelGenerationJobDeserialize(result);
 }
 
 export function _createGenerationJobSend(
   context: Client,
-  job: DataGenerationJob,
+  job: DataGenerationJobInputsUnion,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -153,7 +154,7 @@ export function _createGenerationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: dataGenerationJobSerializer(job),
+    body: dataGenerationJobInputsUnionSerializer(job),
   });
 }
 
@@ -183,7 +184,7 @@ export async function _createGenerationJobDeserialize(
 /** Submits a new data generation job for asynchronous execution. */
 export function createGenerationJob(
   context: Client,
-  job: DataGenerationJob,
+  job: DataGenerationJobInputsUnion,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<DataGenerationJobResult> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
@@ -205,7 +206,7 @@ export function _listGenerationJobsSend(
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs{?limit,order,after,before,api-version}",
+    "/data_generation_jobs{?after,api-version,before,limit,order}",
     {
       limit: options?.limit,
       order: options?.order,
@@ -247,7 +248,7 @@ export async function _listGenerationJobsDeserialize(
 export function listGenerationJobs(
   context: Client,
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DataGenerationJob> {
+): PagedAsyncIterableIterator<DataGenerationJobUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listGenerationJobsSend(context, options),
@@ -284,7 +285,7 @@ export function _getGenerationJobSend(
 
 export async function _getGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -295,7 +296,7 @@ export async function _getGenerationJobDeserialize(
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  return dataGenerationJobUnionDeserializer(result.body);
 }
 
 /** Retrieves the specified data generation job and its current status. */
@@ -303,7 +304,7 @@ export async function getGenerationJob(
   context: Client,
   jobId: string,
   options: BetaDatasetsGetGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
+): Promise<DataGenerationJobUnion> {
   const result = await _getGenerationJobSend(context, jobId, options);
   return _getGenerationJobDeserialize(result);
 }
