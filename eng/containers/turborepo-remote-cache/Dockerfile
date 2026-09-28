@@ -5,10 +5,10 @@ ENV PATH="$PNPM_HOME:$PATH"
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the .npmrc (points npm/pnpm at the internal azure-sdk feed) and
-# package.json before installing pnpm so both the npm bootstrap of pnpm and
-# all subsequent pnpm installs use the internal registry.
-COPY .npmrc package.json ./
+# Copy the .npmrc (points npm/pnpm at the internal azure-sdk feed), package.json,
+# and the root workspace's pnpm version before installing pnpm. Both the npm
+# bootstrap and subsequent pnpm installs use the internal registry.
+COPY .npmrc package.json pnpm-version.txt ./
 
 # npm ignores a project/cwd-level .npmrc when installing global packages
 # (`npm install -g`), so point npm's *user* config at the copied .npmrc. This
@@ -16,7 +16,9 @@ COPY .npmrc package.json ./
 # installs run in WORKDIR /app and pick up the same .npmrc as project config.
 ENV NPM_CONFIG_USERCONFIG=/app/.npmrc
 
-RUN npm install -g "pnpm@$(node -e "console.log(require('./package.json').packageManager.split('@')[1].split('+')[0])")"
+RUN PNPM_VERSION="$(cat pnpm-version.txt)" && \
+    test -n "$PNPM_VERSION" && \
+    npm install -g "pnpm@${PNPM_VERSION}"
 
 FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --ignore-scripts
