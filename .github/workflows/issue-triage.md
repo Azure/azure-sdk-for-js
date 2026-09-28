@@ -4,6 +4,7 @@ description: |
   Analyzes issue content, evaluates whether the author is a customer,
   predicts labels, looks up owners from CODEOWNERS, and provides
   analysis notes including debugging strategies and resource links
+  Dispatches eligible customer issues for post-triage investigation
   Implements the initial issue triage rules for the Azure SDK repository
 
 on:
@@ -49,6 +50,14 @@ network:
     - node
     - github
 
+jobs:
+  safe_outputs:
+    needs: [mention_owners]
+    if: >-
+      needs.agent.result == 'success' &&
+      (!contains(needs.agent.outputs.output_types, 'mention_owners') ||
+       needs.mention_owners.result == 'success')
+
 post-steps:
   - name: Verify triage produced output
     if: ${{ !cancelled() }}
@@ -92,11 +101,15 @@ safe-outputs:
   close-issue:
     max: 1
     target: "*"
+  dispatch-workflow:
+    workflows: [issue-investigation]
+    max: 1
   noop:
     report-as-issue: false
   jobs:
     mention_owners:
       description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
+      if: needs.agent.result == 'success'
       runs-on: ubuntu-latest
       output: "Owner mention comment posted"
       permissions:
@@ -682,3 +695,20 @@ Rules for the sections:
   - 🔎 Debugging / Reproduction Notes: include diagnostic observations and numbered investigation steps; note similar open issues found via `search_issues` if any
   - 🏷️ Label Confidence: explain category and service label selection; state confidence as High, Medium, or Low with justification; note other labels considered and why they were rejected
   - 👥 Owner Routing: show which CODEOWNERS `# ServiceLabel:` entry matched (with line number) and why; list AzureSdkOwners and ServiceOwners found; state what routing action was taken; briefly note other entries encountered during the bottom-to-top scan and why they were skipped
+
+## Step 8: Investigation Handoff
+
+After emitting the routing and analysis outputs, dispatch `issue-investigation` only when all of the following hold for this issue after the queued triage actions are applied:
+
+- The target is an open issue, not a pull request.
+- It has the `customer-reported` label.
+- It has exactly one service label with color `#e99695`.
+- It has exactly one category label with color `#ffeb77`.
+- It has none of `needs-triage`, `needs-team-triage`, `issue-addressed`, or `needs-author-feedback`.
+- Triage did not stop early or close the issue as a deprecated-package report.
+
+Consider both current labels and queued changes; safe outputs have not been applied yet. Do not require a `bug` label or a Bug issue type. Do not change the existing label prediction or ownership rules to make an issue eligible.
+
+If all conditions hold, call the `issue_investigation` safe-output tool with `issue_number` set to the issue number as a string. Emit this dispatch LAST, after all label, assignment, routing, and analysis outputs. The investigation independently re-fetches the issue and validates the actual handoff state before acting.
+
+If any condition fails, do not dispatch. Preserve the normal triage outcome and existing completion requirements.

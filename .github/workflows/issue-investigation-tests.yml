@@ -1,0 +1,31 @@
+name: Issue Investigation Tests
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/issue-investigation*
+      - .github/workflows/issue-triage*
+      - eng/tools/issue-investigation/**
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/issue-investigation*
+      - .github/workflows/issue-triage*
+      - eng/tools/issue-investigation/**
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+      - name: Test investigation guards and generated handoff
+        run: node --test eng/tools/issue-investigation/issue-investigation.test.cjs
