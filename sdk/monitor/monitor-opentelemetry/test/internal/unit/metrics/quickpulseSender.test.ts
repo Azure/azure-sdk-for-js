@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type { PipelinePolicy, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { diag } from "@opentelemetry/api";
@@ -17,6 +17,7 @@ describe("QuickpulseSender responses", () => {
     bodyAsText: string | undefined,
     status = 200,
     credential?: TokenCredential,
+    requests: PipelineRequest[] = [],
   ): QuickpulseSender {
     const sender = new QuickpulseSender({
       endpointUrl: "https://live.example.invalid",
@@ -27,6 +28,7 @@ describe("QuickpulseSender responses", () => {
       {
         name: "mockQuickpulseResponse",
         sendRequest(request) {
+          requests.push(request);
           return Promise.resolve({
             request,
             status,
@@ -97,16 +99,8 @@ describe("QuickpulseSender responses", () => {
         token: "test-token",
         expiresOnTimestamp: Date.now() + 3600000,
       });
-      const sender = createSender(undefined, 200, { getToken });
       const requests: PipelineRequest[] = [];
-      const capturePolicy: PipelinePolicy = {
-        name: "captureQuickpulseRequest",
-        sendRequest(request, next) {
-          requests.push(request);
-          return next(request);
-        },
-      };
-      sender["quickpulseClient"].pipeline.addPolicy(capturePolicy, { phase: "Serialize" });
+      const sender = createSender(undefined, 200, { getToken }, requests);
       const options = { configurationEtag: "request-etag", transmissionTime: 123 };
       const point = {
         version: "test-version",
@@ -150,11 +144,9 @@ describe("QuickpulseSender responses", () => {
         JSON.stringify(operation === "isSubscribed" ? serializedPoint : [serializedPoint]),
       );
       expect(getToken.mock.calls[0][0]).toEqual(["https://monitor.azure.com/.default"]);
-      expect(
-        sender["quickpulseClient"].pipeline
-          .getOrderedPolicies()
-          .map((policy: PipelinePolicy) => policy.name),
-      ).not.toContain("redirectPolicy");
+      expect(sender["quickpulseClient"].pipeline.getOrderedPolicies()).not.toEqual(
+        expect.arrayContaining([expect.objectContaining({ name: "redirectPolicy" })]),
+      );
     });
 
     it(`${operation} does not hide malformed nonempty configuration bodies`, async () => {
