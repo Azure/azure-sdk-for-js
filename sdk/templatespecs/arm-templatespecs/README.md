@@ -6,7 +6,7 @@ TemplateSpecs Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/templatespecs/arm-templatespecs) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-templatespecs) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-templatespecs?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-templatespecs) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
