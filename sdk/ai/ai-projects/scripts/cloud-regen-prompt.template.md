@@ -28,10 +28,14 @@ Then `cd sdk/ai/ai-projects/`. All subsequent commands run from this directory
 unless a SKILL.md says otherwise. Confirm the package working tree is clean:
 
 ```bash
-git status -- .
+pwsh -NoProfile -File ./.github/skills/regenerate-from-typespec/scripts/assert-clean-tree.ps1
 ```
 
-If it is dirty, **STOP** and surface the diff.
+The build's API extraction writes `review/ai-projects-browser.api.diff.md` and
+`review/ai-projects-react-native.api.diff.md`. They are build output, not user
+changes, so do not stop because of them: the script deletes untracked copies
+and restores tracked copies before checking. If it reports any other change,
+**STOP** and surface the diff.
 
 ## Skill execution order
 

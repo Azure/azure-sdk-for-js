@@ -29,7 +29,13 @@ pnpm install --filter @azure/ai-projects...
 pnpm turbo build --filter=@azure/ai-projects... --token 1
 ```
 
-Then change to `sdk/ai/ai-projects/` and require `git status --short -- .` to be empty. Stop on setup or preflight failure.
+Then change to `sdk/ai/ai-projects/` and run the clean-tree preflight:
+
+```bash
+pwsh -NoProfile -File ./.github/skills/regenerate-from-typespec/scripts/assert-clean-tree.ps1
+```
+
+The setup build's API extraction writes `review/ai-projects-browser.api.diff.md` and `review/ai-projects-react-native.api.diff.md`. Those two files are build output, not user changes, so do not stop because of them: the script deletes untracked copies and restores tracked copies, then requires `git status --short -- .` to be empty. Stop on setup failure, or if the script reports any other change.
 
 ## Run the skills
 

@@ -24,7 +24,7 @@ description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec 
 - `git` on PATH.
 - `npm` on PATH.
 - The package dev dependency `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed. From the repository root, run `pnpm install` first if dependencies are not already installed.
-- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding.
+- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding. After a package build, run `scripts/assert-clean-tree.ps1` from `sdk/ai/ai-projects/` instead: it removes the browser and react-native API diff reports that API extraction writes under `review/`, which are build output rather than leftover changes, and fails on anything else.
 
 ## Procedure
 
