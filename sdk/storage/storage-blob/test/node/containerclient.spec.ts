@@ -20,6 +20,7 @@ import {
 } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { ApacheArrowContentType } from "../../src/utils/constants.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -301,7 +302,10 @@ describe("ContainerClient Node.js only", () => {
 describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () => {
   // Exercise the Arrow list operations' XML fallback (used for non-Arrow accounts) by
   // short-circuiting the pipeline with a synthetic application/xml response.
-  function containerClientReturningXml(xml: string): ContainerClient {
+  function containerClientReturningXml(
+    xml: string,
+    onRequest?: (request: PipelineRequest) => void,
+  ): ContainerClient {
     const account = "fakeaccount";
     const credential = new StorageSharedKeyCredential(
       account,
@@ -314,6 +318,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     const injector: PipelinePolicy = {
       name: "xmlResponseInjector",
       async sendRequest(request: PipelineRequest, _next: SendRequest): Promise<PipelineResponse> {
+        onRequest?.(request);
         return {
           request,
           status: 200,
@@ -369,6 +374,19 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     }
   });
 
+  it("listBlobsFlat requests Apache Arrow by default", async () => {
+    let accept: string | undefined;
+    const client = containerClientReturningXml(flatXml, (request) => {
+      accept = request.headers.get("accept");
+    });
+    const names: string[] = [];
+    for await (const item of client.listBlobsFlat()) {
+      names.push(item.name);
+    }
+    assert.deepEqual(names, ["blobA", "blobB"]);
+    assert.isTrue(accept?.startsWith(ApacheArrowContentType), `Accept header: ${accept}`);
+  });
+
   const hierarchyXml =
     `<?xml version="1.0" encoding="utf-8"?>` +
     `<EnumerationResults ServiceEndpoint="https://fakeaccount.blob.core.windows.net/" ContainerName="fakecontainer">` +
@@ -395,5 +413,18 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     }
     assert.deepEqual(blobs, ["rootblob"]);
     assert.deepEqual(prefixes, ["folder1/"]);
+  });
+
+  it("listBlobsByHierarchy requests Apache Arrow by default", async () => {
+    let accept: string | undefined;
+    const client = containerClientReturningXml(hierarchyXml, (request) => {
+      accept = request.headers.get("accept");
+    });
+    const names: string[] = [];
+    for await (const item of client.listBlobsByHierarchy("/")) {
+      names.push(item.name);
+    }
+    assert.sameMembers(names, ["rootblob", "folder1/"]);
+    assert.isTrue(accept?.startsWith(ApacheArrowContentType), `Accept header: ${accept}`);
   });
 });

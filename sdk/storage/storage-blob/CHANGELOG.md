@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
+
 ### Breaking Changes
 
 ### Bugs Fixed
