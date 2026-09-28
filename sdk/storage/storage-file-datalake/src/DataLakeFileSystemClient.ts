@@ -194,10 +194,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * more than 30 seconds if the service is still processing the request. While the
    * file system is being deleted, attempts to create a file system of the same name
    * fail with status code 409 (Conflict). The service indicates that the file
-   * system is being deleted. Operations on paths within the file system, including
-   * reads and writes, may continue to succeed for up to 30 seconds after the delete
-   * request is accepted. After this period, all operations on the file system and
-   * its paths fail with status code 404 (Not Found).
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
@@ -227,10 +228,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * more than 30 seconds if the service is still processing the request. While the
    * file system is being deleted, attempts to create a file system of the same name
    * fail with status code 409 (Conflict). The service indicates that the file
-   * system is being deleted. Operations on paths within the file system, including
-   * reads and writes, may continue to succeed for up to 30 seconds after the delete
-   * request is accepted. After this period, all operations on the file system and
-   * its paths fail with status code 404 (Not Found).
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
@@ -280,10 +282,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * more than 30 seconds if the service is still processing the request. While the
    * file system is being deleted, attempts to create a file system of the same name
    * fail with status code 409 (Conflict). The service indicates that the file
-   * system is being deleted. Operations on paths within the file system, including
-   * reads and writes, may continue to succeed for up to 30 seconds after the delete
-   * request is accepted. After this period, all operations on the file system and
-   * its paths fail with status code 404 (Not Found).
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
@@ -310,10 +313,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * more than 30 seconds if the service is still processing the request. While the
    * file system is being deleted, attempts to create a file system of the same name
    * fail with status code 409 (Conflict). The service indicates that the file
-   * system is being deleted. Operations on paths within the file system, including
-   * reads and writes, may continue to succeed for up to 30 seconds after the delete
-   * request is accepted. After this period, all operations on the file system and
-   * its paths fail with status code 404 (Not Found).
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
