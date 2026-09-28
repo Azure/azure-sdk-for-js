@@ -12,8 +12,11 @@ on:
         required: true
         type: string
   bots: [github-actions]
+  permissions:
+    issues: read
+    pull-requests: read
   steps:
-    - name: Validate issue number
+    - name: Validate issue target
       uses: actions/github-script@v9.0.0
       env:
         ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
@@ -22,6 +25,13 @@ on:
           const value = process.env.ISSUE_NUMBER;
           if (!/^[1-9]\d*$/.test(value || '') || !Number.isSafeInteger(Number(value))) {
             throw new Error('issue_number must be a positive decimal safe integer.');
+          }
+          const { data: issue } = await github.rest.issues.get({
+            ...context.repo,
+            issue_number: Number(value),
+          });
+          if (issue.pull_request) {
+            throw new Error('issue_number refers to a pull request; only issues can be investigated.');
           }
 
 concurrency:
@@ -138,6 +148,8 @@ safe-outputs:
     max: 1
     target: "${{ github.event.inputs.issue_number }}"
     ignore-if-error: true
+    # Request an assignment, not a suggested issue-intent update.
+    issue-intent: false
   noop:
     report-as-issue: false
 
@@ -208,7 +220,7 @@ Context files are optional. Do not equate one service label with one package. Re
 
 Azure SDK support expects reproduction on the latest package version. Version currency is a mandatory decision point, not just background guidance.
 
-When the reported package/version is known, verify the latest stable published version from npm metadata or repository release evidence. Use `https://registry.npmjs.org/<package-name>` (for example, `https://registry.npmjs.org/@azure%2Fstorage-blob`). Validate the name against the repository's `package.json` before constructing the URL. Inspect `dist-tags` and the published `versions`; do not mistake an unreleased repository version or a beta/preview dist-tag for a stable release. Compare semantic versions, not strings.
+Use `https://registry.npmjs.org/<package-name>` for npm metadata (for example, `https://registry.npmjs.org/@azure%2Fstorage-blob`). Validate the name against the repository's `package.json` before constructing the URL. Inspect `dist-tags` and the published `versions`; do not mistake an unreleased repository version or a beta/preview dist-tag for a stable release. Compare semantic versions, not strings. Follow the release-evidence fallback and current-defect exception in the Version Currency rule below before requesting an upgrade.
 
 For a preview-only package with no stable release, explicitly say there is no stable release and use the latest published preview in the same supported release line. Do not recommend a different package or a stable version that does not exist. If the package or release line is unclear, ask for that information rather than guessing.
 
@@ -233,15 +245,19 @@ This is a pass/fail gate, not a probability. If a required fact is missing, conf
 
 ### Version Currency
 
-If the reported version is older than the latest supported published version:
+First inspect any specifically identified current source or documentation defect. If a concrete current file, snippet, or CHANGELOG entry proves the same defect still exists, version currency does not block further investigation, even when the reported version is old or npm metadata is unavailable. Record that evidence, bypass the version-reproduction request, and continue through the remaining rules. This does not waive duplicate, ownership, confidence, or assignment-exclusion checks.
 
-1. Inspect current source/documentation for concrete evidence the same problem persists. A specific file, snippet, or CHANGELOG entry is required; plausibility is not enough.
-2. Unless that evidence exists, add one comment naming the reported package/version and verified latest version, explaining the latest-version support expectation, and requesting reproduction on that version. Include only evidence-backed mitigations.
-3. Stop without assigning Copilot or continuing to actionable-SDK handling.
+For other reports with a known package/version, establish release currency in this order:
 
-If the reported package/version is known but the latest published version cannot be verified, explicitly say the exact latest version could not be verified, request reproduction on the latest available version, and stop without assignment. Never invent a version number.
+1. Prefer npm's published version metadata.
+2. If npm cannot be read, inspect the package's default-branch CHANGELOG. Read past `Unreleased` and prerelease headings to find the newest dated stable release. This is sufficient repository release evidence for the decision; identify it as the latest stable release documented in the repository rather than claiming an independent npm verification.
+3. Do not stop at an unreleased `package.json` version or the first CHANGELOG heading. A report on the newest dated stable release proceeds to the next decision rule; npm unavailability alone is not a reason to request another latest-version reproduction.
 
-Only bypass an older-version request when concrete current source/documentation proves the issue still applies. Explain that evidence in the actionable-SDK comment.
+If the reported version is older than the release established above and the current-defect exception does not apply, add one comment naming the reported package/version and the evidenced release, explaining the latest-version support expectation, and requesting reproduction on that release. Include only evidence-backed mitigations, then stop without assignment.
+
+Only when neither npm nor dated repository release evidence establishes a supported release, and there is no concrete current defect, say the exact latest version could not be verified, request reproduction on the latest available version, and stop without assignment. Never invent a version number.
+
+When using the current-defect exception, explain its evidence in the actionable-SDK comment.
 
 ### Duplicate
 

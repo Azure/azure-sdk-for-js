@@ -37,6 +37,28 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 const execute = (script, values) =>
   new AsyncFunction(...Object.keys(values), script)(...Object.values(values));
 
+function validateTarget(value, issue = {}, apiError) {
+  return execute(stepScript(source, "Validate issue target"), {
+    process: { env: { ISSUE_NUMBER: value } },
+    context: { repo: { owner: "Azure", repo: "azure-sdk-for-js" } },
+    github: {
+      rest: {
+        issues: {
+          async get(request) {
+            assert.deepEqual(request, {
+              owner: "Azure",
+              repo: "azure-sdk-for-js",
+              issue_number: Number(value),
+            });
+            if (apiError) throw apiError;
+            return { data: issue };
+          },
+        },
+      },
+    },
+  });
+}
+
 const validIssue = () => ({
   state: "open",
   labels: [
@@ -84,9 +106,7 @@ function verify(issue = validIssue(), items = [comment()], apiError) {
 
 test("input validation accepts positive decimal safe integers", async () => {
   for (const value of ["1", "42", String(Number.MAX_SAFE_INTEGER)]) {
-    await execute(stepScript(source, "Validate issue number"), {
-      process: { env: { ISSUE_NUMBER: value } },
-    });
+    await validateTarget(value);
   }
 });
 
@@ -104,14 +124,21 @@ for (const value of [
   "9007199254740992",
 ]) {
   test(`input validation rejects ${JSON.stringify(value)}`, async () => {
-    await assert.rejects(
-      execute(stepScript(source, "Validate issue number"), {
-        process: { env: { ISSUE_NUMBER: value } },
-      }),
-      /positive decimal safe integer/,
-    );
+    await assert.rejects(validateTarget(value), /positive decimal safe integer/);
   });
 }
+
+test("target validation rejects pull requests before running the agent", async () => {
+  await assert.rejects(
+    validateTarget("42", { pull_request: {} }),
+    /only issues can be investigated/,
+  );
+});
+
+test("target validation propagates lookup failures", async () => {
+  const error = new Error("Issue lookup unavailable");
+  await assert.rejects(validateTarget("42", {}, error), (actual) => actual === error);
+});
 
 for (const category of [
   "Client",
@@ -226,7 +253,7 @@ test("output postcondition rejects missing, malformed, and empty artifacts", asy
 
 test("generated inline guards match their sources and precede mutations", () => {
   for (const name of [
-    "Validate issue number",
+    "Validate issue target",
     "Verify investigation produced output",
     "Revalidate issue before publishing investigation",
   ]) {
@@ -248,6 +275,7 @@ test("generated safe-output scope and closure policy remain bounded", () => {
   }
   assert.equal(config.close_issue.state_reason, "not_planned");
   assert.equal(config.assign_to_agent["ignore-if-error"], true);
+  assert.equal(config.assign_to_agent.issue_intent, false);
   assert.equal(config.add_labels, undefined);
   assert.equal(config.remove_labels, undefined);
   assert.match(
