@@ -16,7 +16,7 @@ COPY .npmrc package.json ./
 # installs run in WORKDIR /app and pick up the same .npmrc as project config.
 ENV NPM_CONFIG_USERCONFIG=/app/.npmrc
 
-RUN npm install -g pnpm
+RUN npm install -g "pnpm@$(node -e "console.log(require('./package.json').packageManager.split('@')[1].split('+')[0])")"
 
 FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --ignore-scripts
