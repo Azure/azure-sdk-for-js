@@ -828,7 +828,7 @@ export function parseObjectReplicationRecord(
 
 /**
  * Resolves a {@link StorageResponseFormat} to the concrete format the client should use.
- * `Auto` currently resolves to `Xml`; this mapping may change in a future service version.
+ * `Auto` currently resolves to `Arrow`; this mapping may change in a future service version.
  *
  * @param responseFormat - The requested response format, or undefined to use the default.
  */
@@ -836,7 +836,7 @@ export function resolveResponseFormat(
   responseFormat?: StorageResponseFormat,
 ): StorageResponseFormat {
   if (responseFormat === undefined || responseFormat === StorageResponseFormat.Auto) {
-    return StorageResponseFormat.Xml;
+    return StorageResponseFormat.Arrow;
   }
   return responseFormat;
 }
