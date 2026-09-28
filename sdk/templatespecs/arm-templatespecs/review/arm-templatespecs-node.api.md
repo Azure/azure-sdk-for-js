@@ -88,6 +88,8 @@ export interface TemplateSpecs {
     createOrUpdate(resourceGroupName: string, templateSpecName: string, templateSpec: TemplateSpec, options?: TemplateSpecsCreateOrUpdateOptionalParams): Promise<TemplateSpecsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsGetOptionalParams): Promise<TemplateSpecsGetResponse>;
+    getBuiltIn(templateSpecName: string, options?: TemplateSpecsGetBuiltInOptionalParams): Promise<TemplateSpecsGetBuiltInResponse>;
+    listBuiltIns(options?: TemplateSpecsListBuiltInsOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     listByResourceGroup(resourceGroupName: string, options?: TemplateSpecsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     listBySubscription(options?: TemplateSpecsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<TemplateSpec>;
     update(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecsUpdateOptionalParams): Promise<TemplateSpecsUpdateResponse>;
@@ -98,10 +100,11 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TemplateSpecsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: TemplateSpecsClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     templateSpecs: TemplateSpecs;
     // (undocumented)
@@ -132,6 +135,14 @@ export interface TemplateSpecsError {
 }
 
 // @public
+export interface TemplateSpecsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+    expand?: TemplateSpecExpandKind;
+}
+
+// @public
+export type TemplateSpecsGetBuiltInResponse = TemplateSpec;
+
+// @public
 export interface TemplateSpecsGetOptionalParams extends coreClient.OperationOptions {
     expand?: TemplateSpecExpandKind;
 }
@@ -140,8 +151,22 @@ export interface TemplateSpecsGetOptionalParams extends coreClient.OperationOpti
 export type TemplateSpecsGetResponse = TemplateSpec;
 
 // @public
-export interface TemplateSpecsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface TemplateSpecsListBuiltInsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecsListBuiltInsNextResponse = TemplateSpecsListResult;
+
+// @public
+export interface TemplateSpecsListBuiltInsOptionalParams extends coreClient.OperationOptions {
     expand?: TemplateSpecExpandKind;
+}
+
+// @public
+export type TemplateSpecsListBuiltInsResponse = TemplateSpecsListResult;
+
+// @public
+export interface TemplateSpecsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -157,7 +182,6 @@ export type TemplateSpecsListByResourceGroupResponse = TemplateSpecsListResult;
 
 // @public
 export interface TemplateSpecsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: TemplateSpecExpandKind;
 }
 
 // @public
@@ -217,7 +241,9 @@ export interface TemplateSpecVersions {
     createOrUpdate(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, templateSpecVersionModel: TemplateSpecVersion, options?: TemplateSpecVersionsCreateOrUpdateOptionalParams): Promise<TemplateSpecVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsGetOptionalParams): Promise<TemplateSpecVersionsGetResponse>;
+    getBuiltIn(templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsGetBuiltInOptionalParams): Promise<TemplateSpecVersionsGetBuiltInResponse>;
     list(resourceGroupName: string, templateSpecName: string, options?: TemplateSpecVersionsListOptionalParams): PagedAsyncIterableIterator<TemplateSpecVersion>;
+    listBuiltIns(templateSpecName: string, options?: TemplateSpecVersionsListBuiltInsOptionalParams): PagedAsyncIterableIterator<TemplateSpecVersion>;
     update(resourceGroupName: string, templateSpecName: string, templateSpecVersion: string, options?: TemplateSpecVersionsUpdateOptionalParams): Promise<TemplateSpecVersionsUpdateResponse>;
 }
 
@@ -233,11 +259,32 @@ export interface TemplateSpecVersionsDeleteOptionalParams extends coreClient.Ope
 }
 
 // @public
+export interface TemplateSpecVersionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsGetBuiltInResponse = TemplateSpecVersion;
+
+// @public
 export interface TemplateSpecVersionsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type TemplateSpecVersionsGetResponse = TemplateSpecVersion;
+
+// @public
+export interface TemplateSpecVersionsListBuiltInsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsListBuiltInsNextResponse = TemplateSpecVersionsListResult;
+
+// @public
+export interface TemplateSpecVersionsListBuiltInsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateSpecVersionsListBuiltInsResponse = TemplateSpecVersionsListResult;
 
 // @public
 export interface TemplateSpecVersionsListNextOptionalParams extends coreClient.OperationOptions {
