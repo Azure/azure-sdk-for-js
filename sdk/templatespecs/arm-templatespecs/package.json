@@ -73,7 +73,7 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:node": "dev-tool run test:vitest",
     "test:browser": "echo skipped",
-    "update-snippets": "dev-tool run update-snippets",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "//metadata": {
