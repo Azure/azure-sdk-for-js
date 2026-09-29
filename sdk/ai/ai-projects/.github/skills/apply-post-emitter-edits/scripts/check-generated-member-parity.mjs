@@ -34,6 +34,15 @@ const optimizationPromotions = [
   ["CreateOptimizationJob", "createOptimizationJob"],
 ];
 
+// Verified dataset promotion in TypeSpec commit b877f34c27ff72652f31f271505fa505d5787edc.
+const generationPromotions = [
+  ["DeleteGenerationJob", "deleteGenerationJob"],
+  ["CancelGenerationJob", "cancelGenerationJob"],
+  ["CreateGenerationJob", "createGenerationJob"],
+  ["ListGenerationJobs", "listGenerationJobs"],
+  ["GetGenerationJob", "getGenerationJob"],
+];
+
 function identifiers(node) {
   const names = new Set();
   function visit(child) {
@@ -46,14 +55,6 @@ function identifiers(node) {
 
 export function findPromotedOptionRemovals({ previousGenerated, currentGenerated, currentSource }) {
   const parse = (files, file) => parseSource(files.get(file) ?? "", file);
-  const previousOptions = collectExportedNames(
-    parse(previousGenerated, "api/beta/agents/options.ts"),
-  );
-  const currentOptions = collectExportedNames(
-    parse(currentGenerated, "api/beta/agents/options.ts"),
-  );
-  const gaOptions = collectExportedNames(parse(currentGenerated, "api/agents/options.ts"));
-  const sourceOptions = collectExportedNames(parse(currentSource, "api/agents/options.ts"));
 
   // Conservatively follow declaration and import-alias dependencies, including
   // shared options outside beta/. Same-named declarations are unioned, never
@@ -97,7 +98,7 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
           }
         }
       }
-      if (/^(api|classic)\/beta\/.*\/(operations|index)\.ts$/.test(file)) {
+      if (/^(api|classic)\/beta\/(?:.*\/)?(operations|index)\.ts$/.test(file)) {
         for (const name of refs) usedByBeta.add(name);
       }
     }
@@ -136,28 +137,73 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
   }
 
   const allowed = new Set();
-  for (const [suffix, operation] of optimizationPromotions) {
-    const beta = `BetaAgents${suffix}OptionalParams`;
-    const ga = `Agents${suffix}OptionalParams`;
-    if (
-      !previousOptions.has(beta) ||
-      currentOptions.has(beta) ||
-      !gaOptions.has(ga) ||
-      !sourceOptions.has(ga) ||
-      usedByBeta.has(beta)
-    )
-      continue;
-    const promoted = ["api/agents/operations.ts", "classic/agents/index.ts"].every((file) => {
-      const betaFile = file.replace("/agents/", "/beta/agents/");
-      return (
-        operationUses(previousGenerated, betaFile, operation, beta) &&
-        !operationUses(previousGenerated, file, operation, ga) &&
-        !operationUses(currentGenerated, betaFile, operation, beta) &&
-        operationUses(currentGenerated, file, operation, ga) &&
-        operationUses(currentSource, file, operation, ga)
+  for (const [group, prefix, promotions] of [
+    ["agents", "Agents", optimizationPromotions],
+    ["datasets", "Datasets", generationPromotions],
+  ]) {
+    const betaOptionsFile = `api/beta/${group}/options.ts`;
+    const optionsFile = `api/${group}/options.ts`;
+    const previousOptions = collectExportedNames(parse(previousGenerated, betaOptionsFile));
+    const currentOptions = collectExportedNames(parse(currentGenerated, betaOptionsFile));
+    const gaOptions = collectExportedNames(parse(currentGenerated, optionsFile));
+    const sourceOptions = collectExportedNames(parse(currentSource, optionsFile));
+    for (const [suffix, operation] of promotions) {
+      const beta = `Beta${prefix}${suffix}OptionalParams`;
+      const ga = `${prefix}${suffix}OptionalParams`;
+      if (
+        !previousOptions.has(beta) ||
+        currentOptions.has(beta) ||
+        !gaOptions.has(ga) ||
+        !sourceOptions.has(ga) ||
+        usedByBeta.has(beta)
+      )
+        continue;
+      const promoted = [`api/${group}/operations.ts`, `classic/${group}/index.ts`].every((file) => {
+        const betaFile = file.replace(`/${group}/`, `/beta/${group}/`);
+        return (
+          operationUses(previousGenerated, betaFile, operation, beta) &&
+          !operationUses(previousGenerated, file, operation, ga) &&
+          !operationUses(currentGenerated, betaFile, operation, beta) &&
+          operationUses(currentGenerated, file, operation, ga) &&
+          operationUses(currentSource, file, operation, ga)
+        );
+      });
+      if (promoted) allowed.add(beta);
+    }
+  }
+
+  // Only this verified, entirely promoted group may disappear. Extra members or
+  // inherited operations must not be silently removed with the generation jobs.
+  const betaGroup = "BetaDatasetsOperations";
+  const betaGroupFile = "classic/beta/datasets/index.ts";
+  const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
+    (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
+  );
+  if (
+    previousGroups.length === 1 &&
+    collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
+    !previousGroups[0].heritageClauses?.length &&
+    previousGroups[0].members.length === generationPromotions.length &&
+    previousGroups[0].members.every(
+      (member) =>
+        member.name &&
+        generationPromotions.some(([, operation]) => propertyName(member.name) === operation),
+    ) &&
+    generationPromotions.every(([suffix]) => allowed.has(`BetaDatasets${suffix}OptionalParams`)) &&
+    !usedByBeta.has(betaGroup) &&
+    [currentGenerated, currentSource].every((files) => {
+      const betaSource = parse(files, betaGroupFile);
+      const gaMembers = collectInterfaces(parse(files, "classic/datasets/index.ts")).get(
+        "DatasetsOperations",
       );
-    });
-    if (promoted) allowed.add(beta);
+      return (
+        !collectExportedNames(betaSource).has(betaGroup) &&
+        !collectInterfaces(betaSource).has(betaGroup) &&
+        generationPromotions.every(([, operation]) => gaMembers?.has(operation))
+      );
+    })
+  ) {
+    allowed.add(betaGroup);
   }
   return allowed;
 }
@@ -693,7 +739,7 @@ function main() {
     `Customization parity passed for ${generatedFiles.length} changed generated file(s); ` +
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
       `${allowedModelRemovals.size} generated-backed and ` +
-      `${promotedOptionRemovals.size} verified promoted-option removal(s), and ` +
+      `${promotedOptionRemovals.size} verified promotion removal(s), and ` +
       `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }

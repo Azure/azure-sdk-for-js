@@ -1058,7 +1058,12 @@ export type {
   DatasetsGetOptionalParams,
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
-} from "./api/datasets/index.js";
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
+} from "./api/datasets/options.js";
 export type {
   DeploymentsListOptionalParams,
   DeploymentsGetOptionalParams,
@@ -1092,13 +1097,6 @@ export type {
   BetaAgentInsightMonitorsListOptionalParams,
 } from "./api/beta/agentInsightMonitors/index.js";
 export type { BetaAgentsCreateFromPromptOptionalParams } from "./api/beta/agents/options.js";
-export type {
-  BetaDatasetsDeleteGenerationJobOptionalParams,
-  BetaDatasetsCancelGenerationJobOptionalParams,
-  BetaDatasetsCreateGenerationJobOptionalParams,
-  BetaDatasetsListGenerationJobsOptionalParams,
-  BetaDatasetsGetGenerationJobOptionalParams,
-} from "./api/beta/datasets/options.js";
 export type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
@@ -1210,7 +1208,6 @@ export type {
   IndexesOperations,
   BetaAgentsOperations,
   TelemetryOperations,
-  BetaDatasetsOperations,
   BetaEvaluationTaxonomiesOperations,
   BetaEvaluatorsOperations,
   BetaInsightsOperations,

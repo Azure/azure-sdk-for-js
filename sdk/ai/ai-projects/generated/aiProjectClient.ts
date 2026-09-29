@@ -33,8 +33,8 @@ export class AIProjectClient {
     this.toolboxes = _getToolboxesOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
-    this.datasets = _getDatasetsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
+    this.datasets = _getDatasetsOperations(this._client);
     this.evaluationRules = _getEvaluationRulesOperations(this._client);
     this.agents = _getAgentsOperations(this._client);
     this.beta = _getBetaOperations(this._client);
@@ -46,10 +46,10 @@ export class AIProjectClient {
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */
   public readonly deployments: DeploymentsOperations;
-  /** The operation groups for datasets */
-  public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+  /** The operation groups for datasets */
+  public readonly datasets: DatasetsOperations;
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agents */

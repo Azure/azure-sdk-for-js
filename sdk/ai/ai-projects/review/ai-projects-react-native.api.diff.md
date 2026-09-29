@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -4244,9 +4244,9 @@
+@@ -4239,9 +4239,9 @@
      readonly type: "None";
  }
  
