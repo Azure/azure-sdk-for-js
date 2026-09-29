@@ -32,6 +32,7 @@
     "rimraf": "catalog:",
     "dotenv": "catalog:testing",
     "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
@@ -85,7 +86,7 @@
     ]
   },
   "autoPublish": true,
-   "//sampleConfiguration": {
+  "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
       "azure"

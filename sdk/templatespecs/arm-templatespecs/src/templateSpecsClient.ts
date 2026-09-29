@@ -6,21 +6,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
-import {
-  TemplateSpecsImpl,
-  TemplateSpecVersionsImpl,
-} from "./operations/index.js";
-import {
-  TemplateSpecs,
-  TemplateSpecVersions,
-} from "./operationsInterfaces/index.js";
-import { TemplateSpecsClientOptionalParams } from "./models/index.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
+import { TemplateSpecsImpl, TemplateSpecVersionsImpl } from "./operations/index.js";
+import type { TemplateSpecs, TemplateSpecVersions } from "./operationsInterfaces/index.js";
+import type { TemplateSpecsClientOptionalParams } from "./models/index.js";
 
 export class TemplateSpecsClient extends coreClient.ServiceClient {
   $host: string;
@@ -38,10 +28,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: TemplateSpecsClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: TemplateSpecsClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: TemplateSpecsClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: TemplateSpecsClientOptionalParams | string,
@@ -80,8 +67,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -91,8 +77,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -108,11 +93,9 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -135,10 +118,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
