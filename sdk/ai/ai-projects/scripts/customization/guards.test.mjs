@@ -43,6 +43,112 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+function evaluatorPromotionFixture() {
+  const beta = "classic/beta/evaluators/index.ts";
+  const root = "classic/evaluators/index.ts";
+  const upload = "pendingUpload(): void; getCredentials(): void;";
+  const previous = `export interface BetaEvaluatorsOperations { list(): void; ${upload} }`;
+  const remaining = `export interface BetaEvaluatorsOperations { ${upload} }`;
+  const promoted = "export interface EvaluatorsOperations { list(): void; }";
+  return {
+    baseGenerated: tree({ [beta]: previous }),
+    baseSource: tree({ [beta]: previous }),
+    generated: tree({ [beta]: remaining, [root]: promoted }),
+    source: tree({ [beta]: remaining, [root]: promoted }),
+  };
+}
+
+test("allows verified evaluator list promotion while retaining beta upload operations", () => {
+  assert.deepEqual(validate(evaluatorPromotionFixture()), []);
+});
+
+test("accepts subsequent no-op regenerations after evaluator list promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.baseGenerated = new Map(files.generated);
+  files.baseSource = new Map(files.source);
+  assert.deepEqual(validate(files), []);
+});
+
+test("does not waive a missing beta list without generated promotion evidence", () => {
+  const files = evaluatorPromotionFixture();
+  files.generated.delete("classic/evaluators/index.ts");
+  has(validate(files), "BetaEvaluatorsOperations", "list");
+});
+
+for (const replacement of ["", "listLatestVersions(): void;"]) {
+  test(`rejects a promoted root list replaced with ${replacement || "nothing"}`, () => {
+    const files = evaluatorPromotionFixture();
+    files.source.set(
+      "classic/evaluators/index.ts",
+      `export interface EvaluatorsOperations { ${replacement} }`,
+    );
+    has(validate(files), "EvaluatorsOperations", "list");
+  });
+}
+
+test("preserves beta upload members during evaluator promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.source.set(
+    "classic/beta/evaluators/index.ts",
+    "export interface BetaEvaluatorsOperations { getCredentials(): void; }",
+  );
+  assert.notDeepEqual(validate(files), []);
+});
+
+function promotedClientFixture() {
+  const files = evaluatorPromotionFixture();
+  const base = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._client); }
+  }`;
+  const customized = `export class AIProjectClient {
+    constructor() {
+      this._cognitiveScopeClient = createAIProject("endpoint", credential, { scopes: ["cognitive"] });
+      this._azureScopeClient = createAIProject("endpoint", credential, { scopes: ["azure"] });
+      this.beta = _getBetaOperations(this._cognitiveScopeClient, credential, endpoint);
+      this.telemetry = customTelemetry();
+    }
+  }`;
+  const add = (text, context) =>
+    text
+      .replace("constructor()", "public readonly evaluators: EvaluatorsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        `this.evaluators = _getEvaluatorsOperations(${context}); this.beta =`,
+      );
+  files.baseGenerated.set("aiProjectClient.ts", base);
+  files.baseSource.set("aiProjectClient.ts", customized);
+  files.generated.set("aiProjectClient.ts", add(base, "this._client"));
+  files.source.set("aiProjectClient.ts", add(customized, "this._cognitiveScopeClient"));
+  return files;
+}
+
+test("allows only evaluator wiring that retains the former beta auth context", () => {
+  const files = promotedClientFixture();
+  assert.deepEqual(validate(files), []);
+  files.source.set(
+    "aiProjectClient.ts",
+    files.source
+      .get("aiProjectClient.ts")
+      .replace(
+        "_getEvaluatorsOperations(this._cognitiveScopeClient)",
+        "_getEvaluatorsOperations(this._azureScopeClient)",
+      ),
+  );
+  has(validate(files), "AIProjectClient", undefined, "Protected");
+});
+
+test("still rejects missing evaluator initialization and unrelated constructor rewrites", () => {
+  for (const edit of [
+    (text) =>
+      text.replace("this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);", ""),
+    (text) => text.replace("this.telemetry = customTelemetry();", ""),
+  ]) {
+    const files = promotedClientFixture();
+    files.source.set("aiProjectClient.ts", edit(files.source.get("aiProjectClient.ts")));
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
 test("reports unresolved markers, parse errors, duplicate declarations and members", () => {
   const diagnostics = validate({
     source: tree({

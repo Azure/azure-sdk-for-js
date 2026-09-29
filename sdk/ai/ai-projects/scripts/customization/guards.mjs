@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { parse } from "./modules.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1120,7 +1121,11 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
               )
                 generatedAddition = true;
             });
-          if (!generatedAddition) return false;
+          if (
+            !generatedAddition &&
+            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+          )
+            return false;
         }
       }
       if (index !== oldStatements.length) return false;
@@ -1146,6 +1151,41 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
     return true;
   }
   return false;
+}
+
+// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
+// customized client has two auth contexts, unlike the emitted single _client.
+// Admit only the new evaluator factory, using the same context as beta before
+// promotion; never substitute or rewrite the maintained constructor.
+function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+  if (
+    !ts.isClassDeclaration(before) ||
+    before.name?.text !== "AIProjectClient" ||
+    !baseGenerated ||
+    !generated ||
+    !ts.isClassDeclaration(generated) ||
+    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+  )
+    return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  const initializers = (node) => classInitializers({ node });
+  const previousBeta = unwrap(initializers(before).get("beta"));
+  const emitted = unwrap(initializers(generated).get("evaluators"));
+  if (
+    !previousBeta ||
+    !ts.isCallExpression(previousBeta) ||
+    previousBeta.expression.getText() !== "_getBetaOperations" ||
+    !previousBeta.arguments.length ||
+    !emitted ||
+    !ts.isCallExpression(emitted) ||
+    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
+    emitted.arguments.length !== 1
+  )
+    return false;
+  const expected = parse(
+    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
+  ).statements[0];
+  return key(statement) === key(expected);
 }
 
 function isProtectedFile(file) {
@@ -1526,6 +1566,28 @@ function checkVoicePaging(entry, report) {
 }
 
 function checkKnownPolicies(trees, modelIndexes, renames, report) {
+  const hasList = (tree, file, declaration) =>
+    tree
+      .get(file)
+      ?.byName.get(declaration)
+      ?.node.members?.some((member) => nameOf(member.name) === "list");
+  const betaFile = "classic/beta/evaluators/index.ts";
+  const rootFile = "classic/evaluators/index.ts";
+  const remainingBetaMembers = trees.incoming.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  const outputBetaMembers = trees.output.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  // A missing beta list is valid only when generated evidence places it at
+  // root (including later no-op regenerations after the promotion).
+  const evaluatorListPromoted =
+    Boolean(hasList(trees.base, betaFile, "BetaEvaluatorsOperations")) !==
+      Boolean(hasList(trees.base, rootFile, "EvaluatorsOperations")) &&
+    !hasList(trees.incoming, betaFile, "BetaEvaluatorsOperations") &&
+    hasList(trees.incoming, rootFile, "EvaluatorsOperations") &&
+    hasList(trees.output, rootFile, "EvaluatorsOperations") &&
+    remainingBetaMembers?.every((member) =>
+      outputBetaMembers?.some((output) => nameOf(output.name) === nameOf(member.name)),
+    );
   for (const [file, module] of trees.output) {
     if (file === "restorePollerHelpers.ts")
       report(file, "<file>", "Generated-only restorePollerHelpers.ts must not exist in src.");
@@ -1553,14 +1615,16 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
       }
       if (
         ts.isInterfaceDeclaration(node) &&
-        node.name.text === "BetaEvaluatorsOperations" &&
-        (!node.members.some((member) => nameOf(member.name) === "list") ||
+        (node.name.text === "BetaEvaluatorsOperations" ||
+          (file === rootFile && node.name.text === "EvaluatorsOperations")) &&
+        ((!node.members.some((member) => nameOf(member.name) === "list") &&
+          !(file === betaFile && evaluatorListPromoted)) ||
           node.members.some((member) => nameOf(member.name) === "listLatestVersions"))
       ) {
         report(
           file,
           node.name.text,
-          "Preserve BetaEvaluatorsOperations.list; listLatestVersions is not the maintained API.",
+          "Preserve evaluators.list in its generated-backed group; listLatestVersions is not the maintained API.",
           "list",
         );
       }

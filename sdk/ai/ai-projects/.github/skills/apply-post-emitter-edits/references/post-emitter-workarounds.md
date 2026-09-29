@@ -41,7 +41,7 @@ Integration guidelines for newly emitted code in `generated/` and customized cod
 - Preserve arbitrary JSON Schema properties in `RealtimeFunctionToolParameters`: expose a `Record<string, unknown>` and serialize its contents, not the emitter's empty object. A voice function tool must retain its `type`, `properties`, and `required` schema entries on the wire.
 - New voice/telephony list operations must use the customized cursor paging helper with `last_id` / `has_more` and forward operation options and headers on continuation requests. Outbound campaign LROs use the existing `pollHeaders` option to preserve preview and custom headers; their terminal `TelephonyOperationResource` already includes the resource id, so no new identity wrapper is needed.
 
-- **No changes to the `list` operation in `BetaEvaluatorsOperations` are permitted.** The emitter wants to create a `listLatestVersions` method instead of `list`, but that is not allowed. Revert the rename.
+- **Preserve the evaluator `list` name, never `listLatestVersions`.** After the verified promotion in azure-rest-api-specs#46830, it belongs to root `EvaluatorsOperations`; `BetaEvaluatorsOperations` retains only uploads. Require generated-baseline promotion evidence and retain upload options while removing unused promoted beta options. Root evaluator wiring must use the same cognitive auth context previously supplied to beta.
 
 - **Known customization-layer renames** (custom name on the right; if the spec-side name appears in `src/` after a regen, it's a propagation false positive — add a private alias instead of copying):
 
@@ -65,7 +65,7 @@ Integration guidelines for newly emitted code in `generated/` and customized cod
 
 - **Identity-bearing LROs must preserve the created resource id.** The emitter resolves these operations to terminal result payloads that omit the id needed by paired get, cancel, and delete operations:
 
-  - Beta optimization, data-generation, and evaluator-generation operations return `JobPoller<T>` and expose `operationState.jobId` through `getJobPoller`.
+  - Optimization, data-generation, and evaluator-generation operations return `JobPoller<T>` and expose `operationState.jobId` through `getJobPoller`, including after promotion out of beta.
   - `src/api/beta/agentInsightMonitors/operations.ts#createRun` returns `RunPoller<AgentInsightRunResult>` and exposes `operationState.runId` through `getRunPoller`.
 
   Mirror each customized return type in its corresponding `src/classic/` operations interface and re-export `JobOperationState` / `JobPoller` and `RunOperationState` / `RunPoller` from `src/index.ts`. The internal helpers share a delegating `PollerLike` wrapper so the id is present through `operationState`, `poll()`, `onProgress()`, serialization, and resume.
