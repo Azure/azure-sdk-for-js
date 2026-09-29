@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2027-03-07.
+- Added `creationTime` to the response of `ShareClient.getProperties()` and to the share properties returned by `ShareServiceClient.listShares()`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

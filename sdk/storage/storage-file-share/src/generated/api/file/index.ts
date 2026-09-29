@@ -20,7 +20,7 @@ export {
   acquireLease,
   setMetadata,
   setHttpHeaders,
-  $delete,
+  deleteFile,
   getProperties,
   download,
   create,

@@ -21,6 +21,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -1916,6 +1917,7 @@ export interface ShareGetPropertiesHeaders {
     accessTier?: string;
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
+    creationTime?: Date;
     date?: Date;
     enabledProtocols?: string;
     enableSnapshotVirtualDirectoryAccess?: boolean;
@@ -2067,6 +2069,7 @@ export interface SharePropertiesInternal {
     accessTierChangeTime?: Date;
     // (undocumented)
     accessTierTransitionState?: string;
+    creationTime?: Date;
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)

@@ -158,6 +158,8 @@ export interface SharePropertiesInternal {
   maxBurstCreditsForIops?: number;
   nextAllowedProvisionedIopsDowngradeTime?: Date;
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+  /** The date and time the share was created. */
+  creationTime?: Date;
 }
 
 /** Key information */
@@ -478,6 +480,8 @@ export interface ShareGetPropertiesHeaders {
   nextAllowedProvisionedIopsDowngradeTime?: Date;
   /** Returns the current share next allowed provisioned bandwidth downgrade time. */
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+  /** Returns the date and time the share was created. */
+  creationTime?: Date;
   /** Error Code */
   errorCode?: string;
 }

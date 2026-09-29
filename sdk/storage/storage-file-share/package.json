@@ -62,10 +62,6 @@
       {
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "src/generated/api/fileContext.ts",
-        "prefix": "const userAgentInfo"
       }
     ]
   },
