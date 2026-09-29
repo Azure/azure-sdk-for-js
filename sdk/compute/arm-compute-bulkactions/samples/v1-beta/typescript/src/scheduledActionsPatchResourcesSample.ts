@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates resource-specific settings for the specified scheduled action.
  *
  * @summary updates resource-specific settings for the specified scheduled action.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_PatchResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_PatchResources_MaximumSet_Gen.json
  */
 async function updateResourceSettingsForAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

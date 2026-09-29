@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a AIManager
  *
  * @summary update a AIManager
- * x-ms-original-file: 2026-05-02-preview/AIManagers_Update.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagers_Update.json
  */
 async function updatesAnAIManagerResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

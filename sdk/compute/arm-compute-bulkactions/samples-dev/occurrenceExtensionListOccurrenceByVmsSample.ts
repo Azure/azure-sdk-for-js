@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists scheduled action occurrences associated with the specified VM.
  *
  * @summary lists scheduled action occurrences associated with the specified VM.
- * x-ms-original-file: 2026-08-06-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
  */
 async function listScheduledActionOccurrencesForAComputeResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

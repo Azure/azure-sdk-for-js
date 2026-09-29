@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides the details of the protection intent up item. This is an asynchronous operation. To know the status of the operation,
  * call the GetItemOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureWorkload/BackupProtectionIntent_Get.json
+ * x-ms-original-file: 2026-08-01/AzureWorkload/BackupProtectionIntent_Get.json
  */
 async function getProtectionIntentForAnItem() {
   const credential = new DefaultAzureCredential();

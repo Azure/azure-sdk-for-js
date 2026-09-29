@@ -28,7 +28,6 @@ export interface DatabaseSchemasOperations {
     options?: DatabaseSchemasGetOptionalParams,
   ) => Promise<DatabaseSchema>;
 }
-
 function _getDatabaseSchemas(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -46,7 +45,6 @@ function _getDatabaseSchemas(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, schemaName, options),
   };
 }
-
 export function _getDatabaseSchemasOperations(
   context: SqlManagementContext,
 ): DatabaseSchemasOperations {

@@ -54,7 +54,7 @@ export function _promoteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,6 @@ export async function _promoteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Promotes a replica mongo cluster to a primary role. */
 export function promote(
   context: Client,
@@ -95,7 +94,7 @@ export function promote(
     getInitialResponse: () =>
       _promoteSend(context, resourceGroupName, mongoClusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -110,7 +109,7 @@ export function _checkNameAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +138,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
-
 /** Check if mongo cluster name is available for use. */
 export async function checkNameAvailability(
   context: Client,
@@ -163,7 +161,7 @@ export function _listConnectionStringsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +188,6 @@ export async function _listConnectionStringsDeserialize(
 
   return listConnectionStringsResultDeserializer(result.body);
 }
-
 /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
 export async function listConnectionStrings(
   context: Client,
@@ -215,7 +212,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +239,6 @@ export async function _listDeserialize(
 
   return _mongoClusterListResultDeserializer(result.body);
 }
-
 /** List all the mongo clusters in a given subscription. */
 export function list(
   context: Client,
@@ -253,7 +249,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -267,7 +267,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +294,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _mongoClusterListResultDeserializer(result.body);
 }
-
 /** List all the mongo clusters in a given resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -306,7 +305,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -322,7 +325,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,7 +347,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a mongo cluster. */
 export function $delete(
   context: Client,
@@ -357,7 +359,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, mongoClusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -374,7 +376,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,7 +403,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return mongoClusterDeserializer(result.body);
 }
-
 /** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
 export function update(
   context: Client,
@@ -416,7 +417,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, mongoClusterName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
@@ -433,7 +434,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,7 +463,6 @@ export async function _createOrUpdateDeserialize(
 
   return mongoClusterDeserializer(result.body);
 }
-
 /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
 export function createOrUpdate(
   context: Client,
@@ -477,7 +477,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, mongoClusterName, resource, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
@@ -493,7 +493,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,7 +518,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 
   return mongoClusterDeserializer(result.body);
 }
-
 /** Gets information about a mongo cluster. */
 export async function get(
   context: Client,

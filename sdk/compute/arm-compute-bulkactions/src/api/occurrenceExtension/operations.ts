@@ -26,7 +26,7 @@ export function _listOccurrenceByVmsSend(
     "/{+resourceUri}/providers/Microsoft.Compute/associatedOccurrences{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,7 @@ export function listOccurrenceByVms(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-06-preview",
+      apiVersion: context.apiVersion ?? "2026-09-06-preview",
     },
   );
 }

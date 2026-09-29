@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all shared private link resources managed by the given service.
  *
  * @summary gets a list of all shared private link resources managed by the given service.
- * x-ms-original-file: 2026-03-01-preview/ListSharedPrivateLinkResourcesByService.json
+ * x-ms-original-file: 2026-09-01-preview/ListSharedPrivateLinkResourcesByService.json
  */
 async function listSharedPrivateLinkResourcesByService(): Promise<void> {
   const credential = new DefaultAzureCredential();

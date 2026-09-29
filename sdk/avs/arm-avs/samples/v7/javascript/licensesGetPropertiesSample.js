@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to just like ArmResourceActionSync, but with no request body.
  *
  * @summary just like ArmResourceActionSync, but with no request body.
- * x-ms-original-file: 2025-09-01/Licenses_GetProperties.json
+ * x-ms-original-file: 2026-03-01/Licenses_GetProperties.json
  */
 async function licensesGetProperties() {
   const credential = new DefaultAzureCredential();
