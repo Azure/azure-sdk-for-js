@@ -1105,19 +1105,21 @@ export type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./api/beta/evaluationTaxonomies/index.js";
 export type {
-  BetaEvaluatorsDeleteGenerationJobOptionalParams,
-  BetaEvaluatorsCancelGenerationJobOptionalParams,
-  BetaEvaluatorsListGenerationJobsOptionalParams,
-  BetaEvaluatorsGetGenerationJobOptionalParams,
-  BetaEvaluatorsCreateGenerationJobOptionalParams,
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
+  EvaluatorsUpdateVersionOptionalParams,
+  EvaluatorsCreateVersionOptionalParams,
+  EvaluatorsDeleteVersionOptionalParams,
+  EvaluatorsGetVersionOptionalParams,
+  EvaluatorsListOptionalParams,
+  EvaluatorsListVersionsOptionalParams,
+} from "./api/evaluators/options.js";
+export type {
   BetaEvaluatorsGetCredentialsOptionalParams,
   BetaEvaluatorsPendingUploadOptionalParams,
-  BetaEvaluatorsUpdateVersionOptionalParams,
-  BetaEvaluatorsCreateVersionOptionalParams,
-  BetaEvaluatorsDeleteVersionOptionalParams,
-  BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListOptionalParams,
-  BetaEvaluatorsListVersionsOptionalParams,
 } from "./api/beta/evaluators/options.js";
 export type {
   BetaInsightsListOptionalParams,
@@ -1222,6 +1224,7 @@ export type {
   BetaVoiceAgentsOperations,
   BetaVoiceAgentsConversationsOperations,
   BetaVoiceAgentsTelephonyOperations,
+  EvaluatorsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator, NodeReadableStream };
 export type {

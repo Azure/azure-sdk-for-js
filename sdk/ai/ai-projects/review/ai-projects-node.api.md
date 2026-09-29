@@ -1149,6 +1149,7 @@ export class AIProjectClient {
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
     readonly evaluationRules: EvaluationRulesOperations;
+    readonly evaluators: EvaluatorsOperations;
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
@@ -1444,83 +1445,17 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    category?: EvaluatorCategory;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
-    evaluatorType?: EvaluatorType | "all";
-    limit?: number;
-}
-
-// @public
-export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
-    evaluatorType?: EvaluatorType | "all";
-    limit?: number;
-}
-
-// @public
 export interface BetaEvaluatorsOperations {
-    cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
-    createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
-    deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
     getCredentials: (name: string, credentialRequest: EvaluatorCredentialRequest, version: string, options?: BetaEvaluatorsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
-    getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    list: (options?: BetaEvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    listGenerationJobs: (options?: BetaEvaluatorsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
-    listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: BetaEvaluatorsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
 // @public
 export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3260,6 +3195,76 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 // @public
 export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
+
+// @public
+export interface EvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EvaluatorsCreateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    category?: EvaluatorCategory;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface EvaluatorsListOptionalParams extends OperationOptions {
+    evaluatorType?: EvaluatorType | "all";
+    limit?: number;
+}
+
+// @public
+export interface EvaluatorsListVersionsOptionalParams extends OperationOptions {
+    evaluatorType?: EvaluatorType | "all";
+    limit?: number;
+}
+
+// @public
+export interface EvaluatorsOperations {
+    cancelGenerationJob: (jobId: string, options?: EvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
+    createGenerationJob: (job: EvaluatorGenerationJob, options?: EvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
+    createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteGenerationJob: (jobId: string, options?: EvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
+    deleteVersion: (name: string, version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getGenerationJob: (jobId: string, options?: EvaluatorsGetGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
+    getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
+    list: (options?: EvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listGenerationJobs: (options?: EvaluatorsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
+    listVersions: (name: string, options?: EvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+}
+
+// @public
+export interface EvaluatorsUpdateVersionOptionalParams extends OperationOptions {
+}
 
 // @public
 export type EvaluatorType = "builtin" | "custom";
