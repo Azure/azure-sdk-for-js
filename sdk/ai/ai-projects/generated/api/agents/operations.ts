@@ -987,7 +987,7 @@ export async function estimateOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: AgentOptimizationJob,
+  body: AgentOptimizationJob,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1009,7 +1009,7 @@ export function _createOptimizationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: agentOptimizationJobSerializer(job),
+      body: agentOptimizationJobSerializer(body),
     });
 }
 
@@ -1039,13 +1039,13 @@ export async function _createOptimizationJobDeserialize(
 /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
 export function createOptimizationJob(
   context: Client,
-  job: AgentOptimizationJob,
+  body: AgentOptimizationJob,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult> {
   return getLongRunningPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createOptimizationJobSend(context, job, options),
+    getInitialResponse: () => _createOptimizationJobSend(context, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
