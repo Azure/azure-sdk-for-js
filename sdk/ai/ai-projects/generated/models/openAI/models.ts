@@ -3158,11 +3158,8 @@ export interface ApiError {
   param?: string;
   type?: string;
   misalignment?: MisalignmentErrorDetailsResource;
-  /** Additional errors that contributed to this failure. */
   details?: ApiError[];
-  /** Additional structured information about the failure. */
   additionalInfo?: Record<string, any>;
-  /** Diagnostic information supplied by the service for troubleshooting. */
   debugInfo?: Record<string, any>;
 }
 

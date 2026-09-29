@@ -13,7 +13,6 @@
 
 ### Features Added
 
-- Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`. [#40147](https://github.com/Azure/azure-sdk-for-js/issues/40147)
 - Add `project.agents.estimateOptimizationJob`, `listOptimizationCandidates`, `getOptimizationCandidate`, and `promoteOptimizationCandidate` for estimating optimization costs and inspecting or promoting generated candidates. Support agent and prompt optimization configurations, typed mutations, and target-completion or conversation-simulation evaluation sets. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add scenario-specific evaluation, supervised fine-tuning, and reinforcement fine-tuning data-generation output configurations under `project.beta.datasets`, including fine-tuning filenames, write modes, and merge-file identifiers. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)

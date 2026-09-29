@@ -222,7 +222,7 @@ export interface AgentsOperations {
   ) => Promise<AgentOptimizationEstimateResult>;
   /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
   createOptimizationJob: (
-    body: AgentOptimizationJob,
+    job: AgentOptimizationJob,
     options?: AgentsCreateOptimizationJobOptionalParams,
   ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
   /**
@@ -483,9 +483,9 @@ function _getAgents(context: AIProjectContext) {
       options?: AgentsEstimateOptimizationJobOptionalParams,
     ) => estimateOptimizationJob(context, inputs, options),
     createOptimizationJob: (
-      body: AgentOptimizationJob,
+      job: AgentOptimizationJob,
       options?: AgentsCreateOptimizationJobOptionalParams,
-    ) => createOptimizationJob(context, body, options),
+    ) => createOptimizationJob(context, job, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,
