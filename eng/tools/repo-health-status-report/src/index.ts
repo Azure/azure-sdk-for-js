@@ -53,6 +53,7 @@ const SDK_OWNED = [
   "@azure/core-tracing",
   "@azure/core-xml",
   "@azure/core-util",
+  "@azure/provisioning-core",
   "@azure/logger",
   "@typespec/ts-http-runtime",
 

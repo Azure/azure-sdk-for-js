@@ -5,6 +5,8 @@ jobs:
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
+      # Provides $(azuresdk-github-pat) for uploading the report to GitHub
+      - group: Release Secrets for GitHub
 
     pool:
       name: azsdk-pool
