@@ -1154,6 +1154,108 @@ function isProtectedFile(file) {
   );
 }
 
+function classicModuleOf(apiFile) {
+  return apiFile.replace(/^api\//, "classic/").replace(/operations\.ts$/, "index.ts");
+}
+
+// Operations the planner relocated into a module from another operation group.
+// checkOperations validates them exactly as it does relocations into
+// unprotected modules, so a protected destination admits only these additions.
+function relocationsInto(matches) {
+  const result = new Map();
+  const target = (file) => {
+    if (!result.has(file))
+      result.set(file, { declarations: new Set(), members: new Map(), sources: new Set() });
+    return result.get(file);
+  };
+  for (const { base, customized, incoming, names } of matches) {
+    if (!base || !customized || !incoming?.file || base.file === incoming.file) continue;
+    const api = target(incoming.file);
+    for (const name of [names.publicNode, names.send, names.deserialize])
+      api.declarations.add(name);
+    api.sources.add(customized.file);
+    const classic = target(classicModuleOf(incoming.file));
+    classic.members.set(names.publicNode.replace(/^\$/, ""), names.publicNode);
+    classic.sources.add(classicModuleOf(customized.file));
+  }
+  return result;
+}
+
+function returnedObject(node) {
+  const statement = node.body?.statements.at(-1);
+  if (!statement || !ts.isReturnStatement(statement) || !statement.expression) return undefined;
+  const value = unwrap(statement.expression);
+  return ts.isObjectLiteralExpression(value) ? value : undefined;
+}
+
+// A protected classic group interface or factory may gain only the members of
+// operations relocated into its API module; every maintained member and all
+// surrounding factory behavior must be unchanged.
+function relocatedAdditive(before, after, relocation, renames) {
+  const relocated = relocation?.members;
+  if (!relocated?.size || before.kind !== after.kind) return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  let oldMembers;
+  let newMembers;
+  if (ts.isInterfaceDeclaration(before)) {
+    if (
+      before.heritageClauses?.map((clause) => clause.getText()).join() !==
+      after.heritageClauses?.map((clause) => clause.getText()).join()
+    )
+      return false;
+    oldMembers = before.members;
+    newMembers = after.members;
+  } else if (ts.isFunctionDeclaration(before)) {
+    const oldObject = returnedObject(before);
+    const newObject = returnedObject(after);
+    const oldStatements = before.body.statements;
+    const newStatements = after.body?.statements ?? [];
+    if (
+      !oldObject ||
+      !newObject ||
+      nameOf(before.name) !== nameOf(after.name) ||
+      key(before.type) !== key(after.type) ||
+      before.parameters.map(key).join() !== after.parameters.map(key).join() ||
+      oldStatements.length !== newStatements.length ||
+      oldStatements
+        .slice(0, -1)
+        .some((statement, index) => key(statement) !== key(newStatements[index]))
+    )
+      return false;
+    oldMembers = oldObject.properties;
+    newMembers = newObject.properties;
+  } else return false;
+  const next = new Map(newMembers.map((member) => [nameOf(member.name), member]));
+  for (const member of oldMembers) {
+    if (key(member) !== key(next.get(nameOf(member.name)))) return false;
+  }
+  const previous = new Set(oldMembers.map((member) => nameOf(member.name)));
+  for (const member of newMembers) {
+    const name = nameOf(member.name);
+    if (previous.has(name)) continue;
+    if (!relocated.has(name)) return false;
+    if (ts.isFunctionDeclaration(before) && !containsIdentifier(member, relocated.get(name), true))
+      return false;
+  }
+  return true;
+}
+
+function relocatedImport(file, binding, relocation, trees) {
+  const target = (owner, specifier) => moduleFile(owner, specifier) ?? specifier;
+  for (const sourceFile of relocation?.sources ?? []) {
+    if (
+      imports(trees.custom.get(sourceFile)).some(
+        (candidate) =>
+          candidate.local === binding.local &&
+          candidate.imported === binding.imported &&
+          target(sourceFile, candidate.module) === target(file, binding.module),
+      )
+    )
+      return true;
+  }
+  return false;
+}
+
 function classInitializers(entry) {
   const result = new Map();
   if (!entry || !ts.isClassDeclaration(entry.node)) return result;
@@ -1246,8 +1348,9 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report) {
+function checkProtected(trees, renames, report, matches = []) {
   checkProtectedAdditions(trees, renames, report);
+  const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
     if (!isProtectedFile(file)) continue;
     const output = trees.output.get(file);
@@ -1256,11 +1359,18 @@ function checkProtected(trees, renames, report) {
       continue;
     }
     if (canonicalize(previous.source.text) === canonicalize(output.source.text)) continue;
+    const relocation = relocations.get(file);
     for (const entry of previous.entries) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
-      if (!next || !additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames)) {
+      if (
+        !next ||
+        !(
+          additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
+          relocatedAdditive(entry.node, next.node, relocation, renames)
+        )
+      ) {
         report(
           file,
           entry.name,
@@ -1270,6 +1380,8 @@ function checkProtected(trees, renames, report) {
     }
     for (const entry of output.entries) {
       if (previous.byName.has(entry.name)) continue;
+      if (relocation?.declarations.has(entry.name) && !trees.base.get(file)?.byName.has(entry.name))
+        continue;
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
       if (
         !incoming ||
@@ -1303,7 +1415,11 @@ function checkProtected(trees, renames, report) {
         candidate.local === binding.local &&
         candidate.imported === binding.imported &&
         candidate.module === binding.module;
-      if (!oldImports.some(same) && !imports(trees.incoming.get(file)).some(same)) {
+      if (
+        !oldImports.some(same) &&
+        !imports(trees.incoming.get(file)).some(same) &&
+        !relocatedImport(file, binding, relocation, trees)
+      ) {
         report(
           file,
           binding.local,
@@ -1658,7 +1774,7 @@ export function validateCustomization({
   }
   checkExports(trees, exportRenames, report);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report);
+  checkProtected(trees, renames, report, matches);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }
