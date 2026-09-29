@@ -176,7 +176,6 @@ export interface FailoverGroupsOperations {
     options?: FailoverGroupsGetOptionalParams,
   ) => Promise<FailoverGroup>;
 }
-
 function _getFailoverGroups(context: SqlManagementContext) {
   return {
     tryPlannedBeforeForcedFailover: (
@@ -416,7 +415,6 @@ function _getFailoverGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, failoverGroupName, options),
   };
 }
-
 export function _getFailoverGroupsOperations(
   context: SqlManagementContext,
 ): FailoverGroupsOperations {

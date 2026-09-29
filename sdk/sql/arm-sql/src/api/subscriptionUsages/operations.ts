@@ -28,7 +28,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _listByLocationDeserialize(
 
   return _subscriptionUsageListResultDeserializer(result.body);
 }
-
 /** Gets all subscription usage metrics in a given location. */
 export function listByLocation(
   context: Client,
@@ -67,7 +66,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -83,7 +86,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       usageName: usageName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,7 +111,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Su
 
   return subscriptionUsageDeserializer(result.body);
 }
-
 /** Gets a subscription usage metric. */
 export async function get(
   context: Client,

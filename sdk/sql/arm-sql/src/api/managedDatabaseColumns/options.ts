@@ -12,12 +12,10 @@ export interface ManagedDatabaseColumnsListByDatabaseOptionalParams extends Oper
   /** An opaque token that identifies a starting point in the collection. */
   skiptoken?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseColumnsListByTableOptionalParams extends OperationOptions {
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseColumnsGetOptionalParams extends OperationOptions {}

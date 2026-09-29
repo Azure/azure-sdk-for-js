@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the action of alert rule.
  *
  * @summary delete the action of alert rule.
- * x-ms-original-file: 2025-07-01-preview/actions/DeleteActionOfAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/actions/DeleteActionOfAlertRule.json
  */
 async function deleteAnActionOfAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

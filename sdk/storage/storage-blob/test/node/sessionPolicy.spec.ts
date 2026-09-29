@@ -221,15 +221,19 @@ describe("storageSessionAuthenticationPolicy", () => {
   });
 
   it("produces a stable signature for identical requests", async () => {
-    const harness = createHarness({ statuses: [200, 200] });
+    vi.useFakeTimers({ toFake: ["Date"] });
+    try {
+      vi.setSystemTime(Date.UTC(2026, 0, 1));
+      const harness = createHarness({ statuses: [200, 200] });
 
-    await harness.send();
-    await harness.send();
+      await harness.send();
+      await harness.send();
 
-    const first = parseSessionAuth(harness.sent[0].authorization);
-    const second = parseSessionAuth(harness.sent[1].authorization);
-    if (harness.sent[0].xMsDate === harness.sent[1].xMsDate) {
+      const first = parseSessionAuth(harness.sent[0].authorization);
+      const second = parseSessionAuth(harness.sent[1].authorization);
       assert.strictEqual(second.signature, first.signature);
+    } finally {
+      vi.useRealTimers();
     }
   });
 

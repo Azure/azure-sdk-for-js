@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-compute-bulkactions",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for ComputeClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -118,6 +118,20 @@
         "default": "./dist/commonjs/api/scheduledActions/index.js"
       }
     },
+    "./api/bulkCreate": {
+      "browser": {
+        "types": "./dist/browser/api/bulkCreate/index.d.ts",
+        "default": "./dist/browser/api/bulkCreate/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bulkCreate/index.d.ts",
+        "default": "./dist/esm/api/bulkCreate/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bulkCreate/index.d.ts",
+        "default": "./dist/commonjs/api/bulkCreate/index.js"
+      }
+    },
     "./api/bulkCreateCustom": {
       "browser": {
         "types": "./dist/browser/api/bulkCreateCustom/index.d.ts",
@@ -130,20 +144,6 @@
       "require": {
         "types": "./dist/commonjs/api/bulkCreateCustom/index.d.ts",
         "default": "./dist/commonjs/api/bulkCreateCustom/index.js"
-      }
-    },
-    "./api/launchBulkInstancesOperation": {
-      "browser": {
-        "types": "./dist/browser/api/launchBulkInstancesOperation/index.d.ts",
-        "default": "./dist/browser/api/launchBulkInstancesOperation/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/launchBulkInstancesOperation/index.d.ts",
-        "default": "./dist/esm/api/launchBulkInstancesOperation/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/launchBulkInstancesOperation/index.d.ts",
-        "default": "./dist/commonjs/api/launchBulkInstancesOperation/index.js"
       }
     },
     "./api/virtualMachineBulkOperations": {
@@ -268,7 +268,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-compute-bulkactions",

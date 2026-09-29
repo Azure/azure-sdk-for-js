@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of the specified scheduled action operation.
  *
  * @summary gets the status of the specified scheduled action operation.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActionOperationStatus_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActionOperationStatus_Get_MaximumSet_Gen.json
  */
 async function getScheduledActionOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -37,7 +37,6 @@ export interface DatabaseAdvisorsOperations {
     options?: DatabaseAdvisorsGetOptionalParams,
   ) => Promise<Advisor>;
 }
-
 function _getDatabaseAdvisors(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -72,7 +71,6 @@ function _getDatabaseAdvisors(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, advisorName, options),
   };
 }
-
 export function _getDatabaseAdvisorsOperations(
   context: SqlManagementContext,
 ): DatabaseAdvisorsOperations {

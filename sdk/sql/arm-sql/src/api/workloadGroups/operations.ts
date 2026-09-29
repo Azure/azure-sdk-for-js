@@ -37,7 +37,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listByDatabaseDeserialize(
 
   return _workloadGroupListResultDeserializer(result.body);
 }
-
 /** Gets the list of workload groups */
 export function listByDatabase(
   context: Client,
@@ -78,7 +77,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -98,7 +101,7 @@ export function _$deleteSend(
       serverName: serverName,
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a workload group. */
 export function $delete(
   context: Client,
@@ -143,7 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +166,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +195,6 @@ export async function _createOrUpdateDeserialize(
 
   return workloadGroupDeserializer(result.body);
 }
-
 /** Creates or updates a workload group. */
 export function createOrUpdate(
   context: Client,
@@ -218,7 +219,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<WorkloadGroup>, WorkloadGroup>;
 }
 
@@ -238,7 +239,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       workloadGroupName: workloadGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +264,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
 
   return workloadGroupDeserializer(result.body);
 }
-
 /** Gets a workload group */
 export async function get(
   context: Client,

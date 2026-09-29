@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Metadata.
  *
  * @summary get a Metadata.
- * x-ms-original-file: 2025-07-01-preview/metadata/GetMetadata.json
+ * x-ms-original-file: 2025-10-01-preview/metadata/GetMetadata.json
  */
 async function getSingleMetadataByName() {
   const credential = new DefaultAzureCredential();

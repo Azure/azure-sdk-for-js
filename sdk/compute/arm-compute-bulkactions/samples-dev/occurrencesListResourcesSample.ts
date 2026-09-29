@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists resources for the specified occurrence.
  *
  * @summary lists resources for the specified occurrence.
- * x-ms-original-file: 2026-08-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
  */
 async function listResourcesInAScheduledActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -6,8 +6,8 @@ import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   _EndpointServicesListResult,
   EndpointServiceResult,
-} from "../../models/microsoft/network/models.js";
-import { _endpointServicesListResultDeserializer } from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
+import { _endpointServicesListResultDeserializer } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -25,7 +25,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,6 +64,6 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to runs the specified scheduled action immediately.
  *
  * @summary runs the specified scheduled action immediately.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_TriggerManualOccurrence_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_TriggerManualOccurrence_MaximumSet_Gen.json
  */
 async function runAScheduledActionImmediately(): Promise<void> {
   const credential = new DefaultAzureCredential();

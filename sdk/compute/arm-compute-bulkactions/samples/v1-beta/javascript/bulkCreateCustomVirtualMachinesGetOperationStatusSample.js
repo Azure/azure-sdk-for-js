@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the operation status for virtual machines in a BulkCreateCustom operation.
  *
  * @summary gets the operation status for virtual machines in a BulkCreateCustom operation.
- * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_VirtualMachinesGetOperationStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/BulkCreateCustom_VirtualMachinesGetOperationStatus_MaximumSet_Gen.json
  */
 async function bulkCreateCustomVirtualMachinesGetOperationStatusMaximumSet() {
   const credential = new DefaultAzureCredential();

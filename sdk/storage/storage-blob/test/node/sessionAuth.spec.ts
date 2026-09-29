@@ -136,33 +136,21 @@ describe("Session authentication Node.js only", () => {
     }
   });
 
-  it("downloads a blob using session authentication", async () => {
+  it("reuses one session across several downloads", async () => {
     const { service, counts } = sessionService("enabled");
+    const blobClient = service.getContainerClient(containerName).getBlockBlobClient(blobName);
 
-    const response = await service
-      .getContainerClient(containerName)
-      .getBlockBlobClient(blobName)
-      .download();
-
+    const response = await blobClient.download();
     assert.strictEqual(await bodyToString(response, content.length), content);
+    await blobClient.download();
+    await blobClient.download();
+
     assert.strictEqual(
       counts.createSession,
       1,
       `expected exactly one session, saw: ${JSON.stringify(counts.createSessionUrls, null, 2)}`,
     );
-    assert.isAtLeast(counts.sessionAuth, 1, "the download must be session-authenticated");
-  });
-
-  it("reuses one session across several downloads", async () => {
-    const { service, counts } = sessionService("enabled");
-    const blobClient = service.getContainerClient(containerName).getBlockBlobClient(blobName);
-
-    await blobClient.download();
-    await blobClient.download();
-    await blobClient.download();
-
-    assert.strictEqual(counts.createSession, 1);
-    assert.strictEqual(counts.sessionAuth, 3);
+    assert.strictEqual(counts.sessionAuth, 3, "every download must be session-authenticated");
   });
 
   it("falls back to bearer for a sub-resource request", async () => {

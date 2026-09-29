@@ -21,3 +21,6 @@ export type { BetaRedTeamsOperations } from "./beta/redTeams/index.js";
 export type { BetaRoutinesOperations } from "./beta/routines/index.js";
 export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
 export type { BetaSkillsOperations } from "./beta/skills/index.js";
+export type { BetaVoiceAgentsOperations } from "./beta/voiceAgents/index.js";
+export type { BetaVoiceAgentsConversationsOperations } from "./beta/voiceAgents/conversations/index.js";
+export type { BetaVoiceAgentsTelephonyOperations } from "./beta/voiceAgents/telephony/index.js";

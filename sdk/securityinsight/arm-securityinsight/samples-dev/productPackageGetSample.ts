@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a package by its identifier from the catalog.
  *
  * @summary gets a package by its identifier from the catalog.
- * x-ms-original-file: 2025-07-01-preview/contentPackages/GetProductPackageById.json
+ * x-ms-original-file: 2025-10-01-preview/contentPackages/GetProductPackageById.json
  */
 async function getAPackage(): Promise<void> {
   const credential = new DefaultAzureCredential();
