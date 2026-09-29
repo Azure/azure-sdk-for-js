@@ -42,6 +42,7 @@ const reservedQueryParameters = new Set([
   "foundry-features",
   "client-request-id",
   "x-ms-client-request-id",
+  "structured_input",
   "structured_inputs",
   "x-ms-voice-structured-inputs",
 ]);
@@ -97,15 +98,20 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
    * `rtc.call.sdp.created` events (see {@link VoiceAgentRealtimeEvent}).
    */
   transport?: VoiceAgentTransport;
-  /** Values used to render the agent's structured prompt inputs. */
+  /**
+   * Values used to render the agent's structured prompt inputs.
+   * Serialized when `connect()` is called, before authentication.
+   */
   structuredInputs?: Record<string, unknown>;
   /**
    * Additional query parameters for this connection's WebSocket upgrade URL.
+   * Provide a plain object, including a null-prototype object.
    * Values override matching endpoint query parameters; `undefined` removes a parameter.
    * Values are URL-encoded automatically. Numbers must be finite.
    * SDK-managed parameters, authentication parameters, and names starting with `h-` are
    * reserved (case-insensitively) and cause a `TypeError`. Use the corresponding typed
    * options for session, version, storage, transport, and structured prompt inputs instead.
+   * Both `structured_input` and `structured_inputs` are reserved.
    * Do not include secrets: query parameters can appear in server or proxy logs.
    */
   query?: Readonly<Record<string, string | number | boolean | undefined>>;
@@ -258,6 +264,9 @@ export class VoiceAgentRealtimeClient {
       this.options.apiVersion,
       options,
     );
+    const serializedStructuredInputs = options.structuredInputs
+      ? JSON.stringify(options.structuredInputs)
+      : undefined;
     const factory =
       this.options.webSocketFactory ??
       (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
@@ -267,6 +276,7 @@ export class VoiceAgentRealtimeClient {
       this.credential,
       this.options,
       options,
+      serializedStructuredInputs,
       factory,
     );
     await connection.open();
@@ -292,6 +302,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       apiVersion: string;
     },
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
+    private readonly serializedStructuredInputs: string | undefined,
     factory: VoiceAgentWebSocketFactory,
   ) {
     this.events = new AsyncQueue<VoiceAgentRealtimeEvent>(10_000, {
@@ -352,7 +363,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       await this.transport.connect({
         url: this.url,
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.connectOptions),
+        headers: buildHeaders(token, this.clientOptions, this.serializedStructuredInputs),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -659,10 +670,12 @@ function buildWebSocketUrl(
 ): string {
   const url = new URL(endpoint);
   url.protocol = "wss:";
-  url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
+  url.pathname = `${url.pathname.replace(/\/+$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
   if (
     options.query !== undefined &&
-    (options.query === null || typeof options.query !== "object" || Array.isArray(options.query))
+    (options.query === null ||
+      typeof options.query !== "object" ||
+      ![Object.prototype, null].includes(Object.getPrototypeOf(options.query)))
   ) {
     throw new TypeError("query must be a record of query parameters.");
   }
@@ -705,7 +718,7 @@ function buildWebSocketUrl(
 function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  connectOptions: VoiceAgentRealtimeClientConnectOptions,
+  serializedStructuredInputs: string | undefined,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {
@@ -717,8 +730,8 @@ function buildHeaders(
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
-  if (connectOptions.structuredInputs) {
-    headers["x-ms-voice-structured-inputs"] = JSON.stringify(connectOptions.structuredInputs);
+  if (serializedStructuredInputs !== undefined) {
+    headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
   }
   return headers;
 }

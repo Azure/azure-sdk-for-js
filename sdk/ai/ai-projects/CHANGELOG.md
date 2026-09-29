@@ -21,6 +21,7 @@
 
 ### Bugs Fixed
 
+- Send voice-agent structured inputs using the service-defined `structured_input` query parameter in browsers and React Native, and snapshot structured inputs before authentication so caller mutations cannot change the handshake. [#40138](https://github.com/Azure/azure-sdk-for-js/pull/40138)
 - Follow `last_id` / `has_more` cursors and forward caller headers when listing optimization jobs. Preserve caller polling headers and the queued job identity after the GA promotion without injecting the retired preview header. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Fix `project.beta.evaluators.listGenerationJobs` to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 - Forward caller request options and headers on evaluator list continuation requests, and preserve custom polling headers and job identity without injecting a preview header. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
