@@ -202,10 +202,10 @@ describe("beta agent telephony operations", () => {
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
   });
 
-  it("gets a Teams Phone Extension binding without requiring a phone number", async () => {
+  it("gets a Teams Phone extensibility binding without requiring a phone number", async () => {
     const teamsBinding = {
       ...binding,
-      provider: "teams_phone_extension",
+      provider: "teams_phone_extensibility",
       phone_number: undefined,
       resource_account_object_id: "00000000-0000-0000-0000-000000000001",
     };
@@ -216,7 +216,7 @@ describe("beta agent telephony operations", () => {
       options,
     );
     expect(result).toMatchObject({
-      provider: "teams_phone_extension",
+      provider: "teams_phone_extensibility",
       resource_account_object_id: teamsBinding.resource_account_object_id,
       phone_number: undefined,
     });
