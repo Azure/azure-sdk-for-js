@@ -24,6 +24,8 @@ import type { ConfigurationsOperations } from "./classic/configurations/index.js
 import { _getConfigurationsOperations } from "./classic/configurations/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
+import type { DbAgentsOperations } from "./classic/dbAgents/index.js";
+import { _getDbAgentsOperations } from "./classic/dbAgents/index.js";
 import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
 import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
 import type { MaintenanceEventsOperations } from "./classic/maintenanceEvents/index.js";
@@ -90,14 +92,11 @@ export class PostgreSQLManagementFlexibleServerClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPostgreSQLManagementFlexibleServer(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPostgreSQLManagementFlexibleServer(
+      credential,
+      subscriptionId ?? "",
+      options,
+    );
     this.pipeline = this._client.pipeline;
     this.virtualNetworkSubnetUsage = _getVirtualNetworkSubnetUsageOperations(this._client);
     this.quotaUsages = _getQuotaUsagesOperations(this._client);
@@ -117,6 +116,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     this.capturedLogs = _getCapturedLogsOperations(this._client);
     this.capabilitiesByServer = _getCapabilitiesByServerOperations(this._client);
     this.administratorsMicrosoftEntra = _getAdministratorsMicrosoftEntraOperations(this._client);
+    this.dbAgents = _getDbAgentsOperations(this._client);
     this.majorVersionUpgradePrecheck = _getMajorVersionUpgradePrecheckOperations(this._client);
     this.maintenanceEvents = _getMaintenanceEventsOperations(this._client);
     this.virtualEndpoints = _getVirtualEndpointsOperations(this._client);
@@ -158,6 +158,8 @@ export class PostgreSQLManagementFlexibleServerClient {
   public readonly capabilitiesByServer: CapabilitiesByServerOperations;
   /** The operation groups for administratorsMicrosoftEntra */
   public readonly administratorsMicrosoftEntra: AdministratorsMicrosoftEntraOperations;
+  /** The operation groups for dbAgents */
+  public readonly dbAgents: DbAgentsOperations;
   /** The operation groups for majorVersionUpgradePrecheck */
   public readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
   /** The operation groups for maintenanceEvents */
