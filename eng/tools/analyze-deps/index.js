@@ -118,12 +118,13 @@ async function getRepoPackages(workspaceDir) {
 
 /**
  * Loads yaml data from a pnpm-lock.yaml file
+ * Starting in v12, the relevant lock data is in the second document of the YAML file
  * @param {string} lockPath - path to pnpm-lock.yaml
  * @returns {Promise<PnpmLock>} - the parsed yaml data
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
-  return /** @type {PnpmLock} */ (yaml.load(data));
+  return /** @type {PnpmLock} */ (yaml.loadAll(data)[1]);
 }
 
 /**
