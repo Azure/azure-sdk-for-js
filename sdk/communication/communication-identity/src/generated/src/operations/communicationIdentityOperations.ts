@@ -27,9 +27,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing CommunicationIdentityOperations operations. */
-export class CommunicationIdentityOperationsImpl
-  implements CommunicationIdentityOperations
-{
+export class CommunicationIdentityOperationsImpl implements CommunicationIdentityOperations {
   private readonly client: IdentityRestClient;
 
   /**

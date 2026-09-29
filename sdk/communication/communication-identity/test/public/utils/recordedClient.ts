@@ -29,6 +29,12 @@ const envSetupForPlayback: { [k: string]: string } = {
   SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
 };
 
+const apiVersionSanitizer = {
+  regex: true,
+  target: "api-version=[^&]+",
+  value: "api-version=Sanitized",
+};
+
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
@@ -37,6 +43,7 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   uriSanitizers: [
+    apiVersionSanitizer,
     {
       regex: true,
       target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
@@ -65,6 +72,7 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers({ uriSanitizers: [apiVersionSanitizer] }, ["playback"]);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
       "Accept-Language", // This is env-dependent

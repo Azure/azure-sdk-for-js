@@ -2,6 +2,10 @@
 
 ## 1.4.0-beta.2 (Unreleased)
 
+### Features Added
+
+- Updated the default service API version to `2026-09-23`.
+
 ### Other Changes
 
 - Optimized type imports for improved tree-shaking and build performance.
