@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ServiceGroupsManagementClient } = require("@azure/arm-servicegroups");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ServiceGroupsManagementClient } from "@azure/arm-servicegroups";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to get the details of the serviceGroup
  *
  * @summary get the details of the serviceGroup
- * x-ms-original-file: 2024-02-01-preview/ServiceGroup_Get.json
+ * x-ms-original-file: 2026-08-01/ServiceGroup_Get.json
  */
-async function getServiceGroup() {
+async function getServiceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ServiceGroupsManagementClient(credential);
   const result = await client.serviceGroups.get("20000000-0001-0000-0000-000000000000");
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getServiceGroup();
 }
 
