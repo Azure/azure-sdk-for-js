@@ -8,6 +8,7 @@ import {
   KnownVoiceAgentConnectionState,
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
+  VoiceAgentRealtimeClient,
 } from "@azure/ai-projects";
 import type {
   KnownApiVersions,
@@ -102,6 +103,190 @@ function createClient(
     { realtimeOptions: { webSocketFactory: factory } },
   );
 }
+
+describe("VoiceAgentRealtimeClient query options", () => {
+  it.each(["project", "standalone"])(
+    "merges and encodes connection query parameters for the %s client",
+    async (kind) => {
+      const factory = new MockWebSocketFactory();
+      const credential = new TestCredential();
+      const endpoint =
+        "https://example.services.ai.azure.com/api/projects/example-project/" +
+        "?keep=original&repeat=first&repeat=second&replace=old&replace=duplicate" +
+        "&remove=old&remove=duplicate&api-version=old&path=folder/";
+      const realtime =
+        kind === "standalone"
+          ? new VoiceAgentRealtimeClient(endpoint, credential, { webSocketFactory: factory })
+          : new AIProjectClient(endpoint, credential, {
+              realtimeOptions: { webSocketFactory: factory },
+            }).beta.voiceAgents.realtime;
+      const query = Object.freeze({
+        replace: "space + /?&=#",
+        remove: undefined,
+        missing: undefined,
+        empty: "",
+        enabled: false,
+        count: 0,
+        ratio: 1.5,
+        unicode: "\u4F60\u597D",
+        "custom key": "value",
+      });
+
+      const connection = await realtime.connect("support-agent", {
+        query,
+        agentSessionId: "session-1",
+        store: false,
+        transport: "webrtc",
+      });
+      try {
+        const connectOptions = factory.transport.connectOptions;
+        assert.ok(connectOptions);
+        const url = new URL(connectOptions.url);
+        expect(url.protocol).toBe("wss:");
+        expect(url.pathname).toBe(
+          "/api/projects/example-project/agents/support-agent/endpoint/protocols/voice",
+        );
+        expect(url.searchParams.get("keep")).toBe("original");
+        expect(url.searchParams.getAll("repeat")).toEqual(["first", "second"]);
+        expect(url.searchParams.getAll("replace")).toEqual([query.replace]);
+        expect(url.searchParams.has("remove")).toBe(false);
+        expect(url.searchParams.has("missing")).toBe(false);
+        expect(url.searchParams.get("empty")).toBe("");
+        expect(url.searchParams.get("enabled")).toBe("false");
+        expect(url.searchParams.get("count")).toBe("0");
+        expect(url.searchParams.get("ratio")).toBe("1.5");
+        expect(url.searchParams.get("unicode")).toBe(query.unicode);
+        expect(url.searchParams.get("custom key")).toBe("value");
+        expect(url.searchParams.get("path")).toBe("folder/");
+        expect(url.searchParams.get("api-version")).toBe("v1");
+        expect(url.searchParams.get("agent_session_id")).toBe("session-1");
+        expect(url.searchParams.get("store")).toBe("false");
+        expect(url.searchParams.get("transport")).toBe("webrtc");
+        expect(url.hash).toBe("");
+        expect(query.remove).toBeUndefined();
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
+  it("snapshots query values at connect entry without retaining them for later connections", async () => {
+    const factory = new MockWebSocketFactory();
+    const realtime = createClient(factory).beta.voiceAgents.realtime;
+    const query = { custom: "first" };
+    const pendingConnection = realtime.connect("support-agent", { query });
+    query.custom = "changed";
+    const first = await pendingConnection;
+    try {
+      const connectOptions = factory.transport.connectOptions;
+      assert.ok(connectOptions);
+      expect(new URL(connectOptions.url).searchParams.get("custom")).toBe("first");
+    } finally {
+      await first.close();
+    }
+
+    const second = await realtime.connect("support-agent");
+    try {
+      const connectOptions = factory.transport.connectOptions;
+      assert.ok(connectOptions);
+      expect(new URL(connectOptions.url).searchParams.has("custom")).toBe(false);
+      expect(query).toEqual({ custom: "changed" });
+    } finally {
+      await second.close();
+    }
+  });
+
+  it.each([
+    "api-version",
+    "agent_session_id",
+    "store",
+    "transport",
+    "x-agent-version-override",
+    "x-ms-client-sdk",
+    "authorization",
+    "api-key",
+    "foundry_features",
+    "foundry-features",
+    "client-request-id",
+    "x-ms-client-request-id",
+    "structured_inputs",
+    "x-ms-voice-structured-inputs",
+    "h-custom-header",
+    "AUTHORIZATION",
+    "API-VERSION",
+    "STRUCTURED_INPUTS",
+    "H-Custom-Header",
+  ])("rejects reserved query parameter %s before authentication", async (name) => {
+    const factory = new MockWebSocketFactory();
+    const credential = new TestCredential();
+    const getToken = vi.spyOn(credential, "getToken");
+    const create = vi.spyOn(factory, "create");
+    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+
+    await expect(
+      realtime.connect("support-agent", { query: { [name]: "private-value" } }),
+    ).rejects.toThrow(
+      new TypeError(`Query parameter "${name}" is reserved; use the SDK's typed options.`),
+    );
+    await expect(
+      realtime.connect("support-agent", { query: { [name]: undefined } }),
+    ).rejects.toThrow(TypeError);
+    expect(getToken).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { name: "object", value: {} },
+    { name: "array", value: ["private-value"] },
+    { name: "null", value: null },
+    { name: "NaN", value: NaN },
+    { name: "Infinity", value: Infinity },
+    { name: "negative Infinity", value: -Infinity },
+    { name: "bigint", value: 1n },
+    { name: "symbol", value: Symbol("private-value") },
+    { name: "function", value: () => "private-value" },
+  ])("rejects $name query values before authentication", async ({ value }) => {
+    const factory = new MockWebSocketFactory();
+    const credential = new TestCredential();
+    const getToken = vi.spyOn(credential, "getToken");
+    const create = vi.spyOn(factory, "create");
+    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+
+    await expect(
+      realtime.connect("support-agent", {
+        // @ts-expect-error Verify runtime validation for JavaScript callers.
+        query: { custom: value },
+      }),
+    ).rejects.toThrow(
+      new TypeError(
+        'Query parameter "custom" must be a string, boolean, finite number, or undefined.',
+      ),
+    );
+    expect(getToken).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { name: "null", query: null },
+    { name: "array", query: [] },
+    { name: "string", query: "private-value" },
+    { name: "number", query: 42 },
+    { name: "boolean", query: true },
+  ])("rejects an invalid $name query bag", async ({ query }) => {
+    const factory = new MockWebSocketFactory();
+    const credential = new TestCredential();
+    const getToken = vi.spyOn(credential, "getToken");
+    const create = vi.spyOn(factory, "create");
+    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+
+    await expect(
+      // @ts-expect-error Verify runtime validation for JavaScript callers.
+      realtime.connect("support-agent", { query }),
+    ).rejects.toThrow(new TypeError("query must be a record of query parameters."));
+    expect(getToken).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+  });
+});
 
 describe("AIProjectClient realtime", () => {
   it("uses generated session serializers for discriminated settings", () => {

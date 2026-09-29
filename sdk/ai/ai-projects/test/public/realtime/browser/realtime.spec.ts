@@ -138,6 +138,38 @@ describe("AIProjectClient browser realtime", () => {
     });
   });
 
+  it("preserves custom connection query parameters alongside browser authentication", async () => {
+    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+      query: { custom: "value + /?&=#", enabled: false, count: 0, omitted: undefined },
+      structuredInputs: { customer: "Ada" },
+      store: false,
+    });
+    try {
+      const socket = getSocket();
+      const url = new URL(socket.url);
+      expect(url.searchParams.getAll("custom")).toEqual(["value + /?&=#"]);
+      expect(url.searchParams.get("enabled")).toBe("false");
+      expect(url.searchParams.get("count")).toBe("0");
+      expect(url.searchParams.has("omitted")).toBe(false);
+      expect(url.searchParams.get("store")).toBe("false");
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada"}']);
+      expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
+      expect(url.searchParams.has("authorization")).toBe(false);
+      expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("rejects reserved browser query parameters before creating a WebSocket", async () => {
+    await expect(
+      createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+        query: { STRUCTURED_INPUTS: "private-value" },
+      }),
+    ).rejects.toThrow(TypeError);
+    expect(MockBrowserWebSocket.instances).toHaveLength(0);
+  });
+
   it("replaces existing preview parameters using standard URL encoding", () => {
     const urlWithHeaders = addHeadersToUrl(
       "wss://example.test/voice?foundry_features=old&foundry_features=duplicate",

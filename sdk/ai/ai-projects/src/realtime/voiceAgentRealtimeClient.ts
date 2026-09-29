@@ -29,6 +29,22 @@ import type {
 
 const defaultCredentialScope = "https://ai.azure.com/.default";
 const voiceAgentsPreview = "VoiceAgents=V1Preview";
+const reservedQueryParameters = new Set([
+  "api-version",
+  "agent_session_id",
+  "store",
+  "transport",
+  "x-agent-version-override",
+  "x-ms-client-sdk",
+  "authorization",
+  "api-key",
+  "foundry_features",
+  "foundry-features",
+  "client-request-id",
+  "x-ms-client-request-id",
+  "structured_inputs",
+  "x-ms-voice-structured-inputs",
+]);
 
 /** Known values of {@link VoiceAgentConnectionState} reported by a voice-agent realtime connection. */
 export const KnownVoiceAgentConnectionState = {
@@ -83,6 +99,16 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   transport?: VoiceAgentTransport;
   /** Values used to render the agent's structured prompt inputs. */
   structuredInputs?: Record<string, unknown>;
+  /**
+   * Additional query parameters for this connection's WebSocket upgrade URL.
+   * Values override matching endpoint query parameters; `undefined` removes a parameter.
+   * Values are URL-encoded automatically. Numbers must be finite.
+   * SDK-managed parameters, authentication parameters, and names starting with `h-` are
+   * reserved (case-insensitively) and cause a `TypeError`. Use the corresponding typed
+   * options for session, version, storage, transport, and structured prompt inputs instead.
+   * Do not include secrets: query parameters can appear in server or proxy logs.
+   */
+  query?: Readonly<Record<string, string | number | boolean | undefined>>;
   /** Overrides the client connection timeout in milliseconds. */
   connectionTimeoutInMs?: number;
   /** Cancels the connection attempt. */
@@ -226,11 +252,17 @@ export class VoiceAgentRealtimeClient {
     if (!agentName.trim()) {
       throw new TypeError("agentName must not be empty.");
     }
+    const url = buildWebSocketUrl(
+      normalizeEndpoint(this.endpoint),
+      agentName,
+      this.options.apiVersion,
+      options,
+    );
     const factory =
       this.options.webSocketFactory ??
       (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
     const connection = new VoiceAgentConnectionImpl(
-      normalizeEndpoint(this.endpoint),
+      url,
       agentName,
       this.credential,
       this.options,
@@ -252,7 +284,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
   private finished = false;
 
   public constructor(
-    private readonly endpoint: string,
+    private readonly url: string,
     private readonly agentName: string,
     private readonly credential: TokenCredential,
     private readonly clientOptions: VoiceAgentRealtimeClientOptions & {
@@ -318,12 +350,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
 
     try {
       await this.transport.connect({
-        url: buildWebSocketUrl(
-          this.endpoint,
-          this.agentName,
-          this.clientOptions.apiVersion,
-          this.connectOptions,
-        ),
+        url: this.url,
         protocols: ["realtime"],
         headers: buildHeaders(token, this.clientOptions, this.connectOptions),
         connectionTimeoutInMs:
@@ -621,7 +648,7 @@ function normalizeEndpoint(endpoint: string): string {
       "endpoint must use https; a plaintext endpoint would send the bearer token over an unencrypted connection.",
     );
   }
-  return url.toString().replace(/\/$/, "");
+  return url.toString();
 }
 
 function buildWebSocketUrl(
@@ -633,6 +660,31 @@ function buildWebSocketUrl(
   const url = new URL(endpoint);
   url.protocol = "wss:";
   url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
+  if (
+    options.query !== undefined &&
+    (options.query === null || typeof options.query !== "object" || Array.isArray(options.query))
+  ) {
+    throw new TypeError("query must be a record of query parameters.");
+  }
+  for (const [name, value] of Object.entries(options.query ?? {})) {
+    const normalizedName = name.toLowerCase();
+    if (reservedQueryParameters.has(normalizedName) || normalizedName.startsWith("h-")) {
+      throw new TypeError(`Query parameter "${name}" is reserved; use the SDK's typed options.`);
+    }
+    if (value === undefined) {
+      url.searchParams.delete(name);
+    } else if (
+      typeof value === "string" ||
+      typeof value === "boolean" ||
+      (typeof value === "number" && Number.isFinite(value))
+    ) {
+      url.searchParams.set(name, String(value));
+    } else {
+      throw new TypeError(
+        `Query parameter "${name}" must be a string, boolean, finite number, or undefined.`,
+      );
+    }
+  }
   url.searchParams.set("api-version", apiVersion);
   url.searchParams.set("x-ms-client-sdk", `azsdk-js-ai-projects/${SDK_VERSION}`);
   if (options.agentSessionId) {
