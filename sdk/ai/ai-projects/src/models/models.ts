@@ -14785,7 +14785,8 @@ export type FoundryFeaturesOptInKeys =
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
-  | "ModelRouterControls=V1Preview";
+  | "ModelRouterControls=V1Preview"
+  | "FineTuningSessions=V1Preview";
 
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
