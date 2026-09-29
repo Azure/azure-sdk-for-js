@@ -1010,7 +1010,7 @@ export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedRespo
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1027,7 +1027,7 @@ export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedRespo
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1100,7 +1100,7 @@ export async function uploadPagesFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1115,7 +1115,7 @@ export async function uploadPagesFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1237,7 +1237,7 @@ export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   date: Date;
   version: string;
@@ -1251,7 +1251,7 @@ export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1306,7 +1306,7 @@ export async function clearPages(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     date: Date;
     version: string;
@@ -1318,7 +1318,7 @@ export async function clearPages(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       date: Date;
       version: string;
@@ -1457,7 +1457,7 @@ export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1475,7 +1475,7 @@ export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1552,7 +1552,7 @@ export async function uploadPages(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1568,7 +1568,7 @@ export async function uploadPages(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;

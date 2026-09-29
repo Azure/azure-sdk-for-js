@@ -432,6 +432,7 @@ export class BlobClient extends StorageClient {
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
+    getLayout(options?: BlobGetLayoutOptions): PagedAsyncIterableIterator<BlobGetLayoutResponseModel, BlobGetLayoutResponseModel>;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
     getTags(options?: BlobGetTagsOptions): Promise<BlobGetTagsResponse>;
@@ -710,6 +711,33 @@ export interface BlobGetAccountInfoOptions extends CommonOptions {
 export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
 
 // @public
+export interface BlobGetLayoutHeaders {
+    blobContentLength?: number;
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    versionId?: string;
+}
+
+// @public
+export interface BlobGetLayoutOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
+    range?: Range_2;
+}
+
+// @public
+export type BlobGetLayoutResponseInternal = BlobGetLayoutHeaders & BlobLayout;
+
+// @public
+export type BlobGetLayoutResponseModel = WithResponse<BlobGetLayoutResponseInternal, BlobGetLayoutHeaders, BlobLayout>;
+
+// @public
 export interface BlobGetPropertiesHeaders {
     acceptRanges?: string;
     accessTier?: string;
@@ -894,6 +922,36 @@ export interface BlobItemInternal {
     snapshot: string;
     // (undocumented)
     versionId?: string;
+}
+
+// @public
+export interface BlobLayout {
+    continuationToken?: string;
+    endpoints?: BlobLayoutEndpoints;
+    ranges?: BlobLayoutRanges;
+}
+
+// @public
+export interface BlobLayoutEndpoint {
+    index: number;
+    value: string;
+}
+
+// @public
+export interface BlobLayoutEndpoints {
+    endpoint?: BlobLayoutEndpoint[];
+}
+
+// @public
+export interface BlobLayoutRange {
+    end: number;
+    endpointIndex: number;
+    start: number;
+}
+
+// @public
+export interface BlobLayoutRanges {
+    range?: BlobLayoutRange[];
 }
 
 // @public

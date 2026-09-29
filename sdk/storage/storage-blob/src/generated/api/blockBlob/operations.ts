@@ -134,7 +134,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
   contentLanguage: string;
   blobSequenceNumber: number;
   blobType?: BlobType;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   copyCompletionTime?: Date;
   copyStatusDescription?: string;
   copyId?: string;
@@ -171,7 +171,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
     contentLanguage: result.headers["content-language"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     blobType: result.headers["x-ms-blob-type"] as any,
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -293,7 +293,7 @@ export async function query(
     contentLanguage: string;
     blobSequenceNumber: number;
     blobType?: BlobType;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     copyCompletionTime?: Date;
     copyStatusDescription?: string;
     copyId?: string;
@@ -329,7 +329,7 @@ export async function query(
         contentLanguage: string;
         blobSequenceNumber: number;
         blobType?: BlobType;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         copyCompletionTime?: Date;
         copyStatusDescription?: string;
         copyId?: string;
@@ -650,7 +650,7 @@ export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -667,7 +667,7 @@ export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -737,7 +737,7 @@ export async function commitBlockList(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -752,7 +752,7 @@ export async function commitBlockList(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -896,7 +896,7 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
 
 export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
   encryptionScope?: string;
@@ -910,7 +910,7 @@ export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -979,7 +979,7 @@ export async function stageBlockFromUrl(
 ): Promise<
   {
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -991,7 +991,7 @@ export async function stageBlockFromUrl(
     undefined,
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -1103,7 +1103,7 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
 
 export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
   encryptionScope?: string;
@@ -1118,7 +1118,7 @@ export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1192,7 +1192,7 @@ export async function stageBlock(
 ): Promise<
   {
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -1205,7 +1205,7 @@ export async function stageBlock(
     undefined,
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -1396,7 +1396,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1413,7 +1413,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1483,7 +1483,7 @@ export async function uploadBlobFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1498,7 +1498,7 @@ export async function uploadBlobFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1661,7 +1661,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1679,7 +1679,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1755,7 +1755,7 @@ export async function upload(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1771,7 +1771,7 @@ export async function upload(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;

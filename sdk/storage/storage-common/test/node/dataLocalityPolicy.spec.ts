@@ -1,13 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
+import type * as CoreUtil from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   LAYOUT_ENDPOINT_HEADER,
   storageDataLocalityPolicy,
 } from "../../src/policies/StorageDataLocalityPolicy.js";
+
+const platform = vi.hoisted(() => ({ isNodeLike: true }));
+vi.mock("@azure/core-util", async (importOriginal) => ({
+  ...(await importOriginal<typeof CoreUtil>()),
+  get isNodeLike() {
+    return platform.isNodeLike;
+  },
+}));
 
 const BLOB_URL = "https://myaccount.blob.core.windows.net/container/blob.txt?comp=x";
 
@@ -61,8 +70,22 @@ describe("storageDataLocalityPolicy", () => {
     assert.isUndefined(sent.headers.get("Host"));
   });
 
+  // The live service sends an absolute URI, but the REST spec documents a bare `hostname:port`.
+  it.each([
+    "https://blob.stamp.store.core.windows.net:8443/",
+    "blob.stamp.store.core.windows.net:8443",
+  ])("routes endpoint %o", async (endpoint) => {
+    const sent = await route(BLOB_URL, endpoint);
+
+    assert.equal(
+      sent.url,
+      "https://blob.stamp.store.core.windows.net:8443/container/blob.txt?comp=x",
+    );
+    assert.equal(sent.headers.get("Host"), "myaccount.blob.core.windows.net");
+  });
+
   // A malformed endpoint must cost the optimization, never the download.
-  it.each(["not a url", "://missing-scheme", "", "blob.stamp.store.core.windows.net:443"])(
+  it.each(["not a url", "://missing-scheme", ""])(
     "falls back to the account endpoint for unusable endpoint %o",
     async (endpoint) => {
       const sent = await route(BLOB_URL, endpoint);
@@ -76,6 +99,22 @@ describe("storageDataLocalityPolicy", () => {
     const sent = await route(BLOB_URL, "https://blob.stamp.store.core.windows.net:443/");
 
     assert.isUndefined(sent.headers.get(LAYOUT_ENDPOINT_HEADER));
+  });
+
+  it("ignores the endpoint outside Node.js, which cannot set Host", async () => {
+    platform.isNodeLike = false;
+    try {
+      const sent = await route(BLOB_URL, "https://blob.stamp.store.core.windows.net:443/");
+
+      assert.equal(sent.url, BLOB_URL);
+      assert.isUndefined(sent.headers.get("Host"));
+      assert.isUndefined(
+        sent.headers.get(LAYOUT_ENDPOINT_HEADER),
+        "the header must not reach a CORS preflight",
+      );
+    } finally {
+      platform.isNodeLike = true;
+    }
   });
 
   it("stays routed and keeps the account Host when a retry re-enters the policy", async () => {

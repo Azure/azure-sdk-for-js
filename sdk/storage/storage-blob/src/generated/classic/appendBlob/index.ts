@@ -48,7 +48,7 @@ export interface AppendBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -64,7 +64,7 @@ export interface AppendBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobAppendOffset?: string;
         blobCommittedBlockCount?: number;
         isServerEncrypted?: boolean;
@@ -87,7 +87,7 @@ export interface AppendBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -104,7 +104,7 @@ export interface AppendBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobAppendOffset?: string;
         blobCommittedBlockCount?: number;
         isServerEncrypted?: boolean;

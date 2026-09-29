@@ -505,6 +505,48 @@ if (downloadBlockBlobResponse.readableStreamBody) {
 
 If your endpoint URL is not in the standard `https://<account>.blob.core.windows.net` form, the account name cannot be derived from it. Set `sessionOptions.accountName` explicitly in that case.
 
+### Read blobs from the endpoints that store them (Node.js)
+
+The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client fetches the layout and reads the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is on by default and needs no code; the requests stay authenticated as, and addressed to, your account. Set `layoutAwareRouting` to `"disabled"` to opt out.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+To route your own reads, `getLayout` returns the layout and `download` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
+
+```ts snippet:ReadmeSampleLayoutAwareRouting
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+const containerClient = blobServiceClient.getContainerClient("<container name>");
+const blobClient = containerClient.getBlobClient("<blob name>");
+
+// Routing needs no code. To read every block from the account endpoint instead, opt out.
+const downloaded = await blobClient.downloadToBuffer(0, undefined, {
+  layoutAwareRouting: "disabled",
+});
+console.log(`Downloaded ${downloaded.length} bytes`);
+
+// To route reads yourself, read each range of the layout from the endpoint that serves it.
+for await (const page of blobClient.getLayout()) {
+  const endpoints = page.endpoints?.endpoint ?? [];
+  for (const range of page.ranges?.range ?? []) {
+    const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+    const response = await blobClient.download(range.start, range.end - range.start + 1, {
+      layoutEndpoint: endpoint?.value,
+    });
+    if (response.readableStreamBody) {
+      const bytes = await buffer(response.readableStreamBody);
+      console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
+    }
+  }
+}
+```
+
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:

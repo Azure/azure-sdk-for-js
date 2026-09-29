@@ -7,7 +7,7 @@ import type {
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { getDefaultProxySettings, isRestError } from "@azure/core-rest-pipeline";
- import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
+import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { isNodeLike, stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
@@ -129,6 +129,10 @@ import type {
   BlobSetMetadataResponse,
   FileShareTokenIntent,
   BlobModifiedAccessConditions,
+  BlobGetLayoutResponseModel,
+  BlobGetLayoutResponseInternal,
+  BlobGetLayoutHeaders,
+  BlobLayout,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -348,6 +352,42 @@ export interface BlobDownloadOptions extends CommonOptions {
    * it. An endpoint that cannot be used is ignored and the account endpoint is read instead.
    */
   layoutEndpoint?: string;
+}
+
+/**
+ * Options to configure the {@link BlobClient.getLayout} operation.
+ */
+export interface BlobGetLayoutOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * If provided, returns the layout of only this range of the blob. Defaults to the whole blob.
+   *
+   * The range is held fixed across continuation requests, as the service requires.
+   */
+  range?: Range;
+  /**
+   * Conditions to meet when getting the blob's layout.
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
+}
+
+/**
+ * Options to configure {@link BlobClient.getLayoutSegment}.
+ */
+interface BlobListLayoutSegmentOptions extends BlobGetLayoutOptions {
+  /**
+   * Maximum number of ranges the service should return per page. The service caps this at 5000 and
+   * may return fewer.
+   */
+  maxPageSize?: number;
 }
 
 /**
@@ -2171,6 +2211,11 @@ export class BlobClient extends StorageClient {
           );
         }
 
+        // A known count still reads the first block on its own: its download hint gates routing.
+        if (!firstChunk && count > 0) {
+          firstChunk = await this.download(offset, Math.min(blockSize, count), chunkOptions);
+        }
+
         let transferProgress: number = 0;
         const firstChunkLength = firstChunk ? Math.min(blockSize, count) : 0;
         if (firstChunk) {
@@ -2247,7 +2292,7 @@ export class BlobClient extends StorageClient {
     // without reinterpreting what an explicit choice meant.
     if (
       options.routing === "disabled" ||
-      options.downloadHint !== "layout" ||
+      options.downloadHint?.toLowerCase() !== "layout" ||
       options.count <= 0 ||
       !isNodeLike
     ) {
@@ -2265,6 +2310,145 @@ export class BlobClient extends StorageClient {
         }),
       ),
     );
+  }
+
+  /**
+   * Reads one page of the blob's layout.
+   *
+   * @param marker - Marker returned by the previous page, or undefined for the first.
+   * @param ifMatch - ETag every page after the first is locked to.
+   * @param options - Options to the Get Blob Layout operation.
+   */
+  private async getLayoutSegment(
+    marker: string | undefined,
+    ifMatch: string | undefined,
+    options: BlobListLayoutSegmentOptions,
+  ): Promise<BlobGetLayoutResponseModel> {
+    return tracingClient.withSpan(
+      "BlobClient-getLayoutSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          BlobGetLayoutResponseInternal,
+          BlobGetLayoutHeaders,
+          BlobLayout
+        >(
+          adjustResponse(
+            await this.blobContext.getLayout({
+              abortSignal: options.abortSignal,
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+              ifMatch: ifMatch ?? options.conditions?.ifMatch,
+              range: options.range ? rangeToString(options.range) : undefined,
+              marker,
+              maxPageSize: options.maxPageSize,
+              encryptionKey: options.customerProvidedKey?.encryptionKey,
+              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+              encryptionAlgorithm: options.customerProvidedKey
+                ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
+        );
+        // Every other pager in this package exposes the service's NextMarker as continuationToken.
+        response.continuationToken = (response as { nextMarker?: string }).nextMarker || undefined;
+        delete (response as { nextMarker?: string }).nextMarker;
+        return response;
+      },
+    );
+  }
+
+  /**
+   * Returns an AsyncIterableIterator over the pages of the blob's layout.
+   *
+   * @param marker - Marker to resume from, or undefined to start from the beginning.
+   * @param options - Options to the Get Blob Layout operation.
+   */
+  private async *listLayoutSegments(
+    marker?: string,
+    options: BlobListLayoutSegmentOptions = {},
+  ): AsyncIterableIterator<BlobGetLayoutResponseModel> {
+    let ifMatch = options.conditions?.ifMatch;
+    if (!!marker || marker === undefined) {
+      do {
+        const response = await this.getLayoutSegment(marker, ifMatch, options);
+        // The service requires every continuation to be locked to the version the first page
+        // described, so a blob rewritten mid-enumeration cannot yield a stitched-together layout.
+        ifMatch ??= response.etag;
+        marker = response.continuationToken;
+        yield response;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator of the blob's layout: which byte ranges of the blob are
+   * served by which endpoints.
+   *
+   * Reach for this only to orchestrate reads yourself. {@link BlobClient.downloadToBuffer} already
+   * fetches, caches and applies the layout on its own.
+   *
+   * Each item is one page of the layout. A range's `endpointIndex` indexes the `endpoints` of the
+   * page it arrived on and must not be resolved against another page's endpoints, which is why
+   * pages are surfaced whole rather than flattened into a single list of ranges.
+   *
+   * Unlike the routing built into `downloadToBuffer`, failures here are not swallowed: an explicit
+   * caller sees the error.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-blob
+   *
+   * ```ts snippet:ClientsGetBlobLayout
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * const blobClient = containerClient.getBlobClient("<blob name>");
+   *
+   * for await (const page of blobClient.getLayout()) {
+   *   const endpoints = page.endpoints?.endpoint ?? [];
+   *   for (const range of page.ranges?.range ?? []) {
+   *     const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+   *     console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param options - Options to the Get Blob Layout operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public getLayout(
+    options: BlobGetLayoutOptions = {},
+  ): PagedAsyncIterableIterator<BlobGetLayoutResponseModel, BlobGetLayoutResponseModel> {
+    const iter = this.listLayoutSegments(undefined, options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listLayoutSegments(settings.continuationToken, {
+          ...options,
+          maxPageSize: settings.maxPageSize,
+        });
+      },
+    };
   }
 
   /**

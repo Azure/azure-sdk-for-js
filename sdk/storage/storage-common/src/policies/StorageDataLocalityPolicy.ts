@@ -7,6 +7,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
 
 /**
  * The programmatic identifier of the storageDataLocalityPolicy.
@@ -33,7 +34,8 @@ export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
  * authority the rest of the request was built and signed for. Only the host and port are
  * replaced; scheme, path and query are untouched, so the endpoint is purely a routing hint.
  *
- * Requests without the layout endpoint header pass through unchanged.
+ * Requests without the layout endpoint header pass through unchanged. Outside Node.js the
+ * endpoint is ignored and the request is sent to the account.
  */
 export function storageDataLocalityPolicy(): PipelinePolicy {
   return {
@@ -44,13 +46,20 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
         return next(request);
       }
       request.headers.delete(LAYOUT_ENDPOINT_HEADER);
+      // Browsers forbid setting `Host`, without which the endpoint cannot tell which account is meant.
+      if (!isNodeLike) {
+        return next(request);
+      }
 
       // Routing is an optimization: any endpoint serves any range, so an endpoint we cannot make
       // sense of costs a relayed read, never the download itself.
       let layoutHost: string;
       try {
-        // The endpoint arrives as an absolute URI, e.g. https://blob.stamp.store.core.windows.net:443/
-        layoutHost = new URL(layoutEndpoint).host;
+        // Endpoints come as an absolute URI or a bare `hostname:port`; only the host is used.
+        const absolute = layoutEndpoint.includes("://")
+          ? layoutEndpoint
+          : `https://${layoutEndpoint}`;
+        layoutHost = new URL(absolute).host;
       } catch {
         return next(request);
       }
@@ -60,7 +69,7 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
 
       const url = new URL(request.url);
       const originalHost = url.host;
-      url.host = layoutHost;
+      (url as unknown as { host: string }).host = layoutHost;
       request.url = url.toString();
       request.headers.set("Host", originalHost);
 
