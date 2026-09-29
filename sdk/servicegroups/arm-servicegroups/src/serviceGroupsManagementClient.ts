@@ -16,6 +16,8 @@ import type {
   UpdateServiceGroupOptionalParams,
   CreateOrUpdateServiceGroupOptionalParams,
 } from "./api/options.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { ServiceGroupsOperations } from "./classic/serviceGroups/index.js";
 import { _getServiceGroupsOperations } from "./classic/serviceGroups/index.js";
 import type { ServiceGroup } from "./models/models.js";
@@ -34,15 +36,9 @@ export class ServiceGroupsManagementClient {
     credential: TokenCredential,
     options: ServiceGroupsManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createServiceGroupsManagement(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createServiceGroupsManagement(credential, options);
     this.pipeline = this._client.pipeline;
+    this.operations = _getOperationsOperations(this._client);
     this.serviceGroups = _getServiceGroupsOperations(this._client);
   }
 
@@ -77,6 +73,8 @@ export class ServiceGroupsManagementClient {
     );
   }
 
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
   /** The operation groups for serviceGroups */
   public readonly serviceGroups: ServiceGroupsOperations;
 }

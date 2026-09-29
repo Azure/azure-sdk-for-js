@@ -215,9 +215,9 @@
 # ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
 
 # PRLabel: %EngSys
-/sdk/template/    @benbp @mikeharder @Azure/azure-sdk-eng
+/sdk/template/    @Azure/azure-sdk-eng
 
-# AzureSdkOwners: @benbp @mikeharder
+# AzureSdkOwners: @Azure/azure-sdk-eng
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
@@ -1713,6 +1713,7 @@ sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/platformvalidation/arm-platformvalidation/ @qiaozha @MaryGao @JialinHuang803
 sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1721,8 +1722,8 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @Azure/azure-sdk-for-js-core
-/common/ @mikeharder @Azure/azure-sdk-for-js-core
+/.vscode/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/common/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
 /package.json @Azure/azure-sdk-js-dev
 /turbo.json @Azure/azure-sdk-js-dev
 /pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
@@ -1744,13 +1745,13 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %warp
 /common/tools/warp/ @Azure/azure-sdk-for-js-core
 
-/tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
+/tsconfig*.json @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
 /sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
-/.scripts/ @mikeharder
+/.scripts/ @Azure/azure-sdk-eng
 /.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @Azure/azure-sdk-for-js-core
@@ -1767,14 +1768,14 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                                    @mikeharder @benbp
+/eng/                                    @Azure/azure-sdk-eng
 /eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 # Approved third-party runtime dependency allow-list
 /eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
-/.config/1espt/                          @benbp @mikeharder
+/.config/1espt/                          @Azure/azure-sdk-eng
 
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
@@ -1816,7 +1817,7 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @praveenkuttappan
-/eng/scripts/docs/type2docfx.version.txt @danieljurek @mikeharder
+/eng/scripts/docs/type2docfx.version.txt @danieljurek @Azure/azure-sdk-eng
 
 /eng/tools @Azure/azure-sdk-for-js-core
 
@@ -1827,4 +1828,4 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
-/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @benbp
+/eng/pipelines/docindex.yml                  @danieljurek @Azure/azure-sdk-eng
