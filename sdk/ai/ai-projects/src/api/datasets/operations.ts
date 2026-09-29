@@ -223,6 +223,7 @@ export function _listGenerationJobsSend(
   context: Client,
   options: DatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const requestParameters = operationOptionsToRequestParameters(options);
   const path = expandUrlTemplate(
     "/data_generation_jobs{?after,api-version,before,limit,order}",
     {
@@ -237,11 +238,11 @@ export function _listGenerationJobsSend(
     },
   );
   return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
+    ...requestParameters,
     headers: {
       "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
-      ...options.requestOptions?.headers,
+      ...requestParameters.headers,
     },
   });
 }
@@ -267,6 +268,7 @@ export function listGenerationJobs(
   context: Client,
   options: DatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DataGenerationJobUnion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listGenerationJobsSend(context, options),
@@ -278,11 +280,11 @@ export function listGenerationJobs(
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
-        ...operationOptionsToRequestParameters(options),
+        ...requestParameters,
         headers: {
           "foundry-features": "DataGenerationJobs=V1Preview",
           accept: "application/json",
-          ...options.requestOptions?.headers,
+          ...requestParameters.headers,
         },
       },
     },

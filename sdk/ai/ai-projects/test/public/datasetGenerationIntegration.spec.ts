@@ -167,4 +167,31 @@ describe("dataset generation promotion", () => {
       expect(request.timeout).toBe(1234);
     }
   });
+
+  it("preserves converted legacy and modern headers on every generation job page", async () => {
+    const { client, requests } = createClient(
+      { body: { data: [{ ...inputs, id: "job-1" }], last_id: "job-1", has_more: true } },
+      { body: { data: [{ ...inputs, id: "job-2" }], last_id: "job-2", has_more: false } },
+    );
+    // core-client retains customHeaders for compatibility even though it is not in the public type.
+    const options = {
+      requestOptions: {
+        customHeaders: { "X-Legacy": "legacy", "X-Shared": "legacy" },
+        headers: { "x-modern": "modern", "x-shared": "modern" },
+      },
+    };
+    const jobs = [];
+    for await (const item of client.datasets.listGenerationJobs(options)) {
+      jobs.push(item.id);
+    }
+    expect(jobs).toEqual(["job-1", "job-2"]);
+    expect(requests).toHaveLength(2);
+    for (const request of requests) {
+      expect(request.headers.get("x-legacy")).toBe("legacy");
+      expect(request.headers.get("x-modern")).toBe("modern");
+      expect(request.headers.get("x-shared")).toBe("modern");
+      expect(request.headers.get("foundry-features")).toBe("DataGenerationJobs=V1Preview");
+      expect(request.headers.get("accept")).toBe("application/json");
+    }
+  });
 });
