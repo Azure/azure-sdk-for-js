@@ -19,12 +19,7 @@ import type {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import {
-  RestError,
-  createHttpHeaders,
-  createPipelineRequest,
-  isRestError,
-} from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
   getInitialTransactionBody,
@@ -323,9 +318,11 @@ export class InternalTableTransaction {
           rawTransactionResponse = await this.client.sendRequest(request);
           transactionResponse = parseTransactionResponse(rawTransactionResponse);
         } catch (error) {
-          const response = isRestError(error)
-            ? (error.response ?? rawTransactionResponse)
-            : rawTransactionResponse;
+          const errorResponse =
+            typeof error === "object" && error !== null && "response" in error
+              ? (error as { response?: PipelineResponse }).response
+              : undefined;
+          const response = errorResponse ?? rawTransactionResponse;
           if (response) {
             onResponse?.(response, undefined, error);
           }

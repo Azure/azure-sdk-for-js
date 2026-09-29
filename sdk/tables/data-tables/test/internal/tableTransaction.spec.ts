@@ -200,6 +200,28 @@ describe("TableTransaction", () => {
       expect(onResponse).not.toHaveBeenCalled();
     });
 
+    it("should pass responses attached to non-RestError failures to the legacy callback", async () => {
+      let rawResponse: PipelineResponse | undefined;
+      const error = new Error("Custom HTTP client failed");
+      const client = new TableClient("https://example.org", "TestTable", {
+        retryOptions: { maxRetries: 0 },
+        httpClient: {
+          sendRequest: async (request) => {
+            rawResponse = {
+              status: 503,
+              headers: createHttpHeaders({ "x-ms-request-id": "request-id" }),
+              request,
+            };
+            Object.assign(error, { response: rawResponse });
+            throw error;
+          },
+        },
+      });
+      const onResponse = vi.fn();
+      await expect(client.submitTransaction(actions, { onResponse })).rejects.toBe(error);
+      expect(onResponse).toHaveBeenCalledExactlyOnceWith(rawResponse, undefined, error);
+    });
+
     it("should not invoke a throwing response callback twice", async () => {
       const client = new TableClient("https://example.org", "TestTable", {
         httpClient: {
