@@ -66,7 +66,7 @@ describe("buildStorageSharedKeyStringToSign", () => {
     );
   });
 
-  it("uppercases the HTTP verb", () => {
+  it("signs the HTTP method in uppercase even when the request uses lowercase", () => {
     for (const method of ["GET", "PUT", "HEAD", "DELETE"] as HttpMethods[]) {
       const result = sign({ method: method.toLowerCase() as HttpMethods });
       assert.isTrue(result.startsWith(`${method}\n`), result.split("\n")[0]);
