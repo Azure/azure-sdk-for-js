@@ -810,7 +810,7 @@
 # PRLabel: %Mgmt
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1714,6 +1714,9 @@ sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHua
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

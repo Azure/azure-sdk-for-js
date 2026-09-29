@@ -14,6 +14,8 @@ exports:
   "./api/storageTaskAssignmentsInstancesReport": "./src/api/storageTaskAssignmentsInstancesReport/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/advancedPlatformMetrics": "./src/api/advancedPlatformMetrics/index.ts"
+  "./api/contextCacheContainers": "./src/api/contextCacheContainers/index.ts"
+  "./api/contextCaches": "./src/api/contextCaches/index.ts"
   "./api/dataShares": "./src/api/dataShares/index.ts"
   "./api/connectors": "./src/api/connectors/index.ts"
   "./api/storageTaskAssignments": "./src/api/storageTaskAssignments/index.ts"

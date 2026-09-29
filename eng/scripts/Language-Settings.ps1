@@ -103,7 +103,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
       else {
         $pkgProp.SdkType = "unknown"
       }
-      $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
+      $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt") -or ($pkgProp.SdkType -eq "provisioning")
       $pkgProp.ArtifactName = $jsStylePkgName
 
 
