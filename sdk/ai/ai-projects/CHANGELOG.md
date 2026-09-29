@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Rename `CreateTeamsPhoneExtensionTelephonyBindingRequest`, `TeamsPhoneExtensionTelephonyBinding`, and `TeamsPhoneExtensionTelephonyBindingListItem` to their `TeamsPhoneExtensibility` equivalents for `project.beta.voiceAgents.telephony`. Replace `teams_phone_extension` with `teams_phone_extensibility` in telephony provider and lifecycle event source values. [#40144](https://github.com/Azure/azure-sdk-for-js/issues/40144)
 - Move optimization job operations from `project.beta.agents` to `project.agents`, replace their `BetaAgents*OptimizationJobOptionalParams` types with `Agents*OptimizationJobOptionalParams`, and remove the `AgentsOptimization=V2Preview` opt-in. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Replace optimization job `inputs` and `progress` with top-level `optimization_configuration`, `optimization_model_configuration`, optional `target_configuration`, and read-only `run_duration_ms`. Replace the old dataset, evaluator, options, progress, list-item, and promotion models and their dependent deprecated aliases with the redesigned optimization configuration and candidate contracts. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Reshape optimization candidates around required candidate/job identifiers, lifecycle status and start time, optional typed output mutations, evaluation, and promotion metadata. Replace embedded job-result candidates with `candidate_summary`, required `token_usage` and `latency_metrics`, and optional `termination_reason`; retrieve candidates through the new candidate operations. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
@@ -12,6 +13,7 @@
 
 ### Features Added
 
+- Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`; this regeneration does not add fine-tuning session operations to the Projects client. [#40144](https://github.com/Azure/azure-sdk-for-js/issues/40144)
 - Add `project.agents.estimateOptimizationJob`, `listOptimizationCandidates`, `getOptimizationCandidate`, and `promoteOptimizationCandidate` for estimating optimization costs and inspecting or promoting generated candidates. Support agent and prompt optimization configurations, typed mutations, and target-completion or conversation-simulation evaluation sets. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add scenario-specific evaluation, supervised fine-tuning, and reinforcement fine-tuning data-generation output configurations under `project.beta.datasets`, including fine-tuning filenames, write modes, and merge-file identifiers. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
@@ -26,6 +28,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `ba55b62099085994196bebe2684ffe8fcda26d22`, preserving customized job parameter names and poller behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ba55b62099085994196bebe2684ffe8fcda26d22). [#40144](https://github.com/Azure/azure-sdk-for-js/issues/40144)
 - Regenerate the client from azure-rest-api-specs commit `35f603d55852190612789712f9812461903a3c58`. Rename the `project.beta.evaluators.createGenerationJob` parameter back from `body` to `job` without changing its position or behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/35f603d55852190612789712f9812461903a3c58). [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Regenerate the client from azure-rest-api-specs commit `f349669dbbb06d16ef38e3235d6872d843ac4301`. Rename the `project.beta.evaluators.createGenerationJob` parameter from `job` to `body` without changing its position, request shape, or `JobPoller<EvaluatorVersion>` return type. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f349669dbbb06d16ef38e3235d6872d843ac4301). [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)
 
