@@ -10000,6 +10000,978 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
+/** Paged collection of EvaluatorVersion items */
+export interface _PagedEvaluatorVersion {
+  /** The EvaluatorVersion items on this page */
+  value: EvaluatorVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedEvaluatorVersionDeserializer(item: any): _PagedEvaluatorVersion {
+  return {
+    value: evaluatorVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function evaluatorVersionArraySerializer(result: Array<EvaluatorVersion>): any[] {
+  return result.map((item) => {
+    return evaluatorVersionSerializer(item);
+  });
+}
+
+export function evaluatorVersionArrayDeserializer(result: Array<EvaluatorVersion>): any[] {
+  return result.map((item) => {
+    return evaluatorVersionDeserializer(item);
+  });
+}
+
+/** Evaluator Definition */
+export interface EvaluatorVersion {
+  /** Display Name for evaluator. It helps to find the evaluator easily in AI Foundry. It does not need to be unique. */
+  display_name?: string;
+  /** Metadata about the evaluator */
+  metadata?: Record<string, string>;
+  /** The type of the evaluator */
+  evaluator_type: EvaluatorType;
+  /** The categories of the evaluator */
+  categories: EvaluatorCategory[];
+  /** Evaluation levels this evaluator supports (e.g., `turn`, `conversation`). When omitted on create, the service defaults to `["turn"]`. On update, omitting this field leaves it unchanged; an empty list is rejected. Custom code-based evaluators support only `turn`; custom prompt-based evaluators support exactly one level (`turn` or `conversation`). */
+  supported_evaluation_levels?: EvaluationLevel[];
+  /** Definition of the evaluator */
+  definition: EvaluatorDefinitionUnion;
+  /** Provenance artifacts from the generation pipeline. Read-only; present only on evaluator versions created via an EvaluatorGenerationJob. Each artifact resolves to a versioned Foundry Dataset. */
+  readonly generation_artifacts?: EvaluatorGenerationArtifacts;
+  /** Read-only provenance link back to the EvaluatorGenerationJob that produced this version. Present only on evaluator versions created via the generation pipeline; absent for manually-created versions and unaffected by subsequent `PATCH` calls. */
+  readonly generation_job_id?: string;
+  /** Categories of warnings surfaced on this generated evaluator version. Present only on versions created via an EvaluatorGenerationJob when the paired job produced non-empty warnings. Absent (treat as no warnings) when the version is not from generation, when the paired job was clean, or when a subsequent `PATCH` to `definition` cleared the paired job's advisories. Follow `generation_job_id` to fetch the detailed warning payloads. */
+  readonly warnings?: GenerationWarningType[];
+  /** Creator of the evaluator */
+  readonly created_by: string;
+  /** Creation date/time of the evaluator */
+  readonly created_at: string;
+  /** Last modified date/time of the evaluator */
+  readonly modified_at: string;
+  /** Asset ID, a unique identifier for the asset */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name: string;
+  /** The version of the resource */
+  readonly version: string;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
+  return {
+    display_name: item["display_name"],
+    metadata: item["metadata"],
+    evaluator_type: item["evaluator_type"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    supported_evaluation_levels: !item["supported_evaluation_levels"]
+      ? item["supported_evaluation_levels"]
+      : item["supported_evaluation_levels"].map((p: any) => {
+          return p;
+        }),
+    definition: evaluatorDefinitionUnionSerializer(item["definition"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
+  return {
+    display_name: item["display_name"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    evaluator_type: item["evaluator_type"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    supported_evaluation_levels: !item["supported_evaluation_levels"]
+      ? item["supported_evaluation_levels"]
+      : item["supported_evaluation_levels"].map((p: any) => {
+          return p;
+        }),
+    definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
+    generation_artifacts: !item["generation_artifacts"]
+      ? item["generation_artifacts"]
+      : evaluatorGenerationArtifactsDeserializer(item["generation_artifacts"]),
+    generation_job_id: item["generation_job_id"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
+    created_by: item["created_by"],
+    created_at: item["created_at"],
+    modified_at: item["modified_at"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** The type of the evaluator */
+export type EvaluatorType = "builtin" | "custom";
+
+/** The category of the evaluator */
+export type EvaluatorCategory = "quality" | "safety" | "agents";
+
+/** The level at which evaluation is performed. */
+export type EvaluationLevel = "turn" | "conversation";
+
+/** Base evaluator configuration with discriminator */
+export interface EvaluatorDefinition {
+  /** The type of evaluator definition */
+  /** The discriminator possible values: code, prompt, rubric, endpoint */
+  type: EvaluatorDefinitionType;
+  /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
+  init_parameters?: Record<string, any>;
+  /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
+  data_schema?: Record<string, any>;
+  /** List of output metrics produced by this evaluator */
+  metrics?: Record<string, EvaluatorMetric>;
+}
+
+export function evaluatorDefinitionSerializer(item: EvaluatorDefinition): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+  };
+}
+
+export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+  };
+}
+
+/** Alias for EvaluatorDefinitionUnion */
+export type EvaluatorDefinitionUnion =
+  | CodeBasedEvaluatorDefinition
+  | PromptBasedEvaluatorDefinition
+  | RubricBasedEvaluatorDefinition
+  | EndpointBasedEvaluatorDefinition
+  | EvaluatorDefinition;
+
+export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnion): any {
+  switch (item.type) {
+    case "code":
+      return codeBasedEvaluatorDefinitionSerializer(item as CodeBasedEvaluatorDefinition);
+
+    case "prompt":
+      return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
+
+    case "rubric":
+      return rubricBasedEvaluatorDefinitionSerializer(item as RubricBasedEvaluatorDefinition);
+
+    case "endpoint":
+      return endpointBasedEvaluatorDefinitionSerializer(item as EndpointBasedEvaluatorDefinition);
+
+    default:
+      return evaluatorDefinitionSerializer(item);
+  }
+}
+
+export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefinitionUnion {
+  switch (item["type"]) {
+    case "code":
+      return codeBasedEvaluatorDefinitionDeserializer(item as CodeBasedEvaluatorDefinition);
+
+    case "prompt":
+      return promptBasedEvaluatorDefinitionDeserializer(item as PromptBasedEvaluatorDefinition);
+
+    case "rubric":
+      return rubricBasedEvaluatorDefinitionDeserializer(item as RubricBasedEvaluatorDefinition);
+
+    case "endpoint":
+      return endpointBasedEvaluatorDefinitionDeserializer(item as EndpointBasedEvaluatorDefinition);
+
+    default:
+      return evaluatorDefinitionDeserializer(item);
+  }
+}
+
+/** The type of evaluator definition */
+export type EvaluatorDefinitionType =
+  "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "rubric" | "endpoint";
+
+export function evaluatorMetricRecordSerializer(
+  item: Record<string, EvaluatorMetric>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : evaluatorMetricSerializer(item[key]);
+  });
+  return result;
+}
+
+export function evaluatorMetricRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, EvaluatorMetric> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : evaluatorMetricDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Evaluator Metric */
+export interface EvaluatorMetric {
+  /** Type of the metric. */
+  type?: EvaluatorMetricType;
+  /** It indicates whether a higher value is better or a lower value is better for this metric. */
+  desirable_direction?: EvaluatorMetricDirection;
+  /** Minimum value for the metric */
+  min_value?: number;
+  /** Maximum value for the metric. If not specified, it is assumed to be unbounded. */
+  max_value?: number;
+  /** Default pass/fail threshold for this metric. */
+  threshold?: number;
+  /** Indicates if this metric is primary when there are multiple metrics. */
+  is_primary?: boolean;
+}
+
+export function evaluatorMetricSerializer(item: EvaluatorMetric): any {
+  return {
+    type: item["type"],
+    desirable_direction: item["desirable_direction"],
+    min_value: item["min_value"],
+    max_value: item["max_value"],
+    threshold: item["threshold"],
+    is_primary: item["is_primary"],
+  };
+}
+
+export function evaluatorMetricDeserializer(item: any): EvaluatorMetric {
+  return {
+    type: item["type"],
+    desirable_direction: item["desirable_direction"],
+    min_value: item["min_value"],
+    max_value: item["max_value"],
+    threshold: item["threshold"],
+    is_primary: item["is_primary"],
+  };
+}
+
+/** The type of the evaluator */
+export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
+
+/** The direction of the metric indicating whether a higher value is better, a lower value is better, or neutral */
+export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
+
+/** Code-based evaluator definition using python code */
+export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
+  type: "code";
+  /** Inline code text for the evaluator */
+  code_text?: string;
+  /** The entry point Python file name for the uploaded evaluator code (e.g. 'answer_length_evaluator.py') */
+  entry_point?: string;
+  /** The container image tag to use for evaluator code execution */
+  image_tag?: string;
+  /** The blob URI for the evaluator storage */
+  blob_uri?: string;
+}
+
+export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorDefinition): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    code_text: item["code_text"],
+    entry_point: item["entry_point"],
+    image_tag: item["image_tag"],
+    blob_uri: item["blob_uri"],
+  };
+}
+
+export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+    code_text: item["code_text"],
+    entry_point: item["entry_point"],
+    image_tag: item["image_tag"],
+    blob_uri: item["blob_uri"],
+  };
+}
+
+/** Prompt-based evaluator */
+export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
+  type: "prompt";
+  /** The prompt text used for evaluation */
+  prompt_text: string;
+}
+
+export function promptBasedEvaluatorDefinitionSerializer(
+  item: PromptBasedEvaluatorDefinition,
+): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    prompt_text: item["prompt_text"],
+  };
+}
+
+export function promptBasedEvaluatorDefinitionDeserializer(
+  item: any,
+): PromptBasedEvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+    prompt_text: item["prompt_text"],
+  };
+}
+
+/** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
+export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
+  type: "rubric";
+  /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
+  dimensions: Dimension[];
+  /** Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any dimension scored 1 → fail' rule still applies regardless of this threshold. */
+  pass_threshold?: number;
+}
+
+export function rubricBasedEvaluatorDefinitionSerializer(
+  item: RubricBasedEvaluatorDefinition,
+): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    dimensions: dimensionArraySerializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
+  };
+}
+
+export function rubricBasedEvaluatorDefinitionDeserializer(
+  item: any,
+): RubricBasedEvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+    dimensions: dimensionArrayDeserializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
+  };
+}
+
+export function dimensionArraySerializer(result: Array<Dimension>): any[] {
+  return result.map((item) => {
+    return dimensionSerializer(item);
+  });
+}
+
+export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
+  return result.map((item) => {
+    return dimensionDeserializer(item);
+  });
+}
+
+/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
+export interface Dimension {
+  /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
+  id: string;
+  /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
+  description: string;
+  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
+  weight: number;
+  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. The service defaults to `false` if a value is not specified by the caller. */
+  always_applicable?: boolean;
+}
+
+export function dimensionSerializer(item: Dimension): any {
+  return {
+    id: item["id"],
+    description: item["description"],
+    weight: item["weight"],
+    always_applicable: item["always_applicable"],
+  };
+}
+
+export function dimensionDeserializer(item: any): Dimension {
+  return {
+    id: item["id"],
+    description: item["description"],
+    weight: item["weight"],
+    always_applicable: item["always_applicable"],
+  };
+}
+
+/** Endpoint-based evaluator definition. The customer owns and hosts an HTTP endpoint that implements the evaluation contract. The evaluator references a Project Connection by name; the connection stores the endpoint URL and credentials (API Key or Entra ID). At execution time, the service resolves the connection to obtain the endpoint URL and authentication details, then calls the endpoint for each evaluation row. */
+export interface EndpointBasedEvaluatorDefinition extends EvaluatorDefinition {
+  type: "endpoint";
+  /** Name of the Project Connection that stores the endpoint URL and credentials. The connection must exist on the project and have a non-empty target URL. Supported auth types: ApiKey (sends `api-key` header) and AAD/Entra ID (acquires a bearer token via the project's Managed Identity). */
+  connection_name: string;
+}
+
+export function endpointBasedEvaluatorDefinitionSerializer(
+  item: EndpointBasedEvaluatorDefinition,
+): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    connection_name: item["connection_name"],
+  };
+}
+
+export function endpointBasedEvaluatorDefinitionDeserializer(
+  item: any,
+): EndpointBasedEvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+    connection_name: item["connection_name"],
+  };
+}
+
+/** Service-managed provenance artifacts produced by an evaluator generation job. Present only on EvaluatorVersion resources created via the generation pipeline. The combined-JSONL Foundry Dataset is read-only and resolves to a versioned dataset in a service-reserved namespace. */
+export interface EvaluatorGenerationArtifacts {
+  /** Reference to the single Foundry Dataset (one combined JSONL file, version-aligned to `EvaluatorVersion.version`) holding all artifacts produced by the generation pipeline. Each row in the JSONL carries a `kind` field discriminating its content (e.g. `spec`, `tools`, `context`). */
+  dataset: DatasetReference;
+  /** The kinds of rows present in `dataset`. Always contains `"spec"` (the generated evaluation specification, a Markdown document describing what the evaluator measures). May additionally contain `"tools"` (when the generation pipeline produced or inferred OpenAI tool schemas) and/or `"context"` (when supplementary materials such as file uploads or trace samples were used during generation). */
+  kinds: string[];
+}
+
+export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGenerationArtifacts {
+  return {
+    dataset: datasetReferenceDeserializer(item["dataset"]),
+    kinds: item["kinds"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Reference to a versioned Foundry Dataset. */
+export interface DatasetReference {
+  /** Dataset name. */
+  name: string;
+  /** Dataset version. */
+  version: string;
+}
+
+export function datasetReferenceDeserializer(item: any): DatasetReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Category of a warning surfaced on a generated evaluator version. Extensible so new warning categories (e.g., safety, output quality) can be introduced without a breaking change. */
+export type GenerationWarningType = "input_quality";
+
+/** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
+export interface EvaluatorGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: EvaluatorGenerationInputs;
+  /** Result produced on success. */
+  readonly result?: EvaluatorVersion;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at: Date;
+  /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+  /** Token consumption summary. Populated when the job reaches a terminal state. */
+  readonly usage?: EvaluatorGenerationTokenUsage;
+  /** Non-fatal input-quality advisories produced by the generation pipeline. Read-only; service-generated; populated only on terminal jobs when advisories fired. Omitted when generation was clean. Cleared when a subsequent `PATCH` to the paired `EvaluatorVersion.definition` invalidates the advisories. */
+  readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
+}
+
+export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
+  };
+}
+
+export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : evaluatorGenerationInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    usage: !item["usage"]
+      ? item["usage"]
+      : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
+    input_quality_warnings: !item["input_quality_warnings"]
+      ? item["input_quality_warnings"]
+      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
+  };
+}
+
+/** Caller-supplied inputs for an evaluator generation job. */
+export interface EvaluatorGenerationInputs {
+  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
+  sources: EvaluatorGenerationJobSourceUnion[];
+  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
+  model: string;
+  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
+  evaluator_name: string;
+  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
+  evaluator_display_name?: string;
+  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
+  evaluator_description?: string;
+}
+
+export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
+  return {
+    sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
+  };
+}
+
+export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
+  return {
+    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
+  };
+}
+
+export function evaluatorGenerationJobSourceUnionArraySerializer(
+  result: Array<EvaluatorGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSourceUnionSerializer(item);
+  });
+}
+
+export function evaluatorGenerationJobSourceUnionArrayDeserializer(
+  result: Array<EvaluatorGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSourceUnionDeserializer(item);
+  });
+}
+
+/** The base source model for evaluator generation jobs. Polymorphic over `type`. */
+export interface EvaluatorGenerationJobSource {
+  /** The type of source. */
+  /** The discriminator possible values: prompt, agent, traces, dataset */
+  type: EvaluatorGenerationJobSourceType;
+}
+
+export function evaluatorGenerationJobSourceSerializer(item: EvaluatorGenerationJobSource): any {
+  return { type: item["type"] };
+}
+
+export function evaluatorGenerationJobSourceDeserializer(item: any): EvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvaluatorGenerationJobSourceUnion */
+export type EvaluatorGenerationJobSourceUnion =
+  | PromptEvaluatorGenerationJobSource
+  | AgentEvaluatorGenerationJobSource
+  | TracesEvaluatorGenerationJobSource
+  | DatasetEvaluatorGenerationJobSource
+  | EvaluatorGenerationJobSource;
+
+export function evaluatorGenerationJobSourceUnionSerializer(
+  item: EvaluatorGenerationJobSourceUnion,
+): any {
+  switch (item.type) {
+    case "prompt":
+      return promptEvaluatorGenerationJobSourceSerializer(
+        item as PromptEvaluatorGenerationJobSource,
+      );
+
+    case "agent":
+      return agentEvaluatorGenerationJobSourceSerializer(item as AgentEvaluatorGenerationJobSource);
+
+    case "traces":
+      return tracesEvaluatorGenerationJobSourceSerializer(
+        item as TracesEvaluatorGenerationJobSource,
+      );
+
+    case "dataset":
+      return datasetEvaluatorGenerationJobSourceSerializer(
+        item as DatasetEvaluatorGenerationJobSource,
+      );
+
+    default:
+      return evaluatorGenerationJobSourceSerializer(item);
+  }
+}
+
+export function evaluatorGenerationJobSourceUnionDeserializer(
+  item: any,
+): EvaluatorGenerationJobSourceUnion {
+  switch (item["type"]) {
+    case "prompt":
+      return promptEvaluatorGenerationJobSourceDeserializer(
+        item as PromptEvaluatorGenerationJobSource,
+      );
+
+    case "agent":
+      return agentEvaluatorGenerationJobSourceDeserializer(
+        item as AgentEvaluatorGenerationJobSource,
+      );
+
+    case "traces":
+      return tracesEvaluatorGenerationJobSourceDeserializer(
+        item as TracesEvaluatorGenerationJobSource,
+      );
+
+    case "dataset":
+      return datasetEvaluatorGenerationJobSourceDeserializer(
+        item as DatasetEvaluatorGenerationJobSource,
+      );
+
+    default:
+      return evaluatorGenerationJobSourceDeserializer(item);
+  }
+}
+
+/** The supported source types for evaluator generation jobs. */
+export type EvaluatorGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset";
+
+/** Prompt source for evaluator generation jobs — inline text provided by the user. */
+export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Prompt. */
+  type: "prompt";
+  /** Inline prompt text (e.g., agent description, policy text, supplementary context). */
+  prompt: string;
+}
+
+export function promptEvaluatorGenerationJobSourceSerializer(
+  item: PromptEvaluatorGenerationJobSource,
+): any {
+  return { type: item["type"], description: item["description"], prompt: item["prompt"] };
+}
+
+export function promptEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): PromptEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    prompt: item["prompt"],
+  };
+}
+
+/** Agent source for evaluator generation jobs — references an agent to fetch instructions and metadata from. */
+export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Agent. */
+  type: "agent";
+  /** The agent name to fetch instructions from. */
+  agent_name: string;
+  /** The agent version. If not specified, the latest version is used. */
+  agent_version?: string;
+}
+
+export function agentEvaluatorGenerationJobSourceSerializer(
+  item: AgentEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function agentEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): AgentEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Traces source for evaluator generation jobs — conversation traces from Application Insights. */
+export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Traces. */
+  type: "traces";
+  /** The unique agent ID used to filter traces. Provide either `agent_id` or `agent_name` — at least one is required. */
+  agent_id?: string;
+  /** The agent name to fetch traces for. Provide either `agent_id` or `agent_name` — at least one is required. */
+  agent_name?: string;
+  /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
+  agent_version?: string;
+  /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
+  start_time: Date;
+  /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
+  end_time?: Date;
+}
+
+export function tracesEvaluatorGenerationJobSourceSerializer(
+  item: TracesEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: (item["start_time"].getTime() / 1000) | 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+  };
+}
+
+export function tracesEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): TracesEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: new Date(item["start_time"] * 1000),
+    end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
+  };
+}
+
+/** Dataset source for evaluator generation jobs — reference to a dataset. */
+export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Dataset. */
+  type: "dataset";
+  /** The name of the dataset. */
+  name: string;
+  /** The version of the dataset. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function datasetEvaluatorGenerationJobSourceSerializer(
+  item: DatasetEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function datasetEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): DatasetEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
+export interface EvaluatorGenerationTokenUsage {
+  /** Number of input (prompt) tokens consumed. */
+  input_tokens: number;
+  /** Number of output (completion) tokens generated. */
+  output_tokens: number;
+  /** Total tokens consumed (input + output). */
+  total_tokens: number;
+}
+
+export function evaluatorGenerationTokenUsageDeserializer(
+  item: any,
+): EvaluatorGenerationTokenUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    output_tokens: item["output_tokens"],
+    total_tokens: item["total_tokens"],
+  };
+}
+
+export function rubricGenerationInputQualityWarningArrayDeserializer(
+  result: Array<RubricGenerationInputQualityWarning>,
+): any[] {
+  return result.map((item) => {
+    return rubricGenerationInputQualityWarningDeserializer(item);
+  });
+}
+
+/** A non-fatal advisory produced during rubric evaluator generation when resolved inputs are technically valid but likely too weak to produce a high-quality rubric. Read-only; service-generated. Persisted with the terminal EvaluatorGenerationJob. */
+export interface RubricGenerationInputQualityWarning {
+  /** Stable searchable machine-readable warning code. */
+  code: RubricGenerationInputQualityWarningCode;
+  /** Advisory severity. Initial values: `warning`. */
+  severity: RubricGenerationInputQualityWarningSeverity;
+  /** Human-readable message suitable for direct SDK/CLI/UI display. Must not include raw prompt, instruction, dataset, or trace text. */
+  message: string;
+  /** Which source category the warning applies to. `aggregate` is used only for cross-source warnings. */
+  source: RubricGenerationInputQualityWarningSource;
+  /** Zero-based index into `EvaluatorGenerationJob.inputs.sources` when the warning applies to a specific source. Omitted for aggregate warnings and for warnings not tied to one source. */
+  source_index?: number;
+}
+
+export function rubricGenerationInputQualityWarningDeserializer(
+  item: any,
+): RubricGenerationInputQualityWarning {
+  return {
+    code: item["code"],
+    severity: item["severity"],
+    message: item["message"],
+    source: item["source"],
+    source_index: item["source_index"],
+  };
+}
+
+/** Stable searchable machine-readable warning code for a rubric-generation input-quality warning. Values are `snake_case`; clients must tolerate additional service-defined identifiers. */
+export type RubricGenerationInputQualityWarningCode =
+  | "empty_prompt"
+  | "short_prompt"
+  | "empty_agent_instructions"
+  | "short_agent_instructions"
+  | "empty_dataset_content"
+  | "short_dataset_content"
+  | "low_trace_count"
+  | "insufficient_total_input";
+
+/** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
+export type RubricGenerationInputQualityWarningSeverity = "warning";
+
+/** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
+export type RubricGenerationInputQualityWarningSource =
+  "prompt" | "agent" | "dataset" | "aggregate";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultEvaluatorGenerationJob {
+  /** The requested list of items. */
+  data: EvaluatorGenerationJob[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultEvaluatorGenerationJobDeserializer(
+  item: any,
+): _AgentsPagedResultEvaluatorGenerationJob {
+  return {
+    data: evaluatorGenerationJobArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function evaluatorGenerationJobArraySerializer(
+  result: Array<EvaluatorGenerationJob>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSerializer(item);
+  });
+}
+
+export function evaluatorGenerationJobArrayDeserializer(
+  result: Array<EvaluatorGenerationJob>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobDeserializer(item);
+  });
+}
+
 export function toolboxToolUnionArraySerializer(result: Array<ToolboxToolUnion>): any[] {
   return result.map((item) => {
     return toolboxToolUnionSerializer(item);
@@ -12517,545 +13489,6 @@ export function evaluationTaxonomyArrayDeserializer(result: Array<EvaluationTaxo
   });
 }
 
-/** Paged collection of EvaluatorVersion items */
-export interface _PagedEvaluatorVersion {
-  /** The EvaluatorVersion items on this page */
-  value: EvaluatorVersion[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedEvaluatorVersionDeserializer(item: any): _PagedEvaluatorVersion {
-  return {
-    value: evaluatorVersionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function evaluatorVersionArraySerializer(result: Array<EvaluatorVersion>): any[] {
-  return result.map((item) => {
-    return evaluatorVersionSerializer(item);
-  });
-}
-
-export function evaluatorVersionArrayDeserializer(result: Array<EvaluatorVersion>): any[] {
-  return result.map((item) => {
-    return evaluatorVersionDeserializer(item);
-  });
-}
-
-/** Evaluator Definition */
-export interface EvaluatorVersion {
-  /** Display Name for evaluator. It helps to find the evaluator easily in AI Foundry. It does not need to be unique. */
-  display_name?: string;
-  /** Metadata about the evaluator */
-  metadata?: Record<string, string>;
-  /** The type of the evaluator */
-  evaluator_type: EvaluatorType;
-  /** The categories of the evaluator */
-  categories: EvaluatorCategory[];
-  /** Evaluation levels this evaluator supports (e.g., `turn`, `conversation`). When omitted on create, the service defaults to `["turn"]`. On update, omitting this field leaves it unchanged; an empty list is rejected. Custom code-based evaluators support only `turn`; custom prompt-based evaluators support exactly one level (`turn` or `conversation`). */
-  supported_evaluation_levels?: EvaluationLevel[];
-  /** Definition of the evaluator */
-  definition: EvaluatorDefinitionUnion;
-  /** Provenance artifacts from the generation pipeline. Read-only; present only on evaluator versions created via an EvaluatorGenerationJob. Each artifact resolves to a versioned Foundry Dataset. */
-  readonly generation_artifacts?: EvaluatorGenerationArtifacts;
-  /** Read-only provenance link back to the EvaluatorGenerationJob that produced this version. Present only on evaluator versions created via the generation pipeline; absent for manually-created versions and unaffected by subsequent `PATCH` calls. */
-  readonly generation_job_id?: string;
-  /** Categories of warnings surfaced on this generated evaluator version. Present only on versions created via an EvaluatorGenerationJob when the paired job produced non-empty warnings. Absent (treat as no warnings) when the version is not from generation, when the paired job was clean, or when a subsequent `PATCH` to `definition` cleared the paired job's advisories. Follow `generation_job_id` to fetch the detailed warning payloads. */
-  readonly warnings?: GenerationWarningType[];
-  /** Creator of the evaluator */
-  readonly created_by: string;
-  /** Creation date/time of the evaluator */
-  readonly created_at: string;
-  /** Last modified date/time of the evaluator */
-  readonly modified_at: string;
-  /** Asset ID, a unique identifier for the asset */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name: string;
-  /** The version of the resource */
-  readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
-}
-
-export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
-  return {
-    display_name: item["display_name"],
-    metadata: item["metadata"],
-    evaluator_type: item["evaluator_type"],
-    categories: item["categories"].map((p: any) => {
-      return p;
-    }),
-    supported_evaluation_levels: !item["supported_evaluation_levels"]
-      ? item["supported_evaluation_levels"]
-      : item["supported_evaluation_levels"].map((p: any) => {
-          return p;
-        }),
-    definition: evaluatorDefinitionUnionSerializer(item["definition"]),
-    description: item["description"],
-    tags: item["tags"],
-  };
-}
-
-export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
-  return {
-    display_name: item["display_name"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
-    evaluator_type: item["evaluator_type"],
-    categories: item["categories"].map((p: any) => {
-      return p;
-    }),
-    supported_evaluation_levels: !item["supported_evaluation_levels"]
-      ? item["supported_evaluation_levels"]
-      : item["supported_evaluation_levels"].map((p: any) => {
-          return p;
-        }),
-    definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
-    generation_artifacts: !item["generation_artifacts"]
-      ? item["generation_artifacts"]
-      : evaluatorGenerationArtifactsDeserializer(item["generation_artifacts"]),
-    generation_job_id: item["generation_job_id"],
-    warnings: !item["warnings"]
-      ? item["warnings"]
-      : item["warnings"].map((p: any) => {
-          return p;
-        }),
-    created_by: item["created_by"],
-    created_at: item["created_at"],
-    modified_at: item["modified_at"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** The type of the evaluator */
-export type EvaluatorType = "builtin" | "custom";
-
-/** The category of the evaluator */
-export type EvaluatorCategory = "quality" | "safety" | "agents";
-
-/** The level at which evaluation is performed. */
-export type EvaluationLevel = "turn" | "conversation";
-
-/** Base evaluator configuration with discriminator */
-export interface EvaluatorDefinition {
-  /** The type of evaluator definition */
-  /** The discriminator possible values: code, prompt, rubric, endpoint */
-  type: EvaluatorDefinitionType;
-  /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  init_parameters?: Record<string, any>;
-  /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  data_schema?: Record<string, any>;
-  /** List of output metrics produced by this evaluator */
-  metrics?: Record<string, EvaluatorMetric>;
-}
-
-export function evaluatorDefinitionSerializer(item: EvaluatorDefinition): any {
-  return {
-    type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
-    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-  };
-}
-
-export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition {
-  return {
-    type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : evaluatorMetricRecordDeserializer(item["metrics"]),
-  };
-}
-
-/** Alias for EvaluatorDefinitionUnion */
-export type EvaluatorDefinitionUnion =
-  | CodeBasedEvaluatorDefinition
-  | PromptBasedEvaluatorDefinition
-  | RubricBasedEvaluatorDefinition
-  | EndpointBasedEvaluatorDefinition
-  | EvaluatorDefinition;
-
-export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnion): any {
-  switch (item.type) {
-    case "code":
-      return codeBasedEvaluatorDefinitionSerializer(item as CodeBasedEvaluatorDefinition);
-
-    case "prompt":
-      return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
-
-    case "rubric":
-      return rubricBasedEvaluatorDefinitionSerializer(item as RubricBasedEvaluatorDefinition);
-
-    case "endpoint":
-      return endpointBasedEvaluatorDefinitionSerializer(item as EndpointBasedEvaluatorDefinition);
-
-    default:
-      return evaluatorDefinitionSerializer(item);
-  }
-}
-
-export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefinitionUnion {
-  switch (item["type"]) {
-    case "code":
-      return codeBasedEvaluatorDefinitionDeserializer(item as CodeBasedEvaluatorDefinition);
-
-    case "prompt":
-      return promptBasedEvaluatorDefinitionDeserializer(item as PromptBasedEvaluatorDefinition);
-
-    case "rubric":
-      return rubricBasedEvaluatorDefinitionDeserializer(item as RubricBasedEvaluatorDefinition);
-
-    case "endpoint":
-      return endpointBasedEvaluatorDefinitionDeserializer(item as EndpointBasedEvaluatorDefinition);
-
-    default:
-      return evaluatorDefinitionDeserializer(item);
-  }
-}
-
-/** The type of evaluator definition */
-export type EvaluatorDefinitionType =
-  "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "rubric" | "endpoint";
-
-export function evaluatorMetricRecordSerializer(
-  item: Record<string, EvaluatorMetric>,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : evaluatorMetricSerializer(item[key]);
-  });
-  return result;
-}
-
-export function evaluatorMetricRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, EvaluatorMetric> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : evaluatorMetricDeserializer(item[key]);
-  });
-  return result;
-}
-
-/** Evaluator Metric */
-export interface EvaluatorMetric {
-  /** Type of the metric. */
-  type?: EvaluatorMetricType;
-  /** It indicates whether a higher value is better or a lower value is better for this metric. */
-  desirable_direction?: EvaluatorMetricDirection;
-  /** Minimum value for the metric */
-  min_value?: number;
-  /** Maximum value for the metric. If not specified, it is assumed to be unbounded. */
-  max_value?: number;
-  /** Default pass/fail threshold for this metric. */
-  threshold?: number;
-  /** Indicates if this metric is primary when there are multiple metrics. */
-  is_primary?: boolean;
-}
-
-export function evaluatorMetricSerializer(item: EvaluatorMetric): any {
-  return {
-    type: item["type"],
-    desirable_direction: item["desirable_direction"],
-    min_value: item["min_value"],
-    max_value: item["max_value"],
-    threshold: item["threshold"],
-    is_primary: item["is_primary"],
-  };
-}
-
-export function evaluatorMetricDeserializer(item: any): EvaluatorMetric {
-  return {
-    type: item["type"],
-    desirable_direction: item["desirable_direction"],
-    min_value: item["min_value"],
-    max_value: item["max_value"],
-    threshold: item["threshold"],
-    is_primary: item["is_primary"],
-  };
-}
-
-/** The type of the evaluator */
-export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
-
-/** The direction of the metric indicating whether a higher value is better, a lower value is better, or neutral */
-export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
-
-/** Code-based evaluator definition using python code */
-export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "code";
-  /** Inline code text for the evaluator */
-  code_text?: string;
-  /** The entry point Python file name for the uploaded evaluator code (e.g. 'answer_length_evaluator.py') */
-  entry_point?: string;
-  /** The container image tag to use for evaluator code execution */
-  image_tag?: string;
-  /** The blob URI for the evaluator storage */
-  blob_uri?: string;
-}
-
-export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorDefinition): any {
-  return {
-    type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
-    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    code_text: item["code_text"],
-    entry_point: item["entry_point"],
-    image_tag: item["image_tag"],
-    blob_uri: item["blob_uri"],
-  };
-}
-
-export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEvaluatorDefinition {
-  return {
-    type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : evaluatorMetricRecordDeserializer(item["metrics"]),
-    code_text: item["code_text"],
-    entry_point: item["entry_point"],
-    image_tag: item["image_tag"],
-    blob_uri: item["blob_uri"],
-  };
-}
-
-/** Prompt-based evaluator */
-export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "prompt";
-  /** The prompt text used for evaluation */
-  prompt_text: string;
-}
-
-export function promptBasedEvaluatorDefinitionSerializer(
-  item: PromptBasedEvaluatorDefinition,
-): any {
-  return {
-    type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
-    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    prompt_text: item["prompt_text"],
-  };
-}
-
-export function promptBasedEvaluatorDefinitionDeserializer(
-  item: any,
-): PromptBasedEvaluatorDefinition {
-  return {
-    type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : evaluatorMetricRecordDeserializer(item["metrics"]),
-    prompt_text: item["prompt_text"],
-  };
-}
-
-/** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
-export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "rubric";
-  /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
-  dimensions: Dimension[];
-  /** Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any dimension scored 1 → fail' rule still applies regardless of this threshold. */
-  pass_threshold?: number;
-}
-
-export function rubricBasedEvaluatorDefinitionSerializer(
-  item: RubricBasedEvaluatorDefinition,
-): any {
-  return {
-    type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
-    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    dimensions: dimensionArraySerializer(item["dimensions"]),
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-export function rubricBasedEvaluatorDefinitionDeserializer(
-  item: any,
-): RubricBasedEvaluatorDefinition {
-  return {
-    type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : evaluatorMetricRecordDeserializer(item["metrics"]),
-    dimensions: dimensionArrayDeserializer(item["dimensions"]),
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-export function dimensionArraySerializer(result: Array<Dimension>): any[] {
-  return result.map((item) => {
-    return dimensionSerializer(item);
-  });
-}
-
-export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
-  return result.map((item) => {
-    return dimensionDeserializer(item);
-  });
-}
-
-/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
-export interface Dimension {
-  /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
-  id: string;
-  /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
-  description: string;
-  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
-  weight: number;
-  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. The service defaults to `false` if a value is not specified by the caller. */
-  always_applicable?: boolean;
-}
-
-export function dimensionSerializer(item: Dimension): any {
-  return {
-    id: item["id"],
-    description: item["description"],
-    weight: item["weight"],
-    always_applicable: item["always_applicable"],
-  };
-}
-
-export function dimensionDeserializer(item: any): Dimension {
-  return {
-    id: item["id"],
-    description: item["description"],
-    weight: item["weight"],
-    always_applicable: item["always_applicable"],
-  };
-}
-
-/** Endpoint-based evaluator definition. The customer owns and hosts an HTTP endpoint that implements the evaluation contract. The evaluator references a Project Connection by name; the connection stores the endpoint URL and credentials (API Key or Entra ID). At execution time, the service resolves the connection to obtain the endpoint URL and authentication details, then calls the endpoint for each evaluation row. */
-export interface EndpointBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "endpoint";
-  /** Name of the Project Connection that stores the endpoint URL and credentials. The connection must exist on the project and have a non-empty target URL. Supported auth types: ApiKey (sends `api-key` header) and AAD/Entra ID (acquires a bearer token via the project's Managed Identity). */
-  connection_name: string;
-}
-
-export function endpointBasedEvaluatorDefinitionSerializer(
-  item: EndpointBasedEvaluatorDefinition,
-): any {
-  return {
-    type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
-    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    connection_name: item["connection_name"],
-  };
-}
-
-export function endpointBasedEvaluatorDefinitionDeserializer(
-  item: any,
-): EndpointBasedEvaluatorDefinition {
-  return {
-    type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : evaluatorMetricRecordDeserializer(item["metrics"]),
-    connection_name: item["connection_name"],
-  };
-}
-
-/** Service-managed provenance artifacts produced by an evaluator generation job. Present only on EvaluatorVersion resources created via the generation pipeline. The combined-JSONL Foundry Dataset is read-only and resolves to a versioned dataset in a service-reserved namespace. */
-export interface EvaluatorGenerationArtifacts {
-  /** Reference to the single Foundry Dataset (one combined JSONL file, version-aligned to `EvaluatorVersion.version`) holding all artifacts produced by the generation pipeline. Each row in the JSONL carries a `kind` field discriminating its content (e.g. `spec`, `tools`, `context`). */
-  dataset: DatasetReference;
-  /** The kinds of rows present in `dataset`. Always contains `"spec"` (the generated evaluation specification, a Markdown document describing what the evaluator measures). May additionally contain `"tools"` (when the generation pipeline produced or inferred OpenAI tool schemas) and/or `"context"` (when supplementary materials such as file uploads or trace samples were used during generation). */
-  kinds: string[];
-}
-
-export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGenerationArtifacts {
-  return {
-    dataset: datasetReferenceDeserializer(item["dataset"]),
-    kinds: item["kinds"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** Reference to a versioned Foundry Dataset. */
-export interface DatasetReference {
-  /** Dataset name. */
-  name: string;
-  /** Dataset version. */
-  version: string;
-}
-
-export function datasetReferenceDeserializer(item: any): DatasetReference {
-  return {
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** Category of a warning surfaced on a generated evaluator version. Extensible so new warning categories (e.g., safety, output quality) can be introduced without a breaking change. */
-export type GenerationWarningType = "input_quality";
-
 /** Request body for getting evaluator credentials */
 export interface EvaluatorCredentialRequest {
   /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
@@ -13064,439 +13497,6 @@ export interface EvaluatorCredentialRequest {
 
 export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
   return { blob_uri: item["blob_uri"] };
-}
-
-/** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
-export interface EvaluatorGenerationJob {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Caller-supplied inputs. */
-  inputs?: EvaluatorGenerationInputs;
-  /** Result produced on success. */
-  readonly result?: EvaluatorVersion;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ApiError;
-  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
-  readonly created_at: Date;
-  /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
-  readonly finished_at?: Date;
-  /** Token consumption summary. Populated when the job reaches a terminal state. */
-  readonly usage?: EvaluatorGenerationTokenUsage;
-  /** Non-fatal input-quality advisories produced by the generation pipeline. Read-only; service-generated; populated only on terminal jobs when advisories fired. Omitted when generation was clean. Cleared when a subsequent `PATCH` to the paired `EvaluatorVersion.definition` invalidates the advisories. */
-  readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
-}
-
-export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
-  return {
-    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
-  };
-}
-
-export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
-  return {
-    id: item["id"],
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : evaluatorGenerationInputsDeserializer(item["inputs"]),
-    result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    created_at: new Date(item["created_at"] * 1000),
-    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
-    usage: !item["usage"]
-      ? item["usage"]
-      : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
-    input_quality_warnings: !item["input_quality_warnings"]
-      ? item["input_quality_warnings"]
-      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
-  };
-}
-
-/** Caller-supplied inputs for an evaluator generation job. */
-export interface EvaluatorGenerationInputs {
-  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
-  sources: EvaluatorGenerationJobSourceUnion[];
-  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
-  model: string;
-  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
-  evaluator_name: string;
-  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
-  evaluator_display_name?: string;
-  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
-  evaluator_description?: string;
-}
-
-export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
-  return {
-    sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
-    model: item["model"],
-    evaluator_name: item["evaluator_name"],
-    evaluator_display_name: item["evaluator_display_name"],
-    evaluator_description: item["evaluator_description"],
-  };
-}
-
-export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
-  return {
-    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    model: item["model"],
-    evaluator_name: item["evaluator_name"],
-    evaluator_display_name: item["evaluator_display_name"],
-    evaluator_description: item["evaluator_description"],
-  };
-}
-
-export function evaluatorGenerationJobSourceUnionArraySerializer(
-  result: Array<EvaluatorGenerationJobSourceUnion>,
-): any[] {
-  return result.map((item) => {
-    return evaluatorGenerationJobSourceUnionSerializer(item);
-  });
-}
-
-export function evaluatorGenerationJobSourceUnionArrayDeserializer(
-  result: Array<EvaluatorGenerationJobSourceUnion>,
-): any[] {
-  return result.map((item) => {
-    return evaluatorGenerationJobSourceUnionDeserializer(item);
-  });
-}
-
-/** The base source model for evaluator generation jobs. Polymorphic over `type`. */
-export interface EvaluatorGenerationJobSource {
-  /** The type of source. */
-  /** The discriminator possible values: prompt, agent, traces, dataset */
-  type: EvaluatorGenerationJobSourceType;
-}
-
-export function evaluatorGenerationJobSourceSerializer(item: EvaluatorGenerationJobSource): any {
-  return { type: item["type"] };
-}
-
-export function evaluatorGenerationJobSourceDeserializer(item: any): EvaluatorGenerationJobSource {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for EvaluatorGenerationJobSourceUnion */
-export type EvaluatorGenerationJobSourceUnion =
-  | PromptEvaluatorGenerationJobSource
-  | AgentEvaluatorGenerationJobSource
-  | TracesEvaluatorGenerationJobSource
-  | DatasetEvaluatorGenerationJobSource
-  | EvaluatorGenerationJobSource;
-
-export function evaluatorGenerationJobSourceUnionSerializer(
-  item: EvaluatorGenerationJobSourceUnion,
-): any {
-  switch (item.type) {
-    case "prompt":
-      return promptEvaluatorGenerationJobSourceSerializer(
-        item as PromptEvaluatorGenerationJobSource,
-      );
-
-    case "agent":
-      return agentEvaluatorGenerationJobSourceSerializer(item as AgentEvaluatorGenerationJobSource);
-
-    case "traces":
-      return tracesEvaluatorGenerationJobSourceSerializer(
-        item as TracesEvaluatorGenerationJobSource,
-      );
-
-    case "dataset":
-      return datasetEvaluatorGenerationJobSourceSerializer(
-        item as DatasetEvaluatorGenerationJobSource,
-      );
-
-    default:
-      return evaluatorGenerationJobSourceSerializer(item);
-  }
-}
-
-export function evaluatorGenerationJobSourceUnionDeserializer(
-  item: any,
-): EvaluatorGenerationJobSourceUnion {
-  switch (item["type"]) {
-    case "prompt":
-      return promptEvaluatorGenerationJobSourceDeserializer(
-        item as PromptEvaluatorGenerationJobSource,
-      );
-
-    case "agent":
-      return agentEvaluatorGenerationJobSourceDeserializer(
-        item as AgentEvaluatorGenerationJobSource,
-      );
-
-    case "traces":
-      return tracesEvaluatorGenerationJobSourceDeserializer(
-        item as TracesEvaluatorGenerationJobSource,
-      );
-
-    case "dataset":
-      return datasetEvaluatorGenerationJobSourceDeserializer(
-        item as DatasetEvaluatorGenerationJobSource,
-      );
-
-    default:
-      return evaluatorGenerationJobSourceDeserializer(item);
-  }
-}
-
-/** The supported source types for evaluator generation jobs. */
-export type EvaluatorGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset";
-
-/** Prompt source for evaluator generation jobs — inline text provided by the user. */
-export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Prompt. */
-  type: "prompt";
-  /** Inline prompt text (e.g., agent description, policy text, supplementary context). */
-  prompt: string;
-}
-
-export function promptEvaluatorGenerationJobSourceSerializer(
-  item: PromptEvaluatorGenerationJobSource,
-): any {
-  return { type: item["type"], description: item["description"], prompt: item["prompt"] };
-}
-
-export function promptEvaluatorGenerationJobSourceDeserializer(
-  item: any,
-): PromptEvaluatorGenerationJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    prompt: item["prompt"],
-  };
-}
-
-/** Agent source for evaluator generation jobs — references an agent to fetch instructions and metadata from. */
-export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Agent. */
-  type: "agent";
-  /** The agent name to fetch instructions from. */
-  agent_name: string;
-  /** The agent version. If not specified, the latest version is used. */
-  agent_version?: string;
-}
-
-export function agentEvaluatorGenerationJobSourceSerializer(
-  item: AgentEvaluatorGenerationJobSource,
-): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-export function agentEvaluatorGenerationJobSourceDeserializer(
-  item: any,
-): AgentEvaluatorGenerationJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** Traces source for evaluator generation jobs — conversation traces from Application Insights. */
-export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Traces. */
-  type: "traces";
-  /** The unique agent ID used to filter traces. Provide either `agent_id` or `agent_name` — at least one is required. */
-  agent_id?: string;
-  /** The agent name to fetch traces for. Provide either `agent_id` or `agent_name` — at least one is required. */
-  agent_name?: string;
-  /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
-  agent_version?: string;
-  /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
-  start_time: Date;
-  /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
-  end_time?: Date;
-}
-
-export function tracesEvaluatorGenerationJobSourceSerializer(
-  item: TracesEvaluatorGenerationJobSource,
-): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_id: item["agent_id"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-    start_time: (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-  };
-}
-
-export function tracesEvaluatorGenerationJobSourceDeserializer(
-  item: any,
-): TracesEvaluatorGenerationJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_id: item["agent_id"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-    start_time: new Date(item["start_time"] * 1000),
-    end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-  };
-}
-
-/** Dataset source for evaluator generation jobs — reference to a dataset. */
-export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Dataset. */
-  type: "dataset";
-  /** The name of the dataset. */
-  name: string;
-  /** The version of the dataset. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function datasetEvaluatorGenerationJobSourceSerializer(
-  item: DatasetEvaluatorGenerationJobSource,
-): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-export function datasetEvaluatorGenerationJobSourceDeserializer(
-  item: any,
-): DatasetEvaluatorGenerationJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
-export interface EvaluatorGenerationTokenUsage {
-  /** Number of input (prompt) tokens consumed. */
-  input_tokens: number;
-  /** Number of output (completion) tokens generated. */
-  output_tokens: number;
-  /** Total tokens consumed (input + output). */
-  total_tokens: number;
-}
-
-export function evaluatorGenerationTokenUsageDeserializer(
-  item: any,
-): EvaluatorGenerationTokenUsage {
-  return {
-    input_tokens: item["input_tokens"],
-    output_tokens: item["output_tokens"],
-    total_tokens: item["total_tokens"],
-  };
-}
-
-export function rubricGenerationInputQualityWarningArrayDeserializer(
-  result: Array<RubricGenerationInputQualityWarning>,
-): any[] {
-  return result.map((item) => {
-    return rubricGenerationInputQualityWarningDeserializer(item);
-  });
-}
-
-/** A non-fatal advisory produced during rubric evaluator generation when resolved inputs are technically valid but likely too weak to produce a high-quality rubric. Read-only; service-generated. Persisted with the terminal EvaluatorGenerationJob. */
-export interface RubricGenerationInputQualityWarning {
-  /** Stable searchable machine-readable warning code. */
-  code: RubricGenerationInputQualityWarningCode;
-  /** Advisory severity. Initial values: `warning`. */
-  severity: RubricGenerationInputQualityWarningSeverity;
-  /** Human-readable message suitable for direct SDK/CLI/UI display. Must not include raw prompt, instruction, dataset, or trace text. */
-  message: string;
-  /** Which source category the warning applies to. `aggregate` is used only for cross-source warnings. */
-  source: RubricGenerationInputQualityWarningSource;
-  /** Zero-based index into `EvaluatorGenerationJob.inputs.sources` when the warning applies to a specific source. Omitted for aggregate warnings and for warnings not tied to one source. */
-  source_index?: number;
-}
-
-export function rubricGenerationInputQualityWarningDeserializer(
-  item: any,
-): RubricGenerationInputQualityWarning {
-  return {
-    code: item["code"],
-    severity: item["severity"],
-    message: item["message"],
-    source: item["source"],
-    source_index: item["source_index"],
-  };
-}
-
-/** Stable searchable machine-readable warning code for a rubric-generation input-quality warning. Values are `snake_case`; clients must tolerate additional service-defined identifiers. */
-export type RubricGenerationInputQualityWarningCode =
-  | "empty_prompt"
-  | "short_prompt"
-  | "empty_agent_instructions"
-  | "short_agent_instructions"
-  | "empty_dataset_content"
-  | "short_dataset_content"
-  | "low_trace_count"
-  | "insufficient_total_input";
-
-/** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
-export type RubricGenerationInputQualityWarningSeverity = "warning";
-
-/** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
-export type RubricGenerationInputQualityWarningSource =
-  "prompt" | "agent" | "dataset" | "aggregate";
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultEvaluatorGenerationJob {
-  /** The requested list of items. */
-  data: EvaluatorGenerationJob[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultEvaluatorGenerationJobDeserializer(
-  item: any,
-): _AgentsPagedResultEvaluatorGenerationJob {
-  return {
-    data: evaluatorGenerationJobArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function evaluatorGenerationJobArraySerializer(
-  result: Array<EvaluatorGenerationJob>,
-): any[] {
-  return result.map((item) => {
-    return evaluatorGenerationJobSerializer(item);
-  });
-}
-
-export function evaluatorGenerationJobArrayDeserializer(
-  result: Array<EvaluatorGenerationJob>,
-): any[] {
-  return result.map((item) => {
-    return evaluatorGenerationJobDeserializer(item);
-  });
 }
 
 /** The response body for cluster insights. */
@@ -19732,17 +19732,17 @@ export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any 
   return { default_version: item["default_version"] };
 }
 
-/** The kind-specific inputs for generating and creating an agent. */
-export type GenerateAgentRequest = GenerateVoiceAgentRequest;
-
-export function generateAgentRequestSerializer(item: GenerateAgentRequest): any {
-  return item;
-}
-
 /** Alias for _ListVersionsRequestType */
 export type _ListVersionsRequestType = EvaluatorType | "all";
 
 export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestType): any {
+  return item;
+}
+
+/** The kind-specific inputs for generating and creating an agent. */
+export type GenerateAgentRequest = GenerateVoiceAgentRequest;
+
+export function generateAgentRequestSerializer(item: GenerateAgentRequest): any {
   return item;
 }
 

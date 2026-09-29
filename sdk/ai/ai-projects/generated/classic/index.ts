@@ -7,6 +7,7 @@ export type { ConnectionsOperations } from "./connections/index.js";
 export type { DatasetsOperations } from "./datasets/index.js";
 export type { DeploymentsOperations } from "./deployments/index.js";
 export type { EvaluationRulesOperations } from "./evaluationRules/index.js";
+export type { EvaluatorsOperations } from "./evaluators/index.js";
 export type { IndexesOperations } from "./indexes/index.js";
 export type { ToolboxesOperations } from "./toolboxes/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./beta/agentInsightMonitors/index.js";
