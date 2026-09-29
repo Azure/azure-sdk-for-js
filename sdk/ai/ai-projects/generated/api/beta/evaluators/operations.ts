@@ -259,7 +259,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -281,7 +281,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(job),
+      body: evaluatorGenerationJobSerializer(body),
     });
 }
 
@@ -314,13 +314,13 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  body: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion> {
   return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    getInitialResponse: () => _createGenerationJobSend(context, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;

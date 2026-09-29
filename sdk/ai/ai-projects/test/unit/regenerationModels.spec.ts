@@ -137,7 +137,7 @@ describe("regenerated model wire contracts", () => {
       label: "Twilio binding",
     },
     {
-      provider: "teams_phone_extension",
+      provider: "teams_phone_extensibility",
       connection_name: connectionName,
       resource_account_object_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       label: "Teams binding",
