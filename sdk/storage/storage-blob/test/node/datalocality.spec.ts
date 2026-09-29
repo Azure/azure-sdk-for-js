@@ -466,7 +466,7 @@ describe("Data locality Node.js only", () => {
 
   it("reads a range from the endpoint its layout names, still addressed to the account", async () => {
     const offset = blockSize;
-    const { value: page } = await blobClient.getLayout().next();
+    const page: BlobGetLayoutResponseModel = (await blobClient.getLayout().next()).value;
     const range = page.ranges!.range!.find((r) => r.start <= offset && offset <= r.end)!;
     const endpoint = page.endpoints!.endpoint!.find((e) => e.index === range.endpointIndex)!;
     spy.sent.length = 0;
