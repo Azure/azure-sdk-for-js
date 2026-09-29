@@ -286,15 +286,19 @@ export function isPropertyMethod(p: Symbol) {
   );
 }
 
-export function isPropertyArrowFunction(p: Symbol) {
+export function isPropertyArrowFunction(p: Symbol): boolean {
   const node = p.getValueDeclaration();
-  return (
-    node &&
-    (node.getKind() === SyntaxKind.PropertySignature ||
-      node.getKind() === SyntaxKind.PropertyDeclaration) &&
-    Node.isTyped(node) &&
-    node.getTypeNodeOrThrow().isKind(SyntaxKind.FunctionType)
-  );
+
+  if (
+    !node ||
+    (node.getKind() !== SyntaxKind.PropertySignature &&
+      node.getKind() !== SyntaxKind.PropertyDeclaration) ||
+    !Node.isTyped(node)
+  ) {
+    return false;
+  }
+
+  return node.getTypeNode()?.isKind(SyntaxKind.FunctionType) === true;
 }
 
 export function isMethodOrArrowFunction(p: Symbol) {
