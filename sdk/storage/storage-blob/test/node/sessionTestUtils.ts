@@ -50,9 +50,9 @@ export function createSessionBody(
 }
 
 /**
- * A core-v1 style client, which is the shape `StoragePipelineOptions.httpClient` expects.
- * `seen` snapshots each request because `toWebResourceLike` proxies the live request object,
- * which the policy may still mutate after the response comes back.
+ * Fake HTTP client that answers every request with `respond` instead of calling the service.
+ * `seen` keeps a copy of each request's URL, method and auth header as it was sent. `requests`
+ * keeps the request objects themselves, which the SDK can still change after they are sent.
  */
 export function fakeHttpClient(respond: (request: WebResourceLike) => FakeResponse): {
   httpClient: any;

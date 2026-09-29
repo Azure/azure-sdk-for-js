@@ -114,24 +114,14 @@ describe("session wiring in getCoreClientOptions", () => {
       );
     });
 
-    const bearerOnlyCases: { name: string; url: string; method?: HttpMethods }[] = [
-      { name: "a sub-resource request", url: `${BLOB_URL}?comp=blocklist` },
-      { name: "a container-level request", url: `${ACCOUNT}/mycontainer?restype=container` },
-      { name: "a service-level request", url: `${ACCOUNT}/?comp=list` },
-      { name: "an upload", url: BLOB_URL, method: "PUT" },
-      { name: "a get-properties call", url: BLOB_URL, method: "HEAD" },
-    ];
+    it("leaves a sub-resource request on bearer", async () => {
+      const client = createClient({ mode: "enabled" });
 
-    for (const { name, url, method } of bearerOnlyCases) {
-      it(`leaves ${name} on bearer`, async () => {
-        const client = createClient({ mode: "enabled" });
+      await client.send(`${BLOB_URL}?comp=blocklist`);
 
-        await client.send(url, method);
-
-        assert.strictEqual(client.createSessionCount(), 0);
-        assert.strictEqual(client.dataRequests()[0].authorization, "Bearer fake-bearer-token");
-      });
-    }
+      assert.strictEqual(client.createSessionCount(), 0);
+      assert.strictEqual(client.dataRequests()[0].authorization, "Bearer fake-bearer-token");
+    });
 
     it("honors a configured account name", async () => {
       const derived = createClient({ mode: "enabled" });

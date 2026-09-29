@@ -89,8 +89,9 @@ export function storageSessionAuthenticationPolicy(
         return response;
       }
 
-      // The session was rejected, revoked, or expired early. Drop it so the next request mints
-      // a fresh one, and let this request through on a bearer token exactly once.
+      // The session used for this container request was rejected or expired early. Invalidate
+      // only that session so the next request to this container mints a fresh one, then retry
+      // this request once with bearer authentication.
       getProvider(request).invalidateSession(request, session);
       request.headers.delete(HeaderConstants.AUTHORIZATION);
       request.headers.delete(HeaderConstants.X_MS_DATE);

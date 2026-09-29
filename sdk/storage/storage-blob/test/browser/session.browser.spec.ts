@@ -24,8 +24,9 @@ interface SeenRequest {
 }
 
 /**
- * A core-v1 style client, which is the shape `StoragePipelineOptions.httpClient` expects.
- * Snapshots each request, since the live object may be mutated after the response comes back.
+ * Fake HTTP client that answers every request with an empty 200 instead of calling the service.
+ * It keeps a copy of each request's URL and auth header as it was sent, because the SDK can
+ * change the same request object afterwards.
  */
 function recordingHttpClient(): { httpClient: any; seen: SeenRequest[] } {
   const seen: SeenRequest[] = [];
@@ -46,8 +47,8 @@ function recordingHttpClient(): { httpClient: any; seen: SeenRequest[] } {
 
 describe("session authentication in the browser", () => {
   it("accepts a custom endpoint with sessions enabled", () => {
-    // Node rejects this, because it cannot derive the account name needed to sign. The browser
-    // never signs — the session policy is a bearer passthrough — so the guard must not fire.
+    // On Node.js this throws, because a custom domain doesn't contain the account name (see
+    // sessionWiring.spec.ts). The browser never uses sessions, so here it must not throw.
     assert.doesNotThrow(
       () => new BlobClient(CUSTOM_DOMAIN, credential, { sessionOptions: { mode: "enabled" } }),
     );
