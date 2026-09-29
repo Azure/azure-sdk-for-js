@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzureFleetClient } = require("@azure/arm-computefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzureFleetClient } from "@azure/arm-computefleet";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-01-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGen() {
+async function operationsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -26,9 +26,9 @@ async function operationsListMaximumSetGen() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-01-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGen() {
+async function operationsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await operationsListMaximumSetGen();
   await operationsListMinimumSetGen();
 }

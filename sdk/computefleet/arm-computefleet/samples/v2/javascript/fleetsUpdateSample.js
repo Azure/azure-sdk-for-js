@@ -5,16 +5,18 @@ const { AzureFleetClient } = require("@azure/arm-computefleet");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create a Fleet
+ * This sample demonstrates how to update a Fleet
  *
- * @summary create a Fleet
- * x-ms-original-file: 2026-06-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary update a Fleet
+ * x-ms-original-file: 2026-08-01/Fleets_Update_MaximumSet_Gen.json
  */
-async function fleetsCreateOrUpdateMaximumSetGen() {
+async function fleetsUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.createOrUpdate("rgazurefleet", "myFleet", {
+  const result = await client.fleets.update("rgazurefleet", "myFleet", {
+    identity: { type: "UserAssigned", userAssignedIdentities: {} },
+    tags: {},
     properties: {
       spotPriorityProfile: {
         capacity: 20,
@@ -60,7 +62,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
               winRM: {
                 listeners: [
                   {
-                    protocol: "Https",
+                    protocol: "Http",
                     certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
                   },
                 ],
@@ -268,7 +270,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                   provisionAfterExtensions: ["nftzosroolbcwmpupujzqwqe"],
                   suppressFailures: true,
                   protectedSettingsFromKeyVault: {
-                    secretUrl: "https://myvaultName.vault.azure.net/secrets/secret/mySecretName",
+                    secretUrl: "https://myVaultName.vault.azure.net/secrets/secret/mySecretName",
                     sourceVault: {
                       id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                     },
@@ -319,15 +321,6 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
         platformFaultDomainCount: 1,
         additionalVirtualMachineCapabilities: { ultraSSDEnabled: true, hibernationEnabled: true },
       },
-      mode: "Launch",
-      capacityType: "VM",
-      zoneAllocationPolicy: {
-        distributionStrategy: "Prioritized",
-        zonePreferences: [
-          { zone: "1", rank: 0 },
-          { zone: "2", rank: 1 },
-        ],
-      },
       vmAttributes: {
         vCpuCount: { min: 2, max: 4 },
         memoryInGiB: { min: 2, max: 4 },
@@ -344,7 +337,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
         acceleratorManufacturers: ["AMD"],
         acceleratorTypes: ["GPU"],
         acceleratorCount: { min: 2, max: 4 },
-        vmCategories: ["GpuAccelerated"],
+        vmCategories: ["GeneralPurpose"],
         architectureTypes: ["ARM64"],
         cpuManufacturers: ["Intel"],
         burstableSupport: "Excluded",
@@ -353,23 +346,23 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
       additionalLocationsProfile: {
         locationProfiles: [
           {
-            location: "ekbzgzhs",
+            location: "v",
             virtualMachineProfileOverride: {
               osProfile: {
-                computerNamePrefix: "xoxwfnjjuqibzxldgxu",
-                adminUsername: "wwjyuhblwecni",
+                computerNamePrefix: "tec",
+                adminUsername: "xdgnnqymtamdyqxy",
                 adminPassword: "<a-password-goes-here>",
-                customData: "gvyvbgcgutteiivwjn",
+                customData: "whcielwnerogvbxnbia",
                 windowsConfiguration: {
                   provisionVMAgent: true,
                   enableAutomaticUpdates: true,
-                  timeZone: "oqpoladmchkkugpxocrynztkok",
+                  timeZone: "ktf",
                   additionalUnattendContent: [
                     {
                       passName: "OobeSystem",
                       componentName: "Microsoft-Windows-Shell-Setup",
                       settingName: "AutoLogon",
-                      content: "ynkrgbreqtuxgftjgeuvozzypzx",
+                      content: "xcigofrcurxdwx",
                     },
                   ],
                   patchSettings: {
@@ -382,13 +375,15 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                     },
                   },
                   winRM: {
-                    listeners: [{ protocol: "Http", certificateUrl: "https://microsoft.com/a" }],
+                    listeners: [{ protocol: "Http", certificateUrl: "https://microsoft.com/apzd" }],
                   },
                   enableVMAgentPlatformUpdates: true,
                 },
                 linuxConfiguration: {
                   disablePasswordAuthentication: true,
-                  ssh: { publicKeys: [{ path: "bci", keyData: "meokrrrddgnyxyhg" }] },
+                  ssh: {
+                    publicKeys: [{ path: "ebeglujkldnntlpmazrg", keyData: "vmgnwtwjcodavmu" }],
+                  },
                   provisionVMAgent: true,
                   patchSettings: {
                     patchMode: "ImageDefault",
@@ -406,7 +401,10 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                       id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                     },
                     vaultCertificates: [
-                      { certificateUrl: "https://microsoft.com/a", certificateStore: "hdts" },
+                      {
+                        certificateUrl: "https://microsoft.com/a",
+                        certificateStore: "yycyfwpymjtwzza",
+                      },
                     ],
                   },
                 ],
@@ -424,15 +422,15 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}/versions/{versionName}",
                 },
                 osDisk: {
-                  name: "xhwnqpqigoymwwetvhjuuhiu",
+                  name: "dt",
                   caching: "None",
                   writeAcceleratorEnabled: true,
                   createOption: "FromImage",
                   diffDiskSettings: { option: "Local", placement: "CacheDisk" },
-                  diskSizeGB: 21,
+                  diskSizeGB: 9,
                   osType: "Windows",
                   image: { uri: "https://microsoft.com/a" },
-                  vhdContainers: ["mgyqnavpb"],
+                  vhdContainers: ["kdagj"],
                   managedDisk: {
                     storageAccountType: "Standard_LRS",
                     diskEncryptionSet: {
@@ -449,12 +447,12 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                 },
                 dataDisks: [
                   {
-                    name: "nqblcowgig",
-                    lun: 14,
+                    name: "mhljivkyryuomrapmmxx",
+                    lun: 6,
                     caching: "None",
                     writeAcceleratorEnabled: true,
                     createOption: "FromImage",
-                    diskSizeGB: 11,
+                    diskSizeGB: 9,
                     managedDisk: {
                       storageAccountType: "Standard_LRS",
                       diskEncryptionSet: {
@@ -467,7 +465,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                         },
                       },
                     },
-                    diskIopsReadWrite: 5,
+                    diskIopsReadWrite: 24,
                     diskMBpsReadWrite: 4,
                     deleteOption: "Delete",
                   },
@@ -480,7 +478,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                 },
                 networkInterfaceConfigurations: [
                   {
-                    name: "uyemquurltujhbjkhm",
+                    name: "gpunpcdsdphgspvgwwbnk",
                     properties: {
                       primary: true,
                       enableAcceleratedNetworking: true,
@@ -489,28 +487,25 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                       networkSecurityGroup: {
                         id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
                       },
-                      dnsSettings: { dnsServers: ["ajcsckebabrus"] },
+                      dnsSettings: { dnsServers: ["sjpmlu"] },
                       ipConfigurations: [
                         {
-                          name: "xpwuwsvkuml",
+                          name: "fweiphgkyhbcsbfjmxzczkpg",
                           properties: {
                             subnet: {
                               id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
                             },
                             primary: true,
                             publicIPAddressConfiguration: {
-                              name: "wbpdlbxflssopphq",
+                              name: "dvnoamqjyshquvtmf",
                               properties: {
-                                idleTimeoutInMinutes: 9,
+                                idleTimeoutInMinutes: 1,
                                 dnsSettings: {
-                                  domainNameLabel: "uwjtwqgwalsctypszcbnxo",
+                                  domainNameLabel: "ayofnb",
                                   domainNameLabelScope: "TenantReuse",
                                 },
                                 ipTags: [
-                                  {
-                                    ipTagType: "hxkbmbisknggtfdqoaqagjhipdkd",
-                                    tag: "vzxhyyrzieaocbxyxieivj",
-                                  },
+                                  { ipTagType: "zqpznczmc", tag: "ugnfzikniqjisffrbvryavenhmtd" },
                                 ],
                                 publicIPPrefix: {
                                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}",
@@ -561,7 +556,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                   userAssignedIdentityResourceId:
                     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{userAssignedIdentityName}",
                 },
-                proxyAgentSettings: { enabled: true, mode: "Audit", keyIncarnationId: 22 },
+                proxyAgentSettings: { enabled: true, mode: "Audit", keyIncarnationId: 6 },
               },
               diagnosticsProfile: {
                 bootDiagnostics: { enabled: true, storageUri: "https://microsoft.com/a" },
@@ -569,20 +564,20 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
               extensionProfile: {
                 extensions: [
                   {
-                    name: "dockglmmvl",
+                    name: "oredyuufsd",
                     properties: {
-                      forceUpdateTag: "wzyqlpszoiewqbhlnzckfshdtpwkbd",
-                      publisher: "iikgjziralgrfsrxrlrdigqyfhuqg",
-                      type: "xzhgosms",
-                      typeHandlerVersion: "mfzdzdwucagkogmxoosyjpej",
+                      forceUpdateTag: "muglieujh",
+                      publisher: "ccbiyfuveemaaopgxbjpm",
+                      type: "yorumzkbfpxnrdwgczwwaeaxmda",
+                      typeHandlerVersion: "nlnqbmgzwubbc",
                       autoUpgradeMinorVersion: true,
                       enableAutomaticUpgrade: true,
                       settings: {},
                       protectedSettings: {},
-                      provisionAfterExtensions: ["rqrycujrpdodllirebkfg"],
+                      provisionAfterExtensions: ["xuefrutmgzsxrpjjayvy"],
                       suppressFailures: true,
                       protectedSettingsFromKeyVault: {
-                        secretUrl: "https://microsoft.com/ahygahgb",
+                        secretUrl: "https://microsoft.com/a",
                         sourceVault: {
                           id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                         },
@@ -590,20 +585,17 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
                     },
                   },
                 ],
-                extensionsTimeBudget: "srxtwxrc",
+                extensionsTimeBudget: "trluxrynunvdnukztblhbnsubr",
               },
-              licenseType: "hilutelnuqxtpdznq",
+              licenseType: "ginsqshzwimjteiyfxhnjxfrcaat",
               scheduledEventsProfile: {
                 terminateNotificationProfile: {
-                  notBeforeTimeout: "jgycfvgxpzvgsdylbcspkrxwhgxkyd",
+                  notBeforeTimeout: "plbazenobaeueixatewbey",
                   enable: true,
                 },
-                osImageNotificationProfile: {
-                  notBeforeTimeout: "nbgfbvisxveyywfyjgcfb",
-                  enable: true,
-                },
+                osImageNotificationProfile: { notBeforeTimeout: "ednjvcedpjmczw", enable: true },
               },
-              userData: "ezhyl",
+              userData: "zekdr",
               capacityReservation: {
                 capacityReservationGroup: {
                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
@@ -612,34 +604,32 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
               applicationProfile: {
                 galleryApplications: [
                   {
-                    tags: "fronuehbtzhxaoijmdmjzwaswgevh",
-                    order: 19,
+                    tags: "eomzidad",
+                    order: 22,
                     packageReferenceId:
                       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{applicationName}/versions/{versionName}",
-                    configurationReference: "gqxsvizquzglpsgqaundtyh",
+                    configurationReference: "zdqfcpvt",
                     treatFailureAsDeploymentFailure: true,
                     enableAutomaticUpgrade: true,
                   },
                 ],
               },
-              hardwareProfile: { vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 4 } },
+              hardwareProfile: { vmSizeProperties: { vCPUsAvailable: 8, vCPUsPerCore: 17 } },
               serviceArtifactReference: {
                 id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactsName}/vmArtifactsProfiles/{vmArtifactsProfileName}",
               },
               securityPostureReference: {
                 id: "/CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest",
-                excludeExtensions: ["zagiokiwvg"],
+                excludeExtensions: ["ragwgzswxzzz"],
                 isOverridable: true,
               },
             },
           },
         ],
       },
+      mode: "Managed",
+      capacityType: "VM",
     },
-    zones: ["1", "2"],
-    identity: { type: "UserAssigned", userAssignedIdentities: {} },
-    tags: {},
-    location: "westus",
     plan: {
       name: "jwgrcrnrtfoxn",
       publisher: "iozjbiqqckqm",
@@ -652,7 +642,7 @@ async function fleetsCreateOrUpdateMaximumSetGen() {
 }
 
 async function main() {
-  await fleetsCreateOrUpdateMaximumSetGen();
+  await fleetsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

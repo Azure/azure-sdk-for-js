@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureFleetClient } = require("@azure/arm-computefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a Fleet
  *
  * @summary create a Fleet
- * x-ms-original-file: 2026-06-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Fleets_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function fleetsCreateOrUpdateMaximumSetGen(): Promise<void> {
+async function fleetsCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -321,13 +321,6 @@ async function fleetsCreateOrUpdateMaximumSetGen(): Promise<void> {
       },
       mode: "Launch",
       capacityType: "VM",
-      zoneAllocationPolicy: {
-        distributionStrategy: "Prioritized",
-        zonePreferences: [
-          { zone: "1", rank: 0 },
-          { zone: "2", rank: 1 },
-        ],
-      },
       vmAttributes: {
         vCpuCount: { min: 2, max: 4 },
         memoryInGiB: { min: 2, max: 4 },
@@ -651,7 +644,7 @@ async function fleetsCreateOrUpdateMaximumSetGen(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await fleetsCreateOrUpdateMaximumSetGen();
 }
 

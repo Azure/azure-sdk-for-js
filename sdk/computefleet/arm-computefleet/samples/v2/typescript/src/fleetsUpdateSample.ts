@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzureFleetClient } = require("@azure/arm-computefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzureFleetClient } from "@azure/arm-computefleet";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-06-01-preview/Fleets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Fleets_Update_MaximumSet_Gen.json
  */
-async function fleetsUpdateMaximumSetGen() {
+async function fleetsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -629,7 +629,6 @@ async function fleetsUpdateMaximumSetGen() {
       },
       mode: "Managed",
       capacityType: "VM",
-      zoneAllocationPolicy: { distributionStrategy: "BestEffortSingleZone" },
     },
     plan: {
       name: "jwgrcrnrtfoxn",
@@ -642,7 +641,7 @@ async function fleetsUpdateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fleetsUpdateMaximumSetGen();
 }
 
