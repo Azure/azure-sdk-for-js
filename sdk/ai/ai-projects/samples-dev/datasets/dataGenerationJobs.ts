@@ -5,14 +5,19 @@
  * This sample demonstrates how to create, inspect, list, cancel, and delete data
  * generation jobs using the datasets API.
  *
- * Data generation jobs are currently a preview feature. In the JS SDK, you access these
- * operations via `project.datasets`.
+ * In the JS SDK, you access these operations via `project.datasets`. Data generation for the
+ * `evaluation` scenario is generally available. The supervised and reinforcement fine-tuning
+ * scenarios (`supervised_finetuning_preview` / `reinforcement_finetuning_preview`), together with
+ * `question_types` and file outputs, are preview features that require the
+ * `DataGenerationJobs=V1Preview` opt-in. The client sends this opt-in for you on every data
+ * generation job request.
  *
  * @summary Demonstrates data generation job operations using the datasets API.
  * @azsdk-weight 50
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
+import type { FileDataGenerationJobOutput } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -26,7 +31,7 @@ export async function main(): Promise<void> {
   const jobName = `sample-data-generation-job-${Date.now()}`;
   const generationPoller = project.datasets.createGenerationJob({
     name: jobName,
-    scenario: "supervised_finetuning",
+    scenario: "supervised_finetuning_preview",
     sources: [
       {
         type: "prompt",
@@ -80,6 +85,12 @@ export async function main(): Promise<void> {
     console.log(
       `Data generation job completed (${generationResult.generated_samples} sample(s) generated)`,
     );
+    for (const output of generationResult.outputs ?? []) {
+      if (output.type === "file") {
+        const file = output as FileDataGenerationJobOutput;
+        console.log(`  - Output file: ${file.filename} (id: ${file.id})`);
+      }
+    }
   }
 
   await project.datasets.deleteGenerationJob(jobId);
