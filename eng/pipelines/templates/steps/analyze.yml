@@ -60,10 +60,12 @@ steps:
     displayName: "Analyze library dependencies"
 
   - pwsh: |
-      pnpm build --filter @azure/eslint-plugin-azure-sdk...
+      # Typed linting of the tracing bridge needs workspace dependency declarations.
+      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/opentelemetry-instrumentation-azure-sdk...
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
-    displayName: "Build ESLint Plugin and Lint Libraries"
+    displayName: "Build Lint Prerequisites and Lint Libraries"
 
   - pwsh: |
       node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
