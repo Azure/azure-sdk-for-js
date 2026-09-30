@@ -13,6 +13,7 @@ export type {
   SseConnect,
   SseConnectOptions,
   SseConnectResponse,
+  SseHttpResponse,
   SseResponseValidationResult,
   SseResponseValidator,
   SseStream,

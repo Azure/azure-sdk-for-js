@@ -5,10 +5,11 @@ import { createReconnectingSseStream } from "../../../src/index.js";
 import { expect, it } from "vitest";
 import { buildReconnectingSseTests } from "../reconnectingSse.js";
 
-buildReconnectingSseTests("Browser", ({ chunks = [], error, hang, onCancel }) => {
+buildReconnectingSseTests("Browser", ({ chunks = [], error, hang, onCancel, onEnqueueChunk }) => {
   const encoder = new TextEncoder();
   return new ReadableStream<Uint8Array>({
     start(controller) {
+      onEnqueueChunk?.((chunk) => controller.enqueue(encoder.encode(chunk)));
       for (const chunk of chunks) {
         controller.enqueue(encoder.encode(chunk));
       }

@@ -15,9 +15,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import type { IncomingMessage } from 'node:http';
  
  // @public
- export function createReconnectingSseStream<TResponse extends SseConnectResponse>(connect: SseConnect<TResponse>, options: ReconnectingSseStreamOptions<TResponse>): Promise<EventMessageStream>;
- 
-@@ -30,14 +29,12 @@
+ export function createReconnectingSseStream<TResponse extends SseHttpResponse>(connect: SseConnect<TResponse>, options?: Omit<ReconnectingSseStreamOptions<TResponse>, "validateResponse"> & {
+     validateResponse?: SseResponseValidator<TResponse>;
+@@ -35,14 +34,12 @@
  // @public
  export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
  

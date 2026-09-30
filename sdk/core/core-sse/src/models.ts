@@ -60,6 +60,21 @@ export interface SseConnectResponse {
 }
 
 /**
+ * An HTTP response that can use the default SSE response validator.
+ */
+export interface SseHttpResponse extends SseConnectResponse {
+  /**
+   * The HTTP status code, as a number or string.
+   */
+  status: number | string;
+
+  /**
+   * Response headers, as a name-value record or a Headers-like object.
+   */
+  headers: Record<string, string | undefined> | { get(name: string): string | null };
+}
+
+/**
  * Establishes an SSE connection.
  */
 export type SseConnect<TResponse extends SseConnectResponse> = (
@@ -74,19 +89,20 @@ export type SseResponseValidationResult = "accept" | "stop";
 /**
  * Validates an SSE connection response.
  *
- * Return `"accept"` to consume the response body, `"stop"` to end the stream
- * without reconnecting, or throw to fail the stream.
+ * Resolve to `"accept"` to consume the response body or `"stop"` to end the
+ * stream without reconnecting. Reject to fail the stream.
  */
 export type SseResponseValidator<TResponse extends SseConnectResponse> = (
   response: TResponse,
-) => SseResponseValidationResult | Promise<SseResponseValidationResult>;
+) => Promise<SseResponseValidationResult>;
 
 /**
  * Options for creating a reconnecting SSE stream.
  */
 export interface ReconnectingSseStreamOptions<TResponse extends SseConnectResponse> {
   /**
-   * Validates every response before its body is consumed.
+   * Validates every response before its body is consumed. Required when the
+   * connection response does not include HTTP status and headers.
    */
   validateResponse: SseResponseValidator<TResponse>;
 

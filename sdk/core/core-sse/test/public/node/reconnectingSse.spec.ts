@@ -5,7 +5,7 @@ import { Readable } from "node:stream";
 import type { NodeJSReadableStream } from "../../../src/index.js";
 import { buildReconnectingSseTests } from "../reconnectingSse.js";
 
-buildReconnectingSseTests("Node", ({ chunks = [], error, hang, onCancel }) => {
+buildReconnectingSseTests("Node", ({ chunks = [], error, hang, onCancel, onEnqueueChunk }) => {
   let started = false;
   const stream = new Readable({
     read() {
@@ -13,6 +13,7 @@ buildReconnectingSseTests("Node", ({ chunks = [], error, hang, onCancel }) => {
         return;
       }
       started = true;
+      onEnqueueChunk?.((chunk) => this.push(chunk));
       for (const chunk of chunks) {
         this.push(chunk);
       }

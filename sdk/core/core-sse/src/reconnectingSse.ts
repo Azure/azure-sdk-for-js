@@ -9,6 +9,8 @@ import type {
   ReconnectingSseStreamOptions,
   SseConnect,
   SseConnectResponse,
+  SseHttpResponse,
+  SseResponseValidator,
   SseStream,
 } from "./models.js";
 import { SseRetryError } from "./models.js";
@@ -27,6 +29,37 @@ async function waitForReconnect(delayInMs: number, abortSignal: AbortSignal): Pr
   } while (remaining > 0);
 }
 
+function isSseHttpResponse(response: SseConnectResponse): response is SseHttpResponse {
+  return (
+    "status" in response &&
+    (typeof response.status === "number" || typeof response.status === "string") &&
+    "headers" in response &&
+    typeof response.headers === "object" &&
+    response.headers !== null
+  );
+}
+
+async function validateHttpSseResponse(response: SseConnectResponse): Promise<"accept" | "stop"> {
+  if (!isSseHttpResponse(response)) {
+    throw new TypeError("The default SSE validator requires an HTTP status and headers.");
+  }
+  if (String(response.status) === "204") {
+    return "stop";
+  }
+  if (String(response.status) !== "200") {
+    throw new Error(`Unexpected SSE response status: ${response.status}`);
+  }
+  const { headers } = response;
+  const contentType =
+    "get" in headers && typeof headers.get === "function"
+      ? headers.get("content-type")
+      : Object.entries(headers).find(([name]) => name.toLowerCase() === "content-type")?.[1];
+  if (contentType?.split(";", 1)[0].trim().toLowerCase() !== "text/event-stream") {
+    throw new Error(`Unexpected SSE content type: ${contentType}`);
+  }
+  return "accept";
+}
+
 async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<void> {
   if (!cancel) {
     return;
@@ -42,19 +75,39 @@ async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<vo
  * Creates an SSE stream that reconnects when a connection ends unexpectedly.
  *
  * The initial connection is established and validated before this function
- * resolves. The response body can be read and reconnection can begin before
- * a reader attaches to the returned stream.
+ * resolves. By default, HTTP 200 with a text/event-stream content type is
+ * accepted and HTTP 204 stops the stream. The response body can be read and
+ * reconnection can begin before a reader attaches to the returned stream.
  *
  * @param connect - A factory that establishes a fresh SSE connection.
  * @param options - Options that control response validation, abort, and reconnection.
  * @returns A promise that resolves to a reconnecting stream of event messages.
  */
-export async function createReconnectingSseStream<TResponse extends SseConnectResponse>(
+export function createReconnectingSseStream<TResponse extends SseHttpResponse>(
+  connect: SseConnect<TResponse>,
+  options?: Omit<ReconnectingSseStreamOptions<TResponse>, "validateResponse"> & {
+    validateResponse?: SseResponseValidator<TResponse>;
+  },
+): Promise<EventMessageStream>;
+/**
+ * Creates a reconnecting SSE stream using an explicit response validator.
+ *
+ * @param connect - A factory that establishes a fresh SSE connection.
+ * @param options - Options including a validator for responses without HTTP status and headers.
+ * @returns A promise that resolves to a reconnecting stream of event messages.
+ */
+export function createReconnectingSseStream<TResponse extends SseConnectResponse>(
   connect: SseConnect<TResponse>,
   options: ReconnectingSseStreamOptions<TResponse>,
+): Promise<EventMessageStream>;
+export async function createReconnectingSseStream<TResponse extends SseConnectResponse>(
+  connect: SseConnect<TResponse>,
+  options: Partial<ReconnectingSseStreamOptions<TResponse>> = {},
 ): Promise<EventMessageStream> {
   const retryDelayInMs = options.retryDelayInMs ?? defaultRetryDelayInMs;
   validateOptions(retryDelayInMs, options.maxRetries);
+  const validateResponse: SseResponseValidator<TResponse> =
+    options.validateResponse ?? validateHttpSseResponse;
 
   const aborter = new AbortController();
   let activeCancel: (() => Promise<void>) | undefined;
@@ -90,7 +143,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
     };
     const initial = await establishConnection(
       connect,
-      options.validateResponse,
+      validateResponse,
       aborter.signal,
       options.lastEventId,
       parserCallbacks,
@@ -109,7 +162,10 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
       try {
         while (!stopped) {
           try {
-            yield* current.iterable;
+            for await (const event of current.iterable) {
+              throwIfAborted(aborter.signal);
+              yield event;
+            }
             lastTransportError = undefined;
           } catch (error: unknown) {
             if (error instanceof InvalidSseRetryError) {
@@ -137,7 +193,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
           try {
             const next = await establishConnection(
               connect,
-              options.validateResponse,
+              validateResponse,
               aborter.signal,
               lastEventId || undefined,
               parserCallbacks,
@@ -165,7 +221,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
               try {
                 const next = await establishConnection(
                   connect,
-                  options.validateResponse,
+                  validateResponse,
                   aborter.signal,
                   lastEventId || undefined,
                   parserCallbacks,
@@ -237,7 +293,7 @@ class FatalSseConnectionError extends Error {
 
 async function establishConnection<TResponse extends SseConnectResponse>(
   connect: SseConnect<TResponse>,
-  validateResponse: ReconnectingSseStreamOptions<TResponse>["validateResponse"],
+  validateResponse: SseResponseValidator<TResponse>,
   abortSignal: AbortSignal,
   lastEventId: string | undefined,
   callbacks: {
@@ -271,7 +327,7 @@ async function establishConnection<TResponse extends SseConnectResponse>(
 
   let validationPromise: Promise<"accept" | "stop">;
   try {
-    validationPromise = Promise.resolve(validateResponse(response));
+    validationPromise = validateResponse(response);
   } catch (error: unknown) {
     await cancelBody(response.body);
     throw new FatalSseConnectionError(error);

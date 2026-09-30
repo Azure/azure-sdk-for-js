@@ -84,6 +84,11 @@ started. The reconnect delay starts at 3000 ms and is replaced by valid
 factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
 on the next request.
 
+When `validateResponse` is omitted, the connection must return an HTTP status
+and headers. The default accepts HTTP 200 with a `text/event-stream` content type,
+stops on HTTP 204, and rejects other statuses or content types. Supply an async
+`validateResponse` callback, as above, to handle service-specific error bodies.
+
 Retry delays must be non-negative safe integer milliseconds. Malformed `retry:`
 fields are ignored, but a digit-only field exceeding `Number.MAX_SAFE_INTEGER`
 ends the stream with a `RangeError`. A safe delay longer than one timer interval

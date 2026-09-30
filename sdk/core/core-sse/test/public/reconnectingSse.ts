@@ -6,7 +6,7 @@ import {
   type EventMessage,
   type EventMessageStream,
   type SseConnectOptions,
-  type SseConnectResponse,
+  type SseHttpResponse,
   SseRetryError,
   type SseStream,
 } from "../../src/index.js";
@@ -17,9 +17,10 @@ interface BodyOptions {
   error?: Error;
   hang?: boolean;
   onCancel?: () => void;
+  onEnqueueChunk?: (enqueue: (chunk: string) => void) => void;
 }
 
-interface TestResponse extends SseConnectResponse {
+interface TestResponse extends SseHttpResponse {
   status: number;
 }
 
@@ -27,8 +28,12 @@ export function buildReconnectingSseTests(
   runtimeName: string,
   createBody: (options: BodyOptions) => SseStream,
 ): SuiteCollector {
-  function response(body: SseStream | undefined, status = 200): TestResponse {
-    return { body, status };
+  function response(
+    body: SseStream | undefined,
+    status = 200,
+    headers: SseHttpResponse["headers"] = { "content-type": "text/event-stream" },
+  ): TestResponse {
+    return { body, status, headers };
   }
 
   function acceptedOptions(
@@ -36,7 +41,7 @@ export function buildReconnectingSseTests(
   ): Parameters<typeof createReconnectingSseStream<TestResponse>>[1] {
     return {
       retryDelayInMs: 0,
-      validateResponse: ({ status }) => (status === 204 ? "stop" : "accept"),
+      validateResponse: async ({ status }) => (status === 204 ? "stop" : "accept"),
       ...overrides,
     };
   }
@@ -50,6 +55,67 @@ export function buildReconnectingSseTests(
   }
 
   return describe(`[${runtimeName}] Reconnecting server-sent events`, () => {
+    it("validates HTTP SSE responses by default when options are omitted", async () => {
+      for (const [status, headers] of [
+        [200, { "Content-Type": " TEXT/EVENT-STREAM; charset=utf-8" }],
+        ["200", new Headers({ "Content-Type": "text/event-stream" })],
+      ] as const) {
+        const connect = vi.fn(async () => ({
+          status,
+          headers,
+          body: createBody({ chunks: ["data: first\n\n"], hang: true }),
+        }));
+        const stream = await createReconnectingSseStream(connect);
+
+        assert.equal((await readOne(stream)).data, "first");
+        assert.equal(connect.mock.calls.length, 1);
+      }
+    });
+
+    it("stops on HTTP 204 by default and cancels the response body", async () => {
+      let canceled = false;
+      const connect = vi.fn(async () => ({
+        ...response(createBody({ hang: true, onCancel: () => (canceled = true) }), 204, {}),
+        status: "204",
+      }));
+      const stream = await createReconnectingSseStream(connect);
+
+      assert.deepEqual(await stream.getReader().read(), { value: undefined, done: true });
+      await vi.waitFor(() => assert.isTrue(canceled));
+      assert.equal(connect.mock.calls.length, 1);
+    });
+
+    it("rejects unexpected HTTP statuses and content types by default", async () => {
+      for (const [status, headers, message] of [
+        [500, { "content-type": "text/event-stream" }, /status: 500/],
+        [200, { "content-type": "application/json" }, /content type: application\/json/],
+        [200, {}, /content type: undefined/],
+      ] as const) {
+        let canceled = false;
+        const connect = vi.fn(async () =>
+          response(createBody({ hang: true, onCancel: () => (canceled = true) }), status, headers),
+        );
+        await expect(createReconnectingSseStream(connect)).rejects.toThrow(message);
+        await vi.waitFor(() => assert.isTrue(canceled));
+        assert.equal(connect.mock.calls.length, 1);
+      }
+    });
+
+    it("does not retry an invalid HTTP response after reconnecting by default", async () => {
+      let canceled = false;
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockResolvedValueOnce(
+          response(createBody({ hang: true, onCancel: () => (canceled = true) }), 500),
+        );
+      const stream = await createReconnectingSseStream(connect, { retryDelayInMs: 0 });
+
+      await expect(stream.getReader().read()).rejects.toThrow(/status: 500/);
+      await vi.waitFor(() => assert.isTrue(canceled));
+      assert.equal(connect.mock.calls.length, 2);
+    });
+
     it("connects eagerly and omits Last-Event-ID from the initial request", async () => {
       const attempts: SseConnectOptions[] = [];
       const connect = vi.fn(async (options: SseConnectOptions) => {
@@ -334,7 +400,7 @@ export function buildReconnectingSseTests(
             response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
           );
         const stream = await createReconnectingSseStream(connect, {
-          validateResponse: () => "accept",
+          validateResponse: async () => "accept",
         });
         const reader = stream.getReader();
         const read = reader.read();
@@ -352,7 +418,7 @@ export function buildReconnectingSseTests(
             response(createBody({ chunks: ["data: default\n\n"], hang: true })),
           );
         const defaultStream = await createReconnectingSseStream(defaultConnect, {
-          validateResponse: () => "accept",
+          validateResponse: async () => "accept",
         });
         const defaultReader = defaultStream.getReader();
         const defaultRead = defaultReader.read();
@@ -482,6 +548,34 @@ export function buildReconnectingSseTests(
       }
     });
 
+    it("does not yield an event received after abort", async () => {
+      const aborter = new AbortController();
+      let enqueueChunk: ((chunk: string) => void) | undefined;
+      let bodyCanceled = false;
+      const connect = vi.fn(async () =>
+        response(
+          createBody({
+            hang: true,
+            onCancel: () => (bodyCanceled = true),
+            onEnqueueChunk: (enqueue) => (enqueueChunk = enqueue),
+          }),
+        ),
+      );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ abortSignal: aborter.signal }),
+      );
+      const read = stream.getReader().read();
+
+      await vi.waitFor(() => assert.isFunction(enqueueChunk));
+      enqueueChunk?.("data: after abort\n\n");
+      aborter.abort();
+
+      await expect(read).rejects.toMatchObject({ name: "AbortError" });
+      assert.isTrue(bodyCanceled);
+      assert.equal(connect.mock.calls.length, 1);
+    });
+
     it("aborts an in-flight reconnect request without issuing another request", async () => {
       const aborter = new AbortController();
       let rejectConnect: ((error: Error) => void) | undefined;
@@ -595,7 +689,7 @@ export function buildReconnectingSseTests(
           async () =>
             response(createBody({ hang: true, onCancel: () => (failureCanceled = true) })),
           acceptedOptions({
-            validateResponse: () => {
+            validateResponse: async () => {
               throw expected;
             },
           }),
@@ -616,7 +710,7 @@ export function buildReconnectingSseTests(
       const stream = await createReconnectingSseStream(
         connect,
         acceptedOptions({
-          validateResponse: ({ status }) => {
+          validateResponse: async ({ status }) => {
             if (status !== 200) {
               throw expected;
             }

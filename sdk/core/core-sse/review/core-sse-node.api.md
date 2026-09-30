@@ -8,6 +8,11 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { IncomingMessage } from 'node:http';
 
 // @public
+export function createReconnectingSseStream<TResponse extends SseHttpResponse>(connect: SseConnect<TResponse>, options?: Omit<ReconnectingSseStreamOptions<TResponse>, "validateResponse"> & {
+    validateResponse?: SseResponseValidator<TResponse>;
+}): Promise<EventMessageStream>;
+
+// @public
 export function createReconnectingSseStream<TResponse extends SseConnectResponse>(connect: SseConnect<TResponse>, options: ReconnectingSseStreamOptions<TResponse>): Promise<EventMessageStream>;
 
 // @public
@@ -62,10 +67,18 @@ export interface SseConnectResponse {
 }
 
 // @public
+export interface SseHttpResponse extends SseConnectResponse {
+    headers: Record<string, string | undefined> | {
+        get(name: string): string | null;
+    };
+    status: number | string;
+}
+
+// @public
 export type SseResponseValidationResult = "accept" | "stop";
 
 // @public
-export type SseResponseValidator<TResponse extends SseConnectResponse> = (response: TResponse) => SseResponseValidationResult | Promise<SseResponseValidationResult>;
+export type SseResponseValidator<TResponse extends SseConnectResponse> = (response: TResponse) => Promise<SseResponseValidationResult>;
 
 // @public
 export class SseRetryError extends Error {
