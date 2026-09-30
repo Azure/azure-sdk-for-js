@@ -204,6 +204,19 @@ safe-outputs:
               (typeof item.body !== 'string' || !item.body.trim()))) {
             throw new Error('Closing an issue requires a nonblank explanation.');
           }
+          const supportLinks = [
+            'https://learn.microsoft.com/services-hub/unified/support/open-support-requests?pivots=existing',
+            'https://learn.microsoft.com/answers/questions/',
+            'https://feedback.azure.com/d365community',
+          ];
+          for (const item of writes.filter(item => item.type === 'close_issue')) {
+            const links = item.body.match(/https:\/\/[^\s<>()[\]]+/gi) || [];
+            if (!supportLinks.every(link => item.body.includes(link)) ||
+                !links.some(link => !supportLinks.some(support => link.startsWith(support)))) {
+              throw new Error('A service-side closure requires its supporting documentation URL and all approved support links.');
+            }
+          }
+
           if (writes.some(item => item.type === 'close_issue') &&
               writes.some(item => item.type !== 'close_issue')) {
             throw new Error('Close the issue with its explanation in close_issue.body; do not also comment or assign.');
@@ -381,7 +394,7 @@ Do not post a generic acknowledgment, request credentials or sensitive productio
 
 Use this rule only when trusted service/package documentation AND issue evidence prove that the SDK follows the service contract, or the behavior is entirely service-controlled and cannot be corrected by the SDK.
 
-Prepare one courteous explanation of the concrete behavior and why the SDK cannot change it, linking the supporting documentation, and directing the customer to these exact plain URLs:
+Prepare one courteous explanation of the concrete behavior and why the SDK cannot change it. The body MUST include a supporting documentation URL establishing the service contract, in addition to all three support URLs below. If that evidence cannot be cited, do not close. Direct the customer to these exact plain URLs:
 
 - Azure support request: https://learn.microsoft.com/services-hub/unified/support/open-support-requests?pivots=existing
 - Microsoft Q&A: https://learn.microsoft.com/answers/questions/

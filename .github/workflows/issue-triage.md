@@ -670,10 +670,13 @@ Note: There is no `%Client` catch-all entry in CODEOWNERS, so "Client" as a cate
 IF a matching ServiceLabel entry is found in CODEOWNERS:
 
     IF AzureSdkOwners are listed for the matched entry:
-        IF a single AzureSdkOwner:
-            - Assign them to the issue using the `assign_to_user` tool
-        ELSE (multiple AzureSdkOwners):
-            - Pick one AzureSdkOwner at random and assign them using the `assign_to_user` tool
+        - Separate individual usernames from org/team handles (handles containing `/`)
+        IF exactly one individual owner:
+            - Assign that individual using `assign_to_user`
+        ELSE IF multiple individual owners:
+            - Pick one individual owner at random and assign them using `assign_to_user`
+        ELSE (only team owners):
+            - Leave existing assignees unchanged; notify the team owners with `mention_owners` in Step 6
 
         - IF the issue has the "customer-reported" label: Add the "needs-team-attention" label
         - Record all AzureSdkOwners for Step 6
@@ -695,18 +698,20 @@ ELSE (no ServiceLabel entry matches any of the issue's predicted labels):
 
 Post a routing comment before the analysis comment. The comment type depends on who was identified in Step 5:
 
-- For **multiple AzureSdkOwners** or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
-- For a **single AzureSdkOwner**: use `add_comment` with just the routing message (no @mentions needed — the assignment already notifies them)
+- For **team AzureSdkOwners**, **multiple AzureSdkOwners**, or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
+- For a **single individual AzureSdkOwner with no team owners**: use `add_comment` with just the routing message (the assignment already notifies them)
 
 **When using `mention_owners`:** Pass owner names in the `owners` field WITHOUT the @ prefix; the `mention_owners` job prepends @ on the server side to avoid safe-outputs sanitization. Never include @ symbols in any `mention_owners` tool parameter
+
+GitHub issue assignees are individual accounts, not CODEOWNERS team handles. Do not pass `org/team` to `assign_to_user`; keep team ownership as a notification route. For example, the Key Vault SDK owner `Azure/azure-sdk-write-keyvault` is a team and must be notified rather than assigned.
 
 This comment should be concise: a brief routing message only; no analysis or debugging detail
 
 ```
-IF a single AzureSdkOwner was identified in Step 5:
+IF a single individual AzureSdkOwner and no team owners were identified in Step 5:
     - Use `add_comment` with body: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
 
-ELSE IF multiple AzureSdkOwners were identified in Step 5:
+ELSE IF team AzureSdkOwners or multiple AzureSdkOwners were identified in Step 5:
     - Use `mention_owners` with:
         message: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
         owners: "owner1, owner2"

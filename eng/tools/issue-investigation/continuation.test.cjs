@@ -139,6 +139,14 @@ test("handoff honors a default branch other than main", async () => {
   f.options.context.payload.repository.default_branch = "trunk";
   assert.equal((await f.run()).output.items[0].ref, "refs/heads/trunk");
 });
+test("SDK team-only ownership routes through notification without a fictitious assignee", async () => {
+  const f = fixture("dispatch");
+  f.options.output.items[1] = { type: "mention_owners", owners: "Azure/azure-sdk-write-keyvault" };
+  f.options.ownerNotification = "success";
+  f.options.receipts.pop();
+  f.state.issue.assignees = [];
+  assert.ok((await f.run()).output);
+});
 
 test("service-owner mention routing needs no single-owner assignment", async () => {
   const f = fixture("dispatch");

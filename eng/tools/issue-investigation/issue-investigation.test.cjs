@@ -70,7 +70,18 @@ const validIssue = () => ({
   ],
 });
 const comment = () => ({ type: "add_comment", item_number: 42, body: "Investigation" });
-const close = () => ({ type: "close_issue", issue_number: 42, body: "Service explanation" });
+const close = () => ({
+  type: "close_issue",
+  issue_number: 42,
+  body:
+    "Service explanation. " +
+    [
+      "https://learn.microsoft.com/azure/key-vault/general/backup",
+      "https://learn.microsoft.com/services-hub/unified/support/open-support-requests?pivots=existing",
+      "https://learn.microsoft.com/answers/questions/",
+      "https://feedback.azure.com/d365community",
+    ].join("\n"),
+});
 const assign = () => ({ type: "assign_to_agent", issue_number: 42, agent: "copilot" });
 
 function verify(issue = validIssue(), items = [comment()], apiError) {
@@ -272,6 +283,18 @@ test("support guidance follows major-version lifecycle rather than refusing olde
 
 test("locked issues cannot receive investigation mutations", async () => {
   await assert.rejects(verify({ ...validIssue(), locked: true }), /no longer eligible/);
+});
+
+test("service closure requires independent supporting documentation, not only support destinations", async () => {
+  const item = close();
+  item.body = item.body.replace("https://learn.microsoft.com/azure/key-vault/general/backup", "");
+  await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
+});
+
+test("service closure requires every approved support destination", async () => {
+  const item = close();
+  item.body = item.body.replace("https://feedback.azure.com/d365community", "");
+  await assert.rejects(verify(validIssue(), [item]), /approved support links/);
 });
 
 test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
