@@ -327,13 +327,21 @@ describe("BlobClient.getLayout", () => {
     assert.equal(calls[1].range, "bytes=0-199");
   });
 
-  it("surfaces the marker as continuationToken and drops nextMarker", async () => {
-    const { client } = clientWithLayoutPages([pageOne(), pageTwo()]);
-
-    const first = (await client.getLayout().next()).value;
-
-    assert.equal(first.continuationToken, "marker-1");
+  it("surfaces a continuationToken that resumes with the ETag lock and drops nextMarker", async () => {
+    const first: BlobGetLayoutResponseModel = (
+      await clientWithLayoutPages([pageOne()]).client.getLayout().next()
+    ).value;
     assert.notProperty(first, "nextMarker");
+
+    const { client, calls } = clientWithLayoutPages([pageTwo()]);
+    for await (const _page of client
+      .getLayout()
+      .byPage({ continuationToken: first.continuationToken })) {
+      // drain
+    }
+
+    assert.equal(calls[0].marker, "marker-1");
+    assert.equal(calls[0].ifMatch, "etag-page-1");
   });
 
   it("passes maxPageSize and resumes from a continuationToken through byPage", async () => {

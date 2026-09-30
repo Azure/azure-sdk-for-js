@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { isRestError } from "@azure/core-rest-pipeline";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import type {
   BlobGetLayoutOptionalParams,
   BlobLayout,
@@ -173,4 +174,40 @@ export function toBlobLayoutCacheValue(
       ? expiresOnTimestamp - LAYOUT_REFRESH_BUFFER_MS
       : expiresOnTimestamp,
   };
+}
+
+/**
+ * Where a Get Blob Layout enumeration resumes: the service marker, and the ETag every continuation
+ * must be locked to.
+ */
+export interface LayoutContinuation {
+  marker: string;
+  etag?: string;
+}
+
+/**
+ * Packs a continuation into the opaque token `getLayout` hands out, so that resuming from the token
+ * alone keeps the ETag lock the service requires.
+ */
+export function encodeLayoutContinuationToken(continuation: LayoutContinuation): string {
+  return uint8ArrayToString(stringToUint8Array(JSON.stringify(continuation), "utf-8"), "base64");
+}
+
+/**
+ * Unpacks a token from {@link encodeLayoutContinuationToken}. Any other token is taken as a bare
+ * service marker.
+ */
+export function decodeLayoutContinuationToken(token: string): LayoutContinuation {
+  try {
+    const parsed = JSON.parse(uint8ArrayToString(stringToUint8Array(token, "base64"), "utf-8"));
+    if (typeof parsed?.marker === "string") {
+      return {
+        marker: parsed.marker,
+        etag: typeof parsed.etag === "string" ? parsed.etag : undefined,
+      };
+    }
+  } catch {
+    // Not one of ours.
+  }
+  return { marker: token };
 }

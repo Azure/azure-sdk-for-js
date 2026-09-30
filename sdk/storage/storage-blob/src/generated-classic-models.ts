@@ -417,7 +417,10 @@ export interface BlobLayout {
   ranges?: BlobLayoutRanges;
   /** The endpoints that serve the ranges of the blob. */
   endpoints?: BlobLayoutEndpoints;
-  /** Marker to pass to the next request when the layout did not fit in one page. */
+  /**
+   * Opaque token to pass to `byPage` to resume after this page, still locked to the blob version
+   * the enumeration began on. Undefined on the last page.
+   */
   continuationToken?: string;
 }
 

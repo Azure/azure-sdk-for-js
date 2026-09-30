@@ -228,6 +228,8 @@ import {
 import { AutoRefreshingCache } from "./utils/AutoRefreshingCache.js";
 import type { BlobLayoutCacheValue } from "./utils/BlobLayoutSegment.js";
 import {
+  decodeLayoutContinuationToken,
+  encodeLayoutContinuationToken,
   fetchLayout,
   getLayoutEndpoint,
   toBlobLayoutCacheValue,
@@ -2350,7 +2352,7 @@ export class BlobClient extends StorageClient {
             }),
           ),
         );
-        // Every other pager in this package exposes the service's NextMarker as continuationToken.
+        // The service's NextMarker; listLayoutSegments wraps it into the token callers see.
         response.continuationToken = (response as { nextMarker?: string }).nextMarker || undefined;
         delete (response as { nextMarker?: string }).nextMarker;
         return response;
@@ -2361,21 +2363,30 @@ export class BlobClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator over the pages of the blob's layout.
    *
-   * @param marker - Marker to resume from, or undefined to start from the beginning.
+   * @param continuationToken - Token of the page to resume after, or undefined to start from the
+   * beginning.
    * @param options - Options to the Get Blob Layout operation.
    */
   private async *listLayoutSegments(
-    marker?: string,
+    continuationToken?: string,
     options: BlobListLayoutSegmentOptions = {},
   ): AsyncIterableIterator<BlobGetLayoutResponseModel> {
-    let ifMatch = options.conditions?.ifMatch;
-    if (!!marker || marker === undefined) {
+    const resumed = continuationToken
+      ? decodeLayoutContinuationToken(continuationToken)
+      : undefined;
+    let marker = resumed?.marker;
+    let ifMatch = resumed?.etag ?? options.conditions?.ifMatch;
+    if (!!continuationToken || continuationToken === undefined) {
       do {
         const response = await this.getLayoutSegment(marker, ifMatch, options);
         // The service requires every continuation to be locked to the version the first page
         // described, so a blob rewritten mid-enumeration cannot yield a stitched-together layout.
+        // The token carries that ETag so that resuming from the token alone keeps the lock.
         ifMatch ??= response.etag;
         marker = response.continuationToken;
+        response.continuationToken = marker
+          ? encodeLayoutContinuationToken({ marker, etag: ifMatch })
+          : undefined;
         yield response;
       } while (marker);
     }
