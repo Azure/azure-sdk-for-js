@@ -495,8 +495,9 @@ Analyze the issue title and body to determine appropriate labels
 
 Labels classification is distinguished by color. Actively inspect label colors when examining repository labels and previous issues:
 
-- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Central-EngSys", "Mgmt-EngSys", or "Service"
-  - "Client" for issues with SDK client library code or behavior (packages under `sdk/` that are not management libraries)
+- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Provisioning", "Central-EngSys", "Mgmt-EngSys", or "Service"
+  - "Client" for issues with SDK client library code or behavior that are not management or provisioning libraries
+  - "Provisioning" for packages whose `package.json` declares `sdk-type: provisioning`, such as `@azure/provisioning-keyvault`
   - "Mgmt" for issues relevant to management-plane SDKs (packages starting with `@azure/arm-`)
   - "Mgmt-EngSys" for issues with management SDK tooling and generation (emitter, autorest)
   - "Central-EngSys" for non-service issues such as engineering systems, scripts, workflows, or pipelines in the `/eng` or `/common` folders
@@ -535,7 +536,7 @@ Other labels on the issue (routing labels, "question", "duplicate", etc.) are fi
 A prediction is confident — targeting 96% accuracy — when ALL of the following are true:
 - The issue clearly names or references a specific Azure SDK package, service, or `/sdk/` path
 - There is no ambiguity between multiple services; if multiple service labels are plausible and you cannot confidently narrow to exactly one, confidence is not met
-- The category (Client/Mgmt) is clearly implied by the issue content; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
+- The category (Client/Mgmt/Provisioning) is clearly implied by the issue content and package metadata; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
 - The predicted category label is not "Service"
 - The predicted category label is not "Central-EngSys"
 - The predicted category label is not "Mgmt-EngSys"

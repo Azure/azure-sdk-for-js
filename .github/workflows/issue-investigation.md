@@ -209,10 +209,21 @@ safe-outputs:
             'https://learn.microsoft.com/answers/questions/',
             'https://feedback.azure.com/d365community',
           ];
+          const documentationOrigins = new Set([
+            new URL(context.serverUrl || 'https://github.com').origin,
+            'https://raw.githubusercontent.com',
+            'https://learn.microsoft.com',
+            'https://azure.github.io',
+          ]);
           for (const item of writes.filter(item => item.type === 'close_issue')) {
             const links = item.body.match(/https:\/\/[^\s<>()[\]]+/gi) || [];
+            const citedDocumentation = links.some(link => {
+              const url = new URL(link);
+              return !url.username && !url.password && documentationOrigins.has(url.origin) &&
+                !supportLinks.some(support => link.startsWith(support));
+            });
             if (!supportLinks.every(link => item.body.includes(link)) ||
-                !links.some(link => !supportLinks.some(support => link.startsWith(support)))) {
+                !citedDocumentation) {
               throw new Error('A service-side closure requires its supporting documentation URL and all approved support links.');
             }
           }
@@ -437,8 +448,10 @@ Call `noop` with a specific reason if no rule warrants action, or if policy/prod
 
 ## Output Requirements
 
-Use at most one investigation comment, headed `## Agentic Issue Investigation`, stating the decision, supporting evidence, and next action. Address the author without an @mention. Do not claim an action succeeded merely because it was queued.
+Use at most one investigation comment per run, not one comment for the issue's entire lifetime. Head it `## Agentic Issue Investigation`, stating the decision, supporting evidence, and next action. Address the author without an @mention. Do not claim an action succeeded merely because it was queued.
 
-Read existing investigation comments before responding. If a previous investigation already gave the same answer and no material new evidence or customer response exists, call `noop` rather than repeating the comment or assignment. A maintainer can dispatch again after new information arrives; this workflow does not automatically resume on comments.
+Read existing investigation comments before responding. A prior investigation is NOT a handoff disqualifier and does not exhaust this run's comment budget. Call `noop` for repetition only when the prior comment already gives a complete answer, there is no new customer question requiring a response, and no material evidence changes the decision.
+
+A new customer question, including a request for a missing governing documentation link, requires reassessing the decision and completing the explanation when evidence is available. Do not invent a precondition that the issue must never have been investigated. A maintainer can dispatch again after a reply; this workflow does not automatically resume on comments.
 
 Do not add/remove labels, clear human assignees, introduce automation-state labels, or use Azure OpenAI secrets or external LLM endpoints. When no action is needed, emit an explicit `noop` with the reason.

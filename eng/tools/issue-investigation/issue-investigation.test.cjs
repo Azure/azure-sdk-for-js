@@ -271,6 +271,26 @@ test("comment history is explicitly paginated before checking for prior investig
   assert.match(source, /perPage: 100/);
   assert.match(source, /paginate.*(?:final|last) page/i);
 });
+test("triage recognizes supported provisioning metadata and notification-only team owners", () => {
+  const triage = workflow("issue-triage.md");
+  assert.match(
+    triage,
+    /"Provisioning" for packages whose `package\.json` declares `sdk-type: provisioning`/,
+  );
+  assert.match(triage, /only team owners[\s\S]*?notify the team owners with `mention_owners`/);
+  assert.match(triage, /Do not pass `org\/team` to `assign_to_user`/);
+});
+
+test("the pinned CLI uses an explicit compatible model for agent and detection", () => {
+  for (const filename of ["issue-investigation.lock.yml", "issue-triage.lock.yml"]) {
+    const text = workflow(filename);
+    const metadata = JSON.parse(text.split("\n")[0].replace("# gh-aw-metadata: ", ""));
+    assert.equal(metadata.agent_model, "gpt-5.4");
+    const models = [...text.matchAll(/COPILOT_MODEL: ([^\n]+)/g)].map((match) => match[1].trim());
+    assert.ok(models.length >= 2);
+    assert.ok(models.every((model) => model === "gpt-5.4"));
+  }
+});
 
 test("support guidance follows major-version lifecycle rather than refusing older point releases", () => {
   assert.match(source, /policies_support\.html/);
@@ -295,6 +315,31 @@ test("service closure requires every approved support destination", async () => 
   const item = close();
   item.body = item.body.replace("https://feedback.azure.com/d365community", "");
   await assert.rejects(verify(validIssue(), [item]), /approved support links/);
+});
+
+for (const url of [
+  "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/TROUBLESHOOTING.md",
+  "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/keyvault/TROUBLESHOOTING.md",
+  "https://azure.github.io/azure-sdk/policies_support.html",
+  "https://LEARN.microsoft.com:443/azure/key-vault/general/backup",
+]) {
+  test(`service closure accepts trusted documentation: ${url}`, async () => {
+    const item = close();
+    item.body = item.body.replace(
+      "https://learn.microsoft.com/azure/key-vault/general/backup",
+      url,
+    );
+    await verify(validIssue(), [item]);
+  });
+}
+
+test("a lookalike documentation host cannot authorize service closure", async () => {
+  const item = close();
+  item.body = item.body.replace(
+    "https://learn.microsoft.com/azure/key-vault/general/backup",
+    "https://learn.microsoft.com.example.invalid/guide",
+  );
+  await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
 });
 
 test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
