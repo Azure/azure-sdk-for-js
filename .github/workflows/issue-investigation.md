@@ -51,6 +51,8 @@ checkout:
 engine:
   id: copilot
   version: "1.0.80"
+  # The pinned CLI uses chat/completions; auto may choose a responses-only model.
+  model: gpt-5.4
 
 tools:
   bash: false
