@@ -1083,7 +1083,7 @@ export class ShareClient extends StorageClient {
     return tracingClient.withSpan("ShareClient-delete", options, async (updatedOptions) => {
       return assertResponse<ShareDeleteHeaders, ShareDeleteHeaders>(
         adjustResponse(
-          await this.context.delete({
+          await this.context.deleteShare({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
@@ -2335,7 +2335,7 @@ export class ShareDirectoryClient extends StorageClient {
       async (updatedOptions) => {
         return assertResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>(
           adjustResponse(
-            await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
+            await this.context.deleteDirectory({ ...updatedOptions, ...this.shareClientConfig }),
           ),
         );
       },
@@ -4741,7 +4741,7 @@ export class ShareFileClient extends StorageClient {
     return tracingClient.withSpan("ShareFileClient-delete", options, async (updatedOptions) => {
       return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
         adjustResponse(
-          await this.context.delete({
+          await this.context.deleteFile({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,

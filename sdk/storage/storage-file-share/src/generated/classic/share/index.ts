@@ -17,7 +17,7 @@ import {
   changeLease,
   releaseLease,
   acquireLease,
-  $delete,
+  deleteShare,
   getProperties,
   create,
 } from "../../api/share/operations.js";
@@ -414,12 +414,7 @@ export interface ShareOperations {
     >
   >;
   /** Operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteShare: (
     options?: ShareDeleteOptionalParams,
   ) => Promise<
     {
@@ -471,6 +466,7 @@ export interface ShareOperations {
       nextAllowedProvisionedIopsDowngradeTime?: Date;
       nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       enableSmbDirectoryLease?: boolean;
+      creationTime?: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -503,6 +499,7 @@ export interface ShareOperations {
         nextAllowedProvisionedIopsDowngradeTime?: Date;
         nextAllowedProvisionedBandwidthDowngradeTime?: Date;
         enableSmbDirectoryLease?: boolean;
+        creationTime?: Date;
         version: string;
         requestId: string;
         clientRequestId?: string;
@@ -571,7 +568,7 @@ function _getShare(context: FileContext) {
     releaseLease: (leaseId: string, options?: ShareReleaseLeaseOptionalParams) =>
       releaseLease(context, leaseId, options),
     acquireLease: (options?: ShareAcquireLeaseOptionalParams) => acquireLease(context, options),
-    delete: (options?: ShareDeleteOptionalParams) => $delete(context, options),
+    deleteShare: (options?: ShareDeleteOptionalParams) => deleteShare(context, options),
     getProperties: (options?: ShareGetPropertiesOptionalParams) => getProperties(context, options),
     create: (options?: ShareCreateOptionalParams) => create(context, options),
   };

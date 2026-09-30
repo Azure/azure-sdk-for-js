@@ -3,8 +3,10 @@
   "compilerOptions": {
     "paths": {
       "@azure/storage-file-share": ["./dist/browser/index.d.ts"],
+      "@azure/storage-file-share/package.json": ["./package.json"],
       "@azure/storage-file-share/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["src", "test", "package.json"]
 }

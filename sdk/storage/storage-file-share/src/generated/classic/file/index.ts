@@ -21,7 +21,7 @@ import {
   acquireLease,
   setMetadata,
   setHttpHeaders,
-  $delete,
+  deleteFile,
   getProperties,
   download,
   create,
@@ -606,12 +606,7 @@ export interface FileOperations {
     >
   >;
   /** Removes the file from the storage account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteFile: (
     options?: FileDeleteOptionalParams,
   ) => Promise<
     {
@@ -902,7 +897,7 @@ function _getFile(context: FileContext) {
     setMetadata: (options?: FileSetMetadataOptionalParams) => setMetadata(context, options),
     setHttpHeaders: (options?: FileSetHttpHeadersOptionalParams) =>
       setHttpHeaders(context, options),
-    delete: (options?: FileDeleteOptionalParams) => $delete(context, options),
+    deleteFile: (options?: FileDeleteOptionalParams) => deleteFile(context, options),
     getProperties: (options?: FileGetPropertiesOptionalParams) => getProperties(context, options),
     download: (options?: FileDownloadOptionalParams) => download(context, options),
     create: (fileContentLength: number, options?: FileCreateOptionalParams) =>
