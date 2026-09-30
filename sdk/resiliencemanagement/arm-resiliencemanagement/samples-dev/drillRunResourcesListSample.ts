@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DrillRunResource resources by DrillRun
  *
  * @summary list DrillRunResource resources by DrillRun
- * x-ms-original-file: 2026-04-01-preview/DrillRunResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRunResources_List_MaximumSet_Gen.json
  */
 async function drillRunResourcesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

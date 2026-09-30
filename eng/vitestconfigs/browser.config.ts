@@ -22,7 +22,15 @@ export default mergeConfig(
   base,
   defineConfig({
     resolve: {
-      conditions: ["browser"],
+      // Vite 6 (required by Vitest 5) stopped implicitly merging the default "module"
+      // condition with a custom resolve.conditions value (Vite 5 did this silently). Some
+      // dependencies (e.g. @opentelemetry/api) don't declare a "browser" condition in their
+      // package.json "exports" map, so resolution falls back to their CJS "default" build.
+      // Vite's esbuild-based dependency scanner can't always statically detect CJS named
+      // exports defined via Object.defineProperty getters (as @opentelemetry/api does for
+      // SpanStatusCode, SpanKind, etc.), causing "does not provide an export named ..."
+      // errors. Explicitly keeping "module" avoids falling back to the CJS build.
+      conditions: ["browser", "module"],
     },
     optimizeDeps: {
       include: ["@azure-tools/test-recorder"],
