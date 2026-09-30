@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createReconnectingSseStream } from "../../../src/index.js";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { buildReconnectingSseTests } from "../reconnectingSse.js";
 
 buildReconnectingSseTests("Browser", ({ chunks = [], error, hang, onCancel, onEnqueueChunk }) => {
@@ -45,4 +45,25 @@ it("preserves a validator error when its response reader remains locked", async 
       },
     ),
   ).rejects.toBe(expected);
+});
+
+it("fails on invalid web stream chunks without reconnecting", async () => {
+  const connect = vi.fn(async () => ({
+    status: 200,
+    headers: { "content-type": "text/event-stream" },
+    body: new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(42 as unknown as Uint8Array);
+      },
+    }),
+  }));
+  const stream = await createReconnectingSseStream(connect, {
+    retryDelayInMs: 0,
+    maxRetries: 1,
+  });
+
+  await expect(stream.getReader().read()).rejects.toThrow(
+    "Expected the SSE stream to contain Uint8Array chunks.",
+  );
+  expect(connect).toHaveBeenCalledTimes(1);
 });

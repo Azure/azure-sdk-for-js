@@ -92,7 +92,8 @@ stops on HTTP 204, and rejects other statuses or content types. Supply an async
 Retry delays must be non-negative safe integer milliseconds. Malformed `retry:`
 fields are ignored, but a digit-only field exceeding `Number.MAX_SAFE_INTEGER`
 ends the stream with a `RangeError`. A safe delay longer than one timer interval
-is waited in full rather than shortened.
+is waited in full rather than shortened. Invalid body chunks also fail the
+stream instead of triggering a reconnect; transport read failures still reconnect.
 
 Events without an explicit `id:` field inherit the last committed event ID, even
 across reconnections. The `lastEventId` option seeds this value for the initial

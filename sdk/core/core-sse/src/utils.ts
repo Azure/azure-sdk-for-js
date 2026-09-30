@@ -6,6 +6,8 @@ import { cancelNodeStream } from "#platform/types";
 import { stringToUint8Array } from "@azure/core-util";
 import type { NodeJSReadableStream } from "./models.js";
 
+export class InvalidSseChunkError extends TypeError {}
+
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
@@ -100,15 +102,18 @@ export function ensureAsyncIterable(
   }
 }
 
-async function* readStream<T>(
-  reader: ReadableStreamDefaultReader<T>,
+async function* readStream(
+  reader: ReadableStreamDefaultReader<Uint8Array>,
   cancel: () => Promise<void>,
-): AsyncIterableIterator<T> {
+): AsyncIterableIterator<Uint8Array> {
   try {
     while (true) {
       const { value, done } = await reader.read();
       if (done) {
         return;
+      }
+      if (!(value instanceof Uint8Array)) {
+        throw new InvalidSseChunkError("Expected the SSE stream to contain Uint8Array chunks.");
       }
       yield value;
     }
@@ -126,7 +131,9 @@ async function* toUint8ArrayIterable(
     } else if (typeof chunk === "string") {
       yield stringToUint8Array(chunk, "utf-8");
     } else {
-      throw new TypeError("Expected the SSE stream to contain Uint8Array or string chunks.");
+      throw new InvalidSseChunkError(
+        "Expected the SSE stream to contain Uint8Array or string chunks.",
+      );
     }
   }
 }

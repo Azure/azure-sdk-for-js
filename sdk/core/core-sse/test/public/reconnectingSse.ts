@@ -459,7 +459,11 @@ export function buildReconnectingSseTests(
     });
 
     it("reconnects after EOF and body read errors", async () => {
-      for (const firstBody of [createBody({}), createBody({ error: new Error("read failed") })]) {
+      for (const firstBody of [
+        createBody({}),
+        createBody({ error: new Error("read failed") }),
+        createBody({ error: new TypeError("read failed") }),
+      ]) {
         const connect = vi
           .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
           .mockResolvedValueOnce(response(firstBody))

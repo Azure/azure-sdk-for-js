@@ -15,7 +15,7 @@ import type {
 } from "./models.js";
 import { SseRetryError } from "./models.js";
 import { createSseParser, InvalidSseRetryError } from "./sse.js";
-import { createStream, ensureAsyncIterable } from "./utils.js";
+import { createStream, ensureAsyncIterable, InvalidSseChunkError } from "./utils.js";
 
 const defaultRetryDelayInMs = 3000;
 const maxTimerDelayInMs = 2147483647;
@@ -168,7 +168,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
             }
             lastTransportError = undefined;
           } catch (error: unknown) {
-            if (error instanceof InvalidSseRetryError) {
+            if (error instanceof InvalidSseRetryError || error instanceof InvalidSseChunkError) {
               throw error;
             }
             if (stopped || aborter.signal.aborted || options.abortSignal?.aborted) {
