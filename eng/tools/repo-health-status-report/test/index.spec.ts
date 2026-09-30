@@ -356,31 +356,51 @@ describe("report aggregation", () => {
     expect(packageDetails.status).toBe("BLOCKED");
   });
 
-  it.each(["failed", "partiallySucceeded"] as const)(
-    "treats a %s overall CI build as failed CI",
-    (result) => {
-      const packageDetails = createPackageStatus("example");
-      const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
-      const pipelines: Record<string, PipelineResults> = {
-        "@azure/example": {
-          ci: {
-            result,
-            build: { status: "succeeded" },
-            ci: { status: "succeeded" },
-            lint: { status: "succeeded" },
-          },
-          tests: {
-            tests: { status: "succeeded" },
-          },
+  it("treats a failed overall CI build as failed CI", () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          result: "failed",
+          build: { status: "succeeded" },
+          ci: { status: "succeeded" },
+          lint: { status: "succeeded" },
         },
-      };
+        tests: {
+          tests: { status: "succeeded" },
+        },
+      },
+    };
 
-      reportStatus(dataplane, pipelines);
+    reportStatus(dataplane, pipelines);
 
-      expect(packageDetails.ci.status).toBe("FAIL");
-      expect(packageDetails.status).toBe("BLOCKED");
-    },
-  );
+    expect(packageDetails.ci.status).toBe("FAIL");
+    expect(packageDetails.status).toBe("BLOCKED");
+  });
+
+  it("treats a partially succeeded overall CI build as a warning", () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          result: "partiallySucceeded",
+          build: { status: "succeeded" },
+          ci: { status: "succeeded" },
+          lint: { status: "succeeded" },
+        },
+        tests: {
+          tests: { status: "succeeded" },
+        },
+      },
+    };
+
+    reportStatus(dataplane, pipelines);
+
+    expect(packageDetails.ci.status).toBe("WARNING");
+    expect(packageDetails.status).toBe("NEEDS_ACTION");
+  });
 
   it.each(["canceled", "none"] as const)("treats a %s overall CI build as unknown CI", (result) => {
     const packageDetails = createPackageStatus("example");

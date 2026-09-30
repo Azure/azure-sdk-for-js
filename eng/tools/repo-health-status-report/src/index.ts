@@ -354,10 +354,16 @@ function reportTestResult(
   if (testKind === "ci") {
     if (
       pipelineResult.result === "failed" ||
-      pipelineResult.result === "partiallySucceeded" ||
-      pipelineResult.build?.status === "failed"
+      pipelineResult.build?.status === "failed" ||
+      testStatus === "failed"
     ) {
       testStatus = "failed";
+    } else if (
+      pipelineResult.result === "partiallySucceeded" ||
+      pipelineResult.build?.status === "succeededWithIssues" ||
+      testStatus === "succeededWithIssues"
+    ) {
+      testStatus = "succeededWithIssues";
     } else if (pipelineResult.result && pipelineResult.result !== "succeeded") {
       testStatus = "UNKNOWN";
     }
@@ -367,6 +373,8 @@ function reportTestResult(
     packageDetails[testKind] = { ...old, status: "PASS", link: pipelineResult.link };
   } else if (testStatus === "failed") {
     packageDetails[testKind] = { ...old, status: "FAIL", link: pipelineResult.link };
+  } else if (testStatus === "succeededWithIssues") {
+    packageDetails[testKind] = { ...old, status: "WARNING", link: pipelineResult.link };
   } else {
     packageDetails[testKind] = { ...old, status: "UNKNOWN", link: pipelineResult.link };
   }
@@ -574,7 +582,7 @@ export async function writeToCsv(
       pkgDetails.label ? (pkgDetails.sla?.bug?.link ?? "") : "",
       pkgDetails.label ? (pkgDetails.customerIssues?.link ?? "") : "",
       // Lint is a release blocker sourced from the CI pipeline. Preserve a
-      // blank for unmatched pipelines; otherwise emit PASS/FAIL/UNKNOWN.
+      // blank for unmatched pipelines; otherwise emit the normalized status.
       pipelines[pkgName]?.ci ? (pkgDetails.lint?.status ?? "") : "",
       pipelines[pkgName]?.ci ? (pkgDetails.lint?.link ?? "") : "",
       pipelines[pkgName]?.tests ? (pkgDetails.samples?.status ?? "") : "",
