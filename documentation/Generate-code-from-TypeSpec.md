@@ -50,7 +50,8 @@ Install dependencies to use code-gen-pipeline,
 ```ps
 npm --prefix eng/common/tsp-client ci
 $packageManager = node -p "require('./package.json').packageManager"
-npm install -g $packageManager
+$npmRegistry = npm config get registry
+npm install -g $packageManager --registry=$npmRegistry
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```

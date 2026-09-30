@@ -70,6 +70,21 @@ try {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
 
+  $packageManager = (Get-Content -Raw "package.json" | ConvertFrom-Json).packageManager
+  if (-not $packageManager -or -not $packageManager.StartsWith("pnpm@")) {
+    throw "Expected repository packageManager to specify pnpm, but got: $packageManager"
+  }
+
+  $npmRegistry = npm config get registry
+  if ($LASTEXITCODE -ne 0 -or -not $npmRegistry) {
+    throw "Failed to resolve the repository npm registry"
+  }
+  $npmRegistry = $npmRegistry.Trim()
+
+  Write-Host "Installing $packageManager..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "npm install -g $packageManager --registry=$npmRegistry"
+  Write-Host ""
+
   Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
   Invoke-LoggedCommand "pnpm install --frozen-lockfile"
   Write-Host ""

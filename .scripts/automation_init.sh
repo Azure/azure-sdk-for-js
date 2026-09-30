@@ -2,7 +2,8 @@
 set -e
 npm --prefix eng/common/tsp-client ci
 package_manager=$(node -p "require('./package.json').packageManager")
-npm install -g "$package_manager"
+npm_registry=$(npm config get registry)
+npm install -g "$package_manager" --registry="$npm_registry"
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 echo "Using local @azure-tools/js-sdk-release-tools version:"

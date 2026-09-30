@@ -8,9 +8,22 @@ _Note: Currently, this tools only supports generating dataplane sdk, and only ca
 
 From the `azure-sdk-for-js` repository root:
 
-```shell script
+**Bash**
+
+```bash
 package_manager=$(node -p "require('./package.json').packageManager")
-npm install -g "$package_manager"
+npm_registry=$(npm config get registry)
+npm install -g "$package_manager" --registry="$npm_registry"
+pnpm install --frozen-lockfile
+pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
+```
+
+**PowerShell**
+
+```powershell
+$packageManager = node -p "require('./package.json').packageManager"
+$npmRegistry = npm config get registry
+npm install -g $packageManager --registry=$npmRegistry
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```
