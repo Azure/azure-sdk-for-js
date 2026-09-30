@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { AzureSdkInstrumentation } from "../../../src/traces/azureSdkInstrumentation.js";
 import type * as CoreTracing from "@azure/core-tracing";
-import { context, trace } from "@opentelemetry/api";
+import { context, trace, TraceFlags } from "@opentelemetry/api";
 import { InMemorySpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { ensureAzureSdkTracingBridge } from "../../../src/utils/azureSdkTracingBridge.js";
@@ -55,35 +55,62 @@ describe("ensureAzureSdkTracingBridge", () => {
     }).not.toThrow();
   });
 
-  it("preserves callback results, exceptions and async context", async () => {
-    const coreTracing = esmRequire("@azure/core-tracing") as typeof CoreTracing;
-    const spy = vi.spyOn(coreTracing, "useInstrumenter");
-    ensureAzureSdkTracingBridge(instrumentation);
-    const bridge = spy.mock.calls[0][0];
-    const key = Symbol("async-context");
-    const parent = context.active().setValue(key, "parent");
-    const error = new Error("callback failure");
-    for (const enabled of [true, false, true]) {
-      if (enabled) instrumentation.enable();
-      else instrumentation.disable();
-      expect(() =>
-        bridge.withContext(parent, () => {
-          throw error;
-        }),
-      ).toThrow(error);
-      const value = await bridge.withContext(
-        parent,
-        async (arg: string) => {
-          await Promise.resolve();
-          expect(context.active().getValue(key)).toBe(enabled ? "parent" : undefined);
-          return arg;
-        },
-        "result",
-      );
-      expect(value).toBe("result");
-      expect(context.active().getValue(key)).toBeUndefined();
-    }
-  });
+  it.each(["eager", "module-hook"])(
+    "preserves callback results, exceptions and async context in the %s bridge",
+    async (installation) => {
+      const useInstrumenter = vi.fn<typeof CoreTracing.useInstrumenter>();
+      if (installation === "eager") {
+        const coreTracing = esmRequire("@azure/core-tracing") as typeof CoreTracing;
+        vi.spyOn(coreTracing, "useInstrumenter").mockImplementation(useInstrumenter);
+        ensureAzureSdkTracingBridge(instrumentation);
+      } else {
+        const definition = instrumentation
+          .getModuleDefinitions()
+          .find((module) => module.name === "@azure/core-tracing");
+        expect(definition?.patch).toBeDefined();
+        definition?.patch?.({ useInstrumenter });
+      }
+      expect(useInstrumenter).toHaveBeenCalled();
+      const bridge = useInstrumenter.mock.calls[0][0];
+      const key = Symbol("async-context");
+      const parent = context.active().setValue(key, "parent");
+      const error = new Error("callback failure");
+      for (const enabled of [true, false, true]) {
+        if (enabled) instrumentation.enable();
+        else instrumentation.disable();
+        expect(
+          bridge.withContext(
+            parent,
+            (arg: string) => {
+              expect(context.active().getValue(key)).toBe("parent");
+              return arg;
+            },
+            "sync result",
+          ),
+        ).toBe("sync result");
+        expect(context.active().getValue(key)).toBeUndefined();
+        expect(() =>
+          bridge.withContext(parent, () => {
+            expect(context.active().getValue(key)).toBe("parent");
+            throw error;
+          }),
+        ).toThrow(error);
+        expect(context.active().getValue(key)).toBeUndefined();
+        const value = await bridge.withContext(
+          parent,
+          async (arg: string) => {
+            expect(context.active().getValue(key)).toBe("parent");
+            await Promise.resolve();
+            expect(context.active().getValue(key)).toBe("parent");
+            return arg;
+          },
+          "result",
+        );
+        expect(value).toBe("result");
+        expect(context.active().getValue(key)).toBeUndefined();
+      }
+    },
+  );
 
   it("ignores a core-tracing module without a useInstrumenter export", () => {
     const definition = instrumentation.getModuleDefinitions()[0];
@@ -114,7 +141,12 @@ describe("ensureAzureSdkTracingBridge", () => {
 
       instrumentation.disable();
       const key = Symbol("parent-context");
-      const parent = context.active().setValue(key, true);
+      const parentSpanContext = {
+        traceId: "4bf92f3577b34da6a3ce929d0e0e4736",
+        spanId: "00f067aa0ba902b7",
+        traceFlags: TraceFlags.SAMPLED,
+      };
+      const parent = trace.setSpanContext(context.active().setValue(key, true), parentSpanContext);
       const disabled = bridge.startSpan("disabled", { ...options, tracingContext: parent });
       expect(disabled.span.isRecording()).toBe(false);
       expect(disabled.tracingContext.getValue(key)).toBe(true);
@@ -131,13 +163,15 @@ describe("ensureAzureSdkTracingBridge", () => {
         bridge.withContext(
           parent,
           (value: string) => {
-            expect(context.active().getValue(key)).toBeUndefined();
+            expect(context.active().getValue(key)).toBe(true);
+            trace.getTracer("manual").startSpan("manual").end();
             return value;
           },
           "result",
         ),
       ).toBe("result");
-      trace.getTracer("manual").startSpan("manual").end();
+      expect(context.active().getValue(key)).toBeUndefined();
+      expect(exporter.getFinishedSpans()[1].parentSpanContext).toEqual(parentSpanContext);
 
       instrumentation.enable();
       bridge.startSpan("reenabled", options).span.end();

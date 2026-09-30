@@ -32,9 +32,7 @@ function createLifecycleInstrumenter(isEnabled: () => boolean): Instrumenter {
       return instrumenter.startSpan(name, options);
     },
     withContext(tracingContext, callback, ...args) {
-      return isEnabled()
-        ? instrumenter.withContext(tracingContext, callback, ...args)
-        : callback(...args);
+      return instrumenter.withContext(tracingContext, callback, ...args);
     },
     parseTraceparentHeader(header) {
       return isEnabled() ? instrumenter.parseTraceparentHeader(header) : undefined;
@@ -48,6 +46,7 @@ function createLifecycleInstrumenter(isEnabled: () => boolean): Instrumenter {
 /**
  * Keep both eager and module-hook bridges tied to the distro's instrumentation
  * lifecycle without changing the shared Azure SDK instrumentation package.
+ * Context activation remains available when instrumentation is disabled.
  * @internal
  */
 export class AzureSdkInstrumentation extends BaseAzureSdkInstrumentation {
