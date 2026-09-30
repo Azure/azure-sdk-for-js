@@ -4,3 +4,7 @@
 2. For tools of js llc, please go to [llc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/llc.md);
 3. If you want to go through how changelog tool works, please go to [changelog-tool.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/changelog-tool.md);
 4. For the automation pipeline architecture, folder cleanup logic, and detailed generation steps for all SDK types, please go to [automation-pipeline.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/automation-pipeline.md);
+
+Generated CODEOWNERS package paths are rooted with a leading `/`, as required by
+the Azure SDK label matcher. Package paths with or without this prefix produce
+the same entry. New entries are still inserted immediately before the Config section.
