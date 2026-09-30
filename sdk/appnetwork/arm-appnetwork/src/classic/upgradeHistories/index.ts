@@ -9,7 +9,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a UpgradeHistories operations. */
 export interface UpgradeHistoriesOperations {
-  /** List UpgradeHistory resources by AppLinkMember. */
+  /** List the upgrade history of an Azure Kubernetes Application Network member. */
   listByAppLinkMember: (
     resourceGroupName: string,
     appLinkName: string,
