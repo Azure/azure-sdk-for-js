@@ -4,6 +4,7 @@
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type { EvaluatorGenerationJob, EvaluatorVersion } from "../../src/index.js";
@@ -78,8 +79,9 @@ describe("evaluator GA post-emitter integration", () => {
     expect(client.getOpenAIClient).toBeTypeOf("function");
     await client.evaluators.getVersion("rubric", "1");
     expect(scopes).toContain("https://ai.azure.com/.default");
-    expect(requests[0].headers.get("user-agent")).toContain("azsdk-js-client");
-    expect(requests[0].headers.get("user-agent")).toContain("azsdk-js-api");
+    const userAgent = requests[0].headers.get(isNodeLike ? "user-agent" : "x-ms-useragent");
+    expect(userAgent).toContain("azsdk-js-client");
+    expect(userAgent).toContain("azsdk-js-api");
   });
 
   it("preserves generation body serialization, job identity and custom poll headers", async () => {
