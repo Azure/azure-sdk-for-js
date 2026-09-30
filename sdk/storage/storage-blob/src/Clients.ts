@@ -2237,6 +2237,7 @@ export class BlobClient extends StorageClient {
           etag: firstChunk?.etag,
           offset: offset + firstChunkLength,
           count: remaining,
+          customerProvidedKey: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
         });
         const chunkConditions = layoutCache
@@ -2288,6 +2289,7 @@ export class BlobClient extends StorageClient {
     etag?: string;
     offset: number;
     count: number;
+    customerProvidedKey?: CpkInfo;
     tracingOptions?: CommonOptions["tracingOptions"];
   }): AutoRefreshingCache<BlobLayoutCacheValue> | undefined {
     // `auto` resolves to enabled today; the third state exists so the default can move later
@@ -2308,6 +2310,10 @@ export class BlobClient extends StorageClient {
           abortSignal,
           range,
           ifMatch: options.etag,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey
+            ?.encryptionAlgorithm as EncryptionAlgorithmType,
           tracingOptions: options.tracingOptions,
         }),
       ),

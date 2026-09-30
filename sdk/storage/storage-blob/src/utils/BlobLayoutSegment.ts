@@ -59,9 +59,9 @@ export function toBlobLayoutSegments(layout: BlobLayout): BlobLayoutSegment[] {
 }
 
 /**
- * Finds the endpoint serving `offset` by binary searching for the first segment ending at or
- * after it. Returns `undefined` when no segment does, in which case the caller should fall back
- * to the account endpoint.
+ * Finds the endpoint of the segment covering `offset` by binary searching for the first segment
+ * ending at or after it. Returns `undefined` when no segment covers it, including an offset in a
+ * gap left by a dropped range, in which case the caller should fall back to the account endpoint.
  *
  * A chunk spanning several segments is routed whole to the endpoint owning its start offset
  * rather than being split. Every endpoint can serve every range, relaying when the data is not
@@ -75,19 +75,19 @@ export function getLayoutEndpoint(
 ): string | undefined {
   let low = 0;
   let high = segments.length - 1;
-  let endpoint: string | undefined;
+  let candidate: BlobLayoutSegment | undefined;
 
   while (low <= high) {
     const mid = (low + high) >>> 1;
     if (segments[mid].end >= offset) {
-      endpoint = segments[mid].endpoint;
+      candidate = segments[mid];
       high = mid - 1;
     } else {
       low = mid + 1;
     }
   }
 
-  return endpoint;
+  return candidate && candidate.start <= offset ? candidate.endpoint : undefined;
 }
 
 /**

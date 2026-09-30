@@ -87,6 +87,18 @@ describe("getLayoutEndpoint", () => {
     assert.isUndefined(getLayoutEndpoint(3000, segments));
     assert.isUndefined(getLayoutEndpoint(0, []));
   });
+
+  // toBlobLayoutSegments drops ranges it cannot resolve, which leaves gaps.
+  it("returns undefined before the first segment and in a gap", () => {
+    const gapped: BlobLayoutSegment[] = [
+      { start: 1000, end: 1999, endpoint: "b" },
+      { start: 3000, end: 3999, endpoint: "d" },
+    ];
+
+    assert.isUndefined(getLayoutEndpoint(500, gapped));
+    assert.isUndefined(getLayoutEndpoint(2500, gapped));
+    assert.equal(getLayoutEndpoint(3000, gapped), "d");
+  });
 });
 
 /** A blob context whose getLayout replays the given pages, throwing any RestError in sequence. */
@@ -229,6 +241,21 @@ describe("layout routing gate", () => {
 
   it("does not route when nothing is left after the first chunk", () => {
     assert.isUndefined(gate({ count: 0 }));
+  });
+
+  it("fetches the layout with the caller's customer-provided key", async () => {
+    const { client: cpkClient, calls } = clientWithLayoutPages([{ nextMarker: "" }]);
+    const customerProvidedKey = {
+      encryptionKey: "key",
+      encryptionKeySha256: "key-sha256",
+      encryptionAlgorithm: "AES256",
+    };
+
+    await (cpkClient as any).createLayoutCache({ ...routable, customerProvidedKey }).get();
+
+    assert.equal(calls[0].encryptionKey, "key");
+    assert.equal(calls[0].encryptionKeySha256, "key-sha256");
+    assert.equal(calls[0].encryptionAlgorithm, "AES256");
   });
 });
 
