@@ -356,7 +356,7 @@ describe("report aggregation", () => {
     expect(packageDetails.status).toBe("BLOCKED");
   });
 
-  it("treats a failed overall CI build as failed CI", () => {
+  it("uses successful tracked tasks when an untracked CI stage fails", () => {
     const packageDetails = createPackageStatus("example");
     const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
     const pipelines: Record<string, PipelineResults> = {
@@ -375,8 +375,8 @@ describe("report aggregation", () => {
 
     reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.ci.status).toBe("FAIL");
-    expect(packageDetails.status).toBe("BLOCKED");
+    expect(packageDetails.ci.status).toBe("PASS");
+    expect(packageDetails.status).toBe("GOOD");
   });
 
   it("treats a partially succeeded overall CI build as a warning", () => {

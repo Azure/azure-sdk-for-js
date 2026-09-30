@@ -352,11 +352,7 @@ function reportTestResult(
   }
   let testStatus = pipelineResult[testKind]?.status;
   if (testKind === "ci") {
-    if (
-      pipelineResult.result === "failed" ||
-      pipelineResult.build?.status === "failed" ||
-      testStatus === "failed"
-    ) {
+    if (pipelineResult.build?.status === "failed" || testStatus === "failed") {
       testStatus = "failed";
     } else if (
       pipelineResult.result === "partiallySucceeded" ||
@@ -364,7 +360,16 @@ function reportTestResult(
       testStatus === "succeededWithIssues"
     ) {
       testStatus = "succeededWithIssues";
-    } else if (pipelineResult.result && pipelineResult.result !== "succeeded") {
+    } else if (
+      pipelineResult.result === "failed" &&
+      (pipelineResult.build?.status !== "succeeded" || testStatus !== "succeeded")
+    ) {
+      testStatus = "UNKNOWN";
+    } else if (
+      pipelineResult.result &&
+      pipelineResult.result !== "succeeded" &&
+      pipelineResult.result !== "failed"
+    ) {
       testStatus = "UNKNOWN";
     }
   }
