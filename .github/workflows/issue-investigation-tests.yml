@@ -28,4 +28,4 @@ jobs:
         with:
           node-version: "24"
       - name: Test investigation guards and generated handoff
-        run: node --test eng/tools/issue-investigation/issue-investigation.test.cjs
+        run: node --test "eng/tools/issue-investigation/*.test.cjs"

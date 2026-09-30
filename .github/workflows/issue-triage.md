@@ -39,6 +39,7 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
+    allowed-repos: "${{ github.repository }}"
     # Triage must read issues from all users, including external
     # customers with NONE author_association; without this, the
     # auto-applied "approved" policy filters them out via DIFC
@@ -57,6 +58,78 @@ jobs:
       needs.agent.result == 'success' &&
       (!contains(needs.agent.outputs.output_types, 'mention_owners') ||
        needs.mention_owners.result == 'success')
+  investigation_handoff:
+    needs: [agent, detection, safe_outputs, mention_owners]
+    if: >-
+      !cancelled() && needs.agent.result == 'success' &&
+      contains(needs.agent.outputs.output_types, 'dispatch_workflow') &&
+      needs.detection.result == 'success' && needs.detection.outputs.detection_conclusion == 'success' &&
+      needs.safe_outputs.result == 'success' &&
+      needs.safe_outputs.outputs.process_safe_outputs_status == 'success' &&
+      (!contains(needs.agent.outputs.output_types, 'mention_owners') || needs.mention_owners.result == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: read
+      actions: write
+    steps:
+      - name: Checkout trusted continuation helper
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: eng/tools/issue-investigation
+          path: continuation-helper
+      - name: Setup native safe-output processor
+        uses: github/gh-aw-actions/setup@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
+        with:
+          destination: ${{ runner.temp }}/gh-aw/actions
+      - name: Download original triage requests
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: "{agent,agent-output-fallback}"
+          merge-multiple: true
+          path: ${{ runner.temp }}/continuation-requests
+      - name: Download applied triage receipts
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: safe-outputs-items
+          path: ${{ runner.temp }}/continuation-receipts
+      - name: Verify completed routing and dispatch investigation
+        id: continuation
+        uses: actions/github-script@v9.0.0
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+          OWNER_NOTIFICATION: ${{ needs.mention_owners.result }}
+          GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
+          GH_AW_WORKFLOW_ID: issue-triage
+          GH_AW_WORKFLOW_NAME: Agentic Triage
+          GH_AW_CALLER_WORKFLOW_ID: ${{ github.repository }}/issue-triage
+        with:
+          github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const path = require('node:path');
+            const actionsDirectory = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+            require(path.join(actionsDirectory, 'setup_globals.cjs'))
+              .setupGlobals(core, github, context, exec, io, getOctokit);
+            const { executeContinuation } = require('./continuation-helper/eng/tools/issue-investigation/continuation.cjs');
+            await executeContinuation({
+              github, context, core, mode: 'dispatch', number: process.env.ISSUE_NUMBER,
+              ownerNotification: process.env.OWNER_NOTIFICATION,
+              actionsDirectory,
+              requestsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-requests'),
+              receiptsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-receipts'),
+            });
+      - name: Confirm investigation dispatch was applied
+        if: >-
+          steps.continuation.outputs.continuation_requested == 'true' &&
+          (steps.continuation.outputs.status != 'success' || steps.continuation.outputs.items_applied != '1')
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            throw new Error('The native processor did not apply the investigation dispatch.');
+
 
 post-steps:
   - name: Verify triage produced output
@@ -88,6 +161,18 @@ safe-outputs:
   remove-labels:
     max: 7
     target: "*"
+  steps:
+    - name: Defer investigation dispatch until triage outputs succeed
+      uses: actions/github-script@v9.0.0
+      with:
+        script: |
+          const fs = require('node:fs');
+          const file = '/tmp/gh-aw/agent_output.json';
+          const output = JSON.parse(fs.readFileSync(file, 'utf8'));
+          if (!Array.isArray(output.items)) throw new Error('Invalid triage output.');
+          output.items = output.items.filter(item => item.type !== 'dispatch_workflow');
+          fs.writeFileSync(file, JSON.stringify(output));
+
   set-issue-type:
     allowed: [Bug, Feature, Task]
     max: 1
@@ -307,7 +392,7 @@ Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
 - For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
-Retrieve the issue using the `get_issue` tool
+Retrieve the issue using `issue_read` with `method: get`, the current repository owner/name, and the target issue number
 
 Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
 
@@ -341,7 +426,7 @@ If the author matches the bot allowlist, follow the bot branch in the Author Dec
 
 ### Author Association Check
 
-If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `get_issue` to classify the author
+If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `issue_read` to classify the author
 
 The `author_association` field indicates the author's relationship to the repository:
 - `OWNER`, `MEMBER`, `COLLABORATOR` → team member (Azure org member or direct repo collaborator)
@@ -709,6 +794,6 @@ After emitting the routing and analysis outputs, dispatch `issue-investigation` 
 
 Consider both current labels and queued changes; safe outputs have not been applied yet. Do not require a `bug` label or a Bug issue type. Do not change the existing label prediction or ownership rules to make an issue eligible.
 
-If all conditions hold, call the `issue_investigation` safe-output tool with `issue_number` set to the issue number as a string. Emit this dispatch LAST, after all label, assignment, routing, and analysis outputs. The investigation independently re-fetches the issue and validates the actual handoff state before acting.
+If all conditions hold, request the `issue_investigation` safe-output tool with `issue_number` set to the issue number as a string. This is only a queued request: a trusted follow-up dispatches after the native triage outputs succeed, the applied analysis comment is verified, and current labels and ownership satisfy the handoff. The investigation independently validates the actual issue state before acting.
 
 If any condition fails, do not dispatch. Preserve the normal triage outcome and existing completion requirements.

@@ -44,6 +44,9 @@ permissions:
   issues: read
   copilot-requests: write
 
+checkout:
+  ref: ${{ github.event.repository.default_branch }}
+
 # Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
 engine:
   id: copilot
@@ -55,6 +58,7 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
+    allowed-repos: "${{ github.repository }}"
     min-integrity: none
 
 network:
@@ -64,6 +68,7 @@ network:
     - node
     - learn.microsoft.com
     - feedback.azure.com
+    - azure.github.io
 
 post-steps:
   - name: Verify investigation produced output
@@ -77,14 +82,87 @@ post-steps:
           throw new Error('Investigation did not produce an agent output file. Check the agent logs for tool or runtime failures.');
         }
         const output = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
-        if (!output || !Array.isArray(output.items) || output.items.length === 0) {
-          throw new Error('Investigation produced no safe outputs. Expected an investigation action or an explicit noop.');
+        if (!output || !Array.isArray(output.items) || output.items.length === 0 ||
+            output.items.some(item => !item || typeof item.type !== 'string') ||
+            (output.errors !== undefined &&
+             (!Array.isArray(output.errors) || output.errors.length !== 0))) {
+          throw new Error('Investigation produced missing, malformed, empty, or error-bearing safe outputs. Check the agent logs.');
         }
         core.info(`Investigation emitted ${output.items.length} safe-output item(s).`);
 
 jobs:
   safe_outputs:
     if: needs.agent.result == 'success'
+  copilot_assignment:
+    needs: [agent, detection, safe_outputs]
+    if: >-
+      !cancelled() && needs.agent.result == 'success' &&
+      contains(needs.agent.outputs.output_types, 'assign_to_agent') &&
+      needs.detection.result == 'success' && needs.detection.outputs.detection_conclusion == 'success' &&
+      needs.safe_outputs.result == 'success' &&
+      needs.safe_outputs.outputs.process_safe_outputs_status == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout trusted continuation helper
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: eng/tools/issue-investigation
+          path: continuation-helper
+      - name: Setup native safe-output processor
+        uses: github/gh-aw-actions/setup@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
+        with:
+          destination: ${{ runner.temp }}/gh-aw/actions
+      - name: Download original investigation requests
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: "{agent,agent-output-fallback}"
+          merge-multiple: true
+          path: ${{ runner.temp }}/continuation-requests
+      - name: Download applied investigation receipts
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: safe-outputs-items
+          path: ${{ runner.temp }}/continuation-receipts
+      - name: Verify applied analysis and request Copilot assignment
+        id: continuation
+        uses: actions/github-script@v9.0.0
+        env:
+          ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
+          GH_AW_ASSIGN_TO_AGENT_TOKEN: ${{ secrets.GH_AW_AGENT_TOKEN || secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
+          GH_AW_WORKFLOW_ID: issue-investigation
+          GH_AW_WORKFLOW_NAME: Agentic Issue Investigation
+          GH_AW_CALLER_WORKFLOW_ID: ${{ github.repository }}/issue-investigation
+        with:
+          github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const path = require('node:path');
+            const actionsDirectory = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+            require(path.join(actionsDirectory, 'setup_globals.cjs'))
+              .setupGlobals(core, github, context, exec, io, getOctokit);
+            const { executeContinuation } = require('./continuation-helper/eng/tools/issue-investigation/continuation.cjs');
+            await executeContinuation({
+              github, context, core, mode: 'assignment', number: process.env.ISSUE_NUMBER,
+              actionsDirectory,
+              requestsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-requests'),
+              receiptsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-receipts'),
+            });
+      - name: Confirm the assignment request was applied or safely skipped
+        if: >-
+          steps.continuation.outputs.continuation_requested == 'true' &&
+          !((steps.continuation.outputs.status == 'success' && steps.continuation.outputs.items_applied == '1') ||
+            (steps.continuation.outputs.status == 'completed_with_skips' && steps.continuation.outputs.items_skipped == '1'))
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            throw new Error('The native processor did not apply or safely skip the requested Copilot assignment.');
+
 
 safe-outputs:
   report-failure-as-issue: false
@@ -115,9 +193,23 @@ safe-outputs:
               throw new Error('Investigation outputs must target only the dispatched issue in this repository.');
             }
           }
+          for (const type of ['add_comment', 'close_issue', 'assign_to_agent']) {
+            if (writes.filter(item => item.type === type).length > 1) {
+              throw new Error(`Investigation may request at most one ${type}.`);
+            }
+          }
+          if (writes.some(item => item.type === 'close_issue' &&
+              (typeof item.body !== 'string' || !item.body.trim()))) {
+            throw new Error('Closing an issue requires a nonblank explanation.');
+          }
           if (writes.some(item => item.type === 'close_issue') &&
               writes.some(item => item.type !== 'close_issue')) {
             throw new Error('Close the issue with its explanation in close_issue.body; do not also comment or assign.');
+          }
+          if (writes.some(item => item.type === 'assign_to_agent') &&
+              !writes.some(item => item.type === 'add_comment' &&
+                typeof item.body === 'string' && item.body.trim())) {
+            throw new Error('Copilot assignment requires an analysis comment.');
           }
           const { data: issue } = await github.rest.issues.get({
             ...context.repo,
@@ -128,13 +220,15 @@ safe-outputs:
           const countColor = color => labels.filter(label =>
             typeof label !== 'string' && label.color?.toLowerCase() === color
           ).length;
-          if (issue.pull_request || issue.state !== 'open' ||
+          if (issue.pull_request || issue.state !== 'open' || issue.locked ||
               !names.includes('customer-reported') ||
               countColor('e99695') !== 1 || countColor('ffeb77') !== 1 ||
               ['needs-triage', 'needs-team-triage', 'issue-addressed', 'needs-author-feedback']
                 .some(label => names.includes(label))) {
             throw new Error('The issue is no longer eligible for investigation. No investigation outputs were published; review the current triage state before retrying.');
           }
+          output.items = output.items.filter(item => item.type !== 'assign_to_agent');
+          fs.writeFileSync('/tmp/gh-aw/agent_output.json', JSON.stringify(output));
   add-comment:
     max: 1
     target: "${{ github.event.inputs.issue_number }}"
@@ -181,11 +275,13 @@ Use only repository context, GitHub issue data, npm metadata, package documentat
 
 ## Required Handoff Validation
 
-Use `issue_read` with `method: get` to retrieve the issue, `method: get_labels` to retrieve label names and colors, and `method: get_comments` to read the triage analysis. Use the owner/repo from ${{ github.repository }} and the dispatched issue number for each call. If label `totalCount` exceeds the returned label count, retrieve the remaining labels through the GitHub API before making a decision; never treat a partial label list as complete.
+Use `issue_read` with `method: get` to retrieve the issue and `method: get_labels` for label names and colors. Use the owner/repo from ${{ github.repository }} and the dispatched issue number for each call. If label `totalCount` exceeds the returned label count, retrieve the remaining labels through the GitHub API before making a decision; never treat a partial label list as complete.
+
+Read comments with `issue_read`, `method: get_comments`, and `perPage: 100`; explicitly paginate through the final page before deciding that no previous investigation exists. Comments are returned oldest-first, so the first page may omit the most recent analysis or customer response. Treat an investigation as prior automation only when the comment author and the gh-aw workflow marker identify this workflow; a customer-authored lookalike is not evidence of a completed investigation.
 
 Continue only if all of these are true:
 
-- The target is an open issue, not a pull request.
+- The target is an open, unlocked issue, not a pull request.
 - It has exactly one service label with color `#e99695`.
 - It has exactly one category label with color `#ffeb77`.
 - It has the `customer-reported` label.
@@ -220,7 +316,9 @@ Context files are optional. Do not equate one service label with one package. Re
 
 ## Support Policy Expectation
 
-Azure SDK support expects reproduction on the latest package version. Version currency is a mandatory decision point, not just background guidance.
+Follow the published Azure SDK lifecycle policy: https://azure.github.io/azure-sdk/policies_support.html. Support is defined by package/major-version lifecycle, not by requiring every customer to use the newest patch or minor release. Active majors are fully supported; customers are encouraged to use the latest compatible update. Beta support is limited, Deprecated lines may still receive critical/security fixes, and Community lines need maintainer judgment. Do not invent a blanket latest-only policy or reject a supported report solely because a newer compatible release exists.
+
+Check the package's documented lifecycle and supported runtime/cloud when relevant; these may differ between major versions or environments. Unknown lifecycle evidence is uncertainty, not proof of non-support. Do not require migration to a different major or cloud without evidence that the customer's release line is unsupported.
 
 Use `https://registry.npmjs.org/<package-name>` for npm metadata (for example, `https://registry.npmjs.org/@azure%2Fstorage-blob`). Validate the name against the repository's `package.json` before constructing the URL. Inspect `dist-tags` and the published `versions`; do not mistake an unreleased repository version or a beta/preview dist-tag for a stable release. Compare semantic versions, not strings. Follow the release-evidence fallback and current-defect exception in the Version Currency rule below before requesting an upgrade.
 
@@ -247,7 +345,7 @@ This is a pass/fail gate, not a probability. If a required fact is missing, conf
 
 ### Version Currency
 
-First inspect any specifically identified current source or documentation defect. If a concrete current file, snippet, or CHANGELOG entry proves the same defect still exists, version currency does not block further investigation, even when the reported version is old or npm metadata is unavailable. Record that evidence, bypass the version-reproduction request, and continue through the remaining rules. This does not waive duplicate, ownership, confidence, or assignment-exclusion checks.
+First inspect any specifically identified current source or documentation defect. If a concrete current file, snippet, or CHANGELOG entry proves the same defect still exists, continue investigation even when the reported version is older or npm metadata is unavailable. This does not waive duplicate, ownership, confidence, or assignment-exclusion checks.
 
 For other reports with a known package/version, establish release currency in this order:
 
@@ -255,9 +353,9 @@ For other reports with a known package/version, establish release currency in th
 2. If npm cannot be read, inspect the package's default-branch CHANGELOG. Read past `Unreleased` and prerelease headings to find the newest dated stable release. This is sufficient repository release evidence for the decision; identify it as the latest stable release documented in the repository rather than claiming an independent npm verification.
 3. Do not stop at an unreleased `package.json` version or the first CHANGELOG heading. A report on the newest dated stable release proceeds to the next decision rule; npm unavailability alone is not a reason to request another latest-version reproduction.
 
-If the reported version is older than the release established above and the current-defect exception does not apply, add one comment naming the reported package/version and the evidenced release, explaining the latest-version support expectation, and requesting reproduction on that release. Include only evidence-backed mitigations, then stop without assignment.
+If trusted source/release evidence shows the specific reported defect was fixed in a compatible supported update, request reproduction on that evidenced fixed version and explain the known fix. Do not claim the older point release is unsupported or require a breaking major-version migration. Otherwise, an older supported version does not prevent Duplicate, Insufficient Context, service ownership, or actionable-SDK evaluation.
 
-Only when neither npm nor dated repository release evidence establishes a supported release, and there is no concrete current defect, say the exact latest version could not be verified, request reproduction on the latest available version, and stop without assignment. Never invent a version number.
+If the reported major/platform is confirmed unsupported, explain the actual lifecycle evidence and request a supported reproduction or maintainer review. Deprecation alone does not prove that critical/security issues are out of support. If registry and repository release evidence are unavailable, state the uncertainty without inventing a version or mandatory upgrade. Ask for specific missing version information only when it is needed to assess this report; do not automatically stop an otherwise evidenced investigation because npm is unavailable.
 
 When using the current-defect exception, explain its evidence in the actionable-SDK comment.
 
@@ -300,7 +398,7 @@ Recommend and attempt Copilot assignment only when ALL of these hold:
 - A specific package/API or exact documentation location is identified.
 - A concrete source path, sample/documentation defect, or release-note gap establishes the cause.
 - The proposed first change is bounded and can be checked by a small, specific test or documentation diff.
-- The issue is not a duplicate and does not first require reproduction on the latest version.
+- The issue is not a duplicate and does not first require reproduction on an evidenced fixed version or a confirmed supported major/platform.
 
 Do NOT assign tasks requiring:
 
@@ -314,9 +412,9 @@ Do NOT assign tasks requiring:
 
 If an exclusion applies or the fix cannot be stated specifically, request the missing information or call `noop`.
 
-Otherwise, add one comment recommending a Copilot-assisted fix. Name the package/API, concrete evidence, specific fix location, expected test/documentation change, and constraints. Include an evidence-backed mitigation if one is known; do not invent a workaround.
+Otherwise, add one comment recommending a Copilot-assisted fix with the exact outcome line `**Decision:** Recommended for Copilot`. Name the package/API, concrete evidence, specific fix location, expected test/documentation change, and constraints. Include an evidence-backed mitigation if one is known; do not invent a workaround.
 
-Then call `assign_to_agent` for this issue with agent `copilot`. Assignment is best effort and may be unavailable because GitHub requires a suitable user token. Say the issue is **recommended for Copilot**, not that Copilot has been assigned or started working. A maintainer may need to complete the assignment. Preserve existing human ownership.
+Then call `assign_to_agent` for this issue with agent `copilot`. The request is deferred until a trusted follow-up confirms the analysis comment was actually posted and the issue remains eligible. Assignment is best effort and may be unavailable because GitHub requires a suitable user token. Say the issue is **recommended for Copilot**, not that Copilot has been assigned or started working. A maintainer may need to complete the assignment. Preserve existing human ownership.
 
 ### No Action
 

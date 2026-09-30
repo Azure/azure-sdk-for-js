@@ -84,6 +84,10 @@ function verify(issue = validIssue(), items = [comment()], apiError) {
           assert.equal(file, "/tmp/gh-aw/agent_output.json");
           return JSON.stringify({ items });
         },
+        writeFileSync(file, contents) {
+          assert.equal(file, "/tmp/gh-aw/agent_output.json");
+          assert.ok(JSON.parse(contents).items.every((item) => item.type !== "assign_to_agent"));
+        },
       };
     },
     github: {
@@ -228,6 +232,45 @@ test("closure posts only its own explanation and never also assigns", async () =
   await assert.rejects(verify(validIssue(), [close(), assign()]), /do not also comment or assign/);
 });
 
+for (const body of [undefined, null, "", " ", "\n\t", 42]) {
+  test(`closure rejects a missing or blank explanation: ${JSON.stringify(body)}`, async () => {
+    await assert.rejects(verify(validIssue(), [{ ...close(), body }]), /nonblank explanation/);
+  });
+}
+
+test("investigation rejects multiple comments, closures, or assignments", async () => {
+  for (const item of [comment(), close(), assign()]) {
+    await assert.rejects(verify(validIssue(), [item, item]), /at most one/);
+  }
+});
+
+test("Copilot assignment requires an accompanying analysis request", async () => {
+  await assert.rejects(verify(validIssue(), [assign()]), /analysis comment/);
+});
+
+test("read tools and checked-out context are restricted to this repository's default branch", () => {
+  assert.match(source, /allowed-repos: "\$\{\{ github\.repository \}\}"/);
+  assert.match(source, /checkout:\n  ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
+});
+
+test("comment history is explicitly paginated before checking for prior investigation", () => {
+  assert.match(source, /perPage: 100/);
+  assert.match(source, /paginate.*(?:final|last) page/i);
+});
+
+test("support guidance follows major-version lifecycle rather than refusing older point releases", () => {
+  assert.match(source, /policies_support\.html/);
+  for (const stage of ["Beta", "Active", "Deprecated", "Community"]) {
+    assert.ok(source.includes(stage));
+  }
+  assert.match(source, /an older supported version does not prevent/);
+  assert.match(source, /do not automatically stop.*npm is unavailable/);
+});
+
+test("locked issues cannot receive investigation mutations", async () => {
+  await assert.rejects(verify({ ...validIssue(), locked: true }), /no longer eligible/);
+});
+
 test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
   const script = stepScript(source, "Verify investigation produced output");
   for (const contents of [undefined, "", "{", "null", "{}", '{"items":{}}', '{"items":[]}']) {
@@ -255,6 +298,7 @@ test("output postcondition rejects missing, malformed, and empty artifacts", asy
 test("generated inline guards match their sources and precede mutations", () => {
   for (const name of [
     "Validate issue target",
+
     "Verify investigation produced output",
     "Revalidate issue before publishing investigation",
   ]) {
@@ -368,3 +412,88 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
     );
   });
 }
+
+test("triage defers dispatch without removing label or analysis requests", async () => {
+  const triage = workflow("issue-triage.md");
+  const output = {
+    items: [
+      { type: "add_labels", item_number: 42, labels: ["Client"] },
+      { type: "add_comment", item_number: 42, body: "Analysis" },
+      {
+        type: "dispatch_workflow",
+        workflow_name: "issue-investigation",
+        inputs: { issue_number: "42" },
+      },
+    ],
+    errors: [],
+  };
+  let written;
+  await execute(stepScript(triage, "Defer investigation dispatch until triage outputs succeed"), {
+    require: () => ({
+      readFileSync: () => JSON.stringify(output),
+      writeFileSync: (_file, text) => {
+        written = JSON.parse(text);
+      },
+    }),
+  });
+  assert.deepEqual(
+    written.items.map((item) => item.type),
+    ["add_labels", "add_comment"],
+  );
+  assert.equal(output.items.length, 3, "the original request artifact remains unchanged");
+});
+
+for (const [filename, jobId, type] of [
+  ["issue-investigation.lock.yml", "copilot_assignment", "assign_to_agent"],
+  ["issue-triage.lock.yml", "investigation_handoff", "dispatch_workflow"],
+]) {
+  for (const [name, change, expected] of [
+    ["fully applied outputs", {}, true],
+    ["comment handler failed", { result: "failure" }, false],
+    ["partial outputs skipped", { status: "completed_with_skips" }, false],
+    ["outputs deferred", { status: "deferred" }, false],
+    ["warning detection verdict", { detection: "warning" }, false],
+    ["no continuation request", { outputTypes: "add_comment" }, false],
+    ["cancelled run", { cancelled: true }, false],
+  ]) {
+    test(`${jobId} gate: ${name}`, () => {
+      const text = workflow(filename);
+      const job = text.slice(text.indexOf(`\n  ${jobId}:\n`));
+      const expression = job.match(/^    if: >\n((?:      .+\n)+)/m)[1].trim();
+      const condition = new Function("needs", "cancelled", "contains", `return (${expression});`);
+      const needs = {
+        agent: { result: "success", outputs: { output_types: change.outputTypes || type } },
+        detection: {
+          result: "success",
+          outputs: { detection_conclusion: change.detection || "success" },
+        },
+        safe_outputs: {
+          result: change.result || "success",
+          outputs: {
+            process_safe_outputs_status: change.status || "success",
+          },
+        },
+        mention_owners: { result: "skipped" },
+      };
+      assert.equal(
+        condition(
+          needs,
+          () => !!change.cancelled,
+          (value, part) => value.includes(part),
+        ),
+        expected,
+      );
+      assert.match(job, /ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
+    });
+  }
+}
+
+test("generated continuation jobs participate in the final workflow conclusion", () => {
+  for (const [filename, job] of [
+    ["issue-investigation.lock.yml", "copilot_assignment"],
+    ["issue-triage.lock.yml", "investigation_handoff"],
+  ]) {
+    const conclusion = workflow(filename).split("\n  conclusion:\n")[1];
+    assert.match(conclusion.split("    if:")[0], new RegExp(`- ${job}\\n`));
+  }
+});
