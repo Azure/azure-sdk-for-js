@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 import { createRequire } from "node:module";
+import { once } from "node:events";
+import { Writable } from "node:stream";
 import type * as Http from "node:http";
 import type { AddressInfo } from "node:net";
+import type * as Bunyan from "bunyan";
+import type * as Winston from "winston";
 import { createTracingClient, useInstrumenter } from "@azure/core-tracing";
 import type * as CoreTracing from "@azure/core-tracing";
 import { createOpenTelemetryInstrumenter } from "@azure/opentelemetry-instrumentation-azure-sdk";
@@ -156,6 +160,79 @@ describe("instrumentation lifecycle", () => {
           }
           history.push({ spans, records, spanCount: spans.length, logCount: records.length });
         } finally {
+          if (shutdown) {
+            await shutdownAzureMonitor();
+          }
+        }
+      }
+    },
+  );
+
+  it.each([true, false])(
+    "collects real Bunyan and Winston records across enabled -> disabled -> enabled with explicit shutdown: %s",
+    async (shutdown) => {
+      const history: { records: unknown[]; expected: string[] }[] = [];
+      for (const [phase, enabled] of [true, false, true].entries()) {
+        const records: unknown[] = [];
+        const bunyanMessage = `bunyan-lifecycle-${phase}`;
+        const winstonMessage = `winston-lifecycle-${phase}`;
+        const manualMessage = `manual-lifecycle-${phase}`;
+        const expected = enabled ? [bunyanMessage, manualMessage, winstonMessage] : [manualMessage];
+        useAzureMonitor({
+          ...options,
+          instrumentationOptions: {
+            ...options.instrumentationOptions,
+            bunyan: { enabled },
+            winston: { enabled },
+          },
+          logRecordProcessors: [
+            {
+              onEmit: (record) => {
+                records.push(record.body);
+              },
+              forceFlush: async () => {},
+              shutdown: async () => {},
+            },
+          ],
+        });
+        if (!shutdown) {
+          const sdk = _getSdkInstance();
+          if (sdk) {
+            sdks.push(sdk);
+          }
+        }
+
+        // Load after SDK initialization so the real module hooks can patch the loggers.
+        const bunyan = esmRequire("bunyan") as typeof Bunyan;
+        const winston = esmRequire("winston") as typeof Winston;
+        const sink = new Writable({
+          write(_chunk, _encoding, callback) {
+            callback();
+          },
+        });
+        const bunyanLogger = bunyan.createLogger({
+          name: "lifecycle",
+          streams: [{ stream: sink }],
+        });
+        const winstonLogger = winston.createLogger({
+          transports: [new winston.transports.Stream({ stream: sink })],
+        });
+        try {
+          bunyanLogger.info(bunyanMessage);
+          winstonLogger.info(winstonMessage);
+          logs.getLogger("lifecycle").emit({ body: manualMessage });
+          const finished = once(winstonLogger, "finish");
+          winstonLogger.end();
+          await finished;
+
+          expect(records.slice().sort()).toEqual(expected);
+          for (const previous of history) {
+            expect(previous.records.slice().sort()).toEqual(previous.expected);
+          }
+          history.push({ records, expected });
+        } finally {
+          winstonLogger.close();
+          sink.destroy();
           if (shutdown) {
             await shutdownAzureMonitor();
           }
