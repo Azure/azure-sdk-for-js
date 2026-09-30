@@ -43,6 +43,18 @@ const generationPromotions = [
   ["GetGenerationJob", "getGenerationJob"],
 ];
 
+// Verified partial evaluator promotion in azure-rest-api-specs#46830.
+// Upload options remain beta; the generation and CRUD/list options move to root.
+const evaluatorPromotions = [
+  ...generationPromotions,
+  ["UpdateVersion", "updateVersion"],
+  ["CreateVersion", "createVersion"],
+  ["DeleteVersion", "deleteVersion"],
+  ["GetVersion", "getVersion"],
+  ["List", "list"],
+  ["ListVersions", "listVersions"],
+];
+
 function identifiers(node) {
   const names = new Set();
   function visit(child) {
@@ -140,6 +152,7 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
   for (const [group, prefix, promotions] of [
     ["agents", "Agents", optimizationPromotions],
     ["datasets", "Datasets", generationPromotions],
+    ["evaluators", "Evaluators", evaluatorPromotions],
   ]) {
     const betaOptionsFile = `api/beta/${group}/options.ts`;
     const optionsFile = `api/${group}/options.ts`;

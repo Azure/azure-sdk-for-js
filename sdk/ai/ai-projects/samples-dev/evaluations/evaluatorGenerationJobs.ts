@@ -3,12 +3,13 @@
 
 /**
  * This sample demonstrates how to create, inspect, list, cancel, and delete evaluator
- * generation jobs using the beta evaluators API.
+ * generation jobs using the root evaluators API.
  *
- * Evaluator generation jobs are currently a preview feature. In the JS SDK, you access
- * these operations via `project.beta.evaluators`.
+ * Rubric evaluator generation jobs use `project.evaluators` without preview headers.
+ * Set FOUNDRY_CANCEL_EVALUATOR_JOB=true to cancel a job that is still running.
  *
- * @summary Demonstrates evaluator generation job operations using the beta evaluators API.
+ * @summary Demonstrates evaluator generation job operations using the root evaluators API.
+ * @azsdk-weight 50
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
@@ -19,13 +20,11 @@ const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project end
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
-    apiVersion: "2025-11-15-preview" as any,
-  });
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating evaluator generation job...");
   const displayName = `sample-evaluator-generation-job-${Date.now()}`;
-  const generationPoller = project.beta.evaluators.createGenerationJob({
+  const generationPoller = project.evaluators.createGenerationJob({
     inputs: {
       evaluator_display_name: displayName,
       evaluator_name: "sample-generated-evaluator",
@@ -54,18 +53,26 @@ export async function main(): Promise<void> {
   console.log(`Created evaluator generation job (id: ${jobId})`);
 
   console.log("Listing evaluator generation jobs...");
-  for await (const job of project.beta.evaluators.listGenerationJobs({
+  for await (const job of project.evaluators.listGenerationJobs({
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
   }
 
-  const fetchedJob = await project.beta.evaluators.getGenerationJob(jobId);
+  const fetchedJob = await project.evaluators.getGenerationJob(jobId);
   console.log(
     `Fetched evaluator generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`,
   );
 
-  if (fetchedJob.status === "queued" || fetchedJob.status === "in_progress") {
+  if (
+    process.env["FOUNDRY_CANCEL_EVALUATOR_JOB"] === "true" &&
+    (fetchedJob.status === "queued" || fetchedJob.status === "in_progress")
+  ) {
+    const cancelledJob = await project.evaluators.cancelGenerationJob(jobId);
+    console.log(
+      `Cancelled evaluator generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
+    );
+  } else {
     // Await the poller to get the generated evaluator version back.
     const evaluatorVersion = await generationPoller.pollUntilDone();
     console.log(
@@ -77,20 +84,15 @@ export async function main(): Promise<void> {
     }
 
     // Detailed, non-fatal input-quality advisories are persisted on the paired job.
-    const completedJob = await project.beta.evaluators.getGenerationJob(jobId);
+    const completedJob = await project.evaluators.getGenerationJob(jobId);
     for (const advisory of completedJob.input_quality_warnings ?? []) {
       console.log(
         `  [${advisory.severity}] ${advisory.code} (${advisory.source}): ${advisory.message}`,
       );
     }
-  } else {
-    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(jobId);
-    console.log(
-      `Cancelled evaluator generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
-    );
   }
 
-  await project.beta.evaluators.deleteGenerationJob(jobId);
+  await project.evaluators.deleteGenerationJob(jobId);
   console.log("Evaluator generation job deleted");
 }
 

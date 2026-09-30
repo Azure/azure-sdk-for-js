@@ -11,6 +11,7 @@ import {
   EvaluationRulesOperations,
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
+import { EvaluatorsOperations, _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { ToolboxesOperations, _getToolboxesOperations } from "./classic/toolboxes/index.js";
 import { TokenCredential } from "@azure/core-auth";
@@ -31,6 +32,7 @@ export class AIProjectClient {
     this._client = createAIProject(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.toolboxes = _getToolboxesOperations(this._client);
+    this.evaluators = _getEvaluatorsOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
@@ -42,6 +44,8 @@ export class AIProjectClient {
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

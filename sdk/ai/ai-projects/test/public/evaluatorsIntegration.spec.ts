@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, expect, it } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
@@ -31,8 +32,16 @@ interface MockResponse {
 function createClient(...responses: MockResponse[]): {
   client: AIProjectClient;
   requests: PipelineRequest[];
+  scopes: string[];
 } {
   const requests: PipelineRequest[] = [];
+  const scopes: string[] = [];
+  const credential: TokenCredential = {
+    getToken: async (requestedScopes) => {
+      scopes.push(...(Array.isArray(requestedScopes) ? requestedScopes : [requestedScopes]));
+      return { token: "unit-test-token", expiresOnTimestamp: Date.now() + 3_600_000 };
+    },
+  };
   const httpClient: HttpClient = {
     async sendRequest(request) {
       requests.push(request);
@@ -50,21 +59,29 @@ function createClient(...responses: MockResponse[]): {
     },
   };
   return {
-    client: new AIProjectClient(
-      endpoint,
-      {
-        getToken: async () => ({
-          token: "unit-test-token",
-          expiresOnTimestamp: Date.now() + 3_600_000,
-        }),
-      },
-      { httpClient, retryOptions: { maxRetries: 0 } },
-    ),
+    client: new AIProjectClient(endpoint, credential, {
+      httpClient,
+      retryOptions: { maxRetries: 0 },
+    }),
     requests,
+    scopes,
   };
 }
 
 describe("evaluator GA post-emitter integration", () => {
+  it("wires root evaluators while keeping only uploads in beta and retaining custom clients", async () => {
+    const { client, requests, scopes } = createClient({ body: evaluator });
+    expect(Object.keys(client.beta.evaluators).sort()).toEqual(["getCredentials", "pendingUpload"]);
+    expect(client.evaluators).not.toHaveProperty("listLatestVersions");
+    expect(client.datasets.uploadFile).toBeTypeOf("function");
+    expect(client.telemetry.getApplicationInsightsConnectionString).toBeTypeOf("function");
+    expect(client.getOpenAIClient).toBeTypeOf("function");
+    await client.evaluators.getVersion("rubric", "1");
+    expect(scopes).toContain("https://ai.azure.com/.default");
+    expect(requests[0].headers.get("user-agent")).toContain("azsdk-js-client");
+    expect(requests[0].headers.get("user-agent")).toContain("azsdk-js-api");
+  });
+
   it("preserves generation body serialization, job identity and custom poll headers", async () => {
     const { client, requests } = createClient(
       {
@@ -74,13 +91,18 @@ describe("evaluator GA post-emitter integration", () => {
       },
       { body: { status: "succeeded", result: evaluator } },
     );
-    const poller = client.beta.evaluators.createGenerationJob(job, {
+    const poller = client.evaluators.createGenerationJob(job, {
       operationId: "operation-1",
       requestOptions: { headers: { "x-custom": "retained", "x-number": 42, "x-boolean": true } },
     });
     await poller.submitted();
     expect(poller.operationState?.jobId).toBe("job-1");
-    await poller.poll();
+    const progressJobIds: (string | undefined)[] = [];
+    poller.onProgress((state) => progressJobIds.push(state.jobId));
+    expect((await poller.poll()).jobId).toBe("job-1");
+    expect(poller.operationState?.jobId).toBe("job-1");
+    expect(progressJobIds).toEqual(["job-1"]);
+    expect(await poller.pollUntilDone()).toMatchObject(evaluator);
     expect(poller.operationState?.jobId).toBe("job-1");
     expect(poller.result).toMatchObject(evaluator);
     expect(requests).toHaveLength(2);
@@ -101,11 +123,11 @@ describe("evaluator GA post-emitter integration", () => {
       { status: 204 },
     );
     const options = { requestOptions: { headers: { "x-custom": "retained" } } };
-    expect(await client.beta.evaluators.getGenerationJob("job-1", options)).toMatchObject({
+    expect(await client.evaluators.getGenerationJob("job-1", options)).toMatchObject({
       id: "job-1",
     });
-    await client.beta.evaluators.cancelGenerationJob("job-1", options);
-    await client.beta.evaluators.deleteGenerationJob("job-1", options);
+    await client.evaluators.cancelGenerationJob("job-1", options);
+    await client.evaluators.deleteGenerationJob("job-1", options);
     expect(requests.map((request) => request.method)).toEqual(["GET", "POST", "DELETE"]);
     for (const request of requests) {
       expect(request.headers.get("foundry-features")).toBeUndefined();
@@ -116,7 +138,7 @@ describe("evaluator GA post-emitter integration", () => {
   it("preserves generation job ErrorModel details", async () => {
     const error = { code: "invalid_job", message: "Invalid job.", param: "jobId" };
     const { client } = createClient({ status: 400, body: { error } });
-    await expect(client.beta.evaluators.getGenerationJob("job-1")).rejects.toMatchObject({
+    await expect(client.evaluators.getGenerationJob("job-1")).rejects.toMatchObject({
       statusCode: 400,
       details: { error },
     });
@@ -130,10 +152,10 @@ describe("evaluator GA post-emitter integration", () => {
       { status: 204 },
     );
     const options = { requestOptions: { headers: { "x-custom": "retained" } } };
-    await client.beta.evaluators.createVersion("rubric", evaluator, options);
-    await client.beta.evaluators.updateVersion("rubric", "1", evaluator, options);
-    await client.beta.evaluators.getVersion("rubric", "1", options);
-    await client.beta.evaluators.deleteVersion("rubric", "1", options);
+    await client.evaluators.createVersion("rubric", evaluator, options);
+    await client.evaluators.updateVersion("rubric", "1", evaluator, options);
+    await client.evaluators.getVersion("rubric", "1", options);
+    await client.evaluators.deleteVersion("rubric", "1", options);
     expect(requests.map((request) => request.method)).toEqual(["POST", "PATCH", "GET", "DELETE"]);
     for (const request of requests) {
       expect(request.headers.get("foundry-features")).toBeUndefined();
@@ -151,16 +173,18 @@ describe("evaluator GA post-emitter integration", () => {
       );
       const abortController = new AbortController();
       const options = {
+        evaluatorType: "custom" as const,
         abortSignal: abortController.signal,
         requestOptions: { headers: { "x-custom": "retained" }, timeout: 1234 },
       };
       const pages =
         method === "list"
-          ? client.beta.evaluators.list(options).byPage()
-          : client.beta.evaluators.listVersions("rubric", options).byPage();
+          ? client.evaluators.list(options).byPage()
+          : client.evaluators.listVersions("rubric", options).byPage();
       expect((await pages.next()).value).toHaveLength(1);
       expect((await pages.next()).value).toHaveLength(1);
       expect(requests).toHaveLength(2);
+      expect(new URL(requests[0].url).searchParams.get("type")).toBe("custom");
       expect(new URL(requests[1].url).searchParams.get("cursor")).toBe("next");
       for (const request of requests) {
         expect(request.headers.get("foundry-features")).toBeUndefined();
@@ -177,69 +201,87 @@ describe("evaluator GA post-emitter integration", () => {
       { body: { data: [{ id: "job-2" }], last_id: "job-2", has_more: false } },
     );
     const jobs = [];
-    for await (const item of client.beta.evaluators.listGenerationJobs({
-      requestOptions: { headers: { "x-custom": "retained" } },
+    const abortController = new AbortController();
+    for await (const item of client.evaluators.listGenerationJobs({
+      limit: 1,
+      order: "asc",
+      abortSignal: abortController.signal,
+      requestOptions: { headers: { "x-custom": "retained" }, timeout: 1234 },
     })) {
       jobs.push(item.id);
     }
     expect(jobs).toEqual(["job-1", "job-2"]);
     expect(requests).toHaveLength(2);
+    expect(new URL(requests[0].url).searchParams.get("limit")).toBe("1");
     expect(new URL(requests[1].url).searchParams.get("after")).toBe("job-1");
     for (const request of requests) {
+      expect(new URL(request.url).searchParams.get("limit")).toBe("1");
+      expect(new URL(request.url).searchParams.get("order")).toBe("asc");
       expect(request.headers.get("foundry-features")).toBeUndefined();
       expect(request.headers.get("x-custom")).toBe("retained");
+      expect(request.abortSignal).toBe(abortController.signal);
+      expect(request.timeout).toBe(1234);
     }
   });
 
-  it("sends credentials and pending-upload bodies without preview opt-in", async () => {
-    const { client, requests } = createClient(
-      {
-        body: {
-          blobReference: {
-            blobUri: "https://example.com/blob",
-            storageAccountArmId: "storage",
-            credential: {},
+  it.each([undefined, "Evaluations=V1Preview"])(
+    "preserves credentials and pending-upload bodies with preview header %s",
+    async (previewHeader) => {
+      const { client, requests } = createClient(
+        {
+          body: {
+            blobReference: {
+              blobUri: "https://example.com/blob",
+              storageAccountArmId: "storage",
+              credential: {},
+            },
           },
         },
-      },
-      {
-        body: {
-          pendingUploadId: "upload-1",
-          pendingUploadType: "BlobReference",
-          blobReference: {
-            blobUri: "https://example.com/blob",
-            storageAccountArmId: "storage",
-            credential: {},
+        {
+          body: {
+            pendingUploadId: "upload-1",
+            pendingUploadType: "BlobReference",
+            blobReference: {
+              blobUri: "https://example.com/blob",
+              storageAccountArmId: "storage",
+              credential: {},
+            },
           },
         },
-      },
-    );
-    const options = { requestOptions: { headers: { "x-custom": "retained" } } };
-    await client.beta.evaluators.getCredentials(
-      "rubric",
-      { blob_uri: "https://example.com/blob" },
-      "1",
-      options,
-    );
-    await client.beta.evaluators.pendingUpload(
-      "rubric",
-      "1",
-      { pendingUploadType: "BlobReference" },
-      options,
-    );
-    expect(JSON.parse(requests[0].body as string)).toEqual({
-      blob_uri: "https://example.com/blob",
-    });
-    expect(JSON.parse(requests[1].body as string)).toEqual({ pendingUploadType: "BlobReference" });
-    for (const request of requests) {
-      expect(request.headers.get("foundry-features")).toBeUndefined();
-      expect(request.headers.get("x-custom")).toBe("retained");
-    }
-  });
+      );
+      const headers: Record<string, string> = { "x-custom": "retained" };
+      if (previewHeader) {
+        headers["foundry-features"] = previewHeader;
+      }
+      const options = { requestOptions: { headers } };
+      await client.beta.evaluators.getCredentials(
+        "rubric",
+        { blob_uri: "https://example.com/blob" },
+        "1",
+        options,
+      );
+      await client.beta.evaluators.pendingUpload(
+        "rubric",
+        "1",
+        { pendingUploadType: "BlobReference" },
+        options,
+      );
+      expect(JSON.parse(requests[0].body as string)).toEqual({
+        blob_uri: "https://example.com/blob",
+      });
+      expect(JSON.parse(requests[1].body as string)).toEqual({
+        pendingUploadType: "BlobReference",
+      });
+      for (const request of requests) {
+        expect(request.headers.get("foundry-features")).toBe(previewHeader);
+        expect(request.headers.get("x-custom")).toBe("retained");
+      }
+    },
+  );
 
   it("still allows explicit caller opt-in through request headers", async () => {
     const { client, requests } = createClient({ body: evaluator });
-    await client.beta.evaluators.getVersion("rubric", "1", {
+    await client.evaluators.getVersion("rubric", "1", {
       requestOptions: { headers: { "foundry-features": "Evaluations=V1Preview" } },
     });
     expect(requests[0].headers.get("foundry-features")).toBe("Evaluations=V1Preview");

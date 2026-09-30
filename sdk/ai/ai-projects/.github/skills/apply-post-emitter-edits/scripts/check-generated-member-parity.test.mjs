@@ -270,7 +270,7 @@ test("rejects an invalid configured ref", () => {
 
 function promotionFixture(group = "agents") {
   const operations =
-    group === "datasets"
+    group === "datasets" || group === "evaluators"
       ? [
           "DeleteGenerationJob",
           "CancelGenerationJob",
@@ -285,6 +285,15 @@ function promotionFixture(group = "agents") {
           "GetOptimizationJob",
           "CreateOptimizationJob",
         ];
+  if (group === "evaluators")
+    operations.push(
+      "UpdateVersion",
+      "CreateVersion",
+      "DeleteVersion",
+      "GetVersion",
+      "List",
+      "ListVersions",
+    );
   const groupName = group[0].toUpperCase() + group.slice(1);
   const previousGenerated = new Map();
   const currentGenerated = new Map();
@@ -319,6 +328,99 @@ function promotionFixture(group = "agents") {
   }
   return { previousGenerated, currentGenerated, currentSource: new Map(currentGenerated) };
 }
+
+function evaluatorPromotionFixture() {
+  const fixture = promotionFixture("evaluators");
+  const options = "api/beta/evaluators/options.ts";
+  const declarations = ["GetCredentials", "PendingUpload"]
+    .map((suffix) => `export interface BetaEvaluators${suffix}OptionalParams {}`)
+    .join("\n");
+  const api = "api/beta/evaluators/operations.ts";
+  const operations = `
+    export function getCredentials(options: BetaEvaluatorsGetCredentialsOptionalParams) {}
+    export function pendingUpload(options: BetaEvaluatorsPendingUploadOptionalParams) {}
+  `;
+  const classic = "classic/beta/evaluators/index.ts";
+  const members = `
+    getCredentials: (options: BetaEvaluatorsGetCredentialsOptionalParams) => void;
+    pendingUpload: (options: BetaEvaluatorsPendingUploadOptionalParams) => void;
+  `;
+  fixture.previousGenerated.set(options, fixture.previousGenerated.get(options) + declarations);
+  fixture.previousGenerated.set(api, fixture.previousGenerated.get(api) + operations);
+  fixture.previousGenerated.set(
+    classic,
+    fixture.previousGenerated.get(classic).replace("}", members + "}"),
+  );
+  for (const files of [fixture.currentGenerated, fixture.currentSource]) {
+    files.set(options, declarations);
+    files.set(api, operations);
+    files.set(classic, `export interface BetaEvaluatorsOperations { ${members} }`);
+  }
+  return fixture;
+}
+
+test("allows exactly eleven promoted evaluator options, not beta uploads or the partial group", () => {
+  const removed = findPromotedOptionRemovals(evaluatorPromotionFixture());
+  assert.equal(removed.size, 11);
+  for (const suffix of [
+    "DeleteGenerationJob",
+    "CancelGenerationJob",
+    "CreateGenerationJob",
+    "ListGenerationJobs",
+    "GetGenerationJob",
+    "UpdateVersion",
+    "CreateVersion",
+    "DeleteVersion",
+    "GetVersion",
+    "List",
+    "ListVersions",
+  ])
+    assert.ok(removed.has(`BetaEvaluators${suffix}OptionalParams`));
+  for (const name of [
+    "BetaEvaluatorsOperations",
+    "BetaEvaluatorsGetCredentialsOptionalParams",
+    "BetaEvaluatorsPendingUploadOptionalParams",
+  ])
+    assert.equal(removed.has(name), false);
+});
+
+for (const directory of ["api", "classic"]) {
+  test(`retains evaluator options indirectly used by remaining ${directory} beta uploads`, () => {
+    const fixture = evaluatorPromotionFixture();
+    fixture.currentSource.set(
+      "api/shared/options.ts",
+      "export interface UploadOptions extends BetaEvaluatorsListOptionalParams {}",
+    );
+    const file = `${directory}/beta/evaluators/${directory === "api" ? "operations" : "index"}.ts`;
+    fixture.currentSource.set(
+      file,
+      fixture.currentSource
+        .get(file)
+        .replace("BetaEvaluatorsPendingUploadOptionalParams", "UploadOptions"),
+    );
+    const removed = findPromotedOptionRemovals(fixture);
+    assert.equal(removed.has("BetaEvaluatorsListOptionalParams"), false);
+    assert.equal(removed.size, 10);
+  });
+}
+
+test("requires generated promotion and both source evaluator surfaces", () => {
+  for (const file of [
+    "api/evaluators/options.ts",
+    "api/evaluators/operations.ts",
+    "classic/evaluators/index.ts",
+  ]) {
+    const fixture = evaluatorPromotionFixture();
+    fixture.currentSource.delete(file);
+    assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+  }
+  const fixture = evaluatorPromotionFixture();
+  fixture.currentGenerated.set(
+    "api/beta/evaluators/options.ts",
+    fixture.previousGenerated.get("api/beta/evaluators/options.ts"),
+  );
+  assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+});
 
 test("permits only the five verified fully promoted optimization option removals", () => {
   assert.deepEqual(
@@ -444,14 +546,17 @@ test("permits only the five verified dataset options and their fully promoted gr
     fixture.previousGenerated.get("api/beta/datasets/options.ts") +
       "\nexport interface BetaDatasetsUnrelatedOptionalParams {}",
   );
-  assert.deepEqual([...findPromotedOptionRemovals(fixture)], [
-    "BetaDatasetsDeleteGenerationJobOptionalParams",
-    "BetaDatasetsCancelGenerationJobOptionalParams",
-    "BetaDatasetsCreateGenerationJobOptionalParams",
-    "BetaDatasetsListGenerationJobsOptionalParams",
-    "BetaDatasetsGetGenerationJobOptionalParams",
-    "BetaDatasetsOperations",
-  ]);
+  assert.deepEqual(
+    [...findPromotedOptionRemovals(fixture)],
+    [
+      "BetaDatasetsDeleteGenerationJobOptionalParams",
+      "BetaDatasetsCancelGenerationJobOptionalParams",
+      "BetaDatasetsCreateGenerationJobOptionalParams",
+      "BetaDatasetsListGenerationJobsOptionalParams",
+      "BetaDatasetsGetGenerationJobOptionalParams",
+      "BetaDatasetsOperations",
+    ],
+  );
 });
 
 for (const directory of ["api", "classic"]) {
@@ -544,7 +649,10 @@ test("does not remove dataset groups containing unverified or inherited operatio
 test("preserves the dataset group when still declared or indirectly used by beta", () => {
   for (const tree of ["currentGenerated", "currentSource"]) {
     const fixture = promotionFixture("datasets");
-    fixture[tree].set("classic/beta/datasets/index.ts", "export interface BetaDatasetsOperations {}");
+    fixture[tree].set(
+      "classic/beta/datasets/index.ts",
+      "export interface BetaDatasetsOperations {}",
+    );
     assert.equal(findPromotedOptionRemovals(fixture).has("BetaDatasetsOperations"), false);
   }
   const fixture = promotionFixture("datasets");

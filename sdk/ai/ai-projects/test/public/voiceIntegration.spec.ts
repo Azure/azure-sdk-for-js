@@ -94,7 +94,7 @@ describe("voice post-emitter integration", () => {
     );
     expect(getToken.mock.calls[0][0]).toEqual(["https://ai.azure.com/.default"]);
     expect(client.endpoint).toBe(endpoint);
-    expect(client.beta.evaluators.list).toBeTypeOf("function");
+    expect(client.evaluators.list).toBeTypeOf("function");
     expect(client.agents.listSessionFiles).toBeTypeOf("function");
     expect(client.agents.createOptimizationJob).toBeTypeOf("function");
     expect(client.beta.agents).not.toHaveProperty("createOptimizationJob");
