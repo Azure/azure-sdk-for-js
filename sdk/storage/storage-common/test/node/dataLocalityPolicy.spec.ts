@@ -126,6 +126,19 @@ describe("storageDataLocalityPolicy", () => {
     assert.isUndefined(sent.layoutHeader);
   });
 
+  // Only a certificate checked against the account name keeps credentials from other hosts.
+  it.each([
+    "http://myaccount.blob.core.windows.net/container/blob.txt",
+    "https://10.0.0.4:10000/myaccount/container/blob.txt",
+    "https://[::1]:10000/myaccount/container/blob.txt",
+  ])("does not route %s", async (url) => {
+    const sent = await route(url, "https://blob.stamp.store.core.windows.net:443/");
+
+    assert.equal(sent.url, url);
+    assert.isUndefined(sent.host);
+    assert.isUndefined(sent.layoutHeader);
+  });
+
   it("ignores the endpoint outside Node.js, which cannot set Host", async () => {
     platform.isNodeLike = false;
     try {

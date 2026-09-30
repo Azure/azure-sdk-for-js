@@ -33,10 +33,10 @@ export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
  * authority the rest of the request was built and signed for. Only the host and port are
  * replaced; scheme, path and query are untouched, so the endpoint is purely a routing hint.
  *
- * Requests without the layout endpoint header pass through unchanged. Outside Node.js the
- * endpoint is ignored and the request is sent to the account. Every attempt is routed afresh, so
- * a retry is routed again, while an attempt a retry policy moves to another host, such as the
- * secondary, is not routed.
+ * Requests without the layout endpoint header pass through unchanged. Outside Node.js, over plain
+ * HTTP, or to an IP address, the endpoint is ignored and the request is sent to the account. Every
+ * attempt is routed afresh, so a retry is routed again, while an attempt a retry policy moves to
+ * another host, such as the secondary, is not routed.
  */
 export function storageDataLocalityPolicy(): PipelinePolicy {
   // Retries reuse the request object; this remembers the host its first attempt was addressed to.
@@ -51,7 +51,8 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
 
       const originalUrl = request.url;
       const originalHostHeader = request.headers.get("Host");
-      const host = new URL(originalUrl).host;
+      const url = new URL(originalUrl);
+      const host = url.host;
       if (!accountHosts.has(request)) {
         accountHosts.set(request, host);
       }
@@ -59,9 +60,10 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
       request.headers.delete(LAYOUT_ENDPOINT_HEADER);
       try {
         const layoutHost =
-          host === accountHosts.get(request) ? parseLayoutHost(layoutEndpoint) : undefined;
+          host === accountHosts.get(request) && isRoutable(url)
+            ? parseLayoutHost(layoutEndpoint)
+            : undefined;
         if (layoutHost) {
-          const url = new URL(originalUrl);
           (url as unknown as { host: string }).host = layoutHost;
           request.url = url.toString();
           request.headers.set("Host", host);
@@ -79,6 +81,15 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
       }
     },
   };
+}
+
+/**
+ * Node checks a routed request's certificate against the account in `Host`, so an endpoint that
+ * cannot prove it serves the account never sees the request. That needs HTTPS and a host name.
+ */
+function isRoutable(url: URL): boolean {
+  const { hostname, protocol } = url;
+  return protocol === "https:" && !hostname.startsWith("[") && !/^[\d.]+$/.test(hostname);
 }
 
 /**

@@ -371,6 +371,38 @@ describe("BlobClient.getLayout", () => {
   });
 });
 
+describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
+  /** A client whose reads get the service's 416 for a range past the end of a `size`-byte blob. */
+  function clientPastEnd(size: number): BlobClient {
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    (client as any).download = async () => {
+      throw new RestError("The range specified is invalid for the current size of the resource.", {
+        statusCode: 416,
+        response: {
+          status: 416,
+          headers: createHttpHeaders({ "content-range": `bytes */${size}` }),
+          request: createPipelineRequest({ url: client.url }),
+        },
+      });
+    };
+    return client;
+  }
+
+  it("returns an empty buffer for an empty blob", async () => {
+    assert.lengthOf(await clientPastEnd(0).downloadToBuffer(), 0);
+  });
+
+  it("returns an empty buffer from the end of a blob and rejects an offset past it", async () => {
+    assert.lengthOf(await clientPastEnd(3).downloadToBuffer(3), 0);
+    await expect(clientPastEnd(3).downloadToBuffer(5)).rejects.toThrow(
+      "offset 5 shouldn't be larger than blob size 3",
+    );
+  });
+});
+
 interface SentRequest {
   host: string;
   hostHeader?: string;
