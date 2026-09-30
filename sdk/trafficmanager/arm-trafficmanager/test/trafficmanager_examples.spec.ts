@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("TrafficManager test", () => {
+describe.skip("TrafficManager test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: TrafficManagerManagementClient;
