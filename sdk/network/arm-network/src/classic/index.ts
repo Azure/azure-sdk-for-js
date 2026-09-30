@@ -10,6 +10,7 @@ export type { ApplicationGatewaysOperations } from "./applicationGateways/index.
 export type { ApplicationGatewayWafDynamicManifestsOperations } from "./applicationGatewayWafDynamicManifests/index.js";
 export type { ApplicationGatewayWafDynamicManifestsDefaultOperations } from "./applicationGatewayWafDynamicManifestsDefault/index.js";
 export type { ApplicationSecurityGroupsOperations } from "./applicationSecurityGroups/index.js";
+export type { AuthenticationPoliciesOperations } from "./authenticationPolicies/index.js";
 export type { AvailableDelegationsOperations } from "./availableDelegations/index.js";
 export type { AvailableEndpointServicesOperations } from "./availableEndpointServices/index.js";
 export type { AvailablePrivateEndpointTypesOperations } from "./availablePrivateEndpointTypes/index.js";

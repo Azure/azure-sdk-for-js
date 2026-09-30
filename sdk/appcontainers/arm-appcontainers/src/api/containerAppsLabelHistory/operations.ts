@@ -1,30 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type { LabelHistory, _LabelHistoryCollection } from "../../models/models.js";
 import {
   defaultErrorResponseDeserializer,
-  LabelHistory,
   labelHistoryDeserializer,
-  _LabelHistoryCollection,
   _labelHistoryCollectionDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ContainerAppsLabelHistoryListLabelHistoryOptionalParams,
   ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams,
   ContainerAppsLabelHistoryGetLabelHistoryOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listLabelHistorySend(
   context: Client,
@@ -33,12 +26,12 @@ export function _listLabelHistorySend(
   options: ContainerAppsLabelHistoryListLabelHistoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistory{?api%2Dversion,%24filter}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistories{?api%2Dversion,%24filter}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -57,7 +50,9 @@ export async function _listLabelHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -65,7 +60,7 @@ export async function _listLabelHistoryDeserialize(
   return _labelHistoryCollectionDeserializer(result.body);
 }
 
-/** Get the Label History for a given Container App. */
+/** Lists the label revision histories for a Container App. */
 export function listLabelHistory(
   context: Client,
   resourceGroupName: string,
@@ -77,11 +72,7 @@ export function listLabelHistory(
     () => _listLabelHistorySend(context, resourceGroupName, containerAppName, options),
     _listLabelHistoryDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-10-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -93,13 +84,13 @@ export function _deleteLabelHistorySend(
   options: ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistory/{labelName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistories/{labelName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       labelName: labelName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +103,9 @@ export async function _deleteLabelHistoryDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -120,7 +113,7 @@ export async function _deleteLabelHistoryDeserialize(result: PathUncheckedRespon
   return;
 }
 
-/** Delete the history of a label. */
+/** Deletes the revision history associated with a Container App label. */
 export async function deleteLabelHistory(
   context: Client,
   resourceGroupName: string,
@@ -146,13 +139,13 @@ export function _getLabelHistorySend(
   options: ContainerAppsLabelHistoryGetLabelHistoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistory/{labelName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/labelHistories/{labelName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       labelName: labelName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +163,9 @@ export async function _getLabelHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,7 +173,7 @@ export async function _getLabelHistoryDeserialize(
   return labelHistoryDeserializer(result.body);
 }
 
-/** Get the history of a label. */
+/** Gets the revision history associated with a Container App label. */
 export async function getLabelHistory(
   context: Client,
   resourceGroupName: string,

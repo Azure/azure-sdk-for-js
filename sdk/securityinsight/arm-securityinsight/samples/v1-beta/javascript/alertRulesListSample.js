@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all alert rules.
  *
  * @summary gets all alert rules.
- * x-ms-original-file: 2025-07-01-preview/alertRules/GetAllAlertRules.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/GetAllAlertRules.json
  */
 async function getAllAlertRules() {
   const credential = new DefaultAzureCredential();

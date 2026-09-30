@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { AppResiliencyOperations } from "./appResiliency/index.js";
+export type { AvailableEnvironmentModesOperations } from "./availableEnvironmentModes/index.js";
 export type { AvailableWorkloadProfilesOperations } from "./availableWorkloadProfiles/index.js";
 export type { BillingMetersOperations } from "./billingMeters/index.js";
-export type { BuildAuthTokenOperations } from "./buildAuthToken/index.js";
-export type { BuildersOperations } from "./builders/index.js";
-export type { BuildsOperations } from "./builds/index.js";
-export type { BuildsByBuilderResourceOperations } from "./buildsByBuilderResource/index.js";
 export type { CertificatesOperations } from "./certificates/index.js";
 export type { ConnectedEnvironmentsOperations } from "./connectedEnvironments/index.js";
 export type { ConnectedEnvironmentsCertificatesOperations } from "./connectedEnvironmentsCertificates/index.js";
 export type { ConnectedEnvironmentsDaprComponentsOperations } from "./connectedEnvironmentsDaprComponents/index.js";
 export type { ConnectedEnvironmentsStoragesOperations } from "./connectedEnvironmentsStorages/index.js";
+export type { ContainerAppPrivateEndpointConnectionsOperations } from "./containerAppPrivateEndpointConnections/index.js";
+export type { ContainerAppPrivateLinkResourcesOperations } from "./containerAppPrivateLinkResources/index.js";
 export type { ContainerAppsOperations } from "./containerApps/index.js";
 export type { ContainerAppsAuthConfigsOperations } from "./containerAppsAuthConfigs/index.js";
-export type { ContainerAppsBuildsOperations } from "./containerAppsBuilds/index.js";
-export type { ContainerAppsBuildsByContainerAppOperations } from "./containerAppsBuildsByContainerApp/index.js";
 export type { ContainerAppsDiagnosticsOperations } from "./containerAppsDiagnostics/index.js";
 export type { ContainerAppsFunctionsOperations } from "./containerAppsFunctions/index.js";
 export type { ContainerAppsLabelHistoryOperations } from "./containerAppsLabelHistory/index.js";
-export type { ContainerAppsPatchesOperations } from "./containerAppsPatches/index.js";
 export type { ContainerAppsRevisionFunctionsOperations } from "./containerAppsRevisionFunctions/index.js";
 export type { ContainerAppsRevisionReplicasOperations } from "./containerAppsRevisionReplicas/index.js";
 export type { ContainerAppsRevisionsOperations } from "./containerAppsRevisions/index.js";
@@ -28,7 +23,6 @@ export type { ContainerAppsSessionPoolsOperations } from "./containerAppsSession
 export type { ContainerAppsSourceControlsOperations } from "./containerAppsSourceControls/index.js";
 export type { DaprComponentResiliencyPoliciesOperations } from "./daprComponentResiliencyPolicies/index.js";
 export type { DaprComponentsOperations } from "./daprComponents/index.js";
-export type { DaprSubscriptionsOperations } from "./daprSubscriptions/index.js";
 export type { DotNetComponentsOperations } from "./dotNetComponents/index.js";
 export type { FunctionsExtensionOperations } from "./functionsExtension/index.js";
 export type { HttpRouteConfigOperations } from "./httpRouteConfig/index.js";
@@ -47,4 +41,6 @@ export type { ManagedEnvironmentsStoragesOperations } from "./managedEnvironment
 export type { ManagedEnvironmentUsagesOperations } from "./managedEnvironmentUsages/index.js";
 export type { NamespacesOperations } from "./namespaces/index.js";
 export type { OperationsOperations } from "./operations/index.js";
+export type { SandboxGroupsOperations } from "./sandboxGroups/index.js";
 export type { UsagesOperations } from "./usages/index.js";
+export type { VnetConnectionsOperations } from "./vnetConnections/index.js";

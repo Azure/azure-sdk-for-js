@@ -5,7 +5,8 @@
     "target": "ES2023",
     "skipLibCheck": true,
     "module": "NodeNext",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "types": ["node"]
   },
   "include": ["index.js", "src/**/*.js", "test/**/*.js"]
 }

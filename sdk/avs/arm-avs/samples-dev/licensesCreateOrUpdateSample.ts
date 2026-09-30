@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a License
  *
  * @summary create a License
- * x-ms-original-file: 2025-09-01/Licenses_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/Licenses_CreateOrUpdate.json
  */
 async function licensesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -9,6 +9,7 @@ import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
 import { Readable } from 'node:stream';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RequestPolicy } from '@azure/core-http-compat';
@@ -52,6 +53,9 @@ export class BufferScheduler {
 }
 
 // @public
+export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
+
+// @public
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
@@ -87,6 +91,9 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+// @public
+export function prepareSharedKeyHeaders(request: PipelineRequest): void;
 
 export { Readable }
 

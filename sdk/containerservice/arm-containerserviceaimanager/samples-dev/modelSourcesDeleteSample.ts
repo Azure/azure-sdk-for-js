@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ModelSource
  *
  * @summary delete a ModelSource
- * x-ms-original-file: 2026-05-02-preview/ModelSources_Delete.json
+ * x-ms-original-file: 2026-09-02-preview/ModelSources_Delete.json
  */
 async function modelSourcesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified scheduled action.
  *
  * @summary deletes the specified scheduled action.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Delete_MaximumSet_Gen.json
  */
 async function deleteAScheduledAction() {
   const credential = new DefaultAzureCredential();

@@ -97,7 +97,6 @@ export interface WorkloadClassifiersOperations {
     options?: WorkloadClassifiersGetOptionalParams,
   ) => Promise<WorkloadClassifier>;
 }
-
 function _getWorkloadClassifiers(context: SqlManagementContext) {
   return {
     listByWorkloadGroup: (
@@ -250,7 +249,6 @@ function _getWorkloadClassifiers(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getWorkloadClassifiersOperations(
   context: SqlManagementContext,
 ): WorkloadClassifiersOperations {

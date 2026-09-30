@@ -3,6 +3,8 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { _NetworkVirtualApplianceListResult } from "../../models/models.js";
+import { _networkVirtualApplianceListResultDeserializer } from "../../models/models.js";
 import type {
   TagsObject,
   NetworkVirtualAppliance,
@@ -12,7 +14,7 @@ import type {
   NetworkVirtualAppliancePrepareMigrationRequest,
   NetworkVirtualApplianceExecuteMigrationRequest,
   NetworkVirtualApplianceCommitMigrationRequest,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
   tagsObjectSerializer,
   networkVirtualApplianceSerializer,
@@ -24,9 +26,7 @@ import {
   networkVirtualAppliancePrepareMigrationRequestSerializer,
   networkVirtualApplianceExecuteMigrationRequestSerializer,
   networkVirtualApplianceCommitMigrationRequestSerializer,
-} from "../../models/microsoft/network/models.js";
-import type { _NetworkVirtualApplianceListResult } from "../../models/models.js";
-import { _networkVirtualApplianceListResultDeserializer } from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -62,7 +62,7 @@ export function _abortMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +98,7 @@ export function abortMigration(
     getInitialResponse: () =>
       _abortMigrationSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -115,7 +115,7 @@ export function _commitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +156,7 @@ export function commitMigration(
     getInitialResponse: () =>
       _commitMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -173,7 +173,7 @@ export function _executeMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,7 @@ export function executeMigration(
     getInitialResponse: () =>
       _executeMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -231,7 +231,7 @@ export function _prepareMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +272,7 @@ export function prepareMigration(
     getInitialResponse: () =>
       _prepareMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -289,7 +289,7 @@ export function _getBootDiagnosticLogsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,7 +342,7 @@ export function getBootDiagnosticLogs(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceId>,
     NetworkVirtualApplianceInstanceId
@@ -361,7 +361,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,7 +409,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceIds>,
     NetworkVirtualApplianceInstanceIds
@@ -428,7 +428,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,7 +476,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceIds>,
     NetworkVirtualApplianceInstanceIds
@@ -491,7 +491,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -529,7 +529,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -543,7 +543,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,7 +582,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -598,7 +598,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -634,7 +634,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -651,7 +651,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -712,7 +712,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -762,7 +762,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<NetworkVirtualAppliance>, NetworkVirtualAppliance>;
 }
 
@@ -778,7 +778,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       "%24expand": options?.expand,
     },
     {

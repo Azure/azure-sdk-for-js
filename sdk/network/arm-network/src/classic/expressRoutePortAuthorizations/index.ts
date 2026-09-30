@@ -3,18 +3,23 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  listKeys,
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/expressRoutePortAuthorizations/operations.js";
 import type {
+  ExpressRoutePortAuthorizationsListKeysOptionalParams,
   ExpressRoutePortAuthorizationsListOptionalParams,
   ExpressRoutePortAuthorizationsDeleteOptionalParams,
   ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams,
   ExpressRoutePortAuthorizationsGetOptionalParams,
 } from "../../api/expressRoutePortAuthorizations/options.js";
-import type { ExpressRoutePortAuthorization } from "../../models/microsoft/network/models.js";
+import type {
+  ExpressRouteAuthorizationKey,
+  ExpressRoutePortAuthorization,
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -22,6 +27,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExpressRoutePortAuthorizations operations. */
 export interface ExpressRoutePortAuthorizationsOperations {
+  /** Gets the authorization key associated with the specified express route port authorization. */
+  listKeys: (
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    authorizationName: string,
+    options?: ExpressRoutePortAuthorizationsListKeysOptionalParams,
+  ) => Promise<ExpressRouteAuthorizationKey>;
   /** Gets all authorizations in an express route port. */
   list: (
     resourceGroupName: string,
@@ -86,6 +98,12 @@ export interface ExpressRoutePortAuthorizationsOperations {
 
 function _getExpressRoutePortAuthorizations(context: NetworkManagementContext) {
   return {
+    listKeys: (
+      resourceGroupName: string,
+      expressRoutePortName: string,
+      authorizationName: string,
+      options?: ExpressRoutePortAuthorizationsListKeysOptionalParams,
+    ) => listKeys(context, resourceGroupName, expressRoutePortName, authorizationName, options),
     list: (
       resourceGroupName: string,
       expressRoutePortName: string,

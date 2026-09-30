@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the data connector definition.
  *
  * @summary creates or updates the data connector definition.
- * x-ms-original-file: 2025-07-01-preview/dataConnectorDefinitions/CreateCustomizableDataConnectorDefinition.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectorDefinitions/CreateCustomizableDataConnectorDefinition.json
  */
 async function createDataConnectorDefinition() {
   const credential = new DefaultAzureCredential();

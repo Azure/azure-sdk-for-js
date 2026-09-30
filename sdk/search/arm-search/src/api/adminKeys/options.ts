@@ -8,7 +8,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
-
 /** Optional parameters. */
 export interface AdminKeysGetOptionalParams extends OperationOptions {
   searchManagementRequestOptions?: SearchManagementRequestOptions;

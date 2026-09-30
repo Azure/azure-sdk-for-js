@@ -6,12 +6,12 @@ import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   ExpressRouteConnection,
   ExpressRouteConnectionList,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
   expressRouteConnectionSerializer,
   expressRouteConnectionDeserializer,
   expressRouteConnectionListDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +126,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, expressRouteGatewayName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -144,7 +144,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +205,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,6 +257,6 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<ExpressRouteConnection>, ExpressRouteConnection>;
 }

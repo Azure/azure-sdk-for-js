@@ -9,7 +9,7 @@ import type { AnonymousCredential } from '@azure/storage-blob';
 import type { CommonOptions } from '@azure/storage-blob';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline } from '@azure/storage-blob';
+import type { Pipeline } from '@azure/storage-blob';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { StoragePipelineOptions } from '@azure/storage-blob';
 import type { StorageSharedKeyCredential } from '@azure/storage-blob';

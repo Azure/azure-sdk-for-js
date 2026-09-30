@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkHibernate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkHibernateExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function virtualMachineBulkOperationsBulkHibernateExample(): Promise<void>
     "useast2euap",
     {
       executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Unknown" },
+        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Hibernate" },
       },
       resourcesWithContext: {
         resources: [
@@ -39,7 +39,7 @@ async function virtualMachineBulkOperationsBulkHibernateExample(): Promise<void>
  * This sample demonstrates how to bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkHibernate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkHibernate_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkHibernateGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

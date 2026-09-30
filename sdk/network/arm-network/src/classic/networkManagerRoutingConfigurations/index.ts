@@ -14,7 +14,7 @@ import type {
   NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams,
   NetworkManagerRoutingConfigurationsGetOptionalParams,
 } from "../../api/networkManagerRoutingConfigurations/options.js";
-import type { NetworkManagerRoutingConfiguration } from "../../models/microsoft/network/models.js";
+import type { NetworkManagerRoutingConfiguration } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

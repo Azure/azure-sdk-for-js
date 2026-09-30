@@ -4,15 +4,24 @@
 
 ### Features Added
 
+- Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+- `BlobBatch` now defensively rejects sub request header names or values that reach its `multipart/mixed` serializer with a carriage return (`\r`) or line feed (`\n`), preventing unintended header injection. A rejected sub request no longer leaves the batch pinned to its operation type. [#39952](https://github.com/Azure/azure-sdk-for-js/pull/39952)
 
 ### Other Changes
 
 - Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+
+## 12.34.0 (2026-09-24)
+
+### Features Added
+
+- Includes all features released in 12.34.0-beta.1.
 
 ## 12.34.0-beta.1 (2026-08-03)
 
