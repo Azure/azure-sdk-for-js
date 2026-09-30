@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets a Traffic Manager profile.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-GET-WithEndpoints.json
  */
-async function profileGETWithEndpoints(): Promise<void> {
+async function profileGETWithEndpoints() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function profileGETWithEndpoints(): Promise<void> {
  * @summary gets a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-GET-WithEndpointsAndRecordType.json
  */
-async function profileGETWithEndpointsAndRecordType(): Promise<void> {
+async function profileGETWithEndpointsAndRecordType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function profileGETWithEndpointsAndRecordType(): Promise<void> {
  * @summary gets a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-GET-WithTrafficViewDisabled.json
  */
-async function profileGETWithTrafficViewDisabled(): Promise<void> {
+async function profileGETWithTrafficViewDisabled() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -61,7 +61,7 @@ async function profileGETWithTrafficViewDisabled(): Promise<void> {
  * @summary gets a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-GET-WithTrafficViewEnabled.json
  */
-async function profileGETWithTrafficViewEnabled(): Promise<void> {
+async function profileGETWithTrafficViewEnabled() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -78,7 +78,7 @@ async function profileGETWithTrafficViewEnabled(): Promise<void> {
  * @summary gets a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-GET-WithoutRecordType.json
  */
-async function profileGETWithoutRecordType(): Promise<void> {
+async function profileGETWithoutRecordType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -89,7 +89,7 @@ async function profileGETWithoutRecordType(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await profileGETWithEndpoints();
   await profileGETWithEndpointsAndRecordType();
   await profileGETWithTrafficViewDisabled();

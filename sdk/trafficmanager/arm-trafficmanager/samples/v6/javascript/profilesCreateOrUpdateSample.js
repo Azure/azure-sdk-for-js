@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create or update a Traffic Manager profile.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-MultiValue.json
  */
-async function profilePUTMultiValue(): Promise<void> {
+async function profilePUTMultiValue() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function profilePUTMultiValue(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-NoEndpoints.json
  */
-async function profilePUTNoEndpoints(): Promise<void> {
+async function profilePUTNoEndpoints() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -60,7 +60,7 @@ async function profilePUTNoEndpoints(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-WithAliasing.json
  */
-async function profilePUTWithAliasing(): Promise<void> {
+async function profilePUTWithAliasing() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -101,7 +101,7 @@ async function profilePUTWithAliasing(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-WithCustomHeaders.json
  */
-async function profilePUTWithCustomHeaders(): Promise<void> {
+async function profilePUTWithCustomHeaders() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -151,7 +151,7 @@ async function profilePUTWithCustomHeaders(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-WithEndpoints.json
  */
-async function profilePUTWithEndpoints(): Promise<void> {
+async function profilePUTWithEndpoints() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -191,7 +191,7 @@ async function profilePUTWithEndpoints(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-WithEndpointsAndRecordType.json
  */
-async function profilePUTWithEndpointsAndRecordType(): Promise<void> {
+async function profilePUTWithEndpointsAndRecordType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -232,7 +232,7 @@ async function profilePUTWithEndpointsAndRecordType(): Promise<void> {
  * @summary create or update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PUT-WithNestedEndpoints.json
  */
-async function profilePUTWithNestedEndpoints(): Promise<void> {
+async function profilePUTWithNestedEndpoints() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -277,7 +277,7 @@ async function profilePUTWithNestedEndpoints(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await profilePUTMultiValue();
   await profilePUTNoEndpoints();
   await profilePUTWithAliasing();
