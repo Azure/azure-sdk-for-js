@@ -1638,10 +1638,14 @@
 
 # PRLabel: %Mgmt
 /sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/computebulkactions/arm-computebulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1649,11 +1653,17 @@
 
 # PRLabel: %Mgmt
 /sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1667,6 +1677,8 @@
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitorslis/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1674,6 +1686,8 @@
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1681,6 +1695,8 @@
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1691,10 +1707,14 @@
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1714,6 +1734,8 @@
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/platformvalidation/arm-platformvalidation/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
