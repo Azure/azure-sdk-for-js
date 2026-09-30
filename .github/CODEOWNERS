@@ -1712,9 +1712,6 @@
 /sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-/sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
