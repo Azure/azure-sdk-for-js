@@ -6,7 +6,7 @@ import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { DataLakeFileSystemClient } from "../../src/index.js";
+import type { DataLakeFileSystemClient, FileGetLayoutResponse } from "../../src/index.js";
 import {
   AnonymousCredential,
   DataLakeFileClient,
@@ -180,7 +180,7 @@ describe("Data locality Node.js only", () => {
   it("reads a range from the endpoint the file's layout names", async () => {
     const offset = 1024;
     const count = 1024;
-    const { value: page } = await fileClient.getLayout().next();
+    const page: FileGetLayoutResponse = (await fileClient.getLayout().next()).value;
     assert.equal(page.fileContentLength, content.length);
     const range = page.ranges!.range!.find((r) => r.start <= offset && offset <= r.end)!;
     const endpoint = page.endpoints!.endpoint!.find((e) => e.index === range.endpointIndex)!;
