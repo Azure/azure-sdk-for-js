@@ -21,15 +21,15 @@ stages:
 
           - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
 
-          - template: ./templates/steps/generate-doc.yml
-            parameters:
-              ServiceDirectory: core
-
           - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
           - script: |
               pnpm install
             displayName: "Install library dependencies"
+
+          - template: ./templates/steps/generate-doc.yml
+            parameters:
+              ServiceDirectory: core
 
           - script: |
               pnpm build --filter @azure/eslint-plugin-azure-sdk...
