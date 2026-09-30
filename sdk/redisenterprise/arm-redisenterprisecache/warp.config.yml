@@ -5,7 +5,6 @@ exports:
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/operationsStatus": "./src/api/operationsStatus/index.ts"
-  "./api/migration": "./src/api/migration/index.ts"
   "./api/accessPolicyAssignment": "./src/api/accessPolicyAssignment/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/redisEnterprise": "./src/api/redisEnterprise/index.ts"

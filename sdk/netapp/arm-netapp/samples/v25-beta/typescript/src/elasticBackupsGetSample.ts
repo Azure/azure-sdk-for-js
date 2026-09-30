@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified Elastic Backup under Elastic Backup Vault.
  *
  * @summary get the specified Elastic Backup under Elastic Backup Vault.
- * x-ms-original-file: 2026-05-15-preview/ElasticBackups_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackups_Get.json
  */
 async function elasticBackupsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

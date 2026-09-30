@@ -43,7 +43,7 @@ export function _checkTrafficManagerNameAvailabilityV2Send(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,9 @@ export async function _checkTrafficManagerNameAvailabilityV2Deserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -91,7 +93,7 @@ export function _checkTrafficManagerRelativeDnsNameAvailabilitySend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Network/checkTrafficManagerNameAvailability{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +113,9 @@ export async function _checkTrafficManagerRelativeDnsNameAvailabilityDeserialize
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -145,7 +149,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +167,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -182,11 +188,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -198,7 +200,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +218,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -234,11 +238,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -254,7 +254,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,13 +268,19 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return deleteOperationResultDeserializer(result.body);
@@ -286,7 +292,7 @@ export async function $delete(
   resourceGroupName: string,
   profileName: string,
   options: ProfilesDeleteOptionalParams = { requestOptions: {} },
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | void> {
   const result = await _$deleteSend(context, resourceGroupName, profileName, options);
   return _$deleteDeserialize(result);
 }
@@ -304,7 +310,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,7 +328,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -355,7 +363,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,7 +381,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -411,7 +421,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -427,7 +437,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

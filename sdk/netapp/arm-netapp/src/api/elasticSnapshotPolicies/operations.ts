@@ -47,7 +47,7 @@ export function _listElasticVolumesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,6 +74,7 @@ export async function _listElasticVolumesDeserialize(
 
   return _elasticSnapshotPolicyVolumeListDeserializer(result.body);
 }
+
 /** Get elastic volumes associated with Elastic Snapshot Policy */
 export function listElasticVolumes(
   context: Client,
@@ -91,7 +92,7 @@ export function listElasticVolumes(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -108,7 +109,7 @@ export function _listByElasticAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +136,7 @@ export async function _listByElasticAccountDeserialize(
 
   return _elasticSnapshotPolicyListResultDeserializer(result.body);
 }
+
 /** List ElasticSnapshotPolicy resources by ElasticAccount */
 export function listByElasticAccount(
   context: Client,
@@ -150,7 +152,7 @@ export function listByElasticAccount(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -169,7 +171,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,6 +193,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ElasticSnapshotPolicy */
 export function $delete(
   context: Client,
@@ -205,7 +208,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, snapshotPolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -224,7 +227,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,6 +256,7 @@ export async function _updateDeserialize(
 
   return elasticSnapshotPolicyDeserializer(result.body);
 }
+
 /** Update a ElasticSnapshotPolicy */
 export function update(
   context: Client,
@@ -268,7 +272,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, snapshotPolicyName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
 }
 
@@ -287,7 +291,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,6 +320,7 @@ export async function _createOrUpdateDeserialize(
 
   return elasticSnapshotPolicyDeserializer(result.body);
 }
+
 /** Create a ElasticSnapshotPolicy */
 export function createOrUpdate(
   context: Client,
@@ -338,7 +343,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
 }
 
@@ -356,7 +361,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,6 +388,7 @@ export async function _getDeserialize(
 
   return elasticSnapshotPolicyDeserializer(result.body);
 }
+
 /** Get a ElasticSnapshotPolicy */
 export async function get(
   context: Client,

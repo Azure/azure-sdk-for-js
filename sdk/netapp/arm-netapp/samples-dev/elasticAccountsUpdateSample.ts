@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified NetApp Elastic Account
  *
  * @summary patch the specified NetApp Elastic Account
- * x-ms-original-file: 2026-05-15-preview/ElasticAccounts_Update.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticAccounts_Update.json
  */
 async function elasticAccountsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -139,8 +139,8 @@ docGen/
 # temporary test artifacts
 test/tmp/*
 common/smoke-test/run-manifest.json
-eng/tools/js-sdk-release-tools-src/.tmp/
-eng/tools/js-sdk-release-tools-src/.tmp-detect/
+eng/tools/js-sdk-release-tools/.tmp/
+eng/tools/js-sdk-release-tools/.tmp-detect/
 
 # build artifacts
 dist

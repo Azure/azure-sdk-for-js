@@ -32,14 +32,7 @@ export class CloudHealthClient {
     subscriptionId: string,
     options: CloudHealthClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCloudHealth(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCloudHealth(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.discoveryRules = _getDiscoveryRulesOperations(this._client);
     this.relationships = _getRelationshipsOperations(this._client);

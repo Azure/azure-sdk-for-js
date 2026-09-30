@@ -27,7 +27,7 @@ export interface FirewallRulesOperations {
     serverName: string,
     parameters: FirewallRuleList,
     options?: FirewallRulesReplaceOptionalParams,
-  ) => Promise<FirewallRule | undefined>;
+  ) => Promise<FirewallRule | void>;
   /** Gets a list of firewall rules. */
   listByServer: (
     resourceGroupName: string,
@@ -57,7 +57,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesGetOptionalParams,
   ) => Promise<FirewallRule>;
 }
-
 function _getFirewallRules(context: SqlManagementContext) {
   return {
     replace: (
@@ -93,7 +92,6 @@ function _getFirewallRules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, firewallRuleName, options),
   };
 }
-
 export function _getFirewallRulesOperations(
   context: SqlManagementContext,
 ): FirewallRulesOperations {

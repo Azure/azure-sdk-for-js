@@ -39,7 +39,7 @@ export function _listByElasticVolumeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +66,7 @@ export async function _listByElasticVolumeDeserialize(
 
   return _elasticSnapshotListResultDeserializer(result.body);
 }
+
 /** List ElasticSnapshot resources by ElasticVolume */
 export function listByElasticVolume(
   context: Client,
@@ -91,7 +92,7 @@ export function listByElasticVolume(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -114,7 +115,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,6 +137,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ElasticSnapshot */
 export function $delete(
   context: Client,
@@ -160,7 +162,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -183,7 +185,7 @@ export function _createOrUpdateSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,6 +214,7 @@ export async function _createOrUpdateDeserialize(
 
   return elasticSnapshotDeserializer(result.body);
 }
+
 /** Create a ElasticSnapshot */
 export function createOrUpdate(
   context: Client,
@@ -238,7 +241,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticSnapshot>, ElasticSnapshot>;
 }
 
@@ -260,7 +263,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,6 +288,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
 
   return elasticSnapshotDeserializer(result.body);
 }
+
 /** Get a ElasticSnapshot */
 export async function get(
   context: Client,

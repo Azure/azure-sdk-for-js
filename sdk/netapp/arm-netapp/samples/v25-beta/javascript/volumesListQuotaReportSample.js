@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get quota report for volume (with filter support)
  *
  * @summary get quota report for volume (with filter support)
- * x-ms-original-file: 2026-05-15-preview/Volumes_ListQuotaReport.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_ListQuotaReport.json
  */
 async function listQuotaReport() {
   const credential = new DefaultAzureCredential();

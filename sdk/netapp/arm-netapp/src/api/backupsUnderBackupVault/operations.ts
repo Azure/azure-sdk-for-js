@@ -28,7 +28,7 @@ export function _restoreFilesSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,6 +54,7 @@ export async function _restoreFilesDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Restore the specified files from the specified backup to the active filesystem */
 export function restoreFiles(
   context: Client,
@@ -78,6 +79,6 @@ export function restoreFiles(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

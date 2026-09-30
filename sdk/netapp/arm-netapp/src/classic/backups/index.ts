@@ -83,6 +83,7 @@ export interface BackupsOperations {
     options?: BackupsGetOptionalParams,
   ) => Promise<Backup>;
 }
+
 function _getBackups(context: NetAppManagementContext) {
   return {
     getVolumeLatestRestoreStatus: (
@@ -145,6 +146,7 @@ function _getBackups(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, backupVaultName, backupName, options),
   };
 }
+
 export function _getBackupsOperations(context: NetAppManagementContext): BackupsOperations {
   return {
     ..._getBackups(context),

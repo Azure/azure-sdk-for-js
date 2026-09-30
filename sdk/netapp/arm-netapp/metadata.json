@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.NetApp": "2026-05-15-preview"
+    "Microsoft.NetApp": "2026-06-15-preview"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.NetApp",
     "CrossLanguageDefinitionId": {
@@ -341,6 +341,7 @@
       "@azure/arm-netapp!KnownRegionStorageToNetworkProximity:enum": "Microsoft.NetApp.RegionStorageToNetworkProximity",
       "@azure/arm-netapp!KnownKeyVaultStatus:enum": "Microsoft.NetApp.KeyVaultStatus",
       "@azure/arm-netapp!KnownMultiAdStatus:enum": "Microsoft.NetApp.MultiAdStatus",
+      "@azure/arm-netapp!KnownSecureLdapType:enum": "Microsoft.NetApp.SecureLdapType",
       "@azure/arm-netapp!KnownBindAuthenticationLevel:enum": "Microsoft.NetApp.BindAuthenticationLevel",
       "@azure/arm-netapp!KnownQosType:enum": "Microsoft.NetApp.QosType",
       "@azure/arm-netapp!KnownEncryptionType:enum": "Microsoft.NetApp.EncryptionType",

@@ -3,6 +3,9 @@
 
 import type { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
+  restart,
+  stop,
+  start,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -11,6 +14,9 @@ import {
   get,
 } from "../../api/horizonDbClusters/operations.js";
 import type {
+  HorizonDbClustersRestartOptionalParams,
+  HorizonDbClustersStopOptionalParams,
+  HorizonDbClustersStartOptionalParams,
   HorizonDbClustersListBySubscriptionOptionalParams,
   HorizonDbClustersListByResourceGroupOptionalParams,
   HorizonDbClustersDeleteOptionalParams,
@@ -26,21 +32,70 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbClusters operations. */
 export interface HorizonDbClustersOperations {
-  /** Lists all HorizonDb clusters in a subscription. */
+  /** Restarts a HorizonDB cluster. */
+  restart: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersRestartOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restart instead */
+  beginRestart: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersRestartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restart instead */
+  beginRestartAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersRestartOptionalParams,
+  ) => Promise<void>;
+  /** Stops a running HorizonDB cluster. */
+  stop: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStopOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use stop instead */
+  beginStop: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStopOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use stop instead */
+  beginStopAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStopOptionalParams,
+  ) => Promise<void>;
+  /** Starts a stopped HorizonDB cluster. */
+  start: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStartOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use start instead */
+  beginStart: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use start instead */
+  beginStartAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: HorizonDbClustersStartOptionalParams,
+  ) => Promise<void>;
+  /** Lists all HorizonDB clusters in a subscription. */
   listBySubscription: (
     options?: HorizonDbClustersListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbCluster>;
-  /** Lists all HorizonDb clusters in a resource group. */
+  /** Lists all HorizonDB clusters in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: HorizonDbClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbCluster>;
-  /** Deletes a HorizonDb cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Deletes a HorizonDB cluster. */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -58,7 +113,7 @@ export interface HorizonDbClustersOperations {
     clusterName: string,
     options?: HorizonDbClustersDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates an existing HorizonDb cluster (e.g., tags, virtual cores, replica count). */
+  /** Updates an existing HorizonDB cluster (e.g., tags, virtual cores, replica count). */
   update: (
     resourceGroupName: string,
     clusterName: string,
@@ -79,7 +134,7 @@ export interface HorizonDbClustersOperations {
     properties: HorizonDbClusterForPatchUpdate,
     options?: HorizonDbClustersUpdateOptionalParams,
   ) => Promise<HorizonDbCluster>;
-  /** Creates a new HorizonDb cluster or updates an existing cluster. */
+  /** Creates a new HorizonDB cluster or updates an existing cluster. */
   createOrUpdate: (
     resourceGroupName: string,
     clusterName: string,
@@ -100,7 +155,7 @@ export interface HorizonDbClustersOperations {
     resource: HorizonDbCluster,
     options?: HorizonDbClustersCreateOrUpdateOptionalParams,
   ) => Promise<HorizonDbCluster>;
-  /** Gets information about a HorizonDb cluster. */
+  /** Gets information about a HorizonDB cluster. */
   get: (
     resourceGroupName: string,
     clusterName: string,
@@ -110,6 +165,69 @@ export interface HorizonDbClustersOperations {
 
 function _getHorizonDbClusters(context: HorizonDbContext) {
   return {
+    restart: (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersRestartOptionalParams,
+    ) => restart(context, resourceGroupName, clusterName, options),
+    beginRestart: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersRestartOptionalParams,
+    ) => {
+      const poller = restart(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestartAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersRestartOptionalParams,
+    ) => {
+      return await restart(context, resourceGroupName, clusterName, options);
+    },
+    stop: (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStopOptionalParams,
+    ) => stop(context, resourceGroupName, clusterName, options),
+    beginStop: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStopOptionalParams,
+    ) => {
+      const poller = stop(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStopAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStopOptionalParams,
+    ) => {
+      return await stop(context, resourceGroupName, clusterName, options);
+    },
+    start: (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStartOptionalParams,
+    ) => start(context, resourceGroupName, clusterName, options),
+    beginStart: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStartOptionalParams,
+    ) => {
+      const poller = start(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: HorizonDbClustersStartOptionalParams,
+    ) => {
+      return await start(context, resourceGroupName, clusterName, options);
+    },
     listBySubscription: (options?: HorizonDbClustersListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

@@ -79,6 +79,7 @@ export interface ElasticVolumesOperations {
     options?: ElasticVolumesGetOptionalParams,
   ) => Promise<ElasticVolume>;
 }
+
 function _getElasticVolumes(context: NetAppManagementContext) {
   return {
     revert: (
@@ -128,6 +129,7 @@ function _getElasticVolumes(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, options),
   };
 }
+
 export function _getElasticVolumesOperations(
   context: NetAppManagementContext,
 ): ElasticVolumesOperations {

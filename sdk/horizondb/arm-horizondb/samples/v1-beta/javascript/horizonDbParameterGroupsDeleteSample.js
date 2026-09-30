@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to deletes a HorizonDb parameter group.
+ * This sample demonstrates how to deletes a HorizonDB parameter group.
  *
- * @summary deletes a HorizonDb parameter group.
- * x-ms-original-file: 2026-01-20-preview/ParameterGroups_Delete.json
+ * @summary deletes a HorizonDB parameter group.
+ * x-ms-original-file: 2026-05-01-preview/ParameterGroups_Delete.json
  */
-async function deleteAHorizonDbParameterGroup() {
+async function deleteAHorizonDBParameterGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function deleteAHorizonDbParameterGroup() {
 }
 
 async function main() {
-  await deleteAHorizonDbParameterGroup();
+  await deleteAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

@@ -4,13 +4,14 @@
 import type { HorizonDbClient } from "./horizonDbClient.js";
 import {
   _$deleteDeserialize,
-  _updateDeserialize,
   _createOrUpdateDeserialize,
-} from "./api/horizonDbParameterGroups/operations.js";
+} from "./api/horizonDbAdministrators/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeHorizonDbPrivateEndpointConnections,
-  _updateDeserialize as _updateDeserializeHorizonDbPrivateEndpointConnections,
-} from "./api/horizonDbPrivateEndpointConnections/operations.js";
+  _$deleteDeserialize as _$deleteDeserializeHorizonDbParameterGroups,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbParameterGroups,
+} from "./api/horizonDbParameterGroups/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeHorizonDbPrivateEndpointConnections } from "./api/horizonDbPrivateEndpointConnections/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeHorizonDbFirewallRules,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbFirewallRules,
@@ -21,6 +22,9 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbReplicas,
 } from "./api/horizonDbReplicas/operations.js";
 import {
+  _restartDeserialize,
+  _stopDeserialize,
+  _startDeserialize,
   _$deleteDeserialize as _$deleteDeserializeHorizonDbClusters,
   _updateDeserialize as _updateDeserializeHorizonDbClusters,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbClusters,
@@ -95,21 +99,26 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/administrators/{objectId}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/administrators/{objectId}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
+    {
+      deserializer: _$deleteDeserializeHorizonDbParameterGroups,
+      expectedStatuses: ["202", "204", "200"],
+    },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/privateEndpointConnections/{privateEndpointConnectionName}":
+    {
+      deserializer: _createOrUpdateDeserializeHorizonDbParameterGroups,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializeHorizonDbPrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _updateDeserializeHorizonDbPrivateEndpointConnections,
-      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/firewallRules/{firewallRuleName}":
     {
@@ -130,6 +139,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeHorizonDbReplicas,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/restart":
+    { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/stop":
+    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/start":
+    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}":
     { deserializer: _$deleteDeserializeHorizonDbClusters, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}":

@@ -66,6 +66,7 @@ export interface WorkloadOperations {
     options?: WorkloadGetOptionalParams,
   ) => Promise<WorkloadResource>;
 }
+
 function _getWorkload(context: MissionContext) {
   return {
     listBySubscription: (
@@ -113,6 +114,7 @@ function _getWorkload(context: MissionContext) {
     ) => get(context, resourceGroupName, virtualEnclaveName, workloadName, options),
   };
 }
+
 export function _getWorkloadOperations(context: MissionContext): WorkloadOperations {
   return {
     ..._getWorkload(context),

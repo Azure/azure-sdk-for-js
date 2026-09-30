@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
  * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ProtectionPolicies_Get.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ProtectionPolicies_Get.json
  */
 async function getAzureIaasVmProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getAzureIaasVmProtectionPolicyDetails(): Promise<void> {
  *
  * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
  * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/V2Policy/v2-Get-Policy.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
 async function getAzureIaasVmEnhancedProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

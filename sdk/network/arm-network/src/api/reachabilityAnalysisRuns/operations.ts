@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { ReachabilityAnalysisRun } from "../../models/microsoft/network/models.js";
+import type { _ReachabilityAnalysisRunListResult } from "../../models/models.js";
+import { _reachabilityAnalysisRunListResultDeserializer } from "../../models/models.js";
+import type { ReachabilityAnalysisRun } from "../../models/network/models.js";
 import {
   commonErrorResponseDeserializer,
   reachabilityAnalysisRunSerializer,
   reachabilityAnalysisRunDeserializer,
-} from "../../models/microsoft/network/models.js";
-import type { _ReachabilityAnalysisRunListResult } from "../../models/models.js";
-import { _reachabilityAnalysisRunListResultDeserializer } from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +38,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       skipToken: options?.skipToken,
       skip: options?.skip,
       top: options?.top,
@@ -84,7 +84,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -104,7 +104,7 @@ export function _$deleteSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisRunName: reachabilityAnalysisRunName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +149,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -170,7 +170,7 @@ export function _createSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisRunName: reachabilityAnalysisRunName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +238,7 @@ export function _getSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisRunName: reachabilityAnalysisRunName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -29,7 +29,7 @@ export function _provisionManagedNetworkSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,6 +79,6 @@ export function provisionManagedNetwork(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15-preview",
   }) as PollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>;
 }

@@ -9,7 +9,7 @@ import type { CancelOnProgress } from '@azure/core-lro';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CompatResponse } from '@azure/core-http-compat';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RestError } from '@azure/core-rest-pipeline';

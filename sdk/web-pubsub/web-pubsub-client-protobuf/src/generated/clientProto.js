@@ -161,7 +161,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             long = 0;
         if (long > $Reader.recursionLimit)
             throw Error("maximum nesting depth exceeded");
-        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage();
+        let end, message;
+        if (length === undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = new $root.UpstreamMessage();
         while (reader.pos < end) {
             let tag = reader.uint32();
             if (tag === error)
@@ -191,6 +201,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 reader.skipType(tag & 7, long);
                 break;
             }
+        }
+        if (length !== undefined) {
+            if (reader.pos !== end)
+                throw RangeError("index out of range");
+            reader.len = length;
         }
         return message;
     };
@@ -539,7 +554,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SendToGroupMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.UpstreamMessage.SendToGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -565,6 +590,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -860,7 +890,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.EventMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.UpstreamMessage.EventMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -882,6 +922,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1154,7 +1199,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.JoinGroupMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.UpstreamMessage.JoinGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -1172,6 +1227,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1430,7 +1490,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.LeaveGroupMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.UpstreamMessage.LeaveGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -1448,6 +1518,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1686,7 +1761,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SequenceAckMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.UpstreamMessage.SequenceAckMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -1700,6 +1785,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1968,7 +2058,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             long = 0;
         if (long > $Reader.recursionLimit)
             throw Error("maximum nesting depth exceeded");
-        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage();
+        let end, message;
+        if (length === undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = new $root.DownstreamMessage();
         while (reader.pos < end) {
             let tag = reader.uint32();
             if (tag === error)
@@ -1990,6 +2090,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 reader.skipType(tag & 7, long);
                 break;
             }
+        }
+        if (length !== undefined) {
+            if (reader.pos !== end)
+                throw RangeError("index out of range");
+            reader.len = length;
         }
         return message;
     };
@@ -2281,7 +2386,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.DownstreamMessage.AckMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -2303,6 +2418,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2568,7 +2688,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $Reader.recursionLimit)
                     throw Error("maximum nesting depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
+                let end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     if (tag === error)
@@ -2586,6 +2716,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                         reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -2859,7 +2994,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.DataMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.DownstreamMessage.DataMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -2885,6 +3030,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3174,7 +3324,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 long = 0;
             if (long > $Reader.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage();
+            let end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.DownstreamMessage.SystemMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 if (tag === error)
@@ -3192,6 +3352,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3454,7 +3619,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $Reader.recursionLimit)
                     throw Error("maximum nesting depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
+                let end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     if (tag === error)
@@ -3476,6 +3651,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                         reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -3706,7 +3886,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $Reader.recursionLimit)
                     throw Error("maximum nesting depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
+                let end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     if (tag === error)
@@ -3720,6 +3910,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                         reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -3986,7 +4181,17 @@ export const MessageData = $root.MessageData = (() => {
             long = 0;
         if (long > $Reader.recursionLimit)
             throw Error("maximum nesting depth exceeded");
-        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageData();
+        let end, message;
+        if (length === undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = new $root.MessageData();
         while (reader.pos < end) {
             let tag = reader.uint32();
             if (tag === error)
@@ -4012,6 +4217,11 @@ export const MessageData = $root.MessageData = (() => {
                 reader.skipType(tag & 7, long);
                 break;
             }
+        }
+        if (length !== undefined) {
+            if (reader.pos !== end)
+                throw RangeError("index out of range");
+            reader.len = length;
         }
         return message;
     };
@@ -4309,7 +4519,17 @@ export const google = $root.google = (() => {
                     long = 0;
                 if (long > $Reader.recursionLimit)
                     throw Error("maximum nesting depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
+                let end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.google.protobuf.Any();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     if (tag === error)
@@ -4327,6 +4547,11 @@ export const google = $root.google = (() => {
                         reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };

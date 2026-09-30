@@ -8,6 +8,7 @@ import {
   listOptimizationJobs,
   getOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
 } from "../../../api/beta/agents/operations.js";
 import type {
   BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -15,16 +16,19 @@ import type {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
+  BetaAgentsCreateFromPromptOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import type {
   AgentOptimizationJob,
   AgentOptimizationJobResult,
   AgentOptimizationJobListItem,
+  Agent,
+  GenerateAgentRequest,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
-/** Interface representing a BetaAgents operations. */
+/** Operations for managing agents. */
 export interface BetaAgentsOperations {
   /** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
   deleteOptimizationJob: (
@@ -50,9 +54,17 @@ export interface BetaAgentsOperations {
     job: AgentOptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => JobPoller<AgentOptimizationJobResult>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    body: GenerateAgentRequest,
+    options?: BetaAgentsCreateFromPromptOptionalParams,
+  ) => Promise<Agent>;
 }
 
-function _getBetaAgents(context: AIProjectContext) {
+function _getBetaAgents(context: AIProjectContext): BetaAgentsOperations {
   return {
     deleteOptimizationJob: (
       jobId: string,
@@ -70,11 +82,13 @@ function _getBetaAgents(context: AIProjectContext) {
       job: AgentOptimizationJob,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
+    createFromPrompt: (
+      body: GenerateAgentRequest,
+      options?: BetaAgentsCreateFromPromptOptionalParams,
+    ) => createFromPrompt(context, body, options),
   };
 }
 
 export function _getBetaAgentsOperations(context: AIProjectContext): BetaAgentsOperations {
-  return {
-    ..._getBetaAgents(context),
-  };
+  return { ..._getBetaAgents(context) };
 }

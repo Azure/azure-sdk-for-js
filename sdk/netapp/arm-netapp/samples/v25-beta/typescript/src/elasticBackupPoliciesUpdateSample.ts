@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified NetApp Elastic Backup Policy
  *
  * @summary patch the specified NetApp Elastic Backup Policy
- * x-ms-original-file: 2026-05-15-preview/ElasticBackupPolicies_Update.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupPolicies_Update.json
  */
 async function elasticBackupPoliciesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

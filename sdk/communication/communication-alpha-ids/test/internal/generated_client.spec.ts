@@ -73,6 +73,7 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     client = new AlphaIDsGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`, {
       pipeline: createEmptyPipeline(),
     });
+    assert.instanceOf(client, AlphaIDsGeneratedClient);
   });
 
   it("explicitly add bearer policy to pipeline", async function () {

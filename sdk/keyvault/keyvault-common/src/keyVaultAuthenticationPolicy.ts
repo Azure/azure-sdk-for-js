@@ -59,7 +59,7 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
   try {
     scopeAsUrl = new URL(scope);
   } catch (e) {
-    throw new Error(`The challenge contains invalid scope '${scope}'`);
+    throw new Error(`The challenge contains invalid scope '${scope}'`, { cause: e });
   }
 
   const requestUrl = new URL(request.url);

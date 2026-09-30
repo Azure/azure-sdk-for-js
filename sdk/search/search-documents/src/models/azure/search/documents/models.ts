@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseCsvCollection } from "../../../../static-helpers/serialization/parse-csv-collection.js";
-import { serializeRecord } from "../../../../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { parseCsvCollection } from "../../../../static-helpers/serialization/parse-csv-collection.js";
+import { serializeRecord } from "../../../../static-helpers/serialization/serialize-record.js";
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
@@ -72,7 +73,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -457,6 +458,7 @@ export enum KnownQueryType {
  * **semantic**: Best suited for queries expressed in natural language as opposed to keywords. Improves precision of search results by re-ranking the top search results using a ranking model trained on the Web corpus.
  */
 export type QueryType = string;
+
 /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. The default is 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global scoring statistics can increase latency of search queries. */
 export type ScoringStatistics = "local" | "global";
 
@@ -489,6 +491,7 @@ export enum KnownQueryDebugMode {
  * **all**: Turn on all debug options.
  */
 export type QueryDebugMode = string;
+
 /** Specifies whether any or all of the search terms must be matched in order to count the document as a match. */
 export type SearchMode = "any" | "all";
 

@@ -35,7 +35,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listByMongoClusterDeserialize(
 
   return _userListResultDeserializer(result.body);
 }
-
 /** List all the users on a mongo cluster. */
 export function listByMongoCluster(
   context: Client,
@@ -75,7 +74,11 @@ export function listByMongoCluster(
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -93,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       userName: userName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a mongo cluster user. */
 export function $delete(
   context: Client,
@@ -130,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, mongoClusterName, userName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +151,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       userName: userName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +178,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return userDeserializer(result.body);
 }
-
 /** Creates a new user or updates an existing user on a mongo cluster. */
 export function createOrUpdate(
   context: Client,
@@ -199,7 +200,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<User>, User>;
 }
 
@@ -217,7 +218,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       userName: userName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +243,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Us
 
   return userDeserializer(result.body);
 }
-
 /** Gets the defintion of a Mongo cluster user. */
 export async function get(
   context: Client,

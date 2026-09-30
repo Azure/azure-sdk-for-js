@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to deletes a HorizonDb firewall rule.
+ * This sample demonstrates how to deletes a HorizonDB firewall rule.
  *
- * @summary deletes a HorizonDb firewall rule.
- * x-ms-original-file: 2026-01-20-preview/FirewallRules_Delete.json
+ * @summary deletes a HorizonDB firewall rule.
+ * x-ms-original-file: 2026-05-01-preview/FirewallRules_Delete.json
  */
-async function deleteAHorizonDbFirewallRule() {
+async function deleteAHorizonDBFirewallRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function deleteAHorizonDbFirewallRule() {
 }
 
 async function main() {
-  await deleteAHorizonDbFirewallRule();
+  await deleteAHorizonDBFirewallRule();
 }
 
 main().catch(console.error);

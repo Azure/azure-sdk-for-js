@@ -6,7 +6,7 @@ Microsoft Edgezones Service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgezones/arm-edgezones) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgezones) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-edgezones?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-edgezones) |
 
 ## Getting started
 

@@ -16,14 +16,12 @@ export interface OrganizationsOperations {
     options?: OrganizationsListOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
 }
-
 function _getOrganizations(context: NewRelicObservabilityContext) {
   return {
     list: (userEmail: string, location: string, options?: OrganizationsListOptionalParams) =>
       list(context, userEmail, location, options),
   };
 }
-
 export function _getOrganizationsOperations(
   context: NewRelicObservabilityContext,
 ): OrganizationsOperations {

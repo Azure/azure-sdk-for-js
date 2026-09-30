@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all volumes within the capacity pool
  *
  * @summary list all volumes within the capacity pool
- * x-ms-original-file: 2026-05-15-preview/Volumes_ExtraLargeVolumes_List.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_ExtraLargeVolumes_List.json
  */
 async function volumesExtralargeVolumeList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function volumesExtralargeVolumeList(): Promise<void> {
  * This sample demonstrates how to list all volumes within the capacity pool
  *
  * @summary list all volumes within the capacity pool
- * x-ms-original-file: 2026-05-15-preview/Volumes_List.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_List.json
  */
 async function volumesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

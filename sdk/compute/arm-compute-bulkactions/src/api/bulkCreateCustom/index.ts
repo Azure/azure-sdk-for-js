@@ -4,6 +4,7 @@
 export {
   listBySubscription,
   listByResourceGroup,
+  virtualMachinesGetOperationStatus,
   cancel,
   $delete,
   createOrUpdate,
@@ -13,6 +14,7 @@ export {
 export type {
   BulkCreateCustomListBySubscriptionOptionalParams,
   BulkCreateCustomListByResourceGroupOptionalParams,
+  BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
   BulkCreateCustomCancelOptionalParams,
   BulkCreateCustomDeleteOptionalParams,
   BulkCreateCustomCreateOrUpdateOptionalParams,

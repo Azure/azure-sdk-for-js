@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Fabric Capacity resource */
 export interface FabricCapacity extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -48,16 +49,14 @@ export interface FabricCapacityProperties {
   /** The current state of Microsoft Fabric resource. The state is to indicate more states outside of resource provisioning. */
   readonly state?: ResourceState;
   /** The capacity overage properties of the Fabric capacity resource. */
-  overage?: CapacityOverageProperties;
+  overage: CapacityOverageProperties;
   /** The capacity administration */
   administration: CapacityAdministration;
 }
 
 export function fabricCapacityPropertiesSerializer(item: FabricCapacityProperties): any {
   return {
-    overage: !item["overage"]
-      ? item["overage"]
-      : capacityOveragePropertiesSerializer(item["overage"]),
+    overage: capacityOveragePropertiesSerializer(item["overage"]),
     administration: capacityAdministrationSerializer(item["administration"]),
   };
 }
@@ -66,9 +65,7 @@ export function fabricCapacityPropertiesDeserializer(item: any): FabricCapacityP
   return {
     provisioningState: item["provisioningState"],
     state: item["state"],
-    overage: !item["overage"]
-      ? item["overage"]
-      : capacityOveragePropertiesDeserializer(item["overage"]),
+    overage: capacityOveragePropertiesDeserializer(item["overage"]),
     administration: capacityAdministrationDeserializer(item["administration"]),
   };
 }
@@ -786,6 +783,6 @@ export enum KnownVersions {
   V20231101 = "2023-11-01",
   /** 2025-01-15-preview version */
   V20250115Preview = "2025-01-15-preview",
-  /** 2026-08-01-preview version */
-  V20260801Preview = "2026-08-01-preview",
+  /** 2026-09-01-preview version */
+  V20260901Preview = "2026-09-01-preview",
 }

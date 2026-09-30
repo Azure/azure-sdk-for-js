@@ -30,7 +30,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _listByServerDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources for SQL server. */
 export function listByServer(
   context: Client,
@@ -70,7 +69,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -88,7 +91,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +116,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return privateLinkResourceDeserializer(result.body);
 }
-
 /** Gets a private link resource for SQL server. */
 export async function get(
   context: Client,

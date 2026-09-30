@@ -81,6 +81,7 @@ export interface SnapshotsOperations {
     options?: SnapshotsGetOptionalParams,
   ) => Promise<Snapshot>;
 }
+
 function _getSnapshots(context: NetAppManagementContext) {
   return {
     restoreFiles: (
@@ -166,6 +167,7 @@ function _getSnapshots(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, snapshotName, options),
   };
 }
+
 export function _getSnapshotsOperations(context: NetAppManagementContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

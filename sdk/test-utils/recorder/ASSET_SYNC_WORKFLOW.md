@@ -130,17 +130,21 @@ graph TD
 
 > **Note:** Most packages should already be using the Asset Sync workflow. This section is only relevant for packages that still have recordings directly in the repository.
 
-If you have an existing package with recordings that need to be migrated, run the following command:
+If you have an existing package with recordings checked into the repository, use the [`generate-assets-json.ps1`][onboarding-script] onboarding script with the `-InitialPush` switch. This **preserves and moves** your existing recordings into the `Azure/azure-sdk-assets` repository — it does not regenerate them, so no live re-recording (which may be impossible without provisioned resources) is required.
 
-```bash
-$ npx dev-tool test-proxy migrate --initial-push
+```powershell
+# Run from the package (or service) directory that contains the recordings, e.g. sdk/<service>/<package>
+cd sdk/<service>/<package>
+
+# Generate assets.json AND push the existing recordings to the assets repo in one step
+<repo-root>/eng/common/testproxy/onboarding/generate-assets-json.ps1 -InitialPush
 ```
 
-_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above command_
+With `-InitialPush`, the script creates the `assets.json`, moves the existing recordings out of the language repo, pushes them to the assets repo, and stamps the resulting tag back into `assets.json`. Running the script **without** `-InitialPush` only creates an empty `assets.json` and performs no data movement.
 
-Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
+See the [onboarding README][onboarding-readme] for prerequisites (test-proxy and [PowerShell 7][powershell] installation, plus assets-repo permissions) and for details on what the script does behind the scenes.
 
-The above `migrate` command produces an `assets.json`, with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
+Once this is done, validate that your recorded tests still pass in playback mode, then create a PR with the new `assets.json` and the deleted recording files. That's it!
 
 
 ## Inspecting Recordings with Asset Sync enabled
@@ -176,7 +180,7 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 - `dev-tool test-proxy push`: use this command to push recordings to the assets repo when you have finished re-recording. This command will push your changes to the assets repo and update the tag in `assets.json` to reference the newly pushed recordings. The change to `assets.json` must be checked in for the test proxy to use the new recordings outside of your local environment.
 - `dev-tool test-proxy restore`: this command will pull the recordings from the assets repo that are referenced in your `assets.json`. Typically this will be done automatically when you first run recorded tests if the recordings haven't been downloaded already, but you can run this command in advance if you'd like to download them earlier, for example for offline work.
 - `dev-tool test-proxy reset`: if you've made any changes to the recordings locally, you can use this to revert those local changes and reset to what is currently checked in to the assets repo. This is a destructive operation and if you have local changes it will prompt you before removing your work.
-- `dev-tool test-proxy migrate`: used for migrating existing recordings to the assets repo as described above.
+- `dev-tool test-proxy init`: generates an `assets.json` with an empty tag for a package that does not have one yet. Use this when onboarding a package whose recordings do not exist yet — record the tests and then run `dev-tool test-proxy push`. To move recordings that are **already checked into the repo**, use the [migration steps](#migration-steps-for-existing-recordings) above instead, which preserve the existing recordings rather than regenerating them.
 
 **Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) guide if you need help on the commands to run during testing.**
 
@@ -240,5 +244,6 @@ A: No, you don't need any special permissions to run tests in playback mode. The
 
 [asset-sync-reference]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/documentation/asset-sync
 [powershell]: https://github.com/PowerShell/PowerShell
-[install `dev-tool` globally]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation
+[onboarding-script]: https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/testproxy/onboarding/generate-assets-json.ps1
+[onboarding-readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/testproxy/onboarding/README.md
 [package.json scripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#packagejson-scripts

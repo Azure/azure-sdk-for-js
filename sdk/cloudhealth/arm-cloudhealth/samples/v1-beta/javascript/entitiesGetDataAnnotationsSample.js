@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve data annotations for an entity
  *
  * @summary retrieve data annotations for an entity
- * x-ms-original-file: 2026-05-01-preview/Entities_GetDataAnnotations.json
+ * x-ms-original-file: 2026-09-01-preview/Entities_GetDataAnnotations.json
  */
 async function entitiesGetDataAnnotations() {
   const credential = new DefaultAzureCredential();

@@ -17,7 +17,7 @@ export function createWorkspace(
 ): WorkspaceContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-discovery/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-discovery/1.0.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

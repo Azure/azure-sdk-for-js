@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list and describe all Elastic Backup Vaults in the elastic account.
  *
  * @summary list and describe all Elastic Backup Vaults in the elastic account.
- * x-ms-original-file: 2026-05-15-preview/ElasticBackupVaults_ListByElasticAccount.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupVaults_ListByElasticAccount.json
  */
 async function elasticBackupVaultsListByElasticAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

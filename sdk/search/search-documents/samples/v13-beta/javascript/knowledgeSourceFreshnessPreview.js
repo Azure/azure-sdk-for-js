@@ -25,7 +25,6 @@
  */
 
 const { readFileSync } = require("node:fs");
-const { fileURLToPath } = require("node:url");
 const { dirname, resolve } = require("node:path");
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -91,9 +90,7 @@ async function main() {
 
     // Upload a small file so the KS has retrievable content.
     const fileName = "sample.txt";
-    const fileContents = readFileSync(
-      resolve(dirname(fileURLToPath(import.meta.url)), "fixtures", fileName),
-    );
+    const fileContents = readFileSync(resolve(dirname(process.argv[1]), "fixtures", fileName));
     await client.uploadKnowledgeSourceFile(
       KNOWLEDGE_SOURCE_NAME,
       fileContents,

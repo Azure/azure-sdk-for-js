@@ -1,6 +1,18 @@
 # Release History
 
-## 1.20.0 (Unreleased)
+## 1.20.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration, buffered telemetry, or pending metric data. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
+
+### Other Changes
+
+## 1.20.0 (2026-09-04)
 
 ### Features Added
 
@@ -11,6 +23,7 @@
 
 - Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
 - Fixed a failed IMDS request being recorded as a dependency when running on App Service, Functions, and Container Apps. The Azure VM resource detector now runs only when no other detector has identified the platform. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
+- The built-in `BatchSpanProcessor` now respects the standard OpenTelemetry `OTEL_BSP_*` environment variables. [#39607](https://github.com/Azure/azure-sdk-for-js/issues/39607)
 
 ### Other Changes
 

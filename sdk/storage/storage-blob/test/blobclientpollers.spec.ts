@@ -34,6 +34,10 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
     await recorder.start(recorderEnvSetupWithCopySource);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

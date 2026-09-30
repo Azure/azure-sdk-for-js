@@ -6,5 +6,5 @@ export type {
   KnowledgeBaseRetrievalClientOptionalParams,
 } from "./knowledgeBaseRetrievalContext.js";
 export { createKnowledgeBaseRetrieval } from "./knowledgeBaseRetrievalContext.js";
-export { retrieve } from "./operations.js";
-export type { RetrieveOptionalParams } from "./options.js";
+export { retrieveStream, retrieve } from "./operations.js";
+export type { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";

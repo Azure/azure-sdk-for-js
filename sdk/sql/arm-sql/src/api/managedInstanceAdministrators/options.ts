@@ -5,18 +5,15 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ManagedInstanceAdministratorsListByInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedInstanceAdministratorsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceAdministratorsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstanceAdministratorsGetOptionalParams extends OperationOptions {}

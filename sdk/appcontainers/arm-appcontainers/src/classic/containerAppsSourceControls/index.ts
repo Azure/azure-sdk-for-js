@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listByContainerApp,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/containerAppsSourceControls/operations.js";
-import {
+import type {
   ContainerAppsSourceControlsListByContainerAppOptionalParams,
   ContainerAppsSourceControlsDeleteOptionalParams,
   ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ContainerAppsSourceControlsGetOptionalParams,
 } from "../../api/containerAppsSourceControls/options.js";
-import { SourceControl } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SourceControl } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ContainerAppsSourceControls operations. */
 export interface ContainerAppsSourceControlsOperations {

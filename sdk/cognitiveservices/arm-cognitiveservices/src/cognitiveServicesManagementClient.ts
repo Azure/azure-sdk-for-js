@@ -26,6 +26,8 @@ import type { AgentApplicationsOperations } from "./classic/agentApplications/in
 import { _getAgentApplicationsOperations } from "./classic/agentApplications/index.js";
 import type { AgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
 import { _getAgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
+import type { ArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
+import { _getArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
 import type { CommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import { _getCommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import type { CommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
@@ -125,14 +127,7 @@ export class CognitiveServicesManagementClient {
     subscriptionId: string,
     options: CognitiveServicesManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCognitiveServicesManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCognitiveServicesManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.modelCapacities = _getModelCapacitiesOperations(this._client);
     this.locationBasedModelCapacities = _getLocationBasedModelCapacitiesOperations(this._client);
@@ -160,6 +155,7 @@ export class CognitiveServicesManagementClient {
     this.computeOperations = _getComputeOperationsOperations(this._client);
     this.managedComputeDeployments = _getManagedComputeDeploymentsOperations(this._client);
     this.agentApplications = _getAgentApplicationsOperations(this._client);
+    this.arcDeployments = _getArcDeploymentsOperations(this._client);
     this.quotaTiers = _getQuotaTiersOperations(this._client);
     this.projectCapabilityHosts = _getProjectCapabilityHostsOperations(this._client);
     this.projectConnections = _getProjectConnectionsOperations(this._client);
@@ -258,6 +254,8 @@ export class CognitiveServicesManagementClient {
   public readonly managedComputeDeployments: ManagedComputeDeploymentsOperations;
   /** The operation groups for agentApplications */
   public readonly agentApplications: AgentApplicationsOperations;
+  /** The operation groups for arcDeployments */
+  public readonly arcDeployments: ArcDeploymentsOperations;
   /** The operation groups for quotaTiers */
   public readonly quotaTiers: QuotaTiersOperations;
   /** The operation groups for projectCapabilityHosts */

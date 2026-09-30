@@ -14,6 +14,8 @@ import type {
   AnalyzeResult,
   IndexStatisticsSummary,
   KnowledgeSourceFile,
+  UpdateKnowledgeSourceFileRequest,
+  UploadKnowledgeSourceFileMultipartRequest,
 } from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
@@ -69,7 +71,9 @@ import type {
   SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
+  UpdateKnowledgeSourceFileOptions,
   UploadKnowledgeSourceFileOptions,
+  UploadKnowledgeSourceFileMultipartOptions,
   SynonymMap,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
@@ -259,8 +263,12 @@ export class SearchIndexClient {
       "SearchIndexClient-listSynonymMaps",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSynonymMaps(updatedOptions);
-        return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getSynonymMaps(updatedOptions),
+            utils.generatedSynonymMapToPublicSynonymMap,
+          ),
+        );
       },
     );
   }
@@ -275,11 +283,15 @@ export class SearchIndexClient {
       "SearchIndexClient-listSynonymMapsNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSynonymMaps({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.synonymMaps.map((sm) => sm.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getSynonymMaps({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (synonymMap) => synonymMap.name,
+          ),
+        );
       },
     );
   }
@@ -648,15 +660,38 @@ export class SearchIndexClient {
 
   /**
    * Creates a new knowledge base or updates a knowledge base if it already exists.
-   * @param knowledgeBaseName - name of the knowledge base to create or update.
    * @param knowledgeBase - definition of the knowledge base to create or update.
    * @param options - options parameters.
+   * @returns The created or updated knowledge base.
    */
-  public async createOrUpdateKnowledgeBase(
+  public createOrUpdateKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    options?: CreateOrUpdateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase>;
+  /**
+   * Creates or updates a knowledge base using an explicit name.
+   * @deprecated Pass the knowledge base model first; its `name` property identifies the resource.
+   */
+  public createOrUpdateKnowledgeBase(
     knowledgeBaseName: string,
     knowledgeBase: KnowledgeBase,
-    options: CreateOrUpdateKnowledgeBaseOptions = {},
+    options?: CreateOrUpdateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase>;
+  public async createOrUpdateKnowledgeBase(
+    knowledgeBaseOrName: KnowledgeBase | string,
+    knowledgeBaseOrOptions: KnowledgeBase | CreateOrUpdateKnowledgeBaseOptions = {},
+    legacyOptions: CreateOrUpdateKnowledgeBaseOptions = {},
   ): Promise<KnowledgeBase> {
+    const knowledgeBase =
+      typeof knowledgeBaseOrName === "string"
+        ? (knowledgeBaseOrOptions as KnowledgeBase)
+        : knowledgeBaseOrName;
+    const knowledgeBaseName =
+      typeof knowledgeBaseOrName === "string" ? knowledgeBaseOrName : knowledgeBase.name;
+    const options =
+      typeof knowledgeBaseOrName === "string"
+        ? legacyOptions
+        : (knowledgeBaseOrOptions as CreateOrUpdateKnowledgeBaseOptions);
     return tracingClient.withSpan(
       "SearchIndexClient-createOrUpdateKnowledgeBase",
       options,
@@ -878,6 +913,7 @@ export class SearchIndexClient {
    * @param file - The file contents.
    * @param contentDisposition - The content-disposition header value (e.g., 'attachment; filename="example.pdf"').
    * @param options - The options parameters.
+   * @returns Metadata for the uploaded file.
    */
   public async uploadKnowledgeSourceFile(
     name: string,
@@ -895,6 +931,84 @@ export class SearchIndexClient {
           name,
           updatedOptions,
         );
+      },
+    );
+  }
+
+  /**
+   * Uploads a file and its metadata to a File knowledge source using multipart form data.
+   * @param name - The name of the knowledge source.
+   * @param body - The file content and metadata.
+   * @param options - The options parameters.
+   * @returns Metadata for the uploaded file.
+   * @example Upload a file with structured metadata.
+   * ```ts snippet:ReadmeSampleManageKnowledgeSourceFile
+   * import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
+   *
+   * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+   * const body = {
+   *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   * };
+   *
+   * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   *
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   *   ...body,
+   *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+   * });
+   * ```
+   */
+  public async uploadKnowledgeSourceFileMultipart(
+    name: string,
+    body: UploadKnowledgeSourceFileMultipartRequest,
+    options: UploadKnowledgeSourceFileMultipartOptions = {},
+  ): Promise<KnowledgeSourceFile> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-uploadKnowledgeSourceFileMultipart",
+      options,
+      async (updatedOptions) => {
+        return this.client.uploadKnowledgeSourceFileMultipart(body, name, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Replaces an existing file and its metadata in a File knowledge source.
+   * @param name - The name of the knowledge source.
+   * @param fileId - The file identifier.
+   * @param body - The replacement file content and metadata.
+   * @param options - The options parameters.
+   * @returns Updated metadata for the file.
+   * @example Upload and update a File knowledge source file.
+   * ```ts snippet:ReadmeSampleManageKnowledgeSourceFile
+   * import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
+   *
+   * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+   * const body = {
+   *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   * };
+   *
+   * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   *
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   *   ...body,
+   *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+   * });
+   * ```
+   */
+  public async updateKnowledgeSourceFile(
+    name: string,
+    fileId: string,
+    body: UpdateKnowledgeSourceFileRequest,
+    options: UpdateKnowledgeSourceFileOptions = {},
+  ): Promise<KnowledgeSourceFile> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-updateKnowledgeSourceFile",
+      options,
+      async (updatedOptions) => {
+        return this.client.updateKnowledgeSourceFile(fileId, body, name, updatedOptions);
       },
     );
   }
