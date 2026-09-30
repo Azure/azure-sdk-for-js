@@ -1719,6 +1719,9 @@ sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/edgeworkloadsecurity/arm-secretsstoreextension/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
