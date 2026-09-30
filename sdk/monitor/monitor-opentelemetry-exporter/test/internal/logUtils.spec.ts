@@ -179,6 +179,19 @@ describe("logUtils.ts", () => {
       );
     });
 
+    it.each([undefined, null, "", "   ", 0, false])(
+      "should use the default message when the log body is empty (%s)",
+      (body) => {
+        testLogRecord.body = body;
+        testLogRecord.attributes = {};
+
+        const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+        const baseData = envelope?.data?.baseData as MessageData;
+
+        assert.strictEqual(baseData.message, "n/a");
+      },
+    );
+
     it("should route custom measurements on logs to measurements", () => {
       testLogRecord.body = "Test message";
       testLogRecord.attributes = {
