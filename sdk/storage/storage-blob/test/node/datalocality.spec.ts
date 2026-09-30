@@ -257,6 +257,31 @@ describe("layout routing gate", () => {
     assert.equal(calls[0].encryptionKeySha256, "key-sha256");
     assert.equal(calls[0].encryptionAlgorithm, "AES256");
   });
+
+  it("cancels the layout request when the download is cancelled", async () => {
+    const calls: BlobGetLayoutOptionalParams[] = [];
+    const cancellable = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    (cancellable as any).blobContext = {
+      getLayout: (layoutOptions: BlobGetLayoutOptionalParams) => {
+        calls.push(layoutOptions);
+        return new Promise((_resolve, reject) => {
+          layoutOptions.abortSignal?.addEventListener("abort", () => reject(new Error("aborted")));
+        });
+      },
+    };
+    const download = new AbortController();
+    const layout = (cancellable as any)
+      .createLayoutCache({ ...routable, abortSignal: download.signal })
+      .get();
+
+    download.abort();
+
+    assert.isTrue(calls[0].abortSignal?.aborted);
+    await expect(layout).rejects.toThrow("aborted");
+  });
 });
 
 /** Builds a Get Blob Layout page shaped the way the generated layer hands it back. */

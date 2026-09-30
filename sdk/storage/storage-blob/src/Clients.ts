@@ -2238,6 +2238,7 @@ export class BlobClient extends StorageClient {
           offset: offset + firstChunkLength,
           count: remaining,
           customerProvidedKey: options.customerProvidedKey,
+          abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         });
         const chunkConditions = layoutCache
@@ -2290,6 +2291,7 @@ export class BlobClient extends StorageClient {
     offset: number;
     count: number;
     customerProvidedKey?: CpkInfo;
+    abortSignal?: AbortSignalLike;
     tracingOptions?: CommonOptions["tracingOptions"];
   }): AutoRefreshingCache<BlobLayoutCacheValue> | undefined {
     // `auto` resolves to enabled today; the third state exists so the default can move later
@@ -2304,20 +2306,36 @@ export class BlobClient extends StorageClient {
     }
 
     const range = rangeToString({ offset: options.offset, count: options.count });
-    return new AutoRefreshingCache<BlobLayoutCacheValue>(async (abortSignal) =>
-      toBlobLayoutCacheValue(
-        await fetchLayout(this.blobContext, {
-          abortSignal,
-          range,
-          ifMatch: options.etag,
-          encryptionKey: options.customerProvidedKey?.encryptionKey,
-          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-          encryptionAlgorithm: options.customerProvidedKey
-            ?.encryptionAlgorithm as EncryptionAlgorithmType,
-          tracingOptions: options.tracingOptions,
-        }),
-      ),
-    );
+    return new AutoRefreshingCache<BlobLayoutCacheValue>(async (timeoutSignal) => {
+      // This cache serves one download, so cancelling it cancels the layout request too.
+      const controller = new AbortController();
+      const abort = (): void => controller.abort();
+      const signals = [timeoutSignal, options.abortSignal];
+      for (const signal of signals) {
+        if (signal?.aborted) {
+          abort();
+        }
+        signal?.addEventListener("abort", abort, { once: true });
+      }
+      try {
+        return toBlobLayoutCacheValue(
+          await fetchLayout(this.blobContext, {
+            abortSignal: controller.signal,
+            range,
+            ifMatch: options.etag,
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
+            tracingOptions: options.tracingOptions,
+          }),
+        );
+      } finally {
+        for (const signal of signals) {
+          signal?.removeEventListener("abort", abort);
+        }
+      }
+    });
   }
 
   /**

@@ -53,6 +53,7 @@ import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+import type { ResponseWithBody } from '@azure/storage-blob';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceClientOptions } from '@azure/storage-blob';
 import type { ServiceGetPropertiesOptions } from '@azure/storage-blob';
@@ -656,7 +657,7 @@ export interface FileGetLayoutOptions extends CommonOptions {
 }
 
 // @public
-export type FileGetLayoutResponse = WithResponse<FileGetLayoutHeaders & FileLayout, FileGetLayoutHeaders, FileLayout>;
+export type FileGetLayoutResponse = FileGetLayoutHeaders & FileLayout & ResponseWithBody<FileGetLayoutHeaders, FileLayout | undefined>;
 
 // @public
 export type FileLayout = BlobLayout;

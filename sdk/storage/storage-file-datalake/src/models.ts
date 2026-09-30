@@ -12,6 +12,7 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  ResponseWithBody,
   NodeJSReadableStream,
   BlobTags,
   Tags,
@@ -1422,12 +1423,13 @@ export interface FileGetLayoutHeaders extends Omit<BlobGetLayoutHeaders, "blobCo
   fileContentLength?: number;
 }
 
-/** Contains response data for the {@link DataLakeFileClient.getLayout} operation. */
-export type FileGetLayoutResponse = WithResponse<
-  FileGetLayoutHeaders & FileLayout,
-  FileGetLayoutHeaders,
-  FileLayout
->;
+/**
+ * Contains response data for the {@link DataLakeFileClient.getLayout} operation. A 204 response has
+ * no body.
+ */
+export type FileGetLayoutResponse = FileGetLayoutHeaders &
+  FileLayout &
+  ResponseWithBody<FileGetLayoutHeaders, FileLayout | undefined>;
 
 /**
  * Option interface for Data Lake file - read operations

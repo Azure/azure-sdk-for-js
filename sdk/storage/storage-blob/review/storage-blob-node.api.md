@@ -735,7 +735,7 @@ export interface BlobGetLayoutOptions extends CommonOptions {
 export type BlobGetLayoutResponseInternal = BlobGetLayoutHeaders & BlobLayout;
 
 // @public
-export type BlobGetLayoutResponseModel = WithResponse<BlobGetLayoutResponseInternal, BlobGetLayoutHeaders, BlobLayout>;
+export type BlobGetLayoutResponseModel = BlobGetLayoutResponseInternal & ResponseWithBody<BlobGetLayoutHeaders, BlobLayout | undefined>;
 
 // @public
 export interface BlobGetPropertiesHeaders {

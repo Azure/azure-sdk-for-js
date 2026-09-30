@@ -309,12 +309,9 @@ export type PageBlobGetPageRangesResponseModel = WithResponse<
   PageBlobGetPageRangesHeaders,
   PageList
 >;
-/** Contains response data for the getLayout operation. */
-export type BlobGetLayoutResponseModel = WithResponse<
-  BlobGetLayoutResponseInternal,
-  BlobGetLayoutHeaders,
-  BlobLayout
->;
+/** Contains response data for the getLayout operation. A 204 response has no body. */
+export type BlobGetLayoutResponseModel = BlobGetLayoutResponseInternal &
+  ResponseWithBody<BlobGetLayoutHeaders, BlobLayout | undefined>;
 /** Contains response data for the resize operation. */
 export type PageBlobResizeResponse = WithResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>;
 /** Contains response data for the updateSequenceNumber operation. */
