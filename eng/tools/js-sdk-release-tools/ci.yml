@@ -35,8 +35,6 @@ extends:
         variables:
           - template: /eng/pipelines/templates/variables/globals.yml
           - template: /eng/pipelines/templates/variables/image.yml
-          - name: NodeVersion
-            value: "22.x"
         jobs:
           - job: Build
             displayName: "Build and Test"
@@ -45,12 +43,7 @@ extends:
               image: $(LINUXVMIMAGE)
               os: linux
             steps:
-              - task: NodeTool@0
-                inputs:
-                  versionSpec: "$(NodeVersion)"
-                displayName: "Install Node.js"
-
-              - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+              - template: /eng/pipelines/templates/steps/common.yml
 
               - template: /eng/pipelines/templates/steps/install-pnpm.yml
 

@@ -66,7 +66,7 @@ try {
   # Run the built generate-ci-yaml command from the local workspace package.
   Write-Host "Creating or updating CI files..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "pnpm --filter $releaseToolsPackage exec node dist/generateCiYamlCli.js --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  $command = "node $releaseToolsPath\dist\generateCiYamlCli.js --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
 
   # Additional commands can be added here if needed

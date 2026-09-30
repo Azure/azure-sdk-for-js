@@ -105,7 +105,7 @@ try {
   # Run the built update-version command from the local workspace package.
   Write-Host "Updating package version..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "pnpm --filter $releaseToolsPackage exec node dist/updateBumpVersionCli.js $cmdArgs"
+  $command = "node $releaseToolsPath\dist\updateBumpVersionCli.js $cmdArgs"
   Invoke-LoggedCommand $command
   
   Write-Host ""

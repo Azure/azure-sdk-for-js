@@ -64,6 +64,7 @@ catalogs:
 
 overrides:
   '@azure/core-rest-pipeline': 'link:sdk/core/core-rest-pipeline'
+  '@azure-tools/js-sdk-release-tools>@typescript-eslint/types': 8.65.0
   'front-matter>js-yaml': ^5.2.2
   'vitest>vite': ^8.0.0
   '@vitest/mocker>vite': ^8.0.0

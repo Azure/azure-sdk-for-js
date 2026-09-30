@@ -65,7 +65,7 @@ try {
   # Run the built update-changelog command from the local workspace package.
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "pnpm --filter $releaseToolsPackage exec node dist/generateChangelogCli.js --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  $command = "node $releaseToolsPath\dist\generateChangelogCli.js --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
   
   Write-Host ""

@@ -33,13 +33,13 @@ pnpm install
 ##### Step 1. Run command:
 
 ```
-pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=<your package name>
+node eng/tools/js-sdk-release-tools/dist/rlcCodegenCli.js --package-name=<your package name>
 ```
 
 _Note_:
 
-- _Please replace with your package name, for example: `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=@azure-rest/purview-account`. If you don't provide it, the tool will ask you to input it interactively._
-- _You also can use command `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --readme=<the path of swagger/README.md>` to generate codes if `swagger/README.md` exists. Then it will skip Step 2 and go to Step 3 directly._
+- _Please replace with your package name, for example: `node eng/tools/js-sdk-release-tools/dist/rlcCodegenCli.js --package-name=@azure-rest/purview-account`. If you don't provide it, the tool will ask you to input it interactively._
+- _You also can use command `node eng/tools/js-sdk-release-tools/dist/rlcCodegenCli.js --readme=<the path of swagger/README.md>` to generate codes if `swagger/README.md` exists. Then it will skip Step 2 and go to Step 3 directly._
 - _If you run command with `--interactive`, then the tool asks to re-check some values in `swagger/README.md` if it exists._
 
 ##### Step 2. Generate swagger/README.md
@@ -64,7 +64,7 @@ You need to provide following information. You can refer to `swagger/README.md` 
 | package-version   | The sdk version you want to generate.                                                                                                                                                                                                 |
 | credential-scopes | The credential scopes of your service.                                                                                                                                                                                                |
 
-You also can provide the information when running the command, such as `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=<your package name> --title=<your title> --description=<your description>`.
+You also can provide the information when running the command, such as `node eng/tools/js-sdk-release-tools/dist/rlcCodegenCli.js --package-name=<your package name> --title=<your title> --description=<your description>`.
 
 ##### Step 3. The tool will generate codes and build generated codes automatically. Finally, you can get RLC codes.
 

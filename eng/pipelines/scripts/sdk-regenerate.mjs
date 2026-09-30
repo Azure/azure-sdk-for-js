@@ -17,7 +17,7 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
   SDK_ROOT,
   "eng/common/scripts/TypeSpec-Project-Generate.ps1",
 );
-const RELEASE_TOOLS_PACKAGE = "@azure-tools/js-sdk-release-tools";
+const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const PACKAGE_MANAGER = JSON.parse(
   fs.readFileSync(path.join(SDK_ROOT, "package.json"), "utf8"),
 ).packageManager;
@@ -287,8 +287,9 @@ function downloadEmitterPackageJsonFromNpm(emitterVersion) {
 }
 
 function preinstallReleaseTools() {
-  // Install the root workspace once so every shard's update-changelog reuses the same node_modules.
+  // Install and build once so every shard's update-changelog reuses the same output.
   runShell("pnpm install --frozen-lockfile", SDK_ROOT);
+  runShell("pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1", SDK_ROOT);
 }
 
 // Shallow-clone azure-rest-api-specs main once per shard. Each package syncs from
@@ -633,13 +634,9 @@ async function generateChangelogForOnePackage(pkg) {
   // Invoke the built update-changelog CLI directly (avoids backslash issues in the
   // PowerShell wrapper script on Linux agents).
   const result = await runCommandCapturing(
-    "pnpm",
+    "node",
     [
-      "--filter",
-      RELEASE_TOOLS_PACKAGE,
-      "exec",
-      "node",
-      "dist/generateChangelogCli.js",
+      path.join(RELEASE_TOOLS_DIR, "dist/generateChangelogCli.js"),
       "--sdkRepoPath",
       SDK_ROOT,
       "--packagePath",

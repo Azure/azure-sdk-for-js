@@ -102,6 +102,7 @@ catalogs:
 
 overrides:
   '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+  '@azure-tools/js-sdk-release-tools>@typescript-eslint/types': 8.65.0
   front-matter>js-yaml: ^5.2.2
   vitest>vite: ^8.0.0
   '@vitest/mocker>vite': ^8.0.0
@@ -611,22 +612,22 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       '@typescript-eslint/parser':
-        specifier: 8.65.0
+        specifier: ^8.65.0
         version: 8.65.0(eslint@10.10.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.2)
       '@typescript-eslint/scope-manager':
-        specifier: 8.65.0
+        specifier: ^8.65.0
         version: 8.65.0
       '@typescript-eslint/types':
         specifier: 8.65.0
         version: 8.65.0
       '@typescript-eslint/typescript-estree':
-        specifier: 8.65.0
+        specifier: ^8.65.0
         version: 8.65.0(supports-color@8.1.1)(typescript@6.0.2)
       '@typescript-eslint/utils':
-        specifier: 8.65.0
+        specifier: ^8.65.0
         version: 8.65.0(eslint@10.10.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.2)
       '@typescript-eslint/visitor-keys':
-        specifier: 8.65.0
+        specifier: ^8.65.0
         version: 8.65.0
       command-line-args:
         specifier: ^6.0.2
@@ -14578,7 +14579,7 @@ importers:
         version: 36.0.0(supports-color@8.1.1)
       '@azure/arm-storage':
         specifier: ^20.0.0
-        version: link:../../storage/arm-storage
+        version: 20.2.0(supports-color@8.1.1)
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -36250,6 +36251,10 @@ packages:
     resolution: {integrity: sha1-hHzWoKc3k3aMCxqEesNscjBgZrE=}
     engines: {node: '>=18.0.0'}
 
+  '@azure/arm-storage@20.2.0':
+    resolution: {integrity: sha512-UoDJNagd8Nyot+URXpyP4eG/LNc3l3r+ggZ+Ovx854gJyWWOaxwu6tgc7FMv6skXi7t/8zRBFtxQYJ97Fd5hyA==}
+    engines: {node: '>=22.0.0'}
+
   '@azure/arm-webpubsub@1.2.0':
     resolution: {integrity: sha1-mfACuVCTDGJNhvkWsqXe5eKtOGQ=}
     engines: {node: '>=18.0.0'}
@@ -43563,6 +43568,19 @@ snapshots:
       '@azure/core-lro': 2.7.2(supports-color@8.1.1)
       '@azure/core-paging': 1.7.0
       '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-storage@20.2.0(supports-color@8.1.1)':
+    dependencies:
+      '@azure-rest/core-client': 2.9.0(supports-color@8.1.1)
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-auth': 1.11.0(supports-color@8.1.1)
+      '@azure/core-lro': 3.4.1(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-util': 1.14.0(supports-color@8.1.1)
+      '@azure/logger': 1.4.0(supports-color@8.1.1)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color

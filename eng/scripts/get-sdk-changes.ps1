@@ -81,7 +81,7 @@ try {
   # Run the built changelog-tool command from the local workspace package.
   Write-Host "Generating SDK changes report..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "pnpm --filter $releaseToolsPackage exec node dist/changelogToolCli.js --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
+  $command = "node $releaseToolsPath\dist\changelogToolCli.js --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
   Invoke-LoggedCommand $command
 
   Write-Host ""

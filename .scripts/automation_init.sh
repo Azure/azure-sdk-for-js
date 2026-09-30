@@ -6,4 +6,4 @@ npm install -g "$package_manager"
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 echo "Using local @azure-tools/js-sdk-release-tools version:"
-pnpm --filter @azure-tools/js-sdk-release-tools exec node -p "require('./package.json').version" || true
+node -p "require('./eng/tools/js-sdk-release-tools/package.json').version" || true
