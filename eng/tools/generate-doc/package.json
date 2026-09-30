@@ -33,6 +33,6 @@
     "@types/yargs": "^17.0.35",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }
