@@ -29,6 +29,7 @@
 
 ### Other Changes
 
+- Add multi-turn evaluation samples under `samples-dev/evaluations`: conversation evaluation over a JSONL dataset, conversation simulation against an agent, synthetic generation-with-simulation, and trace-based evaluation by conversation/trace ID and by agent filter.
 - Keep custom code, prompt, and endpoint evaluator definitions in preview, requiring explicit `requestOptions.headers` opt-in with `"foundry-features": "Evaluations=V1Preview"` on `project.evaluators`; rubric definitions remain generally available without this header. [#40152](https://github.com/Azure/azure-sdk-for-js/issues/40152)
 - Regenerate the client from azure-rest-api-specs commit `8c957a5e7a56a9852ac6ec588a543eb5a514bc5c`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/8c957a5e7a56a9852ac6ec588a543eb5a514bc5c). [#40152](https://github.com/Azure/azure-sdk-for-js/issues/40152)
 - Regenerate the client from azure-rest-api-specs commit `b877f34c27ff72652f31f271505fa505d5787edc`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/b877f34c27ff72652f31f271505fa505d5787edc). [#40147](https://github.com/Azure/azure-sdk-for-js/issues/40147)
