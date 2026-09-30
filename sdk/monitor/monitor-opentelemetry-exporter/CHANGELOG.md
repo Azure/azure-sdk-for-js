@@ -15,7 +15,7 @@
 
 - Fixed database dependency mapping for the stable OpenTelemetry attributes `db.system.name`, `db.namespace`, `db.query.text`, and `db.operation.name` without duplicating mapped attributes in custom properties, while retaining legacy attribute support, existing database type classification, and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
 - Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
-- Modified logic for message body on Microsoft.ApplicationInsights.MessageData to include default message for messages with empty body.
+- Modified logic for message body on Microsoft.ApplicationInsights.MessageData to include default message for messages with empty body. [#40162](https://github.com/Azure/azure-sdk-for-js/pull/40162)
 
 ### Other Changes
 
