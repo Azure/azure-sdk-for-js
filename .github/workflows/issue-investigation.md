@@ -58,7 +58,7 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
-    allowed-repos: "${{ github.repository }}"
+    allowed-repos: ["${{ github.repository }}"]
     min-integrity: none
 
 network:

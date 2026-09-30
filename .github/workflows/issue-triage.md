@@ -39,7 +39,7 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
-    allowed-repos: "${{ github.repository }}"
+    allowed-repos: ["${{ github.repository }}"]
     # Triage must read issues from all users, including external
     # customers with NONE author_association; without this, the
     # auto-applied "approved" policy filters them out via DIFC

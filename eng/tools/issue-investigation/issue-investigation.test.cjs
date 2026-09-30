@@ -249,8 +249,11 @@ test("Copilot assignment requires an accompanying analysis request", async () =>
 });
 
 test("read tools and checked-out context are restricted to this repository's default branch", () => {
-  assert.match(source, /allowed-repos: "\$\{\{ github\.repository \}\}"/);
+  assert.match(source, /allowed-repos: \["\$\{\{ github\.repository \}\}"\]/);
   assert.match(source, /checkout:\n  ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
+  for (const name of ["issue-investigation.lock.yml", "issue-triage.lock.yml"]) {
+    assert.match(workflow(name), /"repos": \[\s*"\$\{\{ github\.repository \}\}"\s*\]/);
+  }
 });
 
 test("comment history is explicitly paginated before checking for prior investigation", () => {
