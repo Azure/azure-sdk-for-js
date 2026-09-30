@@ -6,8 +6,10 @@ compatibility: "Azure CLI with the azure-devops extension and access to the azur
 
 # ADO Pipeline Registration Audit
 
-Use this skill to compare checked-in `ci.yml` entry points with Azure DevOps
-build definitions for `Azure/azure-sdk-for-js`.
+Use the committed
+[`eng/tools/ado-pipeline-audit.ps1`](../../../eng/tools/ado-pipeline-audit.ps1)
+tool to compare `ci.yml` entry points on `origin/main` with Azure DevOps build
+definitions for `Azure/azure-sdk-for-js`.
 
 ## Fixed scope
 
@@ -23,99 +25,27 @@ Install the CLI extension if needed:
 az extension add --name azure-devops --only-show-errors
 ```
 
-## Distinguish entry points from templates
-
-Do not assume every file named `ci.yml` is a standalone pipeline.
-
-- Files under a `templates` directory are reusable YAML and should not have
-  their own ADO definition.
-- `eng/pipelines/templates/jobs/ci.yml` is the known example: root pipelines
-  consume its jobs transitively.
-- `sdk/template/ci.yml` is different: `template` is a service directory, so it
-  is a real pipeline entry point.
-
-ADO definitions map only to root YAML files. Normalize `\` to `/`, remove a
-leading `/`, and compare paths case-insensitively.
-
 ## Audit registrations
 
 Run from the repository root:
 
 ```powershell
-$org = 'https://dev.azure.com/azure-sdk'
-$project = 'internal'
-$repo = 'Azure/azure-sdk-for-js'
-$repoRoot = (git rev-parse --show-toplevel).Trim()
-
-function Normalize-YamlPath([string]$path) {
-  return $path.Replace('\', '/').TrimStart('/')
-}
-
-$allCi = @(
-  git ls-files |
-    ForEach-Object { Normalize-YamlPath $_ } |
-    Where-Object { $_ -match '(^|/)ci\.yml$' } |
-    Sort-Object -Unique
-)
-
-$pipelineRoots = @(
-  $allCi | Where-Object { $_ -notmatch '(^|/)templates/' }
-)
-
-$response = az devops invoke `
-  --organization $org `
-  --area build `
-  --resource definitions `
-  --route-parameters project=$project `
-  --query-parameters 'includeAllProperties=true' '$top=10000' `
-  --http-method GET `
-  --api-version 7.1 `
-  --output json
-if ($LASTEXITCODE -ne 0) { throw 'Failed to list ADO definitions.' }
-
-$definitions = @(($response | ConvertFrom-Json).value)
-$repoDefinitions = @(
-  $definitions | Where-Object {
-    $_.repository.name -eq $repo -or $_.repository.id -eq $repo
-  }
-)
-$mappedPaths = @(
-  $repoDefinitions |
-    Where-Object { $_.process.yamlFilename } |
-    ForEach-Object { Normalize-YamlPath $_.process.yamlFilename } |
-    Sort-Object -Unique
-)
-
-$unmapped = @(
-  $pipelineRoots | Where-Object { $_ -notin $mappedPaths }
-)
-$stale = @(
-  $repoDefinitions |
-    Where-Object {
-      if (-not $_.process.yamlFilename) { return $false }
-      $yaml = Normalize-YamlPath $_.process.yamlFilename
-      ($yaml -eq 'ci.yml' -or $yaml -like '*/ci.yml') -and $yaml -notin $allCi
-    } |
-    Select-Object id, name, path, queueStatus,
-      @{Name = 'yaml'; Expression = { Normalize-YamlPath $_.process.yamlFilename }}
-)
-
-"Unmapped pipeline roots: $($unmapped.Count)"
-$unmapped
-"Stale ADO definitions: $($stale.Count)"
-$stale | Format-Table -AutoSize
+pwsh eng/tools/ado-pipeline-audit.ps1
 ```
 
-Also run the repository's local template-structure check:
+The tool refreshes `origin/main`, compares paths case-insensitively, and reports
+unmapped roots separately from stale enabled and stale disabled definitions.
+It excludes files under `templates` directories because those are reusable
+YAML, not pipeline roots. `sdk/template/ci.yml` remains a root because
+`template` is the service directory name.
+
+Also run the local template-structure check:
 
 ```powershell
 node eng/tools/check-pipeline-templates.mjs
 ```
 
-Report unmapped roots separately from stale enabled and stale disabled
-definitions. Do not mutate ADO during an audit unless the user explicitly asks.
-Before treating a definition as stale, update `origin/main` and confirm the file
-is absent there; a feature branch can otherwise produce a false stale result.
+Do not mutate ADO during an audit unless the user explicitly asks.
 
 ## Create a missing definition
 
@@ -146,49 +76,18 @@ it to complete successfully.
 
 ## Disable a stale definition
 
-Never delete stale definitions by default. Before disabling one, re-fetch it,
-normalize its YAML path, and confirm the file is still absent. The
-`az pipelines update` command cannot change `queueStatus`, so use the Build
-Definitions GET/PUT API:
+Never delete stale definitions by default. First exercise all guards without
+changing ADO:
 
 ```powershell
-$definitionJson = az devops invoke `
-  --organization $org `
-  --area build `
-  --resource definitions `
-  --route-parameters project=$project definitionId=$definitionId `
-  --http-method GET `
-  --api-version 7.1 `
-  --output json
-if ($LASTEXITCODE -ne 0) { throw "Failed to read definition $definitionId." }
-
-$definition = $definitionJson | ConvertFrom-Json
-$yaml = Normalize-YamlPath $definition.process.yamlFilename
-if (Test-Path -LiteralPath (Join-Path $repoRoot $yaml)) {
-  throw "Refusing to disable $definitionId because $yaml exists."
-}
-
-$definition.queueStatus = 'disabled'
-$tempFile = [System.IO.Path]::GetTempFileName()
-try {
-  $definition |
-    ConvertTo-Json -Depth 100 -Compress |
-    Set-Content -LiteralPath $tempFile -Encoding utf8NoBOM
-
-  az devops invoke `
-    --organization $org `
-    --area build `
-    --resource definitions `
-    --route-parameters project=$project definitionId=$definitionId `
-    --http-method PUT `
-    --api-version 7.1 `
-    --in-file $tempFile `
-    --output none
-  if ($LASTEXITCODE -ne 0) { throw "Failed to disable definition $definitionId." }
-} finally {
-  Remove-Item -LiteralPath $tempFile -Force
-}
+pwsh eng/tools/ado-pipeline-audit.ps1 `
+  -DisableDefinitionId <id> `
+  -ExpectedYamlPath <path> `
+  -WhatIf
 ```
 
-Re-fetch every changed definition and verify `queueStatus` is `disabled`, then
-rerun the registration audit.
+After explicit user approval, repeat with `-Confirm:$false` instead of
+`-WhatIf`. The tool refuses the mutation unless the definition belongs to
+`Azure/azure-sdk-for-js`, still maps the expected pipeline-root path, and that
+path is absent from refreshed `origin/main`. It re-fetches the definition after
+the update and verifies the disabled state.
