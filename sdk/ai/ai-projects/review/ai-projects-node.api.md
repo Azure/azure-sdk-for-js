@@ -2577,7 +2577,7 @@ export interface DataGenerationJobOptions {
 }
 
 // @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | TaskGenerationDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -2601,7 +2601,7 @@ export interface DataGenerationJobResult {
 }
 
 // @public
-export type DataGenerationJobScenario = "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
+export type DataGenerationJobScenario = "supervised_finetuning_preview" | "reinforcement_finetuning_preview" | "evaluation";
 
 // @public
 export interface DataGenerationJobSource {
@@ -2616,7 +2616,7 @@ export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "file"
 export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
 
 // @public
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
 
 // @public
 export type DataGenerationJobUnion = EvaluationDataGenerationJob | SupervisedFineTuningDataGenerationJob | ReinforcementFineTuningDataGenerationJob | DataGenerationJob;
@@ -5371,13 +5371,13 @@ export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTa
 // @public
 export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
     output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
-    scenario: "reinforcement_finetuning";
+    scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
 export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
     output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
-    scenario: "reinforcement_finetuning";
+    scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
@@ -5759,13 +5759,13 @@ export interface StructuredOutputDefinition {
 // @public
 export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
     output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
-    scenario: "supervised_finetuning";
+    scenario: "supervised_finetuning_preview";
 }
 
 // @public
 export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
     output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
-    scenario: "supervised_finetuning";
+    scenario: "supervised_finetuning_preview";
 }
 
 // @public
@@ -5777,12 +5777,6 @@ export interface SupervisedFineTuningDataGenerationJobOutputTarget {
 
 // @public
 export type TargetAttribute = "instructions" | "model" | "skills" | "tools";
-
-// @public @deprecated
-export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
-    max_samples: number;
-    type: "task_generation";
-}
 
 // @public
 export interface TaxonomyCategory {

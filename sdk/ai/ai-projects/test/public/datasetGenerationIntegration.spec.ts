@@ -10,7 +10,7 @@ import type { DataGenerationJobInputsUnion } from "../../src/index.js";
 const endpoint = "https://example.com/api/projects/test-project";
 const inputs: DataGenerationJobInputsUnion = {
   name: "test-generation",
-  scenario: "supervised_finetuning",
+  scenario: "supervised_finetuning_preview",
   sources: [{ type: "prompt", prompt: "Generate question-and-answer pairs." }],
   generation_configuration: {
     type: "simple_qna",

@@ -13826,7 +13826,7 @@ export interface DataGenerationJob {
   /** The generation configuration for the data generation job. */
   generation_configuration: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
-  /** The discriminator possible values: evaluation, supervised_finetuning, reinforcement_finetuning */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at?: Date;
@@ -13863,7 +13863,7 @@ export interface DataGenerationJobInputs {
   /** The generation configuration for the data generation job. */
   generation_configuration: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
-  /** The discriminator possible values: evaluation, supervised_finetuning, reinforcement_finetuning */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
 }
 
@@ -14102,7 +14102,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, task_generation, simulation_seed, tool_use */
+  /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
   type: DataGenerationJobType;
   /** The proportion of the generated data to be used for training when the data is used for fine-tuning. The rest will be used for validation. Value should be between 0 and 1. */
   train_split?: number;
@@ -14134,7 +14134,6 @@ export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJ
 export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
-  | TaskGenerationDataGenerationJobOptions
   | SimulationSeedDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
   | DataGenerationJobOptions;
@@ -14150,11 +14149,6 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
     case "simulation_seed":
       return simulationSeedDataGenerationJobOptionsSerializer(
         item as SimulationSeedDataGenerationJobOptions,
-      );
-
-    case "task_generation":
-      return taskGenerationDataGenerationJobOptionsSerializer(
-        item as TaskGenerationDataGenerationJobOptions,
       );
 
     case "tool_use":
@@ -14184,11 +14178,6 @@ export function dataGenerationJobOptionsUnionDeserializer(
         item as SimulationSeedDataGenerationJobOptions,
       );
 
-    case "task_generation":
-      return taskGenerationDataGenerationJobOptionsDeserializer(
-        item as TaskGenerationDataGenerationJobOptions,
-      );
-
     case "tool_use":
       return toolUseFineTuningDataGenerationJobOptionsDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
@@ -14200,8 +14189,7 @@ export function dataGenerationJobOptionsUnionDeserializer(
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType =
-  "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -14266,7 +14254,7 @@ export function simpleQnADataGenerationJobOptionsDeserializer(
   };
 }
 
-/** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. */
+/** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. This is a preview feature. */
 export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 
 /** The options for a data generation job with Traces type. */
@@ -14338,45 +14326,7 @@ export function simulationSeedDataGenerationJobOptionsDeserializer(
   };
 }
 
-/**
- * Options for the legacy task generation job, including the maximum number of generated samples.
- *
- * @deprecated Use `SimulationSeedDataGenerationJobOptions` instead.
- */
-export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
-  /** Maximum number of samples to generate. */
-  max_samples: number;
-  /** The data generation job type. */
-  type: "task_generation";
-}
-
-export function taskGenerationDataGenerationJobOptionsSerializer(
-  item: TaskGenerationDataGenerationJobOptions,
-): any {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsSerializer(item["model_options"]),
-  };
-}
-
-export function taskGenerationDataGenerationJobOptionsDeserializer(
-  item: any,
-): TaskGenerationDataGenerationJobOptions {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsDeserializer(item["model_options"]),
-  };
-}
-
-/** The options for a data generation job with ToolUse type. Used only for fine-tuning scenarios. */
+/** The options for a data generation job with ToolUse type. This is a preview feature used only for fine-tuning scenarios. */
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
   /** The data generation job type, which is ToolUse for this model. */
   type: "tool_use";
@@ -14413,7 +14363,7 @@ export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
 
 /** The supported scenarios for a data generation job. */
 export type DataGenerationJobScenario =
-  "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
+  "supervised_finetuning_preview" | "reinforcement_finetuning_preview" | "evaluation";
 
 /** Result produced by a successful data generation job. */
 export interface DataGenerationJobResult {
@@ -14478,7 +14428,7 @@ export function dataGenerationJobOutputUnionDeserializer(item: any): DataGenerat
 /** The supported output file types for a data generation job. */
 export type DataGenerationJobOutputType = "file" | "dataset";
 
-/** Azure OpenAI file output for a data generation job. */
+/** Azure OpenAI file output for a data generation job. This is a preview feature. */
 export interface FileDataGenerationJobOutput extends DataGenerationJobOutput {
   /** Azure OpenAI file output. */
   type: "file";
@@ -27827,12 +27777,12 @@ export function dataGenerationJobUnionDeserializer(item: any): DataGenerationJob
     case "evaluation":
       return evaluationDataGenerationJobDeserializer(item as EvaluationDataGenerationJob);
 
-    case "supervised_finetuning":
+    case "supervised_finetuning_preview":
       return supervisedFineTuningDataGenerationJobDeserializer(
         item as SupervisedFineTuningDataGenerationJob,
       );
 
-    case "reinforcement_finetuning":
+    case "reinforcement_finetuning_preview":
       return reinforcementFineTuningDataGenerationJobDeserializer(
         item as ReinforcementFineTuningDataGenerationJob,
       );
@@ -27911,8 +27861,8 @@ export function evaluationDataGenerationJobOutputTargetDeserializer(
 
 /** Supervised fine-tuning data generation job resource. This is a preview feature. */
 export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
-  /** The scenario of the data generation job, which is Supervised Fine-tuning for this model. */
-  scenario: "supervised_finetuning";
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
   output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
 }
@@ -27974,8 +27924,8 @@ export function supervisedFineTuningDataGenerationJobOutputTargetDeserializer(
 
 /** Reinforcement fine-tuning data generation job resource. This is a preview feature. */
 export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
-  /** The scenario of the data generation job, which is Reinforcement Fine-tuning for this model. */
-  scenario: "reinforcement_finetuning";
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
   output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
 }
@@ -28057,12 +28007,12 @@ export function dataGenerationJobInputsUnionSerializer(item: DataGenerationJobIn
     case "evaluation":
       return evaluationDataGenerationJobInputsSerializer(item as EvaluationDataGenerationJobInputs);
 
-    case "supervised_finetuning":
+    case "supervised_finetuning_preview":
       return supervisedFineTuningDataGenerationJobInputsSerializer(
         item as SupervisedFineTuningDataGenerationJobInputs,
       );
 
-    case "reinforcement_finetuning":
+    case "reinforcement_finetuning_preview":
       return reinforcementFineTuningDataGenerationJobInputsSerializer(
         item as ReinforcementFineTuningDataGenerationJobInputs,
       );
@@ -28098,8 +28048,8 @@ export function evaluationDataGenerationJobInputsSerializer(
 
 /** Caller-supplied inputs for a supervised fine-tuning data generation job. This is a preview feature. */
 export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-  /** The scenario of the data generation job, which is Supervised Fine-tuning for this model. */
-  scenario: "supervised_finetuning";
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
   output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
 }
@@ -28122,8 +28072,8 @@ export function supervisedFineTuningDataGenerationJobInputsSerializer(
 
 /** Caller-supplied inputs for a reinforcement fine-tuning data generation job. This is a preview feature. */
 export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-  /** The scenario of the data generation job, which is Reinforcement Fine-tuning for this model. */
-  scenario: "reinforcement_finetuning";
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
   output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
 }

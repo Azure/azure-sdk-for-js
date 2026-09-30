@@ -14,7 +14,7 @@ describe("dataset generation jobs", () => {
     );
     const poller = project.datasets.createGenerationJob({
       name: "test-data-generation",
-      scenario: "supervised_finetuning",
+      scenario: "supervised_finetuning_preview",
       sources: [{ type: "prompt", prompt: "Generate question-and-answer pairs about Azure." }],
       generation_configuration: {
         type: "simple_qna",

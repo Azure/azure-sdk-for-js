@@ -8380,7 +8380,7 @@ export interface DataGenerationJob {
   /** The generation configuration for the data generation job. */
   generation_configuration: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
-  /** The discriminator possible values: evaluation, supervised_finetuning, reinforcement_finetuning */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at: Date;
@@ -8417,12 +8417,12 @@ export function dataGenerationJobUnionDeserializer(item: any): DataGenerationJob
     case "evaluation":
       return evaluationDataGenerationJobDeserializer(item as EvaluationDataGenerationJob);
 
-    case "supervised_finetuning":
+    case "supervised_finetuning_preview":
       return supervisedFineTuningDataGenerationJobDeserializer(
         item as SupervisedFineTuningDataGenerationJob,
       );
 
-    case "reinforcement_finetuning":
+    case "reinforcement_finetuning_preview":
       return reinforcementFineTuningDataGenerationJobDeserializer(
         item as ReinforcementFineTuningDataGenerationJob,
       );
@@ -9038,7 +9038,7 @@ export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
 
 /** The supported scenarios for a data generation job. */
 export type DataGenerationJobScenario =
-  "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
+  "supervised_finetuning_preview" | "reinforcement_finetuning_preview" | "evaluation";
 
 /** Evaluation data generation job resource. */
 export interface EvaluationDataGenerationJob extends DataGenerationJob {
@@ -9109,8 +9109,8 @@ export type DataGenerationJobOutputWriteMode = "overwrite" | "merge";
 
 /** Supervised fine-tuning data generation job resource. This is a preview feature. */
 export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
-  /** The scenario of the data generation job, which is Supervised Fine-tuning for this model. */
-  scenario: "supervised_finetuning";
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
   output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
 }
@@ -9169,8 +9169,8 @@ export function supervisedFineTuningDataGenerationJobOutputTargetDeserializer(
 
 /** Reinforcement fine-tuning data generation job resource. This is a preview feature. */
 export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
-  /** The scenario of the data generation job, which is Reinforcement Fine-tuning for this model. */
-  scenario: "reinforcement_finetuning";
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
   output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
 }
@@ -9269,7 +9269,7 @@ export interface DataGenerationJobInputs {
   /** The generation configuration for the data generation job. */
   generation_configuration: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
-  /** The discriminator possible values: evaluation, supervised_finetuning, reinforcement_finetuning */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
 }
 
@@ -9296,12 +9296,12 @@ export function dataGenerationJobInputsUnionSerializer(item: DataGenerationJobIn
     case "evaluation":
       return evaluationDataGenerationJobInputsSerializer(item as EvaluationDataGenerationJobInputs);
 
-    case "supervised_finetuning":
+    case "supervised_finetuning_preview":
       return supervisedFineTuningDataGenerationJobInputsSerializer(
         item as SupervisedFineTuningDataGenerationJobInputs,
       );
 
-    case "reinforcement_finetuning":
+    case "reinforcement_finetuning_preview":
       return reinforcementFineTuningDataGenerationJobInputsSerializer(
         item as ReinforcementFineTuningDataGenerationJobInputs,
       );
@@ -9337,8 +9337,8 @@ export function evaluationDataGenerationJobInputsSerializer(
 
 /** Caller-supplied inputs for a supervised fine-tuning data generation job. This is a preview feature. */
 export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-  /** The scenario of the data generation job, which is Supervised Fine-tuning for this model. */
-  scenario: "supervised_finetuning";
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
   output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
 }
@@ -9361,8 +9361,8 @@ export function supervisedFineTuningDataGenerationJobInputsSerializer(
 
 /** Caller-supplied inputs for a reinforcement fine-tuning data generation job. This is a preview feature. */
 export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-  /** The scenario of the data generation job, which is Reinforcement Fine-tuning for this model. */
-  scenario: "reinforcement_finetuning";
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
   output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
 }
