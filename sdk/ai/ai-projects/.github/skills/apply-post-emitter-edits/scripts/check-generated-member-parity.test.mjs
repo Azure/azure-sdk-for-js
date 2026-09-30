@@ -268,19 +268,29 @@ test("rejects an invalid configured ref", () => {
   assert.match(result.stderr, /Invalid --generated-ref value: invalid-ref-for-parity-test/);
 });
 
-function promotionFixture() {
-  const operations = [
-    "DeleteOptimizationJob",
-    "CancelOptimizationJob",
-    "ListOptimizationJobs",
-    "GetOptimizationJob",
-    "CreateOptimizationJob",
-  ];
+function promotionFixture(group = "agents") {
+  const operations =
+    group === "datasets"
+      ? [
+          "DeleteGenerationJob",
+          "CancelGenerationJob",
+          "CreateGenerationJob",
+          "ListGenerationJobs",
+          "GetGenerationJob",
+        ]
+      : [
+          "DeleteOptimizationJob",
+          "CancelOptimizationJob",
+          "ListOptimizationJobs",
+          "GetOptimizationJob",
+          "CreateOptimizationJob",
+        ];
+  const groupName = group[0].toUpperCase() + group.slice(1);
   const previousGenerated = new Map();
   const currentGenerated = new Map();
   for (const [files, prefix, directory] of [
-    [previousGenerated, "BetaAgents", "beta/agents"],
-    [currentGenerated, "Agents", "agents"],
+    [previousGenerated, `Beta${groupName}`, `beta/${group}`],
+    [currentGenerated, groupName, group],
   ]) {
     files.set(
       `api/${directory}/options.ts`,
@@ -297,7 +307,7 @@ function promotionFixture() {
     );
     files.set(
       `classic/${directory}/index.ts`,
-      `export interface Operations {
+      `export interface ${prefix}Operations {
       ${operations
         .map(
           (suffix) =>
@@ -425,4 +435,136 @@ test("does not allow other beta options or a deletion without a generated promot
   );
   fixture.currentGenerated.delete("api/agents/operations.ts");
   assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+});
+
+test("permits only the five verified dataset options and their fully promoted group", () => {
+  const fixture = promotionFixture("datasets");
+  fixture.previousGenerated.set(
+    "api/beta/datasets/options.ts",
+    fixture.previousGenerated.get("api/beta/datasets/options.ts") +
+      "\nexport interface BetaDatasetsUnrelatedOptionalParams {}",
+  );
+  assert.deepEqual([...findPromotedOptionRemovals(fixture)], [
+    "BetaDatasetsDeleteGenerationJobOptionalParams",
+    "BetaDatasetsCancelGenerationJobOptionalParams",
+    "BetaDatasetsCreateGenerationJobOptionalParams",
+    "BetaDatasetsListGenerationJobsOptionalParams",
+    "BetaDatasetsGetGenerationJobOptionalParams",
+    "BetaDatasetsOperations",
+  ]);
+});
+
+for (const directory of ["api", "classic"]) {
+  test(`preserves dataset options still used by an unpromoted ${directory} beta operation`, () => {
+    const fixture = promotionFixture("datasets");
+    fixture.currentSource.set(
+      `${directory}/beta/evaluators/${directory === "api" ? "operations" : "index"}.ts`,
+      `export function remaining(options: BetaDatasetsGetGenerationJobOptionalParams) {}`,
+    );
+    const removals = findPromotedOptionRemovals(fixture);
+    assert.equal(removals.has("BetaDatasetsGetGenerationJobOptionalParams"), false);
+    assert.equal(removals.has("BetaDatasetsOperations"), false);
+    assert.equal(removals.size, 4);
+  });
+}
+
+test("preserves indirect dataset option use through re-exports, aliases, and inheritance", () => {
+  const fixture = promotionFixture("datasets");
+  fixture.currentSource.set(
+    "api/shared/index.ts",
+    `export { BetaDatasetsGetGenerationJobOptionalParams as Shared } from "../beta/datasets/options.js";`,
+  );
+  fixture.currentSource.set(
+    "api/shared/options.ts",
+    `import type { Shared as Local } from "./index.js";
+     export interface Remaining extends Local {}
+     export const shared = (options: Remaining) => {};
+     export type SharedOperation = typeof shared;`,
+  );
+  fixture.currentSource.set(
+    "classic/beta/evaluators/index.ts",
+    `export interface BetaEvaluatorsOperations { remaining: SharedOperation; }`,
+  );
+  const removals = findPromotedOptionRemovals(fixture);
+  assert.equal(removals.has("BetaDatasetsGetGenerationJobOptionalParams"), false);
+  assert.equal(removals.has("BetaDatasetsOperations"), false);
+  assert.equal(removals.size, 4);
+});
+
+test("requires generated dataset removal and complete nonbeta options and methods", () => {
+  for (const tree of ["currentGenerated", "currentSource"]) {
+    for (const file of [
+      "api/datasets/options.ts",
+      "api/datasets/operations.ts",
+      "classic/datasets/index.ts",
+    ]) {
+      const fixture = promotionFixture("datasets");
+      fixture[tree].delete(file);
+      assert.equal(findPromotedOptionRemovals(fixture).size, 0, `${tree}: ${file}`);
+    }
+  }
+  for (const file of [
+    "api/beta/datasets/options.ts",
+    "api/beta/datasets/operations.ts",
+    "classic/beta/datasets/index.ts",
+  ]) {
+    const fixture = promotionFixture("datasets");
+    fixture.currentGenerated.set(file, fixture.previousGenerated.get(file));
+    assert.equal(findPromotedOptionRemovals(fixture).size, 0, file);
+  }
+});
+
+test("does not remove the dataset group for a partial promotion", () => {
+  const fixture = promotionFixture("datasets");
+  fixture.currentGenerated.set(
+    "api/beta/datasets/options.ts",
+    "export interface BetaDatasetsGetGenerationJobOptionalParams {}",
+  );
+  const removals = findPromotedOptionRemovals(fixture);
+  assert.equal(removals.has("BetaDatasetsGetGenerationJobOptionalParams"), false);
+  assert.equal(removals.has("BetaDatasetsOperations"), false);
+  assert.equal(removals.size, 4);
+});
+
+test("does not remove dataset groups containing unverified or inherited operations", () => {
+  for (const extension of [
+    (source) => source.replace("Operations {", "Operations { unrelated: () => void;"),
+    (source) => source.replace("Operations {", "Operations extends OtherOperations {"),
+    (source) => source.replace("Operations {", "Operations { (): void;"),
+    (source) => source + "\nexport interface BetaDatasetsOperations { unrelated: () => void; }",
+    () => "",
+  ]) {
+    const fixture = promotionFixture("datasets");
+    const file = "classic/beta/datasets/index.ts";
+    fixture.previousGenerated.set(file, extension(fixture.previousGenerated.get(file)));
+    assert.equal(findPromotedOptionRemovals(fixture).has("BetaDatasetsOperations"), false);
+  }
+});
+
+test("preserves the dataset group when still declared or indirectly used by beta", () => {
+  for (const tree of ["currentGenerated", "currentSource"]) {
+    const fixture = promotionFixture("datasets");
+    fixture[tree].set("classic/beta/datasets/index.ts", "export interface BetaDatasetsOperations {}");
+    assert.equal(findPromotedOptionRemovals(fixture).has("BetaDatasetsOperations"), false);
+  }
+  const fixture = promotionFixture("datasets");
+  fixture.currentSource.set(
+    "api/shared/options.ts",
+    "export type Shared = BetaDatasetsOperations;",
+  );
+  fixture.currentSource.set(
+    "classic/beta/index.ts",
+    `import type { Shared as Local } from "../../api/shared/options.js";
+     export interface BetaOperations { datasets: Local; }`,
+  );
+  assert.equal(findPromotedOptionRemovals(fixture).has("BetaDatasetsOperations"), false);
+});
+
+test("requires the promoted DatasetsOperations interface, not an unrelated operation group", () => {
+  for (const tree of ["currentGenerated", "currentSource"]) {
+    const fixture = promotionFixture("datasets");
+    const file = "classic/datasets/index.ts";
+    fixture[tree].set(file, fixture[tree].get(file).replace("DatasetsOperations", "Unrelated"));
+    assert.equal(findPromotedOptionRemovals(fixture).has("BetaDatasetsOperations"), false);
+  }
 });

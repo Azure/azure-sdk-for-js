@@ -1413,48 +1413,6 @@ export interface BetaAgentsOperations {
 }
 
 // @public
-export interface BetaDatasetsCancelGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "DataGenerationJobs=V1Preview";
-}
-
-// @public
-export interface BetaDatasetsCreateGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "DataGenerationJobs=V1Preview";
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaDatasetsDeleteGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "DataGenerationJobs=V1Preview";
-}
-
-// @public
-export interface BetaDatasetsGetGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "DataGenerationJobs=V1Preview";
-}
-
-// @public
-export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "DataGenerationJobs=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    scenario?: DataGenerationJobScenario;
-    type?: DataGenerationJobType[];
-}
-
-// @public
-export interface BetaDatasetsOperations {
-    cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJobUnion>;
-    createGenerationJob: (job: DataGenerationJobInputsUnion, options?: BetaDatasetsCreateGenerationJobOptionalParams) => JobPoller<DataGenerationJobResult>;
-    deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
-    getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJobUnion>;
-    listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
-}
-
-// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -1747,7 +1705,6 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 export interface BetaOperations {
     agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
-    datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
     insights: BetaInsightsOperations;
@@ -2771,7 +2728,24 @@ export interface DatasetReference {
 }
 
 // @public
+export interface DatasetsCancelGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+}
+
+// @public
+export interface DatasetsCreateGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsDeleteGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
 }
 
 // @public
@@ -2783,7 +2757,23 @@ export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface DatasetsGetGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+}
+
+// @public
 export interface DatasetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsListGenerationJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    scenario?: DataGenerationJobScenario;
+    type?: DataGenerationJobType[];
 }
 
 // @public
@@ -2796,11 +2786,16 @@ export interface DatasetsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsOperations {
+    cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJobUnion>;
+    createGenerationJob: (job: DataGenerationJobInputsUnion, options?: DatasetsCreateGenerationJobOptionalParams) => JobPoller<DataGenerationJobResult>;
     createOrUpdate: (name: string, version: string, datasetVersion: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
+    deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
     getCredentials: (name: string, version: string, options?: DatasetsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
+    getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJobUnion>;
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
+    listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     // Warning: (ae-forgotten-export) The symbol "DatasetUploadOptions" needs to be exported by the entry point index.d.ts

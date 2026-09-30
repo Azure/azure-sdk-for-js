@@ -325,9 +325,17 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       const prior = base.get(name);
       const next = incoming.get(name);
       // A compatibility alias that reuses a generated name the customization
-      // renamed away keeps its own export beside the renamed declaration.
+      // renamed away keeps its own export beside the renamed declaration. An
+      // unmodified generated export whose emitted group module was removed
+      // (its operations were merged into another group) follows the emitter.
       const relocated = mapEntry(file, entry, true);
-      if (relocated.name !== name && custom.has(relocated.name)) {
+      const removedGroup =
+        prior &&
+        !next &&
+        sameExport(prior, entry) &&
+        entry.module?.startsWith(".") &&
+        !generated.has(resolveImport(file, entry.module).replace(/\.js$/, ".ts"));
+      if (relocated.name !== name && custom.has(relocated.name) && !removedGroup) {
         add({ ...entry });
         continue;
       }

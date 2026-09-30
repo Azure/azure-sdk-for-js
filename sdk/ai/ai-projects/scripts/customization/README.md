@@ -78,9 +78,17 @@ or unsafe change exits nonzero before formatting can disguise the failure.
   resurrected; ambiguous legacy dispatch still requires review.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
-  hand-maintained implementations are not replaced wholesale.
+  hand-maintained implementations are not replaced wholesale. A protected
+  module admits only operations the planner relocated into it from another
+  group: their declarations, the imports their source customization used, and
+  their classic interface and factory members. Those operations pass the same
+  guards as relocations into unprotected modules; every maintained declaration
+  and all other factory behavior must remain unchanged.
 - Public exports are reconciled without replacing the customized import
-  scaffold. Generated-backed moves are distinguished from custom-only API.
+  scaffold. Generated-backed moves are distinguished from custom-only API. An
+  unmodified generated export of a group module the emitter removed, for
+  example when its operations were merged into another group, is removed rather
+  than retained as a compatibility alias.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,
