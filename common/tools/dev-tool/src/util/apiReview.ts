@@ -13,12 +13,19 @@ interface Review {
   name: string;
   entryPoints: { path: string; conditions: string[] }[];
   dependencies: { name: string; version: string; type: DependencyType }[];
+  references: NamedImports[];
   exportSections: ExportSection[];
+}
+
+interface NamedImports {
+  module: string;
+  names: string[];
 }
 
 interface ExportSection {
   path: string;
   declarations: string[];
+  reExports: NamedImports[];
   differsFromRoot: string[];
   alsoExportedFrom: { path: string; names: string[] }[];
 }
@@ -73,6 +80,13 @@ function buildReview(packageRoot: string): Review {
     ([exportPath]) => exportPath !== "./package.json",
   );
 
+  const { references, sections } = buildExportSections(
+    exportEntries.map(([exportPath, conditions]) => ({
+      path: exportPath,
+      file: path.join(packageRoot, conditions.import.types),
+    })),
+  );
+
   return {
     name: packageJson.name,
     entryPoints: exportEntries.map(([exportPath, conditions]) => ({
@@ -88,12 +102,8 @@ function buildReview(packageRoot: string): Review {
         })),
       )
       .sort((a, b) => a.name.localeCompare(b.name, "en")),
-    exportSections: buildExportSections(
-      exportEntries.map(([exportPath, conditions]) => ({
-        path: exportPath,
-        file: path.join(packageRoot, conditions.import.types),
-      })),
-    ),
+    references,
+    exportSections: sections,
   };
 }
 
@@ -115,6 +125,15 @@ ${dependencyRows.join("\n")}
 
 `
     : "";
+  const referencesSection = review.references.length
+    ? `## References
+
+\`\`\`ts
+${review.references.map((imports) => formatNamedImports("import", imports)).join("\n")}
+\`\`\`
+
+`
+    : "";
   const rootPath = review.exportSections[0]?.path;
   const exportSections = review.exportSections.map((section) =>
     renderExportSection(section, rootPath),
@@ -128,16 +147,28 @@ ${dependencyRows.join("\n")}
 | --- | --- |
 ${entryPointRows.join("\n")}
 
-${dependenciesSection}${exportSections.join("\n")}`;
+${dependenciesSection}${referencesSection}${exportSections.join("\n")}`;
+}
+
+function formatNamedImports(keyword: "import" | "export", { module, names }: NamedImports): string {
+  const list =
+    names.length === 1
+      ? `{ ${names[0]} }`
+      : `{\n${names.map((name) => `    ${name},`).join("\n")}\n}`;
+  return `${keyword} ${list} from "${module}";`;
 }
 
 function renderExportSection(section: ExportSection, rootPath: string | undefined): string {
   const blocks = [`## Export \`${section.path}\``];
-  if (section.declarations.length) {
+  if (section.declarations.length || section.reExports.length) {
     if (section.path !== rootPath) {
       blocks.push(`### Not exported from \`${rootPath}\``);
     }
-    blocks.push(`\`\`\`ts\n${section.declarations.join("\n\n")}\n\`\`\``);
+    const code = [
+      section.declarations.join("\n\n"),
+      section.reExports.map((reExport) => formatNamedImports("export", reExport)).join("\n"),
+    ];
+    blocks.push(`\`\`\`ts\n${code.filter(Boolean).join("\n\n")}\n\`\`\``);
   }
   if (section.differsFromRoot.length) {
     blocks.push(
@@ -186,7 +217,10 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
  * Later paths list it by name under "Also exported from". A new declaration that reuses a root
  * export's name goes under "Differs from".
  */
-function buildExportSections(exportFiles: { path: string; file: string }[]): ExportSection[] {
+function buildExportSections(exportFiles: { path: string; file: string }[]): {
+  references: NamedImports[];
+  sections: ExportSection[];
+} {
   const program = ts.createProgram(
     exportFiles.map((exportFile) => exportFile.file),
     compilerOptions,
@@ -196,8 +230,22 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
   const rootNames = new Set<string>();
+  const references = new Map<string, Set<string>>();
 
-  return exportFiles.map(({ path: exportPath, file }, index) => {
+  const externalName = (identifier: ts.Identifier): string | undefined => {
+    const symbol = checker.getSymbolAtLocation(identifier);
+    const external = symbol && externalImport(program, symbol);
+    if (!external) {
+      return undefined;
+    }
+    references.set(
+      external.module,
+      (references.get(external.module) ?? new Set()).add(external.name),
+    );
+    return external.name;
+  };
+
+  const sections = exportFiles.map(({ path: exportPath, file }, index) => {
     const isRoot = index === 0;
     const moduleSymbol = checker.getSymbolAtLocation(program.getSourceFile(file)!)!;
     const exportedSymbols = checker
@@ -205,8 +253,9 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
       .sort((a, b) => a.name.localeCompare(b.name, "en"));
 
     const declarations: string[] = [];
+    const reExports: { module: string; name: string }[] = [];
     const differsFromRoot: string[] = [];
-    const alsoExportedFrom = new Map<string, string[]>();
+    const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
@@ -217,14 +266,16 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
           : exportedSymbol;
       const earlierPath = shownUnder.get(symbol);
       if (earlierPath !== undefined) {
-        alsoExportedFrom.set(earlierPath, [
-          ...(alsoExportedFrom.get(earlierPath) ?? []),
-          exportedSymbol.name,
-        ]);
+        alsoExported.push({ path: earlierPath, name: exportedSymbol.name });
         continue;
       }
       shownUnder.set(symbol, exportPath);
-      const printed = printDeclarations(symbol, exportedSymbol.name, printer);
+      const reExport = externalImport(program, exportedSymbol);
+      if (reExport) {
+        reExports.push(reExport);
+        continue;
+      }
+      const printed = printDeclarations(symbol, exportedSymbol.name, printer, externalName);
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(...printed);
       } else {
@@ -234,21 +285,64 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
     return {
       path: exportPath,
       declarations,
+      reExports: [...Map.groupBy(reExports, (reExport) => reExport.module)].map(
+        ([module, entries]) => ({ module, names: entries.map((entry) => entry.name) }),
+      ),
       differsFromRoot,
-      alsoExportedFrom: [...alsoExportedFrom].map(([earlier, names]) => ({
-        path: earlier,
-        names,
-      })),
+      alsoExportedFrom: [...Map.groupBy(alsoExported, (entry) => entry.path)].map(
+        ([earlier, entries]) => ({ path: earlier, names: entries.map((entry) => entry.name) }),
+      ),
     };
   });
+
+  return {
+    references: [...references]
+      .map(([module, names]) => ({
+        module,
+        names: [...names].sort((a, b) => a.localeCompare(b, "en")),
+      }))
+      .sort((a, b) => a.module.localeCompare(b.module, "en")),
+    sections,
+  };
 }
 
-function printDeclarations(symbol: ts.Symbol, publicName: string, printer: ts.Printer): string[] {
+/**
+ * Returns the external module and exported name for an alias created by a package-local
+ * `import { X } from "dep"` or `export { X } from "dep"`.
+ */
+function externalImport(
+  program: ts.Program,
+  symbol: ts.Symbol,
+): { module: string; name: string } | undefined {
+  const declaration = symbol.declarations?.[0];
+  if (!declaration || !(ts.isImportSpecifier(declaration) || ts.isExportSpecifier(declaration))) {
+    return undefined;
+  }
+  const target = program.getTypeChecker().getAliasedSymbol(symbol);
+  const targetFile = target.declarations?.[0]?.getSourceFile();
+  if (!targetFile || !program.isSourceFileFromExternalLibrary(targetFile)) {
+    return undefined;
+  }
+  const moduleSpecifier = ts.isImportSpecifier(declaration)
+    ? declaration.parent.parent.parent.moduleSpecifier
+    : declaration.parent.parent.moduleSpecifier;
+  return {
+    module: (moduleSpecifier as ts.StringLiteral).text,
+    name: (declaration.propertyName ?? declaration.name).text,
+  };
+}
+
+function printDeclarations(
+  symbol: ts.Symbol,
+  publicName: string,
+  printer: ts.Printer,
+  externalName: (identifier: ts.Identifier) => string | undefined,
+): string[] {
   return (symbol.declarations ?? []).map((declaration) => {
     const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
     const declaredName = ts.getNameOfDeclaration(declaration);
     const [reviewNode] = ts.transform(node, [
-      (context) => toReviewShape(context, declaredName, publicName),
+      (context) => toReviewShape(context, declaredName, publicName, externalName),
     ]).transformed;
     return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
   });
@@ -270,12 +364,13 @@ function isPrivateMember(node: ts.Node): boolean {
 
 /**
  * Drops comments (keeping status tags as `// @tag`), private class members, and `declare` on classes.
- * Renames the declaration to its public export name.
+ * Renames the declaration to its public export name and external references to their exported names.
  */
 function toReviewShape(
   context: ts.TransformationContext,
   declaredName: ts.Node | undefined,
   publicName: string,
+  externalName: (identifier: ts.Identifier) => string | undefined,
 ): ts.Transformer<ts.Node> {
   const visit = (node: ts.Node): ts.Node | undefined => {
     if (isPrivateMember(node)) {
@@ -283,6 +378,10 @@ function toReviewShape(
     }
     if (node === declaredName) {
       return context.factory.createIdentifier(publicName);
+    }
+    if (ts.isIdentifier(node)) {
+      const name = externalName(node);
+      return name ? context.factory.createIdentifier(name) : node;
     }
     let result = ts.visitEachChild(node, visit, context);
     if (ts.isClassDeclaration(result)) {

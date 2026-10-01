@@ -469,4 +469,91 @@ describe("generateApiReview", () => {
       );
     });
   });
+
+  describe("references", () => {
+    function dependency(name: string, declarations: string): Record<string, string> {
+      return {
+        [`node_modules/${name}/package.json`]: JSON.stringify({ name, types: "./index.d.ts" }),
+        [`node_modules/${name}/index.d.ts`]: declarations,
+      };
+    }
+
+    it("collects external types used in signatures into a References import block", () => {
+      const root = fixture(
+        {
+          ...dependency("@azure/core-auth", "export interface TokenCredential {\n}"),
+          "dist/esm/index.d.ts": [
+            'import type { TokenCredential } from "@azure/core-auth";',
+            "export declare class KeyClient {",
+            "    constructor(vaultUrl: string, credential: TokenCredential);",
+            "}",
+          ].join("\n"),
+        },
+        { dependencies: { "@azure/core-auth": "^1.9.0" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## References",
+          "",
+          "```ts",
+          'import { TokenCredential } from "@azure/core-auth";',
+          "```",
+        ].join("\n"),
+      );
+      expect(apiMd).not.toContain("interface TokenCredential");
+    });
+
+    it("prints re-exports of external declarations as export-from lines", () => {
+      const root = fixture(
+        {
+          ...dependency(
+            "@azure/core-paging",
+            [
+              "export interface PageSettings {\n}",
+              "export interface PagedAsyncIterableIterator {\n}",
+            ].join("\n"),
+          ),
+          "dist/esm/index.d.ts":
+            'export { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";',
+        },
+        { dependencies: { "@azure/core-paging": "^1.6.2" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "export {",
+          "    PagedAsyncIterableIterator,",
+          "    PageSettings,",
+          '} from "@azure/core-paging";',
+        ].join("\n"),
+      );
+      expect(apiMd).not.toContain("interface PageSettings");
+    });
+
+    it("uses an external type's exported name, not a local import alias", () => {
+      const root = fixture(
+        {
+          ...dependency("@opentelemetry/api", "export interface Context {\n}"),
+          "dist/esm/index.d.ts": [
+            'import { Context as OTContext } from "@opentelemetry/api";',
+            "export declare function startSpan(name: string, context?: OTContext): void;",
+          ].join("\n"),
+        },
+        { dependencies: { "@opentelemetry/api": "^1.9.0" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain('import { Context } from "@opentelemetry/api";');
+      expect(apiMd).toContain(
+        "export declare function startSpan(name: string, context?: Context): void;",
+      );
+      expect(apiMd).not.toContain("OTContext");
+    });
+  });
 });
