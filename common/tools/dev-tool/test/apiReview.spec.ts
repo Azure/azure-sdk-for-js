@@ -466,6 +466,85 @@ describe("generateApiReview", () => {
     });
   });
 
+  describe("export modifiers", () => {
+    it("marks a declaration exported through a separate export statement as exported", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export type { ChatEventId } from "./events.js";',
+        "dist/esm/events.d.ts": [
+          'type ChatEventId = "chatMessageReceived" | "chatMessageEdited";',
+          "export type { ChatEventId };",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        'export type ChatEventId = "chatMessageReceived" | "chatMessageEdited";',
+      );
+    });
+
+    it("marks a variable exported through a separate export statement as exported", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "declare const getConnectOptions: () => Promise<void>;",
+          "export { getConnectOptions };",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export declare const getConnectOptions: () => Promise<void>;");
+    });
+
+    it("prints a default class re-exported under a name as a named export", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export { default as GeographyPoint } from "./geographyPoint.js";',
+        "dist/esm/geographyPoint.d.ts": [
+          "export default class GeographyPoint {",
+          "    latitude: number;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export class GeographyPoint {\n    latitude: number;\n}");
+      expect(apiMd).not.toContain("export default");
+    });
+
+    it("prints a default export as export default with its declared name", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'import PurviewDataMapClient from "./purviewDataMapClient.js";',
+          "export default PurviewDataMapClient;",
+        ].join("\n"),
+        "dist/esm/purviewDataMapClient.d.ts":
+          "export default function createClient(endpointParam: string): void;",
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export default function createClient(endpointParam: string): void;");
+      expect(apiMd).not.toContain("function default");
+    });
+
+    it("prints a default-exported class with its declared name", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export { default } from "./reporter.js";',
+        "dist/esm/reporter.d.ts": [
+          "export default class PlaywrightReporter {",
+          "    onEnd(): Promise<void>;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export default class PlaywrightReporter {");
+      expect(apiMd).not.toContain("class default");
+    });
+  });
+
   describe("subpaths", () => {
     const types = (file: string): { import: { types: string } } => ({ import: { types: file } });
 

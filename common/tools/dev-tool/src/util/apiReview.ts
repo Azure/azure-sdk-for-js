@@ -810,11 +810,13 @@ function toReviewShape(
   referenceName: (node: ts.Node) => string | undefined,
   forgotten: ReadonlyMap<ts.Node, string[]>,
 ): ts.Transformer<ts.Node> {
+  let printed: ts.Node | undefined;
   const visit = (node: ts.Node): ts.Node | undefined => {
     if (isPrivateMember(node)) {
       return undefined;
     }
-    if (node === declaredName) {
+    // A default export keeps its declared name: `export default function createClient(...)`.
+    if (node === declaredName && publicName !== "default") {
       return context.factory.createIdentifier(publicName);
     }
     const name = referenceName(node);
@@ -837,6 +839,23 @@ function toReviewShape(
         result.members,
       );
     }
+    // The printed statement shows how the export path exposes it (a named or default export),
+    // whatever `export`/`default` modifiers (or none) its own file used.
+    if (node === printed && ts.canHaveModifiers(result)) {
+      const kept = (ts.getModifiers(result) ?? []).filter(
+        (modifier) =>
+          modifier.kind !== ts.SyntaxKind.ExportKeyword &&
+          modifier.kind !== ts.SyntaxKind.DefaultKeyword,
+      );
+      const exportModifiers =
+        publicName === "default"
+          ? ([ts.SyntaxKind.ExportKeyword, ts.SyntaxKind.DefaultKeyword] as const)
+          : ([ts.SyntaxKind.ExportKeyword] as const);
+      result = context.factory.replaceModifiers(result, [
+        ...exportModifiers.map((kind) => context.factory.createModifier(kind)),
+        ...kept,
+      ]);
+    }
     ts.setEmitFlags(result, ts.EmitFlags.NoComments);
     for (const name of forgotten.get(node) ?? []) {
       ts.addSyntheticLeadingComment(
@@ -858,5 +877,8 @@ function toReviewShape(
     }
     return result;
   };
-  return (node) => visit(node)!;
+  return (node) => {
+    printed = node;
+    return visit(node)!;
+  };
 }
