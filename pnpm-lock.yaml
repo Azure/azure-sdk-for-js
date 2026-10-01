@@ -22792,6 +22792,9 @@ importers:
       '@opentelemetry/exporter-trace-otlp-http':
         specifier: ^0.221.0
         version: 0.221.0(@opentelemetry/api@1.9.1)
+      '@types/bunyan':
+        specifier: ^1.8.11
+        version: 1.8.11
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.4
@@ -22801,6 +22804,9 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 5.0.1(vitest@5.0.1)
+      bunyan:
+        specifier: ^1.8.15
+        version: 1.8.15
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -22822,6 +22828,9 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 5.0.1(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.1)(@vitest/coverage-istanbul@5.0.1)(@vitest/ui@5.0.1)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      winston:
+        specifier: ^3.19.0
+        version: 3.19.0
 
   sdk/monitor/monitor-opentelemetry-exporter:
     dependencies:
@@ -39283,6 +39292,11 @@ packages:
     resolution: {integrity: sha1-87lrNBYNZDGhnXaIE1r3z7h5eIk=}
     engines: {node: '>=18'}
 
+  bunyan@1.8.15:
+    resolution: {integrity: sha512-0tECWShh6wUysgucJcBAoYegf3JJoZWibxdqhTm7OHPeT42qdjkZ29QCMcKwbgU1kiH+auSIasNRXMLWXafXig==}
+    engines: {'0': node >=0.10.0}
+    hasBin: true
+
   bytes@3.1.2:
     resolution: {integrity: sha1-iwvuuYYFrfGxKPpDhkA8AJ4CIaU=}
     engines: {node: '>= 0.8'}
@@ -39771,6 +39785,10 @@ packages:
 
   dottie@2.0.7:
     resolution: {integrity: sha1-/RtGWhIRs11WYOlbabttW1gJs8Q=}
+
+  dtrace-provider@0.8.8:
+    resolution: {integrity: sha512-b7Z7cNtHPhH9EJhNNbbeqTcXB8LGFFZhq1PGgEvpeHlzd36bhbdTWoE/Ba/YguqpBSlAPKnARWhVlhunCMwfxg==}
+    engines: {node: '>=0.10'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha1-165mfh3INIL4tw/Q9u78UNow9Yo=}
@@ -40370,6 +40388,10 @@ packages:
   glob@13.0.6:
     resolution: {integrity: sha1-B4ZmVmpCUUfMrPvS4zLetmor5x0=}
     engines: {node: 18 || 20 || >=22}
+
+  glob@6.0.4:
+    resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.3:
     resolution: {integrity: sha1-uN8PuAK7+o6JvR2Ti04WV47UTys=}
@@ -41438,6 +41460,10 @@ packages:
   mkdirp-classic@0.5.3:
     resolution: {integrity: sha1-+hDJEVzG2IZb4iG6R+6b7XhgERM=}
 
+  mkdirp@0.5.6:
+    resolution: {integrity: sha1-fe8D0kMtyuS6HWEURcSDlgYiVfY=}
+    hasBin: true
+
   mkdirp@1.0.4:
     resolution: {integrity: sha1-PrXtYmInVteaXw4qIh3+utdcL34=}
     engines: {node: '>=10'}
@@ -41487,8 +41513,15 @@ packages:
     resolution: {integrity: sha1-zYAU3SrLcuHpG7Z8dPABnmILotE=}
     engines: {node: ^20.17.0 || >=22.9.0}
 
+  mv@2.1.1:
+    resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
+    engines: {node: '>=0.8.0'}
+
   mz@2.7.0:
     resolution: {integrity: sha1-lQCAV6Vsr63CvGPd5/n/aVWUjjI=}
+
+  nan@2.29.0:
+    resolution: {integrity: sha512-GlGk3HIvitbvs+LT3g6XUP1kpirKNvmDFwF/bmo6XNWSb/eYEs/O4bfgIEIXCZ+lIOTS5xNwDvSGMw6FJdAhtA==}
 
   nanoid@3.3.19:
     resolution: {integrity: sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug==}
@@ -41500,6 +41533,10 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
+
+  ncp@2.0.0:
+    resolution: {integrity: sha512-zIdGUrPRFTUELUvr3Gmc7KZ2Sw/h1PiVM0Af/oHB6zgnV1ikqSfRk+TOufi79aHYCW3NiOXmr1BP5nWbzojLaA==}
+    hasBin: true
 
   negotiator@1.1.0:
     resolution: {integrity: sha1-FuAD0NtKwk/Z3xaO34cWJd7q498=}
@@ -42227,6 +42264,11 @@ packages:
   rhea@3.0.5:
     resolution: {integrity: sha1-kj5/1kysoPd+MXRmd5+v7RHZgcA=}
 
+  rimraf@2.4.5:
+    resolution: {integrity: sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
+    hasBin: true
+
   rimraf@3.0.2:
     resolution: {integrity: sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=}
     deprecated: Rimraf versions prior to v4 are no longer supported
@@ -42278,6 +42320,9 @@ packages:
   safe-execa@0.1.2:
     resolution: {integrity: sha1-L7sKbxoAx6RexwM/gmWXV/kb6Mc=}
     engines: {node: '>=12'}
+
+  safe-json-stringify@1.2.0:
+    resolution: {integrity: sha512-gH8eh2nZudPQO6TytOvbxnuhYBOvDBBLW52tz5q6X58lJcd/tkmqFR+5Z9adS8aJtURSXWThWy/xJtJwixErvg==}
 
   safe-push-apply@1.0.0:
     resolution: {integrity: sha1-AYUOmBwWAtOYyFCB82Dk5tA9J/U=}
@@ -44953,14 +44998,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -44994,7 +45039,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -46330,7 +46375,7 @@ snapshots:
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -46345,7 +46390,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/cross-spawn@6.0.6':
     dependencies:
@@ -46381,18 +46426,18 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/gensync@1.0.5': {}
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/hast@3.0.5':
     dependencies:
@@ -46424,7 +46469,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/jsonwebtoken@9.0.10':
     dependencies:
@@ -46450,11 +46495,11 @@ snapshots:
 
   '@types/mysql@2.15.27':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/node-fetch@2.6.13':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       form-data: 4.0.6
 
   '@types/node-forge@1.3.14':
@@ -46489,7 +46534,7 @@ snapshots:
 
   '@types/npmlog@7.0.0':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/pg-pool@2.0.7':
     dependencies:
@@ -46497,13 +46542,13 @@ snapshots:
 
   '@types/pg@8.15.6':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       pg-protocol: 1.16.0
       pg-types: 2.2.0
 
   '@types/pg@8.23.1':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       pg-protocol: 1.16.0
       pg-types: 2.2.0
 
@@ -46543,7 +46588,7 @@ snapshots:
 
   '@types/ssri@7.1.5':
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   '@types/stack-utils@2.0.3': {}
 
@@ -47311,6 +47356,13 @@ snapshots:
     dependencies:
       run-applescript: 7.1.0
 
+  bunyan@1.8.15:
+    optionalDependencies:
+      dtrace-provider: 0.8.8
+      moment: 2.31.0
+      mv: 2.1.1
+      safe-json-stringify: 1.2.0
+
   bytes@3.1.2: {}
 
   bytesish@0.4.4: {}
@@ -47421,7 +47473,7 @@ snapshots:
 
   chrome-launcher@0.15.2(supports-color@8.1.1):
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2(supports-color@8.1.1)
@@ -47430,7 +47482,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0(supports-color@8.1.1):
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2(supports-color@8.1.1)
@@ -47838,6 +47890,11 @@ snapshots:
   dotenv@16.6.1: {}
 
   dottie@2.0.7: {}
+
+  dtrace-provider@0.8.8:
+    dependencies:
+      nan: 2.29.0
+    optional: true
 
   dunder-proto@1.0.1:
     dependencies:
@@ -48602,6 +48659,15 @@ snapshots:
       minipass: 7.1.3
       path-scurry: 2.0.2
 
+  glob@6.0.4:
+    dependencies:
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.5
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+    optional: true
+
   glob@7.2.3:
     dependencies:
       fs.realpath: 1.0.0
@@ -49051,7 +49117,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -49061,7 +49127,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -49088,7 +49154,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       jest-util: 29.7.0
 
   jest-regex-util@29.6.3: {}
@@ -49096,7 +49162,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -49113,7 +49179,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -49796,6 +49862,11 @@ snapshots:
 
   mkdirp-classic@0.5.3: {}
 
+  mkdirp@0.5.6:
+    dependencies:
+      minimist: 1.2.8
+    optional: true
+
   mkdirp@1.0.4: {}
 
   mkdirp@3.0.1: {}
@@ -49829,17 +49900,30 @@ snapshots:
 
   mute-stream@3.0.0: {}
 
+  mv@2.1.1:
+    dependencies:
+      mkdirp: 0.5.6
+      ncp: 2.0.0
+      rimraf: 2.4.5
+    optional: true
+
   mz@2.7.0:
     dependencies:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
+  nan@2.29.0:
+    optional: true
+
   nanoid@3.3.19: {}
 
   napi-build-utils@2.0.0: {}
 
   natural-compare@1.4.0: {}
+
+  ncp@2.0.0:
+    optional: true
 
   negotiator@1.1.0:
     dependencies:
@@ -50632,6 +50716,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  rimraf@2.4.5:
+    dependencies:
+      glob: 6.0.4
+    optional: true
+
   rimraf@3.0.2:
     dependencies:
       glob: 7.2.3
@@ -50739,6 +50828,9 @@ snapshots:
       '@zkochan/which': 2.0.3
       execa: 5.1.1
       path-name: 1.0.0
+
+  safe-json-stringify@1.2.0:
+    optional: true
 
   safe-push-apply@1.0.0:
     dependencies:
@@ -51699,7 +51791,7 @@ snapshots:
 
   wkx@0.5.0:
     dependencies:
-      '@types/node': 22.20.4
+      '@types/node': 26.6.2
 
   word-wrap@1.2.5: {}
 
