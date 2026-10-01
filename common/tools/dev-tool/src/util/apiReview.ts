@@ -315,71 +315,98 @@ function diffItem(before: string, after: string): string {
   return lines.join("\n");
 }
 
+/**
+ * Renders api.md as a list of blocks (headings, paragraphs, tables, code blocks) separated by
+ * blank lines. Section renderers return no blocks when there's nothing to show.
+ */
 function renderApiMd(review: Review): string {
-  const entryPointRows = review.entryPoints.map(
-    (entry) => `| \`${entry.path}\` | ${entry.conditions.map((c) => `\`${c}\``).join(", ")} |`,
-  );
+  const blocks = [
+    `# API review: ${code(review.name)}`,
+    ...renderEntryPoints(review),
+    ...renderDependencies(review),
+    ...renderReferences(review),
+    ...review.exportSections.flatMap((section, _, [root]) =>
+      renderExportSection(section, root.path),
+    ),
+    ...renderRuntimeDifferences(review),
+  ];
+  return `${blocks.join("\n\n")}\n`;
+}
+
+function renderEntryPoints(review: Review): string[] {
+  return [
+    "## Entry points",
+    table(
+      ["Export path", "Conditions"],
+      review.entryPoints.map((entry) => [code(entry.path), entry.conditions.map(code).join(", ")]),
+    ),
+  ];
+}
+
+function renderDependencies(review: Review): string[] {
+  if (!review.dependencies.length) {
+    return [];
+  }
   const columns = dependencyColumns.filter(([field]) =>
     review.dependencies.some((dependency) => dependency[field] !== undefined),
   );
-  const dependencyRows = review.dependencies.map((dependency) => {
-    const cells = columns.map(([field]) =>
-      field === "type" ? dependency.type : `\`${dependency[field]}\``,
-    );
-    return `| ${cells.join(" | ")} |`;
-  });
-  const dependenciesSection = dependencyRows.length
-    ? `## Dependencies
+  return [
+    "## Dependencies",
+    "Only Hashed version is part of the review hash.",
+    table(
+      columns.map(([, header]) => header),
+      review.dependencies.map((dependency) =>
+        columns.map(([field]) =>
+          field === "type" ? dependency.type : code(dependency[field] ?? ""),
+        ),
+      ),
+    ),
+  ];
+}
 
-Only Hashed version is part of the review hash.
+function renderReferences(review: Review): string[] {
+  if (!review.references.length) {
+    return [];
+  }
+  return [
+    "## References",
+    codeBlock(
+      "ts",
+      review.references.map((imports) => formatNamedImports("import", imports)).join("\n"),
+    ),
+  ];
+}
 
-| ${columns.map(([, header]) => header).join(" | ")} |
-| ${columns.map(() => "---").join(" | ")} |
-${dependencyRows.join("\n")}
-
-`
-    : "";
-  const referencesSection = review.references.length
-    ? `## References
-
-\`\`\`ts
-${review.references.map((imports) => formatNamedImports("import", imports)).join("\n")}
-\`\`\`
-
-`
-    : "";
-  const rootPath = review.exportSections[0]?.path;
-  const exportSections = review.exportSections.map((section) =>
-    renderExportSection(section, rootPath),
-  );
-  const runtimeBlocks: string[] = [];
+function renderRuntimeDifferences(review: Review): string[] {
+  const blocks: string[] = [];
   if (review.identicalConditions.length) {
-    runtimeBlocks.push(
-      `Identical to the ESM view: ${review.identicalConditions.map((c) => `\`${c}\``).join(", ")}.`,
-    );
+    blocks.push(`Identical to the ESM view: ${review.identicalConditions.map(code).join(", ")}.`);
   }
   for (const { condition, exports } of review.conditionDiffs) {
-    runtimeBlocks.push(`### \`${condition}\``);
+    blocks.push(`### ${code(condition)}`);
     for (const changed of exports) {
-      runtimeBlocks.push(
-        `#### Export \`${changed.path}\``,
-        `\`\`\`diff\n${changed.items.join("\n\n")}\n\`\`\``,
+      blocks.push(
+        `#### Export ${code(changed.path)}`,
+        codeBlock("diff", changed.items.join("\n\n")),
       );
     }
   }
-  const runtimeDifferencesSection = runtimeBlocks.length
-    ? `\n## Runtime differences\n\n${runtimeBlocks.join("\n\n")}\n`
-    : "";
+  return blocks.length ? ["## Runtime differences", ...blocks] : [];
+}
 
-  return `# API review: \`${review.name}\`
+function code(text: string): string {
+  return `\`${text}\``;
+}
 
-## Entry points
+function codeBlock(language: string, body: string): string {
+  return `\`\`\`${language}\n${body}\n\`\`\``;
+}
 
-| Export path | Conditions |
-| --- | --- |
-${entryPointRows.join("\n")}
-
-${dependenciesSection}${referencesSection}${exportSections.join("\n")}${runtimeDifferencesSection}`;
+// (["A", "B"], [["1", "2"]]) -> "| A | B |\n| --- | --- |\n| 1 | 2 |"
+function table(headers: string[], rows: string[][]): string {
+  return [headers, headers.map(() => "---"), ...rows]
+    .map((cells) => `| ${cells.join(" | ")} |`)
+    .join("\n");
 }
 
 // ("import", { module: "m", names: ["A"] })      -> 'import { A } from "m";'
@@ -392,33 +419,33 @@ function formatNamedImports(keyword: "import" | "export", { module, names }: Nam
   return `${keyword} ${list} from "${module}";`;
 }
 
-function renderExportSection(section: ExportSection, rootPath: string | undefined): string {
-  const blocks = [`## Export \`${section.path}\``];
+function renderExportSection(section: ExportSection, rootPath: string): string[] {
+  const blocks = [`## Export ${code(section.path)}`];
   if (section.declarations.length || section.reExports.length) {
     if (section.path !== rootPath) {
-      blocks.push(`### Not exported from \`${rootPath}\``);
+      blocks.push(`### Not exported from ${code(rootPath)}`);
     }
-    const code = [
+    const body = [
       section.declarations.map((declaration) => declaration.text).join("\n\n"),
       section.reExports.map((reExport) => formatNamedImports("export", reExport)).join("\n"),
     ];
-    blocks.push(`\`\`\`ts\n${code.filter(Boolean).join("\n\n")}\n\`\`\``);
+    blocks.push(codeBlock("ts", body.filter(Boolean).join("\n\n")));
   }
   if (section.differsFromRoot.length) {
     blocks.push(
-      `### Differs from \`${rootPath}\``,
-      `Same name as an Export \`${rootPath}\` export, but a different declaration.`,
-      `\`\`\`ts\n${section.differsFromRoot.join("\n\n")}\n\`\`\``,
+      `### Differs from ${code(rootPath)}`,
+      `Same name as an Export ${code(rootPath)} export, but a different declaration.`,
+      codeBlock("ts", section.differsFromRoot.join("\n\n")),
     );
   }
   for (const earlier of section.alsoExportedFrom) {
     blocks.push(
-      `### Also exported from \`${earlier.path}\``,
-      `Definitions are shown under Export \`${earlier.path}\`.`,
-      earlier.names.map((name) => `- \`${name}\``).join("\n"),
+      `### Also exported from ${code(earlier.path)}`,
+      `Definitions are shown under Export ${code(earlier.path)}.`,
+      earlier.names.map((name) => `- ${code(name)}`).join("\n"),
     );
   }
-  return `${blocks.join("\n\n")}\n`;
+  return blocks;
 }
 
 const compilerHost = createLibCachingHost({ skipLibCheck: true });
