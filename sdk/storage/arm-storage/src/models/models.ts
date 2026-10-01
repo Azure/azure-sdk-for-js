@@ -235,6 +235,8 @@ export interface BlobContainer extends ProxyResource {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
+  /** Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation. */
+  blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
 }
 
 export function blobContainerSerializer(item: BlobContainer): any {
@@ -247,6 +249,7 @@ export function blobContainerSerializer(item: BlobContainer): any {
       "immutableStorageWithVersioning",
       "enableNfsV3RootSquash",
       "enableNfsV3AllSquash",
+      "blobAccessPointConfiguration",
     ])
       ? undefined
       : _blobContainerPropertiesSerializer(item),
@@ -308,6 +311,8 @@ export interface ContainerProperties {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
+  /** Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation. */
+  blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
 }
 
 export function containerPropertiesSerializer(item: ContainerProperties): any {
@@ -321,6 +326,9 @@ export function containerPropertiesSerializer(item: ContainerProperties): any {
       : immutableStorageWithVersioningSerializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionSerializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -355,6 +363,9 @@ export function containerPropertiesDeserializer(item: any): ContainerProperties 
       : immutableStorageWithVersioningDeserializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionDeserializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -670,6 +681,32 @@ export enum KnownMigrationState {
  */
 export type MigrationState = string;
 
+/** Blob Access Point configuration associated with a blob container. */
+export interface BlobAccessPointConfigurationConnection {
+  /** Name of the Blob Access Point Configuration to connect to. */
+  blobAccessPointConfigurationName?: string;
+  /** System-generated unique identifier of the Blob Access Point Configuration to connect to. If not provided on create, the service looks up and persists the current unique id. */
+  blobAccessPointConfigurationUniqueId?: string;
+}
+
+export function blobAccessPointConfigurationConnectionSerializer(
+  item: BlobAccessPointConfigurationConnection,
+): any {
+  return {
+    blobAccessPointConfigurationName: item["blobAccessPointConfigurationName"],
+    blobAccessPointConfigurationUniqueId: item["blobAccessPointConfigurationUniqueId"],
+  };
+}
+
+export function blobAccessPointConfigurationConnectionDeserializer(
+  item: any,
+): BlobAccessPointConfigurationConnection {
+  return {
+    blobAccessPointConfigurationName: item["blobAccessPointConfigurationName"],
+    blobAccessPointConfigurationUniqueId: item["blobAccessPointConfigurationUniqueId"],
+  };
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -902,6 +939,27 @@ export function cloudErrorBodyArrayDeserializer(result: Array<CloudErrorBody>): 
   });
 }
 
+/** The provisioning state of a resource type. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
@@ -1016,6 +1074,8 @@ export interface ListContainerItem extends AzureEntityResource {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
+  /** Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation. */
+  blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
 }
 
 export function listContainerItemDeserializer(item: any): ListContainerItem {
@@ -1671,6 +1731,8 @@ export interface StorageAccount extends TrackedResource {
   readonly encryption?: Encryption;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   readonly accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -1797,6 +1859,8 @@ export interface StorageAccountProperties {
   readonly encryption?: Encryption;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   readonly accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -1890,6 +1954,7 @@ export function storageAccountPropertiesDeserializer(item: any): StorageAccountP
       ? item["encryption"]
       : encryptionDeserializer(item["encryption"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierDeserializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationDeserializer(
@@ -2405,6 +2470,43 @@ export function encryptionIdentityDeserializer(item: any): EncryptionIdentity {
 
 /** The default access tier for block blobs in the storage account. Required for storage accounts where kind = BlobStorage. See more details in: https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview. */
 export type AccessTier = "Hot" | "Cool" | "Premium" | "Cold" | "Smart";
+
+/** Configures Turbo Tier for a storage account. */
+export interface TurboTier {
+  /** Indicates whether Turbo Tier is enabled or disabled. */
+  status?: TurboTierStatus;
+  /** The target fill percentage used for placement. The valid range is 10 to 100. When status is Enabled and this property is omitted, the default value is 20. */
+  targetPercent?: number;
+}
+
+export function turboTierSerializer(item: TurboTier): any {
+  return { status: item["status"], targetPercent: item["targetPercent"] };
+}
+
+export function turboTierDeserializer(item: any): TurboTier {
+  return {
+    status: item["status"],
+    targetPercent: item["targetPercent"],
+  };
+}
+
+/** Indicates whether Turbo Tier is enabled or disabled. */
+export enum KnownTurboTierStatus {
+  /** Turbo Tier is enabled. */
+  Enabled = "Enabled",
+  /** Turbo Tier is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates whether Turbo Tier is enabled or disabled. \
+ * {@link KnownTurboTierStatus} can be used interchangeably with TurboTierStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Turbo Tier is enabled. \
+ * **Disabled**: Turbo Tier is disabled.
+ */
+export type TurboTierStatus = string;
 
 /** Settings for Azure Files identity based authentication. */
 export interface AzureFilesIdentityBasedAuthentication {
@@ -3500,6 +3602,8 @@ export function serviceSharedKeyAccessPropertiesDeserializer(
 export interface StorageDataCollaborationPolicyProperties {
   /** Indicates whether storage connectors are allowed to created or managed on the storage account. */
   allowStorageConnectors?: boolean;
+  /** Indicates whether Blob Access Point configurations are allowed to be created or managed on the storage account. */
+  allowBlobAccessPoints?: boolean;
   /** Indicates whether data shares are allowed to be created or managed on the storage account. */
   allowStorageDataShares?: boolean;
   /** Indicates whether cross-entra tenant data sharing is allowed on the storage account. */
@@ -3511,6 +3615,7 @@ export function storageDataCollaborationPolicyPropertiesSerializer(
 ): any {
   return {
     allowStorageConnectors: item["allowStorageConnectors"],
+    allowBlobAccessPoints: item["allowBlobAccessPoints"],
     allowStorageDataShares: item["allowStorageDataShares"],
     allowCrossTenantDataSharing: item["allowCrossTenantDataSharing"],
   };
@@ -3521,6 +3626,7 @@ export function storageDataCollaborationPolicyPropertiesDeserializer(
 ): StorageDataCollaborationPolicyProperties {
   return {
     allowStorageConnectors: item["allowStorageConnectors"],
+    allowBlobAccessPoints: item["allowBlobAccessPoints"],
     allowStorageDataShares: item["allowStorageDataShares"],
     allowCrossTenantDataSharing: item["allowCrossTenantDataSharing"],
   };
@@ -3777,6 +3883,8 @@ export interface StorageAccountCreateParameters {
   networkRuleSet?: NetworkRuleSet;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
@@ -3848,6 +3956,7 @@ export function storageAccountCreateParametersSerializer(
       "encryption",
       "networkRuleSet",
       "accessTier",
+      "turboTier",
       "azureFilesIdentityBasedAuthentication",
       "enableHttpsTrafficOnly",
       "isSftpEnabled",
@@ -3893,6 +4002,8 @@ export interface StorageAccountPropertiesCreateParameters {
   networkRuleSet?: NetworkRuleSet;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
@@ -3953,6 +4064,7 @@ export function storageAccountPropertiesCreateParametersSerializer(
       ? item["networkRuleSet"]
       : networkRuleSetSerializer(item["networkRuleSet"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierSerializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationSerializer(
@@ -4019,6 +4131,8 @@ export interface StorageAccountUpdateParameters {
   keyPolicy?: KeyPolicy;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -4078,6 +4192,7 @@ export function storageAccountUpdateParametersSerializer(
       "sasPolicy",
       "keyPolicy",
       "accessTier",
+      "turboTier",
       "azureFilesIdentityBasedAuthentication",
       "enableHttpsTrafficOnly",
       "isSftpEnabled",
@@ -4125,6 +4240,8 @@ export interface StorageAccountPropertiesUpdateParameters {
   keyPolicy?: KeyPolicy;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -4182,6 +4299,7 @@ export function storageAccountPropertiesUpdateParametersSerializer(
     sasPolicy: !item["sasPolicy"] ? item["sasPolicy"] : sasPolicySerializer(item["sasPolicy"]),
     keyPolicy: !item["keyPolicy"] ? item["keyPolicy"] : keyPolicySerializer(item["keyPolicy"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierSerializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationSerializer(
@@ -7157,6 +7275,8 @@ export interface NspAccessRuleProperties {
   readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
   /** FQDN for outbound rules */
   readonly fullyQualifiedDomainNames?: string[];
+  /** Service Tags for inbound rules */
+  serviceTags?: string[];
 }
 
 export function nspAccessRulePropertiesDeserializer(item: any): NspAccessRuleProperties {
@@ -7176,6 +7296,11 @@ export function nspAccessRulePropertiesDeserializer(item: any): NspAccessRulePro
     fullyQualifiedDomainNames: !item["fullyQualifiedDomainNames"]
       ? item["fullyQualifiedDomainNames"]
       : item["fullyQualifiedDomainNames"].map((p: any) => {
+          return p;
+        }),
+    serviceTags: !item["serviceTags"]
+      ? item["serviceTags"]
+      : item["serviceTags"].map((p: any) => {
           return p;
         }),
   };
@@ -8633,7 +8758,7 @@ export interface ContextCache extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties: ContextCacheProperties;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
 }
 
 export function contextCacheSerializer(item: ContextCache): any {
@@ -8643,7 +8768,7 @@ export function contextCacheSerializer(item: ContextCache): any {
     properties: contextCachePropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -8662,7 +8787,7 @@ export function contextCacheDeserializer(item: any): ContextCache {
     properties: contextCachePropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentityDeserializer(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -8874,54 +8999,68 @@ export enum KnownKeyEncryptionKeyIdentityType {
  */
 export type KeyEncryptionKeyIdentityType = string;
 
-/** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
   /** The type of managed identity assigned to this resource. */
-  type: SystemAssignedServiceIdentityType;
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function systemAssignedServiceIdentitySerializer(item: SystemAssignedServiceIdentity): any {
-  return { type: item["type"] };
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function systemAssignedServiceIdentityDeserializer(
-  item: any,
-): SystemAssignedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
-/** Type of managed service identity (either system assigned, or none). */
-export enum KnownSystemAssignedServiceIdentityType {
-  /** No managed system identity. */
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
   None = "None",
-  /** System assigned managed system identity. */
+  /** System assigned managed identity. */
   SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * Type of managed service identity (either system assigned, or none). \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: No managed system identity. \
- * **SystemAssigned**: System assigned managed system identity.
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
-export type SystemAssignedServiceIdentityType = string;
+export type ManagedServiceIdentityType = string;
 
 /** The type used for update operations of the Context Cache. */
 export interface ContextCacheUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The managed service identity. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
   /** The updatable properties of the Context Cache. */
   properties?: ContextCachePropertiesUpdate;
 }
@@ -8931,7 +9070,7 @@ export function contextCacheUpdateSerializer(item: ContextCacheUpdate): any {
     tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     properties: !item["properties"]
       ? item["properties"]
       : contextCachePropertiesUpdateSerializer(item["properties"]),
@@ -8981,6 +9120,58 @@ export function contextCacheArrayDeserializer(result: Array<ContextCache>): any[
     return contextCacheDeserializer(item);
   });
 }
+
+/** The parameters used to check the availability of the context cache resource name. */
+export interface ContextCacheCheckNameAvailabilityParameters {
+  /** The name of the context cache resource to check for availability. */
+  name: string;
+  /** The type of the context cache resource to check for availability. */
+  type: "Microsoft.Storage/contextCaches";
+}
+
+export function contextCacheCheckNameAvailabilityParametersSerializer(
+  item: ContextCacheCheckNameAvailabilityParameters,
+): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+/** The result of the context cache name availability check. */
+export interface ContextCacheCheckNameAvailabilityResult {
+  /** A boolean value that indicates whether the context cache name is available to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
+  readonly nameAvailable: boolean;
+  /** The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false */
+  readonly reason?: ContextCacheCheckNameAvailabilityFailureReason;
+  /** The error message providing additional information about the context cache name availability check failure. */
+  readonly message?: string;
+}
+
+export function contextCacheCheckNameAvailabilityResultDeserializer(
+  item: any,
+): ContextCacheCheckNameAvailabilityResult {
+  return {
+    nameAvailable: item["nameAvailable"],
+    reason: item["reason"],
+    message: item["message"],
+  };
+}
+
+/** The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false. */
+export enum KnownContextCacheCheckNameAvailabilityFailureReason {
+  /** The context cache name is already in use. */
+  AlreadyExists = "AlreadyExists",
+  /** The context cache name is invalid. */
+  ContextCacheNameInvalid = "ContextCacheNameInvalid",
+}
+
+/**
+ * The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false. \
+ * {@link KnownContextCacheCheckNameAvailabilityFailureReason} can be used interchangeably with ContextCacheCheckNameAvailabilityFailureReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlreadyExists**: The context cache name is already in use. \
+ * **ContextCacheNameInvalid**: The context cache name is invalid.
+ */
+export type ContextCacheCheckNameAvailabilityFailureReason = string;
 
 /** A container resource within a Context Cache */
 export interface ContextCacheContainer extends ProxyResource {
@@ -9115,6 +9306,1244 @@ export function contextCacheContainerArrayDeserializer(
   });
 }
 
+/** A BlobAccessPointConfiguration is a tracked Azure resource modeled as a sub-resource of a Storage Account. */
+export interface BlobAccessPointConfiguration extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationProperties;
+}
+
+export function blobAccessPointConfigurationSerializer(item: BlobAccessPointConfiguration): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: blobAccessPointConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function blobAccessPointConfigurationDeserializer(item: any): BlobAccessPointConfiguration {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: blobAccessPointConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of a Blob Access Point configuration. */
+export interface BlobAccessPointConfigurationProperties {
+  /** The system-generated unique identifier of the configuration. */
+  readonly uniqueId?: string;
+  /** The configuration state. A configuration is created in the Active state when this value is not specified. */
+  state?: BlobAccessPointConfigurationState;
+  /** An arbitrary description of the Blob Access Point configuration. */
+  description?: string;
+  /** The status of the most recent connection test. */
+  readonly lastConnectionTestStatus?: BlobAccessPointConnectionTestStatus;
+  /** The timestamp of the most recent connection test. */
+  readonly lastConnectionTestTimestamp?: Date;
+  /** The normalized and redacted error from the most recent failed connection test. */
+  readonly lastConnectionTestErrorMessage?: string;
+  /** Information about the backing data source. */
+  source: BlobAccessPointSourcePropertiesUnion;
+  /** The status of the last operation. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function blobAccessPointConfigurationPropertiesSerializer(
+  item: BlobAccessPointConfigurationProperties,
+): any {
+  return {
+    state: item["state"],
+    description: item["description"],
+    source: blobAccessPointSourcePropertiesUnionSerializer(item["source"]),
+  };
+}
+
+export function blobAccessPointConfigurationPropertiesDeserializer(
+  item: any,
+): BlobAccessPointConfigurationProperties {
+  return {
+    uniqueId: item["uniqueId"],
+    state: item["state"],
+    description: item["description"],
+    lastConnectionTestStatus: item["lastConnectionTestStatus"],
+    lastConnectionTestTimestamp: !item["lastConnectionTestTimestamp"]
+      ? item["lastConnectionTestTimestamp"]
+      : new Date(item["lastConnectionTestTimestamp"]),
+    lastConnectionTestErrorMessage: item["lastConnectionTestErrorMessage"],
+    source: blobAccessPointSourcePropertiesUnionDeserializer(item["source"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The state of a Blob Access Point configuration. */
+export enum KnownBlobAccessPointConfigurationState {
+  /** The Blob Access Point configuration is active. */
+  Active = "Active",
+  /** The Blob Access Point configuration is inactive. */
+  Inactive = "Inactive",
+}
+
+/**
+ * The state of a Blob Access Point configuration. \
+ * {@link KnownBlobAccessPointConfigurationState} can be used interchangeably with BlobAccessPointConfigurationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The Blob Access Point configuration is active. \
+ * **Inactive**: The Blob Access Point configuration is inactive.
+ */
+export type BlobAccessPointConfigurationState = string;
+
+/** The status of the most recent connection test. */
+export enum KnownBlobAccessPointConnectionTestStatus {
+  /** The connection test succeeded. */
+  Succeeded = "Succeeded",
+  /** The connection test failed. */
+  Failed = "Failed",
+}
+
+/**
+ * The status of the most recent connection test. \
+ * {@link KnownBlobAccessPointConnectionTestStatus} can be used interchangeably with BlobAccessPointConnectionTestStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The connection test succeeded. \
+ * **Failed**: The connection test failed.
+ */
+export type BlobAccessPointConnectionTestStatus = string;
+
+/** Information about the data source exposed through a Blob Access Point. */
+export interface BlobAccessPointSourceProperties {
+  /** The source type. This value determines the remaining shape of the source object. */
+  /** The discriminator possible values: NetAppOntap, AzureNetAppFiles, DellOneFs, Qumulo, Commvault, Nasuni, S3Compatible */
+  sourceType: BlobAccessPointSourceType;
+}
+
+export function blobAccessPointSourcePropertiesSerializer(
+  item: BlobAccessPointSourceProperties,
+): any {
+  return { sourceType: item["sourceType"] };
+}
+
+export function blobAccessPointSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+  };
+}
+
+/** Alias for BlobAccessPointSourcePropertiesUnion */
+export type BlobAccessPointSourcePropertiesUnion =
+  | BlobAccessPointNetAppOntapSourceProperties
+  | BlobAccessPointAzureNetAppFilesSourceProperties
+  | BlobAccessPointDellOneFsSourceProperties
+  | BlobAccessPointQumuloSourceProperties
+  | BlobAccessPointCommvaultSourceProperties
+  | BlobAccessPointNasuniSourceProperties
+  | BlobAccessPointGenericS3SourceProperties
+  | BlobAccessPointSourceProperties;
+
+export function blobAccessPointSourcePropertiesUnionSerializer(
+  item: BlobAccessPointSourcePropertiesUnion,
+): any {
+  switch (item.sourceType) {
+    case "NetAppOntap":
+      return blobAccessPointNetAppOntapSourcePropertiesSerializer(
+        item as BlobAccessPointNetAppOntapSourceProperties,
+      );
+
+    case "AzureNetAppFiles":
+      return blobAccessPointAzureNetAppFilesSourcePropertiesSerializer(
+        item as BlobAccessPointAzureNetAppFilesSourceProperties,
+      );
+
+    case "DellOneFs":
+      return blobAccessPointDellOneFsSourcePropertiesSerializer(
+        item as BlobAccessPointDellOneFsSourceProperties,
+      );
+
+    case "Qumulo":
+      return blobAccessPointQumuloSourcePropertiesSerializer(
+        item as BlobAccessPointQumuloSourceProperties,
+      );
+
+    case "Commvault":
+      return blobAccessPointCommvaultSourcePropertiesSerializer(
+        item as BlobAccessPointCommvaultSourceProperties,
+      );
+
+    case "Nasuni":
+      return blobAccessPointNasuniSourcePropertiesSerializer(
+        item as BlobAccessPointNasuniSourceProperties,
+      );
+
+    case "S3Compatible":
+      return blobAccessPointGenericS3SourcePropertiesSerializer(
+        item as BlobAccessPointGenericS3SourceProperties,
+      );
+
+    default:
+      return blobAccessPointSourcePropertiesSerializer(item);
+  }
+}
+
+export function blobAccessPointSourcePropertiesUnionDeserializer(
+  item: any,
+): BlobAccessPointSourcePropertiesUnion {
+  switch (item["sourceType"]) {
+    case "NetAppOntap":
+      return blobAccessPointNetAppOntapSourcePropertiesDeserializer(
+        item as BlobAccessPointNetAppOntapSourceProperties,
+      );
+
+    case "AzureNetAppFiles":
+      return blobAccessPointAzureNetAppFilesSourcePropertiesDeserializer(
+        item as BlobAccessPointAzureNetAppFilesSourceProperties,
+      );
+
+    case "DellOneFs":
+      return blobAccessPointDellOneFsSourcePropertiesDeserializer(
+        item as BlobAccessPointDellOneFsSourceProperties,
+      );
+
+    case "Qumulo":
+      return blobAccessPointQumuloSourcePropertiesDeserializer(
+        item as BlobAccessPointQumuloSourceProperties,
+      );
+
+    case "Commvault":
+      return blobAccessPointCommvaultSourcePropertiesDeserializer(
+        item as BlobAccessPointCommvaultSourceProperties,
+      );
+
+    case "Nasuni":
+      return blobAccessPointNasuniSourcePropertiesDeserializer(
+        item as BlobAccessPointNasuniSourceProperties,
+      );
+
+    case "S3Compatible":
+      return blobAccessPointGenericS3SourcePropertiesDeserializer(
+        item as BlobAccessPointGenericS3SourceProperties,
+      );
+
+    default:
+      return blobAccessPointSourcePropertiesDeserializer(item);
+  }
+}
+
+/** The type of the non-Azure S3-compatible data source exposed through the Blob Access Point. */
+export enum KnownBlobAccessPointSourceType {
+  /** NetApp ONTAP. */
+  NetAppOntap = "NetAppOntap",
+  /** Azure NetApp Files. */
+  AzureNetAppFiles = "AzureNetAppFiles",
+  /** Dell OneFS. */
+  DellOneFs = "DellOneFs",
+  /** Qumulo S3-compatible data source. */
+  Qumulo = "Qumulo",
+  /** Commvault S3-compatible data source. */
+  Commvault = "Commvault",
+  /** Nasuni S3-compatible data source. */
+  Nasuni = "Nasuni",
+  /** Another S3-compatible data source. */
+  S3Compatible = "S3Compatible",
+}
+
+/**
+ * The type of the non-Azure S3-compatible data source exposed through the Blob Access Point. \
+ * {@link KnownBlobAccessPointSourceType} can be used interchangeably with BlobAccessPointSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NetAppOntap**: NetApp ONTAP. \
+ * **AzureNetAppFiles**: Azure NetApp Files. \
+ * **DellOneFs**: Dell OneFS. \
+ * **Qumulo**: Qumulo S3-compatible data source. \
+ * **Commvault**: Commvault S3-compatible data source. \
+ * **Nasuni**: Nasuni S3-compatible data source. \
+ * **S3Compatible**: Another S3-compatible data source.
+ */
+export type BlobAccessPointSourceType = string;
+
+/** A NetApp ONTAP backing source. */
+export interface BlobAccessPointNetAppOntapSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "NetAppOntap";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointNetAppOntapSourcePropertiesSerializer(
+  item: BlobAccessPointNetAppOntapSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointNetAppOntapSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointNetAppOntapSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** Details for connecting to a backing data source. */
+export interface BlobAccessPointConnectionProperties {
+  /** The connection type. This value determines the remaining shape of the connection object. */
+  /** The discriminator possible values: Endpoint, PrivateLink */
+  connectionType: BlobAccessPointConnectionType;
+}
+
+export function blobAccessPointConnectionPropertiesSerializer(
+  item: BlobAccessPointConnectionProperties,
+): any {
+  return { connectionType: item["connectionType"] };
+}
+
+export function blobAccessPointConnectionPropertiesDeserializer(
+  item: any,
+): BlobAccessPointConnectionProperties {
+  return {
+    connectionType: item["connectionType"],
+  };
+}
+
+/** Alias for BlobAccessPointConnectionPropertiesUnion */
+export type BlobAccessPointConnectionPropertiesUnion =
+  | BlobAccessPointEndpointConnectionProperties
+  | BlobAccessPointPrivateLinkConnectionProperties
+  | BlobAccessPointConnectionProperties;
+
+export function blobAccessPointConnectionPropertiesUnionSerializer(
+  item: BlobAccessPointConnectionPropertiesUnion,
+): any {
+  switch (item.connectionType) {
+    case "Endpoint":
+      return blobAccessPointEndpointConnectionPropertiesSerializer(
+        item as BlobAccessPointEndpointConnectionProperties,
+      );
+
+    case "PrivateLink":
+      return blobAccessPointPrivateLinkConnectionPropertiesSerializer(
+        item as BlobAccessPointPrivateLinkConnectionProperties,
+      );
+
+    default:
+      return blobAccessPointConnectionPropertiesSerializer(item);
+  }
+}
+
+export function blobAccessPointConnectionPropertiesUnionDeserializer(
+  item: any,
+): BlobAccessPointConnectionPropertiesUnion {
+  switch (item["connectionType"]) {
+    case "Endpoint":
+      return blobAccessPointEndpointConnectionPropertiesDeserializer(
+        item as BlobAccessPointEndpointConnectionProperties,
+      );
+
+    case "PrivateLink":
+      return blobAccessPointPrivateLinkConnectionPropertiesDeserializer(
+        item as BlobAccessPointPrivateLinkConnectionProperties,
+      );
+
+    default:
+      return blobAccessPointConnectionPropertiesDeserializer(item);
+  }
+}
+
+/** The connection type used to reach a non-Azure backing data source. */
+export enum KnownBlobAccessPointConnectionType {
+  /** Connect directly to a public or otherwise routable endpoint. */
+  Endpoint = "Endpoint",
+  /** Connect through Azure Private Link. */
+  PrivateLink = "PrivateLink",
+}
+
+/**
+ * The connection type used to reach a non-Azure backing data source. \
+ * {@link KnownBlobAccessPointConnectionType} can be used interchangeably with BlobAccessPointConnectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Endpoint**: Connect directly to a public or otherwise routable endpoint. \
+ * **PrivateLink**: Connect through Azure Private Link.
+ */
+export type BlobAccessPointConnectionType = string;
+
+/** A direct endpoint connection. */
+export interface BlobAccessPointEndpointConnectionProperties extends BlobAccessPointConnectionProperties {
+  connectionType: "Endpoint";
+  /** The backing endpoint, including its protocol, host, optional port, and optional path. */
+  endpoint: string;
+  /** TLS certificate verification behavior. Defaults to Perform when not specified. */
+  tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+export function blobAccessPointEndpointConnectionPropertiesSerializer(
+  item: BlobAccessPointEndpointConnectionProperties,
+): any {
+  return {
+    connectionType: item["connectionType"],
+    endpoint: item["endpoint"],
+    tlsVerification: item["tlsVerification"],
+  };
+}
+
+export function blobAccessPointEndpointConnectionPropertiesDeserializer(
+  item: any,
+): BlobAccessPointEndpointConnectionProperties {
+  return {
+    connectionType: item["connectionType"],
+    endpoint: item["endpoint"],
+    tlsVerification: item["tlsVerification"],
+  };
+}
+
+/** TLS certificate verification behavior. */
+export enum KnownBlobAccessPointTlsVerification {
+  /** Verify the TLS certificate chain. */
+  Perform = "Perform",
+  /** Skip TLS certificate-chain verification. Use only when the backing source uses a certificate that cannot be validated against a trusted root. Skipping verification exposes credentials and data to an on-path attacker. */
+  Skip = "Skip",
+}
+
+/**
+ * TLS certificate verification behavior. \
+ * {@link KnownBlobAccessPointTlsVerification} can be used interchangeably with BlobAccessPointTlsVerification,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Perform**: Verify the TLS certificate chain. \
+ * **Skip**: Skip TLS certificate-chain verification. Use only when the backing source uses a certificate that cannot be validated against a trusted root. Skipping verification exposes credentials and data to an on-path attacker.
+ */
+export type BlobAccessPointTlsVerification = string;
+
+/** A connection established through Azure Private Link. */
+export interface BlobAccessPointPrivateLinkConnectionProperties extends BlobAccessPointConnectionProperties {
+  connectionType: "PrivateLink";
+  /** Indicates that privateLinkId contains an Azure resource ID. */
+  privateLinkIdType: BlobAccessPointPrivateLinkIdType;
+  /** The Azure resource ID of the backing Private Link service. */
+  privateLinkId: string;
+  /** The Private Link group ID, when required by the backing resource. */
+  privateLinkGroupId?: string;
+  /** The Azure region in which the private endpoint is provisioned. */
+  privateLinkLocation: string;
+  /** The connection request message sent to the Private Link owner. */
+  requestMessage: string;
+  /** The backing endpoint as seen by the target of the Private Link. */
+  endpoint: string;
+  /** TLS certificate verification behavior. Defaults to Perform when not specified. */
+  tlsVerification?: BlobAccessPointTlsVerification;
+  /** The name of the private endpoint created by Azure Storage. */
+  readonly privateEndpointName?: string;
+}
+
+export function blobAccessPointPrivateLinkConnectionPropertiesSerializer(
+  item: BlobAccessPointPrivateLinkConnectionProperties,
+): any {
+  return {
+    connectionType: item["connectionType"],
+    privateLinkIdType: item["privateLinkIdType"],
+    privateLinkId: item["privateLinkId"],
+    privateLinkGroupId: item["privateLinkGroupId"],
+    privateLinkLocation: item["privateLinkLocation"],
+    requestMessage: item["requestMessage"],
+    endpoint: item["endpoint"],
+    tlsVerification: item["tlsVerification"],
+  };
+}
+
+export function blobAccessPointPrivateLinkConnectionPropertiesDeserializer(
+  item: any,
+): BlobAccessPointPrivateLinkConnectionProperties {
+  return {
+    connectionType: item["connectionType"],
+    privateLinkIdType: item["privateLinkIdType"],
+    privateLinkId: item["privateLinkId"],
+    privateLinkGroupId: item["privateLinkGroupId"],
+    privateLinkLocation: item["privateLinkLocation"],
+    requestMessage: item["requestMessage"],
+    endpoint: item["endpoint"],
+    tlsVerification: item["tlsVerification"],
+    privateEndpointName: item["privateEndpointName"],
+  };
+}
+
+/** The format used by a Private Link identifier. */
+export enum KnownBlobAccessPointPrivateLinkIdType {
+  /** The identifier is an Azure resource ID. */
+  ResourceId = "ResourceId",
+}
+
+/**
+ * The format used by a Private Link identifier. \
+ * {@link KnownBlobAccessPointPrivateLinkIdType} can be used interchangeably with BlobAccessPointPrivateLinkIdType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ResourceId**: The identifier is an Azure resource ID.
+ */
+export type BlobAccessPointPrivateLinkIdType = string;
+
+/** Authentication properties for a non-Azure S3-compatible source. */
+export interface BlobAccessPointRemoteAuthProperties {
+  /** The authentication type. This value determines the remaining shape of the authentication object. */
+  /** The discriminator possible values: AccessKey */
+  authType: BlobAccessPointRemoteAuthType;
+}
+
+export function blobAccessPointRemoteAuthPropertiesSerializer(
+  item: BlobAccessPointRemoteAuthProperties,
+): any {
+  return { authType: item["authType"] };
+}
+
+export function blobAccessPointRemoteAuthPropertiesDeserializer(
+  item: any,
+): BlobAccessPointRemoteAuthProperties {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Alias for BlobAccessPointRemoteAuthPropertiesUnion */
+export type BlobAccessPointRemoteAuthPropertiesUnion =
+  BlobAccessPointAccessKeyAuthProperties | BlobAccessPointRemoteAuthProperties;
+
+export function blobAccessPointRemoteAuthPropertiesUnionSerializer(
+  item: BlobAccessPointRemoteAuthPropertiesUnion,
+): any {
+  switch (item.authType) {
+    case "AccessKey":
+      return blobAccessPointAccessKeyAuthPropertiesSerializer(
+        item as BlobAccessPointAccessKeyAuthProperties,
+      );
+
+    default:
+      return blobAccessPointRemoteAuthPropertiesSerializer(item);
+  }
+}
+
+export function blobAccessPointRemoteAuthPropertiesUnionDeserializer(
+  item: any,
+): BlobAccessPointRemoteAuthPropertiesUnion {
+  switch (item["authType"]) {
+    case "AccessKey":
+      return blobAccessPointAccessKeyAuthPropertiesDeserializer(
+        item as BlobAccessPointAccessKeyAuthProperties,
+      );
+
+    default:
+      return blobAccessPointRemoteAuthPropertiesDeserializer(item);
+  }
+}
+
+/** How Azure Storage authenticates to a non-Azure S3-compatible source. */
+export enum KnownBlobAccessPointRemoteAuthType {
+  /** Authenticate with an S3 access key and secret access key. */
+  AccessKey = "AccessKey",
+}
+
+/**
+ * How Azure Storage authenticates to a non-Azure S3-compatible source. \
+ * {@link KnownBlobAccessPointRemoteAuthType} can be used interchangeably with BlobAccessPointRemoteAuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccessKey**: Authenticate with an S3 access key and secret access key.
+ */
+export type BlobAccessPointRemoteAuthType = string;
+
+/** S3 access-key authentication properties. */
+export interface BlobAccessPointAccessKeyAuthProperties extends BlobAccessPointRemoteAuthProperties {
+  authType: "AccessKey";
+  /** The access key ID. */
+  accessKeyId: string;
+  /** The secret access key. This value is never returned by read or list operations. */
+  secretAccessKey: string;
+  /** The region used by the request-signing algorithm. Defaults to 'us-east-1' when not specified. */
+  signingRegion?: string;
+  /** The host used when computing request signatures. The endpoint host is used by default. */
+  hostOverride?: string;
+}
+
+export function blobAccessPointAccessKeyAuthPropertiesSerializer(
+  item: BlobAccessPointAccessKeyAuthProperties,
+): any {
+  return {
+    authType: item["authType"],
+    accessKeyId: item["accessKeyId"],
+    secretAccessKey: item["secretAccessKey"],
+    signingRegion: item["signingRegion"],
+    hostOverride: item["hostOverride"],
+  };
+}
+
+export function blobAccessPointAccessKeyAuthPropertiesDeserializer(
+  item: any,
+): BlobAccessPointAccessKeyAuthProperties {
+  return {
+    authType: item["authType"],
+    accessKeyId: item["accessKeyId"],
+    secretAccessKey: item["secretAccessKey"],
+    signingRegion: item["signingRegion"],
+    hostOverride: item["hostOverride"],
+  };
+}
+
+/** An Azure NetApp Files backing source. */
+export interface BlobAccessPointAzureNetAppFilesSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "AzureNetAppFiles";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointAzureNetAppFilesSourcePropertiesSerializer(
+  item: BlobAccessPointAzureNetAppFilesSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointAzureNetAppFilesSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointAzureNetAppFilesSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** A Dell OneFS backing source. */
+export interface BlobAccessPointDellOneFsSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "DellOneFs";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointDellOneFsSourcePropertiesSerializer(
+  item: BlobAccessPointDellOneFsSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointDellOneFsSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointDellOneFsSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** A Qumulo backing source. */
+export interface BlobAccessPointQumuloSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "Qumulo";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointQumuloSourcePropertiesSerializer(
+  item: BlobAccessPointQumuloSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointQumuloSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointQumuloSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** A Commvault backing source. */
+export interface BlobAccessPointCommvaultSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "Commvault";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointCommvaultSourcePropertiesSerializer(
+  item: BlobAccessPointCommvaultSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointCommvaultSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointCommvaultSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** A Nasuni backing source. */
+export interface BlobAccessPointNasuniSourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "Nasuni";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointNasuniSourcePropertiesSerializer(
+  item: BlobAccessPointNasuniSourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointNasuniSourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointNasuniSourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** Another S3-compatible backing source. */
+export interface BlobAccessPointGenericS3SourceProperties extends BlobAccessPointSourceProperties {
+  sourceType: "S3Compatible";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection: BlobAccessPointConnectionPropertiesUnion;
+  /** Details for authenticating to the backing data source. */
+  auth: BlobAccessPointRemoteAuthPropertiesUnion;
+}
+
+export function blobAccessPointGenericS3SourcePropertiesSerializer(
+  item: BlobAccessPointGenericS3SourceProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionSerializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionSerializer(item["auth"]),
+  };
+}
+
+export function blobAccessPointGenericS3SourcePropertiesDeserializer(
+  item: any,
+): BlobAccessPointGenericS3SourceProperties {
+  return {
+    sourceType: item["sourceType"],
+    connection: blobAccessPointConnectionPropertiesUnionDeserializer(item["connection"]),
+    auth: blobAccessPointRemoteAuthPropertiesUnionDeserializer(item["auth"]),
+  };
+}
+
+/** A BlobAccessPointConfiguration is a tracked Azure resource modeled as a sub-resource of a Storage Account. */
+export interface BlobAccessPointConfigurationUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: BlobAccessPointConfigurationPropertiesUpdate;
+}
+
+export function blobAccessPointConfigurationUpdateSerializer(
+  item: BlobAccessPointConfigurationUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : blobAccessPointConfigurationPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Details of a Blob Access Point configuration. */
+export interface BlobAccessPointConfigurationPropertiesUpdate {
+  /** The configuration state. A configuration is created in the Active state when this value is not specified. */
+  state?: BlobAccessPointConfigurationState;
+  /** An arbitrary description of the Blob Access Point configuration. */
+  description?: string;
+  /** Information about the backing data source. */
+  source?: BlobAccessPointSourcePropertiesUpdateUnion;
+}
+
+export function blobAccessPointConfigurationPropertiesUpdateSerializer(
+  item: BlobAccessPointConfigurationPropertiesUpdate,
+): any {
+  return {
+    state: item["state"],
+    description: item["description"],
+    source: !item["source"]
+      ? item["source"]
+      : blobAccessPointSourcePropertiesUpdateUnionSerializer(item["source"]),
+  };
+}
+
+/** Information about the data source exposed through a Blob Access Point. */
+export interface BlobAccessPointSourcePropertiesUpdate {
+  /** The source type. This value determines the remaining shape of the source object. */
+  /** The discriminator possible values: NetAppOntap, AzureNetAppFiles, DellOneFs, Qumulo, Commvault, Nasuni, S3Compatible */
+  sourceType: BlobAccessPointSourceType;
+}
+
+export function blobAccessPointSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointSourcePropertiesUpdate,
+): any {
+  return { sourceType: item["sourceType"] };
+}
+
+/** Alias for BlobAccessPointSourcePropertiesUpdateUnion */
+export type BlobAccessPointSourcePropertiesUpdateUnion =
+  | BlobAccessPointNetAppOntapSourcePropertiesUpdate
+  | BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate
+  | BlobAccessPointDellOneFsSourcePropertiesUpdate
+  | BlobAccessPointQumuloSourcePropertiesUpdate
+  | BlobAccessPointCommvaultSourcePropertiesUpdate
+  | BlobAccessPointNasuniSourcePropertiesUpdate
+  | BlobAccessPointGenericS3SourcePropertiesUpdate
+  | BlobAccessPointSourcePropertiesUpdate;
+
+export function blobAccessPointSourcePropertiesUpdateUnionSerializer(
+  item: BlobAccessPointSourcePropertiesUpdateUnion,
+): any {
+  switch (item.sourceType) {
+    case "NetAppOntap":
+      return blobAccessPointNetAppOntapSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointNetAppOntapSourcePropertiesUpdate,
+      );
+
+    case "AzureNetAppFiles":
+      return blobAccessPointAzureNetAppFilesSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate,
+      );
+
+    case "DellOneFs":
+      return blobAccessPointDellOneFsSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointDellOneFsSourcePropertiesUpdate,
+      );
+
+    case "Qumulo":
+      return blobAccessPointQumuloSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointQumuloSourcePropertiesUpdate,
+      );
+
+    case "Commvault":
+      return blobAccessPointCommvaultSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointCommvaultSourcePropertiesUpdate,
+      );
+
+    case "Nasuni":
+      return blobAccessPointNasuniSourcePropertiesUpdateSerializer(
+        item as BlobAccessPointNasuniSourcePropertiesUpdate,
+      );
+
+    case "S3Compatible":
+      return blobAccessPointGenericS3SourcePropertiesUpdateSerializer(
+        item as BlobAccessPointGenericS3SourcePropertiesUpdate,
+      );
+
+    default:
+      return blobAccessPointSourcePropertiesUpdateSerializer(item);
+  }
+}
+
+/** A NetApp ONTAP backing source. */
+export interface BlobAccessPointNetAppOntapSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "NetAppOntap";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointNetAppOntapSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointNetAppOntapSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** Details for connecting to a backing data source. */
+export interface BlobAccessPointConnectionPropertiesUpdate {
+  /** The connection type. This value determines the remaining shape of the connection object. */
+  /** The discriminator possible values: Endpoint, PrivateLink */
+  connectionType: BlobAccessPointConnectionType;
+}
+
+export function blobAccessPointConnectionPropertiesUpdateSerializer(
+  item: BlobAccessPointConnectionPropertiesUpdate,
+): any {
+  return { connectionType: item["connectionType"] };
+}
+
+/** Alias for BlobAccessPointConnectionPropertiesUpdateUnion */
+export type BlobAccessPointConnectionPropertiesUpdateUnion =
+  | BlobAccessPointEndpointConnectionPropertiesUpdate
+  | BlobAccessPointPrivateLinkConnectionPropertiesUpdate
+  | BlobAccessPointConnectionPropertiesUpdate;
+
+export function blobAccessPointConnectionPropertiesUpdateUnionSerializer(
+  item: BlobAccessPointConnectionPropertiesUpdateUnion,
+): any {
+  switch (item.connectionType) {
+    case "Endpoint":
+      return blobAccessPointEndpointConnectionPropertiesUpdateSerializer(
+        item as BlobAccessPointEndpointConnectionPropertiesUpdate,
+      );
+
+    case "PrivateLink":
+      return blobAccessPointPrivateLinkConnectionPropertiesUpdateSerializer(
+        item as BlobAccessPointPrivateLinkConnectionPropertiesUpdate,
+      );
+
+    default:
+      return blobAccessPointConnectionPropertiesUpdateSerializer(item);
+  }
+}
+
+/** A direct endpoint connection. */
+export interface BlobAccessPointEndpointConnectionPropertiesUpdate extends BlobAccessPointConnectionPropertiesUpdate {
+  connectionType: "Endpoint";
+  /** TLS certificate verification behavior. Defaults to Perform when not specified. */
+  tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+export function blobAccessPointEndpointConnectionPropertiesUpdateSerializer(
+  item: BlobAccessPointEndpointConnectionPropertiesUpdate,
+): any {
+  return { connectionType: item["connectionType"], tlsVerification: item["tlsVerification"] };
+}
+
+/** A connection established through Azure Private Link. */
+export interface BlobAccessPointPrivateLinkConnectionPropertiesUpdate extends BlobAccessPointConnectionPropertiesUpdate {
+  connectionType: "PrivateLink";
+  /** TLS certificate verification behavior. Defaults to Perform when not specified. */
+  tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+export function blobAccessPointPrivateLinkConnectionPropertiesUpdateSerializer(
+  item: BlobAccessPointPrivateLinkConnectionPropertiesUpdate,
+): any {
+  return { connectionType: item["connectionType"], tlsVerification: item["tlsVerification"] };
+}
+
+/** Authentication properties for a non-Azure S3-compatible source. */
+export interface BlobAccessPointRemoteAuthPropertiesUpdate {
+  /** The authentication type. This value determines the remaining shape of the authentication object. */
+  /** The discriminator possible values: AccessKey */
+  authType: BlobAccessPointRemoteAuthType;
+}
+
+export function blobAccessPointRemoteAuthPropertiesUpdateSerializer(
+  item: BlobAccessPointRemoteAuthPropertiesUpdate,
+): any {
+  return { authType: item["authType"] };
+}
+
+/** Alias for BlobAccessPointRemoteAuthPropertiesUpdateUnion */
+export type BlobAccessPointRemoteAuthPropertiesUpdateUnion =
+  BlobAccessPointAccessKeyAuthPropertiesUpdate | BlobAccessPointRemoteAuthPropertiesUpdate;
+
+export function blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(
+  item: BlobAccessPointRemoteAuthPropertiesUpdateUnion,
+): any {
+  switch (item.authType) {
+    case "AccessKey":
+      return blobAccessPointAccessKeyAuthPropertiesUpdateSerializer(
+        item as BlobAccessPointAccessKeyAuthPropertiesUpdate,
+      );
+
+    default:
+      return blobAccessPointRemoteAuthPropertiesUpdateSerializer(item);
+  }
+}
+
+/** S3 access-key authentication properties. */
+export interface BlobAccessPointAccessKeyAuthPropertiesUpdate extends BlobAccessPointRemoteAuthPropertiesUpdate {
+  authType: "AccessKey";
+  /** The access key ID. */
+  accessKeyId?: string;
+  /** The secret access key. This value is never returned by read or list operations. */
+  secretAccessKey?: string;
+  /** The region used by the request-signing algorithm. Defaults to 'us-east-1' when not specified. */
+  signingRegion?: string;
+  /** The host used when computing request signatures. The endpoint host is used by default. */
+  hostOverride?: string;
+}
+
+export function blobAccessPointAccessKeyAuthPropertiesUpdateSerializer(
+  item: BlobAccessPointAccessKeyAuthPropertiesUpdate,
+): any {
+  return {
+    authType: item["authType"],
+    accessKeyId: item["accessKeyId"],
+    secretAccessKey: item["secretAccessKey"],
+    signingRegion: item["signingRegion"],
+    hostOverride: item["hostOverride"],
+  };
+}
+
+/** An Azure NetApp Files backing source. */
+export interface BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "AzureNetAppFiles";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointAzureNetAppFilesSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** A Dell OneFS backing source. */
+export interface BlobAccessPointDellOneFsSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "DellOneFs";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointDellOneFsSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointDellOneFsSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** A Qumulo backing source. */
+export interface BlobAccessPointQumuloSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "Qumulo";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointQumuloSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointQumuloSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** A Commvault backing source. */
+export interface BlobAccessPointCommvaultSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "Commvault";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointCommvaultSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointCommvaultSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** A Nasuni backing source. */
+export interface BlobAccessPointNasuniSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "Nasuni";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointNasuniSourcePropertiesUpdateSerializer(
+  item: BlobAccessPointNasuniSourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** Another S3-compatible backing source. */
+export interface BlobAccessPointGenericS3SourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+  sourceType: "S3Compatible";
+  /** Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards. */
+  connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+  /** Details for authenticating to the backing data source. */
+  auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+}
+
+export function blobAccessPointGenericS3SourcePropertiesUpdateSerializer(
+  item: BlobAccessPointGenericS3SourcePropertiesUpdate,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    connection: !item["connection"]
+      ? item["connection"]
+      : blobAccessPointConnectionPropertiesUpdateUnionSerializer(item["connection"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : blobAccessPointRemoteAuthPropertiesUpdateUnionSerializer(item["auth"]),
+  };
+}
+
+/** The response of a BlobAccessPointConfiguration list operation. */
+export interface _BlobAccessPointConfigurationListResult {
+  /** The BlobAccessPointConfiguration items on this page */
+  value: BlobAccessPointConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _blobAccessPointConfigurationListResultDeserializer(
+  item: any,
+): _BlobAccessPointConfigurationListResult {
+  return {
+    value: blobAccessPointConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function blobAccessPointConfigurationArraySerializer(
+  result: Array<BlobAccessPointConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return blobAccessPointConfigurationSerializer(item);
+  });
+}
+
+export function blobAccessPointConfigurationArrayDeserializer(
+  result: Array<BlobAccessPointConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return blobAccessPointConfigurationDeserializer(item);
+  });
+}
+
+/** The request used to test an existing Blob Access Point configuration. */
+export interface BlobAccessPointConnectionTestRequest {
+  /** The system-generated unique identifier of the Blob Access Point configuration, as returned by a read operation. This value must match the configuration named in the request path, and is required so that a configuration which was deleted and recreated under the same name is not tested by mistake. */
+  uniqueId: string;
+}
+
+export function blobAccessPointConnectionTestRequestSerializer(
+  item: BlobAccessPointConnectionTestRequest,
+): any {
+  return { uniqueId: item["uniqueId"] };
+}
+
+/** The result of testing a Blob Access Point configuration connection. */
+export interface BlobAccessPointConnectionTestResponse {
+  /** The name of the request attempted against the backing data source. */
+  methodName: string;
+  /** A normalized and redacted error message received from the backing data source. This value is empty when the connection test succeeds. */
+  errorMessage?: string;
+  /** The request ID associated with the request sent to the backing data source for validation. */
+  requestId: string;
+}
+
+export function blobAccessPointConnectionTestResponseDeserializer(
+  item: any,
+): BlobAccessPointConnectionTestResponse {
+  return {
+    methodName: item["methodName"],
+    errorMessage: item["errorMessage"],
+    requestId: item["requestId"],
+  };
+}
+
+/** The request used to test a proposed Blob Access Point configuration. */
+export interface BlobAccessPointProposedConnectionTestRequest {
+  /** Information about the backing data source whose connection is tested. */
+  source: BlobAccessPointSourcePropertiesUnion;
+}
+
+export function blobAccessPointProposedConnectionTestRequestSerializer(
+  item: BlobAccessPointProposedConnectionTestRequest,
+): any {
+  return { source: blobAccessPointSourcePropertiesUnionSerializer(item["source"]) };
+}
+
 /** The advanced platform metrics rule for the storage account. */
 export interface AdvancedPlatformMetricsRule extends ProxyResource {
   /** Returns the advanced platform metrics rule. */
@@ -9151,6 +10580,8 @@ export interface AdvancedPlatformMetricsRuleProperties {
   enabled: boolean;
   /** Gets the last modification date and time of the advanced platform metrics rule in UTC. */
   readonly lastModifiedTime?: Date;
+  /** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
+  metricsToEmit?: MetricsEmitted[];
   /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
   readonly metricsEmitted?: MetricsEmitted[];
   /** Configuration for the advanced platform metrics rule. */
@@ -9162,6 +10593,11 @@ export function advancedPlatformMetricsRulePropertiesSerializer(
 ): any {
   return {
     enabled: item["enabled"],
+    metricsToEmit: !item["metricsToEmit"]
+      ? item["metricsToEmit"]
+      : item["metricsToEmit"].map((p: any) => {
+          return p;
+        }),
     ruleConfig: advancedPlatformMetricsRuleConfigSerializer(item["ruleConfig"]),
   };
 }
@@ -9175,6 +10611,11 @@ export function advancedPlatformMetricsRulePropertiesDeserializer(
     lastModifiedTime: !item["lastModifiedTime"]
       ? item["lastModifiedTime"]
       : new Date(item["lastModifiedTime"]),
+    metricsToEmit: !item["metricsToEmit"]
+      ? item["metricsToEmit"]
+      : item["metricsToEmit"].map((p: any) => {
+          return p;
+        }),
     metricsEmitted: !item["metricsEmitted"]
       ? item["metricsEmitted"]
       : item["metricsEmitted"].map((p: any) => {
@@ -10487,6 +11928,8 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {
@@ -10527,6 +11970,9 @@ export function _blobContainerPropertiesSerializer(item: BlobContainer): any {
       : immutableStorageWithVersioningSerializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionSerializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -10561,6 +12007,9 @@ export function _blobContainerPropertiesDeserializer(item: any) {
       : immutableStorageWithVersioningDeserializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionDeserializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -10575,6 +12024,9 @@ export function _listContainerItemPropertiesSerializer(item: ListContainerItem):
       : immutableStorageWithVersioningSerializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionSerializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -10609,6 +12061,9 @@ export function _listContainerItemPropertiesDeserializer(item: any) {
       : immutableStorageWithVersioningDeserializer(item["immutableStorageWithVersioning"]),
     enableNfsV3RootSquash: item["enableNfsV3RootSquash"],
     enableNfsV3AllSquash: item["enableNfsV3AllSquash"],
+    blobAccessPointConfiguration: !item["blobAccessPointConfiguration"]
+      ? item["blobAccessPointConfiguration"]
+      : blobAccessPointConfigurationConnectionDeserializer(item["blobAccessPointConfiguration"]),
   };
 }
 
@@ -10735,6 +12190,7 @@ export function _storageAccountPropertiesDeserializer(item: any) {
       ? item["encryption"]
       : encryptionDeserializer(item["encryption"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierDeserializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationDeserializer(
@@ -10815,6 +12271,7 @@ export function _storageAccountCreateParametersPropertiesSerializer(
       ? item["networkRuleSet"]
       : networkRuleSetSerializer(item["networkRuleSet"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierSerializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationSerializer(
@@ -10868,6 +12325,7 @@ export function _storageAccountUpdateParametersPropertiesSerializer(
     sasPolicy: !item["sasPolicy"] ? item["sasPolicy"] : sasPolicySerializer(item["sasPolicy"]),
     keyPolicy: !item["keyPolicy"] ? item["keyPolicy"] : keyPolicySerializer(item["keyPolicy"]),
     accessTier: item["accessTier"],
+    turboTier: !item["turboTier"] ? item["turboTier"] : turboTierSerializer(item["turboTier"]),
     azureFilesIdentityBasedAuthentication: !item["azureFilesIdentityBasedAuthentication"]
       ? item["azureFilesIdentityBasedAuthentication"]
       : azureFilesIdentityBasedAuthenticationSerializer(
