@@ -783,6 +783,56 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("_sendRequest");
     });
   });
+
+  describe("runtime differences", () => {
+    const coreAuthExports = {
+      ".": {
+        browser: { types: "./dist/browser/index.d.ts" },
+        import: { types: "./dist/esm/index.d.ts" },
+        require: { types: "./dist/commonjs/index.d.ts" },
+      },
+    };
+    const accessToken = "export interface AccessToken {\n    token: string;\n}";
+
+    it("lists conditions whose declarations match the ESM view as identical", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": accessToken,
+          "dist/commonjs/index.d.ts": accessToken,
+          "dist/browser/index.d.ts": accessToken,
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        "## Runtime differences\n\nIdentical to the ESM view: `require`, `browser`.",
+      );
+    });
+
+    it("reads each condition's own declaration files", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": accessToken,
+          "dist/commonjs/index.d.ts": accessToken,
+          "dist/browser/index.d.ts":
+            "export interface AccessToken {\n    token: string | undefined;\n}",
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("Identical to the ESM view: `require`.");
+    });
+
+    it("omits Runtime differences for import-only packages", () => {
+      const { apiMd } = generateApiReview(singleExportRoot);
+
+      expect(apiMd).not.toContain("## Runtime differences");
+    });
+  });
 });
 
 describe("generate-api-review command", () => {

@@ -4,6 +4,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
 import semver from "semver";
 import ts from "typescript";
 
@@ -15,6 +16,7 @@ interface Review {
   dependencies: { name: string; version: string; type: DependencyType }[];
   references: NamedImports[];
   exportSections: ExportSection[];
+  identicalConditions: string[];
 }
 
 interface NamedImports {
@@ -39,6 +41,9 @@ interface ReferenceNames {
   /** The name of a package-local declaration that no export path exposes. */
   forgotten(identifier: ts.Identifier): string | undefined;
 }
+
+// Non-ESM conditions, in the order the review lists them.
+const runtimeConditions = ["require", "browser", "react-native", "workerd"];
 
 type DependencyType = "runtime" | "peer";
 
@@ -90,12 +95,18 @@ function buildReview(packageRoot: string): Review {
     .filter(([exportPath]) => exportPath !== "./package.json")
     .sort(([a], [b]) => a.localeCompare(b, "en"));
 
-  const { references, sections } = buildExportSections(
+  const exportFiles = (condition: string): { path: string; file: string }[] =>
     exportEntries.map(([exportPath, conditions]) => ({
       path: exportPath,
-      file: path.join(packageRoot, conditions.import.types),
-    })),
-  );
+      file: path.join(packageRoot, conditions[condition].types),
+    }));
+
+  const { references, sections } = buildExportSections(exportFiles("import"));
+  const identicalConditions = runtimeConditions
+    .filter((condition) => exportEntries.some(([, conditions]) => condition in conditions))
+    .filter((condition) =>
+      isDeepStrictEqual(buildExportSections(exportFiles(condition)).sections, sections),
+    );
 
   return {
     name: packageJson.name,
@@ -116,6 +127,7 @@ function buildReview(packageRoot: string): Review {
       .sort((a, b) => a.name.localeCompare(b.name, "en")),
     references,
     exportSections: sections,
+    identicalConditions,
   };
 }
 
@@ -150,6 +162,13 @@ ${review.references.map((imports) => formatNamedImports("import", imports)).join
   const exportSections = review.exportSections.map((section) =>
     renderExportSection(section, rootPath),
   );
+  const runtimeDifferencesSection = review.identicalConditions.length
+    ? `
+## Runtime differences
+
+Identical to the ESM view: ${review.identicalConditions.map((c) => `\`${c}\``).join(", ")}.
+`
+    : "";
 
   return `# API review: \`${review.name}\`
 
@@ -159,7 +178,7 @@ ${review.references.map((imports) => formatNamedImports("import", imports)).join
 | --- | --- |
 ${entryPointRows.join("\n")}
 
-${dependenciesSection}${referencesSection}${exportSections.join("\n")}`;
+${dependenciesSection}${referencesSection}${exportSections.join("\n")}${runtimeDifferencesSection}`;
 }
 
 // ("import", { module: "m", names: ["A"] })      -> 'import { A } from "m";'
