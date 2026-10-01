@@ -57,14 +57,14 @@ describe("generateApiReview", () => {
     singleExportRoot = fixture({ "dist/esm/index.d.ts": "export declare const value: string;\n" });
   });
 
-  it("titles the review with the package name", () => {
-    const { apiMd } = generateApiReview(singleExportRoot);
+  it("titles the review with the package name", async () => {
+    const { apiMd } = await generateApiReview(singleExportRoot);
 
     expect(apiMd).toMatch(/^# API review: `@example\/review`\n/);
   });
 
-  it("lists each export path with its conditions", () => {
-    const { apiMd } = generateApiReview(singleExportRoot);
+  it("lists each export path with its conditions", async () => {
+    const { apiMd } = await generateApiReview(singleExportRoot);
 
     expect(apiMd).toContain(
       [
@@ -77,7 +77,7 @@ describe("generateApiReview", () => {
     );
   });
 
-  it("lists conditions in a fixed order regardless of package.json key order", () => {
+  it("lists conditions in a fixed order regardless of package.json key order", async () => {
     const root = fixture(
       {
         "dist/browser/index.d.ts": "export declare const value: string;",
@@ -97,20 +97,20 @@ describe("generateApiReview", () => {
       },
     );
 
-    const { apiMd } = generateApiReview(root);
+    const { apiMd } = await generateApiReview(root);
 
     expect(apiMd).toContain("| `.` | `import`, `require`, `browser`, `react-native` |");
   });
 
-  it("prints exported declarations under their export path", () => {
-    const { apiMd } = generateApiReview(singleExportRoot);
+  it("prints exported declarations under their export path", async () => {
+    const { apiMd } = await generateApiReview(singleExportRoot);
 
     expect(apiMd).toContain(
       ["## Export `.`", "", "```ts", "export declare const value: string;", "```"].join("\n"),
     );
   });
 
-  it("sorts declarations by name, not source order", () => {
+  it("sorts declarations by name, not source order", async () => {
     const root = fixture({
       "dist/esm/index.d.ts": [
         "export interface Zebra {}",
@@ -118,7 +118,7 @@ describe("generateApiReview", () => {
       ].join("\n"),
     });
 
-    const { apiMd } = generateApiReview(root);
+    const { apiMd } = await generateApiReview(root);
 
     expect(apiMd).toContain(
       [
@@ -133,7 +133,7 @@ describe("generateApiReview", () => {
   });
 
   describe("printing", () => {
-    it("keeps status tags as line comments and drops prose", () => {
+    it("keeps status tags as line comments and drops prose", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           "/**",
@@ -144,13 +144,13 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("// @beta\nexport declare function preview(): void;");
       expect(apiMd).not.toContain("Prose here");
     });
 
-    it("keeps status tags on individual overloads", () => {
+    it("keeps status tags on individual overloads", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           "export declare class CryptographyClient {",
@@ -167,7 +167,7 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -180,7 +180,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("omits private members and prints classes without declare", () => {
+    it("omits private members and prints classes without declare", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           "export declare class KeyClient {",
@@ -190,12 +190,12 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
     });
 
-    it("omits the #private brand that tsc emits for ES private fields", () => {
+    it("omits the #private brand that tsc emits for ES private fields", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           "export declare class Stack {",
@@ -205,14 +205,14 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export class Stack {\n    name: string;\n}");
     });
   });
 
   describe("export resolution", () => {
-    it("follows export * into other declaration files", () => {
+    it("follows export * into other declaration files", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * from "./keyClient.js";',
         "dist/esm/keyClient.d.ts": [
@@ -222,12 +222,12 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
     });
 
-    it("prints only the names a named re-export exposes", () => {
+    it("prints only the names a named re-export exposes", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export { KeyClient } from "./keyClient.js";',
         "dist/esm/keyClient.d.ts": [
@@ -238,13 +238,13 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
       expect(apiMd).not.toContain("createKeyClientHelper");
     });
 
-    it("prints an aliased re-export under its public name", () => {
+    it("prints an aliased re-export under its public name", async () => {
       const root = fixture({
         "dist/esm/index.d.ts":
           'export type { RestorePollerOptions as WorkspaceClientRestorePollerOptions } from "./restorePollerHelpers.js";',
@@ -255,7 +255,7 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         "export interface WorkspaceClientRestorePollerOptions {\n    updateIntervalInMs?: number;\n}",
@@ -263,7 +263,7 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("interface RestorePollerOptions");
     });
 
-    it("resolves re-exports through several hops", () => {
+    it("resolves re-exports through several hops", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * from "./models/index.js";',
         "dist/esm/models/index.d.ts": 'export type { Widget as WidgetModel } from "./models.js";',
@@ -272,7 +272,7 @@ describe("generateApiReview", () => {
         ),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export interface WidgetModel {\n    name: string;\n}");
     });
@@ -281,13 +281,13 @@ describe("generateApiReview", () => {
   describe("dependencies and hash", () => {
     const index = { "dist/esm/index.d.ts": "export declare const value: string;\n" };
 
-    it("lists runtime and peer dependencies with verbatim specifiers, sorted by name", () => {
+    it("lists runtime and peer dependencies with verbatim specifiers, sorted by name", async () => {
       const root = fixture(index, {
         dependencies: { "@azure/core-auth": "workspace:^", "@azure/abort-controller": "^2.1.2" },
         peerDependencies: { "@azure/core-client": "^1.10.0" },
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -304,65 +304,73 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("shows the hashed form of each dependency version next to its specifier", () => {
+    it("shows the hashed form of each dependency version next to its specifier", async () => {
       const root = fixture(index, { dependencies: { "@azure/core-auth": "^1.9.0" } });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("| `@azure/core-auth` | `^1.9.0` | `1` | runtime |");
     });
 
-    it("hashes api.md with SHA-256 when there are no dependencies", () => {
-      const { apiMd, metadata } = generateApiReview(singleExportRoot);
+    it("hashes api.md with SHA-256 when there are no dependencies", async () => {
+      const { apiMd, metadata } = await generateApiReview(singleExportRoot);
 
       expect(metadata.apiMdSha256).toBe(createHash("sha256").update(apiMd).digest("hex"));
     });
 
-    it("ignores minor and patch dependency bumps in the hash", () => {
-      const before = generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
-      const after = generateApiReview(fixture(index, { dependencies: { tslib: "^1.10.2" } }));
+    it("ignores minor and patch dependency bumps in the hash", async () => {
+      const before = await generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
+      const after = await generateApiReview(fixture(index, { dependencies: { tslib: "^1.10.2" } }));
 
       expect(after.apiMd).not.toBe(before.apiMd);
       expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
     });
 
-    it("changes the hash on a major dependency bump", () => {
-      const before = generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
-      const after = generateApiReview(fixture(index, { dependencies: { tslib: "^2.0.0" } }));
+    it("changes the hash on a major dependency bump", async () => {
+      const before = await generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
+      const after = await generateApiReview(fixture(index, { dependencies: { tslib: "^2.0.0" } }));
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
 
-    it("changes the hash on a 0.x minor bump", () => {
+    it("changes the hash on a 0.x minor bump", async () => {
       const runtime = "@typespec/ts-http-runtime";
-      const before = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.8" } }));
-      const after = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.4.0" } }));
+      const before = await generateApiReview(
+        fixture(index, { dependencies: { [runtime]: "^0.3.8" } }),
+      );
+      const after = await generateApiReview(
+        fixture(index, { dependencies: { [runtime]: "^0.4.0" } }),
+      );
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
 
-    it("ignores 0.x patch bumps in the hash", () => {
+    it("ignores 0.x patch bumps in the hash", async () => {
       const runtime = "@typespec/ts-http-runtime";
-      const before = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.0" } }));
-      const after = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.8" } }));
+      const before = await generateApiReview(
+        fixture(index, { dependencies: { [runtime]: "^0.3.0" } }),
+      );
+      const after = await generateApiReview(
+        fixture(index, { dependencies: { [runtime]: "^0.3.8" } }),
+      );
 
       expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
     });
 
-    it("keeps exact prerelease specifiers in the hash", () => {
+    it("keeps exact prerelease specifiers in the hash", async () => {
       const common = "@azure/maps-common";
-      const before = generateApiReview(
+      const before = await generateApiReview(
         fixture(index, { dependencies: { [common]: "1.0.0-beta.2" } }),
       );
-      const after = generateApiReview(
+      const after = await generateApiReview(
         fixture(index, { dependencies: { [common]: "1.0.0-beta.3" } }),
       );
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
 
-    it("records the package, parser and TypeScript versions in the metadata", () => {
-      const { metadata } = generateApiReview(fixture(index, { version: "1.2.3" }));
+    it("records the package, parser and TypeScript versions in the metadata", async () => {
+      const { metadata } = await generateApiReview(fixture(index, { version: "1.2.3" }));
 
       expect(metadata).toEqual({
         apiMdSha256: expect.stringMatching(/^[0-9a-f]{64}$/),
@@ -372,15 +380,15 @@ describe("generateApiReview", () => {
       });
     });
 
-    it("keeps version fields out of the hash", () => {
-      const before = generateApiReview(fixture(index, { version: "1.2.3" }));
-      const after = generateApiReview(fixture(index, { version: "1.2.4" }));
+    it("keeps version fields out of the hash", async () => {
+      const before = await generateApiReview(fixture(index, { version: "1.2.3" }));
+      const after = await generateApiReview(fixture(index, { version: "1.2.4" }));
 
       expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
     });
 
-    it("omits the Dependencies section when there are none", () => {
-      const { apiMd } = generateApiReview(singleExportRoot);
+    it("omits the Dependencies section when there are none", async () => {
+      const { apiMd } = await generateApiReview(singleExportRoot);
 
       expect(apiMd).not.toContain("## Dependencies");
     });
@@ -389,7 +397,7 @@ describe("generateApiReview", () => {
   describe("subpaths", () => {
     const types = (file: string): { import: { types: string } } => ({ import: { types: file } });
 
-    it("skips the ./package.json export", () => {
+    it("skips the ./package.json export", async () => {
       const root = fixture(
         { "dist/esm/index.d.ts": "export declare const value: string;\n" },
         {
@@ -400,12 +408,12 @@ describe("generateApiReview", () => {
         },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("| --- | --- |\n| `.` | `import` |\n\n");
     });
 
-    it("prints declarations only a subpath exposes under Not exported from `.`", () => {
+    it("prints declarations only a subpath exposes under Not exported from `.`", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": "export declare class NotificationHubsClient {\n}",
@@ -420,7 +428,7 @@ describe("generateApiReview", () => {
         },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -435,7 +443,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("lists declarations already shown under `.` by name instead of repeating them", () => {
+    it("lists declarations already shown under `.` by name instead of repeating them", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": 'export * from "./models/index.js";',
@@ -450,7 +458,7 @@ describe("generateApiReview", () => {
         },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -466,7 +474,7 @@ describe("generateApiReview", () => {
       expect(apiMd.split("export interface AdmInstallation").length - 1).toBe(1);
     });
 
-    it("names the earliest subpath that shows a declaration not exported from `.`", () => {
+    it("names the earliest subpath that shows a declaration not exported from `.`", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": "export declare class ComputeManagementClient {\n}",
@@ -483,7 +491,7 @@ describe("generateApiReview", () => {
         },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -512,8 +520,8 @@ describe("generateApiReview", () => {
         ".": types("./dist/esm/index.d.ts"),
       };
 
-      it("orders export paths with `.` first, then by path, regardless of package.json key order", () => {
-        const { apiMd } = generateApiReview(fixture(files, { exports: unsortedExports }));
+      it("orders export paths with `.` first, then by path, regardless of package.json key order", async () => {
+        const { apiMd } = await generateApiReview(fixture(files, { exports: unsortedExports }));
 
         expect(apiMd).toContain(
           [
@@ -530,8 +538,8 @@ describe("generateApiReview", () => {
         ]);
       });
 
-      it("shows a declaration shared by two subpaths under the alphabetically first one", () => {
-        const { apiMd } = generateApiReview(fixture(files, { exports: unsortedExports }));
+      it("shows a declaration shared by two subpaths under the alphabetically first one", async () => {
+        const { apiMd } = await generateApiReview(fixture(files, { exports: unsortedExports }));
 
         expect(apiMd).toContain(
           [
@@ -557,19 +565,19 @@ describe("generateApiReview", () => {
         );
       });
 
-      it("produces the same hash regardless of package.json exports order", () => {
+      it("produces the same hash regardless of package.json exports order", async () => {
         const sortedExports = Object.fromEntries(
           Object.entries(unsortedExports).sort(([a], [b]) => a.localeCompare(b)),
         );
 
-        const unsorted = generateApiReview(fixture(files, { exports: unsortedExports }));
-        const sorted = generateApiReview(fixture(files, { exports: sortedExports }));
+        const unsorted = await generateApiReview(fixture(files, { exports: unsortedExports }));
+        const sorted = await generateApiReview(fixture(files, { exports: sortedExports }));
 
         expect(unsorted.metadata.apiMdSha256).toBe(sorted.metadata.apiMdSha256);
       });
     });
 
-    it("shows a subpath declaration that shares a root export's name under Differs from `.`", () => {
+    it("shows a subpath declaration that shares a root export's name under Differs from `.`", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": "export interface ClientOptions {\n    endpoint: string;\n}",
@@ -584,7 +592,7 @@ describe("generateApiReview", () => {
         },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -605,7 +613,7 @@ describe("generateApiReview", () => {
   });
 
   describe("references", () => {
-    it("collects external types used in signatures into a References import block", () => {
+    it("collects external types used in signatures into a References import block", async () => {
       const root = fixture(
         {
           ...dependency("@azure/core-auth", "export interface TokenCredential {\n}"),
@@ -619,7 +627,7 @@ describe("generateApiReview", () => {
         { dependencies: { "@azure/core-auth": "^1.9.0" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -633,7 +641,7 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("interface TokenCredential");
     });
 
-    it("prints re-exports of external declarations as export-from lines", () => {
+    it("prints re-exports of external declarations as export-from lines", async () => {
       const root = fixture(
         {
           ...dependency(
@@ -649,7 +657,7 @@ describe("generateApiReview", () => {
         { dependencies: { "@azure/core-paging": "^1.6.2" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -662,7 +670,7 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("interface PageSettings");
     });
 
-    it("uses an external type's exported name, not a local import alias", () => {
+    it("uses an external type's exported name, not a local import alias", async () => {
       const root = fixture(
         {
           ...dependency("@opentelemetry/api", "export interface Context {\n}"),
@@ -674,7 +682,7 @@ describe("generateApiReview", () => {
         { dependencies: { "@opentelemetry/api": "^1.9.0" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain('import { Context } from "@opentelemetry/api";');
       expect(apiMd).toContain(
@@ -683,7 +691,7 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("OTContext");
     });
 
-    it("rewrites namespace-qualified external types to their exported names", () => {
+    it("rewrites namespace-qualified external types to their exported names", async () => {
       const root = fixture(
         {
           ...dependency("@azure-rest/core-client", "export interface OperationOptions {\n}"),
@@ -697,14 +705,14 @@ describe("generateApiReview", () => {
         { dependencies: { "@azure-rest/core-client": "^2.3.3" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export interface CreateKeyOptions extends OperationOptions {");
       expect(apiMd).toContain('import { OperationOptions } from "@azure-rest/core-client";');
       expect(apiMd).not.toContain("coreClient");
     });
 
-    it("rewrites import() types from dependencies to their exported names", () => {
+    it("rewrites import() types from dependencies to their exported names", async () => {
       const root = fixture(
         {
           ...dependency("@azure/logger", "export interface AzureLogger {\n}"),
@@ -714,13 +722,13 @@ describe("generateApiReview", () => {
         { dependencies: { "@azure/logger": "^1.1.4" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export declare const logger: AzureLogger;");
       expect(apiMd).toContain('import { AzureLogger } from "@azure/logger";');
     });
 
-    it("rewrites package-local import() types without file paths", () => {
+    it("rewrites package-local import() types without file paths", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           'export { logger } from "./log.js";',
@@ -731,13 +739,13 @@ describe("generateApiReview", () => {
         "dist/esm/logger/logger.d.ts": "export interface TypeSpecRuntimeLogger {\n}",
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export declare const logger: TypeSpecRuntimeLogger;");
       expect(apiMd).not.toContain("logger.js");
     });
 
-    it("follows local re-export hops to the dependency that declares a re-export", () => {
+    it("follows local re-export hops to the dependency that declares a re-export", async () => {
       const root = fixture(
         {
           ...dependency("@azure/core-paging", "export interface PageSettings {\n}"),
@@ -747,7 +755,7 @@ describe("generateApiReview", () => {
         { dependencies: { "@azure/core-paging": "^1.6.2" } },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain('export { PageSettings } from "@azure/core-paging";');
       expect(apiMd).not.toContain("paging.js");
@@ -755,7 +763,7 @@ describe("generateApiReview", () => {
   });
 
   describe("forgotten exports", () => {
-    it("warns above each member that uses a forgotten declaration", () => {
+    it("warns above each member that uses a forgotten declaration", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export type { DatasetsOperations } from "./datasets.js";',
         "dist/esm/datasets.d.ts": [
@@ -769,7 +777,7 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -785,7 +793,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("warns above a top-level declaration whose heritage uses a forgotten declaration", () => {
+    it("warns above a top-level declaration whose heritage uses a forgotten declaration", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export { BlobClient } from "./Clients.js";',
         "dist/esm/StorageClient.d.ts": [
@@ -801,14 +809,14 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         "// Warning: (arh-forgotten-export: StorageClient)\nexport class BlobClient extends StorageClient {",
       );
     });
 
-    it("warns only about unexported package-local declarations", () => {
+    it("warns only about unexported package-local declarations", async () => {
       const root = fixture({
         "node_modules/@azure/core-auth/package.json": JSON.stringify({
           name: "@azure/core-auth",
@@ -829,7 +837,7 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).not.toContain("arh-forgotten-export");
       expect(apiMd).not.toContain("_sendRequest");
@@ -846,7 +854,7 @@ describe("generateApiReview", () => {
     };
     const accessToken = "export interface AccessToken {\n    token: string;\n}";
 
-    it("lists conditions whose declarations match the ESM view as identical", () => {
+    it("lists conditions whose declarations match the ESM view as identical", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": accessToken,
@@ -856,14 +864,14 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         "## Runtime differences\n\nIdentical to the ESM view: `require`, `browser`.",
       );
     });
 
-    it("reads each condition's own declaration files", () => {
+    it("reads each condition's own declaration files", async () => {
       const root = fixture(
         {
           "dist/esm/index.d.ts": accessToken,
@@ -874,18 +882,18 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("Identical to the ESM view: `require`.");
     });
 
-    it("omits Runtime differences for import-only packages", () => {
-      const { apiMd } = generateApiReview(singleExportRoot);
+    it("omits Runtime differences for import-only packages", async () => {
+      const { apiMd } = await generateApiReview(singleExportRoot);
 
       expect(apiMd).not.toContain("## Runtime differences");
     });
 
-    it("shows a changed member as a hunk under its declaration header", () => {
+    it("shows a changed member as a hunk under its declaration header", async () => {
       const esm = [
         "export declare class AzureCliCredential {",
         "    constructor(options?: string);",
@@ -907,7 +915,7 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -928,7 +936,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("shows a declaration missing from a condition as removed lines", () => {
+    it("shows a declaration missing from a condition as removed lines", async () => {
       const queueClient =
         "export declare class QueueClient {\n    getProperties(): Promise<void>;\n}";
       const esm = [
@@ -944,7 +952,7 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -957,7 +965,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("shows a declaration only a condition has as added lines", () => {
+    it("shows a declaration only a condition has as added lines", async () => {
       const esm = [
         "export declare class AvroReadableFromStream {",
         "    constructor(readable: NodeJS.ReadableStream);",
@@ -976,7 +984,7 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -993,7 +1001,7 @@ describe("generateApiReview", () => {
       );
     });
 
-    it("elides lines far from a change with @@ but keeps the header", () => {
+    it("elides lines far from a change with @@ but keeps the header", async () => {
       const esm = [
         "export declare class KeyClient {",
         "    getKey(name: string): Promise<string>;",
@@ -1017,7 +1025,7 @@ describe("generateApiReview", () => {
         { exports: coreAuthExports },
       );
 
-      const { apiMd } = generateApiReview(root);
+      const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain(
         [
@@ -1038,7 +1046,7 @@ describe("generateApiReview", () => {
   });
 
   describe("fail closed", () => {
-    it("throws when a module specifier can't be resolved", () => {
+    it("throws when a module specifier can't be resolved", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
           'import type { TokenCredential } from "@azure/core-auth";',
@@ -1048,12 +1056,12 @@ describe("generateApiReview", () => {
         ].join("\n"),
       });
 
-      expect(() => generateApiReview(root)).toThrow(
+      await expect(generateApiReview(root)).rejects.toThrow(
         "[import] dist/esm/index.d.ts: Cannot find module '@azure/core-auth' or its corresponding type declarations.",
       );
     });
 
-    it("throws when a re-exported name doesn't exist in its module", () => {
+    it("throws when a re-exported name doesn't exist in its module", async () => {
       const root = fixture({
         ...dependency(
           "@azure/storage-common",
@@ -1063,12 +1071,12 @@ describe("generateApiReview", () => {
           'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
       });
 
-      expect(() => generateApiReview(root)).toThrow(
+      await expect(generateApiReview(root)).rejects.toThrow(
         `[import] dist/esm/index.d.ts: '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'?`,
       );
     });
 
-    it("resolves the require view with CommonJS conditions", () => {
+    it("resolves the require view with CommonJS conditions", async () => {
       const index = [
         'import type { Widget } from "@example/esm-only";',
         "export declare function makeWidget(): Widget;",
@@ -1096,7 +1104,7 @@ describe("generateApiReview", () => {
         },
       );
 
-      expect(() => generateApiReview(root)).toThrow(
+      await expect(generateApiReview(root)).rejects.toThrow(
         "[require] dist/commonjs/index.d.ts: Cannot find module '@example/esm-only' or its corresponding type declarations.",
       );
     });
@@ -1115,15 +1123,15 @@ describe("generateApiReview", () => {
         "export declare function download(): Readable;",
       ].join("\n");
 
-      it("resolves Node.js built-in modules with the package's @types/node", () => {
+      it("resolves Node.js built-in modules with the package's @types/node", async () => {
         const root = fixture({ ...nodeTypes, "dist/esm/index.d.ts": clients });
 
-        const { apiMd } = generateApiReview(root);
+        const { apiMd } = await generateApiReview(root);
 
         expect(apiMd).toContain('import { Readable } from "node:stream";');
       });
 
-      it("resolves Node.js built-ins in browser views too", () => {
+      it("resolves Node.js built-ins in browser views too", async () => {
         const root = fixture(
           {
             ...nodeTypes,
@@ -1140,13 +1148,13 @@ describe("generateApiReview", () => {
           },
         );
 
-        const { apiMd } = generateApiReview(root);
+        const { apiMd } = await generateApiReview(root);
 
         expect(apiMd).toContain("Identical to the ESM view: `browser`.");
       });
     });
 
-    it("throws when implementation .ts files are pulled into the program", () => {
+    it("throws when implementation .ts files are pulled into the program", async () => {
       const root = fixture(
         {
           "src/types.ts": "export interface PipelineRequest {\n    url: string;\n}",
@@ -1158,7 +1166,7 @@ describe("generateApiReview", () => {
         { imports: { "#platform/*": "./src/*.ts" } },
       );
 
-      expect(() => generateApiReview(root)).toThrow(
+      await expect(generateApiReview(root)).rejects.toThrow(
         "[import] src/types.ts: Implementation file is part of the review program",
       );
     });
@@ -1187,7 +1195,7 @@ describe("generate-api-review command", () => {
     );
 
     expect(succeeded).toBe(true);
-    expect(readReview(outputDir)).toEqual(generateApiReview(root));
+    expect(readReview(outputDir)).toEqual(await generateApiReview(root));
   });
 
   it("writes to the package root when --output-dir is omitted", async () => {
@@ -1196,7 +1204,7 @@ describe("generate-api-review command", () => {
     const succeeded = await generateApiReviewCommand("--package-root", root);
 
     expect(succeeded).toBe(true);
-    expect(readReview(root)).toEqual(generateApiReview(root));
+    expect(readReview(root)).toEqual(await generateApiReview(root));
   });
 
   it("finds the package from the current directory when --package-root is omitted", async () => {
@@ -1211,7 +1219,7 @@ describe("generate-api-review command", () => {
     const succeeded = await generateApiReviewCommand();
 
     expect(succeeded).toBe(true);
-    expect(readReview(root)).toEqual(generateApiReview(root));
+    expect(readReview(root)).toEqual(await generateApiReview(root));
   });
 
   it("writes nothing and fails when generation throws", async () => {

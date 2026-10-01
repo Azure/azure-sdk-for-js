@@ -79,11 +79,11 @@ export interface ApiReviewMetadata {
   typescriptVersion: string;
 }
 
-export function generateApiReview(packageRoot: string): {
+export async function generateApiReview(packageRoot: string): Promise<{
   apiMd: string;
   metadata: ApiReviewMetadata;
-} {
-  const review = buildReview(packageRoot);
+}> {
+  const review = await buildReview(packageRoot);
   return {
     apiMd: renderApiMd(review),
     metadata: {
@@ -119,7 +119,7 @@ function compatibleVersion(specifier: string): string {
   return minimum.major === 0 ? `0.${minimum.minor}` : `${minimum.major}`;
 }
 
-function buildReview(packageRoot: string): Review {
+async function buildReview(packageRoot: string): Promise<Review> {
   const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
   const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
     .filter(([exportPath]) => exportPath !== "./package.json")

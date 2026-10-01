@@ -30,7 +30,7 @@ export default leafCommand(commandInfo, async (options) => {
   try {
     const packageRoot = path.resolve(options["package-root"] ?? (await resolveProject()).path);
     const outputDir = path.resolve(options["output-dir"] ?? packageRoot);
-    const { apiMd, metadata } = generateApiReview(packageRoot);
+    const { apiMd, metadata } = await generateApiReview(packageRoot);
     await mkdir(outputDir, { recursive: true });
     await writeFile(path.join(outputDir, "api.md"), apiMd);
     await writeFile(path.join(outputDir, "api.metadata.yml"), stringify(metadata));
