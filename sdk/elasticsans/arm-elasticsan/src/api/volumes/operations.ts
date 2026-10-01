@@ -11,9 +11,9 @@ import type {
   DiskSnapshotList,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
   volumeSerializer,
   volumeDeserializer,
+  errorResponseDeserializer,
   volumeUpdateSerializer,
   _volumeListDeserializer,
   volumeNameListSerializer,
@@ -52,7 +52,7 @@ export function _preRestoreSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,10 +69,13 @@ export function _preRestoreSend(
 export async function _preRestoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PreValidationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -88,7 +91,7 @@ export function preRestore(
   parameters: DiskSnapshotList,
   options: VolumesPreRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PreValidationResponse>, PreValidationResponse> {
-  return getLongRunningPoller(context, _preRestoreDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _preRestoreDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -101,7 +104,7 @@ export function preRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<PreValidationResponse>, PreValidationResponse>;
 }
 
@@ -120,7 +123,7 @@ export function _preBackupSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,10 +140,13 @@ export function _preBackupSend(
 export async function _preBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PreValidationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -156,7 +162,7 @@ export function preBackup(
   parameters: VolumeNameList,
   options: VolumesPreBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PreValidationResponse>, PreValidationResponse> {
-  return getLongRunningPoller(context, _preBackupDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _preBackupDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -169,7 +175,7 @@ export function preBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<PreValidationResponse>, PreValidationResponse>;
 }
 
@@ -187,7 +193,7 @@ export function _listByVolumeGroupSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +201,13 @@ export function _listByVolumeGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.xMsAccessSoftDeletedResources !== undefined
+        ? { "x-ms-access-soft-deleted-resources": options?.xMsAccessSoftDeletedResources }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -205,7 +217,10 @@ export async function _listByVolumeGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -226,7 +241,11 @@ export function listByVolumeGroup(
       _listByVolumeGroupSend(context, resourceGroupName, elasticSanName, volumeGroupName, options),
     _listByVolumeGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -239,14 +258,15 @@ export function _$deleteSend(
   options: VolumesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}{?api%2Dversion,deleteType}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      deleteType: options?.deleteType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,7 +290,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -278,11 +301,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an Volume. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -304,7 +322,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -325,7 +343,7 @@ export function _updateSend(
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -343,7 +361,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -374,7 +395,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -395,7 +416,7 @@ export function _createSend(
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,7 +434,10 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -444,7 +468,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -464,7 +488,7 @@ export function _getSend(
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -480,7 +504,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

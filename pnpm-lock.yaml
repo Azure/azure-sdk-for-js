@@ -5192,7 +5192,7 @@ importers:
         version: 4.13.0(supports-color@8.1.1)
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: 7.9.5(supports-color@8.1.1)
+        version: link:../../servicebus/service-bus
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.4
@@ -14012,7 +14012,7 @@ importers:
   sdk/elasticsans/arm-elasticsan:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -14363,7 +14363,7 @@ importers:
         version: 4.13.0(supports-color@8.1.1)
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: 7.9.5(supports-color@8.1.1)
+        version: link:../../servicebus/service-bus
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.4
@@ -30090,7 +30090,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: 7.9.5(supports-color@8.1.1)
+        version: link:../service-bus
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -36110,10 +36110,6 @@ packages:
     resolution: {integrity: sha1-S1KoRgnPcQfE993Z1yeiIQthblE=}
     engines: {node: '>=8.0.0'}
 
-  '@azure/core-amqp@4.5.1':
-    resolution: {integrity: sha1-ddnAPQ2aYO/GilPXk7sHquCK/lw=}
-    engines: {node: '>=22.0.0'}
-
   '@azure/core-auth@1.11.0':
     resolution: {integrity: sha1-Ha7/32LRqHHSK4ZfnzFkpj6h9XU=}
     engines: {node: '>=22.0.0'}
@@ -36257,10 +36253,6 @@ packages:
 
   '@azure/search-documents@12.1.0':
     resolution: {integrity: sha1-eTO+ozIX17lWlv6XoZzA9DMbw2o=}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/service-bus@7.9.5':
-    resolution: {integrity: sha1-rVpvPK+eMmnF6DjXsV7NAw4tjTM=}
     engines: {node: '>=18.0.0'}
 
   '@azure/storage-blob@12.31.0':
@@ -42977,22 +42969,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/core-amqp@4.5.1(supports-color@8.1.1)':
-    dependencies:
-      '@azure/abort-controller': 2.2.0
-      '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-util': 1.14.0(supports-color@8.1.1)
-      '@azure/logger': 1.4.0(supports-color@8.1.1)
-      buffer: 6.0.3
-      events: 3.3.0
-      process: 0.11.10
-      rhea: 3.0.5(supports-color@8.1.1)
-      rhea-promise: 3.0.3(supports-color@8.1.1)
-      tslib: 2.8.1
-      util: 0.12.5
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/core-auth@1.11.0(supports-color@8.1.1)':
     dependencies:
       '@azure/abort-controller': 2.2.0
@@ -43291,29 +43267,6 @@ snapshots:
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
       events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/service-bus@7.9.5(supports-color@8.1.1)':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-amqp': 4.5.1(supports-color@8.1.1)
-      '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-client': 1.11.1(supports-color@8.1.1)
-      '@azure/core-paging': 1.7.0
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.4.0
-      '@azure/core-util': 1.14.0(supports-color@8.1.1)
-      '@azure/core-xml': 1.6.0
-      '@azure/logger': 1.4.0(supports-color@8.1.1)
-      '@types/is-buffer': 2.0.2
-      buffer: 6.0.3
-      is-buffer: 2.0.5
-      jssha: 3.3.2
-      long: 5.3.2
-      process: 0.11.10
-      rhea-promise: 3.0.3(supports-color@8.1.1)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
