@@ -2,16 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the preview-only configuration knobs for a
- * `KnowledgeBase` in the 2026-08-01-preview data plane:
- *   - `corsOptions` to allow browser callers.
- *   - KB-level retrieval defaults: `retrievalInstructions`,
- *     `answerInstructions`, `retrievalReasoningEffort`, `outputMode`.
- *   - `retrieveDefaults` for stored document/token/runtime limits.
- *   - `models` pointing at one of the new GPT-5.x deployments
- *     (e.g. `gpt-5.4` or `gpt-5.4-mini`).
- *   - At least one knowledge source attached with preview-relevant
- *     default behavior (`enableFreshness: true`).
+ * @summary Demonstrates configuring a knowledge base with retrieval
+ * instructions, reasoning effort, output mode, a model, and CORS options.
  *
  * The sample creates the KB, prints back the persisted defaults, then
  * patches a couple of the defaults via `createOrUpdate`.
@@ -50,8 +42,6 @@ async function getEffectiveReasoningEffort(client, requestReasoningEffort) {
       intents: [{ type: "semantic", search: "What information is available?" }],
       outputMode: KnownKnowledgeRetrievalOutputMode.ExtractiveData,
       retrievalReasoningEffort: requestReasoningEffort,
-      // This request-level byte limit is distinct from the stored token limit below.
-      maxOutputSize: 4096,
     },
     { abortSignal: controller.signal },
   );
@@ -69,7 +59,7 @@ async function getEffectiveReasoningEffort(client, requestReasoningEffort) {
 }
 
 async function main() {
-  console.log(`Running Knowledge Base Preview Configuration Sample....`);
+  console.log(`Running Knowledge Base Configuration Sample....`);
   if (!endpoint) {
     console.log("Be sure to set a valid ENDPOINT with proper authorization.");
     return;
@@ -108,12 +98,8 @@ async function main() {
 
   const knowledgeBase = {
     name: KNOWLEDGE_BASE_NAME,
-    description: "Knowledge base demonstrating preview-only configuration knobs.",
-    // Reference the KS with preview-relevant defaults. `enableFreshness`
-    // tells the KB to apply the KS's freshness policy at retrieval time.
-    knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME, enableFreshness: true }],
-    // KB-level retrieval defaults — these apply unless the retrieve
-    // request overrides them.
+    description: "Knowledge base demonstrating retrieval configuration.",
+    knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     retrievalInstructions:
       "Only return content directly relevant to the user's question. " +
       "Prefer recent documents over older ones when both are equally relevant.",
@@ -121,11 +107,6 @@ async function main() {
       "Always cite the source title. Refuse to answer if no supporting passage is found.",
     retrievalReasoningEffort: { kind: "auto" },
     outputMode: KnownKnowledgeRetrievalOutputMode.ExtractiveData,
-    retrieveDefaults: {
-      maxOutputDocuments: 8,
-      maxOutputSizeInTokens: 4096,
-      maxRuntimeInSeconds: 30,
-    },
     models,
     corsOptions: {
       allowedOrigins: ["*"],
@@ -142,21 +123,10 @@ async function main() {
     console.log(
       `  retrievalReasoningEffort: ${created.retrievalReasoningEffort?.kind ?? "<none>"}`,
     );
-    console.log(
-      `  retrieveDefaults.maxOutputSizeInTokens: ` +
-        `${created.retrieveDefaults?.maxOutputSizeInTokens ?? "<none>"}`,
-    );
     console.log(`  outputMode:               ${created.outputMode ?? "<none>"}`);
-    console.log(
-      `  knowledgeSources[0]:      ${created.knowledgeSources[0]?.name} ` +
-        `(enableFreshness=${created.knowledgeSources[0]?.enableFreshness ?? false})`,
-    );
+    console.log(`  knowledgeSources[0]:      ${created.knowledgeSources[0]?.name}`);
 
     assertSample(created.retrievalReasoningEffort?.kind === "auto", "stored effort should be auto");
-    assertSample(
-      created.retrieveDefaults?.maxOutputSizeInTokens === 4096,
-      "stored token limit should round-trip",
-    );
 
     const retrievalClient = new KnowledgeRetrievalClient(endpoint, KNOWLEDGE_BASE_NAME, credential);
     const storedEffort = await getEffectiveReasoningEffort(retrievalClient);

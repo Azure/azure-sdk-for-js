@@ -12,7 +12,7 @@ import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function analyzeText(context: SearchIndexContext, request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
+export function analyzeText(context: SearchIndexContext, name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
@@ -57,7 +57,7 @@ export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateAlias(context: SearchIndexContext, alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+export function createOrUpdateAlias(context: SearchIndexContext, name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
 
 // @public
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
@@ -68,7 +68,7 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+export function createOrUpdateIndex(context: SearchIndexContext, name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
@@ -80,7 +80,7 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateKnowledgeBase(context: SearchIndexContext, knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+export function createOrUpdateKnowledgeBase(context: SearchIndexContext, name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
 
 // @public
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
@@ -91,7 +91,7 @@ export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOpti
 }
 
 // @public
-export function createOrUpdateKnowledgeSource(context: SearchIndexContext, knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+export function createOrUpdateKnowledgeSource(context: SearchIndexContext, name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
 
 // @public
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
@@ -102,7 +102,7 @@ export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOp
 }
 
 // @public
-export function createOrUpdateSynonymMap(context: SearchIndexContext, synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
+export function createOrUpdateSynonymMap(context: SearchIndexContext, name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
 
 // @public
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
@@ -161,7 +161,7 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 export function deleteKnowledgeSource(context: SearchIndexContext, name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
 
 // @public
-export function deleteKnowledgeSourceFile(context: SearchIndexContext, fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+export function deleteKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
 
 // @public
 export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -370,7 +370,7 @@ export interface SearchIndexContext extends Client {
 }
 
 // @public
-export function updateKnowledgeSourceFile(context: SearchIndexContext, fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+export function updateKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -378,18 +378,10 @@ export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOption
 }
 
 // @public
-export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
-
-// @public
-export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
 

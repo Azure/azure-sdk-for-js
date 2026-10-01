@@ -85,11 +85,10 @@ async function provisionKnowledgeBase(client: SearchIndexClient): Promise<string
     // Upload a small file so the File knowledge source has content to retrieve.
     const fileName = "sample.txt";
     const fileContents = readFileSync(resolve(dirname(process.argv[1]), "fixtures", fileName));
-    await client.uploadKnowledgeSourceFile(
-      SAMPLE_FILE_KS_NAME,
-      fileContents,
-      `attachment; filename="${fileName}"`,
-    );
+    await client.uploadKnowledgeSourceFileMultipart(SAMPLE_FILE_KS_NAME, {
+      metadata: { fileName },
+      content: { contents: fileContents, contentType: "text/plain", filename: fileName },
+    });
     knowledgeSources.push({ name: SAMPLE_FILE_KS_NAME });
     console.log(`  Added File knowledge source ${SAMPLE_FILE_KS_NAME} with uploaded file`);
   } else {

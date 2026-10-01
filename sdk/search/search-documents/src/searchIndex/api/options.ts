@@ -6,6 +6,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
@@ -14,16 +16,14 @@ export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
@@ -34,14 +34,16 @@ export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOption
 
 /** Optional parameters. */
 export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Optional prefix to filter files by their directory-like path. */
@@ -52,8 +54,6 @@ export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
@@ -63,29 +63,25 @@ export interface UploadKnowledgeSourceFileMultipartOptionalParams extends Operat
 }
 
 /** Optional parameters. */
-export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-}
-
-/** Optional parameters. */
-export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
@@ -94,52 +90,52 @@ export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
@@ -148,52 +144,52 @@ export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateAliasOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface ListAliasesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
@@ -202,68 +198,68 @@ export interface ListAliasesOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetAliasOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface DeleteAliasOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface AnalyzeTextOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface GetIndexStatisticsOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface CreateIndexOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -274,12 +270,12 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface ListIndexesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
@@ -288,32 +284,32 @@ export interface ListIndexesOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetIndexOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface DeleteIndexOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -322,20 +318,20 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
   ifNoneMatch?: string;
   /** Allows new analyzers, tokenizers, token filters, or char filters to be added to an index by taking the index offline for at least a few seconds. This temporarily causes indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes. */
   allowIndexDowntime?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateSynonymMapOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -346,38 +342,36 @@ export interface GetSynonymMapsOptionalParams extends OperationOptions {
   pageSize?: number;
   /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
   searchType?: ListingSearchType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetSynonymMapOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
 }
 
 /** Optional parameters. */
 export interface DeleteSynonymMapOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
