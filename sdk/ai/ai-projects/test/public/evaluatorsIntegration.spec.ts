@@ -7,7 +7,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
-import type { EvaluatorGenerationJob, EvaluatorVersion } from "../../src/index.js";
+import type { EvaluatorGenerationInputs, EvaluatorVersion } from "../../src/index.js";
 
 const endpoint = "https://example.com/api/projects/test-project";
 const evaluator: EvaluatorVersion = {
@@ -16,12 +16,10 @@ const evaluator: EvaluatorVersion = {
   categories: ["quality"],
   definition: { type: "rubric", dimensions: [] },
 };
-const job: EvaluatorGenerationJob = {
-  inputs: {
-    sources: [{ type: "prompt", prompt: "Evaluate answer quality." }],
-    model: "test-model",
-    evaluator_name: "rubric",
-  },
+const job: EvaluatorGenerationInputs = {
+  sources: [{ type: "prompt", prompt: "Evaluate answer quality." }],
+  model: "test-model",
+  evaluator_name: "rubric",
 };
 
 interface MockResponse {
@@ -108,7 +106,7 @@ describe("evaluator GA post-emitter integration", () => {
     expect(poller.operationState?.jobId).toBe("job-1");
     expect(poller.result).toMatchObject(evaluator);
     expect(requests).toHaveLength(2);
-    expect(JSON.parse(requests[0].body as string)).toEqual(job.inputs);
+    expect(JSON.parse(requests[0].body as string)).toEqual(job);
     expect(requests[0].headers.get("operation-id")).toBe("operation-1");
     for (const request of requests) {
       expect(request.headers.get("foundry-features")).toBeUndefined();
@@ -120,8 +118,8 @@ describe("evaluator GA post-emitter integration", () => {
 
   it("sends generation job get, cancel and delete without preview opt-in", async () => {
     const { client, requests } = createClient(
-      { body: { id: "job-1", status: "queued" } },
-      { body: { id: "job-1", status: "canceled" } },
+      { body: { ...job, id: "job-1", status: "queued" } },
+      { body: { ...job, id: "job-1", status: "canceled" } },
       { status: 204 },
     );
     const options = { requestOptions: { headers: { "x-custom": "retained" } } };
@@ -199,8 +197,8 @@ describe("evaluator GA post-emitter integration", () => {
 
   it("lists generation jobs with cursor paging and no preview header", async () => {
     const { client, requests } = createClient(
-      { body: { data: [{ id: "job-1" }], last_id: "job-1", has_more: true } },
-      { body: { data: [{ id: "job-2" }], last_id: "job-2", has_more: false } },
+      { body: { data: [{ ...job, id: "job-1" }], last_id: "job-1", has_more: true } },
+      { body: { data: [{ ...job, id: "job-2" }], last_id: "job-2", has_more: false } },
     );
     const jobs = [];
     const abortController = new AbortController();

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import type { EvaluatorVersion, EvaluatorGenerationJob } from "../../models/models.js";
+import type { EvaluatorVersion, EvaluatorGenerationJob, EvaluatorGenerationInputs } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   EvaluatorsDeleteGenerationJobOptionalParams,
@@ -66,7 +66,7 @@ export interface EvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    job: EvaluatorGenerationJob,
+    job: EvaluatorGenerationInputs,
     options?: EvaluatorsCreateGenerationJobOptionalParams,
   ) => JobPoller<EvaluatorVersion>;
   /** Updates the specified evaluator version in place. */
@@ -114,7 +114,7 @@ export function _getEvaluatorsOperations(context: AIProjectContext): EvaluatorsO
     getGenerationJob: (jobId: string, options?: EvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: EvaluatorGenerationJob,
+      job: EvaluatorGenerationInputs,
       options?: EvaluatorsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
     updateVersion: (

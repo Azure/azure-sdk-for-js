@@ -10,7 +10,8 @@ import {
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
   EvaluatorGenerationJob,
-  evaluatorGenerationJobSerializer,
+  EvaluatorGenerationInputs,
+  evaluatorGenerationInputsSerializer,
   evaluatorGenerationJobDeserializer,
   _AgentsPagedResultEvaluatorGenerationJob,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
@@ -249,7 +250,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -271,7 +272,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(job),
+      body: evaluatorGenerationInputsSerializer(job),
     });
 }
 
@@ -304,7 +305,7 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion> {
   return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {

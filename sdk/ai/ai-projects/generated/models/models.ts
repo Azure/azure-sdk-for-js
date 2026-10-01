@@ -10543,14 +10543,22 @@ export type GenerationWarningType = "input_quality";
 export interface EvaluatorGenerationJob {
   /** Server-assigned unique identifier. */
   readonly id: string;
-  /** Caller-supplied inputs. */
-  inputs?: EvaluatorGenerationInputs;
   /** Result produced on success. */
   readonly result?: EvaluatorVersion;
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ApiError;
+  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
+  sources: EvaluatorGenerationJobSourceUnion[];
+  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
+  model: string;
+  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
+  evaluator_name: string;
+  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
+  evaluator_display_name?: string;
+  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
+  evaluator_description?: string;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at: Date;
   /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
@@ -10561,21 +10569,17 @@ export interface EvaluatorGenerationJob {
   readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
 }
 
-export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
-  return {
-    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
-  };
-}
-
 export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
   return {
     id: item["id"],
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : evaluatorGenerationInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
     usage: !item["usage"]
@@ -10954,14 +10958,6 @@ export function _agentsPagedResultEvaluatorGenerationJobDeserializer(
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
-}
-
-export function evaluatorGenerationJobArraySerializer(
-  result: Array<EvaluatorGenerationJob>,
-): any[] {
-  return result.map((item) => {
-    return evaluatorGenerationJobSerializer(item);
-  });
 }
 
 export function evaluatorGenerationJobArrayDeserializer(

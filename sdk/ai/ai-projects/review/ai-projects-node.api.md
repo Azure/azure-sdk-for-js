@@ -3153,11 +3153,15 @@ export interface EvaluatorGenerationInputs {
 export interface EvaluatorGenerationJob {
     readonly created_at?: Date;
     readonly error?: ErrorModel;
+    evaluator_description?: string;
+    evaluator_display_name?: string;
+    evaluator_name: string;
     readonly finished_at?: Date;
     readonly id?: string;
     readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
-    inputs?: EvaluatorGenerationInputs;
+    model: string;
     readonly result?: EvaluatorVersion;
+    sources: EvaluatorGenerationJobSourceUnion[];
     readonly status?: JobStatus;
     readonly usage?: EvaluatorGenerationTokenUsage;
 }
@@ -3250,7 +3254,7 @@ export interface EvaluatorsListVersionsOptionalParams extends OperationOptions {
 // @public
 export interface EvaluatorsOperations {
     cancelGenerationJob: (jobId: string, options?: EvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (job: EvaluatorGenerationJob, options?: EvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
+    createGenerationJob: (job: EvaluatorGenerationInputs, options?: EvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteGenerationJob: (jobId: string, options?: EvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;

@@ -24,19 +24,17 @@ export async function main(): Promise<void> {
   console.log("Creating evaluator generation job...");
   const displayName = `sample-evaluator-generation-job-${Date.now()}`;
   const generationPoller = project.evaluators.createGenerationJob({
-    inputs: {
-      evaluator_display_name: displayName,
-      evaluator_name: "sample-generated-evaluator",
-      model: deploymentName,
-      sources: [
-        {
-          type: "prompt",
-          prompt:
-            "Generate rubric criteria for evaluating whether responses are grounded, relevant, and complete.",
-          description: "Prompt source for generating a rubric-based evaluator.",
-        },
-      ],
-    },
+    evaluator_display_name: displayName,
+    evaluator_name: "sample-generated-evaluator",
+    model: deploymentName,
+    sources: [
+      {
+        type: "prompt",
+        prompt:
+          "Generate rubric criteria for evaluating whether responses are grounded, relevant, and complete.",
+        description: "Prompt source for generating a rubric-based evaluator.",
+      },
+    ],
   });
 
   // Creating an evaluator generation job is a long-running operation. Once `submitted()`
