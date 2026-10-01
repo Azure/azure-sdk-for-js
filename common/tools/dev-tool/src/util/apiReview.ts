@@ -3,11 +3,13 @@
 
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { structuredPatch } from "diff";
 import semver from "semver";
 import ts from "typescript";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "./pnpm.ts";
 
 type ExportConditions = Record<string, { types: string }>;
 
@@ -15,7 +17,7 @@ interface Review {
   name: string;
   version: string;
   entryPoints: { path: string; conditions: string[] }[];
-  dependencies: { name: string; version: string; type: DependencyType }[];
+  dependencies: Dependency[];
   references: NamedImports[];
   exportSections: ExportSection[];
   identicalConditions: string[];
@@ -59,6 +61,23 @@ interface ReferenceNames {
 const runtimeConditions = ["require", "browser", "react-native", "workerd"];
 const conditionOrder = ["import", ...runtimeConditions];
 
+interface Dependency {
+  name: string;
+  specifier?: string;
+  resolved?: string;
+  hashed: string;
+  type: DependencyType;
+}
+
+// Dependencies table columns, in order. A column renders only when the rows have that field.
+const dependencyColumns: [field: keyof Dependency, header: string][] = [
+  ["name", "Package"],
+  ["specifier", "Version specifier"],
+  ["resolved", "Resolved version"],
+  ["hashed", "Hashed version"],
+  ["type", "Type"],
+];
+
 type DependencyType = "runtime" | "peer";
 
 const dependencyFields: [field: string, type: DependencyType][] = [
@@ -96,12 +115,36 @@ export async function generateApiReview(packageRoot: string): Promise<{
 }
 
 /**
- * Hashes api.md without its Version column, so only the "Hashed as" form of dependencies counts.
+ * Hashes api.md as rendered from a copy of the review in which dependencies keep only their
+ * hashed version, so the Version specifier and Resolved version columns aren't hashed.
  */
 function hashApiMd(review: Review): string {
-  return createHash("sha256")
-    .update(renderApiMd(review, { forHash: true }))
-    .digest("hex");
+  const hashInput: Review = {
+    ...review,
+    // [{ name: "tslib", specifier: "catalog:", resolved: "^2.8.1", hashed: "2", type: "runtime" }]
+    //   -> [{ name: "tslib", hashed: "2", type: "runtime" }]
+    dependencies: review.dependencies.map(({ name, hashed, type }) => ({ name, hashed, type })),
+  };
+  return createHash("sha256").update(renderApiMd(hashInput)).digest("hex");
+}
+
+/**
+ * Resolves `catalog:` and `workspace:^` specifiers to what `pnpm pack` publishes.
+ */
+async function resolveSpecifier(
+  packageRoot: string,
+  name: string,
+  specifier: string,
+): Promise<string> {
+  if (specifier.startsWith("catalog:")) {
+    await loadPnpmWorkspaceCatalogs();
+    return resolveCatalogVersion(name, specifier);
+  }
+  if (specifier === "workspace:^") {
+    const installed = path.join(packageRoot, "node_modules", name, "package.json");
+    return `^${JSON.parse(await readFile(installed, "utf8")).version}`;
+  }
+  return specifier;
 }
 
 /**
@@ -156,17 +199,28 @@ async function buildReview(packageRoot: string): Promise<Review> {
         (a, b) => conditionOrder.indexOf(a) - conditionOrder.indexOf(b),
       ),
     })),
-    // { dependencies: { tslib: "^2.8.1" }, peerDependencies: { pg: ">=8.0.0" } }
-    //   -> [{ name: "pg", version: ">=8.0.0", type: "peer" }, { name: "tslib", version: "^2.8.1", type: "runtime" }]
-    dependencies: dependencyFields
-      .flatMap(([field, type]) =>
-        Object.entries<string>(packageJson[field] ?? {}).map(([name, version]) => ({
-          name,
-          version,
-          type,
-        })),
-      )
-      .sort((a, b) => a.name.localeCompare(b.name, "en")),
+    // { dependencies: { tslib: "catalog:" }, peerDependencies: { pg: ">=8.0.0" } }
+    //   -> [{ name: "pg", specifier: ">=8.0.0", resolved: ">=8.0.0", hashed: "8", type: "peer" },
+    //       { name: "tslib", specifier: "catalog:", resolved: "^2.8.1", hashed: "2", type: "runtime" }]
+    dependencies: await Promise.all(
+      dependencyFields
+        .flatMap(([field, type]) =>
+          Object.entries<string>(packageJson[field] ?? {}).map(([name, specifier]) => ({
+            name,
+            specifier,
+            type,
+          })),
+        )
+        .sort((a, b) => a.name.localeCompare(b.name, "en"))
+        .map(async (dependency) => {
+          const resolved = await resolveSpecifier(
+            packageRoot,
+            dependency.name,
+            dependency.specifier,
+          );
+          return { ...dependency, resolved, hashed: compatibleVersion(resolved) };
+        }),
+    ),
     references,
     exportSections: sections,
     identicalConditions,
@@ -261,33 +315,26 @@ function diffItem(before: string, after: string): string {
   return lines.join("\n");
 }
 
-/**
- * Renders api.md. The hash input (`forHash`) is the same document without the Version column.
- */
-function renderApiMd(review: Review, { forHash = false } = {}): string {
+function renderApiMd(review: Review): string {
   const entryPointRows = review.entryPoints.map(
     (entry) => `| \`${entry.path}\` | ${entry.conditions.map((c) => `\`${c}\``).join(", ")} |`,
   );
-  const dependencyColumns = forHash
-    ? ["Package", "Hashed as", "Type"]
-    : ["Package", "Version", "Hashed as", "Type"];
+  const columns = dependencyColumns.filter(([field]) =>
+    review.dependencies.some((dependency) => dependency[field] !== undefined),
+  );
   const dependencyRows = review.dependencies.map((dependency) => {
-    const version = forHash ? [] : [`\`${dependency.version}\``];
-    const cells = [
-      `\`${dependency.name}\``,
-      ...version,
-      `\`${compatibleVersion(dependency.version)}\``,
-      dependency.type,
-    ];
+    const cells = columns.map(([field]) =>
+      field === "type" ? dependency.type : `\`${dependency[field]}\``,
+    );
     return `| ${cells.join(" | ")} |`;
   });
   const dependenciesSection = dependencyRows.length
     ? `## Dependencies
 
-Version is the specifier from package.json. The review hash uses Hashed as instead of Version.
+Only Hashed version is part of the review hash.
 
-| ${dependencyColumns.join(" | ")} |
-| ${dependencyColumns.map(() => "---").join(" | ")} |
+| ${columns.map(([, header]) => header).join(" | ")} |
+| ${columns.map(() => "---").join(" | ")} |
 ${dependencyRows.join("\n")}
 
 `

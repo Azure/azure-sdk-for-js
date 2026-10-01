@@ -5,14 +5,19 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import type { MockInstance } from "vitest";
 import ts from "typescript";
 import { parse } from "yaml";
 import generateApiReviewCommand from "../src/commands/run/generate-api-review.ts";
 import { generateApiReview } from "../src/util/apiReview.ts";
 import { resolveProject } from "../src/util/resolveProject.ts";
+import type * as ResolveProjectModule from "../src/util/resolveProject.ts";
 
-vi.mock("../src/util/resolveProject.ts", () => ({ resolveProject: vi.fn() }));
+vi.mock("../src/util/resolveProject.ts", async (importOriginal) => ({
+  ...(await importOriginal<typeof ResolveProjectModule>()),
+  resolveProject: vi.fn(),
+}));
 
 const roots: string[] = [];
 
@@ -281,9 +286,9 @@ describe("generateApiReview", () => {
   describe("dependencies and hash", () => {
     const index = { "dist/esm/index.d.ts": "export declare const value: string;\n" };
 
-    it("lists runtime and peer dependencies with verbatim specifiers, sorted by name", async () => {
+    it("lists runtime and peer dependencies, sorted by name", async () => {
       const root = fixture(index, {
-        dependencies: { "@azure/core-auth": "workspace:^", "@azure/abort-controller": "^2.1.2" },
+        dependencies: { "@azure/core-auth": "^1.9.0", "@azure/abort-controller": "^2.1.2" },
         peerDependencies: { "@azure/core-client": "^1.10.0" },
       });
 
@@ -293,23 +298,90 @@ describe("generateApiReview", () => {
         [
           "## Dependencies",
           "",
-          "Version is the specifier from package.json. The review hash uses Hashed as instead of Version.",
+          "Only Hashed version is part of the review hash.",
           "",
-          "| Package | Version | Hashed as | Type |",
-          "| --- | --- | --- | --- |",
-          "| `@azure/abort-controller` | `^2.1.2` | `2` | runtime |",
-          "| `@azure/core-auth` | `workspace:^` | `workspace:^` | runtime |",
-          "| `@azure/core-client` | `^1.10.0` | `1` | peer |",
+          "| Package | Version specifier | Resolved version | Hashed version | Type |",
+          "| --- | --- | --- | --- | --- |",
+          "| `@azure/abort-controller` | `^2.1.2` | `^2.1.2` | `2` | runtime |",
+          "| `@azure/core-auth` | `^1.9.0` | `^1.9.0` | `1` | runtime |",
+          "| `@azure/core-client` | `^1.10.0` | `^1.10.0` | `1` | peer |",
         ].join("\n"),
       );
     });
 
-    it("shows the hashed form of each dependency version next to its specifier", async () => {
+    it("shows each dependency's specifier, resolved version and hashed version", async () => {
       const root = fixture(index, { dependencies: { "@azure/core-auth": "^1.9.0" } });
 
       const { apiMd } = await generateApiReview(root);
 
-      expect(apiMd).toContain("| `@azure/core-auth` | `^1.9.0` | `1` | runtime |");
+      expect(apiMd).toContain("| `@azure/core-auth` | `^1.9.0` | `^1.9.0` | `1` | runtime |");
+    });
+
+    describe("catalogs", () => {
+      let workspaceRoot: string;
+      let cwd: MockInstance<typeof process.cwd>;
+
+      beforeAll(() => {
+        workspaceRoot = fixture({
+          "pnpm-workspace.yaml": [
+            "catalog:",
+            "  tslib: ^2.8.1",
+            "catalogs:",
+            "  testing:",
+            "    vitest: ^3.2.0",
+          ].join("\n"),
+        });
+      });
+
+      // util/pnpm.ts finds the workspace from the current directory.
+      beforeEach(() => {
+        cwd = vi.spyOn(process, "cwd").mockReturnValue(workspaceRoot);
+      });
+
+      afterEach(() => {
+        cwd.mockRestore();
+      });
+
+      it("resolves catalog: specifiers from the workspace catalog", async () => {
+        const root = fixture(index, { dependencies: { tslib: "catalog:" } });
+
+        const { apiMd } = await generateApiReview(root);
+
+        expect(apiMd).toContain("| `tslib` | `catalog:` | `^2.8.1` | `2` | runtime |");
+      });
+
+      it("resolves named catalogs", async () => {
+        const root = fixture(index, { dependencies: { vitest: "catalog:testing" } });
+
+        const { apiMd } = await generateApiReview(root);
+
+        expect(apiMd).toContain("| `vitest` | `catalog:testing` | `^3.2.0` | `3` | runtime |");
+      });
+
+      it("fails closed when a catalog entry is missing", async () => {
+        const root = fixture(index, { dependencies: { "@azure/core-util": "catalog:" } });
+
+        await expect(generateApiReview(root)).rejects.toThrow(
+          "Unexpected input when resolving from catalog. (alias: @azure/core-util bareSpecifier: catalog:)",
+        );
+      });
+    });
+
+    it("resolves workspace:^ to the installed workspace package's version, like pnpm pack", async () => {
+      const root = fixture(
+        {
+          ...index,
+          "node_modules/@azure/core-auth/package.json": JSON.stringify({
+            name: "@azure/core-auth",
+            version: "1.11.0",
+          }),
+        },
+        { dependencies: { "@azure/core-auth": "workspace:^" } },
+      );
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("| `@azure/core-auth` | `workspace:^` | `^1.11.0` | `1` | runtime |");
     });
 
     it("hashes api.md with SHA-256 when there are no dependencies", async () => {
