@@ -92,21 +92,17 @@ function Get-CiPathsAtSourceRef {
 function Test-PathAtSourceRef {
   param([string]$YamlPath)
 
-  $matches = @(
-    Invoke-NativeCommand `
-      -Command "git" `
-      -ArgumentList @(
-        "-C", $repoRoot,
-        "ls-tree", "-r", "--name-only", $sourceRef, "--", $YamlPath
-      )
-  )
+  $normalizedYamlPath = ConvertTo-NormalizedYamlPath $YamlPath
+  $ciPaths = @(Get-CiPathsAtSourceRef)
 
   return @(
-    $matches |
-      ForEach-Object { ConvertTo-NormalizedYamlPath $_ } |
-      Where-Object {
-        [string]::Equals($_, $YamlPath, [StringComparison]::OrdinalIgnoreCase)
-      }
+    $ciPaths | Where-Object {
+      [string]::Equals(
+        $_,
+        $normalizedYamlPath,
+        [StringComparison]::OrdinalIgnoreCase
+      )
+    }
   ).Count -gt 0
 }
 
@@ -268,6 +264,13 @@ if ($PSCmdlet.ParameterSetName -eq "Audit") {
 }
 
 $definition = Get-Definition -DefinitionId $DisableDefinitionId
+if (
+  [int]$definition.id -ne $DisableDefinitionId -or
+  $null -eq $definition.revision
+) {
+  throw "Definition $DisableDefinitionId did not return the expected ID and revision."
+}
+
 Assert-TargetRepository $definition
 
 $actualYamlPath = ConvertTo-NormalizedYamlPath $definition.process.yamlFilename
@@ -316,6 +319,9 @@ try {
       "--area", "build",
       "--resource", "definitions",
       "--route-parameters", "project=$project", "definitionId=$DisableDefinitionId",
+      "--query-parameters",
+      "secretsSourceDefinitionId=$($definition.id)",
+      "secretsSourceDefinitionRevision=$($definition.revision)",
       "--http-method", "PUT",
       "--api-version", "7.1",
       "--in-file", $tempFile,
