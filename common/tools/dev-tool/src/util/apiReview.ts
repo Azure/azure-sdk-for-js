@@ -115,23 +115,9 @@ ${dependencyRows.join("\n")}
 `
     : "";
   const rootPath = review.exportSections[0]?.path;
-  const exportSections = review.exportSections.map((section) => {
-    const blocks = [`## Export \`${section.path}\``];
-    if (section.declarations.length) {
-      if (section.path !== rootPath) {
-        blocks.push(`### Not exported from \`${rootPath}\``);
-      }
-      blocks.push(`\`\`\`ts\n${section.declarations.join("\n\n")}\n\`\`\``);
-    }
-    for (const earlier of section.alsoExportedFrom) {
-      blocks.push(
-        `### Also exported from \`${earlier.path}\``,
-        `Definitions are shown under Export \`${earlier.path}\`.`,
-        earlier.names.map((name) => `- \`${name}\``).join("\n"),
-      );
-    }
-    return `${blocks.join("\n\n")}\n`;
-  });
+  const exportSections = review.exportSections.map((section) =>
+    renderExportSection(section, rootPath),
+  );
 
   return `# API review: \`${review.name}\`
 
@@ -142,6 +128,24 @@ ${dependencyRows.join("\n")}
 ${entryPointRows.join("\n")}
 
 ${dependenciesSection}${exportSections.join("\n")}`;
+}
+
+function renderExportSection(section: ExportSection, rootPath: string | undefined): string {
+  const blocks = [`## Export \`${section.path}\``];
+  if (section.declarations.length) {
+    if (section.path !== rootPath) {
+      blocks.push(`### Not exported from \`${rootPath}\``);
+    }
+    blocks.push(`\`\`\`ts\n${section.declarations.join("\n\n")}\n\`\`\``);
+  }
+  for (const earlier of section.alsoExportedFrom) {
+    blocks.push(
+      `### Also exported from \`${earlier.path}\``,
+      `Definitions are shown under Export \`${earlier.path}\`.`,
+      earlier.names.map((name) => `- \`${name}\``).join("\n"),
+    );
+  }
+  return `${blocks.join("\n\n")}\n`;
 }
 
 const compilerOptions: ts.CompilerOptions = { skipLibCheck: true };
@@ -205,18 +209,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
         continue;
       }
       shownUnder.set(symbol, exportPath);
-      for (const declaration of symbol.declarations ?? []) {
-        const node = ts.isVariableDeclaration(declaration)
-          ? declaration.parent.parent
-          : declaration;
-        const declaredName = ts.getNameOfDeclaration(declaration);
-        const [reviewNode] = ts.transform(node, [
-          (context) => toReviewShape(context, declaredName, exportedSymbol.name),
-        ]).transformed;
-        declarations.push(
-          printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile()),
-        );
-      }
+      declarations.push(...printDeclarations(symbol, exportedSymbol.name, printer));
     }
     return {
       path: exportPath,
@@ -226,6 +219,17 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
         names,
       })),
     };
+  });
+}
+
+function printDeclarations(symbol: ts.Symbol, publicName: string, printer: ts.Printer): string[] {
+  return (symbol.declarations ?? []).map((declaration) => {
+    const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
+    const declaredName = ts.getNameOfDeclaration(declaration);
+    const [reviewNode] = ts.transform(node, [
+      (context) => toReviewShape(context, declaredName, publicName),
+    ]).transformed;
+    return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
   });
 }
 
