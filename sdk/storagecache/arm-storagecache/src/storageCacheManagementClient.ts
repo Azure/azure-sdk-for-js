@@ -29,6 +29,8 @@ import type { ImportJobsOperations } from "./classic/importJobs/index.js";
 import { _getImportJobsOperations } from "./classic/importJobs/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { RebalanceJobsOperations } from "./classic/rebalanceJobs/index.js";
+import { _getRebalanceJobsOperations } from "./classic/rebalanceJobs/index.js";
 import type { SkusOperations } from "./classic/skus/index.js";
 import { _getSkusOperations } from "./classic/skus/index.js";
 import type { StorageTargetOperationsOperations } from "./classic/storageTargetOperations/index.js";
@@ -69,14 +71,7 @@ export class StorageCacheManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createStorageCacheManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createStorageCacheManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.ascUsages = _getAscUsagesOperations(this._client);
     this.ascOperations = _getAscOperationsOperations(this._client);
@@ -90,6 +85,7 @@ export class StorageCacheManagementClient {
     this.amlFilesystems = _getAmlFilesystemsOperations(this._client);
     this.storageTargets = _getStorageTargetsOperations(this._client);
     this.caches = _getCachesOperations(this._client);
+    this.rebalanceJobs = _getRebalanceJobsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
@@ -131,6 +127,8 @@ export class StorageCacheManagementClient {
   public readonly storageTargets: StorageTargetsOperations;
   /** The operation groups for caches */
   public readonly caches: CachesOperations;
+  /** The operation groups for rebalanceJobs */
+  public readonly rebalanceJobs: RebalanceJobsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }
