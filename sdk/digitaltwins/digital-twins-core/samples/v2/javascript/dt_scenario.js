@@ -39,7 +39,6 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digital-twins-core");
-const { v4 } = require("uuid");
 const { inspect } = require("util");
 
 const buildingTwin = require("./dtdl/digitalTwins/buildingTwin.json").default;
@@ -134,7 +133,7 @@ async function main() {
   }
 
   // Create event route
-  const eventRouteId = `eventRoute-${v4()}`;
+  const eventRouteId = `eventRoute-${crypto.randomUUID()}`;
   const eventFilter =
     "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
   const response = await serviceClient.upsertEventRoute(

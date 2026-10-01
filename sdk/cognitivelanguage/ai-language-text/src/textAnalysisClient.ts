@@ -514,8 +514,7 @@ export class TextAnalysisClient {
     actionName: ActionName,
     documents: string[] | LanguageDetectionInput[] | TextDocumentInput[],
     languageOrCountryHintOrOptions?:
-      | string
-      | (AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions),
+      string | (AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions),
     options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>> {
     let realOptions: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions;

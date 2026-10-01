@@ -2,12 +2,17 @@
 // Licensed under the MIT License.
 
 import {
+  BrowserSessionSourceType,
   Constants,
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
   ServiceAuth,
 } from "./constants.js";
-import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
+import type {
+  BrowserSessionSourceTypeValue,
+  PlaywrightServiceAdditionalOptions,
+  OsType,
+} from "./types.js";
 import type { TokenCredential } from "@azure/identity";
 import { getAndSetRunId, getRunName, ValidateRunID } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
@@ -22,6 +27,7 @@ class PlaywrightServiceConfig {
   public exposeNetwork: string;
   public runName: string;
   public apiVersion: string;
+  public sourceType: BrowserSessionSourceTypeValue;
   private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
   public credential?: TokenCredential;
 
@@ -35,6 +41,7 @@ class PlaywrightServiceConfig {
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
       process.env[InternalEnvironmentVariables.MPT_API_VERSION] || Constants.LatestAPIVersion;
+    this.sourceType = BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN;
   }
 
   public static get instance(): PlaywrightServiceConfig {
@@ -115,6 +122,9 @@ class PlaywrightServiceConfig {
     }
     if (options?.credential) {
       this.credential = options.credential;
+    }
+    if (options?.sourceType) {
+      this.sourceType = options.sourceType;
     }
   };
 }

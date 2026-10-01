@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  getBSU,
-  recorderEnvSetup,
-  bodyToString,
-  uriSanitizers,
-  getUniqueName,
-} from "./utils/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import { getBSU, bodyToString, getUniqueName, createAndStartRecorder } from "./utils/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   ShareClient,
   ShareDirectoryClient,
@@ -32,14 +26,12 @@ describe("LeaseClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -191,7 +183,7 @@ describe("LeaseClient", () => {
     assert.equal(result.leaseState, "leased");
 
     const res = await leaseClient.breakLease();
-    assert.equal(res.leaseTimeInSeconds, undefined);
+    assert.equal(res.leaseTimeInSeconds, 0);
 
     result = await fileClient.getProperties();
     assert.equal(result.leaseState, "broken");
@@ -429,14 +421,12 @@ describe("LeaseClient with ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );

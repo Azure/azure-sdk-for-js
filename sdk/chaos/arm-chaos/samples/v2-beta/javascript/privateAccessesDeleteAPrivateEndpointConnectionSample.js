@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a private endpoint connection under a private access resource.
  *
  * @summary deletes a private endpoint connection under a private access resource.
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_DeleteAPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_DeleteAPrivateEndpointConnection.json
  */
 async function deleteAPrivateEndpointConnectionUnderAPrivateAccessResource() {
   const credential = new DefaultAzureCredential();

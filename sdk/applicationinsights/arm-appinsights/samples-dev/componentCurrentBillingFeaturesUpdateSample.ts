@@ -1,40 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update current billing features for an Application Insights component.
- *
- * @summary Update current billing features for an Application Insights component.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/CurrentBillingFeaturesUpdate.json
- */
-
-import {
-  ApplicationInsightsComponentBillingFeatures,
-  ApplicationInsightsManagementClient,
-} from "@azure/arm-appinsights";
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update current billing features for an Application Insights component.
+ *
+ * @summary update current billing features for an Application Insights component.
+ * x-ms-original-file: 2015-05-01/CurrentBillingFeaturesUpdate.json
+ */
 async function componentCurrentBillingFeaturesUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const resourceName = "my-component";
-  const billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures =
-  {
-    currentBillingFeatures: ["Basic", "Application Insights Enterprise"],
-    dataVolumeCap: { cap: 100, stopSendNotificationWhenHitCap: true },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "subid";
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.componentCurrentBillingFeatures.update(
-    resourceGroupName,
-    resourceName,
-    billingFeaturesProperties,
+    "my-resource-group",
+    "my-component",
+    {
+      currentBillingFeatures: ["Basic", "Application Insights Enterprise"],
+      dataVolumeCap: { cap: 100, stopSendNotificationWhenHitCap: true },
+    },
   );
   console.log(result);
 }

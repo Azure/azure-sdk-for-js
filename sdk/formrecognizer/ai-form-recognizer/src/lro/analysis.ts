@@ -42,10 +42,7 @@ import type {
  * types.
  */
 export type FormRecognizerRequestBody =
-  | NodeJS.ReadableStream
-  | Blob
-  | ArrayBuffer
-  | ArrayBufferView;
+  NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
 
 /**
  * An extracted document object.
@@ -230,12 +227,10 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...barcode,
       polygon: toBoundingPolygon(barcode.polygon),
     })),
-    formulas: generated.formulas?.map(
-      (formula): DocumentFormula => ({
-        ...formula,
-        polygon: toBoundingPolygon(formula.polygon),
-      }),
-    ),
+    formulas: generated.formulas?.map((formula): DocumentFormula => ({
+      ...formula,
+      polygon: toBoundingPolygon(formula.polygon),
+    })),
   };
 }
 
@@ -256,7 +251,7 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
   items: Spanned[],
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
-  let prevIdx = idx;
+  let prevIdx: number;
   let min = 0;
   let max = items.length;
 

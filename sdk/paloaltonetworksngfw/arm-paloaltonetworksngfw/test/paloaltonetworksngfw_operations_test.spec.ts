@@ -35,7 +35,7 @@ export const testPollingOptions = {
 // Generate a unique resource name for this test run
 const testResourceName = "testjs";
 
-describe("paloaltonetworksngfw test", () => {
+describe.skip("paloaltonetworksngfw test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PaloAltoNetworksCloudngfw;

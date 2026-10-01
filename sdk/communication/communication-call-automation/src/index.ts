@@ -11,3 +11,4 @@ export type * from "./models/responses.js";
 export type * from "./models/events.js";
 export * from "./streamingData.js";
 export * from "./models/streaming.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

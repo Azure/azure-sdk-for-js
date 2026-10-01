@@ -5,10 +5,10 @@ import { AppLinkClient } from "@azure/arm-appnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list AvailableVersion resources by location.
+ * This sample demonstrates how to list the Azure Kubernetes Application Network versions available in a location.
  *
- * @summary list AvailableVersion resources by location.
- * x-ms-original-file: 2025-08-01-preview/AvailableVersions_ListByLocation.json
+ * @summary list the Azure Kubernetes Application Network versions available in a location.
+ * x-ms-original-file: 2026-08-01-preview/AvailableVersions_ListByLocation.json
  */
 async function availableVersionsListByLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,10 +23,10 @@ async function availableVersionsListByLocation(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to list AvailableVersion resources by location.
+ * This sample demonstrates how to list the Azure Kubernetes Application Network versions available in a location.
  *
- * @summary list AvailableVersion resources by location.
- * x-ms-original-file: 2025-08-01-preview/AvailableVersions_ListByLocationWithFilter.json
+ * @summary list the Azure Kubernetes Application Network versions available in a location.
+ * x-ms-original-file: 2026-08-01-preview/AvailableVersions_ListByLocationWithFilter.json
  */
 async function availableVersionsListByLocationWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

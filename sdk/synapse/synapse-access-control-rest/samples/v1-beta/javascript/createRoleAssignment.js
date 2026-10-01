@@ -10,20 +10,19 @@
 const AccessControl = require("@azure-rest/synapse-access-control").default,
   { isUnexpected } = require("@azure-rest/synapse-access-control");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { v4 } = require("uuid");
 require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
-  const roleAssignmentId = v4();
-  // Id of the principal to give aassing the tole to.
+  const roleAssignmentId = crypto.randomUUID();
+  // Id of the principal to give assigning the role to.
   const principalId = "<principal id>";
-  // Id of the role to assing
+  // Id of the role to assign
   const roleId = "<role id>";
   // Workspace scope
-  const scope = "workspaces/<worskpaceName>";
+  const scope = "workspaces/<workspaceName>";
 
   const result = await client
     .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)

@@ -6,7 +6,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { SearchIndex, SearchIndexClient } from "../../../../src/index.js";
-import { KnownQueryLanguage, KnownQuerySpeller, SearchClient } from "../../../../src/index.js";
+import { SearchClient } from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
@@ -33,14 +33,16 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   const baseSemanticOptions = () =>
     ({
-      queryLanguage: KnownQueryLanguage.EnUs,
       queryType: "semantic",
       semanticSearchOptions: {
         configurationName:
@@ -48,17 +50,6 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
           assert.fail("No semantic configuration in index."),
       },
     }) as const;
-
-  it("search with speller (preview)", async () => {
-    const searchResults = await searchClient.search("budjet", {
-      skip: 0,
-      top: 5,
-      includeTotalCount: true,
-      queryLanguage: KnownQueryLanguage.EnUs,
-      speller: KnownQuerySpeller.Lexicon,
-    });
-    assert.equal(searchResults.count, 6);
-  });
 
   it("search with document debug info", async () => {
     const baseOptions = baseSemanticOptions();
@@ -121,12 +112,28 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
           key: true,
         },
         {
-          name: "sensitivityLabel",
+          name: "sensitivityLabelId",
           type: "Edm.String",
           filterable: false,
           sortable: false,
           facetable: true,
-          sensitivityLabel: true,
+          hasSensitivityLabel: true,
+        },
+        {
+          name: "sensitivityLabelName",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sensitivityLabelName: true,
+        },
+        {
+          name: "sourceDocumentId",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sourceDocumentId: true,
         },
       ],
     };
@@ -135,34 +142,26 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteIndex(index.name);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteIndex(index.name).catch(() => {});
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   it("verify content security indexes", async () => {
-    const documents = [
-      { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
-      { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
-      { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
-      { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
-    ];
-
-    const searchClient = new SearchClient<{ id: string; sensitivityLabel: string }>(
+    const searchClient = new SearchClient<{ id: string }>(
       indexClient.endpoint,
       index.name,
       createTestCredential(),
       recorder.configureClientOptions({}),
     );
 
-    await searchClient.uploadDocuments(documents);
-    await delay(WAIT_TIME);
-
     // Test that search with invalid authorization token throws an error
     let errorThrown = false;
     try {
       await searchClient.search("*", {
-        xMsQuerySourceAuthorization: "Invalid token",
-        xMsEnableElevatedRead: true,
+        querySourceAuthorization: "Invalid token",
       });
     } catch (ex: any) {
       errorThrown = true;

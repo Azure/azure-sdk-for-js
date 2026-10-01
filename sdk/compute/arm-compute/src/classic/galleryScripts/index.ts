@@ -31,11 +31,6 @@ export interface GalleryScriptsOperations {
     options?: GalleryScriptsListByGalleryOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryScript>;
   /** Delete a gallery Script Definition. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
@@ -112,7 +107,6 @@ export interface GalleryScriptsOperations {
     options?: GalleryScriptsGetOptionalParams,
   ) => Promise<GalleryScript>;
 }
-
 function _getGalleryScripts(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -242,7 +236,6 @@ function _getGalleryScripts(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, galleryName, galleryScriptName, options),
   };
 }
-
 export function _getGalleryScriptsOperations(
   context: ComputeManagementContext,
 ): GalleryScriptsOperations {

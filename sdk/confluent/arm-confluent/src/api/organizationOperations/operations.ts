@@ -21,7 +21,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Confluent/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -39,14 +39,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _operationListResultDeserializer(result.body);
 }
-
 /** List the operations for the provider */
 export function list(
   context: Client,
@@ -60,7 +61,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }

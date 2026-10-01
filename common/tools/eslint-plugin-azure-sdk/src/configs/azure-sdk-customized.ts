@@ -3,6 +3,7 @@
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
+import importPlugin from "eslint-plugin-import";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -87,6 +88,7 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-no-const-enums": "warn",
   "@azure/azure-sdk/ts-no-invalid-test-imports": "off",
   "@azure/azure-sdk/ts-no-window": "error",
+  "@azure/azure-sdk/ts-package-json-approved-dependencies": "error",
   "@azure/azure-sdk/ts-package-json-author": "error",
   "@azure/azure-sdk/ts-package-json-bugs": "error",
   "@azure/azure-sdk/ts-package-json-engine-is-present": "error",
@@ -160,6 +162,118 @@ const tsdocCustomization = {
   },
 };
 
+// Production source must not load modules through `createRequire()` or by aliasing
+// the global `require`. Those patterns hide a dependency from the static module graph,
+// so bundlers, api-extractor, and dependency linting can't see it — which lets a
+// package acquire an undeclared (or dev-only) runtime dependency that silently fails
+// for consumers.
+const createRequireMessage =
+  "Do not use createRequire() in production source: it loads modules outside the static " +
+  "module graph, hiding the dependency from bundlers and dependency linting and allowing an " +
+  "undeclared or dev-only package to be loaded at runtime. If this is an " +
+  "approved advanced case, disable this rule on the line with a justification comment.";
+const requireAliasMessage =
+  "Do not alias the global `require` in production source: it dodges the import/dependency rules " +
+  "the same way createRequire() does. Import the module statically and declare it as a runtime " +
+  "dependency. If this is an approved advanced case, disable this rule on the line with a " +
+  "justification comment.";
+const dynamicImportMessage =
+  "Do not use a dynamic import() with a non-literal specifier in production source: the module " +
+  "is hidden from the static module graph, bundlers, api-extractor, and dependency linting, so " +
+  "an undeclared or dev-only package can be loaded at runtime. Use a static import with a literal " +
+  "specifier and declare the dependency. If this is an approved advanced case, disable this rule " +
+  "on the line with a justification comment.";
+
+// `instanceof` compares constructor identity, so a check against a class from another package
+// only matches instances built by the exact same copy of that package. A consumer whose
+// dependency tree resolves two copies silently takes the wrong branch — the code type-checks
+// and fails only at runtime. Use the structural type guard the owning package exports.
+//
+// This is a name-based check rather than a type-aware one. Every occurrence in the repo comes
+// from a small, known set of classes, and matching on the name also catches the cases that
+// arrive through a re-export. The trade-off is that it cannot tell an imported class from a
+// same-named local one, so the package that *declares* one of these classes disables the rule
+// on that line with a justification comment.
+const crossPackageInstanceofClasses = [
+  "RestError",
+  "AzureKeyCredential",
+  "AzureNamedKeyCredential",
+  "AzureSASCredential",
+  "Pipeline",
+].join("|");
+
+const crossPackageInstanceofMessage =
+  "Do not use `instanceof` with a class from another package: it compares constructor identity, " +
+  "so it returns false for an instance built by a second copy of that package in the consumer's " +
+  "dependency tree. Use the structural type guard instead — for example `isRestError`, " +
+  "`isKeyCredential`, `isNamedKeyCredential`, `isSASCredential`, or `isPipelineLike`. If this " +
+  "package declares the class itself, disable this rule on the line with a justification comment.";
+
+// A package that must relax one of these selectors should disable it on the offending line with
+// a justification comment. Do not re-declare `no-restricted-syntax` in a package config: ESLint
+// replaces the option array rather than merging it, so every other selector is silently lost,
+// and lowering the severity has the same effect because warnings never fail lint.
+const restrictedSyntax: FlatConfig.Config = {
+  name: "azsdk/restricted-syntax",
+  files: ["**/src/**/*.ts", "**/src/**/*.cts", "**/src/**/*.mts"],
+  rules: {
+    "no-restricted-syntax": [
+      "error",
+      { selector: "CallExpression[callee.name='createRequire']", message: createRequireMessage },
+      {
+        selector: "CallExpression[callee.property.name='createRequire']",
+        message: createRequireMessage,
+      },
+      { selector: "VariableDeclarator[init.name='require']", message: requireAliasMessage },
+      { selector: "AssignmentExpression[right.name='require']", message: requireAliasMessage },
+      // Literal `import("pkg")` stays allowed (and is covered by eslint-plugin-import); only a non-literal
+      // specifier — `import(expr)` / `import(`${x}`)` — hides the dependency and is flagged here.
+      { selector: "ImportExpression[source.type!='Literal']", message: dynamicImportMessage },
+      {
+        selector: `BinaryExpression[operator='instanceof'][right.name=/^(${crossPackageInstanceofClasses})$/]`,
+        message: crossPackageInstanceofMessage,
+      },
+      {
+        selector: `BinaryExpression[operator='instanceof'][right.property.name=/^(${crossPackageInstanceofClasses})$/]`,
+        message: crossPackageInstanceofMessage,
+      },
+    ],
+  },
+};
+
+// Production source must import only declared *runtime* dependencies. Importing a package
+// that lives only in `devDependencies` resolves inside the monorepo and tests but is absent
+// for consumers, so it fails (often silently) once published. `includeTypes` is left at its
+// default (false): only runtime value imports are checked, since type-only imports
+// (`import type`) are erased at runtime and pose no runtime risk. See documentation/linting.md.
+// Scoped to `src/**` only, so tests and samples may freely import devDependencies.
+const srcRuntimeDepsOnly: FlatConfig.Config = {
+  name: "azsdk/src-runtime-deps-only",
+  files: ["**/src/**/*.ts", "**/src/**/*.cts", "**/src/**/*.mts"],
+  ignores: [
+    // Platform-variant shims import platform-provided modules (e.g. `react-native`) that are
+    // intentionally devDependencies — the consumer's bundler swaps them in, so they are not
+    // on the Node runtime path. (Observed in the repo-wide scan: react-native shims in core
+    // packages. Add browser/workerd patterns here only if/when they are observed as reds.)
+    "**/*-react-native.{ts,cts,mts}",
+  ],
+  plugins: {
+    import: importPlugin,
+  },
+  rules: {
+    // `includeTypes: false` (default): only runtime value imports are checked. Type-only
+    // imports (`import type`) are erased at runtime, so a dev-only type import is not a
+    // runtime failure; flagging them added noise without runtime risk.
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: false,
+        includeTypes: false,
+      },
+    ],
+  },
+};
+
 const rules: Record<string, SharedConfig.RuleEntry> = {
   ...tsEslintCustomization,
   ...azsdkDefault,
@@ -220,9 +334,30 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     },
   },
   {
+    files: [
+      "src/**/*.ts",
+      "src/**/*.cts",
+      "src/**/*.mts",
+      "**/src/**/*.ts",
+      "**/src/**/*.cts",
+      "**/src/**/*.mts",
+    ],
+    rules: {
+      "@azure/azure-sdk/ts-no-direct-child-process": "error",
+    },
+  },
+  {
     files: ["**/src/**/*.ts"],
     rules: {
       "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
     },
   },
+  {
+    files: ["dtx.ts"],
+    rules: {
+      "@azure/azure-sdk/ts-no-direct-child-process": "error",
+    },
+  },
+  restrictedSyntax,
+  srcRuntimeDepsOnly,
 ];

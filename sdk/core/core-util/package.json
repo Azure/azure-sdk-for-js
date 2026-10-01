@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.13.2",
+  "version": "1.14.0",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
@@ -50,7 +50,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-util/",
   "sideEffects": false,

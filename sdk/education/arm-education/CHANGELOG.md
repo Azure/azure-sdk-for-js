@@ -1,21 +1,33 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2026-05-27)
+Compared with version 1.0.0-beta.3
 
 ### Features Added
+  - Added Interface GrantDetailProperties
+  - Added Interface JoinRequestProperties
+  - Added Interface LabProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface StudentLabProperties
+  - Added Interface StudentProperties
+  - Interface LabDetails has a new optional parameter totalAllocatedBudget
+  - Interface LabDetails has a new optional parameter totalBudget
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed Interface GrantListResponse
+  - Removed Interface JoinRequestList
+  - Interface LabDetails no longer has parameter currencyPropertiesTotalAllocatedBudgetCurrency
+  - Interface LabDetails no longer has parameter currencyPropertiesTotalBudgetCurrency
+  - Interface LabDetails no longer has parameter valuePropertiesTotalAllocatedBudgetValue
+  - Interface LabDetails no longer has parameter valuePropertiesTotalBudgetValue
+  - Parameter value of interface OperationListResult is now required
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.4 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0-beta.3 (2023-01-10)
     
 ### Features Added
@@ -43,4 +55,4 @@
     
 ## 1.0.0-beta.1 (2022-05-24)
 
-The package of @azure/arm-education is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-education is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

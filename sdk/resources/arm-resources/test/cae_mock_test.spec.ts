@@ -1,7 +1,10 @@
-import { TokenCredential } from "@azure/core-auth";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { TokenCredential } from "@azure/core-auth";
 import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { OperationRequest } from "@azure/core-client";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
@@ -24,7 +27,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     };
 
     let getRequestCount = 0;
-    let request: OperationRequest;
+    let request: PipelineRequest;
     const client = new ResourceManagementClient(credential, "subscriptionID", {
       httpClient: {
         sendRequest: async (req) => {
@@ -37,15 +40,19 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
               headers: createHttpHeaders({ "www-authenticate": caeChallenge }),
             };
           }
-          return { request: req, status: 200, headers: createHttpHeaders() };
+          return {
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "content-type": "application/json" }),
+            bodyAsText: JSON.stringify({ value: [] }),
+          };
         },
       },
-      credential,
     });
 
     const result = await client.operations.list();
     const items = [];
-    for await (let item of result) {
+    for await (const item of result) {
       items.push(item);
     }
     assert.equal(items.length, 0);
@@ -79,15 +86,19 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
               headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }),
             };
           }
-          return { request: req, status: 200, headers: createHttpHeaders() };
+          return {
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "content-type": "application/json" }),
+            bodyAsText: JSON.stringify({ value: [] }),
+          };
         },
       },
-      credential,
     });
     try {
       const result = await client.operations.list();
       const items = [];
-      for await (let item of result) {
+      for await (const item of result) {
         items.push(item);
       }
       assert.fail("Should not reach here and throw 401 exception");

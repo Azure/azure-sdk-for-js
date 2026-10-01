@@ -1,6 +1,6 @@
 ---
 name: create-package-skill
-description: 'Interactive wizard that walks service teams through creating a package-specific skill for their Azure SDK package. Scans the package, detects customization patterns, scaffolds a SKILL.md with references, validates with vally lint, and registers in find-package-skill. WHEN: create package skill; add service skill; bootstrap skill for package; new package skill; skill for my SDK package; write skill for search; write skill for cosmos.'
+description: 'Interactive wizard that walks service teams through creating a package-specific skill for their Azure SDK package. Scans the package, detects customization patterns, scaffolds a SKILL.md with references, and validates with vally lint. The skill is placed inside the package''s .github/skills/ directory so find-package-skill discovers it automatically. WHEN: create package skill; add service skill; bootstrap skill for package; new package skill; skill for my SDK package; write skill for search; write skill for cosmos.'
 ---
 
 # Create Package Skill Wizard
@@ -33,7 +33,7 @@ Run each phase in order. **Progressive loading:** Read only the current phase fi
 | **Phase 1** | 📝 Scaffold SKILL.md — generate skill with common pitfalls, architecture, workflow | [phases/01-scaffold-skill.md](phases/01-scaffold-skill.md) |
 | **Phase 2** | 📚 Generate References — create architecture.md and customization.md | [phases/02-generate-references.md](phases/02-generate-references.md) |
 | **Phase 3** | ✅ Validate — run vally lint | [phases/03-validate.md](phases/03-validate.md) |
-| **Phase 4** | 📋 Register — add to find-package-skill table | [phases/04-register.md](phases/04-register.md) |
+| **Phase 4** | 📋 Finalize — confirm discoverable location, summarize | [phases/04-finalize.md](phases/04-finalize.md) |
 
 ## Guardrails
 
@@ -41,7 +41,7 @@ Run each phase in order. **Progressive loading:** Read only the current phase fi
 - Every line must be non-obvious and package-specific. No generic TypeScript/SDK patterns.
 - SKILL.md should be under 500 tokens (soft limit). Move details to references/.
 - References under 1000 tokens each. Split if larger.
-- Never duplicate what's already in `.github/copilot-instructions.md` or shared skills.
+- Never duplicate what's already in `AGENTS.md` or shared skills.
 
 **Relationship to existing SDK tools:**
 - Package skills **complement** the Azure SDK MCP tools (`azsdk_package_generate_code`, `azsdk_package_build_code`, etc.) and the `sdk-workflow` shared skill — they do NOT replace them.

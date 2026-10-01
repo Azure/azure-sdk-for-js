@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a Traffic Manager profile.
- *
- * @summary Deletes a Traffic Manager profile.
- * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-DELETE.json
- */
-
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a Traffic Manager profile.
+ *
+ * @summary deletes a Traffic Manager profile.
+ * x-ms-original-file: 2026-09-01/Profile-DELETE.json
+ */
 async function profileDelete(): Promise<void> {
-  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
-  const profileName = "azuresdkfornetautoresttrafficmanager3880";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.delete(resourceGroupName, profileName);
+  const result = await client.profiles.delete(
+    "azuresdkfornetautoresttrafficmanager1323",
+    "azuresdkfornetautoresttrafficmanager3880",
+  );
   console.log(result);
 }
 

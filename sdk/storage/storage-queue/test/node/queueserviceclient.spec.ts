@@ -4,7 +4,7 @@
 import {
   getQSU,
   getConnectionStringFromEnvironment,
-  recorderEnvSetup,
+  createAndStartRecorder,
   configureStorageClient,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -18,12 +18,39 @@ describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let queueServiceURL = `https://${accountName}-ipv6.queue.core.windows.net/`;
+    let queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-secondary-ipv6.queue.core.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-secondary-dualstack.queue.core.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-dualstack.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-secondary.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-something.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {

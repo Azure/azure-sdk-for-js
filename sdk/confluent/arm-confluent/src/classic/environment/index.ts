@@ -15,11 +15,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a Environment operations. */
 export interface EnvironmentOperations {
   /** Delete confluent environment by id */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,
@@ -48,7 +43,6 @@ export interface EnvironmentOperations {
     options?: EnvironmentCreateOrUpdateOptionalParams,
   ) => Promise<SCEnvironmentRecord>;
 }
-
 function _getEnvironment(context: ConfluentManagementContext) {
   return {
     delete: (
@@ -83,7 +77,6 @@ function _getEnvironment(context: ConfluentManagementContext) {
     ) => createOrUpdate(context, resourceGroupName, organizationName, environmentId, options),
   };
 }
-
 export function _getEnvironmentOperations(
   context: ConfluentManagementContext,
 ): EnvironmentOperations {

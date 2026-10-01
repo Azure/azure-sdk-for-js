@@ -132,7 +132,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       span.setAttribute("gen_ai.conversation.id", "c-id");
       span.end();
 
-      processor.onEnd(span as unknown as ReadableSpan);
+      processor.onEnd(span);
 
       const attrs = (span as unknown as ReadableSpan).attributes;
       assert.strictEqual(attrs["microsoft.gen_ai.main_agent.name"], "a");
@@ -147,7 +147,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       span.setAttribute("gen_ai.agent.name", "a");
       span.end();
 
-      processor.onEnd(span as unknown as ReadableSpan);
+      processor.onEnd(span);
 
       const attrs = (span as unknown as ReadableSpan).attributes;
       assert.isUndefined(attrs["microsoft.gen_ai.main_agent.name"]);
@@ -160,7 +160,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       span.setAttribute("gen_ai.agent.id", "should-not-copy");
       span.end();
 
-      processor.onEnd(span as unknown as ReadableSpan);
+      processor.onEnd(span);
 
       const attrs = (span as unknown as ReadableSpan).attributes;
       assert.strictEqual(attrs["microsoft.gen_ai.main_agent.name"], "preset");

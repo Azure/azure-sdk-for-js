@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
       sharedTo: options?.sharedTo,
     },
     {
@@ -45,14 +45,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _sharedGalleryListDeserializer(result.body);
 }
-
 /** List shared galleries by subscription id or tenant id. */
 export function list(
   context: Client,
@@ -64,7 +65,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -80,7 +81,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       galleryUniqueName: galleryUniqueName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,14 +97,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sh
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return sharedGalleryDeserializer(result.body);
 }
-
 /** Get a shared gallery by subscription id or tenant id. */
 export async function get(
   context: Client,

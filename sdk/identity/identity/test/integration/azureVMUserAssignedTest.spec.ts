@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert } from "vitest";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("AzureVM UserAssigned Integration test", function () {
-  it.skipIf(!isLiveMode())("live IMDS test", async function () {
+  // TODO: VM is consistently unreachable — skip until infra issue is resolved
+  it.skip("live IMDS test", async function () {
     const identityVMIP = process.env.IDENTITY_VM_PUBLIC_IP;
     if (!identityVMIP) {
       throw new Error("IDENTITY_VM_PUBLIC_IP is not set");

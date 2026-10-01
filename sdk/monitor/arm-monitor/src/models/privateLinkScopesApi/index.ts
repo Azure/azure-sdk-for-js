@@ -1,0 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  PrivateLinkResource,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
+  AzureMonitorPrivateLinkScope,
+  AzureMonitorPrivateLinkScopeProperties,
+  PrivateLinkScopeProvisioningState,
+  AccessModeSettings,
+  AccessMode,
+  AccessModeSettingsExclusion,
+  TagsResource,
+  ScopedResource,
+  ScopedResourceProperties,
+  ScopedResourceKind,
+  ScopedResourceProvisioningState,
+  OperationStatus,
+} from "./models.js";
+export {
+  KnownPrivateLinkScopeProvisioningState,
+  KnownAccessMode,
+  KnownScopedResourceKind,
+  KnownScopedResourceProvisioningState,
+} from "./models.js";

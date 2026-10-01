@@ -55,7 +55,6 @@ export class ContainerRegistryManagementClient {
     subscriptionId: string,
     options?: ContainerRegistryManagementClientOptionalParams,
   );
-  /** The Microsoft Azure Container Registry management API provides create, read, update, and delete functionality for Azure Container Registry resources including registries, replications, webhooks, tasks, runs, and other registry components. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | ContainerRegistryManagementClientOptionalParams,
@@ -70,14 +69,7 @@ export class ContainerRegistryManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerRegistryManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerRegistryManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.webhooks = _getWebhooksOperations(this._client);
     this.pipelineRuns = _getPipelineRunsOperations(this._client);

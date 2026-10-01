@@ -7,14 +7,16 @@
  * This sample demonstrates how to retrieve information about analyzers, including prebuilt
  * analyzers and custom analyzers.
  *
- * The getAnalyzer method allows you to retrieve detailed information about any analyzer:
- * - Prebuilt analyzers: System-provided analyzers like prebuilt-documentSearch, prebuilt-invoice
- * - Custom analyzers: Analyzers you've created with custom field schemas or classifiers
+ * ## About getting analyzer information
+ *
+ * The `getAnalyzer` method allows you to retrieve detailed information about any analyzer, including:
+ * - **Prebuilt analyzers**: System-provided analyzers like `prebuilt-documentSearch`, `prebuilt-invoice`, etc.
+ * - **Custom analyzers**: Analyzers you've created with custom field schemas or classifiers
  *
  * This is useful for:
- * - Verifying analyzer configuration
- * - Inspecting prebuilt analyzers to learn about their capabilities
- * - Debugging analyzer behavior
+ * - **Verifying analyzer configuration**: Check the current state of an analyzer
+ * - **Inspecting prebuilt analyzers**: Learn about available prebuilt analyzers and their capabilities
+ * - **Debugging**: Understand why an analyzer behaves a certain way
  */
 
 import "dotenv/config";
@@ -105,7 +107,7 @@ export async function main(): Promise<void> {
     description: "Custom analyzer for extracting company information",
     config: { returnDetails: true } as ContentAnalyzerConfig,
     fieldSchema,
-    models: { completion: "gpt-4.1" },
+    models: { completion: "gpt-5.2" },
   } as unknown as ContentAnalyzer;
 
   const poller = client.createAnalyzer(analyzerId, customAnalyzer);

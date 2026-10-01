@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-chaos",
-  "version": "2.1.0-beta.1",
+  "version": "2.1.0-beta.2",
   "description": "A generated SDK for ChaosManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -131,18 +131,18 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/scenarioConfigurations": {
+    "./api/connections": {
       "browser": {
-        "types": "./dist/browser/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/browser/api/scenarioConfigurations/index.js"
+        "types": "./dist/browser/api/connections/index.d.ts",
+        "default": "./dist/browser/api/connections/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/esm/api/scenarioConfigurations/index.js"
+        "types": "./dist/esm/api/connections/index.d.ts",
+        "default": "./dist/esm/api/connections/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/commonjs/api/scenarioConfigurations/index.js"
+        "types": "./dist/commonjs/api/connections/index.d.ts",
+        "default": "./dist/commonjs/api/connections/index.js"
       }
     },
     "./api/scenarioRuns": {
@@ -157,6 +157,20 @@
       "require": {
         "types": "./dist/commonjs/api/scenarioRuns/index.d.ts",
         "default": "./dist/commonjs/api/scenarioRuns/index.js"
+      }
+    },
+    "./api/scenarioConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/browser/api/scenarioConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/esm/api/scenarioConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/scenarioConfigurations/index.js"
       }
     },
     "./api/scenarios": {

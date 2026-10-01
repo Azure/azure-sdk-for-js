@@ -26,11 +26,6 @@ export interface TopicsOperations {
     options?: TopicsListOptionalParams,
   ) => PagedAsyncIterableIterator<TopicRecord>;
   /** Delete confluent topic by name */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,
@@ -76,7 +71,6 @@ export interface TopicsOperations {
     options?: TopicsGetOptionalParams,
   ) => Promise<TopicRecord>;
 }
-
 function _getTopics(context: ConfluentManagementContext) {
   return {
     list: (
@@ -177,7 +171,6 @@ function _getTopics(context: ConfluentManagementContext) {
       ),
   };
 }
-
 export function _getTopicsOperations(context: ConfluentManagementContext): TopicsOperations {
   return {
     ..._getTopics(context),

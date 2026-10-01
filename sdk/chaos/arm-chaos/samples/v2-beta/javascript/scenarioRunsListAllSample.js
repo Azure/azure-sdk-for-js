@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of scenario runs.
  *
  * @summary get a list of scenario runs.
- * x-ms-original-file: 2026-05-01-preview/ScenarioRuns_ListAll.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioRuns_ListAll.json
  */
 async function getAListOfScenarioRuns() {
   const credential = new DefaultAzureCredential();

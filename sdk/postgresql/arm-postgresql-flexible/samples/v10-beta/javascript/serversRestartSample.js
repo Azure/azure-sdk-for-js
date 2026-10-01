@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restarts PostgreSQL database engine in a server.
  *
  * @summary restarts PostgreSQL database engine in a server.
- * x-ms-original-file: 2026-01-01-preview/ServersRestart.json
+ * x-ms-original-file: 2026-04-01-preview/ServersRestart.json
  */
 async function restartPostgreSQLDatabaseEngineInAServer() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function restartPostgreSQLDatabaseEngineInAServer() {
  * This sample demonstrates how to restarts PostgreSQL database engine in a server.
  *
  * @summary restarts PostgreSQL database engine in a server.
- * x-ms-original-file: 2026-01-01-preview/ServersRestartWithFailover.json
+ * x-ms-original-file: 2026-04-01-preview/ServersRestartWithFailover.json
  */
 async function restartPostgreSQLDatabaseEngineInAServerWithAForcedFailoverToStandbyServer() {
   const credential = new DefaultAzureCredential();

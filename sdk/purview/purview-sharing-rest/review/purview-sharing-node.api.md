@@ -10,11 +10,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -237,6 +239,8 @@ export interface InPlaceSentSharePropertiesOutput {
     readonly senderTenantName?: string;
     readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
 }
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: ReceivedSharesGetReceivedShare200Response | ReceivedSharesGetReceivedShareDefaultResponse): response is ReceivedSharesGetReceivedShareDefaultResponse;
@@ -686,6 +690,8 @@ export interface ReceivedSharesRegisterTenantEmailRegistrationHeaders {
 
 // @public (undocumented)
 export type ReceivedSharesRegisterTenantEmailRegistrationParameters = ReceivedSharesRegisterTenantEmailRegistrationHeaderParam & RequestParameters;
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

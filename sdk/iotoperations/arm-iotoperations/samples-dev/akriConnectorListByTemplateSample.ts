@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AkriConnectorResource resources by AkriConnectorTemplateResource
  *
  * @summary list AkriConnectorResource resources by AkriConnectorTemplateResource
- * x-ms-original-file: 2026-03-01/AkriConnector_ListByTemplate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/AkriConnector_ListByTemplate_MaximumSet_Gen.json
  */
 async function akriConnectorListByTemplateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

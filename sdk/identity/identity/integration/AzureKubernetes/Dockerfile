@@ -11,9 +11,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install --no-package-lock
+RUN npm install
 
 RUN npm run build
+
+RUN npm prune --omit=dev
 
 FROM ${BASE_IMAGE}
 WORKDIR /app
@@ -24,7 +26,6 @@ RUN tdnf install -y wget && tdnf clean all
 # Copy only the built app and necessary files
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
-
-RUN npm install --only=production
+COPY --from=builder /app/node_modules ./node_modules
 
 CMD ["node", "dist/index.js"]

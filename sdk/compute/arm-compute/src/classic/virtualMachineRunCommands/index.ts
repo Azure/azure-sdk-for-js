@@ -51,11 +51,6 @@ export interface VirtualMachineRunCommandsOperations {
     options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /** The operation to delete the run command. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmName: string,
@@ -136,7 +131,6 @@ export interface VirtualMachineRunCommandsOperations {
     options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
   ) => Promise<VirtualMachineRunCommand>;
 }
-
 function _getVirtualMachineRunCommands(context: ComputeManagementContext) {
   return {
     get: (
@@ -258,7 +252,6 @@ function _getVirtualMachineRunCommands(context: ComputeManagementContext) {
     ) => getByVirtualMachine(context, resourceGroupName, vmName, runCommandName, options),
   };
 }
-
 export function _getVirtualMachineRunCommandsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineRunCommandsOperations {

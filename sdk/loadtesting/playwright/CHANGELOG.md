@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (Unreleased)
+## 1.1.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Replaced shell command strings with safe, structured process execution.
+  [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
+## 1.1.6 (2026-06-05)
+
+### Features Added
+
+- Added a `sourceType` option to `createAzurePlaywrightConfig` and `getConnectOptions`
+  that sets the `sourceType` query parameter on the remote browser WebSocket
+  endpoint. Supported values are `PlaywrightWorkspacesTestRun` (default) and
+  `Others`. Defaults remain unchanged for existing callers.
+
+### Bugs Fixed
+
+- Validated workspace `storageUri` against an Azure Storage Blob allowlist before uploading reports.
 
 ## 1.1.5 (2026-04-24)
 
@@ -21,7 +37,6 @@
 ### Bugs Fixed
 
 - Provided a direct Azure Portal URL to the specific Playwright test run.
-
 
 ## 1.1.3 (2026-03-18)
 

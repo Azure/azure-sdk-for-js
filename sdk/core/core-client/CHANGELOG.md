@@ -1,16 +1,22 @@
 # Release History
 
-## 1.10.2 (Unreleased)
+## 1.11.1 (2026-09-03)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 1.11.0 (2026-07-13)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 1.10.2 (2026-06-04)
 
 ### Bugs Fixed
 
 - Fixes to additional property serialization. [PR #38006](https://github.com/Azure/azure-sdk-for-js/pull/38006/)
-
-### Other Changes
 
 ## 1.10.1 (2025-09-11)
 

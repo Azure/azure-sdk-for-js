@@ -13,11 +13,11 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaRedTeams operations. */
 export interface BetaRedTeamsOperations {
-  /** Creates a redteam run. */
+  /** Submits a new redteam run for execution with the provided configuration. */
   create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) => Promise<RedTeam>;
-  /** List a redteam by name. */
+  /** Returns the redteams available in the current project. */
   list: (options?: BetaRedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
-  /** Get a redteam by name. */
+  /** Retrieves the specified redteam and its configuration. */
   get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
 }
 

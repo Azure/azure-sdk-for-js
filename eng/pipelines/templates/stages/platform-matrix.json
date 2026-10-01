@@ -39,7 +39,18 @@
         "sample": {
           "TestType": "sample",
           "TestResultsFiles": "**/test-results.xml"
-        },
+        }
+      }
+    },
+    {
+      "Agent": {
+        "ubuntu": {
+          "OSVmImage": "env:LINUXVMIMAGE",
+          "Pool": "env:LINUXPOOL"
+        }
+      },
+      "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
+      "Scenario": {
         "browser": {
           "TestType": "browser",
           "TestResultsFiles": "**/test-results.browser.xml"

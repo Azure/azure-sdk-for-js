@@ -94,6 +94,7 @@ export function toCorePolicy(
       certificateType: policy.certificateType,
       certificateTransparency: policy.certificateTransparency,
     },
+    platformManaged: policy.platformManaged,
     attributes,
   };
 }
@@ -173,6 +174,10 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
     certificatePolicy.certificateType = policy.issuerParameters
       .certificateType as CertificateContentType;
     certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
+  }
+
+  if (policy.platformManaged) {
+    certificatePolicy.platformManaged = policy.platformManaged;
   }
 
   return certificatePolicy;

@@ -85,3 +85,4 @@ export * from "./options/index.js";
 export * from "./documentModel.js";
 export type { Point2D } from "./transforms/polygon.js";
 export { KnownFormRecognizerAudience } from "./constants.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

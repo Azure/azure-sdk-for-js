@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Confluent Marketplace agreement in the subscription.
  *
  * @summary create Confluent Marketplace agreement in the subscription.
- * x-ms-original-file: 2025-08-18-preview/MarketplaceAgreements_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_Create_MaximumSet_Gen.json
  */
 async function createConfluentMarketplaceAgreementInTheSubscriptionMaximumset() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createConfluentMarketplaceAgreementInTheSubscriptionMaximumset() 
  * This sample demonstrates how to create Confluent Marketplace agreement in the subscription.
  *
  * @summary create Confluent Marketplace agreement in the subscription.
- * x-ms-original-file: 2025-08-18-preview/MarketplaceAgreements_Create_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_Create_MinimumSet_Gen.json
  */
 async function createConfluentMarketplaceAgreementInTheSubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();

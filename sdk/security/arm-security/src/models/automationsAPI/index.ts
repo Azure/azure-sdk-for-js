@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  Automation,
+  AutomationProperties,
+  AutomationScope,
+  AutomationSource,
+  EventSource,
+  AutomationRuleSet,
+  AutomationTriggeringRule,
+  PropertyType,
+  Operator,
+  AutomationAction,
+  AutomationActionUnion,
+  AutomationActionLogicApp,
+  AutomationActionEventHub,
+  AutomationActionWorkspace,
+  AutomationUpdateModel,
+  AutomationValidationStatus,
+  SecurityContact,
+  SecurityContactProperties,
+  NotificationsSource,
+  NotificationsSourceUnion,
+  SourceType,
+  NotificationsSourceAlert,
+  MinimalSeverity,
+  NotificationsSourceAttackPath,
+  MinimalRiskLevel,
+  SecurityContactPropertiesNotificationsByRole,
+  SecurityContactRole,
+  SecurityContactName,
+} from "./models.js";
+export {
+  KnownEventSource,
+  KnownPropertyType,
+  KnownOperator,
+  KnownSourceType,
+  KnownMinimalSeverity,
+  KnownMinimalRiskLevel,
+  KnownSecurityContactRole,
+  KnownSecurityContactName,
+} from "./models.js";

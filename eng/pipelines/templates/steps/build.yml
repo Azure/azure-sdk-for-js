@@ -5,6 +5,8 @@ parameters:
   IncludeRelease: true
 
 steps:
+  # NOTE: common.yml is job-scoped and is included by the job template that
+  # consumes this file (jobs/ci.yml). Do not include it here.
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"
@@ -25,21 +27,11 @@ steps:
   # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      npm ci
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    workingDirectory: ./eng/tools/eng-package-utils
-    displayName: Install eng-package-utils dependencies
-
-  - script: |
-      npm ci
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    workingDirectory: ./eng/tools/versioning
-    displayName: Install versioning tool dependencies
+      pnpm install
+    displayName: "Install repository dependencies"
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
@@ -55,11 +47,6 @@ steps:
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - script: |
-      pnpm install
-    condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
-    displayName: "Install library dependencies"
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
@@ -99,7 +86,7 @@ steps:
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      pnpm purge
+      node eng/tools/purge-node-modules.mjs sdk common
     displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml

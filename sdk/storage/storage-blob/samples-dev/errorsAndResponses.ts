@@ -8,7 +8,8 @@
 
 import { BlobServiceClient } from "@azure/storage-blob";
 
-import { streamToBuffer } from "./utils/stream.js";
+import { buffer } from "node:stream/consumers";
+// Use `text` from "node:stream/consumers" if you want the content as a string directly.
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -92,11 +93,10 @@ async function main(): Promise<void> {
     console.log("// Download blob content...");
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const downloadBlockBlobResponse = await blockBlobClient.download();
-    console.log(
-      `Downloaded blob content - ${(
-        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)
-      ).toString()},`,
-    );
+    // Download the raw bytes of the blob. Use `text(...)` from "node:stream/consumers"
+    // instead if you want to read the content as a string directly.
+    const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody!);
+    console.log(`Downloaded blob content - ${downloaded.toString()},`);
     console.log(
       `requestId - ${downloadBlockBlobResponse.requestId}, statusCode - ${downloadBlockBlobResponse._response.status}\n`,
     );

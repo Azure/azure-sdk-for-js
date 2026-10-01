@@ -16,11 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a RestorePoints operations. */
 export interface RestorePointsOperations {
   /** The operation to delete the restore point. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     restorePointCollectionName: string,
@@ -73,7 +68,6 @@ export interface RestorePointsOperations {
     options?: RestorePointsGetOptionalParams,
   ) => Promise<RestorePoint>;
 }
-
 function _getRestorePoints(context: ComputeManagementContext) {
   return {
     delete: (
@@ -169,7 +163,6 @@ function _getRestorePoints(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, restorePointCollectionName, restorePointName, options),
   };
 }
-
 export function _getRestorePointsOperations(
   context: ComputeManagementContext,
 ): RestorePointsOperations {

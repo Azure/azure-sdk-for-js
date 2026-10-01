@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all views by tenant and object.
- *
- * @summary Lists all views by tenant and object.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateViewList.json
- */
-
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all views by tenant and object.
+ *
+ * @summary lists all views by tenant and object.
+ * x-ms-original-file: 2025-03-01/PrivateViewList.json
+ */
 async function privateViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -19,6 +17,7 @@ async function privateViewList(): Promise<void> {
   for await (const item of client.views.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

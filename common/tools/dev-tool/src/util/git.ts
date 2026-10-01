@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { spawn } from "node:child_process";
+import { spawn } from "@azure/core-process";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { createPrinter } from "./printer.ts";
@@ -39,7 +39,7 @@ export function hasDiff(treePath: string): Promise<boolean> {
         resolve(code !== 0);
       });
       command.on("error", reject);
-      command.stdout.on("data", (data) => {
+      command.stdout?.on("data", (data) => {
         output.push(data.toString());
       });
     }
@@ -104,7 +104,7 @@ export function getConfig(
     const command = spawn("git", ["config", ...globalArg, "--get", key]);
 
     let output = "";
-    command.stdout.on("data", (data) => (output += data.toString()));
+    command.stdout?.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) => {
       return code === 0 ? resolve(output.trim()) : resolve(undefined);
     });
@@ -131,7 +131,7 @@ export function currentBranch(): Promise<string> {
     const command = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"]);
 
     let output = "";
-    command.stdout.on("data", (data) => (output += data.toString()));
+    command.stdout?.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) => {
       return code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
     });

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new server administrator associated to a Microsoft Entra principal.
  *
  * @summary creates a new server administrator associated to a Microsoft Entra principal.
- * x-ms-original-file: 2026-01-01-preview/AdministratorsMicrosoftEntraAdd.json
+ * x-ms-original-file: 2026-04-01-preview/AdministratorsMicrosoftEntraAdd.json
  */
 async function addAServerAdministratorAssociatedToAMicrosoftEntraPrincipal(): Promise<void> {
   const credential = new DefaultAzureCredential();

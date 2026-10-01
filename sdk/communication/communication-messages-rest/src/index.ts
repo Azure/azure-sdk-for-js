@@ -13,3 +13,4 @@ export type * from "./generated/src/models.js";
 export type * from "./generated/src/outputModels.js";
 export * from "./generated/src/paginateHelper.js";
 export default MessagesServiceClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

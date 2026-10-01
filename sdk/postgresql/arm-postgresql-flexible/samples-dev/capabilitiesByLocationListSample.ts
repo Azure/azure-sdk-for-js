@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the capabilities available in a given location for a specific subscription.
  *
  * @summary lists the capabilities available in a given location for a specific subscription.
- * x-ms-original-file: 2026-01-01-preview/CapabilitiesByLocationList.json
+ * x-ms-original-file: 2026-04-01-preview/CapabilitiesByLocationList.json
  */
 async function listTheCapabilitiesAvailableInAGivenLocationForASpecificSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

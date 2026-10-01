@@ -4,23 +4,24 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AutoScaleVCore extends Resource {
+export interface AutoScaleVCore extends TrackedResource {
     capacityLimit?: number;
     capacityObjectId?: string;
     readonly provisioningState?: VCoreProvisioningState;
     sku: AutoScaleVCoreSku;
-}
-
-// @public
-export interface AutoScaleVCoreListResult {
-    value: AutoScaleVCore[];
 }
 
 // @public
@@ -35,32 +36,16 @@ export interface AutoScaleVCoreProperties extends AutoScaleVCoreMutablePropertie
 }
 
 // @public
-export interface AutoScaleVCores {
-    create(resourceGroupName: string, vcoreName: string, vCoreParameters: AutoScaleVCore, options?: AutoScaleVCoresCreateOptionalParams): Promise<AutoScaleVCoresCreateResponse>;
-    delete(resourceGroupName: string, vcoreName: string, options?: AutoScaleVCoresDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vcoreName: string, options?: AutoScaleVCoresGetOptionalParams): Promise<AutoScaleVCoresGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AutoScaleVCoresListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AutoScaleVCore>;
-    listBySubscription(options?: AutoScaleVCoresListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AutoScaleVCore>;
-    update(resourceGroupName: string, vcoreName: string, vCoreUpdateParameters: AutoScaleVCoreUpdateParameters, options?: AutoScaleVCoresUpdateOptionalParams): Promise<AutoScaleVCoresUpdateResponse>;
+export interface AutoScaleVCoresCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutoScaleVCoresCreateOptionalParams extends coreClient.OperationOptions {
+export interface AutoScaleVCoresDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoScaleVCoresCreateResponse = AutoScaleVCore;
-
-// @public
-export interface AutoScaleVCoresDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AutoScaleVCoresGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface AutoScaleVCoresGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutoScaleVCoresGetResponse = AutoScaleVCore;
 
 // @public
 export interface AutoScaleVCoreSku {
@@ -70,138 +55,134 @@ export interface AutoScaleVCoreSku {
 }
 
 // @public
-export interface AutoScaleVCoresListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AutoScaleVCoresListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoScaleVCoresListByResourceGroupResponse = AutoScaleVCoreListResult;
-
-// @public
-export interface AutoScaleVCoresListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AutoScaleVCoresListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoScaleVCoresListBySubscriptionResponse = AutoScaleVCoreListResult;
-
-// @public
-export interface AutoScaleVCoresUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AutoScaleVCoresOperations {
+    create: (resourceGroupName: string, vcoreName: string, vCoreParameters: AutoScaleVCore, options?: AutoScaleVCoresCreateOptionalParams) => Promise<AutoScaleVCore>;
+    delete: (resourceGroupName: string, vcoreName: string, options?: AutoScaleVCoresDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, vcoreName: string, options?: AutoScaleVCoresGetOptionalParams) => Promise<AutoScaleVCore>;
+    listByResourceGroup: (resourceGroupName: string, options?: AutoScaleVCoresListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutoScaleVCore>;
+    listBySubscription: (options?: AutoScaleVCoresListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutoScaleVCore>;
+    update: (resourceGroupName: string, vcoreName: string, vCoreUpdateParameters: AutoScaleVCoreUpdateParameters, options?: AutoScaleVCoresUpdateOptionalParams) => Promise<AutoScaleVCore>;
 }
 
 // @public
-export type AutoScaleVCoresUpdateResponse = AutoScaleVCore;
+export interface AutoScaleVCoresUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface AutoScaleVCoreUpdateParameters {
     capacityLimit?: number;
     sku?: AutoScaleVCoreSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface Capacities {
-    beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<CapacitiesCreateResponse>;
-    beginDelete(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginResumeAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginSuspendAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<CapacitiesUpdateResponse>;
-    checkNameAvailability(location: string, capacityParameters: CheckCapacityNameAvailabilityParameters, options?: CapacitiesCheckNameAvailabilityOptionalParams): Promise<CapacitiesCheckNameAvailabilityResponse>;
-    getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesGetDetailsOptionalParams): Promise<CapacitiesGetDetailsResponse>;
-    list(options?: CapacitiesListOptionalParams): PagedAsyncIterableIterator<DedicatedCapacity>;
-    listByResourceGroup(resourceGroupName: string, options?: CapacitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedCapacity>;
-    listSkus(options?: CapacitiesListSkusOptionalParams): Promise<CapacitiesListSkusResponse>;
-    listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesListSkusForCapacityOptionalParams): Promise<CapacitiesListSkusForCapacityResponse>;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface CapacitiesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface CapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesCheckNameAvailabilityResponse = CheckCapacityNameAvailabilityResult;
-
-// @public
-export interface CapacitiesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacitiesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CapacitiesCreateResponse = DedicatedCapacity;
-
-// @public
-export interface CapacitiesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacitiesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CapacitiesGetDetailsOptionalParams extends coreClient.OperationOptions {
+export interface CapacitiesGetDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesGetDetailsResponse = DedicatedCapacity;
-
-// @public
-export interface CapacitiesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CapacitiesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesListByResourceGroupResponse = DedicatedCapacities;
-
-// @public
-export interface CapacitiesListOptionalParams extends coreClient.OperationOptions {
+export interface CapacitiesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesListResponse = DedicatedCapacities;
-
-// @public
-export interface CapacitiesListSkusForCapacityOptionalParams extends coreClient.OperationOptions {
+export interface CapacitiesListSkusForCapacityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesListSkusForCapacityResponse = SkuEnumerationForExistingResourceResult;
-
-// @public
-export interface CapacitiesListSkusOptionalParams extends coreClient.OperationOptions {
+export interface CapacitiesListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CapacitiesListSkusResponse = SkuEnumerationForNewResourceResult;
+export interface CapacitiesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => Promise<DedicatedCapacity>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResume: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResumeAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSuspend: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSuspendAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams) => Promise<DedicatedCapacity>;
+    checkNameAvailability: (location: string, capacityParameters: CheckCapacityNameAvailabilityParameters, options?: CapacitiesCheckNameAvailabilityOptionalParams) => Promise<CheckCapacityNameAvailabilityResult>;
+    create: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => PollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>;
+    delete: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    getDetails: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesGetDetailsOptionalParams) => Promise<DedicatedCapacity>;
+    list: (options?: CapacitiesListOptionalParams) => PagedAsyncIterableIterator<DedicatedCapacity>;
+    listByResourceGroup: (resourceGroupName: string, options?: CapacitiesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DedicatedCapacity>;
+    listSkus: (options?: CapacitiesListSkusOptionalParams) => Promise<SkuEnumerationForNewResourceResult>;
+    listSkusForCapacity: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesListSkusForCapacityOptionalParams) => Promise<SkuEnumerationForExistingResourceResult>;
+    resume: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams) => PollerLike<OperationState<void>, void>;
+    suspend: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams) => PollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>;
+}
 
 // @public
-export interface CapacitiesResumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacitiesResumeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CapacitiesSuspendOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacitiesSuspendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CapacitiesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CapacitiesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CapacitiesUpdateResponse = DedicatedCapacity;
 
 // @public
 export type CapacityProvisioningState = string;
 
 // @public
 export interface CapacitySku {
+    capacity?: number;
     name: string;
     tier?: CapacitySkuTier;
 }
@@ -223,17 +204,22 @@ export interface CheckCapacityNameAvailabilityResult {
 }
 
 // @public
-export interface DedicatedCapacities {
-    value: DedicatedCapacity[];
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface DedicatedCapacity extends Resource {
+export type CreatedByType = string;
+
+// @public
+export interface DedicatedCapacity extends TrackedResource {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     readonly provisioningState?: CapacityProvisioningState;
     sku: CapacitySku;
     readonly state?: State;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -244,7 +230,9 @@ export interface DedicatedCapacityAdministrators {
 // @public
 export interface DedicatedCapacityMutableProperties {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -256,29 +244,22 @@ export interface DedicatedCapacityProperties extends DedicatedCapacityMutablePro
 // @public
 export interface DedicatedCapacityUpdateParameters {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     sku?: CapacitySku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+    readonly tenantId?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorResponseError;
+    error?: {
+        code?: string;
+        message?: string;
+    };
 }
 
-// @public
-export interface ErrorResponseError {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export type IdentityType = string;
+export { isRestError }
 
 // @public
 export enum KnownCapacityProvisioningState {
@@ -304,7 +285,7 @@ export enum KnownCapacitySkuTier {
 }
 
 // @public
-export enum KnownIdentityType {
+export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
@@ -344,84 +325,143 @@ export enum KnownVCoreSkuTier {
 }
 
 // @public
-export type Mode = string;
+export enum KnownVersions {
+    V20210101 = "2021-01-01"
+}
 
 // @public
-export interface Operation {
-    display?: OperationDisplay;
+export interface LogSpecification {
+    readonly blobDuration?: string;
+    displayName?: string;
     readonly name?: string;
 }
 
 // @public
-export interface OperationDisplay {
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
+export interface MetricSpecification {
+    readonly aggregationType?: string;
+    dimensions?: MetricSpecificationDimensionsItem[];
+    displayDescription?: string;
+    displayName?: string;
+    readonly metricFilterPattern?: string;
+    readonly name?: string;
+    readonly unit?: string;
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface MetricSpecificationDimensionsItem {
+    displayName?: string;
+    readonly name?: string;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export type Mode = string;
+
+// @public
+export interface Operation {
+    display?: {
+        provider?: string;
+        resource?: string;
+        operation?: string;
+        description?: string;
+    };
+    readonly name?: string;
+    readonly origin?: string;
+    properties?: OperationProperties;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public (undocumented)
-export class PowerBIDedicated extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PowerBIDedicatedOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    autoScaleVCores: AutoScaleVCores;
-    // (undocumented)
-    capacities: Capacities;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
+export class PowerBIDedicated {
+    constructor(credential: TokenCredential, options?: PowerBIDedicatedOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PowerBIDedicatedOptionalParams);
+    readonly autoScaleVCores: AutoScaleVCoresOperations;
+    readonly capacities: CapacitiesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface PowerBIDedicatedOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PowerBIDedicatedOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PowerBIDedicated, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
 export interface SkuDetailsForExistingResource {
+    resourceType?: string;
     sku?: CapacitySku;
 }
 
@@ -442,10 +482,16 @@ export type State = string;
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public

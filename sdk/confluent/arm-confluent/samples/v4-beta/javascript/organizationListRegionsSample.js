@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cloud provider regions available for creating Schema Registry clusters.
  *
  * @summary cloud provider regions available for creating Schema Registry clusters.
- * x-ms-original-file: 2025-08-18-preview/Organization_ListRegions_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListRegions_MaximumSet_Gen.json
  */
 async function organizationListRegionsMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function organizationListRegionsMaximumSet() {
  * This sample demonstrates how to cloud provider regions available for creating Schema Registry clusters.
  *
  * @summary cloud provider regions available for creating Schema Registry clusters.
- * x-ms-original-file: 2025-08-18-preview/Organization_ListRegions_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListRegions_MinimumSet_Gen.json
  */
 async function organizationListRegionsMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,25 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/resourceSkus": "./src/api/resourceSkus/index.ts"
+  "./api/files": "./src/api/files/index.ts"
+  "./api/tasks": "./src/api/tasks/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/databaseMigrationsSqlVm": "./src/api/databaseMigrationsSqlVm/index.ts"
+  "./api/databaseMigrationsSqlMi": "./src/api/databaseMigrationsSqlMi/index.ts"
+  "./api/databaseMigrationsSqlDb": "./src/api/databaseMigrationsSqlDb/index.ts"
+  "./api/databaseMigrationsMongoToCosmosDbRUMongo": "./src/api/databaseMigrationsMongoToCosmosDbRUMongo/index.ts"
+  "./api/projects": "./src/api/projects/index.ts"
+  "./api/serviceTasks": "./src/api/serviceTasks/index.ts"
+  "./api/sqlMigrationServices": "./src/api/sqlMigrationServices/index.ts"
+  "./api/migrationServices": "./src/api/migrationServices/index.ts"
+  "./api/databaseMigrationsMongoToCosmosDbvCoreMongo": "./src/api/databaseMigrationsMongoToCosmosDbvCoreMongo/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Check the availability of name for server
- *
- * @summary Check the availability of name for server
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckNameAvailability.json
- */
-
-import type { NameAvailabilityRequest } from "@azure/arm-mysql-flexible";
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to check the availability of name for server
+ *
+ * @summary check the availability of name for server
+ * x-ms-original-file: 2025-06-01-preview/CheckNameAvailability.json
+ */
 async function checkNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const locationName = "SouthEastAsia";
-  const nameAvailabilityRequest: NameAvailabilityRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.checkNameAvailability.execute("SouthEastAsia", {
     name: "name1",
     type: "Microsoft.DBforMySQL/flexibleServers",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.checkNameAvailability.execute(locationName, nameAvailabilityRequest);
+  });
   console.log(result);
 }
 

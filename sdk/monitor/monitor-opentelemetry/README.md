@@ -40,6 +40,7 @@ useAzureMonitor(options);
 ```
 
 - Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Batch span processing can be configured with the standard OpenTelemetry environment variables `OTEL_BSP_MAX_QUEUE_SIZE`, `OTEL_BSP_MAX_EXPORT_BATCH_SIZE`, `OTEL_BSP_SCHEDULE_DELAY`, and `OTEL_BSP_EXPORT_TIMEOUT`.
 - Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
 - To use the **fixed percentage sampler** (instead of the default rate-limited sampler), you can either:
   - Set the environment variable `OTEL_TRACES_SAMPLER=microsoft.fixed_percentage` with an optional `OTEL_TRACES_SAMPLER_ARG` for the sampling probability (e.g., `0.5` for 50%).
@@ -86,6 +87,7 @@ For CommonJS applications, no additional flags are needed - the loader is automa
 ```ts snippet:ReadmeSampleConfiguration
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 
 const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
@@ -111,6 +113,10 @@ const options: AzureMonitorOpenTelemetryOptions = {
     // Instrumentations generating logs
     bunyan: { enabled: true },
     winston: { enabled: true },
+    // Console log collection is opt-in (disabled by default).
+    // `logSeverity` takes precedence over the
+    // APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL environment variable.
+    console: { enabled: false, logSeverity: SeverityNumber.WARN },
   },
   enableLiveMetrics: true,
   enableStandardMetrics: true,
@@ -161,7 +167,8 @@ useAzureMonitor(options);
   redis: { enabled: true },
   redis4: { enabled: true },
   bunyan: { enabled: false }, 
-  winston: { enabled: false } 
+  winston: { enabled: false }, 
+  console: { enabled: false } 
 }
       </code></pre>
     </td>
@@ -272,6 +279,10 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 - [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-bunyan)
 
 - [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-winston)
+
+- [Console](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-console) (disabled by default; enable with `instrumentationOptions: { console: { enabled: true } }`)
+
+  Once enabled, the set of `console` methods collected is filtered by the `logSeverity` value on the `console` instrumentation options, falling back to the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable (`NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE`, `ALL`; see [Self-diagnostics](#self-diagnostics)) when `logSeverity` is not set. For example, `WARN` collects only `console.warn` and `console.error`, while `NONE` disables collection of `console` (and all other) logs entirely.
 
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 

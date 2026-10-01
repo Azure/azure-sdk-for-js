@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface RelationshipsListByHealthModelOptionalParams extends OperationOptions {
@@ -10,10 +10,16 @@ export interface RelationshipsListByHealthModelOptionalParams extends OperationO
 }
 
 /** Optional parameters. */
-export interface RelationshipsDeleteOptionalParams extends OperationOptions {}
+export interface RelationshipsDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
-export interface RelationshipsCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface RelationshipsCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface RelationshipsGetOptionalParams extends OperationOptions {}

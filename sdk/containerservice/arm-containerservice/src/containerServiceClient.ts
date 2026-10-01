@@ -5,6 +5,8 @@ import type { ContainerServiceContext, ContainerServiceClientOptionalParams } fr
 import { createContainerService } from "./api/index.js";
 import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
 import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import type { IdentityBindingsOperations } from "./classic/identityBindings/index.js";
+import { _getIdentityBindingsOperations } from "./classic/identityBindings/index.js";
 import type { MachinesOperations } from "./classic/machines/index.js";
 import { _getMachinesOperations } from "./classic/machines/index.js";
 import type { MaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
@@ -58,19 +60,13 @@ export class ContainerServiceClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerService(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerService(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.trustedAccessRoles = _getTrustedAccessRolesOperations(this._client);
     this.resolvePrivateLinkServiceId = _getResolvePrivateLinkServiceIdOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
+    this.identityBindings = _getIdentityBindingsOperations(this._client);
     this.trustedAccessRoleBindings = _getTrustedAccessRoleBindingsOperations(this._client);
     this.snapshots = _getSnapshotsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
@@ -89,6 +85,8 @@ export class ContainerServiceClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
+  /** The operation groups for identityBindings */
+  public readonly identityBindings: IdentityBindingsOperations;
   /** The operation groups for trustedAccessRoleBindings */
   public readonly trustedAccessRoleBindings: TrustedAccessRoleBindingsOperations;
   /** The operation groups for snapshots */

@@ -636,10 +636,7 @@ export function baseDetailsDeserializer(item: any): BaseDetails {
 
 /** Alias for BaseDetailsUnion */
 export type BaseDetailsUnion =
-  | PropertyChangeDetails
-  | ActionSuppressedDetails
-  | ActionTriggeredDetails
-  | BaseDetails;
+  PropertyChangeDetails | ActionSuppressedDetails | ActionTriggeredDetails | BaseDetails;
 
 export function baseDetailsUnionDeserializer(item: any): BaseDetailsUnion {
   switch (item["type"]) {
@@ -1058,9 +1055,7 @@ export function prometheusEnrichmentItemDeserializer(item: any): PrometheusEnric
 
 /** Alias for PrometheusEnrichmentItemUnion */
 export type PrometheusEnrichmentItemUnion =
-  | PrometheusInstantQuery
-  | PrometheusRangeQuery
-  | PrometheusEnrichmentItem;
+  PrometheusInstantQuery | PrometheusRangeQuery | PrometheusEnrichmentItem;
 
 export function prometheusEnrichmentItemUnionDeserializer(
   item: any,

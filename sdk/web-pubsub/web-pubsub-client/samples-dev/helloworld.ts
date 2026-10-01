@@ -35,12 +35,11 @@ async function main(): Promise<void> {
       })
     ).url;
   };
-  const client = new WebPubSubClient(
-    {
-      getClientAccessUrl: fetchClientAccessUrl,
-    } as WebPubSubClientCredential,
-    options,
-  );
+  const credential = {
+    getClientAccessUrl: fetchClientAccessUrl,
+  } as WebPubSubClientCredential;
+  const client = new WebPubSubClient(credential, options);
+  const streamReceiver = new WebPubSubClient(credential, options);
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
@@ -58,27 +57,44 @@ async function main(): Promise<void> {
     console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
   });
 
-  const streamSubscription = client.onGroupStream(groupName, (streamId) => {
-    return {
-      onMessage: (args) => {
-        console.log(
-          `[stream:${streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
-        );
-      },
-      onComplete: () => {
-        console.log(`[stream:${streamId}] completed`);
-      },
-      onError: (args) => {
-        console.log(
-          `[stream:${streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
-        );
-      },
-    };
+  streamReceiver.on("connected", (e) => {
+    console.log(`Stream receiver connection ${e.connectionId} is connected.`);
   });
 
+  streamReceiver.on("disconnected", (e) => {
+    console.log(`Stream receiver disconnected: ${e.message}`);
+  });
+
+  const groupStreamSubscription = streamReceiver.onGroupStream(
+    async (stream) => {
+      const receivedParts: string[] = [];
+      try {
+        for await (const message of stream) {
+          receivedParts.push(formatStreamPart(message.data));
+          console.log(
+            `[stream:${stream.groupName}/${stream.streamId}] seq=${message.stream.streamSequenceId} ${formatPayload(message.data)}`,
+          );
+        }
+        console.log(
+          `[stream:${stream.groupName}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
+        );
+      } catch (err) {
+        const error = err as { name?: string; message?: string };
+        console.log(
+          `[stream:${stream.groupName}/${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+        );
+      }
+    },
+    { handleFromStart: true },
+  );
+  // Options are scoped to this subscription; their effects (idle
+  // timeout, handleFromStart gate) apply independently to each observed stream.
+
   await client.start();
+  await streamReceiver.start();
 
   await client.joinGroup(groupName);
+  await streamReceiver.joinGroup(groupName);
   await client.sendToGroup(groupName, "hello world", "text", {
     fireAndForget: true,
   });
@@ -95,18 +111,25 @@ async function main(): Promise<void> {
     fireAndForget: true,
   });
 
-  const stream = await client.stream(groupName);
-  stream.onError((error) => {
-    console.log(
-      `[publisher:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
-    );
-  });
-  await stream.publish("stream part 1", "text");
-  await stream.publish({ part: 2, text: "stream part 2" }, "json");
-  await stream.complete();
+  const firstStream = await client.openGroupStream(groupName, { noEcho: true });
+  const secondStream = await client.openGroupStream(groupName, { noEcho: true });
+  for (const stream of [firstStream, secondStream]) {
+    stream.onError((error) => {
+      console.log(
+        `[stream:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+      );
+    });
+  }
+  await firstStream.write("first stream part 1; ", "text");
+  await secondStream.write("second stream part 1; ", "text");
+  await firstStream.write("first stream part 2", "text");
+  await secondStream.write("second stream part 2", "text");
+  await secondStream.end();
+  await firstStream.end();
 
-  await delay(200);
-  streamSubscription.close();
+  await delay(1000);
+  await groupStreamSubscription.close();
+  streamReceiver.stop();
   client.stop();
   console.log("Client stopped");
 }
@@ -125,4 +148,11 @@ function formatPayload(payload: unknown): string {
     return Buffer.from(payload).toString("base64");
   }
   return JSON.stringify(payload);
+}
+
+function formatStreamPart(payload: unknown): string {
+  if (typeof payload === "string") {
+    return payload;
+  }
+  return formatPayload(payload);
 }

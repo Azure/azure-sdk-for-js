@@ -1,0 +1,9 @@
+{
+  "extends": "../../../api-extractor-base.json",
+  "mainEntryPointFilePath": "<projectFolder>/dist/esm/index.d.ts",
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>/review",
+    "reportFileName": "core-process-node.api.md"
+  }
+}

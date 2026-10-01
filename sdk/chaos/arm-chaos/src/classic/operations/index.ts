@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** List the operations for the provider */
   listAll: (options?: OperationsListAllOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: ChaosManagementContext) {
   return {
     listAll: (options?: OperationsListAllOptionalParams) => listAll(context, options),
   };
 }
-
 export function _getOperationsOperations(context: ChaosManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),

@@ -32,26 +32,34 @@ import type { OperationResource, Vault } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type RecoveryServicesClientOptionalParams } from "./api/recoveryServicesContext.js";
+export type { RecoveryServicesClientOptionalParams } from "./api/recoveryServicesContext.js";
 
 export class RecoveryServicesClient {
   private _client: RecoveryServicesContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: RecoveryServicesClientOptionalParams = {},
+    options?: RecoveryServicesClientOptionalParams,
+  );
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | RecoveryServicesClientOptionalParams,
+    options?: RecoveryServicesClientOptionalParams,
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRecoveryServices(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
+    this._client = createRecoveryServices(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.recoveryServices = _getRecoveryServicesOperations(this._client);
     this.vaultExtendedInfo = _getVaultExtendedInfoOperations(this._client);
@@ -71,7 +79,7 @@ export class RecoveryServicesClient {
     vaultName: string,
     operationId: string,
     options: GetOperationResultOptionalParams = { requestOptions: {} },
-  ): Promise<Vault | null> {
+  ): Promise<Vault | void> {
     return getOperationResult(this._client, resourceGroupName, vaultName, operationId, options);
   }
 

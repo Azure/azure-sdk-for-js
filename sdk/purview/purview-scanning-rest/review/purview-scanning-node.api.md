@@ -10,10 +10,12 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -3516,6 +3518,8 @@ export interface InteractiveQueryOutput {
     status?: string;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetDefaultResponse): response is KeyVaultConnectionsGetDefaultResponse;
 
@@ -4793,6 +4797,8 @@ export interface ResourceTypeFilterOutput {
     scanRulesetName?: string;
     scanRulesetType?: "Custom" | "System";
 }
+
+export { RestError }
 
 // @public
 export interface RoleARNCredential extends CredentialParent {

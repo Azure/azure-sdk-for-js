@@ -124,8 +124,11 @@ function setupOpenTelemetry(): void {
     spanProcessors: [new SimpleSpanProcessor(exporter)],
   });
 
-  // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
-  trace.setGlobalTracerProvider(provider);
+  // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings.
+  // register() installs the provider globally along with the AsyncLocalStorage
+  // context manager and default W3C propagators, which are required for
+  // context.with() to keep the client span active and propagate it to the server.
+  provider.register();
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],

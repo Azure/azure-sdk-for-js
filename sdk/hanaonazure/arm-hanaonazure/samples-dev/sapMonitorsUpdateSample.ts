@@ -1,45 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
- *
- * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
- * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags_Delete.json
- */
-
-import type { Tags } from "@azure/arm-hanaonazure";
 import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function deleteTagsFieldOfASapMonitor(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const sapMonitorName = "mySapMonitor";
-  const tagsParameter: Tags = { tags: {} };
+/**
+ * This sample demonstrates how to the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ *
+ * @summary the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ * x-ms-original-file: 2020-02-07-preview/SapMonitors_PatchTags.json
+ */
+async function updateTagsFieldOfASAPMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HanaManagementClient(credential, subscriptionId);
-  const result = await client.sapMonitors.update(resourceGroupName, sapMonitorName, tagsParameter);
+  const result = await client.sapMonitors.update("myResourceGroup", "mySapMonitor", {
+    tags: { testkey: "testvalue" },
+  });
   console.log(result);
 }
-
-deleteTagsFieldOfASapMonitor().catch(console.error);
 
 /**
- * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
+ * This sample demonstrates how to the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
  *
- * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
- * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags.json
+ * @summary the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ * x-ms-original-file: 2020-02-07-preview/SapMonitors_PatchTags_Delete.json
  */
-async function updateTagsFieldOfASapMonitor(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const sapMonitorName = "mySapMonitor";
-  const tagsParameter: Tags = { tags: { testkey: "testvalue" } };
+async function deleteTagsFieldOfASAPMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HanaManagementClient(credential, subscriptionId);
-  const result = await client.sapMonitors.update(resourceGroupName, sapMonitorName, tagsParameter);
+  const result = await client.sapMonitors.update("myResourceGroup", "mySapMonitor", { tags: {} });
   console.log(result);
 }
 
-updateTagsFieldOfASapMonitor().catch(console.error);
+async function main(): Promise<void> {
+  await updateTagsFieldOfASAPMonitor();
+  await deleteTagsFieldOfASAPMonitor();
+}
+
+main().catch(console.error);

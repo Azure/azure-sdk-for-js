@@ -13,9 +13,9 @@ export default [
         "@typescript-eslint/no-use-before-define": "warn",
         eqeqeq: "warn",
         "prefer-const": "warn",
-        "tsdoc/syntax": "warn"
-      }
-    }
+        "tsdoc/syntax": "warn",
+      },
+    },
   ]),
   {
     files: ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts"],

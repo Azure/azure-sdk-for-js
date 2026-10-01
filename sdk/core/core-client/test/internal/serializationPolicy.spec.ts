@@ -11,11 +11,13 @@ import {
 } from "../../src/index.js";
 import { serializeHeaders, serializeRequestBody } from "../../src/serializationPolicy.js";
 import { Mappers } from "../testMappers1.js";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
+import { stringToUint8Array } from "@azure/core-util";
 import { stringifyXML } from "@azure/core-xml";
 
 describe("serializationPolicy", function () {
@@ -849,7 +851,7 @@ describe("serializationPolicy", function () {
 });
 
 function stringToByteArray(str: string): Uint8Array {
-  return new TextEncoder().encode(str);
+  return stringToUint8Array(str, "utf-8");
 }
 
 describe("serializationPolicy", () => {
@@ -1185,7 +1187,7 @@ describe("serializationPolicy - XML serialization", () => {
   });
 
   it("should serialize Stream body without JSON.stringify in non-XML", async () => {
-    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeReadableStream;
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
@@ -1329,7 +1331,7 @@ describe("serializationPolicy - prepareXMLRootList non-array", () => {
 
 describe("serializationPolicy - XML Stream body should not be stringified", () => {
   it("should pass stream through in XML mode", async () => {
-    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeJS.ReadableStream;
+    const streamBody = { pipe: vi.fn(), on: vi.fn() } as unknown as NodeReadableStream;
     let capturedRequest: OperationRequest | undefined;
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(

@@ -247,6 +247,8 @@ export interface CertificatePolicy {
   issuerParameters?: IssuerParameters;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
+  /** Configuration that enables the platform to manage the certificate on behalf of the user. This feature is currently intended for internal use only. */
+  platformManaged?: PlatformManaged;
 }
 
 export function certificatePolicySerializer(item: CertificatePolicy): any {
@@ -269,6 +271,9 @@ export function certificatePolicySerializer(item: CertificatePolicy): any {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesSerializer(item["attributes"]),
+    platformManaged: !item["platformManaged"]
+      ? item["platformManaged"]
+      : platformManagedSerializer(item["platformManaged"]),
   };
 }
 
@@ -293,6 +298,9 @@ export function certificatePolicyDeserializer(item: any): CertificatePolicy {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
+    platformManaged: !item["platformManaged"]
+      ? item["platformManaged"]
+      : platformManagedDeserializer(item["platformManaged"]),
   };
 }
 
@@ -665,6 +673,27 @@ export function issuerParametersDeserializer(item: any): IssuerParameters {
     name: item["name"],
     certificateType: item["cty"],
     certificateTransparency: item["cert_transparency"],
+  };
+}
+
+/** Properties of the platform managed certificate. This feature is currently intended for internal use only. */
+export interface PlatformManaged {
+  /** The intended usage of the certificate. */
+  certificateUsage: string;
+  /** JSON-formatted platform managed metadata. The schema is intentionally undefined as this feature is currently intended for internal use only. */
+  metadata?: Record<string, any>;
+}
+
+export function platformManagedSerializer(item: PlatformManaged): any {
+  return { certificateUsage: item["certificateUsage"], metadata: item["metadata"] };
+}
+
+export function platformManagedDeserializer(item: any): PlatformManaged {
+  return {
+    certificateUsage: item["certificateUsage"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1267,6 +1296,12 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
 }

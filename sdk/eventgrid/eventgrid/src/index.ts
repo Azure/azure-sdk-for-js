@@ -403,3 +403,4 @@ export {
   type StorageLifecycleCompletionStatus,
   KnownStorageLifecycleCompletionStatus,
 } from "./generated/models/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

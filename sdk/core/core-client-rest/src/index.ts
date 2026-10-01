@@ -12,5 +12,8 @@ export {
   type AddCredentialPipelinePolicyOptions,
 } from "./clientHelpers.js";
 export { operationOptionsToRequestParameters } from "./operationOptionHelpers.js";
+export type { NodeReadableStream } from "@azure/core-rest-pipeline";
+export { getBinaryStreamResponse } from "#platform/getBinaryStreamResponse";
 export * from "./getClient.js";
+export type { InternalClientOptions } from "@typespec/ts-http-runtime";
 export type * from "./common.js";

@@ -8,7 +8,6 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type {
   AgentsOperations,
   AIProjectClient,
-  BetaAgentsOperations,
   HostedAgentDefinition,
   ProtocolVersionRecord,
   VersionRefIndicator,
@@ -21,7 +20,6 @@ describe("beta agents - session CRUD and file operations", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
   let agents: AgentsOperations;
-  let betaAgents: BetaAgentsOperations;
   let image: string;
 
   beforeEach(async function (context: VitestTestContext) {
@@ -29,7 +27,6 @@ describe("beta agents - session CRUD and file operations", () => {
     image = assertEnvironmentVariable("FOUNDRY_AGENT_CONTAINER_IMAGE");
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
-    betaAgents = projectsClient.beta.agents;
   });
 
   afterEach(async function () {
@@ -44,13 +41,10 @@ describe("beta agents - session CRUD and file operations", () => {
         kind: "hosted",
         cpu: "0.5",
         memory: "1Gi",
-        image,
-        container_protocol_versions: [
-          { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
-        ],
+        container_configuration: { image },
+        protocol_versions: [{ protocol: "responses", version: "v1" } as ProtocolVersionRecord],
       } as HostedAgentDefinition,
       {
-        foundryFeatures: "HostedAgents=V1Preview",
         metadata: { enableVnextExperience: "true" },
       },
     );
@@ -72,26 +66,24 @@ describe("beta agents - session CRUD and file operations", () => {
       }
     }
 
-    const isolationKey = "test-isolation-key";
-
     // Create a session
     const versionIndicator: VersionRefIndicator = {
       type: "version_ref",
       agent_version: agent.version,
     };
-    const session = await betaAgents.createSession(agentName, isolationKey, versionIndicator);
+    const session = await agents.createSession(agentName, versionIndicator);
     assert.isNotNull(session);
     assert.isNotNull(session.agent_session_id);
     assert.isNotNull(session.status);
 
     // Retrieve the session
-    const fetched = await betaAgents.getSession(agentName, session.agent_session_id);
+    const fetched = await agents.getSession(agentName, session.agent_session_id);
     assert.isNotNull(fetched);
     assert.equal(fetched.agent_session_id, session.agent_session_id);
 
     // List sessions
     const sessions = [];
-    for await (const item of betaAgents.listSessions(agentName, { limit: 10 })) {
+    for await (const item of agents.listSessions(agentName, { limit: 10 })) {
       sessions.push(item);
     }
     assert.isTrue(sessions.length >= 1);
@@ -99,7 +91,7 @@ describe("beta agents - session CRUD and file operations", () => {
     // Upload a file to the session sandbox
     const filePath = "/sandbox/hello.txt";
     const fileContent = new TextEncoder().encode("Hello from the beta agents test!");
-    const uploadResult = await betaAgents.uploadSessionFile(
+    const uploadResult = await agents.uploadSessionFile(
       agentName,
       session.agent_session_id,
       filePath,
@@ -110,17 +102,16 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isTrue(uploadResult.bytes_written > 0);
 
     // List files in the session sandbox
-    const listing = await betaAgents.getSessionFiles(
-      agentName,
-      session.agent_session_id,
-      "/sandbox",
-    );
-    assert.isNotNull(listing);
-    assert.isArray(listing.entries);
-    assert.isTrue(listing.entries.length >= 1);
+    const files = [];
+    for await (const entry of agents.listSessionFiles(agentName, session.agent_session_id, {
+      path: "/sandbox",
+    })) {
+      files.push(entry);
+    }
+    assert.isTrue(files.length >= 1);
 
     // Download the file back
-    const downloadResult = await betaAgents.downloadSessionFile(
+    const downloadResult = await agents.downloadSessionFile(
       agentName,
       session.agent_session_id,
       uploadResult.path,
@@ -139,10 +130,10 @@ describe("beta agents - session CRUD and file operations", () => {
     }
 
     // Delete the file
-    await betaAgents.deleteSessionFile(agentName, session.agent_session_id, filePath);
+    await agents.deleteSessionFile(agentName, session.agent_session_id, filePath);
 
     // Delete the session
-    await betaAgents.deleteSession(agentName, session.agent_session_id, isolationKey);
+    await agents.deleteSession(agentName, session.agent_session_id);
 
     // Delete the agent version
     await agents.deleteVersion(agentName, agent.version);

@@ -16,3 +16,4 @@ export * from "./utils.js";
 export { KnownDocumentIntelligenceAudience } from "./audience.js";
 
 export default DocumentIntelligence;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

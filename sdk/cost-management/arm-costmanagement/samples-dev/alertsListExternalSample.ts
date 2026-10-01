@@ -1,44 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the Alerts for external cloud provider type defined.
- *
- * @summary Lists the Alerts for external cloud provider type defined.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountAlerts.json
- */
-
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the Alerts for external cloud provider type defined.
+ *
+ * @summary lists the Alerts for external cloud provider type defined.
+ * x-ms-original-file: 2025-03-01/ExternalBillingAccountAlerts.json
+ */
 async function externalBillingAccountAlerts(): Promise<void> {
-  const externalCloudProviderType = "externalBillingAccounts";
-  const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.alerts.listExternal(
-    externalCloudProviderType,
-    externalCloudProviderId,
-  );
+  const result = await client.alerts.listExternal("externalBillingAccounts", "100");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Lists the Alerts for external cloud provider type defined.
+ * This sample demonstrates how to lists the Alerts for external cloud provider type defined.
  *
- * @summary Lists the Alerts for external cloud provider type defined.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionAlerts.json
+ * @summary lists the Alerts for external cloud provider type defined.
+ * x-ms-original-file: 2025-03-01/ExternalSubscriptionAlerts.json
  */
 async function externalSubscriptionAlerts(): Promise<void> {
-  const externalCloudProviderType = "externalSubscriptions";
-  const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.alerts.listExternal(
-    externalCloudProviderType,
-    externalCloudProviderId,
-  );
+  const result = await client.alerts.listExternal("externalSubscriptions", "100");
   console.log(result);
 }
 

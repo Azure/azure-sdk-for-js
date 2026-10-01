@@ -42,7 +42,7 @@ export function _skipSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,10 +61,12 @@ export function _skipSend(
 }
 
 export async function _skipDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -81,13 +83,13 @@ export function skip(
   body: SkipProperties,
   options: UpdateRunsSkipOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _skipDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _skipDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _skipSend(context, resourceGroupName, fleetName, updateRunName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -105,7 +107,7 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,10 +124,12 @@ export function _stopSend(
 }
 
 export async function _stopDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -141,13 +145,13 @@ export function stop(
   updateRunName: string,
   options: UpdateRunsStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _stopDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _stopDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _stopSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -165,7 +169,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,10 +186,12 @@ export function _startSend(
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -201,13 +207,13 @@ export function start(
   updateRunName: string,
   options: UpdateRunsStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _startDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _startDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -223,7 +229,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -243,7 +249,9 @@ export async function _listByFleetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -266,7 +274,7 @@ export function listByFleet(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -285,7 +293,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,7 +312,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -313,11 +323,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a UpdateRun */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -331,7 +336,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -350,7 +355,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -375,7 +380,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -398,7 +405,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, fleetName, updateRunName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -416,7 +423,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -432,7 +439,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Up
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

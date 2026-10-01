@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common.js";
-import { getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { createAndStartRecorder, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods", () => {
@@ -16,9 +16,7 @@ describe("QueueClient messageId methods", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -185,7 +183,7 @@ describe("QueueClient messageId methods", () => {
     }
     assert.isDefined(error);
     assert.include(
-      error.message,
+      error.details.message,
       "The request body is too large and exceeds the maximum permissible limit.",
     );
   });

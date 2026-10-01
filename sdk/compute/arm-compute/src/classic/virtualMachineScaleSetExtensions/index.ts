@@ -34,11 +34,6 @@ export interface VirtualMachineScaleSetExtensionsOperations {
     options?: VirtualMachineScaleSetExtensionsListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineScaleSetExtension>;
   /** The operation to delete the extension. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmScaleSetName: string,
@@ -125,7 +120,6 @@ export interface VirtualMachineScaleSetExtensionsOperations {
     options?: VirtualMachineScaleSetExtensionsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSetExtension>;
 }
-
 function _getVirtualMachineScaleSetExtensions(context: ComputeManagementContext) {
   return {
     list: (
@@ -269,7 +263,6 @@ function _getVirtualMachineScaleSetExtensions(context: ComputeManagementContext)
     ) => get(context, resourceGroupName, vmScaleSetName, vmssExtensionName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetExtensionsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetExtensionsOperations {

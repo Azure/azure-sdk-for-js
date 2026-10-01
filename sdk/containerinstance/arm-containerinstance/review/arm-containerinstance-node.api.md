@@ -4,30 +4,71 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface ApiEntityReference {
+    id?: string;
+}
+
+// @public
+export interface ApplicationGateway {
+    backendAddressPools?: ApplicationGatewayBackendAddressPool[];
+    resource?: string;
+}
+
+// @public
+export interface ApplicationGatewayBackendAddressPool {
+    resource?: string;
+}
+
+// @public
+export interface ArmResource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureFileShareAccessTier = "Cool" | "Hot" | "Premium" | "TransactionOptimized";
+
+// @public
+export type AzureFileShareAccessType = "Shared" | "Exclusive";
 
 // @public
 export interface AzureFileVolume {
     readOnly?: boolean;
     shareName: string;
     storageAccountKey?: string;
+    storageAccountKeyReference?: string;
     storageAccountName: string;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CachedImages {
     image: string;
     osType: string;
-}
-
-// @public
-export interface CachedImagesListResult {
-    nextLink?: string;
-    value?: CachedImages[];
 }
 
 // @public
@@ -48,9 +89,51 @@ export interface CapabilitiesCapabilities {
 }
 
 // @public
-export interface CapabilitiesListResult {
-    nextLink?: string;
-    value?: Capabilities[];
+export interface CGProfileCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfileDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfileGetByRevisionNumberOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfileGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfileListAllRevisionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfileOperations {
+    createOrUpdate: (resourceGroupName: string, containerGroupProfileName: string, containerGroupProfile: ContainerGroupProfile, options?: CGProfileCreateOrUpdateOptionalParams) => Promise<ContainerGroupProfile>;
+    delete: (resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileGetOptionalParams) => Promise<ContainerGroupProfile>;
+    getByRevisionNumber: (resourceGroupName: string, containerGroupProfileName: string, revisionNumber: string, options?: CGProfileGetByRevisionNumberOptionalParams) => Promise<ContainerGroupProfile>;
+    listAllRevisions: (resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileListAllRevisionsOptionalParams) => PagedAsyncIterableIterator<ContainerGroupProfile>;
+    update: (resourceGroupName: string, containerGroupProfileName: string, properties: ContainerGroupProfilePatch, options?: CGProfileUpdateOptionalParams) => Promise<ContainerGroupProfile>;
+}
+
+// @public
+export interface CGProfilesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfilesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CGProfilesOperations {
+    listByResourceGroup: (resourceGroupName: string, options?: CGProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ContainerGroupProfile>;
+    listBySubscription: (options?: CGProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ContainerGroupProfile>;
+}
+
+// @public
+export interface CGProfileUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -73,9 +156,7 @@ export interface ConfidentialComputeProperties {
 
 // @public
 export interface ConfigMap {
-    keyValuePairs?: {
-        [propertyName: string]: string;
-    };
+    keyValuePairs?: Record<string, string>;
 }
 
 // @public
@@ -124,7 +205,33 @@ export interface ContainerExecResponse {
 }
 
 // @public
-export interface ContainerGroup extends Resource, ContainerGroupProperties {
+export interface ContainerGroup extends ProxyResource {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
+    containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
+    containers: Container[];
+    diagnostics?: ContainerGroupDiagnostics;
+    dnsConfig?: DnsConfiguration;
+    encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
+    identity?: ContainerGroupIdentity;
+    identityAcls?: IdentityAcls;
+    imageRegistryCredentials?: ImageRegistryCredential[];
+    initContainers?: InitContainerDefinition[];
+    readonly instanceView?: ContainerGroupPropertiesInstanceView;
+    ipAddress?: IpAddress;
+    readonly isCreatedFromStandbyPool?: boolean;
+    location?: string;
+    osType?: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
+    readonly provisioningState?: string;
+    restartPolicy?: ContainerGroupRestartPolicy;
+    secretReferences?: SecretReference[];
+    sku?: ContainerGroupSku;
+    standbyPoolProfile?: StandbyPoolProfileDefinition;
+    subnetIds?: ContainerGroupSubnetId[];
+    tags?: Record<string, string>;
+    volumes?: Volume[];
+    zones?: string[];
 }
 
 // @public
@@ -137,19 +244,11 @@ export interface ContainerGroupIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentities;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentities>;
 }
 
 // @public
 export type ContainerGroupIpAddressType = string;
-
-// @public
-export interface ContainerGroupListResult {
-    nextLink?: string;
-    value?: ContainerGroup[];
-}
 
 // @public
 export type ContainerGroupNetworkProtocol = string;
@@ -158,47 +257,34 @@ export type ContainerGroupNetworkProtocol = string;
 export type ContainerGroupPriority = string;
 
 // @public
-export interface ContainerGroupProfile extends Resource, ContainerGroupProfileProperties {
-}
-
-// @public
-export interface ContainerGroupProfileGetByRevisionNumberOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileGetByRevisionNumberResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfileListAllRevisionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileListAllRevisionsNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfileListAllRevisionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileListAllRevisionsResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfileListResult {
-    nextLink?: string;
-    value?: ContainerGroupProfile[];
-}
-
-// @public
-export interface ContainerGroupProfileOperations {
-    getByRevisionNumber(resourceGroupName: string, containerGroupProfileName: string, revisionNumber: string, options?: ContainerGroupProfileGetByRevisionNumberOptionalParams): Promise<ContainerGroupProfileGetByRevisionNumberResponse>;
-    listAllRevisions(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfileListAllRevisionsOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+export interface ContainerGroupProfile extends ProxyResource {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
+    containers?: Container[];
+    diagnostics?: ContainerGroupDiagnostics;
+    encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
+    imageRegistryCredentials?: ImageRegistryCredential[];
+    initContainers?: InitContainerDefinition[];
+    ipAddress?: IpAddress;
+    location?: string;
+    osType?: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
+    readonly registeredRevisions?: number[];
+    restartPolicy?: ContainerGroupRestartPolicy;
+    readonly revision?: number;
+    securityContext?: SecurityContextDefinition;
+    shutdownGracePeriod?: Date;
+    sku?: ContainerGroupSku;
+    tags?: Record<string, string>;
+    timeToLive?: Date;
+    useKrypton?: boolean;
+    volumes?: Volume[];
+    zones?: string[];
 }
 
 // @public
 export interface ContainerGroupProfilePatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -213,9 +299,14 @@ export interface ContainerGroupProfileProperties {
     ipAddress?: IpAddress;
     osType: OperatingSystemTypes;
     priority?: ContainerGroupPriority;
+    readonly registeredRevisions?: number[];
     restartPolicy?: ContainerGroupRestartPolicy;
     readonly revision?: number;
+    securityContext?: SecurityContextDefinition;
+    shutdownGracePeriod?: Date;
     sku?: ContainerGroupSku;
+    timeToLive?: Date;
+    useKrypton?: boolean;
     volumes?: Volume[];
 }
 
@@ -226,67 +317,13 @@ export interface ContainerGroupProfileReferenceDefinition {
 }
 
 // @public
-export interface ContainerGroupProfiles {
-    createOrUpdate(resourceGroupName: string, containerGroupProfileName: string, containerGroupProfile: ContainerGroupProfile, options?: ContainerGroupProfilesCreateOrUpdateOptionalParams): Promise<ContainerGroupProfilesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesGetOptionalParams): Promise<ContainerGroupProfilesGetResponse>;
-    list(options?: ContainerGroupProfilesListOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
-    listByResourceGroup(resourceGroupName: string, options?: ContainerGroupProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
-    patch(resourceGroupName: string, containerGroupProfileName: string, properties: ContainerGroupProfilePatch, options?: ContainerGroupProfilesPatchOptionalParams): Promise<ContainerGroupProfilesPatchResponse>;
+export interface ContainerGroupProfileStub {
+    containerGroupProperties?: NGroupContainerGroupProperties;
+    networkProfile?: NetworkProfile;
+    resource?: ApiEntityReference;
+    revision?: number;
+    storageProfile?: StorageProfile;
 }
-
-// @public
-export interface ContainerGroupProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesCreateOrUpdateResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerGroupProfilesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesGetResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListByResourceGroupNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListByResourceGroupResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesPatchOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesPatchResponse = ContainerGroupProfile;
 
 // @public
 export interface ContainerGroupProperties {
@@ -297,7 +334,7 @@ export interface ContainerGroupProperties {
     dnsConfig?: DnsConfiguration;
     encryptionProperties?: EncryptionProperties;
     extensions?: DeploymentExtensionSpec[];
-    identity?: ContainerGroupIdentity;
+    identityAcls?: IdentityAcls;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
@@ -307,6 +344,7 @@ export interface ContainerGroupProperties {
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
+    secretReferences?: SecretReference[];
     sku?: ContainerGroupSku;
     standbyPoolProfile?: StandbyPoolProfileDefinition;
     subnetIds?: ContainerGroupSubnetId[];
@@ -323,102 +361,81 @@ export interface ContainerGroupPropertiesInstanceView {
 export type ContainerGroupRestartPolicy = string;
 
 // @public
-export interface ContainerGroups {
-    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<ContainerGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<ContainerGroupsDeleteResponse>;
-    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOptionalParams): Promise<ContainerGroupsGetResponse>;
-    getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
-    list(options?: ContainerGroupsListOptionalParams): PagedAsyncIterableIterator<ContainerGroup>;
-    listByResourceGroup(resourceGroupName: string, options?: ContainerGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerGroup>;
-    stop(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStopOptionalParams): Promise<void>;
-    update(resourceGroupName: string, containerGroupName: string, resource: Resource, options?: ContainerGroupsUpdateOptionalParams): Promise<ContainerGroupsUpdateResponse>;
-}
-
-// @public
-export interface ContainerGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerGroupsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerGroupsCreateOrUpdateResponse = ContainerGroup;
-
-// @public
-export interface ContainerGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerGroupsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerGroupsDeleteResponse = ContainerGroup;
-
-// @public
-export interface ContainerGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse = {
     body: string[];
 };
 
 // @public
-export type ContainerGroupsGetResponse = ContainerGroup;
-
-// @public
 export type ContainerGroupSku = string;
 
 // @public
-export interface ContainerGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerGroupsListByResourceGroupNextResponse = ContainerGroupListResult;
-
-// @public
-export interface ContainerGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerGroupsListByResourceGroupResponse = ContainerGroupListResult;
-
-// @public
-export interface ContainerGroupsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerGroup>, ContainerGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams) => Promise<ContainerGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerGroup>, ContainerGroup>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams) => Promise<ContainerGroup>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ContainerGroup>, ContainerGroup>;
+    delete: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams) => PollerLike<OperationState<ContainerGroup>, ContainerGroup>;
+    get: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOptionalParams) => Promise<ContainerGroup>;
+    getOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams) => Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
+    list: (options?: ContainerGroupsListOptionalParams) => PagedAsyncIterableIterator<ContainerGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: ContainerGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ContainerGroup>;
+    restart: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStopOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, containerGroupName: string, resource: Resource, options?: ContainerGroupsUpdateOptionalParams) => Promise<ContainerGroup>;
 }
 
 // @public
-export type ContainerGroupsListNextResponse = ContainerGroupListResult;
-
-// @public
-export interface ContainerGroupsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupsListResponse = ContainerGroupListResult;
-
-// @public
-export interface ContainerGroupsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerGroupsRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ContainerGroupsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerGroupsStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ContainerGroupsStopOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsStopOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -428,11 +445,8 @@ export interface ContainerGroupSubnetId {
 }
 
 // @public
-export interface ContainerGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ContainerGroupsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ContainerGroupsUpdateResponse = ContainerGroup;
 
 // @public
 export interface ContainerHttpGet {
@@ -443,35 +457,25 @@ export interface ContainerHttpGet {
 }
 
 // @public (undocumented)
-export class ContainerInstanceManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerInstanceManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    containerGroupProfileOperations: ContainerGroupProfileOperations;
-    // (undocumented)
-    containerGroupProfiles: ContainerGroupProfiles;
-    // (undocumented)
-    containerGroups: ContainerGroups;
-    // (undocumented)
-    containers: Containers;
-    // (undocumented)
-    location: Location;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subnetServiceAssociationLink: SubnetServiceAssociationLink;
-    // (undocumented)
-    subscriptionId: string;
+export class ContainerInstanceManagementClient {
+    constructor(credential: TokenCredential, options?: ContainerInstanceManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerInstanceManagementClientOptionalParams);
+    readonly cgProfile: CGProfileOperations;
+    readonly cgProfiles: CGProfilesOperations;
+    readonly containerGroups: ContainerGroupsOperations;
+    readonly containers: ContainersOperations;
+    readonly location: LocationOperations;
+    readonly nGroups: NGroupsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly sandboxGroups: SandboxGroupsOperations;
+    readonly subnetServiceAssociationLink: SubnetServiceAssociationLinkOperations;
 }
 
 // @public
-export interface ContainerInstanceManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ContainerInstanceManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -498,6 +502,21 @@ export interface ContainerProbe {
 }
 
 // @public
+export interface ContainerProperties {
+    command?: string[];
+    configMap?: ConfigMap;
+    environmentVariables?: EnvironmentVariable[];
+    image?: string;
+    readonly instanceView?: ContainerPropertiesInstanceView;
+    livenessProbe?: ContainerProbe;
+    ports?: ContainerPort[];
+    readinessProbe?: ContainerProbe;
+    resources?: ResourceRequirements;
+    securityContext?: SecurityContextDefinition;
+    volumeMounts?: VolumeMount[];
+}
+
+// @public
 export interface ContainerPropertiesInstanceView {
     readonly currentState?: ContainerState;
     readonly events?: Event_2[];
@@ -506,34 +525,25 @@ export interface ContainerPropertiesInstanceView {
 }
 
 // @public
-export interface Containers {
-    attach(resourceGroupName: string, containerGroupName: string, containerName: string, options?: ContainersAttachOptionalParams): Promise<ContainersAttachResponse>;
-    executeCommand(resourceGroupName: string, containerGroupName: string, containerName: string, containerExecRequest: ContainerExecRequest, options?: ContainersExecuteCommandOptionalParams): Promise<ContainersExecuteCommandResponse>;
-    listLogs(resourceGroupName: string, containerGroupName: string, containerName: string, options?: ContainersListLogsOptionalParams): Promise<ContainersListLogsResponse>;
+export interface ContainersAttachOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainersAttachOptionalParams extends coreClient.OperationOptions {
+export interface ContainersExecuteCommandOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainersAttachResponse = ContainerAttachResponse;
-
-// @public
-export interface ContainersExecuteCommandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainersExecuteCommandResponse = ContainerExecResponse;
-
-// @public
-export interface ContainersListLogsOptionalParams extends coreClient.OperationOptions {
+export interface ContainersListLogsOptionalParams extends OperationOptions {
     tail?: number;
     timestamps?: boolean;
 }
 
 // @public
-export type ContainersListLogsResponse = Logs;
+export interface ContainersOperations {
+    attach: (resourceGroupName: string, containerGroupName: string, containerName: string, options?: ContainersAttachOptionalParams) => Promise<ContainerAttachResponse>;
+    executeCommand: (resourceGroupName: string, containerGroupName: string, containerName: string, containerExecRequest: ContainerExecRequest, options?: ContainersExecuteCommandOptionalParams) => Promise<ContainerExecResponse>;
+    listLogs: (resourceGroupName: string, containerGroupName: string, containerName: string, options?: ContainersListLogsOptionalParams) => Promise<Logs>;
+}
 
 // @public
 export interface ContainerState {
@@ -545,12 +555,28 @@ export interface ContainerState {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export interface DeploymentExtensionSpec {
     extensionType?: string;
     name: string;
-    protectedSettings?: Record<string, unknown>;
-    settings?: Record<string, unknown>;
+    protectedSettings?: any;
+    settings?: any;
     version?: string;
+}
+
+// @public
+export interface DeploymentExtensionSpecProperties {
+    extensionType: string;
+    protectedSettings?: any;
+    settings?: any;
+    version: string;
 }
 
 // @public
@@ -564,6 +590,25 @@ export interface DnsConfiguration {
 export type DnsNameLabelReusePolicy = string;
 
 // @public
+export interface ElasticProfile {
+    containerGroupNamingPolicy?: ElasticProfileContainerGroupNamingPolicy;
+    // (undocumented)
+    desiredCount?: number;
+    maintainDesiredCount?: boolean;
+}
+
+// @public
+export interface ElasticProfileContainerGroupNamingPolicy {
+    // (undocumented)
+    guidNamingPolicy?: ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy;
+}
+
+// @public
+export interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy {
+    prefix?: string;
+}
+
+// @public
 export interface EncryptionProperties {
     identity?: string;
     keyName: string;
@@ -575,7 +620,28 @@ export interface EncryptionProperties {
 export interface EnvironmentVariable {
     name: string;
     secureValue?: string;
+    secureValueReference?: string;
     value?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -590,7 +656,22 @@ interface Event_2 {
 export { Event_2 as Event }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface FileShare {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    properties?: FileShareProperties;
+    // (undocumented)
+    resourceGroupName?: string;
+    // (undocumented)
+    storageAccountName?: string;
+}
+
+// @public
+export interface FileShareProperties {
+    shareAccessTier?: AzureFileShareAccessTier;
+    shareAccessType?: AzureFileShareAccessType;
+}
 
 // @public
 export interface GitRepoVolume {
@@ -615,10 +696,26 @@ export interface HttpHeader {
 }
 
 // @public
+export interface IdentityAccessControl {
+    access?: IdentityAccessLevel;
+    identity?: string;
+}
+
+// @public
+export type IdentityAccessLevel = string;
+
+// @public
+export interface IdentityAcls {
+    acls?: IdentityAccessControl[];
+    defaultAccess?: IdentityAccessLevel;
+}
+
+// @public
 export interface ImageRegistryCredential {
     identity?: string;
     identityUrl?: string;
     password?: string;
+    passwordReference?: string;
     server: string;
     username?: string;
 }
@@ -630,6 +727,16 @@ export interface InitContainerDefinition {
     image?: string;
     readonly instanceView?: InitContainerPropertiesDefinitionInstanceView;
     name: string;
+    securityContext?: SecurityContextDefinition;
+    volumeMounts?: VolumeMount[];
+}
+
+// @public
+export interface InitContainerPropertiesDefinition {
+    command?: string[];
+    environmentVariables?: EnvironmentVariable[];
+    image?: string;
+    readonly instanceView?: InitContainerPropertiesDefinitionInstanceView;
     securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
@@ -651,6 +758,8 @@ export interface IpAddress {
     ports: Port[];
     type: ContainerGroupIpAddressType;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownContainerGroupIpAddressType {
@@ -681,6 +790,7 @@ export enum KnownContainerGroupRestartPolicy {
 export enum KnownContainerGroupSku {
     Confidential = "Confidential",
     Dedicated = "Dedicated",
+    NotSpecified = "NotSpecified",
     Standard = "Standard"
 }
 
@@ -694,6 +804,14 @@ export enum KnownContainerInstanceOperationsOrigin {
 export enum KnownContainerNetworkProtocol {
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -713,9 +831,41 @@ export enum KnownGpuSku {
 }
 
 // @public
+export enum KnownIdentityAccessLevel {
+    All = "All",
+    System = "System",
+    User = "User"
+}
+
+// @public
 export enum KnownLogAnalyticsLogType {
     ContainerInsights = "ContainerInsights",
     ContainerInstanceLogs = "ContainerInstanceLogs"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownNGroupProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNGroupUpdateMode {
+    Manual = "Manual",
+    Rolling = "Rolling"
 }
 
 // @public
@@ -725,59 +875,60 @@ export enum KnownOperatingSystemTypes {
 }
 
 // @public
+export enum KnownSandboxGroupProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownScheme {
     Http = "http",
     Https = "https"
 }
 
 // @public
-export interface Location {
-    listCachedImages(location: string, options?: LocationListCachedImagesOptionalParams): PagedAsyncIterableIterator<CachedImages>;
-    listCapabilities(location: string, options?: LocationListCapabilitiesOptionalParams): PagedAsyncIterableIterator<Capabilities>;
-    listUsage(location: string, options?: LocationListUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+export enum KnownVersions {
+    V20250901 = "2025-09-01",
+    V20260601Preview = "2026-06-01-preview"
 }
 
 // @public
-export interface LocationListCachedImagesNextOptionalParams extends coreClient.OperationOptions {
+export interface LoadBalancer {
+    backendAddressPools?: LoadBalancerBackendAddressPool[];
 }
 
 // @public
-export type LocationListCachedImagesNextResponse = CachedImagesListResult;
-
-// @public
-export interface LocationListCachedImagesOptionalParams extends coreClient.OperationOptions {
+export interface LoadBalancerBackendAddressPool {
+    resource?: string;
 }
 
 // @public
-export type LocationListCachedImagesResponse = CachedImagesListResult;
-
-// @public
-export interface LocationListCapabilitiesNextOptionalParams extends coreClient.OperationOptions {
+export interface LocationListCachedImagesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationListCapabilitiesNextResponse = CapabilitiesListResult;
-
-// @public
-export interface LocationListCapabilitiesOptionalParams extends coreClient.OperationOptions {
+export interface LocationListCapabilitiesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationListCapabilitiesResponse = CapabilitiesListResult;
-
-// @public
-export interface LocationListUsageOptionalParams extends coreClient.OperationOptions {
+export interface LocationListUsageOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationListUsageResponse = UsageListResult;
+export interface LocationOperations {
+    listCachedImages: (location: string, options?: LocationListCachedImagesOptionalParams) => PagedAsyncIterableIterator<CachedImages>;
+    listCapabilities: (location: string, options?: LocationListCapabilitiesOptionalParams) => PagedAsyncIterableIterator<Capabilities>;
+    listUsage: (location: string, options?: LocationListUsageOptionalParams) => PagedAsyncIterableIterator<Usage>;
+}
 
 // @public
 export interface LogAnalytics {
     logType?: LogAnalyticsLogType;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
     workspaceId: string;
     workspaceKey: string;
     workspaceResourceId?: string;
@@ -792,6 +943,171 @@ export interface Logs {
 }
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface NetworkProfile {
+    applicationGateway?: ApplicationGateway;
+    loadBalancer?: LoadBalancer;
+}
+
+// @public
+export interface NGroup extends ProxyResource {
+    containerGroupProfiles?: ContainerGroupProfileStub[];
+    elasticProfile?: ElasticProfile;
+    identity?: NGroupIdentity;
+    location?: string;
+    placementProfile?: PlacementProfile;
+    readonly provisioningState?: NGroupProvisioningState;
+    tags?: Record<string, string>;
+    updateProfile?: UpdateProfile;
+    zones?: string[];
+}
+
+// @public
+export interface NGroupCGPropertyContainer {
+    name?: string;
+    properties?: NGroupCGPropertyContainerProperties;
+}
+
+// @public
+export interface NGroupCGPropertyContainerProperties {
+    // (undocumented)
+    volumeMounts?: VolumeMount[];
+}
+
+// @public
+export interface NGroupCGPropertyVolume {
+    azureFile?: AzureFileVolume;
+    name: string;
+}
+
+// @public
+export interface NGroupContainerGroupProperties {
+    containers?: NGroupCGPropertyContainer[];
+    subnetIds?: ContainerGroupSubnetId[];
+    volumes?: NGroupCGPropertyVolume[];
+}
+
+// @public
+export interface NGroupIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentities>;
+}
+
+// @public
+export interface NGroupPatch {
+    containerGroupProfiles?: ContainerGroupProfileStub[];
+    elasticProfile?: ElasticProfile;
+    identity?: NGroupIdentity;
+    placementProfile?: PlacementProfile;
+    readonly provisioningState?: NGroupProvisioningState;
+    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
+    updateProfile?: UpdateProfile;
+    zones?: string[];
+}
+
+// @public
+export interface NGroupProperties {
+    containerGroupProfiles?: ContainerGroupProfileStub[];
+    elasticProfile?: ElasticProfile;
+    placementProfile?: PlacementProfile;
+    readonly provisioningState?: NGroupProvisioningState;
+    updateProfile?: UpdateProfile;
+}
+
+// @public
+export type NGroupProvisioningState = string;
+
+// @public
+export interface NGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NGroupsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NGroup>, NGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsCreateOrUpdateOptionalParams) => Promise<NGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, ngroupsName: string, options?: NGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, ngroupsName: string, options?: NGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, ngroupsName: string, options?: NGroupsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, ngroupsName: string, options?: NGroupsRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, ngroupsName: string, options?: NGroupsStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, ngroupsName: string, options?: NGroupsStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, ngroupsName: string, nGroup: NGroupPatch, options?: NGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NGroup>, NGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, ngroupsName: string, nGroup: NGroupPatch, options?: NGroupsUpdateOptionalParams) => Promise<NGroup>;
+    createOrUpdate: (resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NGroup>, NGroup>;
+    delete: (resourceGroupName: string, ngroupsName: string, options?: NGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, ngroupsName: string, options?: NGroupsGetOptionalParams) => Promise<NGroup>;
+    list: (options?: NGroupsListOptionalParams) => PagedAsyncIterableIterator<NGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: NGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NGroup>;
+    restart: (resourceGroupName: string, ngroupsName: string, options?: NGroupsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, ngroupsName: string, options?: NGroupsStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, ngroupsName: string, options?: NGroupsStopOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, ngroupsName: string, nGroup: NGroupPatch, options?: NGroupsUpdateOptionalParams) => PollerLike<OperationState<NGroup>, NGroup>;
+}
+
+// @public
+export interface NGroupsRestartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NGroupsStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NGroupsStopOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupUpdateMode = string;
+
+// @public
 export type OperatingSystemTypes = string;
 
 // @public
@@ -799,7 +1115,7 @@ export interface Operation {
     display: OperationDisplay;
     name: string;
     origin?: ContainerInstanceOperationsOrigin;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -811,29 +1127,30 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PlacementProfile {
+    faultDomainCount?: number;
+}
 
 // @public
 export interface Port {
@@ -842,13 +1159,15 @@ export interface Port {
 }
 
 // @public
+export interface ProxyResource extends ArmResource {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
     zones?: string[];
 }
@@ -876,8 +1195,115 @@ export interface ResourceRequirements {
     requests: ResourceRequests;
 }
 
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerInstanceManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxGroup extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: SandboxGroupProperties;
+}
+
+// @public
+export interface SandboxGroupAccessToken {
+    accessToken: string;
+    endpoint: string;
+    notAfter: Date;
+}
+
+// @public
+export interface SandboxGroupNetworkProfile {
+    subnets?: SubnetReference[];
+}
+
+// @public
+export interface SandboxGroupProperties {
+    readonly managementResourceGroupId?: string;
+    networkProfile?: SandboxGroupNetworkProfile;
+    readonly provisioningState?: SandboxGroupProvisioningState;
+}
+
+// @public
+export type SandboxGroupProvisioningState = string;
+
+// @public
+export interface SandboxGroupsConnectOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SandboxGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SandboxGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SandboxGroupsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SandboxGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => Promise<SandboxGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => Promise<SandboxGroup>;
+    connect: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsConnectOptionalParams) => Promise<SandboxGroupAccessToken>;
+    createOrUpdate: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
+    delete: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsGetOptionalParams) => Promise<SandboxGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: SandboxGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
+    listBySubscription: (options?: SandboxGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
+    update: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
+}
+
+// @public
+export interface SandboxGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxGroupTagsUpdate {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
 // @public
 export type Scheme = string;
+
+// @public
+export interface SecretReference {
+    identity: string;
+    name: string;
+    secretReferenceUri: string;
+}
 
 // @public
 export interface SecurityContextCapabilitiesDefinition {
@@ -896,21 +1322,87 @@ export interface SecurityContextDefinition {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface StandbyPoolProfileDefinition {
     failContainerGroupCreateOnReuseFailure?: boolean;
     id?: string;
 }
 
 // @public
-export interface SubnetServiceAssociationLink {
-    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<void>;
+export interface StorageProfile {
+    // (undocumented)
+    fileShares?: FileShare[];
 }
 
 // @public
-export interface SubnetServiceAssociationLinkDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SubnetReference {
+    id: string;
+}
+
+// @public
+export interface SubnetServiceAssociationLinkDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SubnetServiceAssociationLinkOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends ArmResource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface UpdateProfile {
+    rollingUpdateProfile?: UpdateProfileRollingUpdateProfile;
+    // (undocumented)
+    updateMode?: NGroupUpdateMode;
+}
+
+// @public
+export interface UpdateProfileRollingUpdateProfile {
+    inPlaceUpdate?: boolean;
+    maxBatchPercent?: number;
+    maxUnhealthyPercent?: number;
+    pauseTimeBetweenBatches?: string;
 }
 
 // @public
@@ -920,11 +1412,6 @@ export interface Usage {
     readonly limit?: number;
     readonly name?: UsageName;
     readonly unit?: string;
-}
-
-// @public
-export interface UsageListResult {
-    readonly value?: Usage[];
 }
 
 // @public
@@ -940,14 +1427,19 @@ export interface UserAssignedIdentities {
 }
 
 // @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface Volume {
     azureFile?: AzureFileVolume;
-    emptyDir?: Record<string, unknown>;
+    emptyDir?: any;
     gitRepo?: GitRepoVolume;
     name: string;
-    secret?: {
-        [propertyName: string]: string;
-    };
+    secret?: Record<string, string>;
+    secretReference?: Record<string, string>;
 }
 
 // @public

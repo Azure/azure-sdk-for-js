@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface SignalDefinitionsListByHealthModelOptionalParams extends OperationOptions {
@@ -10,10 +10,16 @@ export interface SignalDefinitionsListByHealthModelOptionalParams extends Operat
 }
 
 /** Optional parameters. */
-export interface SignalDefinitionsDeleteOptionalParams extends OperationOptions {}
+export interface SignalDefinitionsDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
-export interface SignalDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface SignalDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface SignalDefinitionsGetOptionalParams extends OperationOptions {}

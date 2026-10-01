@@ -20,6 +20,8 @@ const comunicationClientsEndpoint =
 const communicationClientsScope = "https://communication.azure.com/clients/VoIP";
 const teamsExtensionEndpoint = "/access/teamsExtension/:exchangeAccessToken?api-version=2025-06-30";
 const teamsExtensionScope = "https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls";
+const teamsExtensionGcchScope =
+  "https://auth.msft.communication.azure.us/TeamsExtension.ManageCalls";
 
 const tokenCredential: TokenCredential = {
   getToken: async (_scopes: string, _options?: GetTokenOptions) => {
@@ -79,6 +81,12 @@ describe("Entra CommunicationTokenCredential", function () {
       successMock: teamsSuccessApiMock,
       mock: teamsApiMock,
       scopes: teamsExtensionScope,
+      endpoint: teamsExtensionEndpoint,
+    },
+    {
+      successMock: teamsSuccessApiMock,
+      mock: teamsApiMock,
+      scopes: teamsExtensionGcchScope,
       endpoint: teamsExtensionEndpoint,
     },
   ];

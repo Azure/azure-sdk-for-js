@@ -145,7 +145,24 @@ export type PlaywrightServiceAdditionalOptions = {
    * @defaultValue `2025-09-01`
    */
   apiVersion?: "2025-09-01";
+
+  /**
+   * @public
+   *
+   * Identifies the tool that initiated remote browser sessions, sent to the
+   * service as the `sourceType` query parameter on the WebSocket endpoint.
+   *
+   * @defaultValue `PlaywrightWorkspacesTestRun`
+   */
+  sourceType?: BrowserSessionSourceTypeValue;
 };
+
+/**
+ * @public
+ *
+ * Source identifier values accepted by Azure Playwright for the `sourceType` option.
+ */
+export type BrowserSessionSourceTypeValue = "PlaywrightWorkspacesTestRun" | "Others";
 
 /**
  * @public
@@ -183,8 +200,13 @@ export type VersionInfo = {
   patch: number;
 };
 
+export type ProcessCommand = {
+  command: string;
+  args: string[];
+};
+
 export type PackageManager = {
-  runCommand: (command: string, args: string) => string;
+  runCommand: (command: string, args: string[]) => ProcessCommand;
   getVersionFromStdout: (stdout: string) => string;
 };
 

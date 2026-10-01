@@ -68,10 +68,7 @@ export interface ApiKeyCredential {
  * Union type of all supported authentication credentials.
  */
 export type ClientCredential =
-  | OAuth2TokenCredential<OAuth2Flow>
-  | BearerTokenCredential
-  | BasicCredential
-  | ApiKeyCredential;
+  OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
 
 /**
  * Type guard to check if a credential is an OAuth2 token credential.

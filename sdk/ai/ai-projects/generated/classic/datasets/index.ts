@@ -30,13 +30,13 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
-  /** Get the SAS credential to access the storage account associated with a Dataset version. */
+  /** Retrieves the SAS credential to access the storage account associated with a dataset version. */
   getCredentials: (
     name: string,
     version: string,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
-  /** Start a new or get an existing pending upload of a dataset for a specific version. */
+  /** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
   pendingUpload: (
     name: string,
     pendingUploadRequest: PendingUploadRequest,
@@ -51,11 +51,6 @@ export interface DatasetsOperations {
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
   /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
   get: (

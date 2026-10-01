@@ -64,17 +64,9 @@ type ExpectVisualFeature = `${KnownVisualFeature}`;
 
 type BlobIndexerDataToExtract = "allMetadata" | "contentAndMetadata" | "storageMetadata";
 type BlobIndexerImageAction =
-  | "generateNormalizedImagePerPage"
-  | "generateNormalizedImages"
-  | "none";
+  "generateNormalizedImagePerPage" | "generateNormalizedImages" | "none";
 type BlobIndexerParsingMode =
-  | "default"
-  | "delimitedText"
-  | "json"
-  | "jsonArray"
-  | "jsonLines"
-  | "markdown"
-  | "text";
+  "default" | "delimitedText" | "json" | "jsonArray" | "jsonLines" | "markdown" | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
 type ImageAnalysisSkillLanguage =
@@ -476,13 +468,7 @@ type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =
-  | "adult"
-  | "brands"
-  | "categories"
-  | "description"
-  | "faces"
-  | "objects"
-  | "tags";
+  "adult" | "brands" | "categories" | "description" | "faces" | "objects" | "tags";
 
 const foo: [
   IsEqual<

@@ -25,16 +25,17 @@ export function _listVersionsSend(
   options: VirtualMachineExtensionImagesListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions{?api%2Dversion,%24filter,%24top,%24orderby}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions{?api%2Dversion,%24filter,%24top,%24orderby,%24expand}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       publisherName: publisherName,
       type: typeParam,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
+      "%24expand": options?.expand,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,14 +53,15 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionImageArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine extension image versions. */
 export async function listVersions(
   context: Client,
@@ -84,7 +86,7 @@ export function _listTypesSend(
       subscriptionId: context.subscriptionId,
       location: location,
       publisherName: publisherName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,14 +104,15 @@ export async function _listTypesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionImageArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine extension image types. */
 export async function listTypes(
   context: Client,
@@ -137,7 +140,7 @@ export function _getSend(
       publisherName: publisherName,
       type: typeParam,
       version: version,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,14 +158,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionImageDeserializer(result.body);
 }
-
 /** Gets a virtual machine extension image. */
 export async function get(
   context: Client,

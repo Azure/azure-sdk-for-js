@@ -21,3 +21,4 @@ export type * from "./responses.js";
 export type { ErrorModel } from "@azure-rest/core-client";
 
 export default ModelClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

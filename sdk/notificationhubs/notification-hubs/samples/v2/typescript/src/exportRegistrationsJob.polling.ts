@@ -14,7 +14,7 @@
 
 import "dotenv/config";
 import { beginSubmitNotificationHubJob, createClientContext } from "@azure/notification-hubs/api";
-import { NotificationHubJob } from "@azure/notification-hubs/models";
+import type { NotificationHubJob, NotificationHubJobPoller } from "@azure/notification-hubs/models";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -31,7 +31,10 @@ async function main(): Promise<void> {
     type: "ExportRegistrations",
   };
 
-  const poller = await beginSubmitNotificationHubJob(context, exportJob);
+  const poller = (await beginSubmitNotificationHubJob(
+    context,
+    exportJob,
+  )) as unknown as NotificationHubJobPoller;
   exportJob = await poller.pollUntilDone();
 
   console.log(`Notification Hub Job status: ${exportJob.status}`);

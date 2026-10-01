@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "noEmit": true,
+    "outDir": "./dist",
     "strict": true,
     "alwaysStrict": true,
     "noImplicitAny": true,

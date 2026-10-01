@@ -62,10 +62,7 @@ function toStream(
  * @internal
  */
 export type ConcatSource =
-  | ReadableStream<Uint8Array<ArrayBuffer>>
-  | NodeJS.ReadableStream
-  | Uint8Array<ArrayBuffer>
-  | Blob;
+  ReadableStream<Uint8Array<ArrayBuffer>> | NodeJS.ReadableStream | Uint8Array<ArrayBuffer> | Blob;
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.

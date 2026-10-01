@@ -8,7 +8,7 @@
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
@@ -23,7 +23,7 @@ async function main() {
 
   if (shareName === "" || dirName === "") {
     console.warn(
-      "Share/directory information not provided, but it is required to run this sample. Exiting."
+      "Share/directory information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -34,7 +34,7 @@ async function main() {
 
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const shareClient = serviceClient.getShareClient(shareName);

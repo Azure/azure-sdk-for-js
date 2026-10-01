@@ -12,6 +12,7 @@ import { VoiceLiveSession } from "./voiceLiveSession.js";
 import { logger } from "../logger.js";
 import type { SessionTarget } from "./types.js";
 import { isAgentSessionTarget, isModelSessionTarget } from "./types.js";
+import { DEFAULT_API_VERSION } from "../constants.js";
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */
@@ -113,8 +114,10 @@ export class VoiceLiveClient {
     modelOrConfigOrTarget: string | RequestSession | SessionTarget,
     sessionOptions?: CreateSessionOptions,
   ): VoiceLiveSession {
-    // Merge default session options with provided options
+    // Merge default session options with provided options. The client's apiVersion
+    // serves as the base; defaultSessionOptions and per-call sessionOptions may override.
     const mergedOptions: VoiceLiveSessionOptions = {
+      apiVersion: this._options.apiVersion,
       ...this._options.defaultSessionOptions,
       ...sessionOptions,
     };
@@ -130,7 +133,6 @@ export class VoiceLiveClient {
       const session = new VoiceLiveSession(
         this._endpoint,
         this._credential,
-        this._options.apiVersion,
         modelOrConfigOrTarget,
         mergedOptions,
       );
@@ -144,7 +146,6 @@ export class VoiceLiveClient {
         const session = new VoiceLiveSession(
           this._endpoint,
           this._credential,
-          this._options.apiVersion,
           modelOrConfigOrTarget.model,
           mergedOptions,
         );
@@ -154,7 +155,6 @@ export class VoiceLiveClient {
         const session = new VoiceLiveSession(
           this._endpoint,
           this._credential,
-          this._options.apiVersion,
           modelOrConfigOrTarget.agent,
           mergedOptions,
         );
@@ -176,7 +176,6 @@ export class VoiceLiveClient {
     const session = new VoiceLiveSession(
       this._endpoint,
       this._credential,
-      this._options.apiVersion,
       requestSession.model,
       mergedOptions,
     );
@@ -318,7 +317,7 @@ export class VoiceLiveClient {
 
   private _buildDefaultOptions(options: VoiceLiveClientOptions): Required<VoiceLiveClientOptions> {
     return {
-      apiVersion: options.apiVersion || "2025-10-01",
+      apiVersion: options.apiVersion || DEFAULT_API_VERSION,
       defaultSessionOptions: options.defaultSessionOptions || {},
     };
   }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a pair of virtual endpoints for a server.
  *
  * @summary updates a pair of virtual endpoints for a server.
- * x-ms-original-file: 2026-01-01-preview/VirtualEndpointUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualEndpointUpdate.json
  */
 async function updateAPairOfVirtualEndpointsForAServer() {
   const credential = new DefaultAzureCredential();

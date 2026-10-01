@@ -34,11 +34,6 @@ export interface ImagesOperations {
     options?: ImagesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Image>;
   /** Deletes an Image. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     imageName: string,
@@ -105,7 +100,6 @@ export interface ImagesOperations {
     options?: ImagesGetOptionalParams,
   ) => Promise<Image>;
 }
-
 function _getImages(context: ComputeManagementContext) {
   return {
     list: (options?: ImagesListOptionalParams) => list(context, options),
@@ -183,7 +177,6 @@ function _getImages(context: ComputeManagementContext) {
       get(context, resourceGroupName, imageName, options),
   };
 }
-
 export function _getImagesOperations(context: ComputeManagementContext): ImagesOperations {
   return {
     ..._getImages(context),

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validate the given scenario configuration.
  *
  * @summary validate the given scenario configuration.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_Validate.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_Validate.json
  */
 async function validateTheGivenScenarioConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

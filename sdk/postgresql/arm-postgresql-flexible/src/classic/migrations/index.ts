@@ -46,7 +46,7 @@ export interface MigrationsOperations {
     serverName: string,
     migrationName: string,
     options?: MigrationsCancelOptionalParams,
-  ) => Promise<Migration>;
+  ) => Promise<Migration | undefined>;
   /** Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions. */
   update: (
     resourceGroupName: string,

@@ -29,11 +29,6 @@ export interface StorageAssetsOperations {
     options?: StorageAssetsListByStorageContainerOptionalParams,
   ) => PagedAsyncIterableIterator<StorageAsset>;
   /** Delete a StorageAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageContainerName: string,
@@ -64,7 +59,6 @@ export interface StorageAssetsOperations {
     options?: StorageAssetsGetOptionalParams,
   ) => Promise<StorageAsset>;
 }
-
 function _getStorageAssets(context: DiscoveryContext) {
   return {
     listByStorageContainer: (
@@ -116,7 +110,6 @@ function _getStorageAssets(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, storageContainerName, storageAssetName, options),
   };
 }
-
 export function _getStorageAssetsOperations(context: DiscoveryContext): StorageAssetsOperations {
   return {
     ..._getStorageAssets(context),

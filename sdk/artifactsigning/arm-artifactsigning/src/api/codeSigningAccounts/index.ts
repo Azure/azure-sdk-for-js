@@ -10,12 +10,12 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-  type CodeSigningAccountsListBySubscriptionOptionalParams,
-  type CodeSigningAccountsListByResourceGroupOptionalParams,
-  type CodeSigningAccountsDeleteOptionalParams,
-  type CodeSigningAccountsUpdateOptionalParams,
-  type CodeSigningAccountsCreateOptionalParams,
-  type CodeSigningAccountsGetOptionalParams,
+export type {
+  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  CodeSigningAccountsListBySubscriptionOptionalParams,
+  CodeSigningAccountsListByResourceGroupOptionalParams,
+  CodeSigningAccountsDeleteOptionalParams,
+  CodeSigningAccountsUpdateOptionalParams,
+  CodeSigningAccountsCreateOptionalParams,
+  CodeSigningAccountsGetOptionalParams,
 } from "./options.js";

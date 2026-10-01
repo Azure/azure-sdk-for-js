@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Settings of different configurations in Microsoft Defender for Cloud
- *
- * @summary Settings of different configurations in Microsoft Defender for Cloud
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-05-01/examples/Settings/GetSetting_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to settings of different configurations in Microsoft Defender for Cloud
+ *
+ * @summary settings of different configurations in Microsoft Defender for Cloud
+ * x-ms-original-file: 2022-05-01/Settings/GetSetting_example.json
+ */
 async function getASettingOnSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const settingName = "WDATP";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.settings.get(settingName);
+  const result = await client.settings.get("WDATP");
   console.log(result);
 }
 

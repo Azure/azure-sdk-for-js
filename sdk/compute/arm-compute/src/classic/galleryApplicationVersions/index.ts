@@ -35,11 +35,6 @@ export interface GalleryApplicationVersionsOperations {
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryApplicationVersion>;
   /** Delete a gallery Application Version. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
@@ -130,7 +125,6 @@ export interface GalleryApplicationVersionsOperations {
     options?: GalleryApplicationVersionsGetOptionalParams,
   ) => Promise<GalleryApplicationVersion>;
 }
-
 function _getGalleryApplicationVersions(context: ComputeManagementContext) {
   return {
     listByGalleryApplication: (
@@ -322,7 +316,6 @@ function _getGalleryApplicationVersions(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getGalleryApplicationVersionsOperations(
   context: ComputeManagementContext,
 ): GalleryApplicationVersionsOperations {

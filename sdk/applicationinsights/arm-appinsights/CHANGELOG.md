@@ -1,10 +1,9 @@
 # Release History
     
-## 5.0.0-beta.8 (2025-02-06)
-
+## 5.0.0-beta.9 (2026-05-20)
 ### Features Added
 
-The package of @azure/arm-appinsights is using our next generation design principles since version 5.0.0-beta.8, which contains breaking changes.
+The package of @azure/arm-appinsights is using our next generation design principles since version 5.0.0-beta.9, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

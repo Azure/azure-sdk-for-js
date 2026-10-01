@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import type { RequestOptions } from "node:http";
-import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import {
   AzureMonitorTraceExporter,
   RateLimitedSampler,
 } from "@azure/monitor-opentelemetry-exporter";
-import type { BufferConfig, Sampler } from "@opentelemetry/sdk-trace-base";
+import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type {
   HttpInstrumentationConfig,
@@ -26,6 +25,9 @@ import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
 import { AzureFunctionsHook } from "./azureFnHook.js";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler.js";
+import { ensureAzureSdkTracingBridge } from "../utils/azureSdkTracingBridge.js";
+import { configureInstrumentation } from "../utils/instrumentation.js";
+import { AzureSdkInstrumentation } from "./azureSdkInstrumentation.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -45,7 +47,11 @@ export class TraceHandler {
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: InternalConfig, metricHandler: MetricHandler) {
+  constructor(
+    config: InternalConfig,
+    metricHandler: MetricHandler,
+    private readonly instrumentationCache?: Map<string, Instrumentation>,
+  ) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -60,13 +66,7 @@ export class TraceHandler {
       this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
     }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
-    const bufferConfig: BufferConfig = {
-      maxExportBatchSize: 512,
-      scheduledDelayMillis: 5000,
-      exportTimeoutMillis: 30000,
-      maxQueueSize: 2048,
-    };
-    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
+    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter);
     this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
@@ -122,27 +122,52 @@ export class TraceHandler {
       };
       httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
       this._instrumentations.push(
-        new HttpInstrumentation(this._config.instrumentationOptions.http),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "http",
+          httpinstrumentationOptions,
+          (options) => new HttpInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.azureSdk?.enabled) {
-      this._instrumentations.push(
-        createAzureSdkInstrumentation(this._config.instrumentationOptions.azureSdk),
+      const azureSdkInstrumentation = configureInstrumentation(
+        this.instrumentationCache,
+        "azureSdk",
+        this._config.instrumentationOptions.azureSdk,
+        (options) => new AzureSdkInstrumentation(options),
       );
+      this._instrumentations.push(azureSdkInstrumentation);
+      ensureAzureSdkTracingBridge(azureSdkInstrumentation);
     }
     if (this._config.instrumentationOptions.mongoDb?.enabled) {
       this._instrumentations.push(
-        new MongoDBInstrumentation(this._config.instrumentationOptions.mongoDb),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "mongoDb",
+          this._config.instrumentationOptions.mongoDb,
+          (options) => new MongoDBInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.mySql?.enabled) {
       this._instrumentations.push(
-        new MySQLInstrumentation(this._config.instrumentationOptions.mySql),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "mySql",
+          this._config.instrumentationOptions.mySql,
+          (options) => new MySQLInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.postgreSql?.enabled) {
       this._instrumentations.push(
-        new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "postgreSql",
+          this._config.instrumentationOptions.postgreSql,
+          (options) => new PgInstrumentation(options),
+        ),
       );
     }
     if (
@@ -150,7 +175,12 @@ export class TraceHandler {
       this._config.instrumentationOptions.redis4?.enabled
     ) {
       this._instrumentations.push(
-        new RedisInstrumentation(this._config.instrumentationOptions.redis),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "redis",
+          this._config.instrumentationOptions.redis ?? {},
+          (options) => new RedisInstrumentation(options),
+        ),
       );
     }
   }

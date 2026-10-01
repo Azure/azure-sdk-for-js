@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1569,9 +1569,9 @@
+@@ -1056,9 +1056,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1612,9 +1612,9 @@
+@@ -1096,9 +1096,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1660,21 +1660,21 @@
+@@ -1140,19 +1140,19 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -45,16 +45,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly readLocations?: Location[];
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
-     throughputPoolDedicatedRUs?: number;
-     throughputPoolMaxConsumableRUs?: number;
      virtualNetworkRules?: VirtualNetworkRule[];
 -    readonly writeLocations?: Location[];
 +    readonly writeLocations?: Location_2[];
  }
  
  // @public
- export interface DatabaseAccountGetResults extends Resource {
-@@ -1717,22 +1717,22 @@
+ export interface DatabaseAccountGetResults extends ProxyResource {
+@@ -1191,20 +1191,20 @@
      keyVaultKeyUri?: string;
      readonly keyVaultKeyUriVersion?: string;
      kind?: DatabaseAccountKind;
@@ -71,8 +69,6 @@ For the complete API surface, see the corresponding -node.api.md file.
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
      tags?: Record<string, string>;
-     throughputPoolDedicatedRUs?: number;
-     throughputPoolMaxConsumableRUs?: number;
      virtualNetworkRules?: VirtualNetworkRule[];
 -    readonly writeLocations?: Location[];
 +    readonly writeLocations?: Location_2[];
@@ -80,7 +76,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountKeysMetadata {
-@@ -1944,9 +1944,9 @@
+@@ -1413,9 +1413,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -91,7 +87,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1985,9 +1985,9 @@
+@@ -1451,9 +1451,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -102,8 +98,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -3596,16 +3596,17 @@
-     V20251101Preview = "2025-11-01-preview"
+@@ -2585,16 +2585,17 @@
+     V20260315 = "2026-03-15"
  }
  
  // @public

@@ -27,15 +27,24 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  TrustedHostSubscription,
   SharedLimit,
   SharedLimitProperties,
   LimitName,
   Feature,
   FeatureProperties,
   FeatureState,
+  FeatureEnableRequest,
   OperationStatusResult,
   VmFamily,
   VmFamilyProperties,
+  SharedLimitCap,
+  SharedLimitCapProperties,
+  SetMemberCapOverridesRequest,
+  MemberCap,
+  SetMemberCapOverridesResult,
+  MemberCapOverride,
+  MemberCapOverrideProperties,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -58,7 +67,20 @@ export type {
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./api/guestSubscriptions/index.js";
+export type {
+  MemberCapOverridesListByParentOptionalParams,
+  MemberCapOverridesDeleteOptionalParams,
+  MemberCapOverridesCreateOrUpdateOptionalParams,
+  MemberCapOverridesGetOptionalParams,
+} from "./api/memberCapOverrides/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  SharedLimitCapsSetMemberCapOverridesOptionalParams,
+  SharedLimitCapsListBySubscriptionLocationResourceOptionalParams,
+  SharedLimitCapsDeleteOptionalParams,
+  SharedLimitCapsCreateOrUpdateOptionalParams,
+  SharedLimitCapsGetOptionalParams,
+} from "./api/sharedLimitCaps/index.js";
 export type {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
@@ -66,16 +88,26 @@ export type {
   SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
 export type {
+  TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  TrustedHostSubscriptionsDeleteOptionalParams,
+  TrustedHostSubscriptionsGetOptionalParams,
+  TrustedHostSubscriptionsCreateOptionalParams,
+} from "./api/trustedHostSubscriptions/index.js";
+export type {
   VmFamiliesListBySubscriptionLocationResourceOptionalParams,
   VmFamiliesGetOptionalParams,
 } from "./api/vmFamilies/index.js";
 export type {
   FeaturesOperations,
   GuestSubscriptionsOperations,
+  MemberCapOverridesOperations,
   OperationsOperations,
+  SharedLimitCapsOperations,
   SharedLimitsOperations,
+  TrustedHostSubscriptionsOperations,
   VmFamiliesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

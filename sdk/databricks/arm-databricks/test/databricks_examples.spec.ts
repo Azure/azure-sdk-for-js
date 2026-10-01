@@ -66,11 +66,12 @@ describe("Databricks test", () => {
       resourceGroup,
       workSpaceName,
       {
+        computeMode: "Hybrid",
         managedResourceGroupId:
           "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup2,
         location,
         sku: {
-          name: "Standard",
+          name: "Premium",
         },
       },
       testPollingOptions,

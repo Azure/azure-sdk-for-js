@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type OrganizationsListBySubscriptionOptionalParams,
-  type OrganizationsListByResourceGroupOptionalParams,
-  type OrganizationsDeleteOptionalParams,
-  type OrganizationsUpdateOptionalParams,
-  type OrganizationsCreateOrUpdateOptionalParams,
-  type OrganizationsGetOptionalParams,
+export type {
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
 } from "./options.js";

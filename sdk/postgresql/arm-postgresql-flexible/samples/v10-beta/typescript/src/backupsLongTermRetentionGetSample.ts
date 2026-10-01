@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the results of a long retention backup operation for a server.
  *
  * @summary gets the results of a long retention backup operation for a server.
- * x-ms-original-file: 2026-01-01-preview/BackupsLongTermRetentionGet.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsLongTermRetentionGet.json
  */
 async function getTheResultsOfALongRetentionBackupOperationForAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

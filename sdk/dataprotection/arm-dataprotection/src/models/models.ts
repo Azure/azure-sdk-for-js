@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -651,7 +652,7 @@ export function backupDatasourceParametersUnionArrayDeserializer(
 /** Parameters for Backup Datasource */
 export interface BackupDatasourceParameters {
   /** Type of the specific object - used for deserializing */
-  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection */
+  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection, GenericBackupDatasourceParameters */
   objectType: string;
 }
 
@@ -671,6 +672,7 @@ export type BackupDatasourceParametersUnion =
   | BlobBackupDatasourceParametersUnion
   | BlobBackupDatasourceParametersForAutoProtection
   | AdlsBlobBackupDatasourceParametersForAutoProtection
+  | GenericBackupDatasourceParameters
   | BackupDatasourceParameters;
 
 export function backupDatasourceParametersUnionSerializer(
@@ -697,6 +699,9 @@ export function backupDatasourceParametersUnionSerializer(
       return adlsBlobBackupDatasourceParametersForAutoProtectionSerializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
       );
+
+    case "GenericBackupDatasourceParameters":
+      return genericBackupDatasourceParametersSerializer(item as GenericBackupDatasourceParameters);
 
     default:
       return backupDatasourceParametersSerializer(item);
@@ -726,6 +731,11 @@ export function backupDatasourceParametersUnionDeserializer(
     case "AdlsBlobBackupDatasourceParametersForAutoProtection":
       return adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
+      );
+
+    case "GenericBackupDatasourceParameters":
+      return genericBackupDatasourceParametersDeserializer(
+        item as GenericBackupDatasourceParameters,
       );
 
     default:
@@ -922,8 +932,7 @@ export function blobBackupDatasourceParametersDeserializer(
 
 /** Alias for BlobBackupDatasourceParametersUnion */
 export type BlobBackupDatasourceParametersUnion =
-  | AdlsBlobBackupDatasourceParameters
-  | BlobBackupDatasourceParameters;
+  AdlsBlobBackupDatasourceParameters | BlobBackupDatasourceParameters;
 
 export function blobBackupDatasourceParametersUnionSerializer(
   item: BlobBackupDatasourceParametersUnion,
@@ -1148,6 +1157,36 @@ export function adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
     autoProtectionSettings: blobBackupRuleBasedAutoProtectionSettingsDeserializer(
       item["autoProtectionSettings"],
     ),
+  };
+}
+
+/** Generic parameters to be used during configuration of backup */
+export interface GenericBackupDatasourceParameters extends BackupDatasourceParameters {
+  /** List of resource selectors to be backed up during configuration of backup */
+  resourceSelectors: string[];
+  /** Type of the specific object - used for deserializing */
+  objectType: "GenericBackupDatasourceParameters";
+}
+
+export function genericBackupDatasourceParametersSerializer(
+  item: GenericBackupDatasourceParameters,
+): any {
+  return {
+    objectType: item["objectType"],
+    resourceSelectors: item["resourceSelectors"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function genericBackupDatasourceParametersDeserializer(
+  item: any,
+): GenericBackupDatasourceParameters {
+  return {
+    objectType: item["objectType"],
+    resourceSelectors: item["resourceSelectors"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -1497,8 +1536,7 @@ export function blobBackupAutoProtectionSettingsDeserializer(
 
 /** Alias for BlobBackupAutoProtectionSettingsUnion */
 export type BlobBackupAutoProtectionSettingsUnion =
-  | BlobBackupRuleBasedAutoProtectionSettings
-  | BlobBackupAutoProtectionSettings;
+  BlobBackupRuleBasedAutoProtectionSettings | BlobBackupAutoProtectionSettings;
 
 export function blobBackupAutoProtectionSettingsUnionSerializer(
   item: BlobBackupAutoProtectionSettingsUnion,
@@ -1531,8 +1569,8 @@ export function blobBackupAutoProtectionSettingsUnionDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1558,8 +1596,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1928,10 +1966,7 @@ export function restoreTargetInfoBaseSerializer(item: RestoreTargetInfoBase): an
 
 /** Alias for RestoreTargetInfoBaseUnion */
 export type RestoreTargetInfoBaseUnion =
-  | ItemLevelRestoreTargetInfo
-  | RestoreFilesTargetInfo
-  | RestoreTargetInfo
-  | RestoreTargetInfoBase;
+  ItemLevelRestoreTargetInfo | RestoreFilesTargetInfo | RestoreTargetInfo | RestoreTargetInfoBase;
 
 export function restoreTargetInfoBaseUnionSerializer(item: RestoreTargetInfoBaseUnion): any {
   switch (item.objectType) {
@@ -2005,7 +2040,7 @@ export function itemLevelRestoreCriteriaUnionArraySerializer(
 /** Class to contain criteria for item level restore */
 export interface ItemLevelRestoreCriteria {
   /** Type of the specific object - used for deserializing */
-  /** The discriminator possible values: ItemPathBasedRestoreCriteria, RangeBasedItemLevelRestoreCriteria, KubernetesStorageClassRestoreCriteria, KubernetesPVRestoreCriteria, KubernetesClusterRestoreCriteria, KubernetesClusterVaultTierRestoreCriteria */
+  /** The discriminator possible values: ItemPathBasedRestoreCriteria, RangeBasedItemLevelRestoreCriteria, GenericRestoreDatasourceCriteria, KubernetesStorageClassRestoreCriteria, KubernetesPVRestoreCriteria, KubernetesClusterRestoreCriteria, KubernetesClusterVaultTierRestoreCriteria */
   objectType: string;
 }
 
@@ -2017,6 +2052,7 @@ export function itemLevelRestoreCriteriaSerializer(item: ItemLevelRestoreCriteri
 export type ItemLevelRestoreCriteriaUnion =
   | ItemPathBasedRestoreCriteria
   | RangeBasedItemLevelRestoreCriteria
+  | GenericRestoreDatasourceCriteria
   | KubernetesStorageClassRestoreCriteria
   | KubernetesPVRestoreCriteria
   | KubernetesClusterRestoreCriteria
@@ -2032,6 +2068,9 @@ export function itemLevelRestoreCriteriaUnionSerializer(item: ItemLevelRestoreCr
       return rangeBasedItemLevelRestoreCriteriaSerializer(
         item as RangeBasedItemLevelRestoreCriteria,
       );
+
+    case "GenericRestoreDatasourceCriteria":
+      return genericRestoreDatasourceCriteriaSerializer(item as GenericRestoreDatasourceCriteria);
 
     case "KubernetesStorageClassRestoreCriteria":
       return kubernetesStorageClassRestoreCriteriaSerializer(
@@ -2099,6 +2138,43 @@ export function rangeBasedItemLevelRestoreCriteriaSerializer(
     objectType: item["objectType"],
     minMatchingValue: item["minMatchingValue"],
     maxMatchingValue: item["maxMatchingValue"],
+  };
+}
+
+/** Generic criteria to be used during restore */
+export interface GenericRestoreDatasourceCriteria extends ItemLevelRestoreCriteria {
+  /** List of resource identifiers that need to be restored */
+  resourceSelectors: ResourceListSelectionCriteria;
+  /** Type of the specific object - used for deserializing */
+  objectType: "GenericRestoreDatasourceCriteria";
+}
+
+export function genericRestoreDatasourceCriteriaSerializer(
+  item: GenericRestoreDatasourceCriteria,
+): any {
+  return {
+    objectType: item["objectType"],
+    resourceSelectors: resourceListSelectionCriteriaSerializer(item["resourceSelectors"]),
+  };
+}
+
+/** Specifies the list of resources to be restored */
+export interface ResourceListSelectionCriteria {
+  /** Type of the specific object - used for deserializing */
+  objectType: string;
+  /** List of resource identifiers to restore from */
+  resourceIdentifiers: string[];
+  /** This is a map of source resource names to target resources names to restore into. Any source name not included in the map will be restored with a default naming format */
+  resourceNameOverrides?: Record<string, string>;
+}
+
+export function resourceListSelectionCriteriaSerializer(item: ResourceListSelectionCriteria): any {
+  return {
+    objectType: item["objectType"],
+    resourceIdentifiers: item["resourceIdentifiers"].map((p: any) => {
+      return p;
+    }),
+    resourceNameOverrides: item["resourceNameOverrides"],
   };
 }
 
@@ -2452,8 +2528,7 @@ export type SourceDataStoreType = string;
 export interface AzureBackupRecoveryPointBasedRestoreRequest extends AzureBackupRestoreRequest {
   recoveryPointId: string;
   objectType:
-    | "AzureBackupRecoveryPointBasedRestoreRequest"
-    | "AzureBackupRestoreWithRehydrationRequest";
+    "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest";
 }
 
 export function azureBackupRecoveryPointBasedRestoreRequestSerializer(
@@ -2478,8 +2553,7 @@ export function azureBackupRecoveryPointBasedRestoreRequestSerializer(
 
 /** Alias for AzureBackupRecoveryPointBasedRestoreRequestUnion */
 export type AzureBackupRecoveryPointBasedRestoreRequestUnion =
-  | AzureBackupRestoreWithRehydrationRequest
-  | AzureBackupRecoveryPointBasedRestoreRequest;
+  AzureBackupRestoreWithRehydrationRequest | AzureBackupRecoveryPointBasedRestoreRequest;
 
 export function azureBackupRecoveryPointBasedRestoreRequestUnionSerializer(
   item: AzureBackupRecoveryPointBasedRestoreRequestUnion,
@@ -2720,6 +2794,8 @@ export function backupVaultResourceDeserializer(item: any): BackupVaultResource 
 export interface BackupVault {
   /** Monitoring Settings */
   monitoringSettings?: MonitoringSettings;
+  /** Cost Management Settings of the vault */
+  costManagementSettings?: CostManagementSettings;
   /** Provisioning state of the BackupVault resource */
   readonly provisioningState?: ProvisioningState;
   /** Resource move state for backup vault */
@@ -2749,6 +2825,9 @@ export function backupVaultSerializer(item: BackupVault): any {
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsSerializer(item["monitoringSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsSerializer(item["costManagementSettings"]),
     securitySettings: !item["securitySettings"]
       ? item["securitySettings"]
       : securitySettingsSerializer(item["securitySettings"]),
@@ -2776,6 +2855,9 @@ export function backupVaultDeserializer(item: any): BackupVault {
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsDeserializer(item["monitoringSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsDeserializer(item["costManagementSettings"]),
     provisioningState: item["provisioningState"],
     resourceMoveState: item["resourceMoveState"],
     resourceMoveDetails: !item["resourceMoveDetails"]
@@ -2853,6 +2935,35 @@ export enum KnownAlertsState {
 
 /** Type of AlertsState */
 export type AlertsState = string;
+
+/** Cost Management Settings of the vault */
+export interface CostManagementSettings {
+  /** Settings for granularity level */
+  granularityLevel?: GranularityLevel;
+}
+
+export function costManagementSettingsSerializer(item: CostManagementSettings): any {
+  return { granularityLevel: item["granularityLevel"] };
+}
+
+export function costManagementSettingsDeserializer(item: any): CostManagementSettings {
+  return {
+    granularityLevel: item["granularityLevel"],
+  };
+}
+
+/** Known values of {@link GranularityLevel} that the service accepts. */
+export enum KnownGranularityLevel {
+  /** VaultLevel */
+  VaultLevel = "VaultLevel",
+  /** ProtectedItemLevel */
+  ProtectedItemLevel = "ProtectedItemLevel",
+  /** ProtectedItemWithParentTag */
+  ProtectedItemWithParentTag = "ProtectedItemWithParentTag",
+}
+
+/** Type of GranularityLevel */
+export type GranularityLevel = string;
 
 /** Provisioning state of the BackupVault resource */
 export enum KnownProvisioningState {
@@ -3483,8 +3594,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -3545,6 +3656,8 @@ export function deletedBackupVaultResourceDeserializer(item: any): DeletedBackup
 export interface DeletedBackupVault {
   /** Monitoring Settings */
   monitoringSettings?: MonitoringSettings;
+  /** Cost Management Settings of the vault */
+  costManagementSettings?: CostManagementSettings;
   /** Provisioning state of the BackupVault resource */
   readonly provisioningState?: ProvisioningState;
   /** Resource move state for backup vault */
@@ -3582,6 +3695,9 @@ export function deletedBackupVaultDeserializer(item: any): DeletedBackupVault {
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsDeserializer(item["monitoringSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsDeserializer(item["costManagementSettings"]),
     provisioningState: item["provisioningState"],
     resourceMoveState: item["resourceMoveState"],
     resourceMoveDetails: !item["resourceMoveDetails"]
@@ -3874,6 +3990,8 @@ export interface PatchBackupVaultInput {
   securitySettings?: SecuritySettings;
   /** Feature Settings */
   featureSettings?: FeatureSettings;
+  /** Cost Management Settings of the vault */
+  costManagementSettings?: CostManagementSettings;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
   resourceGuardOperationRequests?: string[];
 }
@@ -3889,6 +4007,9 @@ export function patchBackupVaultInputSerializer(item: PatchBackupVaultInput): an
     featureSettings: !item["featureSettings"]
       ? item["featureSettings"]
       : featureSettingsSerializer(item["featureSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsSerializer(item["costManagementSettings"]),
     resourceGuardOperationRequests: !item["resourceGuardOperationRequests"]
       ? item["resourceGuardOperationRequests"]
       : item["resourceGuardOperationRequests"].map((p: any) => {
@@ -4300,9 +4421,7 @@ export function triggerContextDeserializer(item: any): TriggerContext {
 
 /** Alias for TriggerContextUnion */
 export type TriggerContextUnion =
-  | AdhocBasedTriggerContext
-  | ScheduleBasedTriggerContext
-  | TriggerContext;
+  AdhocBasedTriggerContext | ScheduleBasedTriggerContext | TriggerContext;
 
 export function triggerContextUnionSerializer(item: TriggerContextUnion): any {
   switch (item.objectType) {
@@ -4958,10 +5077,7 @@ export function copyOptionDeserializer(item: any): CopyOption {
 
 /** Alias for CopyOptionUnion */
 export type CopyOptionUnion =
-  | CopyOnExpiryOption
-  | CustomCopyOption
-  | ImmediateCopyOption
-  | CopyOption;
+  CopyOnExpiryOption | CustomCopyOption | ImmediateCopyOption | CopyOption;
 
 export function copyOptionUnionSerializer(item: CopyOptionUnion): any {
   switch (item.objectType) {
@@ -5241,8 +5357,7 @@ export function azureBackupRecoveryPointDeserializer(item: any): AzureBackupReco
 
 /** Alias for AzureBackupRecoveryPointUnion */
 export type AzureBackupRecoveryPointUnion =
-  | AzureBackupDiscreteRecoveryPoint
-  | AzureBackupRecoveryPoint;
+  AzureBackupDiscreteRecoveryPoint | AzureBackupRecoveryPoint;
 
 export function azureBackupRecoveryPointUnionDeserializer(
   item: any,
@@ -5939,8 +6054,7 @@ export function featureValidationRequestBaseSerializer(item: FeatureValidationRe
 
 /** Alias for FeatureValidationRequestBaseUnion */
 export type FeatureValidationRequestBaseUnion =
-  | FeatureValidationRequest
-  | FeatureValidationRequestBase;
+  FeatureValidationRequest | FeatureValidationRequestBase;
 
 export function featureValidationRequestBaseUnionSerializer(
   item: FeatureValidationRequestBaseUnion,
@@ -6007,8 +6121,7 @@ export function featureValidationResponseBaseDeserializer(
 
 /** Alias for FeatureValidationResponseBaseUnion */
 export type FeatureValidationResponseBaseUnion =
-  | FeatureValidationResponse
-  | FeatureValidationResponseBase;
+  FeatureValidationResponse | FeatureValidationResponseBase;
 
 export function featureValidationResponseBaseUnionDeserializer(
   item: any,
@@ -6154,4 +6267,6 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }

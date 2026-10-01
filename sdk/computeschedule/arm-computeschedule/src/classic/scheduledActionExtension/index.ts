@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import { listByVms } from "../../api/scheduledActionExtension/operations.js";
-import { ScheduledActionExtensionListByVmsOptionalParams } from "../../api/scheduledActionExtension/options.js";
-import { ScheduledActionResources } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ScheduledActionExtensionListByVmsOptionalParams } from "../../api/scheduledActionExtension/options.js";
+import type { ScheduledActionResources } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScheduledActionExtension operations. */
 export interface ScheduledActionExtensionOperations {

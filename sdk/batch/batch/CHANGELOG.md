@@ -1,5 +1,19 @@
 # Release History
 
+## 13.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed error detection in long-running operation pollers so that a `RestError` is recognized even when the
+  consuming application resolves more than one copy of `@azure/core-rest-pipeline`. The pollers now use the
+  `isRestError` type guard rather than an `instanceof` check, which compares constructor identity.
+
+### Other Changes
+
 ## 13.0.0 (2026-05-07)
 
 ### Features Added

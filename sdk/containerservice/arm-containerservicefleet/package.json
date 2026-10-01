@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.3",
+  "version": "2.2.0-beta.1",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -240,6 +240,20 @@
         "default": "./dist/commonjs/api/fleets/index.js"
       }
     },
+    "./api/clusterMeshProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/browser/api/clusterMeshProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/esm/api/clusterMeshProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/clusterMeshProfiles/index.js"
+      }
+    },
     "./api/operations": {
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
@@ -274,6 +288,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

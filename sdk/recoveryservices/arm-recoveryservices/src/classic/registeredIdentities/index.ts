@@ -8,11 +8,6 @@ import type { RegisteredIdentitiesDeleteOptionalParams } from "../../api/registe
 /** Interface representing a RegisteredIdentities operations. */
 export interface RegisteredIdentitiesOperations {
   /** Unregisters the given container from your Recovery Services vault. */
-  /**
-   *  @fixme Delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,

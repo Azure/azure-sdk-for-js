@@ -6,14 +6,13 @@
  * using the AIProjectClient.
  *
  * Toolboxes are currently a preview feature. In the JS SDK, you access
- * these operations via `project.beta.toolboxes`.
+ * these operations via `project.toolboxes`.
  *
  * @summary Demonstrates CRUD operations on Toolboxes using the beta toolboxes API.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
+const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { RestError } = require("@azure/core-rest-pipeline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -25,10 +24,10 @@ async function main() {
 
   // Clean up any existing toolbox with this name
   try {
-    await project.beta.toolboxes.delete(toolboxName);
+    await project.toolboxes.delete(toolboxName);
     console.log(`Toolbox \`${toolboxName}\` deleted`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }
@@ -44,7 +43,7 @@ async function main() {
   ];
 
   // Create a new toolbox version
-  const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+  const created = await project.toolboxes.createVersion(toolboxName, tools, {
     description: "Example toolbox created by the @azure/ai-projects sample.",
     metadata: { status: "created" },
   });
@@ -52,12 +51,12 @@ async function main() {
   console.log(`Toolbox: ${created.name} (tools: ${created.tools.length}) (status: ${status})`);
 
   // Retrieve the toolbox
-  const fetched = await project.beta.toolboxes.get(toolboxName);
+  const fetched = await project.toolboxes.get(toolboxName);
   console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
 
   // List toolboxes
   const toolboxes = [];
-  for await (const item of project.beta.toolboxes.list({ limit: 10 })) {
+  for await (const item of project.toolboxes.list({ limit: 10 })) {
     toolboxes.push(item);
   }
   console.log(`Found ${toolboxes.length} toolboxes`);
@@ -66,7 +65,7 @@ async function main() {
   }
 
   // Delete the toolbox
-  await project.beta.toolboxes.delete(toolboxName);
+  await project.toolboxes.delete(toolboxName);
   console.log("Toolbox deleted");
 }
 

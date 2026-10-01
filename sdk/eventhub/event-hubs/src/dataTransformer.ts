@@ -60,7 +60,7 @@ export const defaultDataTransformer = {
           `${err ? err.stack : JSON.stringify(err)}`;
         logger.warning("[encode] " + msg);
         logErrorStackTrace(err);
-        throw new Error(msg);
+        throw new Error(msg, { cause: err });
       }
     }
     return result;
@@ -143,9 +143,7 @@ function tryToJsonDecode(body: unknown): unknown {
  */
 export interface RheaAmqpSection {
   typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
+    typeof dataSectionTypeCode | typeof sequenceSectionTypeCode | typeof valueSectionTypeCode;
   content: any;
 }
 

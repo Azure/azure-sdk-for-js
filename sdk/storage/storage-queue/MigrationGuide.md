@@ -43,7 +43,7 @@ The modern `@azure/storage-queue` client library is also benefited from the cros
 
 The modern client library is named `@azure/storage-queue` following the [naming conventions](https://azure.github.io/azure-sdk/typescript_design.html) for the new libraries across all Azure services. The legacy client library was named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services such as `Blob`, `Queue`, `Files` and `Tables` in the same package. The new `@azure/storage-queue` package is dedicated to `Queue` service. Similary, dedicated packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-blob`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This reduces the bundle size if you were to use any of these packages in browser applications and provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services such as `Blob`, `Queue`, `Files` and `Tables` in the same package. The new `@azure/storage-queue` package is dedicated to `Queue` service. Similarly, dedicated packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-blob`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This reduces the bundle size if you were to use any of these packages in browser applications and provides more granular control on which dependencies to take on your project.
 
 ### Constructing the clients
 

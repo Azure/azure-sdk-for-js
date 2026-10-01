@@ -67,8 +67,8 @@ export interface PluginConfiguration {
  * @internal
  */
 export let persistenceProvider:
-  | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
-  | undefined = undefined;
+  ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>) | undefined =
+  undefined;
 
 /**
  * An object that allows setting the persistence provider.

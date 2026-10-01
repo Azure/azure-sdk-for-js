@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
+import type { NodeReadableStream } from "../platform-types-browser.mjs";
+import { parseJsonObject } from "./parse-json-object.js";
 
 /**
  * Resolves a StreamableMethod into a binary stream response using browser streaming.
@@ -12,10 +14,21 @@ import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 export async function getBinaryStreamResponse(streamableMethod: StreamableMethod): Promise<
   HttpResponse & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
   }
 > {
   const response = await streamableMethod.asBrowserStream();
+  if (!response.status.startsWith("2")) {
+    const body = response.body
+      ? parseJsonObject(await new Response(response.body).text())
+      : undefined;
+    return {
+      ...response,
+      body,
+      blobBody: undefined,
+      readableStreamBody: undefined,
+    };
+  }
   return {
     ...response,
     blobBody: new Response(response.body).blob(),

@@ -34,6 +34,11 @@ import {
   _updateAsyncDeserialize as _updateAsyncDeserializeFleets,
   _createDeserialize as _createDeserializeFleets,
 } from "./api/fleets/operations.js";
+import {
+  _applyDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeClusterMeshProfiles,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeClusterMeshProfiles,
+} from "./api/clusterMeshProfiles/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -73,8 +78,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -106,7 +110,7 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}/generateUpdateRun":
-    { deserializer: _generateUpdateRunDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _generateUpdateRunDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}":
@@ -122,11 +126,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/skip":
-    { deserializer: _skipDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _skipDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/stop":
-    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _stopDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _startDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}":
     { deserializer: _$deleteDeserializeUpdateRuns, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}":
@@ -160,6 +164,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateAsyncDeserializeFleets, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     { deserializer: _createDeserializeFleets, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}/apply":
+    { deserializer: _applyDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}":
+    {
+      deserializer: _$deleteDeserializeClusterMeshProfiles,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}":
+    {
+      deserializer: _createOrUpdateDeserializeClusterMeshProfiles,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

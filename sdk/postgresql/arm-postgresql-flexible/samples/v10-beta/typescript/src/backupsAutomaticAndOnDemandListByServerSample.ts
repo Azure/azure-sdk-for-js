@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available backups of a server.
  *
  * @summary lists all available backups of a server.
- * x-ms-original-file: 2026-01-01-preview/BackupsAutomaticAndOnDemandListByServer.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsAutomaticAndOnDemandListByServer.json
  */
 async function listAllAvailableBackupsOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

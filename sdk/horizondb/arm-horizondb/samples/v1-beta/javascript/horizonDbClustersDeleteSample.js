@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to deletes a HorizonDb cluster.
+ * This sample demonstrates how to deletes a HorizonDB cluster.
  *
- * @summary deletes a HorizonDb cluster.
- * x-ms-original-file: 2026-01-20-preview/Clusters_Delete.json
+ * @summary deletes a HorizonDB cluster.
+ * x-ms-original-file: 2026-05-01-preview/Clusters_Delete.json
  */
-async function deleteAHorizonDbCluster() {
+async function deleteAHorizonDBCluster() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function deleteAHorizonDbCluster() {
 }
 
 async function main() {
-  await deleteAHorizonDbCluster();
+  await deleteAHorizonDBCluster();
 }
 
 main().catch(console.error);

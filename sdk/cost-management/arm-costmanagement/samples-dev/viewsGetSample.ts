@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the view by view name.
- *
- * @summary Gets the view by view name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateView.json
- */
-
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the view by view name.
+ *
+ * @summary gets the view by view name.
+ * x-ms-original-file: 2025-03-01/PrivateView.json
+ */
 async function privateView(): Promise<void> {
-  const viewName = "swaggerExample";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.views.get(viewName);
+  const result = await client.views.get("swaggerExample");
   console.log(result);
 }
 

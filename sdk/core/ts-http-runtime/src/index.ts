@@ -64,6 +64,7 @@ export { createRestError } from "./client/restError.js";
 export type {
   Client,
   ClientOptions,
+  InternalClientOptions,
   OperationOptions,
   AdditionalPolicyConfig,
   PathUnchecked,

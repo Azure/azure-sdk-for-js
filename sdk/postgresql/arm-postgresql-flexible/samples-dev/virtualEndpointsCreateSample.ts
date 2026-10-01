@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a pair of virtual endpoints for a server.
  *
  * @summary creates a pair of virtual endpoints for a server.
- * x-ms-original-file: 2026-01-01-preview/VirtualEndpointCreate.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualEndpointCreate.json
  */
 async function createAPairOfVirtualEndpointsForAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

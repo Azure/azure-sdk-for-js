@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a server administrator associated to a Microsoft Entra principal.
  *
  * @summary gets information about a server administrator associated to a Microsoft Entra principal.
- * x-ms-original-file: 2026-01-01-preview/AdministratorsMicrosoftEntraGet.json
+ * x-ms-original-file: 2026-04-01-preview/AdministratorsMicrosoftEntraGet.json
  */
 async function getInformationAboutAServerAdministratorAssociatedToAMicrosoftEntraPrincipal(): Promise<void> {
   const credential = new DefaultAzureCredential();

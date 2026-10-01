@@ -125,18 +125,15 @@ export function isUnexpected(
 ): response is ListOperationsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelBuildOperationDefaultResponse,
+    GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse,
 ): response is GetDocumentModelBuildOperationDefaultResponse;
 export function isUnexpected(
   response:
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelComposeOperationDefaultResponse,
+    GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse,
 ): response is GetDocumentModelComposeOperationDefaultResponse;
 export function isUnexpected(
   response:
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentModelCopyToOperationDefaultResponse,
+    GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse,
 ): response is GetDocumentModelCopyToOperationDefaultResponse;
 export function isUnexpected(
   response:
@@ -174,9 +171,7 @@ export function isUnexpected(
 ): response is AnalyzeDocumentFromStreamDefaultResponse;
 export function isUnexpected(
   response:
-    | AnalyzeDocument202Response
-    | AnalyzeDocumentLogicalResponse
-    | AnalyzeDocumentDefaultResponse,
+    AnalyzeDocument202Response | AnalyzeDocumentLogicalResponse | AnalyzeDocumentDefaultResponse,
 ): response is AnalyzeDocumentDefaultResponse;
 export function isUnexpected(
   response: GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse,
@@ -216,9 +211,7 @@ export function isUnexpected(
 ): response is ListModelsDefaultResponse;
 export function isUnexpected(
   response:
-    | BuildClassifier202Response
-    | BuildClassifierLogicalResponse
-    | BuildClassifierDefaultResponse,
+    BuildClassifier202Response | BuildClassifierLogicalResponse | BuildClassifierDefaultResponse,
 ): response is BuildClassifierDefaultResponse;
 export function isUnexpected(
   response: ListClassifiers200Response | ListClassifiersDefaultResponse,
@@ -237,9 +230,7 @@ export function isUnexpected(
 ): response is ClassifyDocumentFromStreamDefaultResponse;
 export function isUnexpected(
   response:
-    | ClassifyDocument202Response
-    | ClassifyDocumentLogicalResponse
-    | ClassifyDocumentDefaultResponse,
+    ClassifyDocument202Response | ClassifyDocumentLogicalResponse | ClassifyDocumentDefaultResponse,
 ): response is ClassifyDocumentDefaultResponse;
 export function isUnexpected(
   response: GetClassifyResult200Response | GetClassifyResultDefaultResponse,
@@ -249,9 +240,7 @@ export function isUnexpected(
 ): response is AuthorizeClassifierCopyDefaultResponse;
 export function isUnexpected(
   response:
-    | CopyClassifierTo202Response
-    | CopyClassifierToLogicalResponse
-    | CopyClassifierToDefaultResponse,
+    CopyClassifierTo202Response | CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse,
 ): response is CopyClassifierToDefaultResponse;
 export function isUnexpected(
   response:

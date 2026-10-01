@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks if a proposed migration name is valid and available.
  *
  * @summary checks if a proposed migration name is valid and available.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCheckNameAvailability.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCheckNameAvailability.json
  */
 async function checkTheValidityAndAvailabilityOfTheGivenNameToAssignItToANewMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

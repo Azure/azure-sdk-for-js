@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists of all the environments in a organization
  *
  * @summary lists of all the environments in a organization
- * x-ms-original-file: 2025-08-18-preview/Organization_ListEnvironments_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListEnvironments_MaximumSet_Gen.json
  */
 async function organizationListEnvironmentsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

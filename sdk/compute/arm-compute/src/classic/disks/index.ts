@@ -82,11 +82,6 @@ export interface DisksOperations {
     options?: DisksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Disk>;
   /** Deletes a disk. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskName: string,
@@ -153,7 +148,6 @@ export interface DisksOperations {
     options?: DisksGetOptionalParams,
   ) => Promise<Disk>;
 }
-
 function _getDisks(context: ComputeManagementContext) {
   return {
     revokeAccess: (
@@ -276,7 +270,6 @@ function _getDisks(context: ComputeManagementContext) {
       get(context, resourceGroupName, diskName, options),
   };
 }
-
 export function _getDisksOperations(context: ComputeManagementContext): DisksOperations {
   return {
     ..._getDisks(context),

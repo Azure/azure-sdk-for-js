@@ -166,7 +166,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     }
 
     await this.delay(isPrimaryRetry, attempt, request.abortSignal);
-    return this.attemptSendRequest(request, secondaryHas404, ++attempt);
+    return this.attemptSendRequest(request, secondaryHas404, attempt + 1);
   }
 
   /**
@@ -185,8 +185,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   ): boolean {
     if (attempt >= this.retryOptions.maxTries!) {
       logger.info(
-        `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${this.retryOptions
-          .maxTries!}, no further try.`,
+        `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${
+          this.retryOptions.maxTries!
+        }, no further try.`,
       );
       return false;
     }

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-enclave": ["../src/index.ts"],
+      "@azure/arm-enclave/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

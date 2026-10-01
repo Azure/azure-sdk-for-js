@@ -30,7 +30,7 @@ export function _validateOrganizationV2Send(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,14 +50,15 @@ export async function _validateOrganizationV2Deserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return validationResponseDeserializer(result.body);
 }
-
 /** Organization Validate proxy resource */
 export async function validateOrganizationV2(
   context: Client,
@@ -89,7 +90,7 @@ export function _validateOrganizationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,14 +110,15 @@ export async function _validateOrganizationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Organization Validate proxy resource */
 export async function validateOrganization(
   context: Client,

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { $delete, update, list, get } from "./operations.js";
+export { $delete, updateStatus, list, get } from "./operations.js";
 export type {
   HorizonDbPrivateEndpointConnectionsDeleteOptionalParams,
-  HorizonDbPrivateEndpointConnectionsUpdateOptionalParams,
+  HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams,
   HorizonDbPrivateEndpointConnectionsListOptionalParams,
   HorizonDbPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";

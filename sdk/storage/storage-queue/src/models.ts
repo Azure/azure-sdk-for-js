@@ -11,6 +11,22 @@ export interface Metadata {
   [propertyName: string]: string;
 }
 
+const xMsMetaPrefix = "x-ms-meta-";
+
+/**
+ * Converts a Metadata object to individual x-ms-meta-* HTTP headers.
+ * @internal
+ */
+export function metadataToRawHeaders(metadata: Metadata | undefined): Record<string, string> {
+  const metadataHeaders: Record<string, string> = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
+
 /**
  * Defines the known cloud audiences for Storage.
  */

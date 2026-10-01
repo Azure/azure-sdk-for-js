@@ -7,98 +7,96 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-// CUSTOMIZATION: SDK-IMPROVEMENT: Export custom types from ContentUnderstandingClient for the customized
-// analyze and analyzeBinary method signatures (AnalysisResultPoller with operationId,
-// and option types that hide stringEncoding from the public API).
-export {
-  ContentUnderstandingClient,
-  type AnalysisResultPoller,
-  type AnalysisOperationMetadata,
-  type AnalysisOperationState,
-  type AnalyzeOptionalParams,
-  type AnalyzeBinaryOptionalParams,
-} from "./contentUnderstandingClient.js";
-// CUSTOMIZATION: EMITTER-FIX: Removed restorePoller and RestorePollerOptions.
-// The emitter-generated restorePoller function exposes rest-level types (PathUncheckedResponse)
-// in its public signature, which is a leaky abstraction for a modular (non-rest-level) client.
-// This is a known emitter issue affecting all ~72 modular packages. The src/restorePollerHelpers.ts
-// file was deleted; the generated version is still available in generated/restorePollerHelpers.ts.
-// Re-add when the emitter fixes the type leak.
-export {
-  type AnalysisInput,
-  type ContentAnalyzerAnalyzeOperationStatus,
-  type OperationState,
-  type AnalysisResult,
-  type AnalysisContent,
-  type AnalysisContentUnion,
-  type AnalysisContentKind,
-  type ContentField,
-  type ContentFieldUnion,
-  type ContentFieldType,
-  type ContentSpan,
-  type StringField,
-  type DateField,
-  type TimeField,
-  type NumberField,
-  type IntegerField,
-  type BooleanField,
-  type ArrayField,
-  type ObjectField,
-  type JsonField,
-  type DocumentContent,
-  type LengthUnit,
-  type DocumentPage,
-  type DocumentWord,
-  type DocumentLine,
-  type DocumentBarcode,
-  type DocumentBarcodeKind,
-  type DocumentFormula,
-  type DocumentFormulaKind,
-  type DocumentParagraph,
-  type SemanticRole,
-  type DocumentSection,
-  type DocumentTable,
-  type DocumentTableCell,
-  type DocumentTableCellKind,
-  type DocumentCaption,
-  type DocumentFootnote,
-  type DocumentFigure,
-  type DocumentFigureUnion,
-  type DocumentFigureKind,
-  type DocumentChartFigure,
-  type DocumentMermaidFigure,
-  type DocumentAnnotation,
-  type DocumentAnnotationKind,
-  type DocumentAnnotationComment,
-  type DocumentHyperlink,
-  type DocumentContentSegment,
-  type AudioVisualContent,
-  type TranscriptPhrase,
-  type TranscriptWord,
-  type AudioVisualContentSegment,
-  type UsageDetails,
-  type ContentAnalyzer,
-  type ContentAnalyzerStatus,
-  type ContentAnalyzerConfig,
-  type TableFormat,
-  type ChartFormat,
-  type AnnotationFormat,
-  type ContentCategoryDefinition,
-  type ContentFieldSchema,
-  type ContentFieldDefinition,
-  type GenerationMethod,
-  type ProcessingLocation,
-  type KnowledgeSource,
-  type KnowledgeSourceUnion,
-  type KnowledgeSourceKind,
-  type LabeledDataKnowledgeSource,
-  type SupportedModels,
-  type ContentAnalyzerOperationStatus,
-  type ContentUnderstandingDefaults,
-  type CopyAuthorization,
-  type RecordMergePatchUpdate,
-  KnownVersions,
+export { ContentUnderstandingClient } from "./contentUnderstandingClient.js";
+// CUSTOMIZATION: EMITTER-FIX: `restorePoller` and `RestorePollerOptions` are omitted
+// from the public entry point. The generated `RestorePollerOptions<TResult, TResponse extends
+// PathUncheckedResponse>` signature leaks the rest-level `PathUncheckedResponse` type into
+// the public API surface, which fails the Azure SDK API review. The generated helpers remain
+// available in `generated/restorePollerHelpers.ts` for the `.../api` subpath; the `src/`
+// counterpart is intentionally absent.
+export type {
+  AnalysisInput,
+  ContentAnalyzerAnalyzeOperationStatus,
+  OperationState,
+  AnalysisResult,
+  AnalysisContent,
+  AnalysisContentUnion,
+  AnalysisContentKind,
+  ContentField,
+  ContentFieldUnion,
+  ContentFieldType,
+  ContentSpan,
+  StringField,
+  DateField,
+  TimeField,
+  NumberField,
+  IntegerField,
+  BooleanField,
+  ArrayField,
+  ObjectField,
+  JsonField,
+  DocumentContent,
+  LengthUnit,
+  DocumentPage,
+  DocumentWord,
+  DocumentLine,
+  DocumentBarcode,
+  DocumentBarcodeKind,
+  DocumentFormula,
+  DocumentFormulaKind,
+  DocumentParagraph,
+  SemanticRole,
+  DocumentSection,
+  DocumentTable,
+  DocumentTableCell,
+  DocumentTableCellKind,
+  DocumentCaption,
+  DocumentFootnote,
+  DocumentFigure,
+  DocumentFigureUnion,
+  DocumentFigureKind,
+  DocumentChartFigure,
+  DocumentMermaidFigure,
+  DocumentAnnotation,
+  DocumentAnnotationKind,
+  DocumentAnnotationComment,
+  DocumentSignature,
+  DocumentHyperlink,
+  DocumentContentSegment,
+  DocumentChunk,
+  AudioVisualContent,
+  TranscriptPhrase,
+  TranscriptWord,
+  AudioVisualContentSegment,
+  UsageDetails,
+  ContentAnalyzerInlineResponse,
+  ContentAnalyzer,
+  ContentAnalyzerStatus,
+  ContentAnalyzerConfig,
+  TableFormat,
+  ChartFormat,
+  AnnotationFormat,
+  ContentCategoryDefinition,
+  ContentAnalyzerWorkflow,
+  ChunkingStrategy,
+  ChunkingStrategyUnion,
+  ChunkingStrategyKind,
+  SemanticChunkingStrategy,
+  ContentFieldSchema,
+  ContentFieldDefinition,
+  GenerationMethod,
+  ProcessingLocation,
+  KnowledgeSource,
+  KnowledgeSourceUnion,
+  KnowledgeSourceKind,
+  LabeledDataKnowledgeSource,
+  SupportedModels,
+  ContentAnalyzerOperationStatus,
+  ContentUnderstandingDefaults,
+  CopyAuthorization,
+  RecordMergePatchUpdate,
 } from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type {
   ContentUnderstandingClientOptionalParams,
   UpdateDefaultsOptionalParams,
@@ -115,9 +113,27 @@ export type {
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
 } from "./api/index.js";
+// CUSTOMIZATION: SDK-IMPROVEMENT: The four analyze options bags come from
+// `contentUnderstandingClient.js` (not from `./api/index.js`) because the
+// `ContentUnderstandingClient` convenience methods use trimmed-down variants
+// that hide the internal `stringEncoding` field. `AnalysisResultPoller`,
+// `AnalysisOperationState`, and `AnalysisOperationMetadata` describe the
+// custom poller shape the convenience methods return; exporting them keeps
+// the public surface aligned with the method signatures customers actually
+// call.
+export type {
+  AnalysisResultPoller,
+  AnalysisOperationState,
+  AnalysisOperationMetadata,
+  AnalyzeBinaryInlineOptionalParams,
+  AnalyzeInlineOptionalParams,
+  AnalyzeBinaryOptionalParams,
+  AnalyzeOptionalParams,
+} from "./contentUnderstandingClient.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Static helper that converts an AnalysisResult into
-// LLM-friendly text (YAML front matter + markdown). Mirrors the Python `to_llm_input`
-// and .NET `LlmInputHelper.ToLlmInput` helpers.
+// LLM-friendly text (YAML front matter + markdown). Not generated from TypeSpec — this is
+// a JS-native convenience for feeding CU output into a language model prompt.
 export { toLlmInput, type ToLlmInputOptions } from "./static-helpers/llmInputHelper.js";

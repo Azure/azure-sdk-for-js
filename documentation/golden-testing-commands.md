@@ -14,10 +14,10 @@ If you're looking to be onboarded to the asset-sync workflow to push out the tes
 
 ## Commands - to run the tests inside the package directory
 
-| script name            | command(usually)                     |
-|:-----------------------|:-------------------------------------|
-| `npm run test:browser` | `dev-tool run test:vitest --browser` |
-| `npm run test:node`    | `dev-tool run test:vitest`           |
+| script name         | command(usually)                     |
+|:--------------------|:-------------------------------------|
+| `pnpm test:browser` | `dev-tool run test:vitest --browser` |
+| `pnpm test:node`    | `dev-tool run test:vitest`           |
 |                        |                                      |
 
 ## After migrating to asset-sync
@@ -27,8 +27,7 @@ Expects that you have [powershell] installed.
 
 | script command | What does it do?                                                                                                                                                                                                                                                                                                                     |
 | :----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `npm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
-| `npx dev-tool test-proxy migrate --initial-push` | **[Only once per package]** To migrate the test recordings to the assets repo for the first time. Also generates `assets.json`                                                                                                                                                                                                           |
+| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `pnpm test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
 | `npx dev-tool test-proxy push`                   | To push the test recordings to the assets repo.                                                                                                                                                                                                                                                                |
 | `npx dev-tool test-proxy reset`                  | Reverts the local changes to recordings and resets to what is currently checked in to the assets repo. This is a destructive operation.                                                                                                                                                                                              |
 | `npx dev-tool test-proxy restore`                | Pulls the recordings from the assets repo that are referenced in your `assets.json`. Typically this will be done automatically when you first run tests in playback if the recordings haven't been downloaded already. But you can run this command in advance if you'd like to download them earlier, for example for offline work. |
@@ -62,17 +61,17 @@ export default mergeConfig(
 ```ts
    it.only("test title...")
 ```
-Run the test command such as `npm run unit-test:node` to run the test
+Run the test command such as `pnpm unit-test:node` to run the test
 
 [powershell]: https://github.com/PowerShell/PowerShell
 
 ## [Method 2] --testNamePattern
 ```bash
-npm run integration-test:node -- --testNamePattern "simple"
+pnpm integration-test:node -- --testNamePattern "simple"
 ```
 Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
 
 ## [Method 3] -- test file
 ```bash
-npm run test:node -- test/public/metricsClient.spec.ts
+pnpm test:node -- test/public/metricsClient.spec.ts
 ```

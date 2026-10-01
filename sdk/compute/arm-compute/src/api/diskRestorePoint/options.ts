@@ -8,15 +8,12 @@ export interface DiskRestorePointRevokeAccessOptionalParams extends OperationOpt
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DiskRestorePointGrantAccessOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DiskRestorePointListByRestorePointOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DiskRestorePointGetOptionalParams extends OperationOptions {}

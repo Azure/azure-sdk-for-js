@@ -4,8 +4,8 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { SearchClient, SearchIndexClient } from "@azure/search-documents";
-import { KnowledgeRetrievalClient } from "@azure/search-documents";
+import type { SearchClient, SearchIndexClient } from "../../../src/index.js";
+import { KnowledgeRetrievalClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../utils/interfaces.js";
@@ -81,11 +81,14 @@ describe("Knowledge", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource(TEST_KS_NAME);
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteKnowledgeBase(TEST_BASE_NAME).catch(() => {});
+      await indexClient.deleteKnowledgeSource(TEST_KS_NAME).catch(() => {});
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   describe("KnowledgeRetrievalClient", () => {
@@ -97,6 +100,9 @@ describe("Knowledge", { timeout: 20_000 }, () => {
             search: "What is the most luxurious hotel?",
           },
         ],
+        retrievalReasoningEffort: {
+          kind: "minimal",
+        },
       });
 
       assert.exists(result.activity);

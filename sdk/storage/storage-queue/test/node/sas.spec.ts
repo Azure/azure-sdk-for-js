@@ -17,14 +17,13 @@ import {
 import { SASProtocol } from "../../src/SASQueryParameters.js";
 import {
   configureStorageClient,
+  createAndStartRecorder,
   getQSU,
   getSignatureFromSasUrl,
   getTokenBSU,
   getTokenBSUWithDefaultCredential,
   getTokenCredential,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -36,9 +35,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     queueServiceClient = getQSU(recorder);
   });
 
@@ -474,7 +471,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       await queueClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+        (err as any).details.additionalProperties.AuthenticationErrorDetail.startsWith(
+          "Signed expiry time",
+        ),
       );
     }
   });

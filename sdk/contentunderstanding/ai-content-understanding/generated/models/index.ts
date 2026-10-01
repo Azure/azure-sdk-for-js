@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
@@ -47,13 +47,16 @@ export {
   DocumentAnnotation,
   DocumentAnnotationKind,
   DocumentAnnotationComment,
+  DocumentSignature,
   DocumentHyperlink,
   DocumentContentSegment,
+  DocumentChunk,
   AudioVisualContent,
   TranscriptPhrase,
   TranscriptWord,
   AudioVisualContentSegment,
   UsageDetails,
+  ContentAnalyzerInlineResponse,
   ContentAnalyzer,
   ContentAnalyzerStatus,
   ContentAnalyzerConfig,
@@ -61,6 +64,11 @@ export {
   ChartFormat,
   AnnotationFormat,
   ContentCategoryDefinition,
+  ContentAnalyzerWorkflow,
+  ChunkingStrategy,
+  ChunkingStrategyUnion,
+  ChunkingStrategyKind,
+  SemanticChunkingStrategy,
   ContentFieldSchema,
   ContentFieldDefinition,
   GenerationMethod,
@@ -74,5 +82,5 @@ export {
   ContentUnderstandingDefaults,
   CopyAuthorization,
   RecordMergePatchUpdate,
-  KnownVersions,
 } from "./models.js";
+export { KnownVersions } from "./models.js";

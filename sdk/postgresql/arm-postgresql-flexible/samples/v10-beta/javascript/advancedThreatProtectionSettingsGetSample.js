@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets state of advanced threat protection settings for a server.
  *
  * @summary gets state of advanced threat protection settings for a server.
- * x-ms-original-file: 2026-01-01-preview/AdvancedThreatProtectionSettingsGet.json
+ * x-ms-original-file: 2026-04-01-preview/AdvancedThreatProtectionSettingsGet.json
  */
 async function getStateOfAdvancedThreatProtectionSettingsForAServer() {
   const credential = new DefaultAzureCredential();

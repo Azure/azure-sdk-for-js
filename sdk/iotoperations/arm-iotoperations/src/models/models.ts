@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -772,6 +772,16 @@ export interface BrokerProperties {
   diskBackedMessageBuffer?: DiskBackedMessageBuffer;
   /** This setting controls whether Kubernetes CPU resource limits are requested. Increasing the number of replicas or workers proportionally increases the amount of CPU resources requested. If this setting is enabled and there are insufficient CPU resources, an error will be emitted. */
   generateResourceLimits?: GenerateResourceLimits;
+  /**
+   *   Handling of high-priority messages in the event that regular-priority messages are being backpressured.
+   *
+   *   When set to "Accept", the broker continues to accept high-priority messages even while regular-priority messages are rejected due to backpressure.
+   *
+   *   When set to "Reject", backpressure also affects high-priority messages.
+   *
+   *   Defaults to "Accept".
+   */
+  highPriorityMessagesBackpressureHandling?: HighPriorityMessagesBackpressureHandling;
   /** Memory profile of Broker. */
   memoryProfile?: BrokerMemoryProfile;
   /** The persistence settings of the Broker. */
@@ -799,6 +809,7 @@ export function brokerPropertiesSerializer(item: BrokerProperties): any {
     generateResourceLimits: !item["generateResourceLimits"]
       ? item["generateResourceLimits"]
       : generateResourceLimitsSerializer(item["generateResourceLimits"]),
+    highPriorityMessagesBackpressureHandling: item["highPriorityMessagesBackpressureHandling"],
     memoryProfile: item["memoryProfile"],
     persistence: !item["persistence"]
       ? item["persistence"]
@@ -821,6 +832,7 @@ export function brokerPropertiesDeserializer(item: any): BrokerProperties {
     generateResourceLimits: !item["generateResourceLimits"]
       ? item["generateResourceLimits"]
       : generateResourceLimitsDeserializer(item["generateResourceLimits"]),
+    highPriorityMessagesBackpressureHandling: item["highPriorityMessagesBackpressureHandling"],
     memoryProfile: item["memoryProfile"],
     persistence: !item["persistence"]
       ? item["persistence"]
@@ -1604,6 +1616,24 @@ export function generateResourceLimitsDeserializer(item: any): GenerateResourceL
   };
 }
 
+/** Handling of high-priority messages during backpressure state. */
+export enum KnownHighPriorityMessagesBackpressureHandling {
+  /** When the broker rejects regular-priority messages due to backpressure, it continues to accept high-priority messages. */
+  Accept = "Accept",
+  /** When the broker rejects regular-priority messages due to backpressure, it also rejects high-priority messages. */
+  Reject = "Reject",
+}
+
+/**
+ * Handling of high-priority messages during backpressure state. \
+ * {@link KnownHighPriorityMessagesBackpressureHandling} can be used interchangeably with HighPriorityMessagesBackpressureHandling,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accept**: When the broker rejects regular-priority messages due to backpressure, it continues to accept high-priority messages. \
+ * **Reject**: When the broker rejects regular-priority messages due to backpressure, it also rejects high-priority messages.
+ */
+export type HighPriorityMessagesBackpressureHandling = string;
+
 /** The memory profile settings of the Broker */
 export enum KnownBrokerMemoryProfile {
   /** Tiny memory profile. */
@@ -1720,8 +1750,7 @@ export function brokerRetainMessagesPolicyDeserializer(item: any): BrokerRetainM
 
 /** Alias for BrokerRetainMessagesPolicyUnion */
 export type BrokerRetainMessagesPolicyUnion =
-  | BrokerRetainMessagesCustomPolicy
-  | BrokerRetainMessagesPolicy;
+  BrokerRetainMessagesCustomPolicy | BrokerRetainMessagesPolicy;
 
 export function brokerRetainMessagesPolicyUnionSerializer(
   item: BrokerRetainMessagesPolicyUnion,
@@ -2042,8 +2071,7 @@ export function brokerSubscriberQueuePolicyDeserializer(item: any): BrokerSubscr
 
 /** Alias for BrokerSubscriberQueuePolicyUnion */
 export type BrokerSubscriberQueuePolicyUnion =
-  | BrokerSubscriberQueueCustomPolicy
-  | BrokerSubscriberQueuePolicy;
+  BrokerSubscriberQueueCustomPolicy | BrokerSubscriberQueuePolicy;
 
 export function brokerSubscriberQueuePolicyUnionSerializer(
   item: BrokerSubscriberQueuePolicyUnion,
@@ -7139,8 +7167,7 @@ export function akriConnectorTemplateRuntimeConfigurationDeserializer(
 
 /** Alias for AkriConnectorTemplateRuntimeConfigurationUnion */
 export type AkriConnectorTemplateRuntimeConfigurationUnion =
-  | AkriConnectorTemplateManagedConfiguration
-  | AkriConnectorTemplateRuntimeConfiguration;
+  AkriConnectorTemplateManagedConfiguration | AkriConnectorTemplateRuntimeConfiguration;
 
 export function akriConnectorTemplateRuntimeConfigurationUnionSerializer(
   item: AkriConnectorTemplateRuntimeConfigurationUnion,
@@ -7379,8 +7406,7 @@ export function akriConnectorTemplateAllocationDeserializer(
 
 /** Alias for AkriConnectorTemplateAllocationUnion */
 export type AkriConnectorTemplateAllocationUnion =
-  | AkriConnectorTemplateBucketizedAllocation
-  | AkriConnectorTemplateAllocation;
+  AkriConnectorTemplateBucketizedAllocation | AkriConnectorTemplateAllocation;
 
 export function akriConnectorTemplateAllocationUnionSerializer(
   item: AkriConnectorTemplateAllocationUnion,
@@ -7621,6 +7647,8 @@ export interface AkriConnectorTemplateRuntimeImageConfigurationSettings {
   imageName: string;
   /** The pull policy of the image. */
   imagePullPolicy?: AkriConnectorsImagePullPolicy;
+  /** Optional readiness probe for the connector container. When set, the operator injects this into the pod spec and uses the pod's `Ready` condition for health reporting instead of crash-based detection. */
+  readinessProbe?: AkriConnectorTemplateReadinessProbe;
   /** The number of replicas to be set up. */
   replicas?: number;
   /** The registry settings for the image. You can omit this field if using the default docker hub repository or using a local image. */
@@ -7635,6 +7663,9 @@ export function akriConnectorTemplateRuntimeImageConfigurationSettingsSerializer
   return {
     imageName: item["imageName"],
     imagePullPolicy: item["imagePullPolicy"],
+    readinessProbe: !item["readinessProbe"]
+      ? item["readinessProbe"]
+      : akriConnectorTemplateReadinessProbeSerializer(item["readinessProbe"]),
     replicas: item["replicas"],
     registrySettings: !item["registrySettings"]
       ? item["registrySettings"]
@@ -7651,6 +7682,9 @@ export function akriConnectorTemplateRuntimeImageConfigurationSettingsDeserializ
   return {
     imageName: item["imageName"],
     imagePullPolicy: item["imagePullPolicy"],
+    readinessProbe: !item["readinessProbe"]
+      ? item["readinessProbe"]
+      : akriConnectorTemplateReadinessProbeDeserializer(item["readinessProbe"]),
     replicas: item["replicas"],
     registrySettings: !item["registrySettings"]
       ? item["registrySettings"]
@@ -7681,6 +7715,74 @@ export enum KnownAkriConnectorsImagePullPolicy {
  * **Never**: Never pull the image.
  */
 export type AkriConnectorsImagePullPolicy = string;
+
+/** AkriConnectorTemplateReadinessProbe properties. Defines a readiness probe for the connector container. */
+export interface AkriConnectorTemplateReadinessProbe {
+  /** Exec specifies a command to execute in the container. */
+  exec?: AkriConnectorTemplateExecAction;
+  /** Minimum consecutive failures for the probe to be considered failed after having succeeded. */
+  failureThreshold?: number;
+  /** Number of seconds after the container has started before the probe is initiated. */
+  initialDelaySeconds?: number;
+  /** How often (in seconds) to perform the probe. */
+  periodSeconds?: number;
+  /** Minimum consecutive successes for the probe to be considered successful after having failed. */
+  successThreshold?: number;
+  /** Number of seconds after which the probe times out. */
+  timeoutSeconds?: number;
+}
+
+export function akriConnectorTemplateReadinessProbeSerializer(
+  item: AkriConnectorTemplateReadinessProbe,
+): any {
+  return {
+    exec: !item["exec"] ? item["exec"] : akriConnectorTemplateExecActionSerializer(item["exec"]),
+    failureThreshold: item["failureThreshold"],
+    initialDelaySeconds: item["initialDelaySeconds"],
+    periodSeconds: item["periodSeconds"],
+    successThreshold: item["successThreshold"],
+    timeoutSeconds: item["timeoutSeconds"],
+  };
+}
+
+export function akriConnectorTemplateReadinessProbeDeserializer(
+  item: any,
+): AkriConnectorTemplateReadinessProbe {
+  return {
+    exec: !item["exec"] ? item["exec"] : akriConnectorTemplateExecActionDeserializer(item["exec"]),
+    failureThreshold: item["failureThreshold"],
+    initialDelaySeconds: item["initialDelaySeconds"],
+    periodSeconds: item["periodSeconds"],
+    successThreshold: item["successThreshold"],
+    timeoutSeconds: item["timeoutSeconds"],
+  };
+}
+
+/** AkriConnectorTemplateExecAction properties. Describes a command to execute in a container. */
+export interface AkriConnectorTemplateExecAction {
+  /** The command to execute inside the container. Exit status of 0 is treated as healthy, non-zero is unhealthy. */
+  command: string[];
+}
+
+export function akriConnectorTemplateExecActionSerializer(
+  item: AkriConnectorTemplateExecAction,
+): any {
+  return {
+    command: item["command"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function akriConnectorTemplateExecActionDeserializer(
+  item: any,
+): AkriConnectorTemplateExecAction {
+  return {
+    command: item["command"].map((p: any) => {
+      return p;
+    }),
+  };
+}
 
 /** AkriConnectorsRegistrySettings properties. */
 export interface AkriConnectorsRegistrySettings {
@@ -7900,9 +8002,7 @@ export function akriConnectorsTagDigestSettingsDeserializer(
 
 /** Alias for AkriConnectorsTagDigestSettingsUnion */
 export type AkriConnectorsTagDigestSettingsUnion =
-  | AkriConnectorsTag
-  | AkriConnectorsDigest
-  | AkriConnectorsTagDigestSettings;
+  AkriConnectorsTag | AkriConnectorsDigest | AkriConnectorsTagDigestSettings;
 
 export function akriConnectorsTagDigestSettingsUnionSerializer(
   item: AkriConnectorsTagDigestSettingsUnion,
@@ -8221,8 +8321,7 @@ export function akriConnectorsMqttAuthenticationDeserializer(
 
 /** Alias for AkriConnectorsMqttAuthenticationUnion */
 export type AkriConnectorsMqttAuthenticationUnion =
-  | AkriConnectorsServiceAccountAuthentication
-  | AkriConnectorsMqttAuthentication;
+  AkriConnectorsServiceAccountAuthentication | AkriConnectorsMqttAuthentication;
 
 export function akriConnectorsMqttAuthenticationUnionSerializer(
   item: AkriConnectorsMqttAuthenticationUnion,
@@ -8604,4 +8703,6 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** 2026-03-01 version */
   V20260301 = "2026-03-01",
+  /** 2026-07-01 version */
+  V20260701 = "2026-07-01",
 }

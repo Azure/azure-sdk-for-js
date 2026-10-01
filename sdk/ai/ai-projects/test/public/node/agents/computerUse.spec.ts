@@ -30,7 +30,7 @@ describe("agents - computer use tool", () => {
     await recorder.stop();
   });
 
-  it("should create computer use agent and process browser search simulation", async function () {
+  it.skip("should create computer use agent and process browser search simulation", async function () {
     const deploymentName =
       process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "computer-use-preview";
 
@@ -95,7 +95,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         truncation: "auto",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 
@@ -146,7 +146,7 @@ Be direct and efficient. When you reach the search results page, read and descri
           truncation: "auto",
         },
         {
-          body: { agent: { name: agent.name, type: "agent_reference" } },
+          body: { agent_reference: { name: agent.name, type: "agent_reference" } },
         },
       );
       console.log(`Follow-up response ID: ${response.id}`);

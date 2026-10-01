@@ -43,12 +43,7 @@ export interface UserRequestPayload {
 export interface Operation {
   /** The operation type. */
   type:
-    | "CreateTerm"
-    | "UpdateTerm"
-    | "DeleteTerm"
-    | "ImportTerms"
-    | "UpdateAsset"
-    | "GrantDataAccess";
+    "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
   /** The payload of each operation which user want to submit. */
   payload: Record<string, unknown>;
 }

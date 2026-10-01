@@ -7,7 +7,7 @@ import type { ManagedApplyMaintenanceWindowPostOptionalParams } from "../../api/
 
 /** Interface representing a ManagedApplyMaintenanceWindow operations. */
 export interface ManagedApplyMaintenanceWindowOperations {
-  /** Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied. */
+  /** Action to Apply Maintenance window on the Service Fabric Managed Clusters. Any pending update will be applied. */
   post: (
     resourceGroupName: string,
     clusterName: string,

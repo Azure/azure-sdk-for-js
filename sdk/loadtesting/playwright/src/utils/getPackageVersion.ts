@@ -17,8 +17,10 @@ export const getPackageVersionFromFolder = (folder: string): string => {
   try {
     const version = require(path.join(currentDir, folder, "package.json")).version;
     return version;
-  } catch (error) {
-    coreLogger.error("Error fetching package version:", error);
+  } catch {
+    coreLogger.verbose(
+      `package.json not found at ${path.join(currentDir, folder)}, trying next path`,
+    );
     return "";
   }
 };

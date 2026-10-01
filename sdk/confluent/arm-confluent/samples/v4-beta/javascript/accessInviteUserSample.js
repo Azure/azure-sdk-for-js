@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to invite user to the organization
  *
  * @summary invite user to the organization
- * x-ms-original-file: 2025-08-18-preview/Access_InviteUser_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_InviteUser_MaximumSet_Gen.json
  */
 async function accessInviteUserMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function accessInviteUserMaximumSet() {
  * This sample demonstrates how to invite user to the organization
  *
  * @summary invite user to the organization
- * x-ms-original-file: 2025-08-18-preview/Access_InviteUser_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_InviteUser_MinimumSet_Gen.json
  */
 async function accessInviteUserMinimumSet() {
   const credential = new DefaultAzureCredential();

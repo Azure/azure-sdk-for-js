@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createCodeSigning,
-  type CodeSigningContext,
-  type CodeSigningClientOptionalParams,
-} from "./codeSigningContext.js";
+export type { CodeSigningContext, CodeSigningClientOptionalParams } from "./codeSigningContext.js";
+export { createCodeSigning } from "./codeSigningContext.js";

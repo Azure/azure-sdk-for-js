@@ -41,6 +41,7 @@ import { QuickpulseMetricExporter } from "./export/exporter.js";
 import { QuickpulseSender } from "./export/sender.js";
 import { ConnectionStringParser } from "../../utils/connectionStringParser.js";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types.js";
+import { getAuthenticationCredentialFromEnv } from "./credentialUtils.js";
 import type {
   QuickpulseExporterOptions,
   RequestData,
@@ -99,8 +100,12 @@ export class LiveMetrics {
   private quickpulseExporter: QuickpulseMetricExporter;
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
+  private isShutdown = false;
+  private resetCountersOnActivation = true;
+  private isDeactivating: boolean = false;
+  private deactivatingPromise: Promise<void> | undefined;
   private lastSuccessTime: number = Date.now();
-  private handle: NodeJS.Timer;
+  private handle: NodeJS.Timeout | undefined;
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
   private totalRequestCount = 0;
@@ -169,10 +174,12 @@ export class LiveMetrics {
       this.config.azureMonitorExporterOptions.connectionString ||
         process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
+    const credential =
+      this.config.azureMonitorExporterOptions.credential ?? getAuthenticationCredentialFromEnv();
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
-      credential: this.config.azureMonitorExporterOptions.credential,
+      credential: credential,
       credentialScopes:
         parsedConnectionString.aadaudience ||
         this.config.azureMonitorExporterOptions.credentialScopes,
@@ -180,7 +187,7 @@ export class LiveMetrics {
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
-      credential: this.config.azureMonitorExporterOptions.credential,
+      credential: credential,
       credentialScopes:
         parsedConnectionString.aadaudience ||
         this.config.azureMonitorExporterOptions.credentialScopes,
@@ -195,18 +202,31 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-    this.handle.unref(); // Don't block apps from terminating
+    this.schedulePing();
     this.lastCpuUsage = process.cpuUsage();
     this.lastHrTime = process.hrtime.bigint();
   }
 
-  public shutdown(): void {
-    this.meterProvider?.shutdown();
+  public async shutdown(): Promise<void> {
+    this.isShutdown = true;
+    clearTimeout(this.handle);
+    this.isCollectingData = false;
+    await this.deactivateMetrics();
+  }
+
+  private schedulePing(): void {
+    clearTimeout(this.handle);
+    if (!this.isShutdown && !this.isCollectingData) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+      this.handle.unref();
+    }
   }
 
   private async goQuickpulse(): Promise<void> {
+    if (this.isShutdown) {
+      return;
+    }
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
@@ -217,51 +237,50 @@ export class LiveMetrics {
         };
         await context.with(suppressTracing(context.active()), async () => {
           const response = await this.pingSender.isSubscribed(params);
-          this.quickPulseDone(response);
+          await this.quickPulseDone(response);
         });
       } catch (error) {
-        this.quickPulseDone(undefined);
+        await this.quickPulseDone(undefined);
       }
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-      this.handle.unref();
+      this.schedulePing();
     }
     if (this.isCollectingData) {
       this.activateMetrics({ collectionInterval: this.postInterval });
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
+    if (this.isShutdown) {
+      return;
+    }
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
           this.pingInterval = FALLBACK_INTERVAL;
         }
       } else {
-        if (Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME) {
+        if (
+          Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME &&
+          this.postInterval !== FALLBACK_INTERVAL &&
+          !this.isDeactivating
+        ) {
           this.postInterval = FALLBACK_INTERVAL;
-          this.deactivateMetrics();
-          this.activateMetrics({ collectionInterval: this.postInterval });
+          await this.restartMetrics();
         }
       }
     } else {
+      const wasBackingOff = this.postInterval !== POST_INTERVAL;
       this.postInterval = POST_INTERVAL;
       // Update using response if needed
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
-      if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
+      if (
+        response.eTag !== undefined &&
+        response.xMsQpsConfigurationEtag &&
+        this.etag !== response.xMsQpsConfigurationEtag
+      ) {
         this.updateConfiguration(response);
-      }
-
-      // If collecting was stoped
-      if (!this.isCollectingData && this.meterProvider) {
-        this.etag = "";
-        this.deactivateMetrics();
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-        this.handle.unref();
       }
 
       const endpointRedirect = response.xMsQpsServiceEndpointRedirectV2;
@@ -275,12 +294,35 @@ export class LiveMetrics {
       } else {
         this.pingInterval = PING_INTERVAL;
       }
+
+      if (!this.isCollectingData && (this.meterProvider || this.isDeactivating)) {
+        this.etag = "";
+        this.quickpulseExporter.setEtag("");
+        await this.restartMetrics(false);
+      } else if (this.isCollectingData && wasBackingOff && !this.isDeactivating) {
+        await this.restartMetrics();
+      }
+    }
+  }
+
+  private async restartMetrics(preserveConfiguration = true): Promise<void> {
+    // A reader's interval is fixed at construction. Preserve collection state when
+    // replacing it, and let the shutdown flush update the desired interval.
+    try {
+      await this.deactivateMetrics(preserveConfiguration);
+    } catch (error) {
+      Logger.getInstance().warn("Failed to restart Live Metrics collection", error);
+    }
+    if (this.isCollectingData) {
+      this.activateMetrics({ collectionInterval: this.postInterval });
+    } else {
+      this.schedulePing();
     }
   }
 
   // Activate live metrics collection
   public activateMetrics(options?: { collectionInterval: number }): void {
-    if (this.meterProvider) {
+    if (this.meterProvider || this.isDeactivating || this.isShutdown) {
       return;
     }
     // Turn on live metrics active collection for statsbeat
@@ -288,20 +330,25 @@ export class LiveMetrics {
       getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
-    this.totalDependencyCount = 0;
-    this.totalExceptionCount = 0;
-    this.totalFailedDependencyCount = 0;
-    this.totalFailedRequestCount = 0;
-    this.totalRequestCount = 0;
-    this.requestDuration = 0;
-    this.dependencyDuration = 0;
-    this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
-    this.lastRequestRate = { count: 0, time: 0 };
-    this.lastFailedRequestRate = { count: 0, time: 0 };
-    this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
-    this.lastDependencyRate = { count: 0, time: 0 };
-    this.lastFailedDependencyRate = { count: 0, time: 0 };
-    this.lastExceptionRate = { count: 0, time: 0 };
+    // Reader replacement must retain both totals and sampling baselines so
+    // telemetry recorded during the final flush is collected exactly once.
+    if (this.resetCountersOnActivation) {
+      this.totalDependencyCount = 0;
+      this.totalExceptionCount = 0;
+      this.totalFailedDependencyCount = 0;
+      this.totalFailedRequestCount = 0;
+      this.totalRequestCount = 0;
+      this.requestDuration = 0;
+      this.dependencyDuration = 0;
+      this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
+      this.lastRequestRate = { count: 0, time: 0 };
+      this.lastFailedRequestRate = { count: 0, time: 0 };
+      this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
+      this.lastDependencyRate = { count: 0, time: 0 };
+      this.lastFailedDependencyRate = { count: 0, time: 0 };
+      this.lastExceptionRate = { count: 0, time: 0 };
+      this.resetCountersOnActivation = false;
+    }
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.quickpulseExporter,
@@ -387,16 +434,40 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics(): void {
-    this.documents = [];
-    this.validDocumentFilterConjuctionGroupInfos.clear();
-    this.errorTracker.clearRunTimeErrors();
-    this.errorTracker.clearValidationTimeErrors();
-    this.validDerivedMetrics.clear();
-    this.derivedMetricProjection.clearProjectionMaps();
-    this.seenMetricIds.clear();
-    this.meterProvider?.shutdown();
-    this.meterProvider = undefined;
+  public async deactivateMetrics(preserveConfiguration = false): Promise<void> {
+    if (!preserveConfiguration) {
+      this.resetCountersOnActivation = true;
+      this.documents = [];
+      this.validDocumentFilterConjuctionGroupInfos.clear();
+      this.errorTracker.clearRunTimeErrors();
+      this.errorTracker.clearValidationTimeErrors();
+      this.validDerivedMetrics.clear();
+      this.derivedMetricProjection.clearProjectionMaps();
+      this.seenMetricIds.clear();
+    }
+    // Coalesce concurrent deactivations: callers (shutdown(), the
+    // failure-fallback in quickPulseDone(), and the "unsubscribed" branch in
+    // goQuickpulse()) can all race. Return the in-flight promise so every
+    // caller awaits the same completion and the underlying meterProvider
+    // shutdown only runs once.
+    if (this.deactivatingPromise) {
+      return this.deactivatingPromise;
+    }
+    this.isDeactivating = true;
+    this.deactivatingPromise = (async () => {
+      try {
+        // Capture and clear the reference before awaiting shutdown so any
+        // re-entrant calls triggered by the shutdown's final force-flush
+        // export observe meterProvider as undefined and exit early.
+        const provider = this.meterProvider;
+        this.meterProvider = undefined;
+        await provider?.shutdown();
+      } finally {
+        this.isDeactivating = false;
+        this.deactivatingPromise = undefined;
+      }
+    })();
+    return this.deactivatingPromise;
   }
 
   /**
@@ -762,7 +833,7 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: QuickpulseResponse): void {
-    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+    if (!response.metrics || typeof response.metrics.forEach !== "function") {
       return;
     }
     response.metrics.forEach((derivedMetricInfo) => {

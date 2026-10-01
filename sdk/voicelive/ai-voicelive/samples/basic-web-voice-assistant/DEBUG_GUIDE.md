@@ -4,11 +4,25 @@ Complete guide for debugging the Azure Voice Live SDK when running the web assis
 
 ## 🚀 **Quick Debug Setup**
 
-### **1. Enable Debug Mode in Sample**
+### **1. Enable SDK Logging**
+The Voice Live SDK logs through the standard `@azure/logger` package. Enable verbose logs one of two ways:
+
+- **Browser console** — before creating the client:
+  ```ts
+  import { setLogLevel } from "@azure/logger";
+  setLogLevel("verbose");
+  ```
+- **Node / dev server** — set the env var before launching:
+  ```bash
+  AZURE_LOG_LEVEL=verbose npm run dev
+  ```
+
+Then:
 1. **Open the web assistant** (`npm run dev`)
-2. **Check "Enable Debug Mode"** in the configuration panel
-3. **Open Browser DevTools** (F12)
-4. **Connect and start conversation** - you'll see detailed logs
+2. **Open Browser DevTools** (F12)
+3. **Connect and start a conversation** — detailed SDK logs appear in the console
+
+> The sample's **"Enable Debug Mode"** checkbox is a *sample-level* convenience that prints a reminder about `AZURE_LOG_LEVEL`. It does **not** itself control SDK log verbosity — `@azure/logger` does.
 
 ### **2. Browser DevTools Debugging**
 
@@ -50,19 +64,22 @@ The sample has a **live event stream** that shows all SDK events in real-time:
 
 ### **Method 2: Console Debug Logging**
 
-**Enable in sample:**
+**Enable verbose SDK logs using the standard `@azure/logger` package:**
 ```typescript
-// Already enabled in sample - check "Enable Debug Mode"
-const clientOptions = {
-  enableDebugLogging: true  // This enables SDK internal logging
-};
+import { setLogLevel } from "@azure/logger";
+setLogLevel("verbose");
+```
+
+Or via environment variable:
+```bash
+AZURE_LOG_LEVEL=verbose
 ```
 
 **What you see in console:**
 ```
-🔧 Creating Voice Live client with debug mode: true
-🐛 Debug mode enabled - you will see detailed SDK logs
-🔍 Check Network tab for WebSocket messages
+azure:ai-voicelive:info VoiceLiveSession created { ... }
+azure:ai-voicelive:info Connecting to Voice Live service { ... }
+azure:ai-voicelive:info Sent event { type: 'session.update', ... }
 🔔 SDK Event: connected {...}
 🔔 SDK Event: server.response.created {...}
 ```
@@ -244,19 +261,32 @@ setInterval(() => {
 
 ## 🐛 **Debug Logging Levels**
 
-The SDK has different logging levels you can control:
+Log verbosity is controlled through `@azure/logger`:
 
 ```typescript
-// In browser console, you can also enable more detailed logging:
-localStorage.setItem('AZURE_LOG_LEVEL', 'verbose');
-// Then reload the page
+import { setLogLevel } from "@azure/logger";
 
 // Available levels:
 // - 'error'   : Only errors
-// - 'warning' : Errors + warnings  
-// - 'info'    : Errors + warnings + info (default when debug enabled)
+// - 'warning' : Errors + warnings
+// - 'info'    : Errors + warnings + lifecycle info
 // - 'verbose' : Everything including internal state changes
+setLogLevel("verbose");
 ```
+
+Or via environment variable (Node / dev server):
+
+```bash
+AZURE_LOG_LEVEL=verbose
+```
+
+Or per-namespace (Node `DEBUG`-style):
+
+```bash
+DEBUG=azure:ai-voicelive:*
+```
+
+See the [@azure/logger docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) for advanced configuration (custom sinks, etc.).
 
 ## 📱 **Mobile Debugging**
 
@@ -324,7 +354,7 @@ const gatherDebugInfo = () => ({
 
 When experiencing issues, check:
 
-- [ ] **Debug mode enabled** in sample UI
+- [ ] **`setLogLevel("verbose")` called** (or `AZURE_LOG_LEVEL=verbose` set) to enable SDK logs
 - [ ] **Console tab open** to see SDK logs
 - [ ] **Network tab filtered** to WebSocket traffic
 - [ ] **Events panel visible** in sample UI

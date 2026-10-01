@@ -20,6 +20,12 @@ const handler = new WebPubSubEventHandler("chat", {
   onConnected(connectedRequest) {
     console.log(connectedRequest);
   },
+  onGroupJoined(groupJoinedRequest) {
+    console.log(groupJoinedRequest);
+  },
+  onGroupLeft(groupLeftRequest) {
+    console.log(groupLeftRequest);
+  },
   handleUserEvent(req, res) {
     const calledTime = req.context.states.calledTime++;
     console.log(calledTime);

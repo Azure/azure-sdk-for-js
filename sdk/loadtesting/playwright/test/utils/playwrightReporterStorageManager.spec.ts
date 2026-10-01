@@ -407,7 +407,9 @@ describe("PlaywrightReporterStorageManager", () => {
         if (stream && typeof stream.destroy === "function") {
           stream.destroy();
         }
-      } catch {}
+      } catch {
+        /* empty */
+      }
     });
     (globalThis as any).__mockBlockBlobClient = {
       upload: uploadSpy,

@@ -14,6 +14,7 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -54,6 +55,10 @@ describe("BlobClient", () => {
       },
       ["record", "playback"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -744,6 +749,36 @@ describe("BlobClient", () => {
     const properties = await blockBlobClient.getProperties();
     assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cool");
+  });
+
+  // Service is not support this feature yet.
+  it.skip("setAccessTier set to smart", async () => {
+    await blockBlobClient.setAccessTier("Smart");
+    const properties = await blockBlobClient.getProperties();
+    assert.isDefined(properties.accessTier);
+    assert.equal(properties.accessTier!, "Smart");
+  });
+
+  it("download should return inferred access tier for a blob with no explicit tier", async () => {
+    // The blob uploaded in beforeEach has no explicit tier set, so the tier is inferred.
+    const downloadResponse = await blobClient.download();
+
+    assert.equal(downloadResponse.accessTier, "Hot");
+    assert.isTrue(downloadResponse.accessTierInferred);
+    // Never explicitly tiered and not a Smart-tier blob, so these are not returned.
+    assert.isUndefined(downloadResponse.accessTierChangedOn);
+    assert.isUndefined(downloadResponse.smartAccessTier);
+  });
+
+  it("download should return access tier properties", async () => {
+    await blockBlobClient.setAccessTier("Cool");
+
+    const downloadResponse = await blobClient.download();
+
+    assert.equal(downloadResponse.accessTier, "Cool");
+    // The tier was set explicitly, so it should not be reported as inferred.
+    assert.ok(!downloadResponse.accessTierInferred);
+    assert.isDefined(downloadResponse.accessTierChangedOn);
   });
 
   it("setAccessTier set archive to hot", async () => {
@@ -1687,8 +1722,7 @@ describe("BlobClient - Object Replication", { skip: true }, () => {
   ];
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     srcBlobServiceClient = getGenericBSU(recorder, "");
     destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
     srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
@@ -1795,14 +1829,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   beforeEach(async (ctx) => {
     try {
       containerName = getImmutableContainerName();
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-        },
-        ["record", "playback"],
-      );
+      recorder = await createAndStartRecorder(ctx);
       blobServiceClient = getBSU(recorder);
 
       containerClient = blobServiceClient.getContainerClient(containerName);

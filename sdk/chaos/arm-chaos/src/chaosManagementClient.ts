@@ -11,6 +11,8 @@ import type { CapabilitiesOperations } from "./classic/capabilities/index.js";
 import { _getCapabilitiesOperations } from "./classic/capabilities/index.js";
 import type { CapabilityTypesOperations } from "./classic/capabilityTypes/index.js";
 import { _getCapabilityTypesOperations } from "./classic/capabilityTypes/index.js";
+import type { ConnectionsOperations } from "./classic/connections/index.js";
+import { _getConnectionsOperations } from "./classic/connections/index.js";
 import type { DiscoveredResourcesOperations } from "./classic/discoveredResources/index.js";
 import { _getDiscoveredResourcesOperations } from "./classic/discoveredResources/index.js";
 import type { ExperimentsOperations } from "./classic/experiments/index.js";
@@ -49,17 +51,11 @@ export class ChaosManagementClient {
     subscriptionId: string,
     options: ChaosManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createChaosManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createChaosManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
-    this.scenarioConfigurations = _getScenarioConfigurationsOperations(this._client);
+    this.connections = _getConnectionsOperations(this._client);
     this.scenarioRuns = _getScenarioRunsOperations(this._client);
+    this.scenarioConfigurations = _getScenarioConfigurationsOperations(this._client);
     this.scenarios = _getScenariosOperations(this._client);
     this.discoveredResources = _getDiscoveredResourcesOperations(this._client);
     this.workspaces = _getWorkspacesOperations(this._client);
@@ -75,10 +71,12 @@ export class ChaosManagementClient {
     this.capabilities = _getCapabilitiesOperations(this._client);
   }
 
-  /** The operation groups for scenarioConfigurations */
-  public readonly scenarioConfigurations: ScenarioConfigurationsOperations;
+  /** The operation groups for connections */
+  public readonly connections: ConnectionsOperations;
   /** The operation groups for scenarioRuns */
   public readonly scenarioRuns: ScenarioRunsOperations;
+  /** The operation groups for scenarioConfigurations */
+  public readonly scenarioConfigurations: ScenarioConfigurationsOperations;
   /** The operation groups for scenarios */
   public readonly scenarios: ScenariosOperations;
   /** The operation groups for discoveredResources */

@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create security contact configurations for the subscription
- *
- * @summary Create security contact configurations for the subscription
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
- */
-
-import type { SecurityContact } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create security contact configurations for the subscription
+ *
+ * @summary create security contact configurations for the subscription
+ * x-ms-original-file: 2023-12-01-preview/SecurityContacts/CreateSecurityContact_example.json
+ */
 async function createSecurityContactData(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const securityContactName = "default";
-  const securityContact: SecurityContact = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const client = new SecurityCenter(credential, subscriptionId);
+  const result = await client.securityContacts.create("default", {
     emails: "john@contoso.com;jane@contoso.com",
     isEnabled: true,
     notificationsByRole: { roles: ["Owner"], state: "On" },
@@ -26,10 +23,7 @@ async function createSecurityContactData(): Promise<void> {
       { minimalSeverity: "Medium", sourceType: "Alert" },
     ],
     phone: "(214)275-4038",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securityContacts.create(securityContactName, securityContact);
+  });
   console.log(result);
 }
 

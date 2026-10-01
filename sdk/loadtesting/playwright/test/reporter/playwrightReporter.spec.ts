@@ -172,6 +172,35 @@ describe("PlaywrightReporter", () => {
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
   });
 
+  it.each([
+    "http://account.blob.core.windows.net",
+    "https://attacker.example.com",
+    "https://account.blob.core.windows.net.attacker.com",
+    "https://user:pass@account.blob.core.windows.net",
+    "https://account.blob.core.windows.net/?sig=stolen",
+    "javascript:alert(1)",
+  ])(
+    "should disable reporting when workspace storageUri is not a valid Azure Storage endpoint: %s",
+    async (storageUri) => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue({
+        reporting: "Enabled",
+        storageUri,
+      });
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.INVALID_STORAGE_URI.message,
+      );
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+    },
+  );
+
   it("should handle workspace metadata fetch failure gracefully", async () => {
     PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
     const reporter = new PlaywrightReporter();

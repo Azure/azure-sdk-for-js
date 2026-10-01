@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AcceleratorManufacturer = string;
@@ -237,13 +239,9 @@ export interface FleetProperties {
     readonly timeCreated?: Date;
     readonly uniqueId?: string;
     vmAttributes?: VMAttributes;
+    vmNamePrefix?: string;
     vmSizesProfile: VmSizeProfile[];
     zoneAllocationPolicy?: ZoneAllocationPolicy;
-}
-
-// @public
-export interface FleetsCancelOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -280,7 +278,6 @@ export interface FleetsListVirtualMachinesOptionalParams extends OperationOption
 
 // @public
 export interface FleetsOperations {
-    cancel: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
     delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) => Promise<Fleet>;
@@ -324,6 +321,8 @@ export interface InnerError {
 
 // @public
 export type IPVersion = string;
+
+export { isRestError }
 
 // @public
 export interface KeyVaultSecretReference {
@@ -439,7 +438,7 @@ export enum KnownEvictionPolicy {
 
 // @public
 export enum KnownFleetMode {
-    Instance = "Instance",
+    Launch = "Launch",
     Managed = "Managed"
 }
 
@@ -600,7 +599,8 @@ export enum KnownVersions {
     V20231101Preview = "2023-11-01-preview",
     V20240501Preview = "2024-05-01-preview",
     V20241101 = "2024-11-01",
-    V20250701Preview = "2025-07-01-preview"
+    V20260401Preview = "2026-04-01-preview",
+    V20260601Preview = "2026-06-01-preview"
 }
 
 // @public
@@ -623,10 +623,9 @@ export enum KnownVMCategory {
 
 // @public
 export enum KnownVMOperationStatus {
-    Canceled = "Canceled",
-    CancelFailedStatusUnknown = "CancelFailedStatusUnknown",
     Creating = "Creating",
     Failed = "Failed",
+    Launching = "Launching",
     Succeeded = "Succeeded"
 }
 
@@ -702,7 +701,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -711,7 +710,7 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -844,6 +843,8 @@ export interface ResourcePlanUpdate {
     publisher?: string;
     version?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -980,7 +981,10 @@ export interface VirtualMachine {
     readonly id: string;
     readonly name: string;
     readonly operationStatus: VMOperationStatus;
+    readonly priority?: string;
     readonly type?: string;
+    readonly vmSize?: string;
+    readonly zone?: string;
 }
 
 // @public

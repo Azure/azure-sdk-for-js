@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicefabricmanagedclusters)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/samples)
 
 ## Getting started

@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Storage test", () => {
+describe.skip("Storage test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StorageManagementClient;

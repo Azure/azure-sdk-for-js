@@ -1,12 +1,16 @@
 # Release History
 
-## 12.0.0-preview.5 (Unreleased)
+## 12.0.1-beta.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed `BlobChangeFeedClient` so that a `Pipeline` argument is recognized even when the consuming application
+  resolves more than one copy of `@azure/storage-blob`. The constructor now uses the `isPipelineLike` type guard
+  rather than an `instanceof` check, which compares constructor identity.
 
 ### Other Changes
 

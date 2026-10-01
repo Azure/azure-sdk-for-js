@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseRetryAfterHeader } from "../../src/utils/breezeUtils.js";
+import { MAX_RETRY_AFTER_MS, parseRetryAfterHeader } from "../../src/utils/breezeUtils.js";
 import { describe, it, expect, vi, afterEach } from "vitest";
 
 describe("breezeUtils", () => {
@@ -54,6 +54,41 @@ describe("breezeUtils", () => {
 
     it("should return undefined for non-parseable string", () => {
       expect(parseRetryAfterHeader("not-a-number-or-date")).toBeUndefined();
+    });
+
+    // Node's setTimeout silently clamps any delay above 2^31-1 ms (~24.85 days) to 1 ms
+    // and emits a TimeoutOverflowWarning. A server-controlled Retry-After must never be
+    // able to reach that ceiling, so parseRetryAfterHeader caps the result.
+    const NODE_SET_TIMEOUT_MAX_MS = 2 ** 31 - 1;
+
+    it("should clamp a delay-seconds value above the cap to MAX_RETRY_AFTER_MS", () => {
+      // 9999999999 s -> 9999999999000 ms, far above Node's setTimeout ceiling
+      expect(parseRetryAfterHeader("9999999999")).toBe(MAX_RETRY_AFTER_MS);
+    });
+
+    it("should clamp the max-safe-int seconds value (~24.8 day stall) to MAX_RETRY_AFTER_MS", () => {
+      // 2147483 s -> ~24.8 days, just under Node's ceiling; without a cap this parks retries for weeks
+      expect(parseRetryAfterHeader("2147483")).toBe(MAX_RETRY_AFTER_MS);
+    });
+
+    it("should keep a clamped result safely below Node's setTimeout ceiling", () => {
+      const result = parseRetryAfterHeader("9999999999");
+      expect(result!).toBeLessThan(NODE_SET_TIMEOUT_MAX_MS);
+    });
+
+    it("should not clamp a delay-seconds value below the cap", () => {
+      // 23 hours, just under the 24h cap
+      expect(parseRetryAfterHeader("82800")).toBe(82_800_000);
+    });
+
+    it("should return exactly the cap for a delay-seconds value at the boundary", () => {
+      // 86400 s === 24h === MAX_RETRY_AFTER_MS
+      expect(parseRetryAfterHeader("86400")).toBe(MAX_RETRY_AFTER_MS);
+    });
+
+    it("should clamp a far-future HTTP-date to MAX_RETRY_AFTER_MS", () => {
+      const farFutureDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+      expect(parseRetryAfterHeader(farFutureDate)).toBe(MAX_RETRY_AFTER_MS);
     });
   });
 });

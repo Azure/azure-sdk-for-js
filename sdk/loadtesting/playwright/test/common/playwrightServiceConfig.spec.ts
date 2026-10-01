@@ -128,6 +128,20 @@ describe("PlaywrightServiceConfig", () => {
     );
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
   });
+
+  it("should default sourceType to PlaywrightWorkspacesTestRun", () => {
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    expect(playwrightServiceConfig.sourceType).to.equal("PlaywrightWorkspacesTestRun");
+  });
+
+  it("should set sourceType from options when provided", () => {
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    playwrightServiceConfig.setOptions({
+      sourceType: "Others",
+    });
+    expect(playwrightServiceConfig.sourceType).to.equal("Others");
+  });
+
   it("should use runName from environment variable if already set", () => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = "existing-run-name";
     const playwrightServiceConfig = new PlaywrightServiceConfig();

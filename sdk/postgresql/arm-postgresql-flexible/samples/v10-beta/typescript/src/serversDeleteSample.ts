@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes or drops an existing server.
  *
  * @summary deletes or drops an existing server.
- * x-ms-original-file: 2026-01-01-preview/ServersDelete.json
+ * x-ms-original-file: 2026-04-01-preview/ServersDelete.json
  */
 async function deleteOrDropAnExistingServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

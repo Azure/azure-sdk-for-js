@@ -72,7 +72,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Get the SAS credential to access the storage account associated with a Dataset version. */
+/** Retrieves the SAS credential to access the storage account associated with a dataset version. */
 export async function getCredentials(
   context: Client,
   name: string,
@@ -122,7 +122,7 @@ export async function _pendingUploadDeserialize(
   return pendingUploadResponseDeserializer(result.body);
 }
 
-/** Start a new or get an existing pending upload of a dataset for a specific version. */
+/** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
 export async function pendingUpload(
   context: Client,
   name: string,
@@ -215,11 +215,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   name: string,

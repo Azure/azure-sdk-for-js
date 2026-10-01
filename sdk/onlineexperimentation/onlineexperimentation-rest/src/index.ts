@@ -14,3 +14,4 @@ export * from "./paginateHelper.js";
 export * from "./extensibleEnums.js";
 
 export { OnlineExperimentationClient };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

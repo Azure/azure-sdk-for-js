@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByApplicationTypes, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   ApplicationTypeVersionsListByApplicationTypesOptionalParams,
   ApplicationTypeVersionsDeleteOptionalParams,
   ApplicationTypeVersionsUpdateOptionalParams,

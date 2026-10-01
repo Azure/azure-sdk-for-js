@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get capabilities at specified location in a given subscription.
- *
- * @summary Get capabilities at specified location in a given subscription.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CapabilitiesByLocationList.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
+/**
+ * This sample demonstrates how to get capabilities at specified location in a given subscription.
+ *
+ * @summary get capabilities at specified location in a given subscription.
+ * x-ms-original-file: 2025-06-01-preview/CapabilitiesByLocationList.json
+ */
 async function capabilitiesList() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const locationName = "WestUS";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.locationBasedCapabilities.list(locationName)) {
+  for await (const item of client.locationBasedCapabilities.list("WestUS")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

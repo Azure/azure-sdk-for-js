@@ -1,5 +1,33 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/deletedWorkspaces": "./src/api/deletedWorkspaces/index.ts"
+  "./api/operationStatuses": "./src/api/operationStatuses/index.ts"
+  "./api/summaryLogs": "./src/api/summaryLogs/index.ts"
+  "./api/storageInsightConfigs": "./src/api/storageInsightConfigs/index.ts"
+  "./api/queryPacks": "./src/api/queryPacks/index.ts"
+  "./api/queries": "./src/api/queries/index.ts"
+  "./api/linkedStorageAccounts": "./src/api/linkedStorageAccounts/index.ts"
+  "./api/workspacePurge": "./src/api/workspacePurge/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/sharedKeys": "./src/api/sharedKeys/index.ts"
+  "./api/schema": "./src/api/schema/index.ts"
+  "./api/managementGroups": "./src/api/managementGroups/index.ts"
+  "./api/intelligencePacks": "./src/api/intelligencePacks/index.ts"
+  "./api/gateways": "./src/api/gateways/index.ts"
+  "./api/availableServiceTiers": "./src/api/availableServiceTiers/index.ts"
+  "./api/tables": "./src/api/tables/index.ts"
+  "./api/savedSearches": "./src/api/savedSearches/index.ts"
+  "./api/linkedServices": "./src/api/linkedServices/index.ts"
+  "./api/dataSources": "./src/api/dataSources/index.ts"
+  "./api/workspaces": "./src/api/workspaces/index.ts"
+  "./api/dataExports": "./src/api/dataExports/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

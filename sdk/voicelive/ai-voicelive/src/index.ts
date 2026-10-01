@@ -24,6 +24,8 @@ export type {
   AzurePersonalVoice,
   PersonalVoiceModels,
   AzureAvatarVoiceSyncVoice,
+  AzureRealtimeNativeVoice,
+  AzureRealtimeNativeVoiceName,
   InputAudioFormat,
   OutputAudioFormat,
   TurnDetection,
@@ -41,6 +43,7 @@ export type {
   AzureSemanticVadMultilingual,
   AudioNoiseReduction,
   AudioEchoCancellation,
+  EchoCancellationReferenceSource,
   AvatarConfig,
   AvatarConfigTypes,
   IceServer,
@@ -74,6 +77,8 @@ export type {
   ClientEventInputAudioTurnEnd,
   ClientEventInputAudioTurnCancel,
   ClientEventInputAudioClear,
+  ClientEventInputTextDelta,
+  ClientEventInputTextDone,
   ClientEventInputAudioBufferAppend,
   ClientEventInputAudioBufferCommit,
   ClientEventInputAudioBufferClear,
@@ -110,7 +115,7 @@ export type {
   InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
-  Response,
+  VoiceLiveResponse,
   ResponseStatus,
   ResponseStatusDetails,
   ResponseStatusDetailsUnion,
@@ -205,6 +210,10 @@ export type {
   ServerEventResponseFileSearchCallCompleted,
   ServerEventOutputAudioBufferCleared,
   ServerEventResponseAudioTranscriptAnnotationAdded,
+  ServerEventResponseInvocationDelta,
+  ServerEventWarning,
+  ServerEventWarningDetails,
+  Scene,
   ActionSearchSource,
   ActionSearch,
   ActionOpenPage,
@@ -217,10 +226,12 @@ export {
   KnownOAIVoice,
   KnownAzureVoiceType,
   KnownPersonalVoiceModels,
+  KnownAzureRealtimeNativeVoiceName,
   KnownInputAudioFormat,
   KnownOutputAudioFormat,
   KnownTurnDetectionType,
   KnownEouThresholdLevel,
+  KnownEchoCancellationReferenceSource,
   KnownAvatarConfigTypes,
   KnownPhotoAvatarBaseModes,
   KnownAvatarOutputProtocol,
@@ -241,6 +252,8 @@ export {
   KnownResponseItemStatus,
   KnownServerEventType,
 } from "./models/index.js";
+
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 // Main client export
 export { VoiceLiveClient, type VoiceLiveClientOptions } from "./client/voiceLiveClient.js";

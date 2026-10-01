@@ -91,3 +91,13 @@ export interface CancelAddParticipantOperationResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
+
+/** The response payload for moving participants to the call. */
+export interface MoveParticipantsResult {
+  /** List of current participants in the call. */
+  participants?: CallParticipant[];
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+}

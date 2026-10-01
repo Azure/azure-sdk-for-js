@@ -2,17 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create an AI agent with the FabricIQPreviewTool and
- * the Azure AI Projects client. The agent uses Fabric IQ to ground responses in Fabric
- * data and metadata exposed through the configured project connection.
+ * This sample demonstrates how to run a Prompt Agent that uses the
+ * Fabric IQ preview tool.
  *
- * @summary This sample demonstrates how to create an agent with the FabricIQPreviewTool,
- * send queries against the connected Fabric IQ resource, and clean up resources.
+ * @summary Create an agent with FabricIQPreviewTool, send a query that leverages
+ * Fabric IQ to search and retrieve information, and clean up resources.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const readline = require("readline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -24,59 +22,40 @@ async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = project.getOpenAIClient();
 
-  console.log("Creating agent with FabricIQPreviewTool...");
+  const tool = {
+    type: "fabric_iq_preview",
+    project_connection_id: fabricIqProjectConnectionId,
+    require_approval: "never",
+  };
 
-  const agent = await project.agents.createVersion("MyFabricIQAgent", {
+  console.log("Creating agent with FabricIQPreviewTool...");
+  const agent = await project.agents.createVersion("MyAgent", {
     kind: "prompt",
     model: deploymentName,
-    instructions:
-      "You are a helpful assistant. Use the Fabric IQ tool to answer questions grounded in Fabric data.",
-    tools: [
-      {
-        type: "fabric_iq_preview",
-        fabric_iq_preview: {
-          project_connection_id: fabricIqProjectConnectionId,
-        },
-      },
-    ],
+    instructions: "Use the available Fabric IQ tools to answer questions and perform tasks.",
+    tools: [tool],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+  const userInput = process.env["FABRIC_IQ_USER_INPUT"] || "Summarize the available datasets";
+  console.log("\nSending request to agent...");
 
-  const userInput = await new Promise((resolve) => {
-    rl.question(
-      "Enter your question for Fabric IQ (Default: 'Summarize the available datasets'): \n",
-      (answer) => {
-        rl.close();
-        resolve(answer);
-      },
-    );
-  });
-
-  console.log("\nSending request to Fabric IQ agent...");
   const response = await openAIClient.responses.create(
     {
-      input: userInput || "Summarize the available datasets",
+      input: userInput,
     },
     {
       body: {
         agent_reference: { name: agent.name, type: "agent_reference" },
-        tool_choice: "required",
       },
     },
   );
 
-  console.log(`\nResponse output: ${response.output_text}`);
+  console.log(`Agent response: ${response.output_text}`);
 
-  console.log("\nCleaning up resources...");
+  // Clean up the agent version so unused versions don't accumulate in the project.
   await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
-
-  console.log("\nFabric IQ agent sample completed!");
 }
 
 main().catch((err) => {

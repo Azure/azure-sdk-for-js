@@ -3,7 +3,7 @@
 import type { ClientContext } from "../ClientContext.js";
 import { Constants } from "../common/constants.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { PartitionKeyRangeCache } from "./partitionKeyRangeCache.js";
+import type { PartitionKeyRangeCache } from "./partitionKeyRangeCache.js";
 import { QueryRange } from "./QueryRange.js";
 
 /** @hidden */
@@ -14,7 +14,9 @@ export class SmartRoutingMapProvider {
   private partitionKeyRangeCache: PartitionKeyRangeCache;
 
   constructor(clientContext: ClientContext) {
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
+    // Reuse the client-wide partition key range cache so routing map lookups are served from
+    // cache across queries instead of re-fetching pkranges on every query.
+    this.partitionKeyRangeCache = clientContext.partitionKeyRangeCache;
   }
   private static _secondRangeIsAfterFirstRange(range1: QueryRange, range2: QueryRange): boolean {
     if (typeof range1.max === "undefined") {
@@ -73,6 +75,7 @@ export class SmartRoutingMapProvider {
     collectionLink: string,
     sortedRanges: QueryRange[],
     diagnosticNode: DiagnosticNodeInternal,
+    forceRefresh: boolean = false,
   ): Promise<any[]> {
     // validate if the list is non- overlapping and sorted                             TODO: any PartitionKeyRanges
     if (!SmartRoutingMapProvider._isSortedAndNonOverlapping(sortedRanges)) {
@@ -88,6 +91,7 @@ export class SmartRoutingMapProvider {
     const collectionRoutingMap = await this.partitionKeyRangeCache.onCollectionRoutingMap(
       collectionLink,
       diagnosticNode,
+      forceRefresh,
     );
 
     let index = 0;

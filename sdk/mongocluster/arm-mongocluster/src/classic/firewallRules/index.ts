@@ -27,11 +27,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<FirewallRule>;
   /** Deletes a mongo cluster firewall rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -54,7 +49,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesGetOptionalParams,
   ) => Promise<FirewallRule>;
 }
-
 function _getFirewallRules(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -91,7 +85,6 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
   };
 }
-
 export function _getFirewallRulesOperations(
   context: MongoClusterManagementContext,
 ): FirewallRulesOperations {

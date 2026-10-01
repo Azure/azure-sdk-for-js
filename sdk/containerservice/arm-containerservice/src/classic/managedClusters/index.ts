@@ -127,7 +127,7 @@ export interface ManagedClustersOperations {
     resourceName: string,
     commandId: string,
     options?: ManagedClustersGetCommandResultOptionalParams,
-  ) => Promise<RunCommandResult>;
+  ) => Promise<RunCommandResult | void>;
   /** AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview). */
   runCommand: (
     resourceGroupName: string,

@@ -2,9 +2,9 @@
   "name": "@azure-samples/arm-dnsresolver-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-dnsresolver client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -14,10 +14,10 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dnsresolver/arm-dnsresolver",
   "dependencies": {
-    "@azure/arm-dnsresolver": "next",
+    "@azure/arm-dnsresolver": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.11.1"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "cross-env": "latest"

@@ -116,7 +116,7 @@ describe("MetricHandler", () => {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
           "base2_exponential_bucket_histogram",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -132,7 +132,7 @@ describe("MetricHandler", () => {
       process.env = {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "explicit_bucket_histogram",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -148,7 +148,7 @@ describe("MetricHandler", () => {
       process.env = {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "invalid",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -178,7 +178,7 @@ describe("MetricHandler", () => {
       process.env = {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -195,7 +195,7 @@ describe("MetricHandler", () => {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
           "BASE2_EXPONENTIAL_BUCKET_HISTOGRAM",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -211,7 +211,7 @@ describe("MetricHandler", () => {
       process.env = {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "  explicit_bucket_histogram  ",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
@@ -228,7 +228,7 @@ describe("MetricHandler", () => {
       process.env = {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "invalid_value",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       expect(warnSpy).toHaveBeenCalledWith(
@@ -245,7 +245,7 @@ describe("MetricHandler", () => {
         ...process.env,
         OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
           "base2_exponential_bucket_histogram",
-      } as NodeJS.ProcessEnv;
+      };
       createHandler();
 
       const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.COUNTER);

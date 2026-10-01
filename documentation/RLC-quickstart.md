@@ -15,7 +15,7 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 ## Prerequisites
 
-- Node.js 20 or later.
+- [LTS versions of Node.js](https://nodejs.org/en/about/releases/)
 - Install pnpm via the [pnpm installation instructions](https://pnpm.io/installation).
 - Install tsp-client dependencies with `npm --prefix eng/common/tsp-client ci`
 

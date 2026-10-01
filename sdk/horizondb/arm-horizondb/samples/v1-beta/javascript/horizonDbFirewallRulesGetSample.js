@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets information about a HorizonDb firewall rule.
+ * This sample demonstrates how to gets information about a HorizonDB firewall rule.
  *
- * @summary gets information about a HorizonDb firewall rule.
- * x-ms-original-file: 2026-01-20-preview/FirewallRules_Get.json
+ * @summary gets information about a HorizonDB firewall rule.
+ * x-ms-original-file: 2026-05-01-preview/FirewallRules_Get.json
  */
-async function getAHorizonDbFirewallRule() {
+async function getAHorizonDBFirewallRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getAHorizonDbFirewallRule() {
 }
 
 async function main() {
-  await getAHorizonDbFirewallRule();
+  await getAHorizonDBFirewallRule();
 }
 
 main().catch(console.error);

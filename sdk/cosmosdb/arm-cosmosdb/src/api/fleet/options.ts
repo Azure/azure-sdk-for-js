@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FleetResourceUpdate } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -17,10 +16,7 @@ export interface FleetDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FleetUpdateOptionalParams extends OperationOptions {
-  /** The parameters to provide for the current fleet. */
-  body?: FleetResourceUpdate;
-}
+export interface FleetUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FleetCreateOptionalParams extends OperationOptions {}

@@ -22,59 +22,64 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating data generation job...");
-  const generationJob = await project.beta.datasets.createGenerationJob(
-    {
-      inputs: {
-        name: "sample-data-generation-job",
-        scenario: "supervised_finetuning",
-        sources: [
-          {
-            type: "prompt",
-            prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
-            description: "Prompt source for generating sample supervised fine-tuning data.",
-          },
-        ],
-        options: {
-          type: "simple_qna",
-          max_samples: 5,
-          model_options: {
-            model: deploymentName,
-          },
-          question_types: ["short_answer"],
+  const jobName = `sample-data-generation-job-${Date.now()}`;
+  const generationPoller = project.beta.datasets.createGenerationJob({
+    inputs: {
+      name: jobName,
+      scenario: "supervised_finetuning",
+      sources: [
+        {
+          type: "prompt",
+          prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
+          description: "Prompt source for generating sample supervised fine-tuning data.",
         },
+      ],
+      options: {
+        type: "simple_qna",
+        max_samples: 15,
+        model_options: {
+          model: deploymentName,
+        },
+        question_types: ["short_answer"],
       },
     },
-    { foundryFeatures: "DataGenerationJobs=V1Preview" },
-  );
-  console.log(
-    `Data generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
-  );
-
-  const fetchedJob = await project.beta.datasets.getGenerationJob(generationJob.id!, {
-    foundryFeatures: "DataGenerationJobs=V1Preview",
   });
-  console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
+
+  // Creating a data generation job is a long-running operation. Once `submitted()` resolves the
+  // job is queued and its id is available on the poller state, so it can be inspected while it runs.
+  await generationPoller.submitted();
+
+  const jobId = generationPoller.operationState?.jobId;
+  if (!jobId) {
+    console.log("The service did not return a job id; nothing left to do.");
+    return;
+  }
+  console.log(`Created data generation job (id: ${jobId})`);
 
   console.log("Listing data generation jobs...");
   for await (const job of project.beta.datasets.listGenerationJobs({
     limit: 5,
-    foundryFeatures: "DataGenerationJobs=V1Preview",
   })) {
     console.log(`  - ${job.id} (${job.status})`);
   }
 
-  if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.datasets.cancelGenerationJob(generationJob.id!, {
-      foundryFeatures: "DataGenerationJobs=V1Preview",
-    });
+  const fetchedJob = await project.beta.datasets.getGenerationJob(jobId);
+  console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
+
+  if (fetchedJob.status === "queued" || fetchedJob.status === "in_progress") {
+    const cancelledJob = await project.beta.datasets.cancelGenerationJob(jobId);
     console.log(
       `Cancelled data generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
     );
+  } else {
+    // Await the poller instead of cancelling when you want the generated output.
+    const generationResult = await generationPoller.pollUntilDone();
+    console.log(
+      `Data generation job completed (${generationResult.generated_samples} sample(s) generated)`,
+    );
   }
 
-  await project.beta.datasets.deleteGenerationJob(generationJob.id!, {
-    foundryFeatures: "DataGenerationJobs=V1Preview",
-  });
+  await project.beta.datasets.deleteGenerationJob(jobId);
   console.log("Data generation job deleted");
 }
 

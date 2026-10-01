@@ -491,12 +491,10 @@ function serializeBase64UrlType(objectName: string, value: any): any {
 function serializeDateTypes(typeName: string, value: any, objectName: string): any {
   if (value !== undefined && value !== null) {
     if (typeName.match(/^Date$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
       value =
@@ -504,32 +502,26 @@ function serializeDateTypes(typeName: string, value: any, objectName: string): a
           ? value.toISOString().substring(0, 10)
           : new Date(value).toISOString().substring(0, 10);
     } else if (typeName.match(/^DateTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
       value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
     } else if (typeName.match(/^DateTimeRfc1123$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
       }
       value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
     } else if (typeName.match(/^UnixTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(
           `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
             `for it to be serialized in UnixTime/Epoch format.`,

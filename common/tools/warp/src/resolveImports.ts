@@ -663,7 +663,7 @@ function lookupImportTarget(
   for (const { regex, key, condition } of wildcardPatterns) {
     const match = resolvedPath.match(regex);
     if (match && match[1]) {
-      return { key: key.replace("*", match[1]), condition };
+      return { key: key.replace("*", match[1].replaceAll("\\", "/")), condition };
     }
   }
   return undefined;

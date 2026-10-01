@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get metadata information on an assessment type
- *
- * @summary Get metadata information on an assessment type
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/GetAssessmentsMetadata_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get metadata information on an assessment type
+ *
+ * @summary get metadata information on an assessment type
+ * x-ms-original-file: 2025-05-04/AssessmentsMetadata/GetAssessmentsMetadata_example.json
+ */
 async function getSecurityAssessmentMetadata(): Promise<void> {
-  const assessmentMetadataName = "21300918-b2e3-0346-785f-c77ff57d243b";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
-  const result = await client.assessmentsMetadata.get(assessmentMetadataName);
+  const result = await client.assessmentsMetadata.get("21300918-b2e3-0346-785f-c77ff57d243b");
   console.log(result);
 }
 

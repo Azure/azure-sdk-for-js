@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fixes resource permissions for the given scenario configuration.
  *
  * @summary fixes resource permissions for the given scenario configuration.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_FixResourcePermissions.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_FixResourcePermissions.json
  */
 async function fixesResourcePermissionsForTheGivenScenarioConfiguration() {
   const credential = new DefaultAzureCredential();

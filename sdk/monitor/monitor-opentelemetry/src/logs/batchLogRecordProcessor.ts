@@ -16,7 +16,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     exporter: LogRecordExporter,
     options: { enableTraceBasedSamplingForLogs: boolean | undefined },
   ) {
-    super(exporter);
+    super({ exporter });
     this._options = options;
   }
 

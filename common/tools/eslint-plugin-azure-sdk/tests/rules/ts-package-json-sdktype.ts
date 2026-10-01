@@ -38,7 +38,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -127,7 +127,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
@@ -190,7 +190,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -279,7 +279,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
@@ -338,6 +338,11 @@ ruleTester.run("ts-package-json-sdktype", rule, {
     },
     {
       // only the fields we care about
+      code: '{"sdk-type": "provisioning"}',
+      filename: "package.json",
+    },
+    {
+      // only the fields we care about
       code: '{"sdk-type": "utility"}',
       filename: "package.json",
     },
@@ -360,7 +365,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -371,7 +376,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -382,7 +387,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },

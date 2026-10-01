@@ -4,14 +4,20 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface Attestation extends Resource {
+export interface Attestation extends ProxyResource {
     assessmentDate?: Date;
     comments?: string;
     complianceState?: ComplianceState;
@@ -23,7 +29,6 @@ export interface Attestation extends Resource {
     policyAssignmentId: string;
     policyDefinitionReferenceId?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -33,134 +38,132 @@ export interface AttestationEvidence {
 }
 
 // @public
-export interface AttestationListResult {
-    readonly nextLink?: string;
-    readonly value?: Attestation[];
+export interface AttestationProperties {
+    assessmentDate?: Date;
+    comments?: string;
+    complianceState?: ComplianceState;
+    evidence?: AttestationEvidence[];
+    expiresOn?: Date;
+    readonly lastComplianceStateChangeAt?: Date;
+    metadata?: Record<string, unknown>;
+    owner?: string;
+    policyAssignmentId: string;
+    policyDefinitionReferenceId?: string;
+    readonly provisioningState?: string;
 }
 
 // @public
-export interface Attestations {
-    beginCreateOrUpdateAtResource(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceResponse>, AttestationsCreateOrUpdateAtResourceResponse>>;
-    beginCreateOrUpdateAtResourceAndWait(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceResponse>;
-    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>, AttestationsCreateOrUpdateAtResourceGroupResponse>>;
-    beginCreateOrUpdateAtResourceGroupAndWait(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse>;
-    beginCreateOrUpdateAtSubscription(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>, AttestationsCreateOrUpdateAtSubscriptionResponse>>;
-    beginCreateOrUpdateAtSubscriptionAndWait(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse>;
-    deleteAtResource(resourceId: string, attestationName: string, options?: AttestationsDeleteAtResourceOptionalParams): Promise<void>;
-    deleteAtResourceGroup(resourceGroupName: string, attestationName: string, options?: AttestationsDeleteAtResourceGroupOptionalParams): Promise<void>;
-    deleteAtSubscription(attestationName: string, options?: AttestationsDeleteAtSubscriptionOptionalParams): Promise<void>;
-    getAtResource(resourceId: string, attestationName: string, options?: AttestationsGetAtResourceOptionalParams): Promise<AttestationsGetAtResourceResponse>;
-    getAtResourceGroup(resourceGroupName: string, attestationName: string, options?: AttestationsGetAtResourceGroupOptionalParams): Promise<AttestationsGetAtResourceGroupResponse>;
-    getAtSubscription(attestationName: string, options?: AttestationsGetAtSubscriptionOptionalParams): Promise<AttestationsGetAtSubscriptionResponse>;
-    listForResource(resourceId: string, options?: AttestationsListForResourceOptionalParams): PagedAsyncIterableIterator<Attestation>;
-    listForResourceGroup(resourceGroupName: string, options?: AttestationsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Attestation>;
-    listForSubscription(options?: AttestationsListForSubscriptionOptionalParams): PagedAsyncIterableIterator<Attestation>;
-}
-
-// @public
-export interface AttestationsCreateOrUpdateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AttestationsCreateOrUpdateAtResourceGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AttestationsCreateOrUpdateAtResourceGroupResponse = Attestation;
-
-// @public
-export interface AttestationsCreateOrUpdateAtResourceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AttestationsCreateOrUpdateAtResourceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AttestationsCreateOrUpdateAtResourceResponse = Attestation;
-
-// @public
-export interface AttestationsCreateOrUpdateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AttestationsCreateOrUpdateAtSubscriptionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AttestationsCreateOrUpdateAtSubscriptionResponse = Attestation;
-
-// @public
-export interface AttestationsDeleteAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsDeleteAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AttestationsDeleteAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsDeleteAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AttestationsDeleteAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsDeleteAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AttestationsGetAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsGetAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationsGetAtResourceGroupResponse = Attestation;
-
-// @public
-export interface AttestationsGetAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsGetAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationsGetAtResourceResponse = Attestation;
-
-// @public
-export interface AttestationsGetAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsGetAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationsGetAtSubscriptionResponse = Attestation;
-
-// @public
-export interface AttestationsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsListForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: AttestationsListForResourceGroupQueryOptions;
 }
 
 // @public
-export type AttestationsListForResourceGroupNextResponse = AttestationListResult;
-
-// @public
-export interface AttestationsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface AttestationsListForResourceGroupQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type AttestationsListForResourceGroupResponse = AttestationListResult;
-
-// @public
-export interface AttestationsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsListForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: AttestationsListForResourceQueryOptions;
 }
 
 // @public
-export type AttestationsListForResourceNextResponse = AttestationListResult;
-
-// @public
-export interface AttestationsListForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface AttestationsListForResourceQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type AttestationsListForResourceResponse = AttestationListResult;
-
-// @public
-export interface AttestationsListForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface AttestationsListForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: AttestationsListForSubscriptionQueryOptions;
 }
 
 // @public
-export type AttestationsListForSubscriptionNextResponse = AttestationListResult;
-
-// @public
-export interface AttestationsListForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface AttestationsListForSubscriptionQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type AttestationsListForSubscriptionResponse = AttestationListResult;
+export interface AttestationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResource: (resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams) => Promise<SimplePollerLike<OperationState<Attestation>, Attestation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResourceAndWait: (resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams) => Promise<Attestation>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResourceGroup: (resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams) => Promise<SimplePollerLike<OperationState<Attestation>, Attestation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResourceGroupAndWait: (resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams) => Promise<Attestation>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscription: (attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams) => Promise<SimplePollerLike<OperationState<Attestation>, Attestation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscriptionAndWait: (attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams) => Promise<Attestation>;
+    createOrUpdateAtResource: (resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams) => PollerLike<OperationState<Attestation>, Attestation>;
+    createOrUpdateAtResourceGroup: (resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams) => PollerLike<OperationState<Attestation>, Attestation>;
+    createOrUpdateAtSubscription: (attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams) => PollerLike<OperationState<Attestation>, Attestation>;
+    deleteAtResource: (resourceId: string, attestationName: string, options?: AttestationsDeleteAtResourceOptionalParams) => Promise<void>;
+    deleteAtResourceGroup: (resourceGroupName: string, attestationName: string, options?: AttestationsDeleteAtResourceGroupOptionalParams) => Promise<void>;
+    deleteAtSubscription: (attestationName: string, options?: AttestationsDeleteAtSubscriptionOptionalParams) => Promise<void>;
+    getAtResource: (resourceId: string, attestationName: string, options?: AttestationsGetAtResourceOptionalParams) => Promise<Attestation>;
+    getAtResourceGroup: (resourceGroupName: string, attestationName: string, options?: AttestationsGetAtResourceGroupOptionalParams) => Promise<Attestation>;
+    getAtSubscription: (attestationName: string, options?: AttestationsGetAtSubscriptionOptionalParams) => Promise<Attestation>;
+    listForResource: (resourceId: string, options?: AttestationsListForResourceOptionalParams) => PagedAsyncIterableIterator<Attestation>;
+    listForResourceGroup: (resourceGroupName: string, options?: AttestationsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<Attestation>;
+    listForSubscription: (options?: AttestationsListForSubscriptionOptionalParams) => PagedAsyncIterableIterator<Attestation>;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckManagementGroupRestrictionsRequest {
@@ -211,7 +214,7 @@ export type ComplianceState = string;
 
 // @public
 export interface ComponentEventDetails {
-    [property: string]: any;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     id?: string;
     name?: string;
     policyDefinitionAction?: string;
@@ -240,7 +243,7 @@ export interface ComponentPolicyEvaluationDetails {
 
 // @public
 export interface ComponentPolicyState {
-    [property: string]: any;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     readonly complianceState?: string;
     readonly componentId?: string;
     readonly componentName?: string;
@@ -276,17 +279,7 @@ export interface ComponentPolicyState {
 }
 
 // @public
-export interface ComponentPolicyStates {
-    listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse>;
-    listQueryResultsForResource(resourceId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceResponse>;
-    listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupResponse>;
-    listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
-    listQueryResultsForSubscription(subscriptionId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionResponse>;
-    listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
-}
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends OperationOptions {
     apply?: string;
     filter?: string;
     from?: Date;
@@ -297,10 +290,7 @@ export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptiona
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse = ComponentPolicyStatesQueryResults;
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends OperationOptions {
     apply?: string;
     filter?: string;
     from?: Date;
@@ -311,10 +301,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolic
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams extends OperationOptions {
     apply?: string;
     filter?: string;
     from?: Date;
@@ -325,10 +312,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalPa
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForResourceGroupResponse = ComponentPolicyStatesQueryResults;
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams extends OperationOptions {
     apply?: string;
     expand?: string;
     filter?: string;
@@ -340,10 +324,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams 
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForResourceResponse = ComponentPolicyStatesQueryResults;
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends OperationOptions {
     apply?: string;
     filter?: string;
     from?: Date;
@@ -354,10 +335,7 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicy
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
-
-// @public
-export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams extends OperationOptions {
     apply?: string;
     filter?: string;
     from?: Date;
@@ -368,7 +346,14 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalPar
 }
 
 // @public
-export type ComponentPolicyStatesListQueryResultsForSubscriptionResponse = ComponentPolicyStatesQueryResults;
+export interface ComponentPolicyStatesOperations {
+    listQueryResultsForPolicyDefinition: (subscriptionId: string, policyDefinitionName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+    listQueryResultsForResource: (resourceId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+    listQueryResultsForResourceGroup: (subscriptionId: string, resourceGroupName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment: (subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+    listQueryResultsForSubscription: (subscriptionId: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment: (subscriptionId: string, policyAssignmentName: string, componentPolicyStatesResource: ComponentPolicyStatesResource, options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams) => Promise<ComponentPolicyStatesQueryResults>;
+}
 
 // @public
 export interface ComponentPolicyStatesQueryResults {
@@ -382,13 +367,18 @@ export type ComponentPolicyStatesResource = string;
 
 // @public
 export interface ComponentStateDetails {
-    [property: string]: any;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     id?: string;
     name?: string;
     timestamp?: Date;
     type?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -403,36 +393,8 @@ export interface ErrorDefinition {
 }
 
 // @public
-export interface ErrorDefinitionAutoGenerated {
-    readonly additionalInfo?: TypedErrorInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDefinitionAutoGenerated[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorDefinitionAutoGenerated2 {
-    readonly additionalInfo?: TypedErrorInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDefinitionAutoGenerated2[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
 export interface ErrorResponse {
     error?: ErrorDefinition;
-}
-
-// @public
-export interface ErrorResponseAutoGenerated {
-    error?: ErrorDefinitionAutoGenerated;
-}
-
-// @public
-export interface ErrorResponseAutoGenerated2 {
-    error?: ErrorDefinitionAutoGenerated2;
 }
 
 // @public
@@ -466,13 +428,12 @@ export interface FieldRestrictions {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IfNotExistsEvaluationDetails {
     resourceId?: string;
     totalResources?: number;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownComplianceState {
@@ -545,21 +506,30 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationsListResults;
 
 // @public
 export interface OperationsListResults {
     odataCount?: number;
     value?: Operation[];
+}
+
+// @public
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => Promise<OperationsListResults>;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -617,7 +587,7 @@ export interface PolicyEvaluationResult {
 
 // @public
 export interface PolicyEvent {
-    [property: string]: any;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     components?: ComponentEventDetails[];
     effectiveParameters?: string;
@@ -652,143 +622,160 @@ export interface PolicyEvent {
 }
 
 // @public
-export interface PolicyEvents {
-    listQueryResultsForManagementGroup(policyEventsResource: PolicyEventsResourceType, managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicyDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicySetDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResource(policyEventsResource: PolicyEventsResourceType, resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroup(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroupLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscription(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscriptionLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForManagementGroupQueryOptions;
 }
 
 // @public
-export interface PolicyEventsListQueryResultsForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForManagementGroupQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForPolicyDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForManagementGroupResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForPolicyDefinitionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForPolicySetDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForPolicyDefinitionResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForPolicySetDefinitionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForPolicySetDefinitionResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForResourceGroupQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForResourceGroupQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForResourceQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceGroupResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForResourceQueryOptions {
+    apply?: string;
+    expand?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForResourceResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyEventsListQueryResultsForSubscriptionQueryOptions;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyEventsListQueryResultsForSubscriptionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
-}
-
-// @public
-export type PolicyEventsListQueryResultsForSubscriptionResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsQueryResults {
-    odataContext?: string;
-    odataCount?: number;
-    odataNextLink?: string;
-    value?: PolicyEvent[];
+export interface PolicyEventsOperations {
+    listQueryResultsForManagementGroup: (policyEventsResource: PolicyEventsResourceType, managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForPolicyDefinition: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForPolicySetDefinition: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResource: (policyEventsResource: PolicyEventsResourceType, resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResourceGroup: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForSubscription: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment: (policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams) => PagedAsyncIterableIterator<PolicyEvent>;
 }
 
 // @public
@@ -801,86 +788,57 @@ export interface PolicyGroupSummary {
 }
 
 // @public (undocumented)
-export class PolicyInsightsClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyInsightsClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: PolicyInsightsClientOptionalParams);
-    // (undocumented)
-    attestations: Attestations;
-    // (undocumented)
-    componentPolicyStates: ComponentPolicyStates;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    policyEvents: PolicyEvents;
-    // (undocumented)
-    policyMetadataOperations: PolicyMetadataOperations;
-    // (undocumented)
-    policyRestrictions: PolicyRestrictions;
-    // (undocumented)
-    policyStates: PolicyStates;
-    // (undocumented)
-    policyTrackedResources: PolicyTrackedResources;
-    // (undocumented)
-    remediations: Remediations;
-    // (undocumented)
-    subscriptionId?: string;
+export class PolicyInsightsClient {
+    constructor(credential: TokenCredential, options?: PolicyInsightsClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PolicyInsightsClientOptionalParams);
+    readonly attestations: AttestationsOperations;
+    readonly componentPolicyStates: ComponentPolicyStatesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly policyEvents: PolicyEventsOperations;
+    readonly policyMetadataOperations: PolicyMetadataOperationsOperations;
+    readonly policyRestrictions: PolicyRestrictionsOperations;
+    readonly policyStates: PolicyStatesOperations;
+    readonly policyTrackedResources: PolicyTrackedResourcesOperations;
+    readonly remediations: RemediationsOperations;
 }
 
 // @public
-export interface PolicyInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export interface PolicyInsightsClientOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface PolicyMetadata {
+export interface PolicyMetadata extends ProxyResource {
     readonly additionalContentUrl?: string;
     readonly category?: string;
     readonly description?: string;
-    readonly id?: string;
     readonly metadata?: Record<string, unknown>;
     readonly metadataId?: string;
-    readonly name?: string;
     readonly owner?: string;
     readonly requirements?: string;
     readonly title?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface PolicyMetadataCollection {
-    readonly nextLink?: string;
-    readonly value?: SlimPolicyMetadata[];
+export interface PolicyMetadataListQueryOptions {
+    top?: number;
 }
 
 // @public
-export interface PolicyMetadataGetResourceOptionalParams extends coreClient.OperationOptions {
+export interface PolicyMetadataOperationsGetResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PolicyMetadataGetResourceResponse = PolicyMetadata;
-
-// @public
-export interface PolicyMetadataListNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyMetadataOperationsListOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyMetadataListQueryOptions;
 }
 
 // @public
-export type PolicyMetadataListNextResponse = PolicyMetadataCollection;
-
-// @public
-export interface PolicyMetadataListOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
-}
-
-// @public
-export type PolicyMetadataListResponse = PolicyMetadataCollection;
-
-// @public
-export interface PolicyMetadataOperations {
-    getResource(resourceName: string, options?: PolicyMetadataGetResourceOptionalParams): Promise<PolicyMetadataGetResourceResponse>;
-    list(options?: PolicyMetadataListOptionalParams): PagedAsyncIterableIterator<SlimPolicyMetadata>;
+export interface PolicyMetadataOperationsOperations {
+    getResource: (resourceName: string, options?: PolicyMetadataOperationsGetResourceOptionalParams) => Promise<PolicyMetadata>;
+    list: (options?: PolicyMetadataOperationsListOptionalParams) => PagedAsyncIterableIterator<SlimPolicyMetadata>;
 }
 
 // @public
@@ -908,36 +866,27 @@ export interface PolicyReference {
 }
 
 // @public
-export interface PolicyRestrictions {
-    checkAtManagementGroupScope(managementGroupId: string, parameters: CheckManagementGroupRestrictionsRequest, options?: PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams): Promise<PolicyRestrictionsCheckAtManagementGroupScopeResponse>;
-    checkAtResourceGroupScope(resourceGroupName: string, parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams): Promise<PolicyRestrictionsCheckAtResourceGroupScopeResponse>;
-    checkAtSubscriptionScope(parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams): Promise<PolicyRestrictionsCheckAtSubscriptionScopeResponse>;
+export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PolicyRestrictionsCheckAtManagementGroupScopeResponse = CheckRestrictionsResult;
-
-// @public
-export interface PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PolicyRestrictionsCheckAtResourceGroupScopeResponse = CheckRestrictionsResult;
-
-// @public
-export interface PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface PolicyRestrictionsOperations {
+    checkAtManagementGroupScope: (managementGroupId: string, parameters: CheckManagementGroupRestrictionsRequest, options?: PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams) => Promise<CheckRestrictionsResult>;
+    checkAtResourceGroupScope: (resourceGroupName: string, parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams) => Promise<CheckRestrictionsResult>;
+    checkAtSubscriptionScope: (parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams) => Promise<CheckRestrictionsResult>;
 }
-
-// @public
-export type PolicyRestrictionsCheckAtSubscriptionScopeResponse = CheckRestrictionsResult;
 
 // @public
 export interface PolicyState {
-    [property: string]: any;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     components?: ComponentStateDetails[];
     effectiveParameters?: string;
@@ -975,236 +924,305 @@ export interface PolicyState {
 }
 
 // @public
-export interface PolicyStates {
-    beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginTriggerResourceGroupEvaluationAndWait(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<void>;
-    beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginTriggerSubscriptionEvaluationAndWait(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<void>;
-    listQueryResultsForManagementGroup(policyStatesResource: PolicyStatesResource, managementGroupName: string, options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForPolicyDefinition(policyStatesResource: PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForPolicySetDefinition(policyStatesResource: PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForResource(policyStatesResource: PolicyStatesResource, resourceId: string, options?: PolicyStatesListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForResourceGroup(policyStatesResource: PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForSubscription(policyStatesResource: PolicyStatesResource, subscriptionId: string, options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    summarizeForManagementGroup(policyStatesSummaryResource: PolicyStatesSummaryResourceType, managementGroupName: string, options?: PolicyStatesSummarizeForManagementGroupOptionalParams): Promise<PolicyStatesSummarizeForManagementGroupResponse>;
-    summarizeForPolicyDefinition(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse>;
-    summarizeForPolicySetDefinition(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse>;
-    summarizeForResource(policyStatesSummaryResource: PolicyStatesSummaryResourceType, resourceId: string, options?: PolicyStatesSummarizeForResourceOptionalParams): Promise<PolicyStatesSummarizeForResourceResponse>;
-    summarizeForResourceGroup(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyStatesSummarizeForResourceGroupOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupResponse>;
-    summarizeForResourceGroupLevelPolicyAssignment(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
-    summarizeForSubscription(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, options?: PolicyStatesSummarizeForSubscriptionOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionResponse>;
-    summarizeForSubscriptionLevelPolicyAssignment(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
+export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForManagementGroupQueryOptions;
 }
 
 // @public
-export interface PolicyStatesListQueryResultsForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForManagementGroupQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForManagementGroupNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForPolicyDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForManagementGroupResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForPolicyDefinitionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForPolicyDefinitionNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForPolicySetDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForPolicyDefinitionResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForPolicySetDefinitionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForPolicySetDefinitionResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForResourceGroupQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForResourceGroupQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceGroupNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForResourceQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceGroupResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForResourceQueryOptions {
+    apply?: string;
+    expand?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForResourceResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesListQueryResultsForSubscriptionQueryOptions;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyStatesListQueryResultsForSubscriptionQueryOptions {
+    apply?: string;
+    filter?: string;
+    from?: Date;
+    orderBy?: string;
+    select?: string;
+    skipToken?: string;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesListQueryResultsForSubscriptionNextResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
-}
-
-// @public
-export type PolicyStatesListQueryResultsForSubscriptionResponse = PolicyStatesQueryResults;
-
-// @public
-export interface PolicyStatesQueryResults {
-    odataContext?: string;
-    odataCount?: number;
-    odataNextLink?: string;
-    value?: PolicyState[];
+export interface PolicyStatesOperations {
+    // @deprecated (undocumented)
+    beginTriggerResourceGroupEvaluation: (subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerResourceGroupEvaluationAndWait: (subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTriggerSubscriptionEvaluation: (subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerSubscriptionEvaluationAndWait: (subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams) => Promise<void>;
+    listQueryResultsForManagementGroup: (policyStatesResource: PolicyStatesResource, managementGroupName: string, options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForPolicyDefinition: (policyStatesResource: PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForPolicySetDefinition: (policyStatesResource: PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForResource: (policyStatesResource: PolicyStatesResource, resourceId: string, options?: PolicyStatesListQueryResultsForResourceOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForResourceGroup: (policyStatesResource: PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment: (policyStatesResource: PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForSubscription: (policyStatesResource: PolicyStatesResource, subscriptionId: string, options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment: (policyStatesResource: PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams) => PagedAsyncIterableIterator<PolicyState>;
+    summarizeForManagementGroup: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, managementGroupName: string, options?: PolicyStatesSummarizeForManagementGroupOptionalParams) => Promise<SummarizeResults>;
+    summarizeForPolicyDefinition: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams) => Promise<SummarizeResults>;
+    summarizeForPolicySetDefinition: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams) => Promise<SummarizeResults>;
+    summarizeForResource: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, resourceId: string, options?: PolicyStatesSummarizeForResourceOptionalParams) => Promise<SummarizeResults>;
+    summarizeForResourceGroup: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyStatesSummarizeForResourceGroupOptionalParams) => Promise<SummarizeResults>;
+    summarizeForResourceGroupLevelPolicyAssignment: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams) => Promise<SummarizeResults>;
+    summarizeForSubscription: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, options?: PolicyStatesSummarizeForSubscriptionOptionalParams) => Promise<SummarizeResults>;
+    summarizeForSubscriptionLevelPolicyAssignment: (policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams) => Promise<SummarizeResults>;
+    triggerResourceGroupEvaluation: (subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams) => PollerLike<OperationState<void>, void>;
+    triggerSubscriptionEvaluation: (subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export type PolicyStatesResource = string;
 
 // @public
-export interface PolicyStatesSummarizeForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForManagementGroupQueryOptions;
 }
 
 // @public
-export type PolicyStatesSummarizeForManagementGroupResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForManagementGroupQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesSummarizeForPolicyDefinitionResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForPolicyDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyStatesSummarizeForPolicySetDefinitionResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForPolicyDefinitionQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForPolicySetDefinitionQueryOptions;
 }
 
 // @public
-export type PolicyStatesSummarizeForResourceGroupResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForPolicySetDefinitionQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesSummarizeForResourceResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentQueryOptions;
 }
 
 // @public
-export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse = SummarizeResults;
-
-// @public
-export interface PolicyStatesSummarizeForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
 }
 
 // @public
-export type PolicyStatesSummarizeForSubscriptionResponse = SummarizeResults;
+export interface PolicyStatesSummarizeForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForResourceGroupQueryOptions;
+}
+
+// @public
+export interface PolicyStatesSummarizeForResourceGroupQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export interface PolicyStatesSummarizeForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForResourceQueryOptions;
+}
+
+// @public
+export interface PolicyStatesSummarizeForResourceQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentQueryOptions;
+}
+
+// @public
+export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
+}
+
+// @public
+export interface PolicyStatesSummarizeForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyStatesSummarizeForSubscriptionQueryOptions;
+}
+
+// @public
+export interface PolicyStatesSummarizeForSubscriptionQueryOptions {
+    filter?: string;
+    from?: Date;
+    to?: Date;
+    top?: number;
+}
 
 // @public
 export type PolicyStatesSummaryResourceType = string;
 
 // @public
-export interface PolicyStatesTriggerResourceGroupEvaluationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PolicyStatesTriggerResourceGroupEvaluationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PolicyStatesTriggerSubscriptionEvaluationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PolicyStatesTriggerSubscriptionEvaluationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1218,81 +1236,67 @@ export interface PolicyTrackedResource {
 }
 
 // @public
-export interface PolicyTrackedResources {
-    listQueryResultsForManagementGroup(managementGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForResource(resourceId: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForResourceGroup(resourceGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForSubscription(policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
+export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyTrackedResourcesListQueryResultsForManagementGroupQueryOptions;
 }
 
 // @public
-export interface PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyTrackedResourcesListQueryResultsForManagementGroupQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyTrackedResourcesListQueryResultsForResourceGroupQueryOptions;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForManagementGroupResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyTrackedResourcesListQueryResultsForResourceGroupQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyTrackedResourcesListQueryResultsForResourceQueryOptions;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForResourceGroupResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyTrackedResourcesListQueryResultsForResourceQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForResourceNextResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyTrackedResourcesListQueryResultsForSubscriptionQueryOptions;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForResourceResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PolicyTrackedResourcesListQueryResultsForSubscriptionQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
-}
-
-// @public
-export type PolicyTrackedResourcesListQueryResultsForSubscriptionResponse = PolicyTrackedResourcesQueryResults;
-
-// @public
-export interface PolicyTrackedResourcesQueryResults {
-    readonly nextLink?: string;
-    readonly value?: PolicyTrackedResource[];
+export interface PolicyTrackedResourcesOperations {
+    listQueryResultsForManagementGroup: (managementGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForResource: (resourceId: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams) => PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForResourceGroup: (resourceGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForSubscription: (policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams) => PagedAsyncIterableIterator<PolicyTrackedResource>;
 }
 
 // @public
 export type PolicyTrackedResourcesResourceType = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface QueryFailure {
@@ -1306,28 +1310,13 @@ export interface QueryFailureError {
 }
 
 // @public
-export interface QueryOptions {
-    apply?: string;
-    expand?: string;
-    filter?: string;
-    from?: Date;
-    orderBy?: string;
-    select?: string;
-    skipToken?: string;
-    to?: Date;
-    top?: number;
-}
-
-// @public
-export interface Remediation {
+export interface Remediation extends ProxyResource {
     readonly correlationId?: string;
     readonly createdOn?: Date;
     readonly deploymentStatus?: RemediationDeploymentSummary;
     failureThreshold?: RemediationPropertiesFailureThreshold;
     filters?: RemediationFilters;
-    readonly id?: string;
     readonly lastUpdatedOn?: Date;
-    readonly name?: string;
     parallelDeployments?: number;
     policyAssignmentId?: string;
     policyDefinitionReferenceId?: string;
@@ -1335,8 +1324,6 @@ export interface Remediation {
     resourceCount?: number;
     resourceDiscoveryMode?: ResourceDiscoveryMode;
     readonly statusMessage?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
@@ -1348,12 +1335,6 @@ export interface RemediationDeployment {
     readonly remediatedResourceId?: string;
     readonly resourceLocation?: string;
     readonly status?: string;
-}
-
-// @public
-export interface RemediationDeploymentsListResult {
-    readonly nextLink?: string;
-    readonly value?: RemediationDeployment[];
 }
 
 // @public
@@ -1370,9 +1351,20 @@ export interface RemediationFilters {
 }
 
 // @public
-export interface RemediationListResult {
-    readonly nextLink?: string;
-    readonly value?: Remediation[];
+export interface RemediationProperties {
+    readonly correlationId?: string;
+    readonly createdOn?: Date;
+    readonly deploymentStatus?: RemediationDeploymentSummary;
+    failureThreshold?: RemediationPropertiesFailureThreshold;
+    filters?: RemediationFilters;
+    readonly lastUpdatedOn?: Date;
+    parallelDeployments?: number;
+    policyAssignmentId?: string;
+    policyDefinitionReferenceId?: string;
+    readonly provisioningState?: string;
+    resourceCount?: number;
+    resourceDiscoveryMode?: ResourceDiscoveryMode;
+    readonly statusMessage?: string;
 }
 
 // @public
@@ -1381,274 +1373,233 @@ export interface RemediationPropertiesFailureThreshold {
 }
 
 // @public
-export interface Remediations {
-    cancelAtManagementGroup(managementGroupId: string, remediationName: string, options?: RemediationsCancelAtManagementGroupOptionalParams): Promise<RemediationsCancelAtManagementGroupResponse>;
-    cancelAtResource(resourceId: string, remediationName: string, options?: RemediationsCancelAtResourceOptionalParams): Promise<RemediationsCancelAtResourceResponse>;
-    cancelAtResourceGroup(resourceGroupName: string, remediationName: string, options?: RemediationsCancelAtResourceGroupOptionalParams): Promise<RemediationsCancelAtResourceGroupResponse>;
-    cancelAtSubscription(remediationName: string, options?: RemediationsCancelAtSubscriptionOptionalParams): Promise<RemediationsCancelAtSubscriptionResponse>;
-    createOrUpdateAtManagementGroup(managementGroupId: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams): Promise<RemediationsCreateOrUpdateAtManagementGroupResponse>;
-    createOrUpdateAtResource(resourceId: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtResourceOptionalParams): Promise<RemediationsCreateOrUpdateAtResourceResponse>;
-    createOrUpdateAtResourceGroup(resourceGroupName: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<RemediationsCreateOrUpdateAtResourceGroupResponse>;
-    createOrUpdateAtSubscription(remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<RemediationsCreateOrUpdateAtSubscriptionResponse>;
-    deleteAtManagementGroup(managementGroupId: string, remediationName: string, options?: RemediationsDeleteAtManagementGroupOptionalParams): Promise<RemediationsDeleteAtManagementGroupResponse>;
-    deleteAtResource(resourceId: string, remediationName: string, options?: RemediationsDeleteAtResourceOptionalParams): Promise<RemediationsDeleteAtResourceResponse>;
-    deleteAtResourceGroup(resourceGroupName: string, remediationName: string, options?: RemediationsDeleteAtResourceGroupOptionalParams): Promise<RemediationsDeleteAtResourceGroupResponse>;
-    deleteAtSubscription(remediationName: string, options?: RemediationsDeleteAtSubscriptionOptionalParams): Promise<RemediationsDeleteAtSubscriptionResponse>;
-    getAtManagementGroup(managementGroupId: string, remediationName: string, options?: RemediationsGetAtManagementGroupOptionalParams): Promise<RemediationsGetAtManagementGroupResponse>;
-    getAtResource(resourceId: string, remediationName: string, options?: RemediationsGetAtResourceOptionalParams): Promise<RemediationsGetAtResourceResponse>;
-    getAtResourceGroup(resourceGroupName: string, remediationName: string, options?: RemediationsGetAtResourceGroupOptionalParams): Promise<RemediationsGetAtResourceGroupResponse>;
-    getAtSubscription(remediationName: string, options?: RemediationsGetAtSubscriptionOptionalParams): Promise<RemediationsGetAtSubscriptionResponse>;
-    listDeploymentsAtManagementGroup(managementGroupId: string, remediationName: string, options?: RemediationsListDeploymentsAtManagementGroupOptionalParams): PagedAsyncIterableIterator<RemediationDeployment>;
-    listDeploymentsAtResource(resourceId: string, remediationName: string, options?: RemediationsListDeploymentsAtResourceOptionalParams): PagedAsyncIterableIterator<RemediationDeployment>;
-    listDeploymentsAtResourceGroup(resourceGroupName: string, remediationName: string, options?: RemediationsListDeploymentsAtResourceGroupOptionalParams): PagedAsyncIterableIterator<RemediationDeployment>;
-    listDeploymentsAtSubscription(remediationName: string, options?: RemediationsListDeploymentsAtSubscriptionOptionalParams): PagedAsyncIterableIterator<RemediationDeployment>;
-    listForManagementGroup(managementGroupId: string, options?: RemediationsListForManagementGroupOptionalParams): PagedAsyncIterableIterator<Remediation>;
-    listForResource(resourceId: string, options?: RemediationsListForResourceOptionalParams): PagedAsyncIterableIterator<Remediation>;
-    listForResourceGroup(resourceGroupName: string, options?: RemediationsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Remediation>;
-    listForSubscription(options?: RemediationsListForSubscriptionOptionalParams): PagedAsyncIterableIterator<Remediation>;
+export interface RemediationsCancelAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RemediationsCancelAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCancelAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCancelAtManagementGroupResponse = Remediation;
-
-// @public
-export interface RemediationsCancelAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCancelAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCancelAtResourceGroupResponse = Remediation;
-
-// @public
-export interface RemediationsCancelAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCancelAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCancelAtResourceResponse = Remediation;
-
-// @public
-export interface RemediationsCancelAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCreateOrUpdateAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCancelAtSubscriptionResponse = Remediation;
-
-// @public
-export interface RemediationsCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCreateOrUpdateAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCreateOrUpdateAtManagementGroupResponse = Remediation;
-
-// @public
-export interface RemediationsCreateOrUpdateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCreateOrUpdateAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCreateOrUpdateAtResourceGroupResponse = Remediation;
-
-// @public
-export interface RemediationsCreateOrUpdateAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsCreateOrUpdateAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCreateOrUpdateAtResourceResponse = Remediation;
-
-// @public
-export interface RemediationsCreateOrUpdateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsDeleteAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsCreateOrUpdateAtSubscriptionResponse = Remediation;
-
-// @public
-export interface RemediationsDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsDeleteAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsDeleteAtManagementGroupResponse = Remediation;
-
-// @public
-export interface RemediationsDeleteAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsDeleteAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsDeleteAtResourceGroupResponse = Remediation;
-
-// @public
-export interface RemediationsDeleteAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsDeleteAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsDeleteAtResourceResponse = Remediation;
-
-// @public
-export interface RemediationsDeleteAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsGetAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsDeleteAtSubscriptionResponse = Remediation;
-
-// @public
-export interface RemediationsGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsGetAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsGetAtManagementGroupResponse = Remediation;
-
-// @public
-export interface RemediationsGetAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsGetAtResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsGetAtResourceGroupResponse = Remediation;
-
-// @public
-export interface RemediationsGetAtResourceOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsGetAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RemediationsGetAtResourceResponse = Remediation;
-
-// @public
-export interface RemediationsGetAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListDeploymentsAtManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListDeploymentsAtManagementGroupQueryOptions;
 }
 
 // @public
-export type RemediationsGetAtSubscriptionResponse = Remediation;
-
-// @public
-export interface RemediationsListDeploymentsAtManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListDeploymentsAtManagementGroupQueryOptions {
+    top?: number;
 }
 
 // @public
-export type RemediationsListDeploymentsAtManagementGroupNextResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListDeploymentsAtResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListDeploymentsAtResourceGroupQueryOptions;
 }
 
 // @public
-export type RemediationsListDeploymentsAtManagementGroupResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListDeploymentsAtResourceGroupQueryOptions {
+    top?: number;
 }
 
 // @public
-export type RemediationsListDeploymentsAtResourceGroupNextResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListDeploymentsAtResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListDeploymentsAtResourceQueryOptions;
 }
 
 // @public
-export type RemediationsListDeploymentsAtResourceGroupResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListDeploymentsAtResourceQueryOptions {
+    top?: number;
 }
 
 // @public
-export type RemediationsListDeploymentsAtResourceNextResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListDeploymentsAtSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListDeploymentsAtSubscriptionQueryOptions;
 }
 
 // @public
-export type RemediationsListDeploymentsAtResourceResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListDeploymentsAtSubscriptionQueryOptions {
+    top?: number;
 }
 
 // @public
-export type RemediationsListDeploymentsAtSubscriptionNextResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListDeploymentsAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListForManagementGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListForManagementGroupQueryOptions;
 }
 
 // @public
-export type RemediationsListDeploymentsAtSubscriptionResponse = RemediationDeploymentsListResult;
-
-// @public
-export interface RemediationsListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListForManagementGroupQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type RemediationsListForManagementGroupNextResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListForResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListForResourceGroupQueryOptions;
 }
 
 // @public
-export type RemediationsListForManagementGroupResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListForResourceGroupQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type RemediationsListForResourceGroupNextResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListForResourceOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListForResourceQueryOptions;
 }
 
 // @public
-export type RemediationsListForResourceGroupResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListForResourceQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type RemediationsListForResourceNextResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForResourceOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsListForSubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: RemediationsListForSubscriptionQueryOptions;
 }
 
 // @public
-export type RemediationsListForResourceResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface RemediationsListForSubscriptionQueryOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
-export type RemediationsListForSubscriptionNextResponse = RemediationListResult;
-
-// @public
-export interface RemediationsListForSubscriptionOptionalParams extends coreClient.OperationOptions {
-    queryOptions?: QueryOptions;
+export interface RemediationsOperations {
+    cancelAtManagementGroup: (managementGroupId: string, remediationName: string, options?: RemediationsCancelAtManagementGroupOptionalParams) => Promise<Remediation>;
+    cancelAtResource: (resourceId: string, remediationName: string, options?: RemediationsCancelAtResourceOptionalParams) => Promise<Remediation>;
+    cancelAtResourceGroup: (resourceGroupName: string, remediationName: string, options?: RemediationsCancelAtResourceGroupOptionalParams) => Promise<Remediation>;
+    cancelAtSubscription: (remediationName: string, options?: RemediationsCancelAtSubscriptionOptionalParams) => Promise<Remediation>;
+    createOrUpdateAtManagementGroup: (managementGroupId: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams) => Promise<Remediation>;
+    createOrUpdateAtResource: (resourceId: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtResourceOptionalParams) => Promise<Remediation>;
+    createOrUpdateAtResourceGroup: (resourceGroupName: string, remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams) => Promise<Remediation>;
+    createOrUpdateAtSubscription: (remediationName: string, parameters: Remediation, options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams) => Promise<Remediation>;
+    deleteAtManagementGroup: (managementGroupId: string, remediationName: string, options?: RemediationsDeleteAtManagementGroupOptionalParams) => Promise<Remediation | undefined>;
+    deleteAtResource: (resourceId: string, remediationName: string, options?: RemediationsDeleteAtResourceOptionalParams) => Promise<Remediation | undefined>;
+    deleteAtResourceGroup: (resourceGroupName: string, remediationName: string, options?: RemediationsDeleteAtResourceGroupOptionalParams) => Promise<Remediation | undefined>;
+    deleteAtSubscription: (remediationName: string, options?: RemediationsDeleteAtSubscriptionOptionalParams) => Promise<Remediation | undefined>;
+    getAtManagementGroup: (managementGroupId: string, remediationName: string, options?: RemediationsGetAtManagementGroupOptionalParams) => Promise<Remediation>;
+    getAtResource: (resourceId: string, remediationName: string, options?: RemediationsGetAtResourceOptionalParams) => Promise<Remediation>;
+    getAtResourceGroup: (resourceGroupName: string, remediationName: string, options?: RemediationsGetAtResourceGroupOptionalParams) => Promise<Remediation>;
+    getAtSubscription: (remediationName: string, options?: RemediationsGetAtSubscriptionOptionalParams) => Promise<Remediation>;
+    listDeploymentsAtManagementGroup: (managementGroupId: string, remediationName: string, options?: RemediationsListDeploymentsAtManagementGroupOptionalParams) => PagedAsyncIterableIterator<RemediationDeployment>;
+    listDeploymentsAtResource: (resourceId: string, remediationName: string, options?: RemediationsListDeploymentsAtResourceOptionalParams) => PagedAsyncIterableIterator<RemediationDeployment>;
+    listDeploymentsAtResourceGroup: (resourceGroupName: string, remediationName: string, options?: RemediationsListDeploymentsAtResourceGroupOptionalParams) => PagedAsyncIterableIterator<RemediationDeployment>;
+    listDeploymentsAtSubscription: (remediationName: string, options?: RemediationsListDeploymentsAtSubscriptionOptionalParams) => PagedAsyncIterableIterator<RemediationDeployment>;
+    listForManagementGroup: (managementGroupId: string, options?: RemediationsListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<Remediation>;
+    listForResource: (resourceId: string, options?: RemediationsListForResourceOptionalParams) => PagedAsyncIterableIterator<Remediation>;
+    listForResourceGroup: (resourceGroupName: string, options?: RemediationsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<Remediation>;
+    listForSubscription: (options?: RemediationsListForSubscriptionOptionalParams) => PagedAsyncIterableIterator<Remediation>;
 }
-
-// @public
-export type RemediationsListForSubscriptionResponse = RemediationListResult;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export type ResourceDiscoveryMode = string;
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PolicyInsightsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SlimPolicyMetadata {
@@ -1707,7 +1658,7 @@ export interface TrackedResourceModificationDetails {
 
 // @public
 export interface TypedErrorInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 

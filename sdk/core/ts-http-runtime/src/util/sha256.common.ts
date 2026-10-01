@@ -7,14 +7,7 @@ import { stringToUint8Array, uint8ArrayToString } from "./bytesEncoding.common.j
 interface JsonWebKey {}
 interface CryptoKey {}
 type KeyUsage =
-  | "decrypt"
-  | "deriveBits"
-  | "deriveKey"
-  | "encrypt"
-  | "sign"
-  | "unwrapKey"
-  | "verify"
-  | "wrapKey";
+  "decrypt" | "deriveBits" | "deriveKey" | "encrypt" | "sign" | "unwrapKey" | "verify" | "wrapKey";
 interface Algorithm {
   name: string;
 }

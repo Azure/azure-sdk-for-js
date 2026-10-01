@@ -9,3 +9,4 @@
 export type * from "./models/index.js";
 export { AccessControlClient } from "./accessControlClient.js";
 export type * from "./operationsInterfaces/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -5,8 +5,10 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -174,6 +176,8 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {
 export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
+export { isRestError }
+
 // @public
 export enum KnownArtifactArchitecture {
     Amd64 = "amd64",
@@ -296,6 +300,8 @@ export interface RegistryArtifact {
 export interface RepositoryPageResponse extends Array<string> {
     continuationToken?: string;
 }
+
+export { RestError }
 
 // @public
 export interface SetManifestOptions extends OperationOptions {

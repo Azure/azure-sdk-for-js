@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restarts PostgreSQL database engine in a server.
  *
  * @summary restarts PostgreSQL database engine in a server.
- * x-ms-original-file: 2026-01-01-preview/ServersRestart.json
+ * x-ms-original-file: 2026-04-01-preview/ServersRestart.json
  */
 async function restartPostgreSQLDatabaseEngineInAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function restartPostgreSQLDatabaseEngineInAServer(): Promise<void> {
  * This sample demonstrates how to restarts PostgreSQL database engine in a server.
  *
  * @summary restarts PostgreSQL database engine in a server.
- * x-ms-original-file: 2026-01-01-preview/ServersRestartWithFailover.json
+ * x-ms-original-file: 2026-04-01-preview/ServersRestartWithFailover.json
  */
 async function restartPostgreSQLDatabaseEngineInAServerWithAForcedFailoverToStandbyServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

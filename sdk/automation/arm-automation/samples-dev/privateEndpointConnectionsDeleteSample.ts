@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a private endpoint connection with a given name.
- *
- * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/PrivateEndpointConnectionDelete.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a private endpoint connection with a given name.
+ *
+ * @summary deletes a private endpoint connection with a given name.
+ * x-ms-original-file: 2024-10-23/privateEndpointConnection/PrivateEndpointConnectionDelete.json
+ */
 async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
-  const subscriptionId =
-    process.env["AUTOMATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg1";
-  const automationAccountName = "ddb1";
-  const privateEndpointConnectionName = "privateEndpointConnectionName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    automationAccountName,
-    privateEndpointConnectionName,
+  await client.privateEndpointConnections.delete(
+    "rg1",
+    "automationAccountName",
+    "privateEndpointConnectionName",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

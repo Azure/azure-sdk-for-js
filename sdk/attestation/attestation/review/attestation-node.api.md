@@ -5,7 +5,9 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -171,6 +173,8 @@ export type CertificateModification = string;
 // @public
 export function createAttestationPolicyToken(policy: string, privateKey?: string, certificate?: string): AttestationPolicyToken;
 
+export { isRestError }
+
 // @public
 export enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
@@ -206,6 +210,8 @@ export interface PolicyResult {
     policySigner?: AttestationSigner;
     policyTokenHash: Uint8Array;
 }
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

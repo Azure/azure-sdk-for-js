@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
   ApiError,
@@ -29,12 +35,6 @@ import {
 import type { TrackedResource, ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends TrackedResource {
   /** The virtual machine scale set sku. */
@@ -741,6 +741,8 @@ export interface VirtualMachineScaleSetVMProfile {
   userData?: string;
   /** Specifies the capacity reservation related details of a scale set. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies the Interconnect Block related details of a Scale Set. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
@@ -788,6 +790,9 @@ export function virtualMachineScaleSetVMProfileSerializer(
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -838,6 +843,9 @@ export function virtualMachineScaleSetVMProfileDeserializer(
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -1495,6 +1503,8 @@ export interface VirtualMachineScaleSetStorageProfile {
   dataDisks?: VirtualMachineScaleSetDataDisk[];
   /** Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01 */
   diskControllerType?: DiskControllerTypes;
+  /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
+  diskApiVersion?: DiskApiVersion;
 }
 
 export function virtualMachineScaleSetStorageProfileSerializer(
@@ -1511,6 +1521,7 @@ export function virtualMachineScaleSetStorageProfileSerializer(
       ? item["dataDisks"]
       : virtualMachineScaleSetDataDiskArraySerializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
+    diskApiVersion: item["diskApiVersion"],
   };
 }
 
@@ -1528,6 +1539,7 @@ export function virtualMachineScaleSetStorageProfileDeserializer(
       ? item["dataDisks"]
       : virtualMachineScaleSetDataDiskArrayDeserializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
+    diskApiVersion: item["diskApiVersion"],
   };
 }
 
@@ -1786,6 +1798,8 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
   diskEncryptionSet?: DiskEncryptionSetParameters;
   /** Specifies the security profile for the managed disk. */
   securityProfile?: VMDiskSecurityProfile;
+  /** Specifies additional properties for the managed disk that can be set at the time of implicit creation of the disk. This property is not captured for Restore Points. */
+  additionalDiskProperties?: AdditionalDiskProperties;
 }
 
 export function virtualMachineScaleSetManagedDiskParametersSerializer(
@@ -1799,6 +1813,9 @@ export function virtualMachineScaleSetManagedDiskParametersSerializer(
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
       : vmDiskSecurityProfileSerializer(item["securityProfile"]),
+    additionalDiskProperties: !item["additionalDiskProperties"]
+      ? item["additionalDiskProperties"]
+      : additionalDiskPropertiesSerializer(item["additionalDiskProperties"]),
   };
 }
 
@@ -1813,6 +1830,9 @@ export function virtualMachineScaleSetManagedDiskParametersDeserializer(
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
       : vmDiskSecurityProfileDeserializer(item["securityProfile"]),
+    additionalDiskProperties: !item["additionalDiskProperties"]
+      ? item["additionalDiskProperties"]
+      : additionalDiskPropertiesDeserializer(item["additionalDiskProperties"]),
   };
 }
 
@@ -1908,6 +1928,145 @@ export enum KnownSecurityEncryptionTypes {
  * **NonPersistedTPM**
  */
 export type SecurityEncryptionTypes = string;
+
+/** Specifies additional properties for a managed disk that can be set at the time of implicit creation of the disk. */
+export interface AdditionalDiskProperties {
+  /** Specifies the managed disk properties that can be set at the time of implicit creation of the disk. */
+  managedDiskProperties?: VirtualMachineDiskProperties;
+}
+
+export function additionalDiskPropertiesSerializer(item: AdditionalDiskProperties): any {
+  return {
+    managedDiskProperties: !item["managedDiskProperties"]
+      ? item["managedDiskProperties"]
+      : virtualMachineDiskPropertiesSerializer(item["managedDiskProperties"]),
+  };
+}
+
+export function additionalDiskPropertiesDeserializer(item: any): AdditionalDiskProperties {
+  return {
+    managedDiskProperties: !item["managedDiskProperties"]
+      ? item["managedDiskProperties"]
+      : virtualMachineDiskPropertiesDeserializer(item["managedDiskProperties"]),
+  };
+}
+
+/** Specifies the properties of a managed disk that can be set at the time of implicit creation of the disk. */
+export interface VirtualMachineDiskProperties {
+  /** Performance tier of the disk (e.g., P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
+  tier?: string;
+  /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
+  burstingEnabled?: boolean;
+  /** Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled. */
+  performancePlus?: boolean;
+  /** Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. */
+  optimizedForFrequentAttach?: boolean;
+  /** In the case of an availability or connectivity issue with the disk, specify the behavior of your VM. */
+  availabilityPolicy?: DiskAvailabilityPolicy;
+  /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. Applies to data disks only. */
+  maxShares?: number;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: VirtualMachineDiskNetworkAccessPolicy;
+  /** Azure resource Id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadOnly?: number;
+  /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadOnly?: number;
+  /** Logical sector size in bytes for Ultra Disks. Supported values are 512 and 4096. 4096 is the default. */
+  logicalSectorSize?: number;
+}
+
+export function virtualMachineDiskPropertiesSerializer(item: VirtualMachineDiskProperties): any {
+  return {
+    tier: item["tier"],
+    burstingEnabled: item["burstingEnabled"],
+    performancePlus: item["performancePlus"],
+    optimizedForFrequentAttach: item["optimizedForFrequentAttach"],
+    availabilityPolicy: !item["availabilityPolicy"]
+      ? item["availabilityPolicy"]
+      : diskAvailabilityPolicySerializer(item["availabilityPolicy"]),
+    maxShares: item["maxShares"],
+    networkAccessPolicy: item["networkAccessPolicy"],
+    diskAccessId: item["diskAccessId"],
+    diskIOPSReadOnly: item["diskIopsReadOnly"],
+    diskMBpsReadOnly: item["diskMBpsReadOnly"],
+    logicalSectorSize: item["logicalSectorSize"],
+  };
+}
+
+export function virtualMachineDiskPropertiesDeserializer(item: any): VirtualMachineDiskProperties {
+  return {
+    tier: item["tier"],
+    burstingEnabled: item["burstingEnabled"],
+    performancePlus: item["performancePlus"],
+    optimizedForFrequentAttach: item["optimizedForFrequentAttach"],
+    availabilityPolicy: !item["availabilityPolicy"]
+      ? item["availabilityPolicy"]
+      : diskAvailabilityPolicyDeserializer(item["availabilityPolicy"]),
+    maxShares: item["maxShares"],
+    networkAccessPolicy: item["networkAccessPolicy"],
+    diskAccessId: item["diskAccessId"],
+    diskIopsReadOnly: item["diskIOPSReadOnly"],
+    diskMBpsReadOnly: item["diskMBpsReadOnly"],
+    logicalSectorSize: item["logicalSectorSize"],
+  };
+}
+
+/** In the case of an availability or connectivity issue with the disk, specify the behavior of your VM. */
+export interface DiskAvailabilityPolicy {
+  /** Determines how to handle disks with slow I/O. */
+  actionOnDiskDelay?: VirtualMachineDiskDelayAction;
+}
+
+export function diskAvailabilityPolicySerializer(item: DiskAvailabilityPolicy): any {
+  return { actionOnDiskDelay: item["actionOnDiskDelay"] };
+}
+
+export function diskAvailabilityPolicyDeserializer(item: any): DiskAvailabilityPolicy {
+  return {
+    actionOnDiskDelay: item["actionOnDiskDelay"],
+  };
+}
+
+/** Determines how to handle disks with slow I/O. */
+export enum KnownVirtualMachineDiskDelayAction {
+  /** Defaults to behavior without availability policy specified, which is VM restart upon slow disk I/O. */
+  None = "None",
+  /** Upon a disk I/O failure or slow response, try detaching then reattaching the disk. */
+  AutomaticReattach = "AutomaticReattach",
+}
+
+/**
+ * Determines how to handle disks with slow I/O. \
+ * {@link KnownVirtualMachineDiskDelayAction} can be used interchangeably with VirtualMachineDiskDelayAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Defaults to behavior without availability policy specified, which is VM restart upon slow disk I\/O. \
+ * **AutomaticReattach**: Upon a disk I\/O failure or slow response, try detaching then reattaching the disk.
+ */
+export type VirtualMachineDiskDelayAction = string;
+
+/** Policy for accessing the disk via network. */
+export enum KnownVirtualMachineDiskNetworkAccessPolicy {
+  /** The disk can be exported or uploaded from any network. */
+  AllowAll = "AllowAll",
+  /** The disk can be exported or uploaded using a DiskAccess resource's private endpoints. */
+  AllowPrivate = "AllowPrivate",
+  /** The disk cannot be exported. */
+  DenyAll = "DenyAll",
+}
+
+/**
+ * Policy for accessing the disk via network. \
+ * {@link KnownVirtualMachineDiskNetworkAccessPolicy} can be used interchangeably with VirtualMachineDiskNetworkAccessPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllowAll**: The disk can be exported or uploaded from any network. \
+ * **AllowPrivate**: The disk can be exported or uploaded using a DiskAccess resource's private endpoints. \
+ * **DenyAll**: The disk cannot be exported.
+ */
+export type VirtualMachineDiskNetworkAccessPolicy = string;
 
 /** Specifies the behavior of the managed disk when the VM gets deleted, for example whether the managed disk is deleted or detached. Supported values are: **Delete.** If this value is used, the managed disk is deleted when VM gets deleted. **Detach.** If this value is used, the managed disk is retained after VM gets deleted. Minimum api-version: 2021-03-01. */
 export enum KnownDiskDeleteOptionTypes {
@@ -2027,6 +2186,24 @@ export enum KnownDiskControllerTypes {
  */
 export type DiskControllerTypes = string;
 
+/** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD. */
+export enum KnownDiskApiVersion {
+  /** The 2025-01-02 Disk RP API version. */
+  DiskApiVersion20250102 = "2025-01-02",
+  /** The 2026-03-02 Disk RP API version. */
+  DiskApiVersion20260302 = "2026-03-02",
+}
+
+/**
+ * Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD. \
+ * {@link KnownDiskApiVersion} can be used interchangeably with DiskApiVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2025-01-02**: The 2025-01-02 Disk RP API version. \
+ * **2026-03-02**: The 2026-03-02 Disk RP API version.
+ */
+export type DiskApiVersion = string;
+
 /** Describes a virtual machine scale set network profile. */
 export interface VirtualMachineScaleSetNetworkProfile {
   /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
@@ -2035,6 +2212,8 @@ export interface VirtualMachineScaleSetNetworkProfile {
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: NetworkApiVersion;
+  /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetNetworkProfileSerializer(
@@ -2050,6 +2229,9 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -2066,6 +2248,9 @@ export function virtualMachineScaleSetNetworkProfileDeserializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -2605,16 +2790,23 @@ export interface VirtualMachineScaleSetIpTag {
   ipTagType?: string;
   /** IP tag associated with the public IP. Example: SQL, Storage etc. */
   tag?: string;
+  /** The first party service tag resource identifier associated with the public IP address. */
+  firstPartyServiceTagId?: string;
 }
 
 export function virtualMachineScaleSetIpTagSerializer(item: VirtualMachineScaleSetIpTag): any {
-  return { ipTagType: item["ipTagType"], tag: item["tag"] };
+  return {
+    ipTagType: item["ipTagType"],
+    tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
+  };
 }
 
 export function virtualMachineScaleSetIpTagDeserializer(item: any): VirtualMachineScaleSetIpTag {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
   };
 }
 
@@ -2774,6 +2966,36 @@ export enum KnownNetworkApiVersion {
  * **2022-11-01**
  */
 export type NetworkApiVersion = string;
+
+/** Specifies the interconnect group profile for a virtual machine, used to associate the VM with an interconnect group and subgroups. */
+export interface InterconnectGroupProfile {
+  /** Reference to the interconnect group resource. */
+  interconnectGroup?: SubResource;
+  /** The list of subgroup references within the interconnect group. */
+  subgroups?: SubResource[];
+}
+
+export function interconnectGroupProfileSerializer(item: InterconnectGroupProfile): any {
+  return {
+    interconnectGroup: !item["interconnectGroup"]
+      ? item["interconnectGroup"]
+      : subResourceSerializer(item["interconnectGroup"]),
+    subgroups: !item["subgroups"]
+      ? item["subgroups"]
+      : subResourceArraySerializer(item["subgroups"]),
+  };
+}
+
+export function interconnectGroupProfileDeserializer(item: any): InterconnectGroupProfile {
+  return {
+    interconnectGroup: !item["interconnectGroup"]
+      ? item["interconnectGroup"]
+      : subResourceDeserializer(item["interconnectGroup"]),
+    subgroups: !item["subgroups"]
+      ? item["subgroups"]
+      : subResourceArrayDeserializer(item["subgroups"]),
+  };
+}
 
 /** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
@@ -2943,12 +3165,15 @@ export interface HostEndpointSettings {
   mode?: Modes;
   /** Specifies the InVMAccessControlProfileVersion resource id in the format of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version} */
   inVMAccessControlProfileReferenceId?: string;
+  /** When set to true, instructs the GuestProxyAgent inside the VM to load additional access control rules defined in a local file on the VM. */
+  useLocalFileRules?: boolean;
 }
 
 export function hostEndpointSettingsSerializer(item: HostEndpointSettings): any {
   return {
     mode: item["mode"],
     inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+    useLocalFileRules: item["useLocalFileRules"],
   };
 }
 
@@ -2956,6 +3181,7 @@ export function hostEndpointSettingsDeserializer(item: any): HostEndpointSetting
   return {
     mode: item["mode"],
     inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+    useLocalFileRules: item["useLocalFileRules"],
   };
 }
 
@@ -3069,17 +3295,17 @@ export function virtualMachineScaleSetExtensionArrayDeserializer(
 
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
-  /** Resource type */
-  readonly type?: string;
   /** Resource name */
   name?: string;
+  /** Resource type */
+  readonly type?: string;
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -3103,6 +3329,7 @@ export function virtualMachineScaleSetExtensionSerializer(
   item: VirtualMachineScaleSetExtension,
 ): any {
   return {
+    name: item["name"],
     properties: areAllPropsUndefined(item, [
       "forceUpdateTag",
       "publisher",
@@ -3118,7 +3345,6 @@ export function virtualMachineScaleSetExtensionSerializer(
     ])
       ? undefined
       : _virtualMachineScaleSetExtensionPropertiesSerializer(item),
-    name: item["name"],
   };
 }
 
@@ -3127,11 +3353,11 @@ export function virtualMachineScaleSetExtensionDeserializer(
 ): VirtualMachineScaleSetExtension {
   return {
     id: item["id"],
+    name: item["name"],
+    type: item["type"],
     ...(!item["properties"]
       ? item["properties"]
       : _virtualMachineScaleSetExtensionPropertiesDeserializer(item["properties"])),
-    type: item["type"],
-    name: item["name"],
   };
 }
 
@@ -3143,7 +3369,7 @@ export interface VirtualMachineScaleSetExtensionProperties {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -3231,24 +3457,37 @@ export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretRe
   };
 }
 
-/** Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. 'Low' enum will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS. */
+/** Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. */
 export enum KnownVirtualMachinePriorityTypes {
-  /** Regular */
+  /**
+   * Regular Priority for a standalone virtual machine or the virtual machines in the scale set.
+   * This is the default priority and it will be used to deploy regular VM/VMSS.
+   */
   Regular = "Regular",
-  /** Low */
+  /** Low priority for a standalone virtual machine or the virtual machines in the scale set. Will be Deprecated, use Spot instead. */
   Low = "Low",
-  /** Spot */
+  /** Spot priority for a standalone virtual machine or the virtual machines in the scale set. */
   Spot = "Spot",
+  /**
+   * SpotPlus priority for a standalone virtual machine or the virtual machines in the scale set.
+   * This is an enum value that will be used to deploy Azure Spot Plus VM/VMSS, which is the next
+   * generation of Azure Spot VM/VMSS with more reliability and longer running time.
+   */
+  SpotPlus = "SpotPlus",
 }
 
 /**
- * Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. 'Low' enum will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS. \
+ * Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. \
  * {@link KnownVirtualMachinePriorityTypes} can be used interchangeably with VirtualMachinePriorityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Regular** \
- * **Low** \
- * **Spot**
+ * **Regular**: Regular Priority for a standalone virtual machine or the virtual machines in the scale set.
+ * This is the default priority and it will be used to deploy regular VM\/VMSS. \
+ * **Low**: Low priority for a standalone virtual machine or the virtual machines in the scale set. Will be Deprecated, use Spot instead. \
+ * **Spot**: Spot priority for a standalone virtual machine or the virtual machines in the scale set. \
+ * **SpotPlus**: SpotPlus priority for a standalone virtual machine or the virtual machines in the scale set.
+ * This is an enum value that will be used to deploy Azure Spot Plus VM\/VMSS, which is the next
+ * generation of Azure Spot VM\/VMSS with more reliability and longer running time.
  */
 export type VirtualMachinePriorityTypes = string;
 
@@ -3358,6 +3597,8 @@ export function osImageNotificationProfileDeserializer(item: any): OSImageNotifi
 export interface CapacityReservationProfile {
   /** Specifies the capacity reservation group resource id that should be used for allocating the virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to https://aka.ms/CapacityReservation for more details. */
   capacityReservationGroup?: SubResource;
+  /** Specifies whether the virtual machine is explicitly opted out from being associated with any capacity reservation. When set to true, the virtual machine will not be allowed to implicitly or explicitly associate with any type of capacity reservation and will consume capacity from the publicly available capacity. Minimum api-version: 2026-04-01. */
+  disableCapacityReservationAssignment?: boolean;
 }
 
 export function capacityReservationProfileSerializer(item: CapacityReservationProfile): any {
@@ -3365,6 +3606,7 @@ export function capacityReservationProfileSerializer(item: CapacityReservationPr
     capacityReservationGroup: !item["capacityReservationGroup"]
       ? item["capacityReservationGroup"]
       : subResourceSerializer(item["capacityReservationGroup"]),
+    disableCapacityReservationAssignment: item["disableCapacityReservationAssignment"],
   };
 }
 
@@ -3373,6 +3615,29 @@ export function capacityReservationProfileDeserializer(item: any): CapacityReser
     capacityReservationGroup: !item["capacityReservationGroup"]
       ? item["capacityReservationGroup"]
       : subResourceDeserializer(item["capacityReservationGroup"]),
+    disableCapacityReservationAssignment: item["disableCapacityReservationAssignment"],
+  };
+}
+
+/** The parameters of an Interconnect Block Profile. */
+export interface InterconnectBlockProfile {
+  /** Specifies the Interconnect Block resource ID that should be used for allocating the Virtual Machine or Scale Set VM instances provided enough capacity has been reserved. */
+  interconnectBlock?: ApiEntityReference;
+}
+
+export function interconnectBlockProfileSerializer(item: InterconnectBlockProfile): any {
+  return {
+    interconnectBlock: !item["interconnectBlock"]
+      ? item["interconnectBlock"]
+      : apiEntityReferenceSerializer(item["interconnectBlock"]),
+  };
+}
+
+export function interconnectBlockProfileDeserializer(item: any): InterconnectBlockProfile {
+  return {
+    interconnectBlock: !item["interconnectBlock"]
+      ? item["interconnectBlock"]
+      : apiEntityReferenceDeserializer(item["interconnectBlock"]),
   };
 }
 
@@ -3452,6 +3717,8 @@ export function vmGalleryApplicationDeserializer(item: any): VMGalleryApplicatio
 export interface VirtualMachineScaleSetHardwareProfile {
   /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
   vmSizeProperties?: VMSizeProperties;
+  /** Specifies the processor mode for the virtual machine scale set. Optional; if omitted, the platform default applies (currently Deterministic). This property can be updated on a running VMSS without deallocation or reboot. Minimum api-version: 2026-04-01. */
+  processorMode?: ProcessorMode;
 }
 
 export function virtualMachineScaleSetHardwareProfileSerializer(
@@ -3461,6 +3728,7 @@ export function virtualMachineScaleSetHardwareProfileSerializer(
     vmSizeProperties: !item["vmSizeProperties"]
       ? item["vmSizeProperties"]
       : vmSizePropertiesSerializer(item["vmSizeProperties"]),
+    processorMode: item["processorMode"],
   };
 }
 
@@ -3471,6 +3739,7 @@ export function virtualMachineScaleSetHardwareProfileDeserializer(
     vmSizeProperties: !item["vmSizeProperties"]
       ? item["vmSizeProperties"]
       : vmSizePropertiesDeserializer(item["vmSizeProperties"]),
+    processorMode: item["processorMode"],
   };
 }
 
@@ -3492,6 +3761,24 @@ export function vmSizePropertiesDeserializer(item: any): VMSizeProperties {
     vCPUsPerCore: item["vCPUsPerCore"],
   };
 }
+
+/** Specifies the processor frequency behavior for the virtual machine. See each member for the behavior it controls. */
+export enum KnownProcessorMode {
+  /** Ensures predictable and consistent processor frequency at the base/nominal level. Turbo/Boost is disabled. */
+  Deterministic = "Deterministic",
+  /** Allows higher frequency bursts when thermal and power headroom permits. */
+  Opportunistic = "Opportunistic",
+}
+
+/**
+ * Specifies the processor frequency behavior for the virtual machine. See each member for the behavior it controls. \
+ * {@link KnownProcessorMode} can be used interchangeably with ProcessorMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deterministic**: Ensures predictable and consistent processor frequency at the base\/nominal level. Turbo\/Boost is disabled. \
+ * **Opportunistic**: Allows higher frequency bursts when thermal and power headroom permits.
+ */
+export type ProcessorMode = string;
 
 /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
 export interface ServiceArtifactReference {
@@ -3983,12 +4270,17 @@ export interface SkuProfile {
   vmSizes?: SkuProfileVMSize[];
   /** Specifies the allocation strategy for the virtual machine scale set based on which the VMs will be allocated. */
   allocationStrategy?: AllocationStrategy;
+  /** Specifies the policy that controls whether the platform may automatically migrate scale set instances to a different VM size from the SKU profile depending on platform demands. When omitted, automatic SKU migration is disabled. */
+  automaticSkuMigrationPolicy?: AutomaticSkuMigrationPolicy;
 }
 
 export function skuProfileSerializer(item: SkuProfile): any {
   return {
     vmSizes: !item["vmSizes"] ? item["vmSizes"] : skuProfileVMSizeArraySerializer(item["vmSizes"]),
     allocationStrategy: item["allocationStrategy"],
+    automaticSkuMigrationPolicy: !item["automaticSkuMigrationPolicy"]
+      ? item["automaticSkuMigrationPolicy"]
+      : automaticSkuMigrationPolicySerializer(item["automaticSkuMigrationPolicy"]),
   };
 }
 
@@ -3998,6 +4290,9 @@ export function skuProfileDeserializer(item: any): SkuProfile {
       ? item["vmSizes"]
       : skuProfileVMSizeArrayDeserializer(item["vmSizes"]),
     allocationStrategy: item["allocationStrategy"],
+    automaticSkuMigrationPolicy: !item["automaticSkuMigrationPolicy"]
+      ? item["automaticSkuMigrationPolicy"]
+      : automaticSkuMigrationPolicyDeserializer(item["automaticSkuMigrationPolicy"]),
   };
 }
 
@@ -4052,6 +4347,22 @@ export enum KnownAllocationStrategy {
  * **Prioritized**
  */
 export type AllocationStrategy = string;
+
+/** Specifies the configuration parameters used to control automatic SKU migration for the virtual machine scale set. When enabled, the platform may migrate instances to a different VM size from the SKU profile depending on platform demands. */
+export interface AutomaticSkuMigrationPolicy {
+  /** Specifies whether automatic SKU migration should be enabled on the virtual machine scale set. The default value is false. */
+  enabled?: boolean;
+}
+
+export function automaticSkuMigrationPolicySerializer(item: AutomaticSkuMigrationPolicy): any {
+  return { enabled: item["enabled"] };
+}
+
+export function automaticSkuMigrationPolicyDeserializer(item: any): AutomaticSkuMigrationPolicy {
+  return {
+    enabled: item["enabled"],
+  };
+}
 
 /** Specifies the high speed interconnect placement for the virtual machine scale set. */
 export enum KnownHighSpeedInterconnectPlacement {
@@ -4471,6 +4782,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   userData?: string;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+  /** Specifies the Interconnect Block related details of a scale set. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
 }
 
 export function virtualMachineScaleSetUpdateVMProfileSerializer(
@@ -4509,6 +4822,9 @@ export function virtualMachineScaleSetUpdateVMProfileSerializer(
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : virtualMachineScaleSetHardwareProfileSerializer(item["hardwareProfile"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
   };
 }
 
@@ -4549,6 +4865,8 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
   dataDisks?: VirtualMachineScaleSetDataDisk[];
   /** Specifies the disk controller type configured for the virtual machines in the scale set. **Note:** You need to deallocate the virtual machines in the scale set before updating its disk controller type based on the upgrade mode configured for the scale set. Minimum api-version: 2022-08-01 */
   diskControllerType?: DiskControllerTypes;
+  /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
+  diskApiVersion?: DiskApiVersion;
 }
 
 export function virtualMachineScaleSetUpdateStorageProfileSerializer(
@@ -4565,6 +4883,7 @@ export function virtualMachineScaleSetUpdateStorageProfileSerializer(
       ? item["dataDisks"]
       : virtualMachineScaleSetDataDiskArraySerializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
+    diskApiVersion: item["diskApiVersion"],
   };
 }
 
@@ -4622,6 +4941,8 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
   networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: NetworkApiVersion;
+  /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetUpdateNetworkProfileSerializer(
@@ -4637,6 +4958,9 @@ export function virtualMachineScaleSetUpdateNetworkProfileSerializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -5397,7 +5721,7 @@ export function upgradeOperationHistoryStatusDeserializer(
 }
 
 /** Code indicating the current status of the upgrade. */
-export type UpgradeState = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type UpgradeState = "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 
 /** Information about the number of virtual machine instances in each upgrade state. */
 export interface RollingUpgradeProgressInfo {
@@ -5652,6 +5976,25 @@ export function vmScaleSetScaleOutInputPropertiesSerializer(
   return { zone: item["zone"] };
 }
 
+/** The input for MigrateVMAvailabilityZone. */
+export interface MigrateVMAvailabilityZoneInput {
+  /** The virtual machine scale set instance ids to be migrated to the target availability zone. */
+  instanceIds: string[];
+  /** The target logical availability zone ("1", "2" or "3") to migrate the virtual machine scale set instances to. If omitted, the platform selects the target zone. */
+  targetZone?: string;
+}
+
+export function migrateVMAvailabilityZoneInputSerializer(
+  item: MigrateVMAvailabilityZoneInput,
+): any {
+  return {
+    instanceIds: item["instanceIds"].map((p: any) => {
+      return p;
+    }),
+    targetZone: item["targetZone"],
+  };
+}
+
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
   /** The name of the extension. */
@@ -5664,7 +6007,7 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -5992,7 +6335,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -6060,7 +6403,7 @@ export interface VirtualMachineExtensionProperties {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -6143,7 +6486,7 @@ export interface VirtualMachineExtensionInstanceView {
   name?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor.Patch.Hotfix version of the script handler. Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** The resource status information. */
   substatuses?: InstanceViewStatus[];
@@ -6195,7 +6538,7 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -6240,7 +6583,7 @@ export interface VirtualMachineExtensionUpdateProperties {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -6375,6 +6718,8 @@ export interface VirtualMachine extends TrackedResource {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -6410,6 +6755,7 @@ export function virtualMachineSerializer(item: VirtualMachine): any {
       "scheduledEventsProfile",
       "userData",
       "capacityReservation",
+      "interconnectBlockProfile",
       "applicationProfile",
       "resiliencyProfile",
     ])
@@ -6519,6 +6865,8 @@ export interface VirtualMachineProperties {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -6577,6 +6925,9 @@ export function virtualMachinePropertiesSerializer(item: VirtualMachinePropertie
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -6641,6 +6992,9 @@ export function virtualMachinePropertiesDeserializer(item: any): VirtualMachineP
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -6657,6 +7011,8 @@ export interface HardwareProfile {
   vmSize?: VirtualMachineSizeTypes;
   /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-07-01. This feature is still in preview mode and is not supported for VirtualMachineScaleSet. Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
   vmSizeProperties?: VMSizeProperties;
+  /** Specifies the processor mode for the virtual machine or virtual machine scale set. Optional; if omitted, the platform default applies (currently Deterministic). This property can be updated on a running VM or VMSS without deallocation or reboot. Minimum api-version: 2026-04-01. */
+  processorMode?: ProcessorMode;
 }
 
 export function hardwareProfileSerializer(item: HardwareProfile): any {
@@ -6665,6 +7021,7 @@ export function hardwareProfileSerializer(item: HardwareProfile): any {
     vmSizeProperties: !item["vmSizeProperties"]
       ? item["vmSizeProperties"]
       : vmSizePropertiesSerializer(item["vmSizeProperties"]),
+    processorMode: item["processorMode"],
   };
 }
 
@@ -6674,6 +7031,7 @@ export function hardwareProfileDeserializer(item: any): HardwareProfile {
     vmSizeProperties: !item["vmSizeProperties"]
       ? item["vmSizeProperties"]
       : vmSizePropertiesDeserializer(item["vmSizeProperties"]),
+    processorMode: item["processorMode"],
   };
 }
 
@@ -7199,6 +7557,8 @@ export interface StorageProfile {
   diskControllerType?: DiskControllerTypes;
   /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
   alignRegionalDisksToVMZone?: boolean;
+  /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
+  diskApiVersion?: DiskApiVersion;
 }
 
 export function storageProfileSerializer(item: StorageProfile): any {
@@ -7210,6 +7570,7 @@ export function storageProfileSerializer(item: StorageProfile): any {
     dataDisks: !item["dataDisks"] ? item["dataDisks"] : dataDiskArraySerializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
     alignRegionalDisksToVMZone: item["alignRegionalDisksToVMZone"],
+    diskApiVersion: item["diskApiVersion"],
   };
 }
 
@@ -7224,6 +7585,7 @@ export function storageProfileDeserializer(item: any): StorageProfile {
       : dataDiskArrayDeserializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
     alignRegionalDisksToVMZone: item["alignRegionalDisksToVMZone"],
+    diskApiVersion: item["diskApiVersion"],
   };
 }
 
@@ -7366,6 +7728,8 @@ export interface ManagedDiskParameters extends SubResource {
   diskEncryptionSet?: DiskEncryptionSetParameters;
   /** Specifies the security profile for the managed disk. */
   securityProfile?: VMDiskSecurityProfile;
+  /** Specifies additional properties for the managed disk that can be set at the time of implicit creation of the disk. This property is not captured for Restore Points. */
+  additionalDiskProperties?: AdditionalDiskProperties;
 }
 
 export function managedDiskParametersSerializer(item: ManagedDiskParameters): any {
@@ -7378,6 +7742,9 @@ export function managedDiskParametersSerializer(item: ManagedDiskParameters): an
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
       : vmDiskSecurityProfileSerializer(item["securityProfile"]),
+    additionalDiskProperties: !item["additionalDiskProperties"]
+      ? item["additionalDiskProperties"]
+      : additionalDiskPropertiesSerializer(item["additionalDiskProperties"]),
   };
 }
 
@@ -7391,6 +7758,9 @@ export function managedDiskParametersDeserializer(item: any): ManagedDiskParamet
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
       : vmDiskSecurityProfileDeserializer(item["securityProfile"]),
+    additionalDiskProperties: !item["additionalDiskProperties"]
+      ? item["additionalDiskProperties"]
+      : additionalDiskPropertiesDeserializer(item["additionalDiskProperties"]),
   };
 }
 
@@ -7575,6 +7945,8 @@ export interface NetworkProfile {
   networkApiVersion?: NetworkApiVersion;
   /** Specifies the networking configurations that will be used to create the virtual machine networking resources. */
   networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
+  /** Specifies the interconnect group profile to associate with the virtual machine. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function networkProfileSerializer(item: NetworkProfile): any {
@@ -7588,6 +7960,9 @@ export function networkProfileSerializer(item: NetworkProfile): any {
       : virtualMachineNetworkInterfaceConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -7602,6 +7977,9 @@ export function networkProfileDeserializer(item: any): NetworkProfile {
       : virtualMachineNetworkInterfaceConfigurationArrayDeserializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -8155,16 +8533,23 @@ export interface VirtualMachineIpTag {
   ipTagType?: string;
   /** IP tag associated with the public IP. Example: SQL, Storage etc. */
   tag?: string;
+  /** The first party service tag resource identifier associated with the public IP address. */
+  firstPartyServiceTagId?: string;
 }
 
 export function virtualMachineIpTagSerializer(item: VirtualMachineIpTag): any {
-  return { ipTagType: item["ipTagType"], tag: item["tag"] };
+  return {
+    ipTagType: item["ipTagType"],
+    tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
+  };
 }
 
 export function virtualMachineIpTagDeserializer(item: any): VirtualMachineIpTag {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
   };
 }
 
@@ -8240,6 +8625,10 @@ export interface VirtualMachineInstanceView {
   patchStatus?: VirtualMachinePatchStatus;
   /** [Preview Feature] Specifies whether the VM is currently in or out of the Standby Pool. */
   readonly isVMInStandbyPool?: boolean;
+  /** The Interconnect runtime view of the Virtual Machine. Minimum api-version: 2026-03-01. */
+  readonly interconnectInstanceView?: InterconnectInstanceView;
+  /** Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
+  readonly capacityReservationType?: CapacityReservationType;
 }
 
 export function virtualMachineInstanceViewDeserializer(item: any): VirtualMachineInstanceView {
@@ -8275,6 +8664,10 @@ export function virtualMachineInstanceViewDeserializer(item: any): VirtualMachin
       ? item["patchStatus"]
       : virtualMachinePatchStatusDeserializer(item["patchStatus"]),
     isVMInStandbyPool: item["isVMInStandbyPool"],
+    interconnectInstanceView: !item["interconnectInstanceView"]
+      ? item["interconnectInstanceView"]
+      : interconnectInstanceViewDeserializer(item["interconnectInstanceView"]),
+    capacityReservationType: item["capacityReservationType"],
   };
 }
 
@@ -8332,7 +8725,7 @@ export function virtualMachineExtensionHandlerInstanceViewArrayDeserializer(
 export interface VirtualMachineExtensionHandlerInstanceView {
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor.Patch.Hotfix version of the script handler. Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** The extension handler status. */
   status?: InstanceViewStatus;
@@ -8388,10 +8781,7 @@ export function maintenanceRedeployStatusDeserializer(item: any): MaintenanceRed
 
 /** The Last Maintenance Operation Result Code. */
 export type MaintenanceOperationResultCodeTypes =
-  | "None"
-  | "RetryLater"
-  | "MaintenanceAborted"
-  | "MaintenanceCompleted";
+  "None" | "RetryLater" | "MaintenanceAborted" | "MaintenanceCompleted";
 
 export function diskInstanceViewArrayDeserializer(result: Array<DiskInstanceView>): any[] {
   return result.map((item) => {
@@ -8634,6 +9024,45 @@ export function lastPatchInstallationSummaryDeserializer(item: any): LastPatchIn
   };
 }
 
+/** The Interconnect Block instance view details for a Virtual Machine or Scale Set VM instance. */
+export interface InterconnectInstanceView {
+  /** The ID (GUID) of the Interconnect subgroup in which the Virtual Machine was placed. */
+  readonly interconnectSubgroupId?: string;
+}
+
+export function interconnectInstanceViewDeserializer(item: any): InterconnectInstanceView {
+  return {
+    interconnectSubgroupId: item["interconnectSubgroupId"],
+  };
+}
+
+/** Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
+export enum KnownCapacityReservationType {
+  /** The virtual machine is not eligible to be implicitly associated with an open capacity reservation and is not explicitly associated with any capacity reservation group, so it will consume capacity from the publicly available capacity. */
+  NotEligible = "NotEligible",
+  /** The virtual machine will consume capacity from a specific matching capacity reservation when associated with a capacity reservation group resource of type targeted, but can fall back to consume capacity from the publicly available capacity if there is no capacity available in the targeted reservation. */
+  Targeted = "Targeted",
+  /** The virtual machine if eligible will implicitly associate and consume any available capacity from a matching open capacity reservation created or shared in the subscription. **Note:** The VM should not be explicitly associated with the open capacity reservation group resource containing the matching reservation. */
+  Open = "Open",
+  /** The virtual machine has capacity reservation assignment disabled and will not be allowed to implicitly or explicitly associate with any type of capacity reservation. */
+  Disabled = "Disabled",
+  /** The virtual machine consumes capacity from a specific matching capacity reservation when associated with a capacity reservation group resource of type block, and will hit capacity failures if there is no available capacity in the block reservation. */
+  Block = "Block",
+}
+
+/**
+ * Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. \
+ * {@link KnownCapacityReservationType} can be used interchangeably with CapacityReservationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotEligible**: The virtual machine is not eligible to be implicitly associated with an open capacity reservation and is not explicitly associated with any capacity reservation group, so it will consume capacity from the publicly available capacity. \
+ * **Targeted**: The virtual machine will consume capacity from a specific matching capacity reservation when associated with a capacity reservation group resource of type targeted, but can fall back to consume capacity from the publicly available capacity if there is no capacity available in the targeted reservation. \
+ * **Open**: The virtual machine if eligible will implicitly associate and consume any available capacity from a matching open capacity reservation created or shared in the subscription. **Note:** The VM should not be explicitly associated with the open capacity reservation group resource containing the matching reservation. \
+ * **Disabled**: The virtual machine has capacity reservation assignment disabled and will not be allowed to implicitly or explicitly associate with any type of capacity reservation. \
+ * **Block**: The virtual machine consumes capacity from a specific matching capacity reservation when associated with a capacity reservation group resource of type block, and will hit capacity failures if there is no available capacity in the block reservation.
+ */
+export type CapacityReservationType = string;
+
 /** Gets resiliency solutions enabled on the VM. This includes backup or disaster recovery solutions. */
 export interface ResiliencyProfile {
   /** Zone movement configuration. */
@@ -8696,7 +9125,7 @@ export interface VirtualMachineExtension extends TrackedResource {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -8849,6 +9278,8 @@ export interface VirtualMachineUpdate extends UpdateResource {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -8884,6 +9315,7 @@ export function virtualMachineUpdateSerializer(item: VirtualMachineUpdate): any 
       "scheduledEventsProfile",
       "userData",
       "capacityReservation",
+      "interconnectBlockProfile",
       "applicationProfile",
       "resiliencyProfile",
     ])
@@ -9662,7 +10094,7 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
   publisher?: string;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
   type?: string;
-  /** Specifies the version of the script handler. */
+  /** Specifies the Major.Minor version of the script handler. Customer is able to specify only the Major.Minor version of an extension, Azure platform will deliver the latest Patch.Hotfix version in the Major.Minor series. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
@@ -9724,6 +10156,16 @@ export interface VirtualMachineExtensionImage extends TrackedResource {
   vmScaleSetEnabled?: boolean;
   /** Whether the handler can support multiple extensions. */
   supportsMultipleExtensions?: boolean;
+  /** Summary of changes or updates in this extension version. */
+  readonly releaseNotes?: string;
+  /** Categorizes the type of change introduced (e.g., BugFix, SecurityFix, CompatibilityUpdate, NewFeature, Other). */
+  readonly releaseCategory?: ReleaseCategory;
+  /** Indicates the urgency level for applying this extension update. */
+  readonly urgencyLevel?: UrgencyLevel;
+  /** Specifies when and how the extension should be executed. */
+  readonly runProfile?: RunProfile;
+  /** Additional metadata about extension features, including compliance and capability tags. */
+  readonly extensionFeatureMetadata?: ExtensionFeatureMetadata;
 }
 
 export function virtualMachineExtensionImageDeserializer(item: any): VirtualMachineExtensionImage {
@@ -9756,6 +10198,16 @@ export interface VirtualMachineExtensionImageProperties {
   vmScaleSetEnabled?: boolean;
   /** Whether the handler can support multiple extensions. */
   supportsMultipleExtensions?: boolean;
+  /** Summary of changes or updates in this extension version. */
+  readonly releaseNotes?: string;
+  /** Categorizes the type of change introduced (e.g., BugFix, SecurityFix, CompatibilityUpdate, NewFeature, Other). */
+  readonly releaseCategory?: ReleaseCategory;
+  /** Indicates the urgency level for applying this extension update. */
+  readonly urgencyLevel?: UrgencyLevel;
+  /** Specifies when and how the extension should be executed. */
+  readonly runProfile?: RunProfile;
+  /** Additional metadata about extension features, including compliance and capability tags. */
+  readonly extensionFeatureMetadata?: ExtensionFeatureMetadata;
 }
 
 export function virtualMachineExtensionImagePropertiesDeserializer(
@@ -9767,6 +10219,120 @@ export function virtualMachineExtensionImagePropertiesDeserializer(
     handlerSchema: item["handlerSchema"],
     vmScaleSetEnabled: item["vmScaleSetEnabled"],
     supportsMultipleExtensions: item["supportsMultipleExtensions"],
+    releaseNotes: item["releaseNotes"],
+    releaseCategory: item["releaseCategory"],
+    urgencyLevel: item["urgencyLevel"],
+    runProfile: item["runProfile"],
+    extensionFeatureMetadata: !item["extensionFeatureMetadata"]
+      ? item["extensionFeatureMetadata"]
+      : extensionFeatureMetadataDeserializer(item["extensionFeatureMetadata"]),
+  };
+}
+
+/** Enumerates the type of change introduced in the extension version. */
+export enum KnownReleaseCategory {
+  /** Other type of change. */
+  Other = "Other",
+  /** Bug fix change. */
+  BugFix = "BugFix",
+  /** Security fix change. */
+  SecurityFix = "SecurityFix",
+  /** Compatibility update change. */
+  CompatibilityUpdate = "CompatibilityUpdate",
+  /** New feature change. */
+  NewFeature = "NewFeature",
+}
+
+/**
+ * Enumerates the type of change introduced in the extension version. \
+ * {@link KnownReleaseCategory} can be used interchangeably with ReleaseCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other**: Other type of change. \
+ * **BugFix**: Bug fix change. \
+ * **SecurityFix**: Security fix change. \
+ * **CompatibilityUpdate**: Compatibility update change. \
+ * **NewFeature**: New feature change.
+ */
+export type ReleaseCategory = string;
+
+/** Defines urgency levels for extension updates. */
+export enum KnownUrgencyLevel {
+  /** Regular urgency level. */
+  Regular = "Regular",
+  /** Expedited urgency level. */
+  Expedited = "Expedited",
+  /** Emergency urgency level. */
+  Emergency = "Emergency",
+}
+
+/**
+ * Defines urgency levels for extension updates. \
+ * {@link KnownUrgencyLevel} can be used interchangeably with UrgencyLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular**: Regular urgency level. \
+ * **Expedited**: Expedited urgency level. \
+ * **Emergency**: Emergency urgency level.
+ */
+export type UrgencyLevel = string;
+
+/** Specifies the execution profile for the extension. */
+export enum KnownRunProfile {
+  /** Other execution profile. */
+  Other = "Other",
+  /** Run once execution profile. */
+  RunOnce = "RunOnce",
+  /** Long running execution profile. */
+  LongRunning = "LongRunning",
+  /** Hybrid execution profile. */
+  Hybrid = "Hybrid",
+}
+
+/**
+ * Specifies the execution profile for the extension. \
+ * {@link KnownRunProfile} can be used interchangeably with RunProfile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other**: Other execution profile. \
+ * **RunOnce**: Run once execution profile. \
+ * **LongRunning**: Long running execution profile. \
+ * **Hybrid**: Hybrid execution profile.
+ */
+export type RunProfile = string;
+
+/** Additional metadata about extension features, including compliance and capability tags. */
+export interface ExtensionFeatureMetadata {
+  /** List of additional metadata properties (e.g., compliance flags, supported features). */
+  extensionFeatureTags?: ExtensionFeatureTag[];
+}
+
+export function extensionFeatureMetadataDeserializer(item: any): ExtensionFeatureMetadata {
+  return {
+    extensionFeatureTags: !item["extensionFeatureTags"]
+      ? item["extensionFeatureTags"]
+      : extensionFeatureTagArrayDeserializer(item["extensionFeatureTags"]),
+  };
+}
+
+export function extensionFeatureTagArrayDeserializer(result: Array<ExtensionFeatureTag>): any[] {
+  return result.map((item) => {
+    return extensionFeatureTagDeserializer(item);
+  });
+}
+
+/** Represents a key-value pair for extension feature metadata. */
+export interface ExtensionFeatureTag {
+  /** The key of the feature tag. */
+  key: string;
+  /** The value of the feature tag. */
+  value?: string;
+}
+
+export function extensionFeatureTagDeserializer(item: any): ExtensionFeatureTag {
+  return {
+    key: item["key"],
+    value: item["value"],
   };
 }
 
@@ -10638,9 +11204,7 @@ export function dedicatedHostPropertiesDeserializer(item: any): DedicatedHostPro
 
 /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. Possible values are: **None,** **Windows_Server_Hybrid,** **Windows_Server_Perpetual.** The default value is: **None.** */
 export type DedicatedHostLicenseTypes =
-  | "None"
-  | "Windows_Server_Hybrid"
-  | "Windows_Server_Perpetual";
+  "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
 
 /** Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType may be updated. */
 export interface DedicatedHostUpdate extends UpdateResource {
@@ -11748,7 +12312,7 @@ export interface CapacityReservationGroup extends TrackedResource {
   readonly instanceView?: CapacityReservationGroupInstanceView;
   /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
-  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is provided. The reservation type is immutable and cannot be changed after it is assigned. */
+  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
   reservationType?: ReservationType;
 }
 
@@ -11800,7 +12364,7 @@ export interface CapacityReservationGroupProperties {
   readonly instanceView?: CapacityReservationGroupInstanceView;
   /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
-  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is provided. The reservation type is immutable and cannot be changed after it is assigned. */
+  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
   reservationType?: ReservationType;
 }
 
@@ -11880,6 +12444,9 @@ export function capacityReservationInstanceViewWithNameDeserializer(
     statuses: !item["statuses"]
       ? item["statuses"]
       : instanceViewStatusArrayDeserializer(item["statuses"]),
+    reservationStateInfo: !item["reservationStateInfo"]
+      ? item["reservationStateInfo"]
+      : capacityReservationStateInfoDeserializer(item["reservationStateInfo"]),
     name: item["name"],
   };
 }
@@ -11906,21 +12473,24 @@ export function resourceSharingProfileDeserializer(item: any): ResourceSharingPr
   };
 }
 
-/** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is provided. The reservation type is immutable and cannot be changed after it is assigned. */
+/** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. Future capacity reservations can be created in 'Targeted' or 'Open' capacity reservation groups. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
 export enum KnownReservationType {
-  /** To consume on demand allocated capacity reservation when a capacity reservation group is provided. */
+  /** Reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full. */
   Targeted = "Targeted",
-  /** To consume scheduled allocated block capacity reservation when a capacity reservation group is provided. */
+  /** Block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group. */
   Block = "Block",
+  /** Reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group, and fall back to the publicly available capacity if the reservation is full. Minimum api-version: 2026-04-01. */
+  Open = "Open",
 }
 
 /**
- * Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is provided. The reservation type is immutable and cannot be changed after it is assigned. \
+ * Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. Future capacity reservations can be created in 'Targeted' or 'Open' capacity reservation groups. The reservation type is immutable and cannot be changed after the capacity reservation group is created. \
  * {@link KnownReservationType} can be used interchangeably with ReservationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Targeted**: To consume on demand allocated capacity reservation when a capacity reservation group is provided. \
- * **Block**: To consume scheduled allocated block capacity reservation when a capacity reservation group is provided.
+ * **Targeted**: Reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full. \
+ * **Block**: Block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group. \
+ * **Open**: Reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group, and fall back to the publicly available capacity if the reservation is full. Minimum api-version: 2026-04-01.
  */
 export type ReservationType = string;
 
@@ -11930,6 +12500,8 @@ export interface CapacityReservationInstanceView {
   utilizationInfo?: CapacityReservationUtilization;
   /** The resource status information. */
   statuses?: InstanceViewStatus[];
+  /** The reservation state information for a capacity reservation, this detail is primarily provided for Future capacity reservations. Minimum API version: 2026-04-01. */
+  reservationStateInfo?: CapacityReservationStateInfo;
 }
 
 export function capacityReservationInstanceViewDeserializer(
@@ -11942,6 +12514,9 @@ export function capacityReservationInstanceViewDeserializer(
     statuses: !item["statuses"]
       ? item["statuses"]
       : instanceViewStatusArrayDeserializer(item["statuses"]),
+    reservationStateInfo: !item["reservationStateInfo"]
+      ? item["reservationStateInfo"]
+      : capacityReservationStateInfoDeserializer(item["reservationStateInfo"]),
   };
 }
 
@@ -11951,6 +12526,8 @@ export interface CapacityReservationUtilization {
   readonly currentCapacity?: number;
   /** A list of all virtual machines resource ids allocated against the capacity reservation. */
   readonly virtualMachinesAllocated?: SubResourceReadOnly[];
+  /** For open capacity reservations, this provides a map of the used reserved capacity count keyed by the subscription id (a GUID) that is consuming the capacity, i.e. each entry maps a consuming subscription id to the count of reserved capacity it is currently using. This is populated only for open capacity reservations and is not reported for targeted and block capacity reservations, which instead report allocation through virtualMachinesAllocated. Minimum api-version: 2026-04-01. */
+  readonly usedReservedCountBySubscription?: Record<string, number>;
 }
 
 export function capacityReservationUtilizationDeserializer(
@@ -11961,8 +12538,61 @@ export function capacityReservationUtilizationDeserializer(
     virtualMachinesAllocated: !item["virtualMachinesAllocated"]
       ? item["virtualMachinesAllocated"]
       : subResourceReadOnlyArrayDeserializer(item["virtualMachinesAllocated"]),
+    usedReservedCountBySubscription: !item["usedReservedCountBySubscription"]
+      ? item["usedReservedCountBySubscription"]
+      : Object.fromEntries(
+          Object.entries(item["usedReservedCountBySubscription"]).map(([k, p]: [string, any]) => [
+            k,
+            p,
+          ]),
+        ),
   };
 }
+
+/** Details related to the current state for a Future capacity reservation. */
+export interface CapacityReservationStateInfo {
+  /** The current state of the capacity reservation. */
+  reservationState?: ReservationState;
+}
+
+export function capacityReservationStateInfoDeserializer(item: any): CapacityReservationStateInfo {
+  return {
+    reservationState: item["reservationState"],
+  };
+}
+
+/** The current state of a Future capacity reservation. */
+export enum KnownReservationState {
+  /** The capacity reservation request has been submitted and is awaiting evaluation. */
+  Pending = "Pending",
+  /** The capacity reservation request was rejected, and will not change again without user action. */
+  Declined = "Declined",
+  /** The capacity reservation request has been approved by Azure and is awaiting fulfillment. */
+  Approved = "Approved",
+  /** A failure occurred while attempting to fulfill the capacity reservation request. */
+  FulfillmentFailed = "FulfillmentFailed",
+  /** The capacity reservation is locked and cannot be updated or deleted prior to going live. */
+  Committed = "Committed",
+  /** The capacity reservation is active and available for use, and cannot be modified or deleted until the minimum commitment period has elapsed. */
+  Live = "Live",
+  /** Azure was only able to deliver a portion of the requested capacity. The capacity reservation cannot be modified or deleted until the minimum commitment period has elapsed. The portion of fulfilled capacity can be viewed by inspecting the capacity reservation's instance view, displayed as currentCapacity within the utilizationInfo. */
+  PartiallyFulfilled = "PartiallyFulfilled",
+}
+
+/**
+ * The current state of a Future capacity reservation. \
+ * {@link KnownReservationState} can be used interchangeably with ReservationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The capacity reservation request has been submitted and is awaiting evaluation. \
+ * **Declined**: The capacity reservation request was rejected, and will not change again without user action. \
+ * **Approved**: The capacity reservation request has been approved by Azure and is awaiting fulfillment. \
+ * **FulfillmentFailed**: A failure occurred while attempting to fulfill the capacity reservation request. \
+ * **Committed**: The capacity reservation is locked and cannot be updated or deleted prior to going live. \
+ * **Live**: The capacity reservation is active and available for use, and cannot be modified or deleted until the minimum commitment period has elapsed. \
+ * **PartiallyFulfilled**: Azure was only able to deliver a portion of the requested capacity. The capacity reservation cannot be modified or deleted until the minimum commitment period has elapsed. The portion of fulfilled capacity can be viewed by inspecting the capacity reservation's instance view, displayed as currentCapacity within the utilizationInfo.
+ */
+export type ReservationState = string;
 
 /** Specifies information about the capacity reservation group. Only tags can be updated. */
 export interface CapacityReservationGroupUpdate extends UpdateResource {
@@ -11974,7 +12604,7 @@ export interface CapacityReservationGroupUpdate extends UpdateResource {
   readonly instanceView?: CapacityReservationGroupInstanceView;
   /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
-  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is provided. The reservation type is immutable and cannot be changed after it is assigned. */
+  /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
   reservationType?: ReservationType;
 }
 
@@ -12042,7 +12672,7 @@ export interface CapacityReservation extends TrackedResource {
   readonly instanceView?: CapacityReservationInstanceView;
   /** Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01. */
   readonly timeCreated?: Date;
-  /** Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details. */
+  /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
   scheduleProfile?: ScheduleProfile;
 }
 
@@ -12102,7 +12732,7 @@ export interface CapacityReservationProperties {
   readonly instanceView?: CapacityReservationInstanceView;
   /** Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01. */
   readonly timeCreated?: Date;
-  /** Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details. */
+  /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
   scheduleProfile?: ScheduleProfile;
 }
 
@@ -12137,22 +12767,34 @@ export function capacityReservationPropertiesDeserializer(
   };
 }
 
-/** Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details. */
+/** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
 export interface ScheduleProfile {
-  /** The required start date for block capacity reservations. Must be today or within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Example: 2025-06-27. */
+  /** The required start date for Block or Future capacity reservations. Block capacity reservations: Must be today or within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Future capacity reservations: Must be at least 7 days in the future, and maximum 6 months in the future. Minimum API version for Future capacity reservations: 2026-04-01. Example: 2025-06-27, applicable for both Block and Future capacity reservations. */
   start?: string;
-  /** The required end date for block capacity reservations. Must be after the start date, with a duration of either 1–14 whole days or 3–26 whole weeks. Example: 2025-06-28. */
+  /** The required end date for Block capacity reservations. Must be after the start date, with a duration of either 1–14 whole days or 3–26 whole weeks. Example: 2025-06-28. */
   end?: string;
+  /** The minimum number of days that must pass after the start date before a Future capacity reservation can be updated or deleted once it has been committed. Will be populated with a default value if not provided. */
+  minimumCommitmentDays?: number;
+  /** The date/time until which a Future capacity reservation can be updated or deleted. Read-only. */
+  readonly modifiableUntil?: Date;
 }
 
 export function scheduleProfileSerializer(item: ScheduleProfile): any {
-  return { start: item["start"], end: item["end"] };
+  return {
+    start: item["start"],
+    end: item["end"],
+    minimumCommitmentDays: item["minimumCommitmentDays"],
+  };
 }
 
 export function scheduleProfileDeserializer(item: any): ScheduleProfile {
   return {
     start: item["start"],
     end: item["end"],
+    minimumCommitmentDays: item["minimumCommitmentDays"],
+    modifiableUntil: !item["modifiableUntil"]
+      ? item["modifiableUntil"]
+      : new Date(item["modifiableUntil"]),
   };
 }
 
@@ -12174,7 +12816,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
   readonly instanceView?: CapacityReservationInstanceView;
   /** Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01. */
   readonly timeCreated?: Date;
-  /** Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details. */
+  /** Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations: 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API version for Future capacity reservations: 2026-04-01. */
   scheduleProfile?: ScheduleProfile;
 }
 
@@ -12214,6 +12856,156 @@ export function capacityReservationArraySerializer(result: Array<CapacityReserva
 export function capacityReservationArrayDeserializer(result: Array<CapacityReservation>): any[] {
   return result.map((item) => {
     return capacityReservationDeserializer(item);
+  });
+}
+
+/** Specifies information about the Interconnect Block. */
+export interface InterconnectBlock extends TrackedResource {
+  /** Properties of the Interconnect Block. */
+  properties?: InterconnectBlockProperties;
+  /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
+  sku: Sku;
+  /** The availability zones. */
+  zones?: string[];
+  /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
+  placement?: Placement;
+}
+
+export function interconnectBlockSerializer(item: InterconnectBlock): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : interconnectBlockPropertiesSerializer(item["properties"]),
+    sku: skuSerializer(item["sku"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
+  };
+}
+
+export function interconnectBlockDeserializer(item: any): InterconnectBlock {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : interconnectBlockPropertiesDeserializer(item["properties"]),
+    sku: skuDeserializer(item["sku"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
+  };
+}
+
+/** Properties of the Interconnect Block. */
+export interface InterconnectBlockProperties {
+  /** A list of all virtual machine resource ids that are associated with the Interconnect Block. */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /** The Microsoft.Network/interconnectGroups resource that this Interconnect Block is associated with. Required at create and immutable thereafter. */
+  interconnectGroup: ApiEntityReference;
+  /** A unique id (GUID) generated and assigned to the Interconnect Block by the platform which does not change throughout the lifetime of the resource. */
+  readonly interconnectBlockId?: string;
+  /** The date time when the Interconnect Block was last updated. */
+  readonly provisioningTime?: Date;
+  /** The provisioning state, which only appears in the response. */
+  readonly provisioningState?: string;
+  /** The Interconnect Block instance view. */
+  readonly instanceView?: InterconnectBlockInstanceView;
+  /** Specifies the time at which the Interconnect Block resource was created. */
+  readonly timeCreated?: Date;
+}
+
+export function interconnectBlockPropertiesSerializer(item: InterconnectBlockProperties): any {
+  return { interconnectGroup: apiEntityReferenceSerializer(item["interconnectGroup"]) };
+}
+
+export function interconnectBlockPropertiesDeserializer(item: any): InterconnectBlockProperties {
+  return {
+    virtualMachinesAssociated: !item["virtualMachinesAssociated"]
+      ? item["virtualMachinesAssociated"]
+      : subResourceReadOnlyArrayDeserializer(item["virtualMachinesAssociated"]),
+    interconnectGroup: apiEntityReferenceDeserializer(item["interconnectGroup"]),
+    interconnectBlockId: item["interconnectBlockId"],
+    provisioningTime: !item["provisioningTime"]
+      ? item["provisioningTime"]
+      : new Date(item["provisioningTime"]),
+    provisioningState: item["provisioningState"],
+    instanceView: !item["instanceView"]
+      ? item["instanceView"]
+      : interconnectBlockInstanceViewDeserializer(item["instanceView"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+  };
+}
+
+/** The instance view of an Interconnect Block. */
+export interface InterconnectBlockInstanceView {
+  /** The current capacity allocated for this Interconnect Block. */
+  readonly currentCapacity?: number;
+  /** The resource status information. */
+  readonly statuses?: InstanceViewStatus[];
+}
+
+export function interconnectBlockInstanceViewDeserializer(
+  item: any,
+): InterconnectBlockInstanceView {
+  return {
+    currentCapacity: item["currentCapacity"],
+    statuses: !item["statuses"]
+      ? item["statuses"]
+      : instanceViewStatusArrayDeserializer(item["statuses"]),
+  };
+}
+
+/** Specifies information about the Interconnect Block. Only tags and sku.capacity can be updated. */
+export interface InterconnectBlockUpdate extends UpdateResource {
+  /** SKU of the resource for which capacity needs to be pre-allocated. Only `sku.capacity` is mutable; `sku.name` is immutable. */
+  sku?: Sku;
+}
+
+export function interconnectBlockUpdateSerializer(item: InterconnectBlockUpdate): any {
+  return { tags: item["tags"], sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]) };
+}
+
+/** The list Interconnect Block operation response. */
+export interface _InterconnectBlockListResult {
+  /** The list of Interconnect Blocks. */
+  value: InterconnectBlock[];
+  /** The URI to fetch the next page of Interconnect Blocks. Call ListNext() with this URI to fetch the next page of Interconnect Blocks. */
+  nextLink?: string;
+}
+
+export function _interconnectBlockListResultDeserializer(item: any): _InterconnectBlockListResult {
+  return {
+    value: interconnectBlockArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function interconnectBlockArraySerializer(result: Array<InterconnectBlock>): any[] {
+  return result.map((item) => {
+    return interconnectBlockSerializer(item);
+  });
+}
+
+export function interconnectBlockArrayDeserializer(result: Array<InterconnectBlock>): any[] {
+  return result.map((item) => {
+    return interconnectBlockDeserializer(item);
   });
 }
 
@@ -12728,6 +13520,77 @@ export function runCommandParameterDefinitionDeserializer(
   };
 }
 
+/** Describes a Virtual Machine diagnostic run command. */
+export interface VirtualMachineDiagnosticRunCommand extends TrackedResource {
+  /** Describes the properties of a Virtual Machine diagnostic run command. */
+  properties?: VirtualMachineRunCommandProperties;
+}
+
+export function virtualMachineDiagnosticRunCommandSerializer(
+  item: VirtualMachineDiagnosticRunCommand,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineRunCommandPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function virtualMachineDiagnosticRunCommandDeserializer(
+  item: any,
+): VirtualMachineDiagnosticRunCommand {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineRunCommandPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The List diagnostic run command operation response */
+export interface _VirtualMachineDiagnosticRunCommandsListResult {
+  /** The list of diagnostic run commands. */
+  value: VirtualMachineDiagnosticRunCommand[];
+  /** The uri to fetch the next page of diagnostic run commands. */
+  nextLink?: string;
+}
+
+export function _virtualMachineDiagnosticRunCommandsListResultDeserializer(
+  item: any,
+): _VirtualMachineDiagnosticRunCommandsListResult {
+  return {
+    value: virtualMachineDiagnosticRunCommandArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function virtualMachineDiagnosticRunCommandArraySerializer(
+  result: Array<VirtualMachineDiagnosticRunCommand>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineDiagnosticRunCommandSerializer(item);
+  });
+}
+
+export function virtualMachineDiagnosticRunCommandArrayDeserializer(
+  result: Array<VirtualMachineDiagnosticRunCommand>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineDiagnosticRunCommandDeserializer(item);
+  });
+}
+
 /** The status of the latest virtual machine scale set rolling upgrade. */
 export interface RollingUpgradeStatusInfo extends TrackedResource {
   /** The rolling upgrade policies applied for this upgrade. */
@@ -12809,7 +13672,8 @@ export function rollingUpgradeRunningStatusDeserializer(item: any): RollingUpgra
 }
 
 /** Code indicating the current status of the upgrade. */
-export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type RollingUpgradeStatusCode =
+  "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 /** The last action performed on the rolling upgrade. */
 export type RollingUpgradeActionType = "Start" | "Cancel";
 
@@ -12869,6 +13733,10 @@ export interface VirtualMachineScaleSetVM extends TrackedResource {
   readonly timeCreated?: Date;
   /** Specifies the ARM resource ID of the standalone virtual machine associated with this VMSS VM. This property is only applicable to Virtual Machine Scale Sets with Flexible orchestration mode. Minimum api-version: 2025-11-01. */
   readonly virtualMachineResourceId?: string;
+  /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
+  /** Specifies information about the capacity reservation that is used to allocate the virtual machine scale set VM instance. The capacity reservation group is inherited from the parent virtual machine scale set and cannot be changed on the individual scale set VM instance. Minimum api-version: 2026-04-01. */
+  capacityReservation?: CapacityReservationProfile;
 }
 
 export function virtualMachineScaleSetVMSerializer(item: VirtualMachineScaleSetVM): any {
@@ -12889,6 +13757,8 @@ export function virtualMachineScaleSetVMSerializer(item: VirtualMachineScaleSetV
       "licenseType",
       "protectionPolicy",
       "userData",
+      "interconnectBlockProfile",
+      "capacityReservation",
     ])
       ? undefined
       : _virtualMachineScaleSetVMPropertiesSerializer(item),
@@ -12974,6 +13844,10 @@ export interface VirtualMachineScaleSetVMProperties {
   readonly timeCreated?: Date;
   /** Specifies the ARM resource ID of the standalone virtual machine associated with this VMSS VM. This property is only applicable to Virtual Machine Scale Sets with Flexible orchestration mode. Minimum api-version: 2025-11-01. */
   readonly virtualMachineResourceId?: string;
+  /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
+  /** Specifies information about the capacity reservation that is used to allocate the virtual machine scale set VM instance. The capacity reservation group is inherited from the parent virtual machine scale set and cannot be changed on the individual scale set VM instance. Minimum api-version: 2026-04-01. */
+  capacityReservation?: CapacityReservationProfile;
 }
 
 export function virtualMachineScaleSetVMPropertiesSerializer(
@@ -13013,6 +13887,12 @@ export function virtualMachineScaleSetVMPropertiesSerializer(
       ? item["protectionPolicy"]
       : virtualMachineScaleSetVMProtectionPolicySerializer(item["protectionPolicy"]),
     userData: item["userData"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileSerializer(item["capacityReservation"]),
   };
 }
 
@@ -13062,6 +13942,12 @@ export function virtualMachineScaleSetVMPropertiesDeserializer(
     userData: item["userData"],
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     virtualMachineResourceId: item["virtualMachineResourceId"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileDeserializer(item["capacityReservation"]),
   };
 }
 
@@ -13099,6 +13985,10 @@ export interface VirtualMachineScaleSetVMInstanceView {
   osVersion?: string;
   /** The hypervisor generation of the Virtual Machine [V1, V2] */
   hyperVGeneration?: HyperVGeneration;
+  /** The Interconnect runtime view of the Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  readonly interconnectInstanceView?: InterconnectInstanceView;
+  /** Specifies which type of capacity reservation the virtual machine scale set VM instance will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
+  readonly capacityReservationType?: CapacityReservationType;
 }
 
 export function virtualMachineScaleSetVMInstanceViewDeserializer(
@@ -13133,6 +14023,10 @@ export function virtualMachineScaleSetVMInstanceViewDeserializer(
     osName: item["osName"],
     osVersion: item["osVersion"],
     hyperVGeneration: item["hyperVGeneration"],
+    interconnectInstanceView: !item["interconnectInstanceView"]
+      ? item["interconnectInstanceView"]
+      : interconnectInstanceViewDeserializer(item["interconnectInstanceView"]),
+    capacityReservationType: item["capacityReservationType"],
   };
 }
 
@@ -13164,6 +14058,8 @@ export type ResilientVMDeletionStatus = string;
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
   /** The list of network configurations. */
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+  /** Specifies the interconnect group profile to associate with the scale set vm instance. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetVMNetworkProfileConfigurationSerializer(
@@ -13175,6 +14071,9 @@ export function virtualMachineScaleSetVMNetworkProfileConfigurationSerializer(
       : virtualMachineScaleSetNetworkConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -13187,6 +14086,9 @@ export function virtualMachineScaleSetVMNetworkProfileConfigurationDeserializer(
       : virtualMachineScaleSetNetworkConfigurationArrayDeserializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -13929,6 +14831,21 @@ export enum KnownExpandTypesForListVMs {
 /** Type of ExpandTypesForListVMs */
 export type ExpandTypesForListVMs = string;
 
+/** Defines the allowed values for the $expand query parameter on the ListVersions operation. */
+export enum KnownListVersionsExpandOptions {
+  /** Expand to include all properties in the response. */
+  Properties = "properties",
+}
+
+/**
+ * Defines the allowed values for the $expand query parameter on the ListVersions operation. \
+ * {@link KnownListVersionsExpandOptions} can be used interchangeably with ListVersionsExpandOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **properties**: Expand to include all properties in the response.
+ */
+export type ListVersionsExpandOptions = string;
+
 /** Known values of {@link RestorePointCollectionExpandOptions} that the service accepts. */
 export enum KnownRestorePointCollectionExpandOptions {
   /** restorePoints */
@@ -13988,6 +14905,21 @@ export enum KnownCapacityReservationInstanceViewTypes {
 
 /** Type of CapacityReservationInstanceViewTypes */
 export type CapacityReservationInstanceViewTypes = string;
+
+/** The expand expression to apply on the operation for an Interconnect Block. */
+export enum KnownInterconnectBlockExpandTypes {
+  /** Retrieve the runtime instance view of the Interconnect Block. */
+  InstanceView = "instanceView",
+}
+
+/**
+ * The expand expression to apply on the operation for an Interconnect Block. \
+ * {@link KnownInterconnectBlockExpandTypes} can be used interchangeably with InterconnectBlockExpandTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**: Retrieve the runtime instance view of the Interconnect Block.
+ */
+export type InterconnectBlockExpandTypes = string;
 
 export function virtualMachineImageArrayDeserializer(result: Array<VirtualMachineImage>): any[] {
   return result.map((item) => {
@@ -14753,6 +15685,9 @@ export function _virtualMachinePropertiesSerializer(item: VirtualMachine): any {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -14817,6 +15752,9 @@ export function _virtualMachinePropertiesDeserializer(item: any) {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -14928,6 +15866,9 @@ export function _virtualMachineUpdatePropertiesSerializer(item: VirtualMachineUp
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -14992,6 +15933,9 @@ export function _virtualMachineUpdatePropertiesDeserializer(item: any) {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -15028,6 +15972,13 @@ export function _virtualMachineExtensionImagePropertiesDeserializer(item: any) {
     handlerSchema: item["handlerSchema"],
     vmScaleSetEnabled: item["vmScaleSetEnabled"],
     supportsMultipleExtensions: item["supportsMultipleExtensions"],
+    releaseNotes: item["releaseNotes"],
+    releaseCategory: item["releaseCategory"],
+    urgencyLevel: item["urgencyLevel"],
+    runProfile: item["runProfile"],
+    extensionFeatureMetadata: !item["extensionFeatureMetadata"]
+      ? item["extensionFeatureMetadata"]
+      : extensionFeatureMetadataDeserializer(item["extensionFeatureMetadata"]),
   };
 }
 
@@ -15674,6 +16625,12 @@ export function _virtualMachineScaleSetVMPropertiesSerializer(item: VirtualMachi
       ? item["protectionPolicy"]
       : virtualMachineScaleSetVMProtectionPolicySerializer(item["protectionPolicy"]),
     userData: item["userData"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileSerializer(item["capacityReservation"]),
   };
 }
 
@@ -15721,6 +16678,12 @@ export function _virtualMachineScaleSetVMPropertiesDeserializer(item: any) {
     userData: item["userData"],
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     virtualMachineResourceId: item["virtualMachineResourceId"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileDeserializer(item["capacityReservation"]),
   };
 }
 

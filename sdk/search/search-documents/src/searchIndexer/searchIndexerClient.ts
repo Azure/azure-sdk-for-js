@@ -5,14 +5,15 @@ import type { SearchIndexerContext, SearchIndexerClientOptionalParams } from "./
 import { createSearchIndexer } from "./api/index.js";
 import type {
   SearchIndexerDataSourceConnection,
-  ListDataSourcesResult,
+  IndexerResyncBody,
   SearchIndexer,
-  ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
-  ListSkillsetsResult,
+  SkillNames,
 } from "../models/azure/search/documents/indexes/models.js";
+import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  resetSkills,
   createSkillset,
   getSkillsets,
   getSkillset,
@@ -25,6 +26,8 @@ import {
   deleteIndexer,
   createOrUpdateIndexer,
   runIndexer,
+  resetDocuments,
+  resync,
   resetIndexer,
   createDataSourceConnection,
   getDataSourceConnections,
@@ -33,6 +36,7 @@ import {
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import type {
+  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -45,6 +49,8 @@ import type {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
+  ResetDocumentsOptionalParams,
+  ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
   GetDataSourceConnectionsOptionalParams,
@@ -67,15 +73,17 @@ export class SearchIndexerClient {
     credential: KeyCredential | TokenCredential,
     options: SearchIndexerClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearchIndexer(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearchIndexer(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Reset an existing skillset in a search service. */
+  resetSkills(
+    skillNames: SkillNames,
+    name: string,
+    options: ResetSkillsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return resetSkills(this._client, skillNames, name, options);
   }
 
   /** Creates a new skillset in a search service. */
@@ -89,7 +97,7 @@ export class SearchIndexerClient {
   /** List all skillsets in a search service. */
   getSkillsets(
     options: GetSkillsetsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSkillsetsResult> {
+  ): PagedAsyncIterableIterator<SearchIndexerSkillset> {
     return getSkillsets(this._client, options);
   }
 
@@ -137,7 +145,7 @@ export class SearchIndexerClient {
   /** Lists all indexers available for a search service. */
   getIndexers(
     options: GetIndexersOptionalParams = { requestOptions: {} },
-  ): Promise<ListIndexersResult> {
+  ): PagedAsyncIterableIterator<SearchIndexer> {
     return getIndexers(this._client, options);
   }
 
@@ -174,6 +182,23 @@ export class SearchIndexerClient {
     return runIndexer(this._client, name, options);
   }
 
+  /** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
+  resetDocuments(
+    name: string,
+    options: ResetDocumentsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return resetDocuments(this._client, name, options);
+  }
+
+  /** Resync selective options from the datasource to be re-ingested by the indexer." */
+  resync(
+    indexerResync: IndexerResyncBody,
+    name: string,
+    options: ResyncOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return resync(this._client, indexerResync, name, options);
+  }
+
   /** Resets the change tracking state associated with an indexer. */
   resetIndexer(
     name: string,
@@ -193,7 +218,7 @@ export class SearchIndexerClient {
   /** Lists all datasources available for a search service. */
   getDataSourceConnections(
     options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
-  ): Promise<ListDataSourcesResult> {
+  ): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
     return getDataSourceConnections(this._client, options);
   }
 

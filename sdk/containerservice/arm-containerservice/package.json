@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.2.0",
+  "version": "25.6.0",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -96,6 +96,20 @@
       "require": {
         "types": "./dist/commonjs/api/operations/index.d.ts",
         "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/identityBindings": {
+      "browser": {
+        "types": "./dist/browser/api/identityBindings/index.d.ts",
+        "default": "./dist/browser/api/identityBindings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/identityBindings/index.d.ts",
+        "default": "./dist/esm/api/identityBindings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/identityBindings/index.d.ts",
+        "default": "./dist/commonjs/api/identityBindings/index.js"
       }
     },
     "./api/trustedAccessRoleBindings": {
@@ -262,11 +276,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -303,9 +317,9 @@
     "test:browser": "echo skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-containerservice",
@@ -317,6 +331,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

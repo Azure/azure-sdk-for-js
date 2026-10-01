@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 import {
   configureBlobStorageClient,
+  createAndStartRecorder,
   getBSU,
   getConnectionStringFromEnvironment,
   getTokenBSUWithDefaultCredential,
-  recorderEnvSetup,
   SimpleTokenCredential,
 } from "../utils/index.js";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -18,12 +18,39 @@ describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let blobServiceURL = `https://${accountName}-ipv6.blob.core.windows.net/`;
+    let blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary-ipv6.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary-dualstack.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-dualstack.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-something.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName + "-something");
   });
 
   it("Default audience should work", async () => {

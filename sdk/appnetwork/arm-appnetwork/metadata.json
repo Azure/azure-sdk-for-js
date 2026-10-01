@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.AppLink": "2025-08-01-preview"
+    "Microsoft.AppLink": "2026-08-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AppLink",
     "CrossLanguageDefinitionId": {
@@ -21,6 +21,7 @@
       "@azure/arm-appnetwork!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
       "@azure/arm-appnetwork!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-appnetwork!AppLinkUpdate:interface": "Microsoft.AppLink.AppLinkUpdate",
+      "@azure/arm-appnetwork!ManagedServiceIdentityUpdate:interface": "Microsoft.AppLink.ManagedServiceIdentityUpdate",
       "@azure/arm-appnetwork!AppLinkListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-appnetwork!AppLinkMember:interface": "Microsoft.AppLink.AppLinkMember",
       "@azure/arm-appnetwork!AppLinkMemberProperties:interface": "Microsoft.AppLink.AppLinkMemberProperties",
@@ -35,6 +36,11 @@
       "@azure/arm-appnetwork!PrivateConnectProfile:interface": "Microsoft.AppLink.PrivateConnectProfile",
       "@azure/arm-appnetwork!AppLinkMemberUpdate:interface": "Microsoft.AppLink.AppLinkMemberUpdate",
       "@azure/arm-appnetwork!AppLinkMemberUpdateProperties:interface": "Microsoft.AppLink.AppLinkMemberUpdateProperties",
+      "@azure/arm-appnetwork!UpgradeProfileUpdate:interface": "Microsoft.AppLink.UpgradeProfileUpdate",
+      "@azure/arm-appnetwork!FullyManagedUpgradeProfileUpdate:interface": "Microsoft.AppLink.FullyManagedUpgradeProfileUpdate",
+      "@azure/arm-appnetwork!SelfManagedUpgradeProfileUpdate:interface": "Microsoft.AppLink.SelfManagedUpgradeProfileUpdate",
+      "@azure/arm-appnetwork!ConnectivityProfileUpdate:interface": "Microsoft.AppLink.ConnectivityProfileUpdate",
+      "@azure/arm-appnetwork!EastWestGatewayProfileUpdate:interface": "Microsoft.AppLink.EastWestGatewayProfileUpdate",
       "@azure/arm-appnetwork!AppLinkMemberListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-appnetwork!UpgradeHistoryListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-appnetwork!UpgradeHistory:interface": "Microsoft.AppLink.UpgradeHistory",
@@ -59,6 +65,7 @@
       "@azure/arm-appnetwork!KnownEastWestGatewayVisibility:enum": "Microsoft.AppLink.EastWestGatewayVisibility",
       "@azure/arm-appnetwork!KnownVersions:enum": "Microsoft.AppLink.Versions",
       "@azure/arm-appnetwork!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-appnetwork!ManagedServiceIdentityUpdateUserAssignedIdentity:type": "Microsoft.AppLink.ManagedServiceIdentityUpdate.userAssignedIdentity.anonymous",
       "@azure/arm-appnetwork!AvailableVersionsOperations#listByLocation:member": "Microsoft.AppLink.AvailableVersions.listByLocation",
       "@azure/arm-appnetwork!UpgradeHistoriesOperations#listByAppLinkMember:member": "Microsoft.AppLink.UpgradeHistories.listByAppLinkMember",
       "@azure/arm-appnetwork!AppLinkMembersOperations#listByAppLink:member": "Microsoft.AppLink.AppLinkMembers.listByAppLink",

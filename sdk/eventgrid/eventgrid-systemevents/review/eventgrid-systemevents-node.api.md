@@ -4,6 +4,9 @@
 
 ```ts
 
+import { isRestError } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+
 // @public
 export interface AcsCallEndedBy {
     communicationIdentifier: CommunicationIdentifierModel;
@@ -1427,6 +1430,8 @@ export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionState
 export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {
 }
 
+export { isRestError }
+
 // @public
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
@@ -2301,6 +2306,8 @@ export interface ResourceWriteSuccessEventData {
     subscriptionId?: string;
     tenantId?: string;
 }
+
+export { RestError }
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {

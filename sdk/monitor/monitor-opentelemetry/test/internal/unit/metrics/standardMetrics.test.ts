@@ -121,9 +121,9 @@ describe("#StandardMetricsHandler", () => {
         return traceLog;
       },
     };
-    autoCollect.recordLog(traceLog as any);
+    autoCollect.recordLog(traceLog);
     traceLog.attributes["exception.type"] = "testExceptionType";
-    autoCollect.recordLog(traceLog as any);
+    autoCollect.recordLog(traceLog);
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
@@ -348,9 +348,9 @@ describe("#StandardMetricsHandler", () => {
         return traceLog;
       },
     };
-    autoCollect.recordLog(traceLog as any);
+    autoCollect.recordLog(traceLog);
     traceLog.attributes["exception.type"] = "testExceptionType";
-    autoCollect.recordLog(traceLog as any);
+    autoCollect.recordLog(traceLog);
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,

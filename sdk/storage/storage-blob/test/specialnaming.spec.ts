@@ -4,14 +4,13 @@
 import type { BlobServiceClient } from "../src/index.js";
 import { BlockBlobClient } from "../src/index.js";
 import {
+  createAndStartRecorder,
   getBSU,
   getRecorderUniqueVariable,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
 import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -23,9 +22,7 @@ describe("Special Naming Tests", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
     containerClient = blobServiceClient.getContainerClient(containerName);

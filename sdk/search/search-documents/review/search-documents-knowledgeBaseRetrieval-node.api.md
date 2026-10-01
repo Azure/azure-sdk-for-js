@@ -6,16 +6,18 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export class KnowledgeBaseRetrievalClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, knowledgeBaseName: string, options?: KnowledgeBaseRetrievalClientOptionalParams);
     readonly pipeline: Pipeline;
     retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<RetrieveStreamResponse>;
 }
 
 // @public
@@ -33,6 +35,15 @@ export interface KnowledgeBaseRetrievalContext extends Client {
 export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
+}
+
+// @public
+export interface RetrieveStreamOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

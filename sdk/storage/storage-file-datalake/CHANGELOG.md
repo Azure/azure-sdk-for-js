@@ -1,6 +1,6 @@
 # Release History
 
-## 12.30.0-beta.3 (Unreleased)
+## 12.32.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -8,17 +8,31 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storagedatalake`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
 
-## 12.30.0-beta.2 (Unreleased)
+- Migrated to TypeSpec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+
+## 12.31.0 (2026-06-24)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.31.0-beta.1.
 
-### Bugs Fixed
+## 12.30.0 (2026-05-22)
 
-### Other Changes
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
+## 12.31.0-beta.1 (2026-04-29)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+- Added DataLakePathClient.getSystemProperties().
+- Added DataLakePathClient.getTags() and .setTags().
 
 ## 12.30.0-beta.1 (2026-03-05)
 

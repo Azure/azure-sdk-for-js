@@ -4,7 +4,6 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.base.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
-import inject from "@rollup/plugin-inject";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -17,16 +16,17 @@ const config = mergeConfig(
     optimizeDeps: {
       include: ["process", "buffer"],
     },
-    plugins: [
-      browserMap(),
-      inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
-    ],
+    plugins: [browserMap()],
     test: {
       testTimeout: 6000000,
       hookTimeout: 6000000,
       fileParallelism: false,
       globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
-      setupFiles: ["./test/utils/logging.ts"],
+      // browser-polyfills.ts installs the `Buffer` / `process` globals the
+      // runtime dependency graph expects, replacing the previous
+      // `@rollup/plugin-inject` approach that hangs under Vite 8's rolldown
+      // dependency optimizer. See test/browser-polyfills.ts for details.
+      setupFiles: ["./test/browser-polyfills.ts", "./test/utils/logging.ts"],
       env: process.env,
     },
   }),

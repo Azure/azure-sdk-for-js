@@ -1,62 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a server's Advanced Threat Protection state.
- *
- * @summary Updates a server's Advanced Threat Protection state.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/AdvancedThreatProtectionSettingsPutDisabled.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
-async function disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPut() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "threatprotection-4799";
-  const serverName = "threatprotection-6440";
-  const advancedThreatProtectionName = "Default";
-  const parameters = { state: "Disabled" };
+/**
+ * This sample demonstrates how to updates a server's Advanced Threat Protection state.
+ *
+ * @summary updates a server's Advanced Threat Protection state.
+ * x-ms-original-file: 2025-06-01-preview/AdvancedThreatProtectionSettingsPutDisabled.json
+ */
+async function disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPUT() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.advancedThreatProtectionSettings.beginUpdatePutAndWait(
-    resourceGroupName,
-    serverName,
-    advancedThreatProtectionName,
-    parameters,
+  const result = await client.advancedThreatProtectionSettings.updatePut(
+    "threatprotection-4799",
+    "threatprotection-6440",
+    "Default",
+    { state: "Disabled" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a server's Advanced Threat Protection state.
+ * This sample demonstrates how to updates a server's Advanced Threat Protection state.
  *
- * @summary Updates a server's Advanced Threat Protection state.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/AdvancedThreatProtectionSettingsPutEnabled.json
+ * @summary updates a server's Advanced Threat Protection state.
+ * x-ms-original-file: 2025-06-01-preview/AdvancedThreatProtectionSettingsPutEnabled.json
  */
-async function enableAServerAdvancedThreatProtectionSettingsUsingPut() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "threatprotection-4799";
-  const serverName = "threatprotection-6440";
-  const advancedThreatProtectionName = "Default";
-  const parameters = { state: "Enabled" };
+async function enableAServerAdvancedThreatProtectionSettingsUsingPUT() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.advancedThreatProtectionSettings.beginUpdatePutAndWait(
-    resourceGroupName,
-    serverName,
-    advancedThreatProtectionName,
-    parameters,
+  const result = await client.advancedThreatProtectionSettings.updatePut(
+    "threatprotection-4799",
+    "threatprotection-6440",
+    "Default",
+    { state: "Enabled" },
   );
   console.log(result);
 }
 
 async function main() {
-  await disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPut();
-  await enableAServerAdvancedThreatProtectionSettingsUsingPut();
+  await disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPUT();
+  await enableAServerAdvancedThreatProtectionSettingsUsingPUT();
 }
 
 main().catch(console.error);

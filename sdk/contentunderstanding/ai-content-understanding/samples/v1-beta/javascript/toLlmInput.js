@@ -4,35 +4,43 @@
 /**
  * @summary Advanced usage of the `toLlmInput` helper.
  *
- * This sample demonstrates advanced usage of the `toLlmInput` helper. For a basic introduction
- * to `toLlmInput`, see analyzeBinary.ts (document analysis), analyzeInvoice.ts (field extraction),
+ * This sample demonstrates advanced usage of `toLlmInput`. For a basic introduction to
+ * `toLlmInput`, see analyzeBinary.ts (document analysis), analyzeInvoice.ts (field extraction),
  * and createClassifier.ts (classification).
  *
- * About `toLlmInput`:
+ * ## About `toLlmInput`
  *
- * When using Content Understanding with large language models, you typically need to convert the
- * structured `AnalysisResult` into a text format that an LLM can consume. The `toLlmInput`
+ * The `toLlmInput` method converts a Content Understanding `AnalysisResult` into a formatted
+ * text string (YAML front matter + markdown body) suitable for injecting into LLM prompts,
+ * storing in vector databases, or returning as tool output in agentic workflows.
+ *
+ * When using Content Understanding with large language models, you typically need to convert
+ * the structured `AnalysisResult` into a text format that an LLM can consume. The `toLlmInput`
  * helper handles this conversion automatically:
  *
  * - **YAML front matter** with content type, extracted fields, page numbers, and optional metadata
- * - **Markdown body** with the document content and page markers
+ * - **Markdown body** with the document content and page markers (e.g., `<!-- InputPageNumber: 1 -->`)
  *
  * The helper supports all content types (documents, images, audio, video) and handles
- * multi-segment results (e.g., video with multiple scenes) by rendering each segment with its
- * time range. For classification results, it automatically skips the parent document and renders
- * each categorized child with its category label.
+ * multi-segment results (for example, video with multiple scenes) by rendering each segment
+ * with its time range. For classification results, it automatically skips the parent document
+ * and renders each categorized child with its category label.
  *
- * Scenarios demonstrated:
+ * ### Scenarios demonstrated
  *
- * 1. **Output options** — Fields-only, markdown-only, and custom metadata
- * 2. **Multi-page PDF with content range** — Analyze specific pages and verify page markers
- * 3. **Multi-segment video** — Analyze a video with multiple segments and time ranges
- * 4. **Audio with content range** — Analyze a specific time range of an audio file
+ * 1. **Output options** — Fields-only, markdown-only, and caller `customMetadata`.
+ * 2. **Preview metadata from analysis result** — Analyze a document with embedded metadata
+ *    and include it in `toLlmInput` output (requires API version `2026-06-01-preview`).
+ * 3. **Multi-page PDF with content range** — Analyze specific pages and verify page markers.
+ * 4. **Multi-segment video** — Analyze a video with multiple segments and time ranges
+ * 5. **Audio with content range** — Analyze a specific time range of an audio file
  *
  * For classification results, see createClassifier.ts.
  */
 
 require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { ContentUnderstandingClient, toLlmInput } = require("@azure/ai-content-understanding");
@@ -56,7 +64,7 @@ async function main() {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   // ================================================================
-  // 1. OUTPUT OPTIONS — Fields-only, markdown-only, metadata
+  // 1. OUTPUT OPTIONS — Fields-only, markdown-only, customMetadata
   // ================================================================
 
   // First, analyze an invoice to get a result we can demonstrate options with.
@@ -90,16 +98,61 @@ async function main() {
   console.log("\n--- Markdown only (includeFields: false) ---");
   console.log(markdownOnly);
 
-  // Custom metadata — add your own key-value pairs to the YAML front matter.
-  // Useful for RAG pipelines to track document source, department, batch, etc.
-  const withMetadata = toLlmInput(result, {
-    metadata: { source: "invoice.pdf", department: "finance" },
+  // Custom metadata — nested under `customMetadata:` so it never collides with helper-owned
+  // keys (`mimeType`, `fields`, `metadata`, ...). Useful for RAG pipelines to track document
+  // source, department, batch, etc.
+  const withCustomMetadata = toLlmInput(result, {
+    customMetadata: { source: "invoice.pdf", department: "finance" },
   });
-  console.log("\n--- With metadata ---");
-  console.log(withMetadata);
+  console.log("\n--- With customMetadata ---");
+  console.log(withCustomMetadata);
+
+  // Example front matter showing the nested `customMetadata` block (fields/markdown omitted
+  // for brevity):
+  //
+  //     ---
+  //     mimeType: application/pdf
+  //     customMetadata:
+  //       source: invoice.pdf
+  //       department: finance
+  //     pages: 1
+  //     ---
 
   // ================================================================
-  // 2. MULTI-PAGE PDF WITH CONTENT RANGE
+  // 2. PREVIEW METADATA FROM ANALYSIS RESULT (2026-06-01-preview)
+  // ================================================================
+  //
+  // Analyze a document that has embedded metadata (author, title, creation date, etc.).
+  // `toLlmInput` surfaces `AnalysisContent.metadata` under a top-level `metadata:` block in
+  // the YAML front matter. Values that look like JSON containers are parsed so the YAML emits
+  // structured data instead of a quoted string. Caller-supplied entries live under a separate
+  // `customMetadata:` block (see previous section) so caller keys can never collide with the
+  // top-level `metadata:` block.
+  //
+  // sample_metadata.pdf is a synthetic PDF authored by the fictional "Contoso Metadata Team"
+  // that carries a rich set of embedded metadata fields (author, contentType, language,
+  // title, etc.), so the YAML output below contains a populated `metadata:` block.
+
+  const metadataPath = path.join("..", "..", "assets", "sample_metadata.pdf");
+  const metadataBytes = fs.readFileSync(metadataPath);
+
+  console.log("\n" + "=".repeat(60));
+  console.log("PREVIEW METADATA FROM ANALYSIS RESULT");
+  console.log("=".repeat(60));
+  console.log("Analyzing a document with embedded metadata using prebuilt-layout...");
+  console.log(`  file: ${metadataPath}\n`);
+
+  const metadataPoller = client.analyzeBinary("prebuilt-layout", metadataBytes);
+  const metadataResult = await metadataPoller.pollUntilDone();
+
+  // toLlmInput includes AnalysisContent.metadata under the "metadata" block when the
+  // service returns any embedded metadata for this content.
+  const metadataText = toLlmInput(metadataResult);
+  console.log("--- Preview metadata from analysis result ---");
+  console.log(metadataText);
+
+  // ================================================================
+  // 3. MULTI-PAGE PDF WITH CONTENT RANGE
   // ================================================================
 
   const multiPageUrl =
@@ -112,7 +165,7 @@ async function main() {
   // Analyze specific pages using contentRange.
   // Page markers in the output will use the original document page numbers,
   // so even though we only requested pages 2-3 and 5, the markers will say
-  // <!-- page 2 -->, <!-- page 3 -->, <!-- page 5 --> (not 1, 2, 3).
+  // <!-- InputPageNumber: 2 -->, <!-- InputPageNumber: 3 -->, <!-- InputPageNumber: 5 --> (not 1, 2, 3).
   console.log("Analyzing pages 2-3 and 5 of a multi-page PDF...");
   console.log(`  URL: ${multiPageUrl}`);
   console.log("  contentRange: '2-3,5'\n");
@@ -127,7 +180,7 @@ async function main() {
   console.log(text);
 
   // ================================================================
-  // 3. MULTI-SEGMENT VIDEO
+  // 4. MULTI-SEGMENT VIDEO
   // ================================================================
 
   const videoUrl =
@@ -152,7 +205,7 @@ async function main() {
   console.log(text);
 
   // ================================================================
-  // 4. AUDIO WITH CONTENT RANGE
+  // 5. AUDIO WITH CONTENT RANGE
   // ================================================================
 
   const audioUrl =
@@ -171,9 +224,9 @@ async function main() {
   poller = client.analyze("prebuilt-audioSearch", [{ url: audioUrl, contentRange: "0-10000" }]);
   result = await poller.pollUntilDone();
 
-  // Include metadata to track the source file in RAG pipelines.
+  // Include customMetadata to track the source file in RAG pipelines.
   text = toLlmInput(result, {
-    metadata: { source: "callCenterRecording.mp3" },
+    customMetadata: { source: "callCenterRecording.mp3" },
   });
   console.log("Output:");
   console.log(text);

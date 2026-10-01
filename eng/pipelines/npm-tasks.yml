@@ -72,10 +72,10 @@ extends:
                 targetType: filePath
                 filePath: "$(System.DefaultWorkingDirectory)/eng/scripts/npm-admin-tasks.ps1"
                 arguments: >
-                  -taskType ${{parameters.TaskType}}
-                  -packageName ${{parameters.PackageName}}
-                  -pkgVersion ${{parameters.PkgVersion}}
-                  -tagName ${{parameters.TagName}}
+                  -taskType "${{parameters.TaskType}}"
+                  -packageName "${{parameters.PackageName}}"
+                  -pkgVersion "${{parameters.PkgVersion}}"
+                  -tagName "${{parameters.TagName}}"
                   -npmToken "$(azure-sdk-npm-token)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true

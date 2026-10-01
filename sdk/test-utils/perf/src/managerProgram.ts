@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { exec } from "node:child_process";
+import { execFile, isProcessError } from "@azure/core-process";
 import os from "node:os";
 import { performStage } from "./barrier.js";
 import {
@@ -197,15 +197,29 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
-    return new Promise((resolve) => {
-      console.log("=== Versions ===");
-      exec(`npm list --prod ${listTransitiveDeps ? "" : "--depth=0"}`, (_error, stdout) => {
-        for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
-          console.log(dependency);
-        }
-        resolve();
-      });
-    });
+    console.log("=== Versions ===");
+    let stdout = "";
+    try {
+      const result = await execFile(
+        "npm",
+        ["list", "--prod", ...(listTransitiveDeps ? [] : ["--depth=0"])],
+        {
+          allowWindowsBatchFiles: true,
+          encoding: "utf8",
+        },
+      );
+      stdout = result.stdout;
+    } catch (error: unknown) {
+      if (isProcessError(error) && typeof error.stdout === "string") {
+        stdout = error.stdout;
+      } else {
+        console.warn("Unable to list package versions.");
+      }
+    }
+
+    for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
+      console.log(dependency);
+    }
   }
 
   /**

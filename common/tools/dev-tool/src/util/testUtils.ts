@@ -3,9 +3,8 @@
 
 import type { TestProxy } from "./testProxyUtils.ts";
 import { isProxyToolActive, startTestProxy } from "./testProxyUtils.ts";
-import type { Command as ConcurrentlyCommand } from "concurrently";
-import concurrently from "concurrently";
 import { createPrinter } from "./printer.ts";
+import { run } from "./run.ts";
 
 const log = createPrinter("preparing-proxy-tool");
 
@@ -29,9 +28,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
   }
 }
 
-export async function runTestsWithProxyTool(
-  testCommandObj: Partial<ConcurrentlyCommand> & { command: string },
-): Promise<boolean> {
+export async function runTestsWithProxyTool(testCommand: readonly string[]): Promise<boolean> {
   let testProxy: TestProxy | undefined = undefined;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the testing command or the test-proxy too
@@ -39,12 +36,18 @@ export async function runTestsWithProxyTool(
     testProxy = await startTestProxy();
   }
 
-  await concurrently([testCommandObj]).result;
-
-  if (testProxy) {
-    log("Stopping the test proxy");
-    await testProxy.stop();
+  let success = true;
+  try {
+    await run(testCommand, { stdio: "inherit" });
+  } catch (error: unknown) {
+    log.error(`test command failed: ${error instanceof Error ? error.message : String(error)}`);
+    success = false;
+  } finally {
+    if (testProxy) {
+      log("Stopping the test proxy");
+      await testProxy.stop();
+    }
   }
 
-  return true;
+  return success;
 }

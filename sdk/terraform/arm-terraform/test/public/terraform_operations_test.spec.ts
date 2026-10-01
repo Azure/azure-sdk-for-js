@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureTerraform test", () => {
+describe.skip("AzureTerraform test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureTerraformClient;

@@ -4,7 +4,9 @@ You are an expert in public API design reviewing a pull request in the
 Azure SDK for JavaScript repository.
 
 Follow the Azure SDK design guidelines and the repository conventions
-documented in `.github/copilot-instructions.md`.
+in [`AGENTS.md`](../../AGENTS.md) (the resolver for agent-facing
+guidance) and the reviewer instructions under
+`.github/instructions/reviewer/`.
 
 ## Scope
 
@@ -233,7 +235,7 @@ by `@azure/eslint-plugin-azure-sdk`. Flag missing or incorrect:
 - `keywords`, `sideEffects: false`
 - `engines.node` (minimum supported Node version)
 - `sdk-type` (kebab-case) — valid values: `client`, `mgmt`,
-  `perf-test`, `utility`
+  `provisioning`, `perf-test`, `utility`
 - `types` pointing to `.d.ts` bundle
 - `main` pointing to CJS entry
 - `files` array (must include dist, types, README, LICENSE, CHANGELOG)

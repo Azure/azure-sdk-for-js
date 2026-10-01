@@ -28,11 +28,6 @@ export interface BrokerAuthorizationOperations {
     options?: BrokerAuthorizationListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<BrokerAuthorizationResource>;
   /** Delete a BrokerAuthorizationResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -58,7 +53,6 @@ export interface BrokerAuthorizationOperations {
     options?: BrokerAuthorizationGetOptionalParams,
   ) => Promise<BrokerAuthorizationResource>;
 }
-
 function _getBrokerAuthorization(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -100,7 +94,6 @@ function _getBrokerAuthorization(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, authorizationName, options),
   };
 }
-
 export function _getBrokerAuthorizationOperations(
   context: IoTOperationsContext,
 ): BrokerAuthorizationOperations {

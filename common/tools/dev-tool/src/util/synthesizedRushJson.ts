@@ -58,6 +58,7 @@ export async function getRushJson(): Promise<any> {
   _workspaceRoot = await resolveRoot();
 
   const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=-1"], {
+    allowWindowsBatchFiles: true,
     captureOutput: true,
     cwd: _workspaceRoot,
   });

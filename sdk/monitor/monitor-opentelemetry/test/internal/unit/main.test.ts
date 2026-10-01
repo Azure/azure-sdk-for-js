@@ -17,7 +17,8 @@ import {
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
 } from "../../../src/types.js";
-import { getOsPrefix } from "../../../src/utils/common.js";
+import { getOsPrefix, hasNumberFlag } from "../../../src/utils/common.js";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
@@ -56,7 +57,7 @@ describe("Main functions", () => {
   beforeEach(() => {
     originalEnv = process.env;
     // Preserve whatever the global OTel API object looks like before each test
-    savedOTelGlobal = (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    savedOTelGlobal = Reflect.get(globalThis, GLOBAL_OPENTELEMETRY_API_KEY);
   });
 
   afterEach(() => {
@@ -64,9 +65,9 @@ describe("Main functions", () => {
     vi.restoreAllMocks();
     // Restore the global OTel API object to avoid cross-test contamination
     if (savedOTelGlobal === undefined) {
-      delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+      Reflect.deleteProperty(globalThis, GLOBAL_OPENTELEMETRY_API_KEY);
     } else {
-      (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
+      Reflect.set(globalThis, GLOBAL_OPENTELEMETRY_API_KEY, savedOTelGlobal);
     }
   });
 
@@ -89,9 +90,9 @@ describe("Main functions", () => {
   });
 
   it("useAzureMonitor should clear stale global API version before initializing", () => {
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    Reflect.set(globalThis, GLOBAL_OPENTELEMETRY_API_KEY, {
       version: "1.6.0",
-    };
+    });
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -113,9 +114,9 @@ describe("Main functions", () => {
   it("useAzureMonitor should handle stale global with a newer/future API version", () => {
     // Even if the stale version is higher than the current one, the mismatch still
     // causes registerGlobal() to fail. Our fix should handle any version mismatch.
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    Reflect.set(globalThis, GLOBAL_OPENTELEMETRY_API_KEY, {
       version: "2.99.0",
-    };
+    });
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -132,7 +133,7 @@ describe("Main functions", () => {
 
   it("useAzureMonitor should work when no stale global exists", () => {
     // Regression: deleting a non-existent global key should not throw or break anything.
-    delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    Reflect.deleteProperty(globalThis, GLOBAL_OPENTELEMETRY_API_KEY);
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -157,9 +158,9 @@ describe("Main functions", () => {
     };
 
     // First call with stale global
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    Reflect.set(globalThis, GLOBAL_OPENTELEMETRY_API_KEY, {
       version: "1.6.0",
-    };
+    });
     useAzureMonitor(config);
     let tracer = trace.getTracerProvider().getTracer("test");
     let span = tracer.startSpan("test-first-call");
@@ -169,9 +170,9 @@ describe("Main functions", () => {
     expect(traceId).not.toBe("00000000000000000000000000000000");
 
     // Second call — re-inject stale global as if another extension re-registered
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    Reflect.set(globalThis, GLOBAL_OPENTELEMETRY_API_KEY, {
       version: "1.4.0",
-    };
+    });
     useAzureMonitor(config);
     tracer = trace.getTracerProvider().getTracer("test");
     span = tracer.startSpan("test-second-call");
@@ -203,6 +204,48 @@ describe("Main functions", () => {
     await shutdownAzureMonitor();
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);
+  });
+
+  it("should restore console after shutdown when console instrumentation is enabled", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched while enabled");
+    await shutdownAzureMonitor();
+    assert.strictEqual(console.log, originalLog, "console.log should be restored after shutdown");
+  });
+
+  it("should not leak the console patch across re-initialization", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(
+      console.log,
+      originalLog,
+      "console.log should be patched after the first init",
+    );
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched after re-init");
+    await shutdownAzureMonitor();
+    assert.strictEqual(
+      console.log,
+      originalLog,
+      "console.log should be fully restored after shutdown following re-init",
+    );
   });
 
   it("should add custom spanProcessors", () => {
@@ -327,6 +370,101 @@ describe("Main functions", () => {
     assert.strictEqual(instrumentations, 31);
   });
 
+  it("should record the Console instrumentation Statsbeat bit when console collection is enabled", async () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: {
+          enabled: true,
+        },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE instrumentation bit (128) not set",
+    );
+    assert.strictEqual(
+      StatsbeatInstrumentationMap.get("@opentelemetry/instrumentation-console"),
+      StatsbeatInstrumentation.CONSOLE,
+    );
+    await shutdownAzureMonitor();
+  });
+
+  it("should not report log instrumentations in Statsbeat when the logging level is NONE", async () => {
+    const env = <{ [id: string]: string }>{};
+    env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+        bunyan: { enabled: true },
+        winston: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.BUNYAN,
+      "BUNYAN should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.WINSTON,
+      "WINSTON should not be reported when the logging level is NONE",
+    );
+    await shutdownAzureMonitor();
+  });
+
+  it("should preserve seeded community instrumentation bits (including bits above 2**32) across initialization", async () => {
+    // Preserve seeded flags below and above the 32-bit range.
+    const env = <{ [id: string]: string }>{};
+    env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
+      instrumentation: StatsbeatInstrumentation.CUCUMBER + StatsbeatInstrumentation.AMQPLIB,
+      feature: 0,
+    });
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CUCUMBER),
+      "Seeded CUCUMBER (256) bit should be preserved across initialization",
+    );
+    assert.notOk(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.DATALOADER),
+      "CUCUMBER must not be re-encoded as DATALOADER (512)",
+    );
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.AMQPLIB),
+      "Seeded AMQPLIB (2**35) bit should be preserved and not truncated by 32-bit ops",
+    );
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CONSOLE),
+      "CONSOLE (128) bit should be set",
+    );
+    await shutdownAzureMonitor();
+  });
+
   it("should set shim feature in statsbeat if env var is populated", () => {
     getInstance()["initializedByShim"] = true;
     const config: AzureMonitorOpenTelemetryOptions = {
@@ -342,6 +480,7 @@ describe("Main functions", () => {
 
   it("should set AKS_RESOURCE_DETECTOR_POPULATION feature when AKS resource attributes are populated", () => {
     const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
     env.CLUSTER_RESOURCE_ID =
       "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
     process.env = env;
@@ -371,6 +510,150 @@ describe("Main functions", () => {
     assert.notOk(
       features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
       "AKS_RESOURCE_DETECTOR_POPULATION should not be set",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in AKS when the cluster metadata is not available", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set without AKS cluster metadata",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in App Service", () => {
+    const env = <{ [id: string]: string }>{};
+    // App Service populates cloud.resource_id via its own resource detector.
+    env.WEBSITE_SITE_NAME = "testSiteName";
+    env.WEBSITE_OWNER_NAME = "00000000-0000-0000-0000-000000000000+testResourceGroup-CentralUS";
+    env.WEBSITE_RESOURCE_GROUP = "testResourceGroup";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set in App Service",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in Azure Functions", () => {
+    const env = <{ [id: string]: string }>{};
+    // Azure Functions also populates cloud.resource_id via its own resource detector.
+    env.WEBSITE_SITE_NAME = "testSiteName";
+    env.WEBSITE_OWNER_NAME = "00000000-0000-0000-0000-000000000000+testResourceGroup-CentralUS";
+    env.WEBSITE_RESOURCE_GROUP = "testResourceGroup";
+    env.FUNCTIONS_WORKER_RUNTIME = "node";
+    env.FUNCTIONS_EXTENSION_VERSION = "~4";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set in Azure Functions",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature when the cluster resource ID is not an AKS cluster", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.CLUSTER_RESOURCE_ID = "my-self-managed-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for a non AKS cluster resource ID",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature for a malformed AKS cluster resource ID", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.CLUSTER_RESOURCE_ID =
+      "garbage/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for a malformed cluster resource ID",
+    );
+  });
+
+  it("should not inherit a seeded AKS_RESOURCE_DETECTOR_POPULATION feature bit", () => {
+    const env = <{ [id: string]: string }>{};
+    // Legacy numeric statsbeat seed claiming the AKS resource detector populated attributes.
+    env.AZURE_MONITOR_STATSBEAT_FEATURES =
+      StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION.toString();
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be inherited from the environment",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature for resource attributes set by the customer", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.OTEL_RESOURCE_ATTRIBUTES =
+      "k8s.cluster.name=my-cluster,cloud.resource_id=/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      resource: resourceFromAttributes({
+        "k8s.cluster.name": "my-other-cluster",
+      }),
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for customer supplied attributes",
     );
   });
 

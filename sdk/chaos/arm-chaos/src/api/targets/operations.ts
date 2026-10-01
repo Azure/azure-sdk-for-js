@@ -37,7 +37,7 @@ export function _listSend(
       parentProviderNamespace: parentProviderNamespace,
       parentResourceType: parentResourceType,
       parentResourceName: parentResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -54,14 +54,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _targetListResultDeserializer(result.body);
 }
-
 /** Get a list of Target resources that extend a tracked regional resource. */
 export function list(
   context: Client,
@@ -87,7 +88,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -110,7 +111,7 @@ export function _$deleteSend(
       parentResourceType: parentResourceType,
       parentResourceName: parentResourceName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,14 +124,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a Target resource that extends a tracked regional resource. */
 export async function $delete(
   context: Client,
@@ -172,7 +174,7 @@ export function _createOrUpdateSend(
       parentResourceType: parentResourceType,
       parentResourceName: parentResourceName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,14 +192,15 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return targetDeserializer(result.body);
 }
-
 /** Create or update a Target resource that extends a tracked regional resource. */
 export async function createOrUpdate(
   context: Client,
@@ -240,7 +243,7 @@ export function _getSend(
       parentResourceType: parentResourceType,
       parentResourceName: parentResourceName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,14 +259,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return targetDeserializer(result.body);
 }
-
 /** Get a Target resource that extends a tracked regional resource. */
 export async function get(
   context: Client,

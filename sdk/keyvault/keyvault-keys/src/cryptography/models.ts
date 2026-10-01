@@ -34,14 +34,7 @@ export class LocalCryptographyUnsupportedError extends Error {}
  * @internal
  */
 export type CryptographyProviderOperation =
-  | "encrypt"
-  | "decrypt"
-  | "wrapKey"
-  | "unwrapKey"
-  | "sign"
-  | "signData"
-  | "verify"
-  | "verifyData";
+  "encrypt" | "decrypt" | "wrapKey" | "unwrapKey" | "sign" | "signData" | "verify" | "verifyData";
 
 /**
  *

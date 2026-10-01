@@ -1,5 +1,20 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/microsoft/accessReview": "./src/models/microsoft/accessReview/index.ts"
+  "./models/microsoft/attributeNamespaces": "./src/models/microsoft/attributeNamespaces/index.ts"
+  "./models/microsoft/authorization": "./src/models/microsoft/authorization/index.ts"
+  "./models/microsoft/classicAdmin": "./src/models/microsoft/classicAdmin/index.ts"
+  "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
+  "./models/microsoft/denyAssignment": "./src/models/microsoft/denyAssignment/index.ts"
+  "./models/microsoft/providerOperations": "./src/models/microsoft/providerOperations/index.ts"
+  "./models/microsoft/roleAssignment": "./src/models/microsoft/roleAssignment/index.ts"
+  "./models/microsoft/roleDefinitions": "./src/models/microsoft/roleDefinitions/index.ts"
+  "./models/microsoft/roleManagementAlerts": "./src/models/microsoft/roleManagementAlerts/index.ts"
 
 targets:
   - name: browser

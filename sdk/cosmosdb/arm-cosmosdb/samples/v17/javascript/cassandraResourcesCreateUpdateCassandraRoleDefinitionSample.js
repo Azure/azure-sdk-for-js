@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates an Azure Cosmos DB Cassandra Role Definition.
+ *
+ * @summary creates or updates an Azure Cosmos DB Cassandra Role Definition.
+ * x-ms-original-file: 2026-03-15/cassandrarbac/CosmosDBCassandraRoleDefinitionCreateUpdate.json
+ */
+async function cosmosDBCassandraRoleDefinitionCreateUpdate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.cassandraResources.createUpdateCassandraRoleDefinition(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleDefinitionId",
+    {
+      typePropertiesType: "CustomRole",
+      assignableScopes: [
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
+      ],
+      permissions: [
+        {
+          dataActions: [
+            "Microsoft.DocumentDB/databaseAccounts/cassandraDatabases/containers/entities/create",
+            "Microsoft.DocumentDB/databaseAccounts/cassandraDatabases/containers/entities/read",
+          ],
+          notDataActions: [],
+        },
+      ],
+      roleName: "myRoleName",
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await cosmosDBCassandraRoleDefinitionCreateUpdate();
+}
+
+main().catch(console.error);

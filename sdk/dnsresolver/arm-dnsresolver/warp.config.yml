@@ -1,5 +1,20 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/dnsResolverDomainLists": "./src/api/dnsResolverDomainLists/index.ts"
+  "./api/dnsResolverPolicyVirtualNetworkLinks": "./src/api/dnsResolverPolicyVirtualNetworkLinks/index.ts"
+  "./api/dnsSecurityRules": "./src/api/dnsSecurityRules/index.ts"
+  "./api/dnsResolverPolicies": "./src/api/dnsResolverPolicies/index.ts"
+  "./api/virtualNetworkLinks": "./src/api/virtualNetworkLinks/index.ts"
+  "./api/forwardingRules": "./src/api/forwardingRules/index.ts"
+  "./api/dnsForwardingRulesets": "./src/api/dnsForwardingRulesets/index.ts"
+  "./api/outboundEndpoints": "./src/api/outboundEndpoints/index.ts"
+  "./api/inboundEndpoints": "./src/api/inboundEndpoints/index.ts"
+  "./api/dnsResolvers": "./src/api/dnsResolvers/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

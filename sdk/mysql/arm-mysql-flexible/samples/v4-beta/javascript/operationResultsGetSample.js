@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the operation result for a long running operation.
- *
- * @summary Get the operation result for a long running operation.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/OperationResults_Get.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
+/**
+ * This sample demonstrates how to get the operation result for a long running operation.
+ *
+ * @summary get the operation result for a long running operation.
+ * x-ms-original-file: 2025-06-01-preview/OperationResults_Get.json
+ */
 async function operationResultsGet() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const locationName = "westus";
-  const operationId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.operationResults.get(locationName, operationId);
+  const result = await client.operationResults.get(
+    "westus",
+    "00000000-0000-0000-0000-000000000000",
+  );
   console.log(result);
 }
 

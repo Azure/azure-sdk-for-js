@@ -285,8 +285,7 @@ export function isUnexpected(
 ): response is FiltersCreateOrReplaceDefaultResponse;
 export function isUnexpected(
   response:
-    | IntegrationRuntimesListByAccount200Response
-    | IntegrationRuntimesListByAccountDefaultResponse,
+    IntegrationRuntimesListByAccount200Response | IntegrationRuntimesListByAccountDefaultResponse,
 ): response is IntegrationRuntimesListByAccountDefaultResponse;
 export function isUnexpected(
   response: IntegrationRuntimesGet200Response | IntegrationRuntimesGetDefaultResponse,
@@ -305,8 +304,7 @@ export function isUnexpected(
 ): response is IntegrationRuntimesStatusDefaultResponse;
 export function isUnexpected(
   response:
-    | IntegrationRuntimesListAuthKeys200Response
-    | IntegrationRuntimesListAuthKeysDefaultResponse,
+    IntegrationRuntimesListAuthKeys200Response | IntegrationRuntimesListAuthKeysDefaultResponse,
 ): response is IntegrationRuntimesListAuthKeysDefaultResponse;
 export function isUnexpected(
   response:
@@ -404,8 +402,7 @@ export function isUnexpected(
 ): response is SystemScanRulesetsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | SystemScanRulesetsGetByVersion200Response
-    | SystemScanRulesetsGetByVersionDefaultResponse,
+    SystemScanRulesetsGetByVersion200Response | SystemScanRulesetsGetByVersionDefaultResponse,
 ): response is SystemScanRulesetsGetByVersionDefaultResponse;
 export function isUnexpected(
   response: SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestDefaultResponse,

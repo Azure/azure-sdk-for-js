@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -807,10 +807,7 @@ export function chaosExperimentActionDeserializer(item: any): ChaosExperimentAct
 
 /** Alias for ChaosExperimentActionUnion */
 export type ChaosExperimentActionUnion =
-  | ContinuousAction
-  | DelayAction
-  | DiscreteAction
-  | ChaosExperimentAction;
+  ContinuousAction | DelayAction | DiscreteAction | ChaosExperimentAction;
 
 export function chaosExperimentActionUnionSerializer(item: ChaosExperimentActionUnion): any {
   switch (item.type) {
@@ -1021,9 +1018,7 @@ export function chaosTargetSelectorDeserializer(item: any): ChaosTargetSelector 
 
 /** Alias for ChaosTargetSelectorUnion */
 export type ChaosTargetSelectorUnion =
-  | ChaosTargetListSelector
-  | ChaosTargetQuerySelector
-  | ChaosTargetSelector;
+  ChaosTargetListSelector | ChaosTargetQuerySelector | ChaosTargetSelector;
 
 export function chaosTargetSelectorUnionSerializer(item: ChaosTargetSelectorUnion): any {
   switch (item.type) {
@@ -2379,6 +2374,104 @@ export function workspaceArrayDeserializer(result: Array<Workspace>): any[] {
   });
 }
 
+/** Model that represents the latest workspace discovery result. */
+export interface WorkspaceDiscovery extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceDiscoveryProperties;
+}
+
+export function workspaceDiscoveryDeserializer(item: any): WorkspaceDiscovery {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspaceDiscoveryPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model that represents the properties of the workspace discovery. */
+export interface WorkspaceDiscoveryProperties {
+  /** The discovery status. */
+  readonly status: WorkspaceDiscoveryStatus;
+  /** The discovery UTC start time. */
+  readonly startTime?: Date;
+  /** The discovery UTC end time. */
+  readonly endTime?: Date;
+  /** System or infrastructure errors encountered during discovery. */
+  readonly errors?: OperationError[];
+  /** The workspace ID this discovery belongs to. */
+  readonly workspaceId: string;
+  /** The resource snapshot ID produced by this discovery. */
+  readonly resourceSnapshotId?: string;
+}
+
+export function workspaceDiscoveryPropertiesDeserializer(item: any): WorkspaceDiscoveryProperties {
+  return {
+    status: item["status"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
+    workspaceId: item["workspaceId"],
+    resourceSnapshotId: item["resourceSnapshotId"],
+  };
+}
+
+/** Enum of the workspace discovery status. */
+export enum KnownWorkspaceDiscoveryStatus {
+  /** The discovery is pending and has not started. */
+  Pending = "Pending",
+  /** The discovery has been accepted and is queued for execution. */
+  Queued = "Queued",
+  /** The discovery is in progress. */
+  InProgress = "InProgress",
+  /** The discovery completed successfully. */
+  Succeeded = "Succeeded",
+  /** The discovery failed. */
+  Failed = "Failed",
+  /** The discovery was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Enum of the workspace discovery status. \
+ * {@link KnownWorkspaceDiscoveryStatus} can be used interchangeably with WorkspaceDiscoveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The discovery is pending and has not started. \
+ * **Queued**: The discovery has been accepted and is queued for execution. \
+ * **InProgress**: The discovery is in progress. \
+ * **Succeeded**: The discovery completed successfully. \
+ * **Failed**: The discovery failed. \
+ * **Canceled**: The discovery was canceled.
+ */
+export type WorkspaceDiscoveryStatus = string;
+
+export function operationErrorArrayDeserializer(result: Array<OperationError>): any[] {
+  return result.map((item) => {
+    return operationErrorDeserializer(item);
+  });
+}
+
+/** Represents a system or infrastructure error encountered during an async operation. */
+export interface OperationError {
+  /** The error code identifying the type of system error. */
+  errorCode: string;
+  /** A human-readable description of the system error. */
+  errorMessage: string;
+}
+
+export function operationErrorDeserializer(item: any): OperationError {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+  };
+}
+
 /** Model that represents the latest workspace evaluation result. */
 export interface WorkspaceEvaluation extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2411,18 +2504,20 @@ export interface WorkspaceEvaluationProperties {
   readonly errors?: OperationError[];
   /** The workspace ID this evaluation belongs to. */
   readonly workspaceId: string;
-  /** The number of scenarios to evaluate. */
-  readonly numScenariosToEvaluate?: number;
-  /** The number of scenarios that evaluated successfully. */
-  readonly numScenariosEvaluatedSucceeded?: number;
-  /** The number of scenarios that failed evaluation. */
-  readonly numScenariosEvaluatedFailed?: number;
-  /** The number of scenarios that were cancelled during evaluation. */
-  readonly numScenariosEvaluatedCancelled?: number;
+  /** The resource snapshot ID used for this evaluation. */
+  readonly resourceSnapshotId?: string;
+  /** The number of templates to evaluate. */
+  readonly numTemplatesToEvaluate?: number;
+  /** The number of templates that evaluated successfully. */
+  readonly numTemplatesEvaluatedSucceeded?: number;
+  /** The number of templates that failed evaluation. */
+  readonly numTemplatesEvaluatedFailed?: number;
+  /** The number of templates that were cancelled during evaluation. */
+  readonly numTemplatesEvaluatedCancelled?: number;
   /** The overall evaluation result. */
   readonly evaluationResult?: RecommendationStatus;
-  /** Per-scenario evaluation results. */
-  readonly results?: ScenarioEvaluationResultItem[];
+  /** Per-template evaluation results. */
+  readonly results?: TemplateEvaluationResultItem[];
 }
 
 export function workspaceEvaluationPropertiesDeserializer(
@@ -2434,14 +2529,15 @@ export function workspaceEvaluationPropertiesDeserializer(
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
     workspaceId: item["workspaceId"],
-    numScenariosToEvaluate: item["numScenariosToEvaluate"],
-    numScenariosEvaluatedSucceeded: item["numScenariosEvaluatedSucceeded"],
-    numScenariosEvaluatedFailed: item["numScenariosEvaluatedFailed"],
-    numScenariosEvaluatedCancelled: item["numScenariosEvaluatedCancelled"],
+    resourceSnapshotId: item["resourceSnapshotId"],
+    numTemplatesToEvaluate: item["numTemplatesToEvaluate"],
+    numTemplatesEvaluatedSucceeded: item["numTemplatesEvaluatedSucceeded"],
+    numTemplatesEvaluatedFailed: item["numTemplatesEvaluatedFailed"],
+    numTemplatesEvaluatedCancelled: item["numTemplatesEvaluatedCancelled"],
     evaluationResult: item["evaluationResult"],
     results: !item["results"]
       ? item["results"]
-      : scenarioEvaluationResultItemArrayDeserializer(item["results"]),
+      : templateEvaluationResultItemArrayDeserializer(item["results"]),
   };
 }
 
@@ -2478,27 +2574,6 @@ export enum KnownWorkspaceEvaluationStatus {
  */
 export type WorkspaceEvaluationStatus = string;
 
-export function operationErrorArrayDeserializer(result: Array<OperationError>): any[] {
-  return result.map((item) => {
-    return operationErrorDeserializer(item);
-  });
-}
-
-/** Represents a system or infrastructure error encountered during an async operation. */
-export interface OperationError {
-  /** The error code identifying the type of system error. */
-  errorCode: string;
-  /** A human-readable description of the system error. */
-  errorMessage: string;
-}
-
-export function operationErrorDeserializer(item: any): OperationError {
-  return {
-    errorCode: item["errorCode"],
-    errorMessage: item["errorMessage"],
-  };
-}
-
 /** Enum of the scenario validation state. */
 export enum KnownRecommendationStatus {
   /** The scenario recommendation status has not been evaluated. */
@@ -2529,25 +2604,33 @@ export enum KnownRecommendationStatus {
  */
 export type RecommendationStatus = string;
 
-export function scenarioEvaluationResultItemArrayDeserializer(
-  result: Array<ScenarioEvaluationResultItem>,
+export function templateEvaluationResultItemArrayDeserializer(
+  result: Array<TemplateEvaluationResultItem>,
 ): any[] {
   return result.map((item) => {
-    return scenarioEvaluationResultItemDeserializer(item);
+    return templateEvaluationResultItemDeserializer(item);
   });
 }
 
-/** Model that represents a single scenario evaluation result. */
-export interface ScenarioEvaluationResultItem {
-  /** The name of the scenario that was evaluated. */
-  scenarioName: string;
-  /** The evaluation result for this scenario. */
+/** Model that represents a single template evaluation result. */
+export interface TemplateEvaluationResultItem {
+  /**
+   * The template ID that was evaluated. Optional because the underlying BE field may
+   * be null for legacy evaluations created before template-centric persistence landed;
+   * the GW falls back to `scenarioName` in that case (`scenario.Id == templateId` by BE
+   * convention), so ARM responses are typically populated in practice.
+   */
+  templateId?: string;
+  /** The template name that was evaluated. Optional for the same reason as `templateId`. */
+  templateName?: string;
+  /** The evaluation result for this template. */
   evaluationResult: RecommendationStatus;
 }
 
-export function scenarioEvaluationResultItemDeserializer(item: any): ScenarioEvaluationResultItem {
+export function templateEvaluationResultItemDeserializer(item: any): TemplateEvaluationResultItem {
   return {
-    scenarioName: item["scenarioName"],
+    templateId: item["templateId"],
+    templateName: item["templateName"],
     evaluationResult: item["evaluationResult"],
   };
 }
@@ -3012,6 +3095,260 @@ export function scenarioArrayDeserializer(result: Array<Scenario>): any[] {
   });
 }
 
+/** Model that represents the scenario. */
+export interface ScenarioConfiguration extends ProxyResource {
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationProperties;
+}
+
+export function scenarioConfigurationSerializer(item: ScenarioConfiguration): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : scenarioConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function scenarioConfigurationDeserializer(item: any): ScenarioConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : scenarioConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model that represents the properties of the scenario configuration. */
+export interface ScenarioConfigurationProperties {
+  /** Resource ID of the scenario this configuration applies to. */
+  scenarioId: string;
+  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+  parameters?: KeyValuePair[];
+  /** Most recent provisioning state for the given scenario resource. */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unified resource targeting policy that controls which discovered resources participate
+   * in fault injection. Replaces the separate `exclusions` and `filters` properties with
+   * symmetric include/exclude criteria.
+   *
+   * Include uses AND logic — a resource must match ALL active include dimensions.
+   * Exclude uses OR logic — a resource is removed if it matches ANY exclude dimension.
+   * When include and exclude conflict on the same resource, exclude wins.
+   *
+   * Null or omitted means all discovered resources participate (no targeting constraints).
+   */
+  resourceTargeting?: ResourceTargeting;
+}
+
+export function scenarioConfigurationPropertiesSerializer(
+  item: ScenarioConfigurationProperties,
+): any {
+  return {
+    scenarioId: item["scenarioId"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : keyValuePairArraySerializer(item["parameters"]),
+    resourceTargeting: !item["resourceTargeting"]
+      ? item["resourceTargeting"]
+      : resourceTargetingSerializer(item["resourceTargeting"]),
+  };
+}
+
+export function scenarioConfigurationPropertiesDeserializer(
+  item: any,
+): ScenarioConfigurationProperties {
+  return {
+    scenarioId: item["scenarioId"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : keyValuePairArrayDeserializer(item["parameters"]),
+    provisioningState: item["provisioningState"],
+    resourceTargeting: !item["resourceTargeting"]
+      ? item["resourceTargeting"]
+      : resourceTargetingDeserializer(item["resourceTargeting"]),
+  };
+}
+
+/**
+ * Model that represents unified resource targeting with symmetric include/exclude criteria.
+ * Both sides support the same set of dimensions.
+ */
+export interface ResourceTargeting {
+  /**
+   * Inclusion criteria. Resources must match ALL active dimensions to be candidates.
+   * Null or omitted means no inclusion filtering (all resources are candidates).
+   */
+  include?: ResourceTargetingCriteria;
+  /**
+   * Exclusion criteria. Resources matching ANY active dimension are removed.
+   * Null or omitted means no exclusions applied.
+   */
+  exclude?: ResourceTargetingCriteria;
+}
+
+export function resourceTargetingSerializer(item: ResourceTargeting): any {
+  return {
+    include: !item["include"]
+      ? item["include"]
+      : resourceTargetingCriteriaSerializer(item["include"]),
+    exclude: !item["exclude"]
+      ? item["exclude"]
+      : resourceTargetingCriteriaSerializer(item["exclude"]),
+  };
+}
+
+export function resourceTargetingDeserializer(item: any): ResourceTargeting {
+  return {
+    include: !item["include"]
+      ? item["include"]
+      : resourceTargetingCriteriaDeserializer(item["include"]),
+    exclude: !item["exclude"]
+      ? item["exclude"]
+      : resourceTargetingCriteriaDeserializer(item["exclude"]),
+  };
+}
+
+/**
+ * Model that represents a set of targeting criteria for resource selection.
+ * Used on both the include and exclude sides of ResourceTargeting.
+ *
+ * All dimensions use unified null/empty semantics:
+ * - Null or omitted means "no constraint" (this dimension is inactive).
+ * - Empty array is treated the same as null (no constraint).
+ * - Non-empty array means the dimension is active.
+ */
+export interface ResourceTargetingCriteria {
+  /**
+   * Array of Azure location strings (e.g., "eastus", "westeurope", "global").
+   * Case-insensitive, normalized form only (e.g., "eastus" not "East US").
+   */
+  locations?: string[];
+  /**
+   * Array of logical availability zone identifiers (e.g., "1", "2", "3", "zone-redundant").
+   *
+   * Mutually exclusive with `physicalZones` — set one or the other, not both.
+   * When set, `locations` must also be set on the same side (zone IDs are only meaningful within a region).
+   */
+  zones?: string[];
+  /**
+   * Array of physical datacenter zone identifiers in `{region}-az{N}` format
+   * (e.g., "westus2-az1"). Resolved to logical zones per-subscription at execution time.
+   *
+   * Mutually exclusive with `zones` — set one or the other, not both.
+   */
+  physicalZones?: string[];
+  /**
+   * Array of Azure resource type strings (e.g., "Microsoft.Compute/virtualMachines").
+   * Case-insensitive equality. Supports trailing wildcard (e.g., "Microsoft.Compute/*").
+   */
+  types?: string[];
+  /**
+   * Array of tag key-value pairs for filtering by Azure resource tags.
+   * Key and value are matched case-insensitively. Use "*" as value to match any value for a key.
+   */
+  tags?: KeyValuePair[];
+  /** Array of fully qualified Azure resource IDs. Case-insensitive equality. */
+  resources?: string[];
+}
+
+export function resourceTargetingCriteriaSerializer(item: ResourceTargetingCriteria): any {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    physicalZones: !item["physicalZones"]
+      ? item["physicalZones"]
+      : item["physicalZones"].map((p: any) => {
+          return p;
+        }),
+    types: !item["types"]
+      ? item["types"]
+      : item["types"].map((p: any) => {
+          return p;
+        }),
+    tags: !item["tags"] ? item["tags"] : keyValuePairArraySerializer(item["tags"]),
+    resources: !item["resources"]
+      ? item["resources"]
+      : item["resources"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function resourceTargetingCriteriaDeserializer(item: any): ResourceTargetingCriteria {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    physicalZones: !item["physicalZones"]
+      ? item["physicalZones"]
+      : item["physicalZones"].map((p: any) => {
+          return p;
+        }),
+    types: !item["types"]
+      ? item["types"]
+      : item["types"].map((p: any) => {
+          return p;
+        }),
+    tags: !item["tags"] ? item["tags"] : keyValuePairArrayDeserializer(item["tags"]),
+    resources: !item["resources"]
+      ? item["resources"]
+      : item["resources"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Model that represents a list of scenario configurations and a link for pagination. */
+export interface _ScenarioConfigurationListResult {
+  /** The ScenarioConfiguration items on this page */
+  value: ScenarioConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioConfigurationListResultDeserializer(
+  item: any,
+): _ScenarioConfigurationListResult {
+  return {
+    value: scenarioConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioConfigurationArraySerializer(result: Array<ScenarioConfiguration>): any[] {
+  return result.map((item) => {
+    return scenarioConfigurationSerializer(item);
+  });
+}
+
+export function scenarioConfigurationArrayDeserializer(
+  result: Array<ScenarioConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return scenarioConfigurationDeserializer(item);
+  });
+}
+
 /** Model that represents the scenario run. */
 export interface ScenarioRun extends ProxyResource {
   /** The properties of scenario run. */
@@ -3042,10 +3379,23 @@ export interface ScenarioRunProperties {
   readonly scenarioConfigurationName: string;
   /** The principal id for the managed identity used for the run. */
   readonly managedIdentityPrincipalId: string;
+  /**
+   * The resource snapshot ID this run is pinned to. Resolved from the scenario's
+   * pinned evaluation snapshot (template scenarios) or the latest discovery
+   * snapshot (custom scenarios) at run creation, ensuring the run executes against
+   * the same set of discovered resources that produced the recommendation.
+   */
+  readonly resourceSnapshotId?: string;
   /** The scenario run status. */
   readonly status: ScenarioRunState;
   /** All resources discovered for the scenario run. */
   readonly resources: ScenarioRunResource[];
+  /**
+   * Resources that matched the scenario's target resource types but were excluded
+   * from fault injection by the configuration's resource-targeting filters
+   * (for example zone, location, or explicit exclusions). These resources will not be impacted by the run.
+   */
+  readonly excludedResources?: ScenarioRunResource[];
   /** System or infrastructure errors encountered during the scenario run. */
   readonly errors?: OperationError[];
   /** Business errors from fault injection — permission and resource state issues. */
@@ -3072,8 +3422,12 @@ export function scenarioRunPropertiesDeserializer(item: any): ScenarioRunPropert
     scenarioName: item["scenarioName"],
     scenarioConfigurationName: item["scenarioConfigurationName"],
     managedIdentityPrincipalId: item["managedIdentityPrincipalId"],
+    resourceSnapshotId: item["resourceSnapshotId"],
     status: item["status"],
     resources: scenarioRunResourceArrayDeserializer(item["resources"]),
+    excludedResources: !item["excludedResources"]
+      ? item["excludedResources"]
+      : scenarioRunResourceArrayDeserializer(item["excludedResources"]),
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
     executionErrors: !item["executionErrors"]
       ? item["executionErrors"]
@@ -3198,6 +3552,12 @@ export interface PermissionError {
   readonly recommendedRoles: string[];
   /** The identity. */
   readonly identity?: EntraIdentity;
+  /**
+   * The error message describing the permission validation failure, when the
+   * failure carries a distinct message (for example, when the target could not
+   * be read to evaluate access).
+   */
+  readonly errorMessage?: string;
 }
 
 export function permissionErrorDeserializer(item: any): PermissionError {
@@ -3213,6 +3573,7 @@ export function permissionErrorDeserializer(item: any): PermissionError {
       return p;
     }),
     identity: !item["identity"] ? item["identity"] : entraIdentityDeserializer(item["identity"]),
+    errorMessage: item["errorMessage"],
   };
 }
 
@@ -3441,255 +3802,6 @@ export function physicalToLogicalZoneMappingDeserializer(item: any): PhysicalToL
   };
 }
 
-/** Model that represents a list of scenario runs and a link for pagination. */
-export interface _ScenarioRunListResult {
-  /** The ScenarioRun items on this page */
-  value: ScenarioRun[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _scenarioRunListResultDeserializer(item: any): _ScenarioRunListResult {
-  return {
-    value: scenarioRunArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function scenarioRunArrayDeserializer(result: Array<ScenarioRun>): any[] {
-  return result.map((item) => {
-    return scenarioRunDeserializer(item);
-  });
-}
-
-/** Model that represents the scenario. */
-export interface ScenarioConfiguration extends ProxyResource {
-  /** The properties of scenario definition. */
-  properties?: ScenarioConfigurationProperties;
-}
-
-export function scenarioConfigurationSerializer(item: ScenarioConfiguration): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : scenarioConfigurationPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function scenarioConfigurationDeserializer(item: any): ScenarioConfiguration {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : scenarioConfigurationPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Model that represents the properties of the scenario configuration. */
-export interface ScenarioConfigurationProperties {
-  /** Resource ID of the scenario this configuration applies to. */
-  scenarioId: string;
-  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
-  parameters?: KeyValuePair[];
-  /** Exclusion criteria for protecting resources from fault injection. */
-  exclusions?: ConfigurationExclusions;
-  /** Most recent provisioning state for the given scenario resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Filter criteria used to constrain which discovered resources participate in fault injection. */
-  filters?: ConfigurationFilters;
-}
-
-export function scenarioConfigurationPropertiesSerializer(
-  item: ScenarioConfigurationProperties,
-): any {
-  return {
-    scenarioId: item["scenarioId"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : keyValuePairArraySerializer(item["parameters"]),
-    exclusions: !item["exclusions"]
-      ? item["exclusions"]
-      : configurationExclusionsSerializer(item["exclusions"]),
-    filters: !item["filters"] ? item["filters"] : configurationFiltersSerializer(item["filters"]),
-  };
-}
-
-export function scenarioConfigurationPropertiesDeserializer(
-  item: any,
-): ScenarioConfigurationProperties {
-  return {
-    scenarioId: item["scenarioId"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : keyValuePairArrayDeserializer(item["parameters"]),
-    exclusions: !item["exclusions"]
-      ? item["exclusions"]
-      : configurationExclusionsDeserializer(item["exclusions"]),
-    provisioningState: item["provisioningState"],
-    filters: !item["filters"] ? item["filters"] : configurationFiltersDeserializer(item["filters"]),
-  };
-}
-
-/**
- * Model that represents exclusion criteria for protecting resources from fault injection.
- * Uses union (OR) logic - a resource is excluded if it matches ANY criteria.
- */
-export interface ConfigurationExclusions {
-  /** Array of specific resource IDs to exclude from fault injection. */
-  resources?: string[];
-  /** Array of tag key-value pairs. Resources with matching tags are excluded. */
-  tags?: KeyValuePair[];
-  /** Array of resource types. All resources of these types are excluded. */
-  types?: string[];
-}
-
-export function configurationExclusionsSerializer(item: ConfigurationExclusions): any {
-  return {
-    resources: !item["resources"]
-      ? item["resources"]
-      : item["resources"].map((p: any) => {
-          return p;
-        }),
-    tags: !item["tags"] ? item["tags"] : keyValuePairArraySerializer(item["tags"]),
-    types: !item["types"]
-      ? item["types"]
-      : item["types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function configurationExclusionsDeserializer(item: any): ConfigurationExclusions {
-  return {
-    resources: !item["resources"]
-      ? item["resources"]
-      : item["resources"].map((p: any) => {
-          return p;
-        }),
-    tags: !item["tags"] ? item["tags"] : keyValuePairArrayDeserializer(item["tags"]),
-    types: !item["types"]
-      ? item["types"]
-      : item["types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/**
- * Model that represents filter criteria for constraining which discovered
- * resources participate in fault injection.
- *
- * Uses intersection (AND) logic — a resource is included only if it matches all criteria.
- */
-export interface ConfigurationFilters {
-  /**
-   * Array of Azure location strings. Only resources in these locations are included.
-   *
-   * Null or omitted means all locations (no filter). Empty array means include nothing.
-   */
-  locations?: string[];
-  /**
-   * Array of availability zone identifiers ("1", "2", "3", "zone-redundant").
-   * Only resources whose zones intersect this list are included.
-   *
-   * Null or omitted means all zones (including non-zonal). Empty array means include nothing.
-   *
-   * Mutually exclusive with `physicalZones` — set one or the other, not both.
-   */
-  zones?: string[];
-  /**
-   * Array of physical availability zone identifiers in `{region}-az{N}` format
-   * (e.g., `"westus2-az1"`). Only resources in the corresponding logical zone
-   * for each subscription are included.
-   *
-   * At execution time, each physical zone is resolved to per-subscription
-   * logical zones via the Azure locations API. The resolved mapping is surfaced
-   * on the scenario run response (`zoneResolution`).
-   *
-   * Null or omitted means physical zone targeting is not used.
-   * Only one physical zone is supported in preview.
-   *
-   * Mutually exclusive with `zones` — set one or the other, not both.
-   */
-  physicalZones?: string[];
-}
-
-export function configurationFiltersSerializer(item: ConfigurationFilters): any {
-  return {
-    locations: !item["locations"]
-      ? item["locations"]
-      : item["locations"].map((p: any) => {
-          return p;
-        }),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-    physicalZones: !item["physicalZones"]
-      ? item["physicalZones"]
-      : item["physicalZones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function configurationFiltersDeserializer(item: any): ConfigurationFilters {
-  return {
-    locations: !item["locations"]
-      ? item["locations"]
-      : item["locations"].map((p: any) => {
-          return p;
-        }),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-    physicalZones: !item["physicalZones"]
-      ? item["physicalZones"]
-      : item["physicalZones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Model that represents a list of scenario configurations and a link for pagination. */
-export interface _ScenarioConfigurationListResult {
-  /** The ScenarioConfiguration items on this page */
-  value: ScenarioConfiguration[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _scenarioConfigurationListResultDeserializer(
-  item: any,
-): _ScenarioConfigurationListResult {
-  return {
-    value: scenarioConfigurationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function scenarioConfigurationArraySerializer(result: Array<ScenarioConfiguration>): any[] {
-  return result.map((item) => {
-    return scenarioConfigurationSerializer(item);
-  });
-}
-
-export function scenarioConfigurationArrayDeserializer(
-  result: Array<ScenarioConfiguration>,
-): any[] {
-  return result.map((item) => {
-    return scenarioConfigurationDeserializer(item);
-  });
-}
-
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface Validation extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -3720,6 +3832,17 @@ export interface ValidationProperties {
   executionPlanJson?: string;
   /** The scenario validation UTC end time. */
   readonly endTime?: Date;
+  /**
+   * Resources that matched the scenario's target resource types and will be impacted
+   * by the run, resolved after applying the configuration's resource-targeting filters.
+   */
+  readonly resources?: ScenarioRunResource[];
+  /**
+   * Resources that matched the scenario's target resource types but were excluded
+   * from fault injection by the configuration's resource-targeting filters
+   * (for example zone, location, or explicit exclusions). These resources will not be impacted.
+   */
+  readonly excludedResources?: ScenarioRunResource[];
   /** System or infrastructure errors encountered during validation. */
   readonly errors?: OperationError[];
   /** Business errors from validation — permission and resource state issues. */
@@ -3732,6 +3855,12 @@ export function validationPropertiesDeserializer(item: any): ValidationPropertie
     startTime: new Date(item["startTime"]),
     executionPlanJson: item["executionPlanJson"],
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    resources: !item["resources"]
+      ? item["resources"]
+      : scenarioRunResourceArrayDeserializer(item["resources"]),
+    excludedResources: !item["excludedResources"]
+      ? item["excludedResources"]
+      : scenarioRunResourceArrayDeserializer(item["excludedResources"]),
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
     validationErrors: !item["validationErrors"]
       ? item["validationErrors"]
@@ -3969,10 +4098,199 @@ export function permissionsFixSummaryDeserializer(item: any): PermissionsFixSumm
   };
 }
 
+/** Model that represents a list of scenario runs and a link for pagination. */
+export interface _ScenarioRunListResult {
+  /** The ScenarioRun items on this page */
+  value: ScenarioRun[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioRunListResultDeserializer(item: any): _ScenarioRunListResult {
+  return {
+    value: scenarioRunArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioRunArrayDeserializer(result: Array<ScenarioRun>): any[] {
+  return result.map((item) => {
+    return scenarioRunDeserializer(item);
+  });
+}
+
+/**
+ * Model that represents a connection between a workspace and a target resource.
+ * A connection provisions and tracks the trust relationship that authorizes the
+ * actor to reach the Chaos Studio data plane for the workspace and target during
+ * fault injection.
+ */
+export interface Connection extends ProxyResource {
+  /** The properties of the connection. */
+  properties?: ConnectionProperties;
+}
+
+export function connectionSerializer(item: Connection): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function connectionDeserializer(item: any): Connection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Model that represents the properties of a connection.
+ *
+ * The schema is flat and discriminated by `kind`. Optional fields form the
+ * superset across all connection kinds; which fields are required is
+ * validated by the service per kind.
+ */
+export interface ConnectionProperties {
+  /** The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. */
+  kind: ConnectionKind;
+  /** The fully qualified Azure resource ID of the target resource this connection is established with. */
+  targetResourceId: string;
+  /** The Microsoft Entra principal (object) ID of the identity used by the connection. */
+  principalId?: string;
+  /** The Microsoft Entra tenant ID that the connection identity belongs to. */
+  tenantId?: string;
+  /** The subject name of the certificate used to authenticate the connection. */
+  certificateSubjectName?: string;
+  /** The issuer of the certificate used to authenticate the connection. */
+  certificateIssuer?: string;
+  /** The dSTS principal name used to authenticate the connection. */
+  dstsPrincipal?: string;
+  /**
+   * The regional Chaos Studio data-plane endpoint assigned to this connection.
+   * Clients and agents use this endpoint to reach the Chaos Studio data plane
+   * for the connection.
+   */
+  readonly dataPlaneEndpoint?: string;
+  /** The current status of the connection. */
+  readonly status?: ConnectionStatus;
+  /** The most recent provisioning state for the connection resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function connectionPropertiesSerializer(item: ConnectionProperties): any {
+  return {
+    kind: item["kind"],
+    targetResourceId: item["targetResourceId"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    certificateSubjectName: item["certificateSubjectName"],
+    certificateIssuer: item["certificateIssuer"],
+    dstsPrincipal: item["dstsPrincipal"],
+  };
+}
+
+export function connectionPropertiesDeserializer(item: any): ConnectionProperties {
+  return {
+    kind: item["kind"],
+    targetResourceId: item["targetResourceId"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    certificateSubjectName: item["certificateSubjectName"],
+    certificateIssuer: item["certificateIssuer"],
+    dstsPrincipal: item["dstsPrincipal"],
+    dataPlaneEndpoint: item["dataPlaneEndpoint"],
+    status: item["status"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. */
+export enum KnownConnectionKind {
+  /** A connection backed by the Chaos AKS cluster extension. */
+  AksExtension = "AksExtension",
+  /** A connection backed by the Chaos agent installed on the target resource. */
+  ChaosAgent = "ChaosAgent",
+  /** A connection backed by Cloud Service Fault Injection (CSFI). */
+  Csfi = "Csfi",
+}
+
+/**
+ * The kind of connection, indicating the actor type authorized to reach the Chaos Studio data plane for the workspace and target. \
+ * {@link KnownConnectionKind} can be used interchangeably with ConnectionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AksExtension**: A connection backed by the Chaos AKS cluster extension. \
+ * **ChaosAgent**: A connection backed by the Chaos agent installed on the target resource. \
+ * **Csfi**: A connection backed by Cloud Service Fault Injection (CSFI).
+ */
+export type ConnectionKind = string;
+
+/** The status of a connection. */
+export enum KnownConnectionStatus {
+  /** The connection has been created but is not yet sending heartbeats; the trust relationship is not yet established. */
+  Pending = "Pending",
+  /** The connection is established and actively heartbeating. */
+  Connected = "Connected",
+  /** The connection's heartbeat has gone stale; heartbeats are no longer being received. */
+  Disconnected = "Disconnected",
+  /** The connection's credentials have been revoked. */
+  Revoked = "Revoked",
+}
+
+/**
+ * The status of a connection. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The connection has been created but is not yet sending heartbeats; the trust relationship is not yet established. \
+ * **Connected**: The connection is established and actively heartbeating. \
+ * **Disconnected**: The connection's heartbeat has gone stale; heartbeats are no longer being received. \
+ * **Revoked**: The connection's credentials have been revoked.
+ */
+export type ConnectionStatus = string;
+
+/** Model that represents a list of connections and a link for pagination. */
+export interface _ConnectionListResult {
+  /** The Connection items on this page */
+  value: Connection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _connectionListResultDeserializer(item: any): _ConnectionListResult {
+  return {
+    value: connectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function connectionArraySerializer(result: Array<Connection>): any[] {
+  return result.map((item) => {
+    return connectionSerializer(item);
+  });
+}
+
+export function connectionArrayDeserializer(result: Array<Connection>): any[] {
+  return result.map((item) => {
+    return connectionDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-01-01 API version. */
   V20250101 = "2025-01-01",
   /** The 2026-05-01-preview API version. */
   V20260501Preview = "2026-05-01-preview",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }

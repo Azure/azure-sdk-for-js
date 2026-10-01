@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export type { AgentPoolsOperations } from "./agentPools/index.js";
+export type { IdentityBindingsOperations } from "./identityBindings/index.js";
 export type { MachinesOperations } from "./machines/index.js";
 export type { MaintenanceConfigurationsOperations } from "./maintenanceConfigurations/index.js";
 export type { ManagedClustersOperations } from "./managedClusters/index.js";

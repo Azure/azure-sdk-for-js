@@ -4,8 +4,8 @@
 import {
   getQSU,
   getConnectionStringFromEnvironment,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
   configureStorageClient,
   SimpleTokenCredential,
 } from "../utils/index.js";
@@ -25,8 +25,7 @@ describe("QueueClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

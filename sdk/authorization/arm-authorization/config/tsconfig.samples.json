@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-authorization": [
-        "../dist/esm"
-      ]
+      "@azure/arm-authorization": ["../dist/esm"]
     }
   }
 }

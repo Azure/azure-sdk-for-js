@@ -1,55 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchIndexContext as Client } from "./index.js";
-import type {
-  SynonymMap,
-  ListSynonymMapsResult,
-  SearchIndex,
-  _ListIndexesResult,
-  SearchIndexResponse,
-  GetIndexStatisticsResult,
-  AnalyzeTextOptions,
-  AnalyzeResult,
-  SearchAlias,
-  _ListAliasesResult,
-  KnowledgeBase,
-  _ListKnowledgeBasesResult,
-  KnowledgeSourceUnion,
-  _ListKnowledgeSourcesResult,
-  SearchServiceStatistics,
-} from "../../models/azure/search/documents/indexes/models.js";
+import { SearchIndexContext as Client } from "./index.js";
 import {
+  SynonymMap,
   synonymMapSerializer,
   synonymMapDeserializer,
-  listSynonymMapsResultDeserializer,
+  _ListSynonymMapsResult,
+  _listSynonymMapsResultDeserializer,
+  SearchIndex,
   searchIndexSerializer,
   searchIndexDeserializer,
+  _ListIndexesResult,
   _listIndexesResultDeserializer,
+  SearchIndexResponse,
+  GetIndexStatisticsResult,
   getIndexStatisticsResultDeserializer,
+  AnalyzeTextOptions,
   analyzeTextOptionsSerializer,
+  AnalyzeResult,
   analyzeResultDeserializer,
+  SearchAlias,
   searchAliasSerializer,
   searchAliasDeserializer,
+  _ListAliasesResult,
   _listAliasesResultDeserializer,
+  KnowledgeBase,
   knowledgeBaseSerializer,
   knowledgeBaseDeserializer,
+  _ListKnowledgeBasesResult,
   _listKnowledgeBasesResultDeserializer,
   knowledgeSourceUnionSerializer,
   knowledgeSourceUnionDeserializer,
+  KnowledgeSourceUnion,
+  _ListKnowledgeSourcesResult,
   _listKnowledgeSourcesResultDeserializer,
+  KnowledgeSourceFile,
+  knowledgeSourceFileDeserializer,
+  UploadKnowledgeSourceFileMultipartRequest,
+  uploadKnowledgeSourceFileMultipartRequestSerializer,
+  _ListKnowledgeSourceFilesResult,
+  _listKnowledgeSourceFilesResultDeserializer,
+  UpdateKnowledgeSourceFileRequest,
+  updateKnowledgeSourceFileRequestSerializer,
+  SearchServiceStatistics,
   searchServiceStatisticsDeserializer,
+  _ListIndexStatsSummary,
+  _listIndexStatsSummaryDeserializer,
+  IndexStatisticsSummary,
 } from "../../models/azure/search/documents/indexes/models.js";
-import type { KnowledgeSourceStatus } from "../../models/azure/search/documents/knowledgeBases/models.js";
-import { knowledgeSourceStatusDeserializer } from "../../models/azure/search/documents/knowledgeBases/models.js";
+import {
+  KnowledgeSourceStatus,
+  knowledgeSourceStatusDeserializer,
+} from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import type { _ListIndexesSelectedResult } from "../../models/models.js";
-import { _listIndexesSelectedResultDeserializer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  _ListIndexesSelectedResult,
+  _listIndexesSelectedResultDeserializer,
+} from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
+  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  UpdateKnowledgeSourceFileOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileMultipartOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
@@ -80,8 +101,79 @@ import type {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _listIndexStatsSummarySend(
+  context: Client,
+  options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/indexstats{?api%2Dversion,search,pageSize,searchType}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listIndexStatsSummaryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListIndexStatsSummary> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _listIndexStatsSummaryDeserializer(result.body);
+}
+
+/** Retrieves a summary of statistics for all indexes in the search service. */
+export function listIndexStatsSummary(
+  context: Client,
+  options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listIndexStatsSummarySend(context, options),
+    _listIndexStatsSummaryDeserialize,
+    ["200"],
+    {
+      itemName: "indexesStatistics",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
+  );
+}
 
 export function _getServiceStatisticsSend(
   context: Client,
@@ -90,7 +182,7 @@ export function _getServiceStatisticsSend(
   const path = expandUrlTemplate(
     "/servicestats{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +210,9 @@ export async function _getServiceStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -135,6 +229,320 @@ export async function getServiceStatistics(
   return _getServiceStatisticsDeserialize(result);
 }
 
+export function _updateKnowledgeSourceFileSend(
+  context: Client,
+  fileId: string,
+  body: UpdateKnowledgeSourceFileRequest,
+  name: string,
+  options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
+    {
+      fileId: fileId,
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: updateKnowledgeSourceFileRequestSerializer(body),
+  });
+}
+
+export async function _updateKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+export async function updateKnowledgeSourceFile(
+  context: Client,
+  fileId: string,
+  body: UpdateKnowledgeSourceFileRequest,
+  name: string,
+  options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _updateKnowledgeSourceFileSend(context, fileId, body, name, options);
+  return _updateKnowledgeSourceFileDeserialize(result);
+}
+
+export function _deleteKnowledgeSourceFileSend(
+  context: Client,
+  fileId: string,
+  name: string,
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
+    {
+      fileId: fileId,
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204", "404"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+export async function deleteKnowledgeSourceFile(
+  context: Client,
+  fileId: string,
+  name: string,
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteKnowledgeSourceFileSend(context, fileId, name, options);
+  return _deleteKnowledgeSourceFileDeserialize(result);
+}
+
+export function _listKnowledgeSourceFilesSend(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion,prefix,search,pageSize,searchType}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      prefix: options?.prefix,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listKnowledgeSourceFilesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListKnowledgeSourceFilesResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _listKnowledgeSourceFilesResultDeserializer(result.body);
+}
+
+/** Lists all files in a File knowledge source. */
+export function listKnowledgeSourceFiles(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listKnowledgeSourceFilesSend(context, name, options),
+    _listKnowledgeSourceFilesDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "odataNextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
+  );
+}
+
+export function _uploadKnowledgeSourceFileMultipartSend(
+  context: Client,
+  body: UploadKnowledgeSourceFileMultipartRequest,
+  name: string,
+  options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: uploadKnowledgeSourceFileMultipartRequestSerializer(body),
+  });
+}
+
+export async function _uploadKnowledgeSourceFileMultipartDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+export async function uploadKnowledgeSourceFileMultipart(
+  context: Client,
+  body: UploadKnowledgeSourceFileMultipartRequest,
+  name: string,
+  options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileMultipartSend(context, body, name, options);
+  return _uploadKnowledgeSourceFileMultipartDeserialize(result);
+}
+
+export function _uploadKnowledgeSourceFileSend(
+  context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
+  name: string,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
+    headers: {
+      "content-disposition": contentDisposition,
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: file,
+  });
+}
+
+export async function _uploadKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Uploads a file to a File knowledge source for processing and indexing. */
+export async function uploadKnowledgeSourceFile(
+  context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
+  name: string,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileSend(
+    context,
+    contentDisposition,
+    file,
+    name,
+    options,
+  );
+  return _uploadKnowledgeSourceFileDeserialize(result);
+}
+
 export function _getKnowledgeSourceStatusSend(
   context: Client,
   name: string,
@@ -144,7 +552,7 @@ export function _getKnowledgeSourceStatusSend(
     "/knowledgesources('{sourceName}')/status{?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +580,9 @@ export async function _getKnowledgeSourceStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -198,7 +608,7 @@ export function _createKnowledgeSourceSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +638,9 @@ export async function _createKnowledgeSourceDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -251,9 +663,12 @@ export function _listKnowledgeSourcesSend(
   options: ListKnowledgeSourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/knowledgesources{?api%2Dversion}",
+    "/knowledgesources{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,7 +696,9 @@ export async function _listKnowledgeSourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -299,7 +716,12 @@ export function listKnowledgeSources(
     () => _listKnowledgeSourcesSend(context, options),
     _listKnowledgeSourcesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "odataNextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
   );
 }
 
@@ -312,7 +734,7 @@ export function _getKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -340,7 +762,9 @@ export async function _getKnowledgeSourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -367,7 +791,7 @@ export function _deleteKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +821,9 @@ export async function _deleteKnowledgeSourceDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -425,7 +851,7 @@ export function _createOrUpdateKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -458,7 +884,9 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -485,7 +913,7 @@ export function _createKnowledgeBaseSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -515,7 +943,9 @@ export async function _createKnowledgeBaseDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -538,9 +968,12 @@ export function _listKnowledgeBasesSend(
   options: ListKnowledgeBasesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/knowledgebases{?api%2Dversion}",
+    "/knowledgebases{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -568,7 +1001,9 @@ export async function _listKnowledgeBasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -586,7 +1021,12 @@ export function listKnowledgeBases(
     () => _listKnowledgeBasesSend(context, options),
     _listKnowledgeBasesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "odataNextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
   );
 }
 
@@ -599,7 +1039,7 @@ export function _getKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -627,7 +1067,9 @@ export async function _getKnowledgeBaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -654,7 +1096,7 @@ export function _deleteKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -684,7 +1126,9 @@ export async function _deleteKnowledgeBaseDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -712,7 +1156,7 @@ export function _createOrUpdateKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -745,7 +1189,9 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -772,7 +1218,7 @@ export function _createAliasSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -800,7 +1246,9 @@ export async function _createAliasDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -823,9 +1271,12 @@ export function _listAliasesSend(
   options: ListAliasesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/aliases{?api%2Dversion}",
+    "/aliases{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -853,7 +1304,9 @@ export async function _listAliasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -871,7 +1324,12 @@ export function listAliases(
     () => _listAliasesSend(context, options),
     _listAliasesDeserialize,
     ["200"],
-    { itemName: "aliases", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "aliases",
+      nextLinkName: "odataNextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
   );
 }
 
@@ -884,7 +1342,7 @@ export function _getAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -910,7 +1368,9 @@ export async function _getAliasDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -937,7 +1397,7 @@ export function _deleteAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -965,7 +1425,9 @@ export async function _deleteAliasDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -993,7 +1455,7 @@ export function _createOrUpdateAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1026,7 +1488,9 @@ export async function _createOrUpdateAliasDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1055,7 +1519,7 @@ export function _analyzeTextSend(
     "/indexes('{indexName}')/search.analyze{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1085,7 +1549,9 @@ export async function _analyzeTextDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1113,7 +1579,7 @@ export function _getIndexStatisticsSend(
     "/indexes('{indexName}')/search.stats{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1141,7 +1607,9 @@ export async function _getIndexStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1167,7 +1635,7 @@ export function _createIndexSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1195,7 +1663,9 @@ export async function _createIndexDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1218,10 +1688,13 @@ export function _listIndexesWithSelectedPropertiesSend(
   options: ListIndexesWithSelectedPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion,%24select}",
+    "/indexes{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1249,7 +1722,9 @@ export async function _listIndexesWithSelectedPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1267,7 +1742,12 @@ export function listIndexesWithSelectedProperties(
     () => _listIndexesWithSelectedPropertiesSend(context, options),
     _listIndexesWithSelectedPropertiesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
   );
 }
 
@@ -1276,9 +1756,12 @@ export function _listIndexesSend(
   options: ListIndexesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion}",
+    "/indexes{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1306,7 +1789,9 @@ export async function _listIndexesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1324,7 +1809,12 @@ export function listIndexes(
     () => _listIndexesSend(context, options),
     _listIndexesDeserialize,
     ["200"],
-    { itemName: "indexes", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "indexes",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
   );
 }
 
@@ -1337,7 +1827,7 @@ export function _getIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1363,7 +1853,9 @@ export async function _getIndexDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1390,7 +1882,7 @@ export function _deleteIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1418,7 +1910,9 @@ export async function _deleteIndexDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1446,7 +1940,7 @@ export function _createOrUpdateIndexSend(
     "/indexes('{indexName}'){?api%2Dversion,allowIndexDowntime}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       allowIndexDowntime: options?.allowIndexDowntime,
     },
     {
@@ -1480,7 +1974,9 @@ export async function _createOrUpdateIndexDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1507,7 +2003,7 @@ export function _createSynonymMapSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1537,7 +2033,9 @@ export async function _createSynonymMapDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1560,10 +2058,13 @@ export function _getSynonymMapsSend(
   options: GetSynonymMapsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/synonymmaps{?api%2Dversion,%24select}",
+    "/synonymmaps{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1587,25 +2088,37 @@ export function _getSynonymMapsSend(
 
 export async function _getSynonymMapsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListSynonymMapsResult> {
+): Promise<_ListSynonymMapsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return listSynonymMapsResultDeserializer(result.body);
+  return _listSynonymMapsResultDeserializer(result.body);
 }
 
 /** Lists all synonym maps available for a search service. */
-export async function getSynonymMaps(
+export function getSynonymMaps(
   context: Client,
   options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-): Promise<ListSynonymMapsResult> {
-  const result = await _getSynonymMapsSend(context, options);
-  return _getSynonymMapsDeserialize(result);
+): PagedAsyncIterableIterator<SynonymMap> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getSynonymMapsSend(context, options),
+    _getSynonymMapsDeserialize,
+    ["200"],
+    {
+      itemName: "synonymMaps",
+      nextLinkName: "odataNextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
+    },
+  );
 }
 
 export function _getSynonymMapSend(
@@ -1617,7 +2130,7 @@ export function _getSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1645,7 +2158,9 @@ export async function _getSynonymMapDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1672,7 +2187,7 @@ export function _deleteSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1700,7 +2215,9 @@ export async function _deleteSynonymMapDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1728,7 +2245,7 @@ export function _createOrUpdateSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1761,7 +2278,9 @@ export async function _createOrUpdateSynonymMapDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

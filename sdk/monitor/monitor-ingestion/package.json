@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure Monitor Ingestion library",
   "keywords": [
     "azure",
@@ -78,7 +78,7 @@
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
-    "pako": "^2.1.0",
+    "pako": "^3.0.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -90,7 +90,6 @@
     "@azure/identity": "catalog:internal",
     "@azure/monitor-query-logs": "^1.0.0",
     "@types/node": "catalog:",
-    "@types/pako": "^2.0.0",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
@@ -104,21 +103,13 @@
     "vitest": "catalog:testing"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedMonitorIngestionClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
+        "path": "src/api/logsIngestionContext.ts",
+        "prefix": "const userAgentInfo"
       }
     ]
   },

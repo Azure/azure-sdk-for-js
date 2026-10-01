@@ -69,22 +69,6 @@ export async function sendRequest(
 }
 
 /**
- * Function to determine the request content type
- * @param options - request options InternalRequestParameters
- * @returns returns the content-type
- */
-function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
-  if (options.contentType) {
-    return options.contentType;
-  }
-  const headerContentType = options.headers?.["content-type"];
-  if (typeof headerContentType === "string") {
-    return headerContentType;
-  }
-  return getContentType(options.body);
-}
-
-/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
@@ -118,6 +102,11 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
+  /**
+   * When set to `true`, no default `Accept: application/json` header is added
+   * when a request does not otherwise specify an `Accept` header. Internal only.
+   */
+  noDefaultAcceptHeader?: boolean;
 }
 
 function buildPipelineRequest(
@@ -125,16 +114,29 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const requestContentType = getRequestContentType(options);
+  const headers = createHttpHeaders(options.headers);
+
+  let requestContentType = options.contentType;
+  if (!requestContentType) {
+    requestContentType = headers.get("content-type");
+  }
+  if (requestContentType === undefined) {
+    requestContentType = getContentType(options.body);
+  }
+
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
 
-  const headers = createHttpHeaders({
-    ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? options.headers?.accept ?? "application/json",
-    ...(requestContentType && {
-      "content-type": requestContentType,
-    }),
-  });
+  const accept =
+    options.accept ??
+    headers.get("accept") ??
+    (options.noDefaultAcceptHeader ? undefined : "application/json");
+
+  if (accept !== undefined) {
+    headers.set("accept", accept);
+  }
+  if (requestContentType) {
+    headers.set("content-type", requestContentType);
+  }
 
   const {
     allowInsecureConnection,
@@ -143,6 +145,7 @@ function buildPipelineRequest(
     onDownloadProgress,
     timeout,
     responseAsStream,
+    noDefaultAcceptHeader: _noDefaultAcceptHeader,
     url: _url,
     method: _method,
     body: _body,

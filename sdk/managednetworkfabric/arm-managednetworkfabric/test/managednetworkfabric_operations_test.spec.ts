@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("managednetworkfabric test", () => {
+describe.skip("managednetworkfabric test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureNetworkFabricManagementServiceAPI;

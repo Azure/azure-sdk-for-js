@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get quota usages at specified location in a given subscription.
  *
  * @summary get quota usages at specified location in a given subscription.
- * x-ms-original-file: 2026-01-01-preview/QuotaUsagesForFlexibleServers.json
+ * x-ms-original-file: 2026-04-01-preview/QuotaUsagesForFlexibleServers.json
  */
 async function listOfQuotaUsagesForServers() {
   const credential = new DefaultAzureCredential();

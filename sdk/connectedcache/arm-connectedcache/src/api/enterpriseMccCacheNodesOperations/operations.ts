@@ -57,7 +57,7 @@ export function _getCacheNodeTlsCertificateHistorySend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,13 +75,15 @@ export async function _getCacheNodeTlsCertificateHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return mccCacheNodeTlsCertificateHistoryDeserializer(result.body);
 }
-
 /** This api gets ispCacheNode resource tls certificate histrory information */
 export async function getCacheNodeTlsCertificateHistory(
   context: Client,
@@ -118,7 +120,7 @@ export function _getCacheNodeMccIssueDetailsHistorySend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,13 +138,15 @@ export async function _getCacheNodeMccIssueDetailsHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return mccCacheNodeIssueHistoryDeserializer(result.body);
 }
-
 /** This api gets ispCacheNode resource issues details histrory information */
 export async function getCacheNodeMccIssueDetailsHistory(
   context: Client,
@@ -179,7 +183,7 @@ export function _getCacheNodeAutoUpdateHistorySend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,13 +201,15 @@ export async function _getCacheNodeAutoUpdateHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return mccCacheNodeAutoUpdateHistoryDeserializer(result.body);
 }
-
 /** This api gets ispCacheNode resource auto update histrory information */
 export async function getCacheNodeAutoUpdateHistory(
   context: Client,
@@ -240,7 +246,7 @@ export function _getCacheNodeInstallDetailsSend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,13 +264,15 @@ export async function _getCacheNodeInstallDetailsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return mccCacheNodeInstallDetailsDeserializer(result.body);
 }
-
 /** This api gets secrets of the ispCacheNode resource install details */
 export async function getCacheNodeInstallDetails(
   context: Client,
@@ -299,7 +307,7 @@ export function _listByEnterpriseMccCustomerResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -317,13 +325,15 @@ export async function _listByEnterpriseMccCustomerResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _enterpriseMccCacheNodeResourceListResultDeserializer(result.body);
 }
-
 /** This api retrieves information about all ispCacheNode resources under the given subscription and resource group */
 export function listByEnterpriseMccCustomerResource(
   context: Client,
@@ -344,7 +354,7 @@ export function listByEnterpriseMccCustomerResource(
       ),
     _listByEnterpriseMccCustomerResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -362,7 +372,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -372,22 +382,19 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return;
 }
-
 /** This api deletes an existing ispCacheNode resource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -395,7 +402,7 @@ export function $delete(
   cacheNodeResourceName: string,
   options: EnterpriseMccCacheNodesOperationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -407,6 +414,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -425,7 +433,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -445,13 +453,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return enterpriseMccCacheNodeResourceDeserializer(result.body);
 }
-
 /** This api updates an existing ispCacheNode resource */
 export async function update(
   context: Client,
@@ -487,7 +497,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,13 +517,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return enterpriseMccCacheNodeResourceDeserializer(result.body);
 }
-
 /** This api creates an ispCacheNode with the specified create parameters */
 export function createOrUpdate(
   context: Client,
@@ -536,6 +548,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource>;
 }
 
@@ -553,7 +566,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       customerResourceName: customerResourceName,
       cacheNodeResourceName: cacheNodeResourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -571,13 +584,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return enterpriseMccCacheNodeResourceDeserializer(result.body);
 }
-
 /** This api gets ispCacheNode resource information */
 export async function get(
   context: Client,

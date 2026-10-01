@@ -24,10 +24,10 @@ describe("RateLimitedSampler", () => {
       sampler = new RateLimitedSampler(10000);
       // Wait a bit to allow the sampler to adapt
       await new Promise((resolve) => setTimeout(resolve, 20));
-      let rate = sampler.getSampleRate();
+      sampler.getSampleRate();
       // Call again to ensure state is updated with elapsed time
       await new Promise((resolve) => setTimeout(resolve, 20));
-      rate = sampler.getSampleRate();
+      const rate = sampler.getSampleRate();
       assert.equal(rate, 100, `Expected sample rate to be 100 after adaptation, got ${rate}`);
     });
     it("returns 0 for 0 requestsPerSecond", () => {
@@ -51,9 +51,9 @@ describe("RateLimitedSampler", () => {
     it("returns 100 for very large requestsPerSecond after adaptation", async () => {
       sampler = new RateLimitedSampler(1e9);
       await new Promise((resolve) => setTimeout(resolve, 20));
-      let rate = sampler.getSampleRate();
+      sampler.getSampleRate();
       await new Promise((resolve) => setTimeout(resolve, 20));
-      rate = sampler.getSampleRate();
+      const rate = sampler.getSampleRate();
       assert.equal(
         rate,
         100,

@@ -143,9 +143,7 @@ export async function beginSubmitNotificationHubJob(
 
     then<TResult1 = NotificationHubJob, TResult2 = never>(
       onfulfilled?:
-        | ((value: NotificationHubJob) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
+        ((value: NotificationHubJob) => TResult1 | PromiseLike<TResult1>) | undefined | null,
       onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
     ): Promise<TResult1 | TResult2> {
       return poller.pollUntilDone().then(onfulfilled, onrejected);

@@ -3,16 +3,12 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
+import type { Deferred } from "./utils/deferred.js";
+import { createDeferred } from "./utils/deferred.js";
 
 export interface SeqItem<T> {
   sequenceId: number;
   value: T;
-}
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve(value: T): void;
-  reject(reason?: unknown): void;
 }
 
 interface DequeueWaiter<T> {
@@ -231,18 +227,4 @@ export class AsyncSeqQueue<T> {
       );
     }
   }
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolvePromise!: (value: T) => void;
-  let rejectPromise!: (reason?: unknown) => void;
-  const promise = new Promise<T>((resolve, reject) => {
-    resolvePromise = resolve;
-    rejectPromise = reject;
-  });
-  return {
-    promise,
-    resolve: resolvePromise,
-    reject: rejectPromise,
-  };
 }

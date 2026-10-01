@@ -5,3 +5,4 @@ import * as PurviewMetadataPolicies from "./metadataPolicies/index.js";
 import * as PurviewAccount from "./account/index.js";
 
 export { PurviewMetadataPolicies, PurviewAccount };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

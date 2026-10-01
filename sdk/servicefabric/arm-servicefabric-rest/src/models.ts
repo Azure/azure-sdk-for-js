@@ -855,5 +855,4 @@ export type PartitionSchemeDescription =
   | UniformInt64RangePartitionSchemeDescription;
 /** The service resource properties for patch operations. */
 export type ServiceResourceUpdateProperties =
-  | StatefulServiceUpdateProperties
-  | StatelessServiceUpdateProperties;
+  StatefulServiceUpdateProperties | StatelessServiceUpdateProperties;

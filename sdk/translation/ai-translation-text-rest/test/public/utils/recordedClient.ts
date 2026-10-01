@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
 import type { TextTranslationClient } from "../../../src/index.js";
 import createTextTranslationClient from "../../../src/index.js";
@@ -56,6 +56,26 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function startRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+  // Workaround: 2026-06-06 GA API isn't published yet, so we reuse 2025-10-01-preview
+  // recordings and tell the test proxy to ignore the api-version query parameter.
+  // TODO: Remove once 2026-06-06 recordings are available.
+  if (isPlaybackMode()) {
+    const httpClient = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `${(Recorder as any).url}/Admin/SetMatcher`,
+      method: "POST",
+      allowInsecureConnection: true,
+    });
+    request.headers.set("x-abstraction-identifier", "CustomDefaultMatcher");
+    request.headers.set("x-recording-id", (recorder as any).recordingId);
+    request.body = JSON.stringify({
+      ignoredQueryParameters: "api-version",
+      // Exclude headers automatically added by the browser fetch implementation
+      // that aren't present in recordings made from Node.js.
+      excludedHeaders: "Cache-Control,Pragma",
+    });
+    await httpClient.sendRequest(request);
+  }
   return recorder;
 }
 

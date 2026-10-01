@@ -19,7 +19,7 @@ export const transactionRequestAssemblePolicyName = "transactionRequestAssembleP
 
 const dummyResponse: PipelineResponse = {
   request: createPipelineRequest({ url: "FAKE" }),
-  status: 200,
+  status: 204,
   headers: createHttpHeaders(),
 };
 

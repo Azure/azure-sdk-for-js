@@ -17,7 +17,8 @@ export default createRule({
   meta: {
     type: "suggestion",
     docs: {
-      description: "force package.json's repository value to be type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-js'",
+      description:
+        "force package.json's repository value to be type 'git' and url 'git+https://github.com/Azure/azure-sdk-for-js'",
     },
     messages: {
       ...VerifierMessages,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete confluent topic by name
  *
  * @summary delete confluent topic by name
- * x-ms-original-file: 2025-08-18-preview/Topics_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Topics_Delete_MaximumSet_Gen.json
  */
 async function topicsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function topicsDeleteMaximumSet() {
  * This sample demonstrates how to delete confluent topic by name
  *
  * @summary delete confluent topic by name
- * x-ms-original-file: 2025-08-18-preview/Topics_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Topics_Delete_MinimumSet_Gen.json
  */
 async function topicsDeleteMinimumSet() {
   const credential = new DefaultAzureCredential();

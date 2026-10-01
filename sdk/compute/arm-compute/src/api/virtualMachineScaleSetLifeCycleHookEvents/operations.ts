@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,14 +54,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _vmScaleSetLifecycleHookEventListResultDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource. */
 export function list(
   context: Client,
@@ -74,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vmScaleSetName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -93,7 +94,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       lifecycleHookEventName: lifecycleHookEventName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,14 +114,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
-
 /** The operation to update a virtual machine scale set lifecycle hook event. */
 export async function update(
   context: Client,
@@ -155,7 +157,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       lifecycleHookEventName: lifecycleHookEventName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,14 +175,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
-
 /** Gets a virtual machine scale set lifecycle hook event. */
 export async function get(
   context: Client,

@@ -1,0 +1,49 @@
+{
+  "apiVersions": {
+    "Microsoft.ContainerService": "2026-02-02-preview"
+  },
+  "emitterVersion": "0.55.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ContainerService",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-containerservicepreparedimgspec!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-containerservicepreparedimgspec!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-containerservicepreparedimgspec!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-containerservicepreparedimgspec!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-containerservicepreparedimgspec!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-containerservicepreparedimgspec!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecification:interface": "Microsoft.ContainerService.PreparedImageSpecification",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationProperties:interface": "Microsoft.ContainerService.PreparedImageSpecificationProperties",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationManagedIdentityProfile:interface": "Microsoft.ContainerService.PreparedImageSpecificationManagedIdentityProfile",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationScript:interface": "Microsoft.ContainerService.PreparedImageSpecificationScript",
+      "@azure/arm-containerservicepreparedimgspec!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-containerservicepreparedimgspec!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-containerservicepreparedimgspec!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-containerservicepreparedimgspec!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationPatch:interface": "Microsoft.ContainerService.PreparedImageSpecificationPatch",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationVersion:interface": "Microsoft.ContainerService.PreparedImageSpecificationVersion",
+      "@azure/arm-containerservicepreparedimgspec!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationVersionListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-containerservicepreparedimgspec!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-containerservicepreparedimgspec!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-containerservicepreparedimgspec!KnownProvisioningState:enum": "Microsoft.ContainerService.ProvisioningState",
+      "@azure/arm-containerservicepreparedimgspec!KnownExecutionPoint:enum": "Microsoft.ContainerService.ExecutionPoint",
+      "@azure/arm-containerservicepreparedimgspec!KnownScriptType:enum": "Microsoft.ContainerService.ScriptType",
+      "@azure/arm-containerservicepreparedimgspec!KnownPostScriptAction:enum": "Microsoft.ContainerService.PostScriptAction",
+      "@azure/arm-containerservicepreparedimgspec!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-containerservicepreparedimgspec!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-containerservicepreparedimgspec!KnownVersions:enum": "Microsoft.ContainerService.Versions",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#listVersions:member": "Microsoft.ContainerService.PreparedImageSpecifications.listVersions",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#getVersion:member": "Microsoft.ContainerService.PreparedImageSpecifications.getVersion",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#listBySubscription:member": "Microsoft.ContainerService.PreparedImageSpecifications.listBySubscription",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#listByResourceGroup:member": "Microsoft.ContainerService.PreparedImageSpecifications.listByResourceGroup",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#deleteVersion:member": "Microsoft.ContainerService.PreparedImageSpecifications.deleteVersion",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#delete:member": "Microsoft.ContainerService.PreparedImageSpecifications.delete",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#update:member": "Microsoft.ContainerService.PreparedImageSpecifications.update",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#createOrUpdate:member": "Microsoft.ContainerService.PreparedImageSpecifications.createOrUpdate",
+      "@azure/arm-containerservicepreparedimgspec!PreparedImageSpecificationsOperations#get:member": "Microsoft.ContainerService.PreparedImageSpecifications.get",
+      "@azure/arm-containerservicepreparedimgspec!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

@@ -17,7 +17,9 @@ async function collectSourceFiles(srcDir: string): Promise<string[]> {
   const sourceFiles: string[] = [];
   if (!ts.sys.directoryExists(srcDir)) return sourceFiles;
   for (const entry of ts.sys.readDirectory(srcDir, [".ts", ".mts", ".cts"], [], [])) {
-    sourceFiles.push(entry);
+    // Normalize to OS-native separators so paths match regex patterns
+    // built by buildImportTargetIndex (which uses path.resolve).
+    sourceFiles.push(path.resolve(entry));
   }
   for (const subdir of ts.sys.getDirectories(srcDir)) {
     sourceFiles.push(...(await collectSourceFiles(path.join(srcDir, subdir))));

@@ -25,7 +25,7 @@ export function _generateUpdateRunSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,10 +40,12 @@ export function _generateUpdateRunSend(
 export async function _generateUpdateRunDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GenerateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -59,7 +61,7 @@ export function generateUpdateRun(
   autoUpgradeProfileName: string,
   options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GenerateResponse>, GenerateResponse> {
-  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -71,6 +73,6 @@ export function generateUpdateRun(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }

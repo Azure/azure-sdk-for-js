@@ -3,6 +3,7 @@
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { getClient } from "../../../src/getClient.js";
+import { getBinaryStreamResponse } from "../../../src/getBinaryStreamResponse-web.mjs";
 
 function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({
@@ -96,5 +97,50 @@ describe("[Browser] Streams", () => {
     await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
       "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
     );
+  });
+});
+
+describe("[Browser] getBinaryStreamResponse", () => {
+  beforeEach(() => {
+    vi.stubGlobal("fetch", vi.fn());
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it("should set blobBody and leave readableStreamBody undefined", async () => {
+    const fetchMock = vi.mocked(fetch);
+    fetchMock.mockResolvedValue(createResponse(200, "binary content"));
+
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    assert.isUndefined(result.readableStreamBody);
+    assert.isDefined(result.blobBody);
+  });
+
+  it("should expose the response body as a Blob with correct content", async () => {
+    const expectedBody = "binary stream data";
+    const fetchMock = vi.mocked(fetch);
+    fetchMock.mockResolvedValue(createResponse(200, expectedBody));
+
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    const blob = await result.blobBody!;
+    const text = await blob.text();
+    assert.strictEqual(text, expectedBody);
+  });
+
+  it("should preserve status and headers from the underlying response", async () => {
+    const fetchMock = vi.mocked(fetch);
+    fetchMock.mockResolvedValue(createResponse(206, "partial content"));
+
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    assert.strictEqual(result.status, "206");
   });
 });

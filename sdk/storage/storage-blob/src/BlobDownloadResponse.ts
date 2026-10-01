@@ -482,6 +482,47 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     return this.originalResponse.legalHold;
   }
 
+  /**
+   * The access tier of the blob. Values include premium page-blob tiers and block-blob tiers
+   * such as Hot, Cool, Cold, Archive, and Smart. See
+   * https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers.
+   *
+   * @readonly
+   */
+  public get accessTier(): string | undefined {
+    return this.originalResponse.accessTier;
+  }
+
+  /**
+   * For page blobs on a premium storage account only. If the access tier is not explicitly set on
+   * the blob, the tier is inferred based on its content length and this header will be returned
+   * with true value.
+   *
+   * @readonly
+   */
+  public get accessTierInferred(): boolean | undefined {
+    return this.originalResponse.accessTierInferred;
+  }
+
+  /**
+   * The time the tier was changed on the object. This is only returned if the tier on the block
+   * blob was ever set.
+   *
+   * @readonly
+   */
+  public get accessTierChangedOn(): Date | undefined {
+    return this.originalResponse.accessTierChangedOn;
+  }
+
+  /**
+   * The underlying tier of a smart tier blob. Only returned if the blob is in Smart tier.
+   *
+   * @readonly
+   */
+  public get smartAccessTier(): string | undefined {
+    return this.originalResponse.smartAccessTier;
+  }
+
   public get structuredBodyType(): string | undefined {
     return this.originalResponse.structuredBodyType;
   }

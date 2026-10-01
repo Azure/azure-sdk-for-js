@@ -24,7 +24,6 @@ export interface TargetTypesOperations {
     options?: TargetTypesGetOptionalParams,
   ) => Promise<TargetType>;
 }
-
 function _getTargetTypes(context: ChaosManagementContext) {
   return {
     list: (location: string, options?: TargetTypesListOptionalParams) =>
@@ -33,7 +32,6 @@ function _getTargetTypes(context: ChaosManagementContext) {
       get(context, location, targetTypeName, options),
   };
 }
-
 export function _getTargetTypesOperations(context: ChaosManagementContext): TargetTypesOperations {
   return {
     ..._getTargetTypes(context),

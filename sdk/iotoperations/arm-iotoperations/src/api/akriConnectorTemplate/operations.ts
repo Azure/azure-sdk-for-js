@@ -38,7 +38,7 @@ export function _listByInstanceResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,14 +56,15 @@ export async function _listByInstanceResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _akriConnectorTemplateResourceListResultDeserializer(result.body);
 }
-
 /** List AkriConnectorTemplateResource resources by InstanceResource */
 export function listByInstanceResource(
   context: Client,
@@ -76,7 +77,7 @@ export function listByInstanceResource(
     () => _listByInstanceResourceSend(context, resourceGroupName, instanceName, options),
     _listByInstanceResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -94,7 +95,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,20 +108,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a AkriConnectorTemplateResource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -134,7 +131,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, instanceName, akriConnectorTemplateName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +150,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,14 +170,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return akriConnectorTemplateResourceDeserializer(result.body);
 }
-
 /** Create a AkriConnectorTemplateResource */
 export function createOrUpdate(
   context: Client,
@@ -203,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<AkriConnectorTemplateResource>, AkriConnectorTemplateResource>;
 }
 
@@ -221,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,14 +237,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return akriConnectorTemplateResourceDeserializer(result.body);
 }
-
 /** Get a AkriConnectorTemplateResource */
 export async function get(
   context: Client,

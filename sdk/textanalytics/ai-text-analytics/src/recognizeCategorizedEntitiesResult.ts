@@ -21,8 +21,7 @@ export interface CategorizedEntity extends Entity {}
  * The result of the recognize entities operation on a single document.
  */
 export type RecognizeCategorizedEntitiesResult =
-  | RecognizeCategorizedEntitiesSuccessResult
-  | RecognizeCategorizedEntitiesErrorResult;
+  RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
 
 /**
  * The result of the recognize entities operation on a single document, containing the collection of

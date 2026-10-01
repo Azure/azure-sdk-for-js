@@ -15,8 +15,15 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 
-const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
+const TeamsExtensionScopePrefixes = [
+  "https://auth.msft.communication.azure.com/",
+  "https://auth.msft.communication.azure.us/",
+];
 const CommunicationClientsScopePrefix = "https://communication.azure.com/clients/";
+const ScopeValidationErrorMessage = `Scopes validation failed. Ensure all scopes start with one of ${[
+  ...TeamsExtensionScopePrefixes,
+  CommunicationClientsScopePrefix,
+].join(", ")}.`;
 const TeamsExtensionEndpoint = "/access/teamsExtension/:exchangeAccessToken";
 const TeamsExtensionApiVersion = "2025-06-30";
 const CommunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
@@ -172,19 +179,21 @@ export class EntraTokenCredential implements AcsTokenCredential {
 
   private determineEndpointAndApiVersion(): [string, string] {
     if (!this.options.scopes || this.options.scopes.length === 0) {
-      throw new Error(
-        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {CommunicationClientsScopePrefix}.`,
-      );
-    } else if (this.options.scopes.every((scope) => scope.startsWith(TeamsExtensionScopePrefix))) {
-      return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
-    } else if (
-      this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))
-    ) {
-      return [CommunicationClientsEndpoint, CommunicationClientsApiVersion];
-    } else {
-      throw new Error(
-        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {CommunicationClientsScopePrefix}.`,
-      );
+      throw new Error(ScopeValidationErrorMessage);
     }
+
+    if (
+      this.options.scopes.every((scope) =>
+        TeamsExtensionScopePrefixes.some((prefix) => scope.startsWith(prefix)),
+      )
+    ) {
+      return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
+    }
+
+    if (this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))) {
+      return [CommunicationClientsEndpoint, CommunicationClientsApiVersion];
+    }
+
+    throw new Error(ScopeValidationErrorMessage);
   }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.2 (Unreleased)
+## 5.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,62 @@
 
 ### Other Changes
 
-## 4.1.1 (2025-08-22)
+## 5.0.0 (2026-06-12)
 
-### Other Changes
+### Features Added
+  - Added operation TriggersOperations.createOrUpdate
+  - Added operation TriggersOperations.delete
+  - Added operation VirtualMachineImageTemplatesOperations.cancel
+  - Added operation VirtualMachineImageTemplatesOperations.createOrUpdate
+  - Added operation VirtualMachineImageTemplatesOperations.delete
+  - Added operation VirtualMachineImageTemplatesOperations.run
+  - Added operation VirtualMachineImageTemplatesOperations.update
+  - Added Interface DataDisk
+  - Added Interface ImageTemplateProperties
+  - Added Interface ImageTemplatePropertiesOptimizeWorkload
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface RunOutputProperties
+  - Added Interface SimplePollerLike
+  - Interface ImageTemplate has a new optional parameter additionalDataDisks
+  - Interface ImageTemplatePropertiesOptimize has a new optional parameter workload
+  - Interface ImageTemplateSharedImageDistributor has a new optional parameter replicationMode
+  - Interface Trigger has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ReplicationMode
+  - Added Type Alias WorkloadOptimizationState
+  - Added Enum AzureClouds
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownVersions
 
-  - Other fixes
+### Breaking Changes
+  - Operation Triggers.beginDeleteAndWait has a new signature
+  - Operation VirtualMachineImageTemplates.beginCreateOrUpdate has a new signature
+  - Operation VirtualMachineImageTemplates.beginCreateOrUpdateAndWait has a new signature
+  - Operation VirtualMachineImageTemplates.beginDeleteAndWait has a new signature
+  - Operation VirtualMachineImageTemplates.beginUpdate has a new signature
+  - Operation VirtualMachineImageTemplates.beginUpdateAndWait has a new signature
+  - Operation VirtualMachineImageTemplates.get has a new signature
+  - Removed Interface RunOutputCollection
+  - Removed Interface TriggerCollection
+  - Type of parameter scheme of interface DistributeVersioner is changed from "Latest" | "Source" to string
+  - Type of parameter type of interface ImageTemplateCustomizer is changed from "Shell" | "WindowsRestart" | "WindowsUpdate" | "PowerShell" | "File" to string
+  - Type of parameter type of interface ImageTemplateDistributor is changed from "ManagedImage" | "SharedImage" | "VHD" to string
+  - Type of parameter type of interface ImageTemplateInVMValidator is changed from "Shell" | "PowerShell" | "File" to string
+  - Type of parameter type of interface ImageTemplateSource is changed from "PlatformImage" | "ManagedImage" | "SharedImageVersion" to string
+  - Type of parameter kind of interface TriggerProperties is changed from "SourceImage" to string
+  - Interface Trigger no longer has parameter kind
+  - Interface Trigger no longer has parameter provisioningState
+  - Interface Trigger no longer has parameter status
+  - Type alias "DistributeVersionerUnion" has been changed
+  - Type alias "ImageTemplateCustomizerUnion" has been changed
+  - Type alias "ImageTemplateDistributorUnion" has been changed
+  - Type alias "ImageTemplateInVMValidatorUnion" has been changed
+  - Type alias "ImageTemplateSourceUnion" has been changed
+  - Type alias "TriggerPropertiesUnion" has been changed
 
+    
 ## 4.1.0 (2024-06-12)
     
 ### Features Added

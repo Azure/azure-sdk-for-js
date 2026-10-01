@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -174,10 +175,12 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Represents the HorizonDb cluster. */
+/** Represents the HorizonDB cluster. */
 export interface HorizonDbCluster extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbClusterProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
 }
 
 export function horizonDbClusterSerializer(item: HorizonDbCluster): any {
@@ -187,6 +190,9 @@ export function horizonDbClusterSerializer(item: HorizonDbCluster): any {
     properties: !item["properties"]
       ? item["properties"]
       : horizonDbClusterPropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -205,18 +211,21 @@ export function horizonDbClusterDeserializer(item: any): HorizonDbCluster {
     properties: !item["properties"]
       ? item["properties"]
       : horizonDbClusterPropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
-/** Properties of a HorizonDb cluster. */
+/** Properties of a HorizonDB cluster. */
 export interface HorizonDbClusterProperties {
   /** The administrator login name. */
   administratorLogin: string;
   /** The administrator login password. */
   administratorLoginPassword?: string;
-  /** The version of the HorizonDb cluster. */
+  /** The version of the HorizonDB cluster. */
   version?: string;
-  /** The mode to create a new HorizonDb cluster. */
+  /** The mode to create a new HorizonDB cluster. */
   createMode?: CreateModeCluster;
   /** Restore point creation time specifying the time to restore from. */
   pointInTimeUTC?: Date;
@@ -228,7 +237,7 @@ export interface HorizonDbClusterProperties {
   replicaCount?: number;
   /** Number of vCores. */
   vCores?: number;
-  /** The processor type for the HorizonDb cluster. */
+  /** The processor type for the HorizonDB cluster. */
   processorType?: string;
   /** The network related info. */
   network?: Network;
@@ -244,6 +253,12 @@ export interface HorizonDbClusterProperties {
   zonePlacementPolicy?: ZonePlacementPolicy;
   /** Defines connection to a parameter group. */
   parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
+  /** Authentication configuration for the HorizonDB cluster. */
+  authConfig?: HorizonDbClusterAuthConfig;
+  /** The compute model for the cluster. */
+  computeModel?: HorizonDbComputeModel;
+  /** Mirroring configuration for the HorizonDB cluster. */
+  mirroring?: HorizonDbClusterMirroring;
 }
 
 export function horizonDbClusterPropertiesSerializer(item: HorizonDbClusterProperties): any {
@@ -265,6 +280,15 @@ export function horizonDbClusterPropertiesSerializer(item: HorizonDbClusterPrope
     parameterGroup: !item["parameterGroup"]
       ? item["parameterGroup"]
       : horizonDbClusterParameterGroupConnectionPropertiesSerializer(item["parameterGroup"]),
+    authConfig: !item["authConfig"]
+      ? item["authConfig"]
+      : horizonDbClusterAuthConfigSerializer(item["authConfig"]),
+    computeModel: !item["computeModel"]
+      ? item["computeModel"]
+      : horizonDbComputeModelSerializer(item["computeModel"]),
+    mirroring: !item["mirroring"]
+      ? item["mirroring"]
+      : horizonDbClusterMirroringSerializer(item["mirroring"]),
   };
 }
 
@@ -291,10 +315,19 @@ export function horizonDbClusterPropertiesDeserializer(item: any): HorizonDbClus
     parameterGroup: !item["parameterGroup"]
       ? item["parameterGroup"]
       : horizonDbClusterParameterGroupConnectionPropertiesDeserializer(item["parameterGroup"]),
+    authConfig: !item["authConfig"]
+      ? item["authConfig"]
+      : horizonDbClusterAuthConfigDeserializer(item["authConfig"]),
+    computeModel: !item["computeModel"]
+      ? item["computeModel"]
+      : horizonDbComputeModelDeserializer(item["computeModel"]),
+    mirroring: !item["mirroring"]
+      ? item["mirroring"]
+      : horizonDbClusterMirroringDeserializer(item["mirroring"]),
   };
 }
 
-/** The mode to create a new HorizonDb cluster. */
+/** The mode to create a new HorizonDB cluster. */
 export enum KnownCreateModeCluster {
   /** Create a new cluster */
   Create = "Create",
@@ -305,7 +338,7 @@ export enum KnownCreateModeCluster {
 }
 
 /**
- * The mode to create a new HorizonDb cluster. \
+ * The mode to create a new HorizonDB cluster. \
  * {@link KnownCreateModeCluster} can be used interchangeably with CreateModeCluster,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -321,8 +354,8 @@ export interface Network {
   readonly publicNetworkAccess?: PublicNetworkAccessState;
 }
 
-export function networkSerializer(item: Network): any {
-  return item;
+export function networkSerializer(_item: Network): any {
+  return {};
 }
 
 export function networkDeserializer(item: any): Network {
@@ -367,6 +400,10 @@ export enum KnownState {
   Updating = "Updating",
   /** Is healthy */
   Healthy = "Healthy",
+  /** Is succeeded */
+  Succeeded = "Succeeded",
+  /** Is upgrading */
+  Upgrading = "Upgrading",
 }
 
 /**
@@ -381,7 +418,9 @@ export enum KnownState {
  * **Stopping**: Is stopping \
  * **Stopped**: Is stopped \
  * **Updating**: Is being updated \
- * **Healthy**: Is healthy
+ * **Healthy**: Is healthy \
+ * **Succeeded**: Is succeeded \
+ * **Upgrading**: Is upgrading
  */
 export type State = string;
 
@@ -430,11 +469,11 @@ export enum KnownZonePlacementPolicy {
  */
 export type ZonePlacementPolicy = string;
 
-/** Connection information for HorizonDb parameter group. */
+/** Connection information for HorizonDB parameter group. */
 export interface HorizonDbClusterParameterGroupConnectionProperties {
   /** The resource ID of the connected parameter group. */
   id?: string;
-  /** Indication of if parameter group is applied on HorizonDb resource. */
+  /** Indication of if parameter group is applied on HorizonDB resource. */
   readonly syncStatus?: string;
   /** Indicates whether the parameters should be applied immediately. */
   applyImmediately?: boolean;
@@ -453,6 +492,203 @@ export function horizonDbClusterParameterGroupConnectionPropertiesDeserializer(
     id: item["id"],
     syncStatus: item["syncStatus"],
     applyImmediately: item["applyImmediately"],
+  };
+}
+
+/** Authentication configuration for a HorizonDB cluster. */
+export interface HorizonDbClusterAuthConfig {
+  /** Indicates whether Microsoft Entra ID authentication is enabled or disabled. */
+  entraIdAuth?: AuthenticationState;
+  /** The Microsoft Entra tenant ID. */
+  tenantId?: string;
+  /** Indicates whether password authentication is enabled or disabled. */
+  passwordAuth?: AuthenticationState;
+}
+
+export function horizonDbClusterAuthConfigSerializer(item: HorizonDbClusterAuthConfig): any {
+  return {
+    entraIdAuth: item["entraIdAuth"],
+    tenantId: item["tenantId"],
+    passwordAuth: item["passwordAuth"],
+  };
+}
+
+export function horizonDbClusterAuthConfigDeserializer(item: any): HorizonDbClusterAuthConfig {
+  return {
+    entraIdAuth: item["entraIdAuth"],
+    tenantId: item["tenantId"],
+    passwordAuth: item["passwordAuth"],
+  };
+}
+
+/** Indicates if authentication state is enabled or not. */
+export enum KnownAuthenticationState {
+  /** Is enabled */
+  Enabled = "Enabled",
+  /** Is disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates if authentication state is enabled or not. \
+ * {@link KnownAuthenticationState} can be used interchangeably with AuthenticationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Is enabled \
+ * **Disabled**: Is disabled
+ */
+export type AuthenticationState = string;
+
+/** The compute model for a HorizonDB cluster. */
+export interface HorizonDbComputeModel {
+  /** The compute model type. Supported values: 'Provisioned', 'Serverless'. */
+  type?: HorizonDbComputeModelType;
+  /** The fixed vCore count for Provisioned compute. */
+  vCores?: number;
+  /** The minimum vCores for Serverless compute. Defines the lower autoscaling bound. */
+  minvCores?: number;
+  /** The maximum vCores for Serverless compute. Defines the upper autoscaling bound. */
+  maxvCores?: number;
+}
+
+export function horizonDbComputeModelSerializer(item: HorizonDbComputeModel): any {
+  return {
+    type: item["type"],
+    vCores: item["vCores"],
+    minvCores: item["minvCores"],
+    maxvCores: item["maxvCores"],
+  };
+}
+
+export function horizonDbComputeModelDeserializer(item: any): HorizonDbComputeModel {
+  return {
+    type: item["type"],
+    vCores: item["vCores"],
+    minvCores: item["minvCores"],
+    maxvCores: item["maxvCores"],
+  };
+}
+
+/** The compute model type. */
+export enum KnownHorizonDbComputeModelType {
+  /** Provisioned compute. */
+  Provisioned = "Provisioned",
+  /** Serverless compute. */
+  Serverless = "Serverless",
+}
+
+/**
+ * The compute model type. \
+ * {@link KnownHorizonDbComputeModelType} can be used interchangeably with HorizonDbComputeModelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioned**: Provisioned compute. \
+ * **Serverless**: Serverless compute.
+ */
+export type HorizonDbComputeModelType = string;
+
+/** Mirroring configuration for a HorizonDB cluster. */
+export interface HorizonDbClusterMirroring {
+  /** The names of the databases to mirror. */
+  databaseNames?: string[];
+  /** The resource ID of the user-assigned managed identity used for mirroring. */
+  userAssignedIdentityId?: string;
+}
+
+export function horizonDbClusterMirroringSerializer(item: HorizonDbClusterMirroring): any {
+  return {
+    databaseNames: !item["databaseNames"]
+      ? item["databaseNames"]
+      : item["databaseNames"].map((p: any) => {
+          return p;
+        }),
+    userAssignedIdentityId: item["userAssignedIdentityId"],
+  };
+}
+
+export function horizonDbClusterMirroringDeserializer(item: any): HorizonDbClusterMirroring {
+  return {
+    databaseNames: !item["databaseNames"]
+      ? item["databaseNames"]
+      : item["databaseNames"].map((p: any) => {
+          return p;
+        }),
+    userAssignedIdentityId: item["userAssignedIdentityId"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -495,8 +731,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -563,11 +799,13 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** HorizonDb cluster for update operations. */
+/** HorizonDB cluster for update operations. */
 export interface HorizonDbClusterForPatchUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The properties that can be updated for a HorizonDb cluster. */
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** The properties that can be updated for a HorizonDB cluster. */
   properties?: HorizonDbClusterPropertiesForPatchUpdate;
 }
 
@@ -576,13 +814,16 @@ export function horizonDbClusterForPatchUpdateSerializer(
 ): any {
   return {
     tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     properties: !item["properties"]
       ? item["properties"]
       : horizonDbClusterPropertiesForPatchUpdateSerializer(item["properties"]),
   };
 }
 
-/** Properties of a HorizonDb cluster for update operations. */
+/** Properties of a HorizonDB cluster for update operations. */
 export interface HorizonDbClusterPropertiesForPatchUpdate {
   /** The administrator login password. */
   administratorLoginPassword?: string;
@@ -590,6 +831,12 @@ export interface HorizonDbClusterPropertiesForPatchUpdate {
   vCores?: number;
   /** Defines connection to a parameter group. */
   parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
+  /** Authentication configuration for the HorizonDB cluster. */
+  authConfig?: HorizonDbClusterAuthConfig;
+  /** The compute model for the cluster. */
+  computeModel?: HorizonDbComputeModel;
+  /** Mirroring configuration for the HorizonDB cluster. */
+  mirroring?: HorizonDbClusterMirroring;
 }
 
 export function horizonDbClusterPropertiesForPatchUpdateSerializer(
@@ -601,6 +848,15 @@ export function horizonDbClusterPropertiesForPatchUpdateSerializer(
     parameterGroup: !item["parameterGroup"]
       ? item["parameterGroup"]
       : horizonDbClusterParameterGroupConnectionPropertiesSerializer(item["parameterGroup"]),
+    authConfig: !item["authConfig"]
+      ? item["authConfig"]
+      : horizonDbClusterAuthConfigSerializer(item["authConfig"]),
+    computeModel: !item["computeModel"]
+      ? item["computeModel"]
+      : horizonDbComputeModelSerializer(item["computeModel"]),
+    mirroring: !item["mirroring"]
+      ? item["mirroring"]
+      : horizonDbClusterMirroringSerializer(item["mirroring"]),
   };
 }
 
@@ -631,7 +887,7 @@ export function horizonDbClusterArrayDeserializer(result: Array<HorizonDbCluster
   });
 }
 
-/** Represents the HorizonDb pool. */
+/** Represents the HorizonDB pool. */
 export interface HorizonDbPool extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbPoolProperties;
@@ -656,15 +912,15 @@ export function horizonDbPoolDeserializer(item: any): HorizonDbPool {
   };
 }
 
-/** Properties of a HorizonDb pool. */
+/** Properties of a HorizonDB pool. */
 export interface HorizonDbPoolProperties {
-  /** The location of the HorizonDb pool. */
+  /** The location of the HorizonDB pool. */
   location?: string;
   /** Current state of the pool. */
   readonly state?: State;
   /** Number of replicas in the pool. */
   readonly replicaCount?: number;
-  /** The version of the HorizonDb pool. */
+  /** The version of the HorizonDB pool. */
   readonly version?: string;
   /** The create mode for the pool. */
   readonly createMode?: CreateModePool;
@@ -683,7 +939,7 @@ export function horizonDbPoolPropertiesDeserializer(item: any): HorizonDbPoolPro
   };
 }
 
-/** The mode to create a new HorizonDb cluster. */
+/** The mode to create a new HorizonDB cluster. */
 export enum KnownCreateModePool {
   /** Create a new pool */
   Create = "Create",
@@ -692,7 +948,7 @@ export enum KnownCreateModePool {
 }
 
 /**
- * The mode to create a new HorizonDb cluster. \
+ * The mode to create a new HorizonDB cluster. \
  * {@link KnownCreateModePool} can be used interchangeably with CreateModePool,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -704,8 +960,8 @@ export type CreateModePool = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -740,7 +996,7 @@ export function horizonDbPoolArrayDeserializer(result: Array<HorizonDbPool>): an
   });
 }
 
-/** Represents the HorizonDb replica. */
+/** Represents the HorizonDB replica. */
 export interface HorizonDbReplica extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbReplicaProperties;
@@ -768,7 +1024,7 @@ export function horizonDbReplicaDeserializer(item: any): HorizonDbReplica {
   };
 }
 
-/** Properties of a HorizonDb replica. */
+/** Properties of a HorizonDB replica. */
 export interface HorizonDbReplicaProperties {
   /** Role of the replica. */
   role?: ReplicaRole;
@@ -841,9 +1097,9 @@ export function horizonDbReplicaArrayDeserializer(result: Array<HorizonDbReplica
   });
 }
 
-/** HorizonDb replica for update operations. */
+/** HorizonDB replica for update operations. */
 export interface HorizonDbReplicaForPatchUpdate {
-  /** Properties of a HorizonDb replica for update operations. */
+  /** Properties of a HorizonDB replica for update operations. */
   properties?: HorizonDbReplicaPropertiesForPatchUpdate;
 }
 
@@ -857,7 +1113,7 @@ export function horizonDbReplicaForPatchUpdateSerializer(
   };
 }
 
-/** Properties of a HorizonDb replica for update operations. */
+/** Properties of a HorizonDB replica for update operations. */
 export interface HorizonDbReplicaPropertiesForPatchUpdate {
   /** Role of the replica. */
   role?: ReplicaRole;
@@ -869,7 +1125,7 @@ export function horizonDbReplicaPropertiesForPatchUpdateSerializer(
   return { role: item["role"] };
 }
 
-/** Represents the HorizonDb firewall rule. */
+/** Represents the HorizonDB firewall rule. */
 export interface HorizonDbFirewallRule extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbFirewallRuleProperties;
@@ -897,13 +1153,13 @@ export function horizonDbFirewallRuleDeserializer(item: any): HorizonDbFirewallR
   };
 }
 
-/** Properties of a HorizonDb firewall rule. */
+/** Properties of a HorizonDB firewall rule. */
 export interface HorizonDbFirewallRuleProperties {
   /** The start IP address of the firewall rule (IPv4). */
   startIpAddress: string;
   /** The end IP address of the firewall rule (IPv4). */
   endIpAddress: string;
-  /** The description of the HorizonDb firewall rule. */
+  /** The description of the HorizonDB firewall rule. */
   description?: string;
   /** The provisioning state of the firewall rule. */
   readonly provisioningState?: ProvisioningState;
@@ -967,6 +1223,16 @@ export interface PrivateEndpointConnectionResource extends Resource {
   properties?: PrivateEndpointConnectionProperties;
 }
 
+export function privateEndpointConnectionResourceSerializer(
+  item: PrivateEndpointConnectionResource,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
 export function privateEndpointConnectionResourceDeserializer(
   item: any,
 ): PrivateEndpointConnectionResource {
@@ -995,6 +1261,19 @@ export interface PrivateEndpointConnectionProperties {
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
+export function privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnectionProperties,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
 export function privateEndpointConnectionPropertiesDeserializer(
   item: any,
 ): PrivateEndpointConnectionProperties {
@@ -1020,8 +1299,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -1122,6 +1401,14 @@ export function _privateEndpointConnectionResourceListResultDeserializer(
   };
 }
 
+export function privateEndpointConnectionResourceArraySerializer(
+  result: Array<PrivateEndpointConnectionResource>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionResourceSerializer(item);
+  });
+}
+
 export function privateEndpointConnectionResourceArrayDeserializer(
   result: Array<PrivateEndpointConnectionResource>,
 ): any[] {
@@ -1130,64 +1417,7 @@ export function privateEndpointConnectionResourceArrayDeserializer(
   });
 }
 
-/** PATCH model for private endpoint connections */
-export interface PrivateEndpointConnectionUpdate {
-  /** The private endpoint connection properties */
-  properties?: OptionalPropertiesUpdateableProperties;
-}
-
-export function privateEndpointConnectionUpdateSerializer(
-  item: PrivateEndpointConnectionUpdate,
-): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : optionalPropertiesUpdateablePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The template for adding optional properties. */
-export interface OptionalPropertiesUpdateableProperties {
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-}
-
-export function optionalPropertiesUpdateablePropertiesSerializer(
-  item: OptionalPropertiesUpdateableProperties,
-): any {
-  return {
-    privateEndpoint: !item["privateEndpoint"]
-      ? item["privateEndpoint"]
-      : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
-      ? item["privateLinkServiceConnectionState"]
-      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
-  };
-}
-
-/** The private endpoint connection resource */
-export interface PrivateEndpointConnection extends Resource {
-  /** The private endpoint connection properties */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
-export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Represents the HorizonDb private link resource. */
+/** Represents the HorizonDB private link resource. */
 export interface HorizonDbPrivateLinkResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: PrivateLinkResourceProperties;
@@ -1260,7 +1490,7 @@ export function horizonDbPrivateLinkResourceArrayDeserializer(
   });
 }
 
-/** Represents the HorizonDb parameter group. */
+/** Represents the HorizonDB parameter group. */
 export interface HorizonDbParameterGroup extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbParameterGroupProperties;
@@ -1294,7 +1524,7 @@ export function horizonDbParameterGroupDeserializer(item: any): HorizonDbParamet
   };
 }
 
-/** Properties of a HorizonDb parameter group. */
+/** Properties of a HorizonDB parameter group. */
 export interface HorizonDbParameterGroupProperties {
   /** Parameters in the parameter group. */
   parameters?: ParameterProperties[];
@@ -1350,7 +1580,7 @@ export function parameterPropertiesArrayDeserializer(result: Array<ParameterProp
   });
 }
 
-/** Properties of a HorizonDb parameters. */
+/** Properties of a HorizonDB parameters. */
 export interface ParameterProperties {
   /** The name of the parameter. */
   name?: string;
@@ -1390,11 +1620,11 @@ export function parameterPropertiesDeserializer(item: any): ParameterProperties 
   };
 }
 
-/** HorizonDb parameter group for update operations. */
+/** HorizonDB parameter group for update operations. */
 export interface HorizonDbParameterGroupForPatchUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The properties that can be updated for a HorizonDb parameter group. */
+  /** The properties that can be updated for a HorizonDB parameter group. */
   properties?: HorizonDbParameterGroupPropertiesForPatchUpdate;
 }
 
@@ -1409,7 +1639,7 @@ export function horizonDbParameterGroupForPatchUpdateSerializer(
   };
 }
 
-/** Properties of a HorizonDb parameter group for update operations. */
+/** Properties of a HorizonDB parameter group for update operations. */
 export interface HorizonDbParameterGroupPropertiesForPatchUpdate {
   /** Parameters in the parameter group. */
   parameters?: ParameterProperties[];
@@ -1489,7 +1719,7 @@ export function horizonDbParameterGroupConnectionPropertiesArrayDeserializer(
   });
 }
 
-/** Connection information for HorizonDb parameter group. */
+/** Connection information for HorizonDB parameter group. */
 export interface HorizonDbParameterGroupConnectionProperties {
   /** The name of the connected resource. */
   readonly name?: string;
@@ -1509,8 +1739,135 @@ export function horizonDbParameterGroupConnectionPropertiesDeserializer(
   };
 }
 
+/** Represents an Entra ID administrator configured on a HorizonDB cluster. */
+export interface HorizonDbAdministrator extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HorizonDbAdministratorProperties;
+}
+
+export function horizonDbAdministratorDeserializer(item: any): HorizonDbAdministrator {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : horizonDbAdministratorPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a HorizonDB administrator. */
+export interface HorizonDbAdministratorProperties {
+  /** The display name or UPN of the Entra ID principal. For users, typically the User Principal Name (e.g., admin@contoso.com). For groups, the group display name. For service principals, the application display name. */
+  principalName: string;
+  /** The type of the Entra ID principal. */
+  principalType: PrincipalTypes;
+  /** The Entra ID object identifier of the principal (an RFC 4122 GUID). On PUT requests, this value comes from the URI path parameter. */
+  readonly objectId?: string;
+  /** The Entra ID tenant identifier (an RFC 4122 GUID). If omitted, defaults to the tenant of the subscription. */
+  tenantId?: string;
+  /** The provisioning state of the administrator. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function horizonDbAdministratorPropertiesDeserializer(
+  item: any,
+): HorizonDbAdministratorProperties {
+  return {
+    principalName: item["principalName"],
+    principalType: item["principalType"],
+    objectId: item["objectId"],
+    tenantId: item["tenantId"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The type of the Entra ID principal. */
+export enum KnownPrincipalTypes {
+  /** Unknown or unrecognized type (internal only, not accepted in requests). */
+  Unknown = "Unknown",
+  /** An Entra ID user account (UPN-based principal). */
+  User = "User",
+  /** An Entra ID security group. All members of the group inherit admin privileges. */
+  Group = "Group",
+  /** An Entra ID application / service principal (used for automated workloads). */
+  ServicePrincipal = "ServicePrincipal",
+}
+
+/**
+ * The type of the Entra ID principal. \
+ * {@link KnownPrincipalTypes} can be used interchangeably with PrincipalTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown or unrecognized type (internal only, not accepted in requests). \
+ * **User**: An Entra ID user account (UPN-based principal). \
+ * **Group**: An Entra ID security group. All members of the group inherit admin privileges. \
+ * **ServicePrincipal**: An Entra ID application \/ service principal (used for automated workloads).
+ */
+export type PrincipalTypes = string;
+
+/** The request body for adding a HorizonDB administrator. */
+export interface HorizonDbAdministratorAdd {
+  /** The properties for adding a HorizonDB administrator. */
+  properties: HorizonDbAdministratorPropertiesForAdd;
+}
+
+export function horizonDbAdministratorAddSerializer(item: HorizonDbAdministratorAdd): any {
+  return { properties: horizonDbAdministratorPropertiesForAddSerializer(item["properties"]) };
+}
+
+/** The properties for adding a HorizonDB administrator. */
+export interface HorizonDbAdministratorPropertiesForAdd {
+  /** The display name or UPN of the Entra ID principal. For users, typically the User Principal Name (e.g., admin@contoso.com). For groups, the group display name. For service principals, the application display name. */
+  principalName: string;
+  /** The type of the Entra ID principal. */
+  principalType: PrincipalTypes;
+  /** The Entra ID tenant identifier (an RFC 4122 GUID). If omitted, defaults to the tenant of the subscription. */
+  tenantId?: string;
+}
+
+export function horizonDbAdministratorPropertiesForAddSerializer(
+  item: HorizonDbAdministratorPropertiesForAdd,
+): any {
+  return {
+    principalName: item["principalName"],
+    principalType: item["principalType"],
+    tenantId: item["tenantId"],
+  };
+}
+
+/** The response of a HorizonDbAdministrator list operation. */
+export interface _HorizonDbAdministratorListResult {
+  /** The HorizonDbAdministrator items on this page */
+  value: HorizonDbAdministrator[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _horizonDbAdministratorListResultDeserializer(
+  item: any,
+): _HorizonDbAdministratorListResult {
+  return {
+    value: horizonDbAdministratorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function horizonDbAdministratorArrayDeserializer(
+  result: Array<HorizonDbAdministrator>,
+): any[] {
+  return result.map((item) => {
+    return horizonDbAdministratorDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2026-01-20-preview API version. */
   V20260120Preview = "2026-01-20-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }

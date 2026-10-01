@@ -95,11 +95,6 @@ export interface AvailabilitySetsOperations {
     options?: AvailabilitySetsListOptionalParams,
   ) => PagedAsyncIterableIterator<AvailabilitySet>;
   /** Delete an availability set. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     availabilitySetName: string,
@@ -126,7 +121,6 @@ export interface AvailabilitySetsOperations {
     options?: AvailabilitySetsGetOptionalParams,
   ) => Promise<AvailabilitySet>;
 }
-
 function _getAvailabilitySets(context: ComputeManagementContext) {
   return {
     convertToVirtualMachineScaleSet: (
@@ -230,7 +224,6 @@ function _getAvailabilitySets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, availabilitySetName, options),
   };
 }
-
 export function _getAvailabilitySetsOperations(
   context: ComputeManagementContext,
 ): AvailabilitySetsOperations {

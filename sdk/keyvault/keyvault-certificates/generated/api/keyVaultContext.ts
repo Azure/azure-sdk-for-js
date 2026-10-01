@@ -28,7 +28,7 @@ export function createKeyVault(
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-keyvault-certificates/4.10.4`;
+  const userAgentInfo = `azsdk-js-keyvault-certificates/4.11.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

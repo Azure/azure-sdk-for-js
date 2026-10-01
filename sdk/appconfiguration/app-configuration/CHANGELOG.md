@@ -1,14 +1,30 @@
 # Release History
 
-## 1.11.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.13.0 (2026-09-23)
 
 ### Bugs Fixed
 
+- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/issues/39594)
+- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0. [#39596](https://github.com/Azure/azure-sdk-for-js/issues/39596)
+- Fixed a bug that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
+
 ### Other Changes
+
+- Improved Microsoft Entra authentication in sovereign clouds when using a `TokenCredential`. When `audience` is not set, the client now infers it from the App Configuration endpoint. An explicitly configured audience continues to override the inferred value. [#39775](https://github.com/Azure/azure-sdk-for-js/pull/39775)
+
+## 1.12.1 (2026-06-22)
+
+### Bugs Fixed
+
+- Fixed a regression introduced in 1.12.0 where creating an `AppConfigurationClient` from a connection string caused every request to fail with `TypeError [ERR_INVALID_HTTP_TOKEN]: Header name must be a valid HTTP token ["Connection String"]`. [#39025](https://github.com/Azure/azure-sdk-for-js/issues/39025)
+
+## 1.12.0 (2026-06-18)
+
+### Features Added
+
+- Added a new `description` property to `ConfigurationSetting`/`ConfigurationSettingParam`, `ConfigurationSnapshot`, and `SnapshotInfo`, allowing a description to be set on configuration settings and snapshots. Requires the `2026-04-01` API version or later.
+- Updated the default service API version to `2026-04-01`.
+- Added `KnownAppConfigurationApiVersion` enum exposing the service API versions supported by `AppConfigurationClient`.
 
 ## 1.11.0 (2026-01-26)
 

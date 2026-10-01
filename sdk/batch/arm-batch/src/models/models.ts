@@ -253,12 +253,7 @@ export function batchAccountPropertiesDeserializer(item: any): BatchAccountPrope
 
 /** The provisioned state of the resource */
 export type ProvisioningState =
-  | "Invalid"
-  | "Creating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled";
+  "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 /** The allocation mode for creating pools in the Batch account. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 
@@ -475,12 +470,7 @@ export function privateEndpointConnectionPropertiesDeserializer(
 
 /** The provisioning state of the private endpoint connection. */
 export type PrivateEndpointConnectionProvisioningState =
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled";
+  "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 /** The private endpoint of the private endpoint connection. */
 export interface PrivateEndpoint {
@@ -522,10 +512,7 @@ export function privateLinkServiceConnectionStateDeserializer(
 
 /** The status of the Batch private endpoint connection */
 export type PrivateLinkServiceConnectionStatus =
-  | "Approved"
-  | "Pending"
-  | "Rejected"
-  | "Disconnected";
+  "Approved" | "Pending" | "Rejected" | "Disconnected";
 
 /** Contains information about the auto-storage account associated with a Batch account. */
 export interface AutoStorageProperties extends AutoStorageBaseProperties {
@@ -2703,10 +2690,7 @@ export function fixedScaleSettingsDeserializer(item: any): FixedScaleSettings {
 
 /** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
 export type ComputeNodeDeallocationOption =
-  | "Requeue"
-  | "Terminate"
-  | "TaskCompletion"
-  | "RetainedData";
+  "Requeue" | "Terminate" | "TaskCompletion" | "RetainedData";
 
 /** AutoScale settings for the pool. */
 export interface AutoScaleSettings {

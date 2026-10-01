@@ -21,8 +21,7 @@ import type { OperationContext } from "./util/poller.js";
  * @internal
  */
 export type AdministrationOperationState =
-  | DocumentModelOperationState
-  | DocumentClassifierOperationState;
+  DocumentModelOperationState | DocumentClassifierOperationState;
 
 /**
  * The set of fields common to all administration operations.
@@ -90,8 +89,7 @@ export type DocumentModelBuildResponse =
  * @internal
  */
 export type DocumentModelAdministrationResponse =
-  | DocumentModelBuildResponse
-  | DocumentClassifierBuildOperationDetails;
+  DocumentModelBuildResponse | DocumentClassifierBuildOperationDetails;
 
 /**
  * Convert an operation result into a training poller state.

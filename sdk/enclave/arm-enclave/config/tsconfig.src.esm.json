@@ -1,0 +1,21 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/approval/index.ts",
+    "../src/api/dedicatedHub/index.ts",
+    "../src/api/communityEndpoints/index.ts",
+    "../src/api/enclaveEndpoints/index.ts",
+    "../src/api/enclaveConnection/index.ts",
+    "../src/api/transitHub/index.ts",
+    "../src/api/community/index.ts",
+    "../src/api/virtualEnclave/index.ts",
+    "../src/api/workload/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}

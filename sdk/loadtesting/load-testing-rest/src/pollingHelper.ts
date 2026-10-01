@@ -151,13 +151,11 @@ export async function getLongRunningPoller(
 ): Promise<TestProfileRunCompletionPoller>;
 export async function getLongRunningPoller<
   TResult extends
-    | LoadTestAdministrationCloneTestLogicalResponse
-    | LoadTestAdministrationCloneTestDefaultResponse,
+    LoadTestAdministrationCloneTestLogicalResponse | LoadTestAdministrationCloneTestDefaultResponse,
 >(
   client: Client,
   initialResponse:
-    | LoadTestAdministrationCloneTest202Response
-    | LoadTestAdministrationCloneTestDefaultResponse,
+    LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -173,13 +171,11 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | LoadTestRunGenerateInsightsLogicalResponse
-    | LoadTestRunGenerateInsightsDefaultResponse,
+    LoadTestRunGenerateInsightsLogicalResponse | LoadTestRunGenerateInsightsDefaultResponse,
 >(
   client: Client,
   initialResponse:
-    | LoadTestRunGenerateInsights202Response
-    | LoadTestRunGenerateInsightsDefaultResponse,
+    LoadTestRunGenerateInsights202Response | LoadTestRunGenerateInsightsDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Confluent marketplace agreements in the subscription.
  *
  * @summary list Confluent marketplace agreements in the subscription.
- * x-ms-original-file: 2025-08-18-preview/MarketplaceAgreements_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_List_MaximumSet_Gen.json
  */
 async function listConfluentMarketplaceAgreementsInTheSubscriptionMaximumset(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listConfluentMarketplaceAgreementsInTheSubscriptionMaximumset(): 
  * This sample demonstrates how to list Confluent marketplace agreements in the subscription.
  *
  * @summary list Confluent marketplace agreements in the subscription.
- * x-ms-original-file: 2025-08-18-preview/MarketplaceAgreements_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_List_MinimumSet_Gen.json
  */
 async function listConfluentMarketplaceAgreementsInTheSubscriptionMinimumset(): Promise<void> {
   const credential = new DefaultAzureCredential();

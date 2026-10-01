@@ -56,7 +56,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     apiVersion: string = "2025-10-01",
     model: string = TestConstants.MODEL_NAME,
   ) {
-    super(endpoint, credential, apiVersion, model);
+    super(endpoint, credential, model, { apiVersion });
   }
 
   /**

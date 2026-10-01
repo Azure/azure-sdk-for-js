@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-domainservices": [
-        "../dist/esm"
-      ]
+      "@azure/arm-domainservices": ["../dist/esm"]
     }
   }
 }

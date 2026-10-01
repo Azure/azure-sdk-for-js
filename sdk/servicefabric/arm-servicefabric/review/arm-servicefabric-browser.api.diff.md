@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -377,9 +377,9 @@
+@@ -344,9 +344,9 @@
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
      managementEndpoint?: string;
@@ -18,7 +18,18 @@ For the complete API surface, see the corresponding -node.api.md file.
      reliabilityLevel?: ReliabilityLevel;
      reverseProxyCertificate?: CertificateDescription;
      reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
-@@ -523,9 +523,9 @@
+@@ -407,9 +407,9 @@
+     fabricSettings?: SettingsSectionDescription[];
+     infrastructureServiceManager?: boolean;
+     managementEndpoint: string;
+     nodeTypes: NodeTypeDescription[];
+-    notifications?: Notification[];
++    notifications?: Notification_2[];
+     readonly provisioningState?: ProvisioningState;
+     reliabilityLevel?: ReliabilityLevel;
+     reverseProxyCertificate?: CertificateDescription;
+     reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
+@@ -437,9 +437,9 @@
      eventStoreServiceEnabled?: boolean;
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
@@ -28,8 +39,19 @@ For the complete API surface, see the corresponding -node.api.md file.
      reliabilityLevel?: ReliabilityLevel;
      reverseProxyCertificate?: CertificateDescription;
      sfZonalUpgradeMode?: SfZonalUpgradeMode;
-     tags?: {
-@@ -870,14 +870,15 @@
+     upgradeDescription?: ClusterUpgradePolicy;
+@@ -517,9 +517,9 @@
+     eventStoreServiceEnabled?: boolean;
+     fabricSettings?: SettingsSectionDescription[];
+     infrastructureServiceManager?: boolean;
+     nodeTypes?: NodeTypeDescription[];
+-    notifications?: Notification[];
++    notifications?: Notification_2[];
+     reliabilityLevel?: ReliabilityLevel;
+     reverseProxyCertificate?: CertificateDescription;
+     sfZonalUpgradeMode?: SfZonalUpgradeMode;
+     tags?: Record<string, string>;
+@@ -862,14 +862,15 @@
      vmInstanceCount: number;
  }
  

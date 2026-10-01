@@ -62,4 +62,24 @@ describe("HttpHeaders", () => {
       assert.include(expected, { [name]: value });
     }
   });
+
+  it("should strip CR and LF characters from values to prevent obs-fold (RFC 7230 §3.2.4)", () => {
+    const rawHeaders = {
+      withCRLF: "value1\r\ninjected: bad",
+      withCR: "val\rue2",
+      withLF: "val\nue3",
+      withTrailingCRLF: "value4\r\n",
+    };
+    const headers = createHttpHeaders(rawHeaders);
+
+    const expected = {
+      withCRLF: "value1injected: bad",
+      withCR: "value2",
+      withLF: "value3",
+      withTrailingCRLF: "value4",
+    };
+    for (const [name, value] of headers) {
+      assert.include(expected, { [name]: value });
+    }
+  });
 });

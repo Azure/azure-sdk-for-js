@@ -1,5 +1,27 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/extensionPublisher": "./src/api/extensionPublisher/index.ts"
+  "./api/extensionType": "./src/api/extensionType/index.ts"
+  "./api/settings": "./src/api/settings/index.ts"
+  "./api/extensionMetadataV2": "./src/api/extensionMetadataV2/index.ts"
+  "./api/extensionMetadata": "./src/api/extensionMetadata/index.ts"
+  "./api/privateLinkScopes": "./src/api/privateLinkScopes/index.ts"
+  "./api/networkProfileOperations": "./src/api/networkProfileOperations/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/gateways": "./src/api/gateways/index.ts"
+  "./api/machineRunCommands": "./src/api/machineRunCommands/index.ts"
+  "./api/machineExtensions": "./src/api/machineExtensions/index.ts"
+  "./api/licenseProfiles": "./src/api/licenseProfiles/index.ts"
+  "./api/machines": "./src/api/machines/index.ts"
+  "./api/licenses": "./src/api/licenses/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

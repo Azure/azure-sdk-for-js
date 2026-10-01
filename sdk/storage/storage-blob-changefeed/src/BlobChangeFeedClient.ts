@@ -5,8 +5,9 @@ import type {
   StoragePipelineOptions,
   StorageSharedKeyCredential,
   AnonymousCredential,
+  Pipeline,
 } from "@azure/storage-blob";
-import { BlobServiceClient, Pipeline } from "@azure/storage-blob";
+import { BlobServiceClient, isPipelineLike } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
 import { ChangeFeedFactory } from "./ChangeFeedFactory.js";
@@ -184,10 +185,7 @@ export class BlobChangeFeedClient {
   constructor(
     urlOrClient: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
@@ -198,7 +196,7 @@ export class BlobChangeFeedClient {
       this.changeFeedClientOptions.maximumTransferSize,
     );
 
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       this.blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
     } else {
       this.blobServiceClient = new BlobServiceClient(

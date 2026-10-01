@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation returns nothing.
- *
- * @summary The operation returns nothing.
- * x-ms-original-file: specification/redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/examples/OpenShiftClusters_Delete.json
- */
-
 import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation returns nothing.
+ *
+ * @summary the operation returns nothing.
+ * x-ms-original-file: 2025-07-25/OpenShiftClusters_Delete.json
+ */
 async function deletesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName(): Promise<void> {
-  const subscriptionId = process.env["REDHATOPENSHIFT_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["REDHATOPENSHIFT_RESOURCE_GROUP"] || "resourceGroup";
-  const resourceName = "resourceName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
-  const result = await client.openShiftClusters.beginDeleteAndWait(resourceGroupName, resourceName);
-  console.log(result);
+  await client.openShiftClusters.delete("resourceGroup", "resourceName");
 }
 
 async function main(): Promise<void> {

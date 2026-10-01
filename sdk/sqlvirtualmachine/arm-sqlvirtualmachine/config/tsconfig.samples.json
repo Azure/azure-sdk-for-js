@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-sqlvirtualmachine": [
-        "../dist/esm"
-      ]
+      "@azure/arm-sqlvirtualmachine": ["../dist/esm"]
     }
   }
 }

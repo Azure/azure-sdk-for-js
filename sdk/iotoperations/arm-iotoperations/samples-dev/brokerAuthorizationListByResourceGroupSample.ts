@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list BrokerAuthorizationResource resources by BrokerResource
  *
  * @summary list BrokerAuthorizationResource resources by BrokerResource
- * x-ms-original-file: 2026-03-01/BrokerAuthorization_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/BrokerAuthorization_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function brokerAuthorizationListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,24 +1,38 @@
 {
-  "name": "generate-doc",
+  "name": "@azure-tools/generate-doc",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "sdk-type": "utility",
+  "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,tsx,json}\"",
+    "clean": "rimraf --glob dist/",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,tsx,json}\"",
     "generate-doc": "node dist/index.js",
-    "format": "prettier --write \"index.ts\""
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "update-snippets": "echo skipped"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typedoc": "^0.28.18",
+    "typedoc": "^0.28.20",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/yargs": "^17.0.32",
-    "prettier": "^3.4.2",
-    "typescript": "~6.0.2"
+    "@types/node": "catalog:",
+    "@types/yargs": "^17.0.35",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
   }
 }

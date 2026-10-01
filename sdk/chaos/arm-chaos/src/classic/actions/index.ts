@@ -24,7 +24,6 @@ export interface ActionsOperations {
     options?: ActionsGetOptionalParams,
   ) => Promise<Action>;
 }
-
 function _getActions(context: ChaosManagementContext) {
   return {
     list: (location: string, options?: ActionsListOptionalParams) =>
@@ -33,7 +32,6 @@ function _getActions(context: ChaosManagementContext) {
       get(context, location, actionName, options),
   };
 }
-
 export function _getActionsOperations(context: ChaosManagementContext): ActionsOperations {
   return {
     ..._getActions(context),

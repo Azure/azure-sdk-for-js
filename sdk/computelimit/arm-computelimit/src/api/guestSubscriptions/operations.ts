@@ -33,7 +33,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,14 +51,15 @@ export async function _listBySubscriptionLocationResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _guestSubscriptionListResultDeserializer(result.body);
 }
-
 /** Lists all guest subscriptions in a location. */
 export function listBySubscriptionLocationResource(
   context: Client,
@@ -72,7 +73,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -88,7 +89,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,20 +102,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   location: string,
@@ -138,7 +135,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,14 +155,15 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return guestSubscriptionDeserializer(result.body);
 }
-
 /** Adds a subscription as a guest to consume the compute limits shared by the host subscription. */
 export async function create(
   context: Client,
@@ -190,7 +188,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,14 +204,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return guestSubscriptionDeserializer(result.body);
 }
-
 /** Gets the properties of a guest subscription. */
 export async function get(
   context: Client,

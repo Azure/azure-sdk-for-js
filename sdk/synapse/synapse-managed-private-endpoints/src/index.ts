@@ -9,3 +9,4 @@
 export type * from "./models/index.js";
 export { ManagedPrivateEndpointsClient } from "./managedPrivateEndpointsClient.js";
 export type * from "./operationsInterfaces/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

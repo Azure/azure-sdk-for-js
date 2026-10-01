@@ -1,37 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
- *
- * @summary Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
- * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Create.json
- */
-
-import type { ProviderInstance } from "@azure/arm-hanaonazure";
 import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createASapMonitor(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const sapMonitorName = "mySapMonitor";
-  const providerInstanceName = "myProviderInstance";
-  const providerInstanceParameter: ProviderInstance = {
-    typePropertiesType: "hana",
-    metadata: '{"key":"value"}',
-    properties:
-      '{"hostname":"10.0.0.6","dbName":"SYSTEMDB","sqlPort":30013,"dbUsername":"SYSTEM","dbPassword":"PASSWORD"}',
-  };
+/**
+ * This sample demonstrates how to the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ *
+ * @summary the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ * x-ms-original-file: 2020-02-07-preview/ProviderInstances_Create.json
+ */
+async function createASAPMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HanaManagementClient(credential, subscriptionId);
-  const result = await client.providerInstances.beginCreateAndWait(
-    resourceGroupName,
-    sapMonitorName,
-    providerInstanceName,
-    providerInstanceParameter,
+  const result = await client.providerInstances.create(
+    "myResourceGroup",
+    "mySapMonitor",
+    "myProviderInstance",
+    {
+      typePropertiesType: "hana",
+      metadata: '{"key":"value"}',
+      properties:
+        '{"hostname":"10.0.0.6","dbName":"SYSTEMDB","sqlPort":30013,"dbUsername":"SYSTEM","dbPassword":"PASSWORD"}',
+    },
   );
   console.log(result);
 }
 
-createASapMonitor().catch(console.error);
+async function main(): Promise<void> {
+  await createASAPMonitor();
+}
+
+main().catch(console.error);

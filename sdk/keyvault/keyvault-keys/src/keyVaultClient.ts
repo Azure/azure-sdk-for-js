@@ -19,6 +19,8 @@ import type {
   KeyVerifyResult,
   KeyReleaseParameters,
   KeyReleaseResult,
+  SecureKeyWrapParameters,
+  SecureKeyUnwrapParameters,
   DeletedKeyItem,
   KeyRotationPolicy,
   GetRandomBytesRequest,
@@ -36,6 +38,8 @@ import type {
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
   WrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
   DecryptOptionalParams,
@@ -63,6 +67,8 @@ import {
   release,
   unwrapKey,
   wrapKey,
+  secureWrapKey,
+  secureUnwrapKey,
   verify,
   sign,
   decrypt,
@@ -179,6 +185,26 @@ export class KeyVaultClient {
     options: ReleaseOptionalParams = { requestOptions: {} },
   ): Promise<KeyReleaseResult> {
     return release(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /** Securely wraps a 256-bit AES key generated within a trusted execution environment using the target key encryption key. This operation requires the keys/wrapKey permission. */
+  secureWrapKey(
+    keyName: string,
+    keyVersion: string | undefined,
+    parameters: SecureKeyWrapParameters,
+    options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<KeyOperationResult> {
+    return secureWrapKey(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /** Securely unwraps a symmetric key previously wrapped via {@link secureWrapKey}. The unwrap operation runs inside a trusted execution environment after attestation. This operation requires the keys/unwrapKey permission. */
+  secureUnwrapKey(
+    keyName: string,
+    keyVersion: string | undefined,
+    parameters: SecureKeyUnwrapParameters,
+    options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<KeyOperationResult> {
+    return secureUnwrapKey(this._client, keyName, keyVersion, parameters, options);
   }
 
   /** The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation. The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission. */

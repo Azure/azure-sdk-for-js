@@ -45,7 +45,14 @@ export class VoiceLiveConnectionError extends Error {
   /** Indicates whether this error is potentially recoverable */
   public readonly recoverable: boolean;
 
-  /** The original error that caused this error, if any */
+  /**
+   * The original error that caused this error, if any.
+   *
+   * Note: the standard `Error.cause` (ES2022) is typed as `unknown` because in
+   * general code can throw anything. We narrow this to `Error` because every
+   * call site in this SDK is internal and always wraps non-`Error` values
+   * before constructing one of these errors (see `classifyConnectionError`).
+   */
   public readonly cause?: Error;
 
   /** Timestamp when the error occurred */

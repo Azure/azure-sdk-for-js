@@ -93,7 +93,6 @@ export interface DiskRestorePointOperations {
     options?: DiskRestorePointGetOptionalParams,
   ) => Promise<DiskRestorePoint>;
 }
-
 function _getDiskRestorePoint(context: ComputeManagementContext) {
   return {
     revokeAccess: (
@@ -230,7 +229,6 @@ function _getDiskRestorePoint(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getDiskRestorePointOperations(
   context: ComputeManagementContext,
 ): DiskRestorePointOperations {

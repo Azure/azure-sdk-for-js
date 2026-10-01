@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops a server.
  *
  * @summary stops a server.
- * x-ms-original-file: 2026-01-01-preview/ServersStop.json
+ * x-ms-original-file: 2026-04-01-preview/ServersStop.json
  */
 async function stopAServer() {
   const credential = new DefaultAzureCredential();

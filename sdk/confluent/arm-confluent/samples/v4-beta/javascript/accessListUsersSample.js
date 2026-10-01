@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to organization users details
  *
  * @summary organization users details
- * x-ms-original-file: 2025-08-18-preview/Access_ListUsers_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListUsers_MaximumSet_Gen.json
  */
 async function accessListUsersMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function accessListUsersMaximumSet() {
  * This sample demonstrates how to organization users details
  *
  * @summary organization users details
- * x-ms-original-file: 2025-08-18-preview/Access_ListUsers_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListUsers_MinimumSet_Gen.json
  */
 async function accessListUsersMinimumSet() {
   const credential = new DefaultAzureCredential();

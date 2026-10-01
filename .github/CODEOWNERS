@@ -5,21 +5,21 @@
 # Orphaned paths
 ################
 
-/** @xirzec @jeremymeng @Azure/azure-sdk-eng
+/** @Azure/azure-sdk-for-js-core @Azure/azure-sdk-eng
 
 ################
 # Misc.
 ################
 
 /.devcontainer/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
-/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
-/samples/       @jeremymeng @Azure/azure-sdk-js-dev
+/documentation/ @Azure/azure-sdk-js-dev
+/samples/       @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
 ################
 
-/design/ @bterlson @joheredi @jeremymeng @maorleger
+/design/ @Azure/azure-sdk-for-js-core
 
 # Catch all
 /sdk/ @xirzec @Azure/azure-sdk-js-dev
@@ -30,31 +30,31 @@
 ####################
 
 # PRLabel: %AgriFood
-/sdk/agrifood/    @joheredi
+/sdk/agrifood/    @jeremymeng
 
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %AgriFood
 
 # PRLabel: %AI Agents
-/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Agents
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Model Inference
-/sdk/ai/ai-inference-rest    @dargilco @glharper
+/sdk/ai/ai-inference-rest    @dargilco @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Model Inference
-# ServiceOwners: @dargilco @glharper
+# ServiceOwners: @dargilco @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Projects
-/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms
+/sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms @mrm9084
 
 # AzureSdkOwners: @minhanh-phan @zhiyuanliang-ms
 # ServiceLabel: %App Configuration
@@ -73,30 +73,27 @@
 # PRLabel: %Azure.Core
 /sdk/core/    @Azure/azure-sdk-for-js-core
 
-# PRLabel: %Azure.Core
-/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @xirzec
-
-# PRLabel: %Azure.Core
-/sdk/core/core-client-rest/    @Azure/azure-sdk-for-js-core @joheredi @timovv
-
-# PRLabel: %Azure.Core
-/sdk/core/core-lro/    @Azure/azure-sdk-for-js-core @joheredi
-
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/    @Azure/azure-sdk-for-js-core @maorleger
-
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %Azure.Core
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @sagar0207 @SwayGom @sjkwak @hmlam
 
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
 
-# AzureSdkOwners: @KarishmaGhiya @maorleger @minhanh-phan
+# AzureSdkOwners: @KarishmaGhiya @minhanh-phan
 # ServiceLabel: %Azure.Identity
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris
+/sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris @lilinvictorms @iwang2 @xingwu1
+
+# PRLabel: %Cognitive - Content Safety
+/sdk/contentsafety/                                               @Azure/azure-sdk-write-contentsafety
+
+# ServiceLabel: %Cognitive - Content Safety
+# ServiceOwners:                                                  @Azure/azure-sdk-write-contentsafety
 
 # PRLabel: %Cognitive - Content Understanding
 /sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
@@ -107,7 +104,7 @@
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/                                               @changjian-wang @bojunehsu @yungshinlintw
 
-# AzureSdkOwners: @jeremymeng
+# AzureSdkOwners: @changjian-wang @bojunehsu @yungshinlintw
 # ServiceLabel: %Cognitive - Form Recognizer
 
 # ServiceLabel: %Cognitive - Language
@@ -119,7 +116,7 @@
 /sdk/textanalytics/    @quentinRobinson
 
 # PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/    @Han-msft @zihyunting
+/sdk/translation/    @jrjrguo @zhangeugenia
 
 # ServiceLabel: %Communication
 # PRLabel: %Communication
@@ -139,7 +136,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -147,7 +144,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -199,10 +196,16 @@
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/    @johngallardo @olivakar @sjiherzig
 
-# PRLabel: %DocumentTranslator
-/sdk/documenttranslator/    @joheredi
+# PRLabel: %Discovery
+/sdk/discovery/ai-discovery    @ahall-msft @mike-menaker
 
-# AzureSdkOwners: @joheredi
+# ServiceLabel: %Discovery
+# ServiceOwners: @ahall-msft @mike-menaker
+
+# PRLabel: %DocumentTranslator
+/sdk/documenttranslator/    @jeremymeng
+
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %DocumentTranslator
 
 # PRLabel: %Durable Task Scheduler
@@ -212,23 +215,23 @@
 # ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
 
 # PRLabel: %EngSys
-/sdk/template/    @benbp @mikeharder @weshaggard
+/sdk/template/    @Azure/azure-sdk-eng
 
-# AzureSdkOwners: @benbp @mikeharder @weshaggard
+# AzureSdkOwners: @Azure/azure-sdk-eng
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/    @rajeshka @shankarsama
+/sdk/eventgrid/    @shankarsama @Nishanth-MS
 
 # AzureSdkOwners: @rajeshka @shankarsama
 # ServiceLabel: %Event Grid
 # ServiceOwners: @rajeshka @shankarsama
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/    @axisc @hmlam @j7nw4r @sjkwak
+/sdk/eventhub/    @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @hmlam @j7nw4r @sjkwak
+# ServiceOwners: @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
@@ -237,6 +240,12 @@
 # ServiceLabel: %Image Analysis
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/    @dargilco @rhurey
+
+# PRLabel: %Iot
+/sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+
+# AzureSdkOwners: @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+# ServiceLabel: %Iot
 
 # PRLabel: %KeyVault
 /sdk/keyvault/    @Azure/azure-sdk-write-keyvault
@@ -259,13 +268,13 @@
 /sdk/onlineexperimentation/    @Azure/azure-sdk-write-onlineexperimentation
 
 # PRLabel: %OpenAI
-/sdk/openai/    @minhanh-phan @trrwilson
+/sdk/openai/    @minhanh-phan  @Azure/ai-foundry-devex
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @trrwilson
+# ServiceOwners:  @Azure/ai-foundry-devex
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/    @maorleger
+/sdk/instrumentation/    @maorleger @minhanh-phan
 
 # AzureSdkOwners: @maorleger
 # ServiceLabel: %OpenTelemetryInstrumentation
@@ -293,14 +302,15 @@
 # PRLabel: %Search
 /sdk/search/    @Azure/azure-sdk-write-search
 
-# AzureSdkOwners: @srbalakr @efrainretana
+# AzureSdkOwners: @efrainretana
 # ServiceLabel: %Search
+# ServiceOwners: @efrainretana @lc48t @mattgotteiner
 
 # PRLabel: %Service Bus
-/sdk/servicebus/    @EldertGrootenboer @j7nw4r @skarri-microsoft
+/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
+# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
 
 # PRLabel: %Speech Transcription
 /sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
@@ -310,23 +320,24 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
+/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
-# AzureSdkOwners: @joheredi @wanyang7
+# AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
+
 # PRLabel: %Synapse
-/sdk/synapse/    @joheredi @wanyang7
+/sdk/synapse/    @wanyang7
 
 # PRLabel: %Tables
-/sdk/tables/    @jeremymeng @joheredi
+/sdk/tables/    @jeremymeng
 
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %Tables
 
 # PRLabel: %test-utils
-/sdk/test-utils/    @timovv
+/sdk/test-utils/    @Azure/azure-sdk-for-js-core
 
-# AzureSdkOwners: @timovv
+# AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %test-utils
 
 # PRLabel: %Voice Live
@@ -343,7 +354,7 @@
 # Management Libraries
 ####################
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -352,10 +363,10 @@
 # PRLabel: %Mgmt
 /sdk/analysisservices/arm-analysisservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/apimanagement/arm-apimanagement/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -367,31 +378,28 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/appservice/arm-appservice-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
-/sdk/astro/arm-astro/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/authorization/arm-authorization/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/automation/arm-automation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/avs/arm-avs/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -406,17 +414,14 @@
 # PRLabel: %Mgmt
 /sdk/baremetalinfrastructure/arm-baremetalinfrastructure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/billing/arm-billing/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/botservice/arm-botservice/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cdn/arm-cdn/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/changeanalysis/arm-changeanalysis/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao @JialinHuang803
@@ -424,7 +429,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -436,13 +441,13 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -451,29 +456,32 @@
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/computefleet/arm-computefleet/      @qiaozha @MaryGao @JialinHuang803
+
 # PRLabel: %Mgmt
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt %mgmt-review-needed
-/sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao @JialinHuang803
+# PRLabel: %Container Service %Mgmt %mgmt-review-needed
+/sdk/containerservice/arm-containerservice/      @elvazhu521 @FumingZhang
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
-/sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao @JialinHuang803
+# PRLabel: %Container Service %Mgmt
+/sdk/containerservice/arm-containerservice-rest/ @elvazhu521 @FumingZhang
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao @JialinHuang803
@@ -481,7 +489,7 @@
 # PRLabel: %Mgmt
 /sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -496,7 +504,7 @@
 # PRLabel: %Mgmt
 /sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databox/arm-databox/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -505,16 +513,16 @@
 # PRLabel: %Mgmt
 /sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databricks/arm-databricks/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datadog/arm-datadog/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -523,25 +531,22 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -568,7 +573,7 @@
 # PRLabel: %Mgmt
 /sdk/digitaltwins/arm-digitaltwins/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dns/arm-dns/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -577,10 +582,10 @@
 # PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -589,7 +594,7 @@
 # PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/eventhub/arm-eventhub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -598,19 +603,19 @@
 # PRLabel: %Mgmt
 /sdk/features/arm-features/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -622,10 +627,10 @@
 # PRLabel: %Mgmt
 /sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -637,10 +642,10 @@
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -658,7 +663,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -688,29 +693,17 @@
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/playwright/arm-playwright/ @qiaozha @MaryGao @JialinHuang803
@@ -737,7 +730,7 @@
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
+/sdk/migrationdiscoverysap/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao @JialinHuang803
@@ -745,10 +738,10 @@
 # PRLabel: %Mgmt
 /sdk/managedapplications/arm-managedapplications/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -769,25 +762,25 @@
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/msi/arm-msi/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -796,28 +789,28 @@
 # PRLabel: %Mgmt
 /sdk/nginx/arm-nginx/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/network/arm-network/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/notificationhubs/arm-notificationhubs/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/operationalinsights/arm-operationalinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -826,10 +819,10 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policy/arm-policy/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -838,31 +831,31 @@
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policyinsights/arm-policyinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/programmableconnectivity/arm-programmableconnectivity/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/powerbidedicated/arm-powerbidedicated/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/powerbiembedded/arm-powerbiembedded/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/privatedns/arm-privatedns/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/recoveryservices/arm-recoveryservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -874,28 +867,28 @@
 # PRLabel: %Mgmt
 /sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/relay/arm-relay/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/reservations/arm-reservations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resourcegraph/arm-resourcegraph/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/resourceconnector/arm-resourceconnector/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resourcehealth/arm-resourcehealth/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -904,19 +897,19 @@
 # PRLabel: %Mgmt
 /sdk/resourcemover/arm-resourcemover/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resources/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/search/arm-search/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -928,25 +921,25 @@
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/security/arm-security/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/serialconsole/arm-serialconsole/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/service-map/arm-servicemap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -955,19 +948,19 @@
 # PRLabel: %Mgmt
 /sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/signalr/arm-signalr/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/sql/arm-sql/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/sqlvirtualmachine/arm-sqlvirtualmachine/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storage/arm-storage/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -976,7 +969,7 @@
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagecache/arm-storagecache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -985,7 +978,7 @@
 # PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagesync/arm-storagesync/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1003,7 +996,7 @@
 # PRLabel: %Mgmt
 /sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/support/arm-support/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1012,10 +1005,10 @@
 # PRLabel: %Mgmt
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/terraform/arm-terraform/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1027,7 +1020,7 @@
 # PRLabel: %Mgmt
 /sdk/vmwarecloudsimple/arm-vmwarecloudsimple/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources-subscriptions/arm-resources-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1051,19 +1044,19 @@
 # PRLabel: %Mgmt
 /sdk/loadtesting/arm-loadtesting/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/purview/arm-purview/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/imagebuilder/arm-imagebuilder/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/securityinsight/arm-securityinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/oep/arm-oep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1087,10 +1080,10 @@
 # PRLabel: %Mgmt
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/web-pubsub/arm-webpubsub/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1256,7 +1249,7 @@
 # ServiceOwners:          @toddysm @northtyphoon
 
 # ServiceLabel: %Container Service %Service Attention
-# ServiceOwners:          @qike-ms @jwilder @thomas1206 @seanmck
+# ServiceOwners:          @elvazhu521 @FumingZhang
 
 
 # ServiceLabel: %Customer Insights %Service Attention
@@ -1623,76 +1616,138 @@
 # ServiceOwners:          @ccmshowbackdevs
 
 # PRLabel: %Mgmt
-sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao @JialinHuang803
+/sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao @JialinHuang803
+/sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao @JialinHuang803
+/sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao @JialinHuang803
+/sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @JialinHuang803
+/sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
-sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/computebulkactions/arm-computebulkactions/ @qiaozha @MaryGao @JialinHuang803
-sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
-sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
-sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
-sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/horizondb/arm-horizondb/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+/sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/monitor/arm-monitorslis/ @qiaozha @MaryGao @JialinHuang803
-sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
+/sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/computebulkactions/arm-computebulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/horizondb/arm-horizondb/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @JialinHuang803
+/sdk/monitor/arm-monitorslis/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
-sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+/sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
+/sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/billingtrust/arm-billing-trust/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/containerservice/arm-containerservicepreparedimgspec/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/platformvalidation/arm-platformvalidation/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/edgeworkloadsecurity/arm-secretsstoreextension/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @jeremymeng
-/common/ @mikeharder @jeremymeng
-/package.json @jeremymeng @Azure/azure-sdk-js-dev
-/turbo.json @jeremymeng @Azure/azure-sdk-js-dev
+/.vscode/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/common/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/package.json @Azure/azure-sdk-js-dev
+/turbo.json @Azure/azure-sdk-js-dev
 /pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
 /pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
 
@@ -1704,21 +1759,21 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 /common/tools/ @Azure/azure-sdk-js-dev
 
 # PRLabel: %dev-tool
-/common/tools/dev-tool/ @jeremymeng @timovv @maorleger
+/common/tools/dev-tool/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk*/ @Azure/azure-sdk-for-js-core
+/common/tools/eslint-plugin-azure-sdk/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %warp
 /common/tools/warp/ @Azure/azure-sdk-for-js-core
 
-/tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
+/tsconfig*.json @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
 /sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
-/.scripts/ @mikeharder
+/.scripts/ @Azure/azure-sdk-eng
 /.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @Azure/azure-sdk-for-js-core
@@ -1735,17 +1790,25 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                                    @mikeharder @weshaggard @benbp
+/eng/                                    @Azure/azure-sdk-eng
 /eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
-/eng/common/                             @Azure/azure-sdk-eng
+/eng/common/                             @Azure/azure-sdk-eng @Azure/azure-sdk-sync-approvers
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-/.config/1espt/                          @benbp @weshaggard
+# Approved third-party runtime dependency allow-list
+/eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
+/.config/1espt/                          @Azure/azure-sdk-eng
+
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.md      @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.lock.yml @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/archie.md             @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/archie.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.md             @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability-collect.sh     @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.md               @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.lock.yml         @Azure/azure-sdk-for-js-core
 /.github/workflows/dexter.md             @Azure/azure-sdk-for-js-core
@@ -1772,16 +1835,19 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 /.github/prompts/security-review-guidelines.md     @Azure/azure-sdk-for-js-core
 /.github/prompts/test-recording.prompt.md          @Azure/azure-sdk-for-js-core
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
-/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
-/.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
-/eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
+/.github/skills/                         @Azure/azsdk-cli @Azure/azure-sdk-for-js-core
 
-/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
+/.github/copilot-instructions.md         @praveenkuttappan
+/eng/scripts/docs/type2docfx.version.txt @danieljurek @Azure/azure-sdk-eng
+
+/eng/tools @Azure/azure-sdk-for-js-core
+
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
+/eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
-/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @weshaggard @benbp
+/eng/pipelines/docindex.yml                  @danieljurek @Azure/azure-sdk-eng

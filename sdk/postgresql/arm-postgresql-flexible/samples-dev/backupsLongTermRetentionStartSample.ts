@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initiates a long term retention backup.
  *
  * @summary initiates a long term retention backup.
- * x-ms-original-file: 2026-01-01-preview/BackupsLongTermRetentionStart.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsLongTermRetentionStart.json
  */
 async function initiateALongTermRetentionBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -16,9 +16,6 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 - `about` (display command help and information)
 - `admin`	run administrative tasks for the repository
-  - `create-migration` scaffolds a new migration
-  - `stage-migrations` stage migration passes over the whole monorepo
-  - `migrate-source` migrates a package to the latest source code standards
   - `list` list monorepo elements
     - `packages` list packages defined in the monorepo
     - `service-folders`	list service folders in the monorepo
@@ -58,7 +55,6 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `update-snippets`	find README and TSDoc snippets throughout the package and update their contents.
   - `build-package`	build a package for production
   - `vendored` run dev-tool's dependency commands
-- `migrate` manage and run code migrations
 - `customization` applies customizations to the SDK
   - `init` sets up a package for customization by copying src/ to generated/
   - `apply` applies existing customizations to new generated code

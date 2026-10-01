@@ -1,5 +1,42 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/checkScopedNameAvailability": "./src/api/checkScopedNameAvailability/index.ts"
+  "./api/checkNameAvailability": "./src/api/checkNameAvailability/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/operationStatuses": "./src/api/operationStatuses/index.ts"
+  "./api/projectCatalogImageDefinitionBuilds": "./src/api/projectCatalogImageDefinitionBuilds/index.ts"
+  "./api/devCenterCatalogImageDefinitionBuilds": "./src/api/devCenterCatalogImageDefinitionBuilds/index.ts"
+  "./api/devCenterCatalogImageDefinitionBuild": "./src/api/devCenterCatalogImageDefinitionBuild/index.ts"
+  "./api/devCenterCatalogImageDefinitions": "./src/api/devCenterCatalogImageDefinitions/index.ts"
+  "./api/projectAllowedEnvironmentTypes": "./src/api/projectAllowedEnvironmentTypes/index.ts"
+  "./api/projectCatalogEnvironmentDefinitions": "./src/api/projectCatalogEnvironmentDefinitions/index.ts"
+  "./api/projectCatalogs": "./src/api/projectCatalogs/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/encryptionSets": "./src/api/encryptionSets/index.ts"
+  "./api/networkConnections": "./src/api/networkConnections/index.ts"
+  "./api/schedules": "./src/api/schedules/index.ts"
+  "./api/pools": "./src/api/pools/index.ts"
+  "./api/projectCatalogImageDefinitionBuild": "./src/api/projectCatalogImageDefinitionBuild/index.ts"
+  "./api/projectCatalogImageDefinitions": "./src/api/projectCatalogImageDefinitions/index.ts"
+  "./api/customizationTasks": "./src/api/customizationTasks/index.ts"
+  "./api/devBoxDefinitions": "./src/api/devBoxDefinitions/index.ts"
+  "./api/projectEnvironmentTypes": "./src/api/projectEnvironmentTypes/index.ts"
+  "./api/environmentTypes": "./src/api/environmentTypes/index.ts"
+  "./api/imageVersions": "./src/api/imageVersions/index.ts"
+  "./api/galleries": "./src/api/galleries/index.ts"
+  "./api/environmentDefinitions": "./src/api/environmentDefinitions/index.ts"
+  "./api/catalogs": "./src/api/catalogs/index.ts"
+  "./api/attachedNetworks": "./src/api/attachedNetworks/index.ts"
+  "./api/projects": "./src/api/projects/index.ts"
+  "./api/projectPolicies": "./src/api/projectPolicies/index.ts"
+  "./api/devCenters": "./src/api/devCenters/index.ts"
+  "./api/images": "./src/api/images/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

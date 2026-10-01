@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-automation": [
-        "../dist/esm"
-      ]
+      "@azure/arm-automation": ["../dist/esm"]
     }
   }
 }

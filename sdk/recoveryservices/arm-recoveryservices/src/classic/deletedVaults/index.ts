@@ -20,6 +20,8 @@ import type {
   DeletedVaultUndeleteInput,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeletedVaults operations. */
@@ -38,6 +40,20 @@ export interface DeletedVaultsOperations {
     body: DeletedVaultUndeleteInput,
     options?: DeletedVaultsUndeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use undelete instead */
+  beginUndelete: (
+    location: string,
+    deletedVaultName: string,
+    body: DeletedVaultUndeleteInput,
+    options?: DeletedVaultsUndeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use undelete instead */
+  beginUndeleteAndWait: (
+    location: string,
+    deletedVaultName: string,
+    body: DeletedVaultUndeleteInput,
+    options?: DeletedVaultsUndeleteOptionalParams,
+  ) => Promise<void>;
   /** Get a specific deleted vault. */
   get: (
     location: string,
@@ -65,6 +81,24 @@ function _getDeletedVaults(context: RecoveryServicesContext) {
       body: DeletedVaultUndeleteInput,
       options?: DeletedVaultsUndeleteOptionalParams,
     ) => undelete(context, location, deletedVaultName, body, options),
+    beginUndelete: async (
+      location: string,
+      deletedVaultName: string,
+      body: DeletedVaultUndeleteInput,
+      options?: DeletedVaultsUndeleteOptionalParams,
+    ) => {
+      const poller = undelete(context, location, deletedVaultName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUndeleteAndWait: async (
+      location: string,
+      deletedVaultName: string,
+      body: DeletedVaultUndeleteInput,
+      options?: DeletedVaultsUndeleteOptionalParams,
+    ) => {
+      return await undelete(context, location, deletedVaultName, body, options);
+    },
     get: (location: string, deletedVaultName: string, options?: DeletedVaultsGetOptionalParams) =>
       get(context, location, deletedVaultName, options),
     listBySubscriptionId: (

@@ -574,7 +574,7 @@ describe("#LiveMetrics", () => {
   });
 
   it("should not collect when disabled", async () => {
-    autoCollect.deactivateMetrics();
+    await autoCollect.deactivateMetrics();
     await new Promise((resolve) => setTimeout(resolve, 120));
     expect(exportStub).not.toHaveBeenCalled();
   });

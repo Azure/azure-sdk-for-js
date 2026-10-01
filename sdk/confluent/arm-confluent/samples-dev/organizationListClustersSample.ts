@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists of all the clusters in a environment
  *
  * @summary lists of all the clusters in a environment
- * x-ms-original-file: 2025-08-18-preview/Organization_ListClusters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListClusters_MaximumSet_Gen.json
  */
 async function organizationListClustersMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

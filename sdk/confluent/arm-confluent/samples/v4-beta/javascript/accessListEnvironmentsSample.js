@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to environment list of an organization
  *
  * @summary environment list of an organization
- * x-ms-original-file: 2025-08-18-preview/Access_ListEnvironments_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListEnvironments_MaximumSet_Gen.json
  */
 async function accessListEnvironmentsMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function accessListEnvironmentsMaximumSet() {
  * This sample demonstrates how to environment list of an organization
  *
  * @summary environment list of an organization
- * x-ms-original-file: 2025-08-18-preview/Access_ListEnvironments_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListEnvironments_MinimumSet_Gen.json
  */
 async function accessListEnvironmentsMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -5,3 +5,4 @@ export type * from "./models.js";
 export * from "./phoneNumbersClient.js";
 export type * from "./lroModels.js";
 export * from "./sipRoutingClient.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

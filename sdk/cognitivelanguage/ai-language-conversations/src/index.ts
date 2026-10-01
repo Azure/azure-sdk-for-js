@@ -15,3 +15,4 @@ export { AzureKeyCredential } from "@azure/core-auth";
 
 export { ConversationAnalysisClient } from "./conversationAnalysisClient.js";
 export * from "./models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

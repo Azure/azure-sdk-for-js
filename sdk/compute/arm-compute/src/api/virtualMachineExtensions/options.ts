@@ -8,25 +8,21 @@ export interface VirtualMachineExtensionsListOptionalParams extends OperationOpt
   /** The expand expression to apply on the operation. */
   expand?: string;
 }
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionsGetOptionalParams extends OperationOptions {
   /** The expand expression to apply on the operation. */

@@ -55,9 +55,7 @@ export function getSendCertificateChain(): boolean {
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
-    | ClientSecretCredential
-    | ClientCertificateCredential
-    | UsernamePasswordCredential = undefined;
+    ClientSecretCredential | ClientCertificateCredential | UsernamePasswordCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and decides what credential to use depending on the available environment variables.
    *

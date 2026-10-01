@@ -19,9 +19,29 @@ function isWindows() {
 function spawnWithLog(cmd, cwd, ...args) {
   console.log(`Executing: "${cmd} ${args.join(" ")}" in ${cwd}\n\n`);
   const proc = spawnSync(cmd, args, { cwd, stdio: "inherit", shell: isWindows() });
-  console.log(`\n\n${cmd} exited with code ${proc.status} `);
 
-  return proc.status ?? 1;
+  if (proc.error) {
+    console.error(`\n\nFailed to spawn ${cmd}: ${proc.error.stack ?? proc.error.message}`);
+  }
+
+  if (proc.signal) {
+    console.error(`\n\n${cmd} was terminated by signal ${proc.signal}`);
+    if (proc.signal === "SIGKILL") {
+      console.error(
+        `SIGKILL is likely an out-of-memory kill. Check the agent's available memory or reduce parallelism (e.g. turbo --concurrency).`,
+      );
+    }
+  }
+
+  console.log(`\n\n${cmd} exited with code ${proc.status}, signal ${proc.signal ?? "none"} `);
+
+  if (typeof proc.status === "number") {
+    return proc.status;
+  }
+
+  // No numeric status means the process was killed by a signal or failed to
+  // spawn; never report success in that case.
+  return 1;
 }
 
 /**

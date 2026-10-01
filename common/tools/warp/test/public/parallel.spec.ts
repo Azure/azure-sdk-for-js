@@ -1084,6 +1084,7 @@ describe("parallel chaos tests", () => {
 // ---------------------------------------------------------------------------
 
 const isRoot = process.getuid?.() === 0;
+const isWindows = process.platform === "win32";
 
 describe("fault injection: filesystem errors in workers", () => {
   let tmpDir: string;
@@ -1123,7 +1124,7 @@ describe("fault injection: filesystem errors in workers", () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: read-only dist/ causes worker crash during emit, fails cleanly",
     async () => {
       await setupProject(tmpDir, {
@@ -1144,7 +1145,7 @@ describe("fault injection: filesystem errors in workers", () => {
     },
   );
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: read-only target outDir causes worker crash, other targets still report",
     async () => {
       await setupProject(tmpDir, {
@@ -1169,7 +1170,7 @@ describe("fault injection: filesystem errors in workers", () => {
     },
   );
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: unreadable source file produces diagnostic, does not hang",
     async () => {
       await setupProject(tmpDir, {
@@ -1193,28 +1194,31 @@ describe("fault injection: filesystem errors in workers", () => {
     },
   );
 
-  it("broken symlink source file produces diagnostic, does not crash workers", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": 'import { broken } from "./broken.js";\nexport { broken };\n',
-      },
-      targets: [{ name: "esm", condition: "import" }],
-    });
+  it.skipIf(isWindows)(
+    "broken symlink source file produces diagnostic, does not crash workers",
+    async () => {
+      await setupProject(tmpDir, {
+        sources: {
+          "index.ts": 'import { broken } from "./broken.js";\nexport { broken };\n',
+        },
+        targets: [{ name: "esm", condition: "import" }],
+      });
 
-    await fs.symlink(
-      path.join(tmpDir, "src/nonexistent-target.ts"),
-      path.join(tmpDir, "src/broken.ts"),
-    );
+      await fs.symlink(
+        path.join(tmpDir, "src/nonexistent-target.ts"),
+        path.join(tmpDir, "src/broken.ts"),
+      );
 
-    let threw = false;
-    let result: Awaited<ReturnType<typeof build>> | undefined;
-    try {
-      result = await build({ cwd: tmpDir, parallel: true });
-    } catch {
-      threw = true;
-    }
-    expect(threw || result?.success === false).toBe(true);
-  });
+      let threw = false;
+      let result: Awaited<ReturnType<typeof build>> | undefined;
+      try {
+        result = await build({ cwd: tmpDir, parallel: true });
+      } catch {
+        threw = true;
+      }
+      expect(threw || result?.success === false).toBe(true);
+    },
+  );
 
   it("output path collision: dist/esm is a file, not a directory", async () => {
     await setupProject(tmpDir, {

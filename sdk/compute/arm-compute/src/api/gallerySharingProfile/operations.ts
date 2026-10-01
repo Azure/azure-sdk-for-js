@@ -28,7 +28,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,14 +46,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return sharingUpdateDeserializer(result.body);
 }
-
 /** Update sharing profile of a gallery. */
 export function update(
   context: Client,
@@ -68,6 +69,6 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, galleryName, sharingUpdate, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<SharingUpdate>, SharingUpdate>;
 }

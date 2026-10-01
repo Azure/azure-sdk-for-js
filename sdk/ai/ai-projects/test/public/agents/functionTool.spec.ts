@@ -115,7 +115,7 @@ describe("agents - function tool - execution flow", () => {
         ],
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(response);
@@ -151,7 +151,7 @@ describe("agents - function tool - execution flow", () => {
         previous_response_id: response.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 
@@ -189,7 +189,7 @@ describe("agents - function tool - execution flow", () => {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(response);
@@ -225,7 +225,7 @@ describe("agents - function tool - execution flow", () => {
         input: inputList,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 

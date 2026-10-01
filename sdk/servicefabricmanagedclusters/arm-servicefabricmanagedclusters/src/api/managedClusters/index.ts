@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 export {
+  stopFaultSimulation,
+  startFaultSimulation,
+  listFaultSimulation,
+  getFaultSimulation,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -9,7 +13,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersListFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersDeleteOptionalParams,

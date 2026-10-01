@@ -2073,11 +2073,7 @@ export enum KnownManagedHsmSkuFamily {
 export type ManagedHsmSkuFamily = string;
 /** SKU of the managed HSM Pool */
 export type ManagedHsmSkuName =
-  | "Standard_B1"
-  | "Custom_B32"
-  | "Custom_B6"
-  | "Custom_C42"
-  | "Custom_C10";
+  "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {

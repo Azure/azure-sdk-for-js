@@ -6,10 +6,11 @@
  *
  * This sample demonstrates how to delete a custom analyzer.
  *
- * The deleteAnalyzer method permanently removes a custom analyzer from your resource.
- * This operation cannot be undone.
+ * ## About deleting analyzers
  *
- * Important notes:
+ * The `deleteAnalyzer` method permanently removes a custom analyzer from your resource. This operation cannot be undone.
+ *
+ * **Important notes**:
  * - Only custom analyzers can be deleted. Prebuilt analyzers cannot be deleted.
  * - Deleting an analyzer does not delete analysis results that were created using that analyzer.
  * - Once deleted, the analyzer ID cannot be reused immediately.
@@ -48,7 +49,7 @@ export async function main(): Promise<void> {
     baseAnalyzerId: "prebuilt-document",
     description: "Simple analyzer for deletion example",
     config: { returnDetails: true } as ContentAnalyzerConfig,
-    models: { completion: "gpt-4.1" },
+    models: { completion: "gpt-5.2" },
   } as unknown as ContentAnalyzer;
 
   const poller = client.createAnalyzer(analyzerId, analyzer);

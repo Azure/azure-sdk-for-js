@@ -1,90 +1,95 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a DevOps Configuration.
- *
- * @summary Creates or updates a DevOps Configuration.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture_example.json
- */
-
-import type { DevOpsConfiguration } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a DevOps Configuration.
+ *
+ * @summary creates or updates a DevOps Configuration.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture_example.json
+ */
 async function createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
-  const securityConnectorName = "mySecurityConnectorName";
-  const devOpsConfiguration: DevOpsConfiguration = {
-    properties: {
-      authorization: { code: "00000000000000000000" },
-      autoDiscovery: "Enabled",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.devOpsConfigurations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    securityConnectorName,
-    devOpsConfiguration,
+  const result = await client.devOpsConfigurations.createOrUpdate(
+    "myRg",
+    "mySecurityConnectorName",
+    { properties: { authorization: { code: "00000000000000000000" }, autoDiscovery: "Enabled" } },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a DevOps Configuration.
+ * This sample demonstrates how to creates or updates a DevOps Configuration.
  *
- * @summary Creates or updates a DevOps Configuration.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentOnly_example.json
+ * @summary creates or updates a DevOps Configuration.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentOnly_example.json
  */
 async function createOrUpdateDevOpsConfigurationsOnboardCurrentOnly(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
-  const securityConnectorName = "mySecurityConnectorName";
-  const devOpsConfiguration: DevOpsConfiguration = {
-    properties: {
-      authorization: { code: "00000000000000000000" },
-      autoDiscovery: "Disabled",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.devOpsConfigurations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    securityConnectorName,
-    devOpsConfiguration,
+  const result = await client.devOpsConfigurations.createOrUpdate(
+    "myRg",
+    "mySecurityConnectorName",
+    { properties: { authorization: { code: "00000000000000000000" }, autoDiscovery: "Disabled" } },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a DevOps Configuration.
+ * This sample demonstrates how to creates or updates a DevOps Configuration.
  *
- * @summary Creates or updates a DevOps Configuration.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardSelected_example.json
+ * @summary creates or updates a DevOps Configuration.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardSelected_example.json
  */
 async function createOrUpdateDevOpsConfigurationsOnboardSelected(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
-  const securityConnectorName = "mySecurityConnectorName";
-  const devOpsConfiguration: DevOpsConfiguration = {
-    properties: {
-      authorization: { code: "00000000000000000000" },
-      autoDiscovery: "Disabled",
-      topLevelInventoryList: ["org1", "org2"],
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.devOpsConfigurations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    securityConnectorName,
-    devOpsConfiguration,
+  const result = await client.devOpsConfigurations.createOrUpdate(
+    "myRg",
+    "mySecurityConnectorName",
+    {
+      properties: {
+        authorization: { code: "00000000000000000000" },
+        autoDiscovery: "Disabled",
+        topLevelInventoryList: ["org1", "org2"],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a DevOps Configuration.
+ *
+ * @summary creates or updates a DevOps Configuration.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsWithAgentlessConfigurations_example.json
+ */
+async function createOrUpdateDevOpsConfigurationsWithAgentlessConfigurations(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
+  const client = new SecurityCenter(credential, subscriptionId);
+  const result = await client.devOpsConfigurations.createOrUpdate(
+    "myRg",
+    "mySecurityConnectorName",
+    {
+      properties: {
+        agentlessConfiguration: {
+          agentlessAutoDiscovery: "Disabled",
+          agentlessEnabled: "Enabled",
+          inventoryList: [{ inventoryKind: "AzureDevOpsOrganization", value: "org1" }],
+          inventoryListType: "Inclusion",
+          scanners: ["scanner1", "scanner2"],
+        },
+        authorization: { code: "00000000000000000000" },
+        autoDiscovery: "Enabled",
+      },
+    },
   );
   console.log(result);
 }
@@ -93,6 +98,7 @@ async function main(): Promise<void> {
   await createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture();
   await createOrUpdateDevOpsConfigurationsOnboardCurrentOnly();
   await createOrUpdateDevOpsConfigurationsOnboardSelected();
+  await createOrUpdateDevOpsConfigurationsWithAgentlessConfigurations();
 }
 
 main().catch(console.error);
