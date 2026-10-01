@@ -555,5 +555,75 @@ describe("generateApiReview", () => {
       );
       expect(apiMd).not.toContain("OTContext");
     });
+
+    it("rewrites namespace-qualified external types to their exported names", () => {
+      const root = fixture(
+        {
+          ...dependency("@azure-rest/core-client", "export interface OperationOptions {\n}"),
+          "dist/esm/index.d.ts": [
+            'import type * as coreClient from "@azure-rest/core-client";',
+            "export interface CreateKeyOptions extends coreClient.OperationOptions {",
+            "    keySize?: number;",
+            "}",
+          ].join("\n"),
+        },
+        { dependencies: { "@azure-rest/core-client": "^2.3.3" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export interface CreateKeyOptions extends OperationOptions {");
+      expect(apiMd).toContain('import { OperationOptions } from "@azure-rest/core-client";');
+      expect(apiMd).not.toContain("coreClient");
+    });
+
+    it("rewrites import() types from dependencies to their exported names", () => {
+      const root = fixture(
+        {
+          ...dependency("@azure/logger", "export interface AzureLogger {\n}"),
+          "dist/esm/index.d.ts":
+            'export declare const logger: import("@azure/logger").AzureLogger;',
+        },
+        { dependencies: { "@azure/logger": "^1.1.4" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export declare const logger: AzureLogger;");
+      expect(apiMd).toContain('import { AzureLogger } from "@azure/logger";');
+    });
+
+    it("rewrites package-local import() types without file paths", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'export { logger } from "./log.js";',
+          'export type { TypeSpecRuntimeLogger } from "./logger/logger.js";',
+        ].join("\n"),
+        "dist/esm/log.d.ts":
+          'export declare const logger: import("./logger/logger.js").TypeSpecRuntimeLogger;',
+        "dist/esm/logger/logger.d.ts": "export interface TypeSpecRuntimeLogger {\n}",
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export declare const logger: TypeSpecRuntimeLogger;");
+      expect(apiMd).not.toContain("logger.js");
+    });
+
+    it("follows local re-export hops to the dependency that declares a re-export", () => {
+      const root = fixture(
+        {
+          ...dependency("@azure/core-paging", "export interface PageSettings {\n}"),
+          "dist/esm/index.d.ts": 'export { PageSettings } from "./paging.js";',
+          "dist/esm/paging.d.ts": 'export { PageSettings } from "@azure/core-paging";',
+        },
+        { dependencies: { "@azure/core-paging": "^1.6.2" } },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain('export { PageSettings } from "@azure/core-paging";');
+      expect(apiMd).not.toContain("paging.js");
+    });
   });
 });

@@ -236,17 +236,15 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
   const rootNames = new Set<string>();
   const references = new Map<string, Set<string>>();
 
-  const externalName = (identifier: ts.Identifier): string | undefined => {
-    const symbol = checker.getSymbolAtLocation(identifier);
-    const external = symbol && externalImport(program, symbol);
-    if (!external) {
-      return undefined;
+  const referenceName = (node: ts.Node): string | undefined => {
+    const reference = resolveReference(program, node);
+    if (reference?.module) {
+      references.set(
+        reference.module,
+        (references.get(reference.module) ?? new Set()).add(reference.name),
+      );
     }
-    references.set(
-      external.module,
-      (references.get(external.module) ?? new Set()).add(external.name),
-    );
-    return external.name;
+    return reference?.name;
   };
 
   const sections = exportFiles.map(({ path: exportPath, file }, index) => {
@@ -279,7 +277,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
         reExports.push(reExport);
         continue;
       }
-      const printed = printDeclarations(symbol, exportedSymbol.name, printer, externalName);
+      const printed = printDeclarations(symbol, exportedSymbol.name, printer, referenceName);
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(...printed);
       } else {
@@ -318,41 +316,95 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
 
 /**
  * Returns the external module and exported name for an alias created by a package-local
- * `import { X } from "dep"` or `export { X } from "dep"`.
+ * `import { X } from "dep"` or `export { X } from "dep"`, following local re-export hops.
  */
 function externalImport(
   program: ts.Program,
   symbol: ts.Symbol,
 ): { module: string; name: string } | undefined {
-  const declaration = symbol.declarations?.[0];
-  if (!declaration || !(ts.isImportSpecifier(declaration) || ts.isExportSpecifier(declaration))) {
+  const checker = program.getTypeChecker();
+  let current: ts.Symbol | undefined = symbol;
+  while (current && current.flags & ts.SymbolFlags.Alias) {
+    const declaration = current.declarations?.[0];
+    const next = checker.getImmediateAliasedSymbol(current);
+    if (!declaration || !(ts.isImportSpecifier(declaration) || ts.isExportSpecifier(declaration))) {
+      return undefined;
+    }
+    if (isExternal(program, next)) {
+      const moduleSpecifier = ts.isImportSpecifier(declaration)
+        ? declaration.parent.parent.parent.moduleSpecifier
+        : declaration.parent.parent.moduleSpecifier;
+      return {
+        module: (moduleSpecifier as ts.StringLiteral).text,
+        name: (declaration.propertyName ?? declaration.name).text,
+      };
+    }
+    current = next;
+  }
+  return undefined;
+}
+
+function isExternal(program: ts.Program, symbol: ts.Symbol | undefined): boolean {
+  const file = symbol?.declarations?.[0]?.getSourceFile();
+  return file !== undefined && program.isSourceFileFromExternalLibrary(file);
+}
+
+/**
+ * Resolves how a type reference prints: its exported name, plus the module it comes from when
+ * the reference is external. Handles `X` (from `import { X }`), `ns.X` (from `import * as ns`),
+ * and `import("m").X`.
+ */
+function resolveReference(
+  program: ts.Program,
+  node: ts.Node,
+): { name: string; module?: string } | undefined {
+  const checker = program.getTypeChecker();
+  if (ts.isIdentifier(node)) {
+    const symbol = checker.getSymbolAtLocation(node);
+    return symbol && externalImport(program, symbol);
+  }
+  if (ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)) {
+    const left = ts.isQualifiedName(node) ? node.left : node.expression;
+    const right = ts.isQualifiedName(node) ? node.right : node.name;
+    const namespace = ts.isIdentifier(left)
+      ? checker.getSymbolAtLocation(left)?.declarations?.[0]
+      : undefined;
+    if (
+      namespace &&
+      ts.isNamespaceImport(namespace) &&
+      isExternal(program, checker.getSymbolAtLocation(right))
+    ) {
+      const moduleSpecifier = namespace.parent.parent.moduleSpecifier as ts.StringLiteral;
+      return { module: moduleSpecifier.text, name: right.text };
+    }
     return undefined;
   }
-  const target = program.getTypeChecker().getAliasedSymbol(symbol);
-  const targetFile = target.declarations?.[0]?.getSourceFile();
-  if (!targetFile || !program.isSourceFileFromExternalLibrary(targetFile)) {
-    return undefined;
+  if (
+    ts.isImportTypeNode(node) &&
+    node.qualifier &&
+    ts.isIdentifier(node.qualifier) &&
+    ts.isLiteralTypeNode(node.argument) &&
+    ts.isStringLiteral(node.argument.literal)
+  ) {
+    const name = node.qualifier.text;
+    return isExternal(program, checker.getSymbolAtLocation(node.qualifier))
+      ? { module: node.argument.literal.text, name }
+      : { name };
   }
-  const moduleSpecifier = ts.isImportSpecifier(declaration)
-    ? declaration.parent.parent.parent.moduleSpecifier
-    : declaration.parent.parent.moduleSpecifier;
-  return {
-    module: (moduleSpecifier as ts.StringLiteral).text,
-    name: (declaration.propertyName ?? declaration.name).text,
-  };
+  return undefined;
 }
 
 function printDeclarations(
   symbol: ts.Symbol,
   publicName: string,
   printer: ts.Printer,
-  externalName: (identifier: ts.Identifier) => string | undefined,
+  referenceName: (node: ts.Node) => string | undefined,
 ): string[] {
   return (symbol.declarations ?? []).map((declaration) => {
     const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
     const declaredName = ts.getNameOfDeclaration(declaration);
     const [reviewNode] = ts.transform(node, [
-      (context) => toReviewShape(context, declaredName, publicName, externalName),
+      (context) => toReviewShape(context, declaredName, publicName, referenceName),
     ]).transformed;
     return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
   });
@@ -374,13 +426,13 @@ function isPrivateMember(node: ts.Node): boolean {
 
 /**
  * Drops comments (keeping status tags as `// @tag`), private class members, and `declare` on classes.
- * Renames the declaration to its public export name and external references to their exported names.
+ * Renames the declaration to its public export name and references to their exported names.
  */
 function toReviewShape(
   context: ts.TransformationContext,
   declaredName: ts.Node | undefined,
   publicName: string,
-  externalName: (identifier: ts.Identifier) => string | undefined,
+  referenceName: (node: ts.Node) => string | undefined,
 ): ts.Transformer<ts.Node> {
   const visit = (node: ts.Node): ts.Node | undefined => {
     if (isPrivateMember(node)) {
@@ -389,9 +441,14 @@ function toReviewShape(
     if (node === declaredName) {
       return context.factory.createIdentifier(publicName);
     }
-    if (ts.isIdentifier(node)) {
-      const name = externalName(node);
-      return name ? context.factory.createIdentifier(name) : node;
+    const name = referenceName(node);
+    if (name) {
+      return ts.isImportTypeNode(node)
+        ? context.factory.createTypeReferenceNode(
+            name,
+            ts.visitNodes(node.typeArguments, visit, ts.isTypeNode),
+          )
+        : context.factory.createIdentifier(name);
     }
     let result = ts.visitEachChild(node, visit, context);
     if (ts.isClassDeclaration(result)) {
