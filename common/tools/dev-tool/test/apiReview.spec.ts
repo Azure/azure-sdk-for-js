@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -9,13 +10,17 @@ import { generateApiReview } from "../src/util/apiReview.ts";
 
 const roots: string[] = [];
 
-function fixture(files: Record<string, string>): string {
+function fixture(
+  files: Record<string, string>,
+  packageJsonOverrides: Record<string, unknown> = {},
+): string {
   const root = mkdtempSync(path.join(tmpdir(), "api-review-"));
   roots.push(root);
   const packageJson = {
     name: "@example/review",
     type: "module",
     exports: { ".": { import: { types: "./dist/esm/index.d.ts" } } },
+    ...packageJsonOverrides,
   };
   const allFiles = { "package.json": JSON.stringify(packageJson), ...files };
   for (const [file, text] of Object.entries(allFiles)) {
@@ -232,6 +237,54 @@ describe("generateApiReview", () => {
       const { apiMd } = generateApiReview(root);
 
       expect(apiMd).toContain("export interface WidgetModel {\n    name: string;\n}");
+    });
+  });
+
+  describe("dependencies and hash", () => {
+    const index = { "dist/esm/index.d.ts": "export declare const value: string;\n" };
+
+    it("lists runtime and peer dependencies with verbatim specifiers, sorted by name", () => {
+      const root = fixture(index, {
+        dependencies: { "@azure/core-auth": "workspace:^", "@azure/abort-controller": "^2.1.2" },
+        peerDependencies: { "@azure/core-client": "^1.10.0" },
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Dependencies",
+          "",
+          "Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.",
+          "",
+          "| Package | Version | Type |",
+          "| --- | --- | --- |",
+          "| `@azure/abort-controller` | `^2.1.2` | runtime |",
+          "| `@azure/core-auth` | `workspace:^` | runtime |",
+          "| `@azure/core-client` | `^1.10.0` | peer |",
+        ].join("\n"),
+      );
+    });
+
+    it("hashes api.md with SHA-256 when there are no dependencies", () => {
+      const { apiMd, metadata } = generateApiReview(singleExportRoot);
+
+      expect(metadata.apiMdSha256).toBe(createHash("sha256").update(apiMd).digest("hex"));
+    });
+
+    it("ignores minor and patch dependency bumps in the hash", () => {
+      const before = generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
+      const after = generateApiReview(fixture(index, { dependencies: { tslib: "^1.10.2" } }));
+
+      expect(after.apiMd).not.toBe(before.apiMd);
+      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
+    });
+
+    it("changes the hash on a major dependency bump", () => {
+      const before = generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
+      const after = generateApiReview(fixture(index, { dependencies: { tslib: "^2.0.0" } }));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
   });
 });

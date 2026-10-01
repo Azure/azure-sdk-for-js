@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
@@ -10,11 +11,44 @@ type ExportConditions = Record<string, { types: string }>;
 interface Review {
   name: string;
   entryPoints: { path: string; conditions: string[] }[];
+  dependencies: { name: string; version: string; type: DependencyType }[];
   exportSections: { path: string; declarations: string[] }[];
 }
 
-export function generateApiReview(packageRoot: string): { apiMd: string } {
-  return { apiMd: renderApiMd(buildReview(packageRoot)) };
+type DependencyType = "runtime" | "peer";
+
+const dependencyFields: [field: string, type: DependencyType][] = [
+  ["dependencies", "runtime"],
+  ["peerDependencies", "peer"],
+];
+
+export function generateApiReview(packageRoot: string): {
+  apiMd: string;
+  metadata: { apiMdSha256: string };
+} {
+  const review = buildReview(packageRoot);
+  return { apiMd: renderApiMd(review), metadata: { apiMdSha256: hashApiMd(review) } };
+}
+
+/**
+ * Hashes the rendered review with dependency versions reduced to their major version.
+ */
+function hashApiMd(review: Review): string {
+  const hashedReview: Review = {
+    ...review,
+    dependencies: review.dependencies.map((dependency) => ({
+      ...dependency,
+      version: majorVersion(dependency.version),
+    })),
+  };
+  return createHash("sha256").update(renderApiMd(hashedReview)).digest("hex");
+}
+
+/**
+ * Reduces a caret range such as `^1.9.0` to its major version so routine bumps keep the hash.
+ */
+function majorVersion(specifier: string): string {
+  return /^\^(\d+)\./.exec(specifier)?.[1] ?? specifier;
 }
 
 function buildReview(packageRoot: string): Review {
@@ -27,6 +61,15 @@ function buildReview(packageRoot: string): Review {
       path: exportPath,
       conditions: Object.keys(conditions),
     })),
+    dependencies: dependencyFields
+      .flatMap(([field, type]) =>
+        Object.entries<string>(packageJson[field] ?? {}).map(([name, version]) => ({
+          name,
+          version,
+          type,
+        })),
+      )
+      .sort((a, b) => a.name.localeCompare(b.name, "en")),
     exportSections: Object.entries(exportsMap).map(([exportPath, conditions]) => ({
       path: exportPath,
       declarations: printExports(path.join(packageRoot, conditions.import.types)),
@@ -37,6 +80,9 @@ function buildReview(packageRoot: string): Review {
 function renderApiMd(review: Review): string {
   const entryPointRows = review.entryPoints.map(
     (entry) => `| \`${entry.path}\` | ${entry.conditions.map((c) => `\`${c}\``).join(", ")} |`,
+  );
+  const dependencyRows = review.dependencies.map(
+    (dependency) => `| \`${dependency.name}\` | \`${dependency.version}\` | ${dependency.type} |`,
   );
   const exportSections = review.exportSections.map(
     (section) => `## Export \`${section.path}\`
@@ -54,6 +100,14 @@ ${section.declarations.join("\n\n")}
 | Export path | Conditions |
 | --- | --- |
 ${entryPointRows.join("\n")}
+
+## Dependencies
+
+Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.
+
+| Package | Version | Type |
+| --- | --- | --- |
+${dependencyRows.join("\n")}
 
 ${exportSections.join("\n")}`;
 }
