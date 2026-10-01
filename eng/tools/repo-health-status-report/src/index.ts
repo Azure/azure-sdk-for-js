@@ -220,7 +220,10 @@ async function fetchBuildResult(
     if (buildKind === "ci") {
       if (taskName.includes("Build libraries")) {
         recordTestResult(task, "build", pipelineResult);
-      } else if (taskName.includes("Build ESLint Plugin and Lint Libraries")) {
+      } else if (
+        taskName.includes("Build ESLint Plugin and Lint Libraries") ||
+        taskName.includes("Build Lint Prerequisites and Lint Libraries")
+      ) {
         recordTestResult(task, "lint", pipelineResult);
       } else if (taskName.includes("Test libraries")) {
         recordTestResult(task, "ci", pipelineResult);

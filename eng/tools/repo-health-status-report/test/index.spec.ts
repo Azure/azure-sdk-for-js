@@ -148,6 +148,21 @@ describe("getBuildResult", () => {
     },
   );
 
+  it.each([
+    "Build ESLint Plugin and Lint Libraries",
+    "Build Lint Prerequisites and Lint Libraries",
+  ])("records successful lint task %s", async (taskName) => {
+    const pipelines = createPipelines("ci");
+    getBuildMock.mockResolvedValue(createBuildResponse("succeeded"));
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(JSON.stringify({ records: [{ name: taskName, result: "succeeded" }] })),
+    );
+
+    await runBuild("ci", pipelines);
+
+    expect(pipelines["@azure/example"].ci?.lint?.status).toBe("succeeded");
+  });
+
   it("records non-federated integration test tasks", async () => {
     const pipelines = createPipelines("tests");
     getBuildMock.mockResolvedValue(createBuildResponse());
