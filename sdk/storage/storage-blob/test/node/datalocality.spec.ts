@@ -403,6 +403,15 @@ describe("BlobClient.getLayout", () => {
     assert.equal(calls[0].ifMatch, "etag-page-1");
   });
 
+  it("keeps the raw body's continuationToken in step with the page", async () => {
+    const page: BlobGetLayoutResponseModel = (
+      await clientWithLayoutPages([pageOne()]).client.getLayout().next()
+    ).value;
+
+    assert.notProperty(page._response.parsedBody, "nextMarker");
+    assert.equal(page._response.parsedBody?.continuationToken, page.continuationToken);
+  });
+
   it("passes maxPageSize and resumes from a continuationToken through byPage", async () => {
     const { client, calls } = clientWithLayoutPages([pageTwo()]);
 

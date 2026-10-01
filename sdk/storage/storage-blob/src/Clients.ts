@@ -2424,6 +2424,13 @@ export class BlobClient extends StorageClient {
         response.continuationToken = marker
           ? encodeLayoutContinuationToken({ marker, etag: ifMatch })
           : undefined;
+        // The public type describes the raw body as the page itself, token included.
+        const body = response._response.parsedBody as
+          (BlobLayout & { nextMarker?: string }) | undefined;
+        if (body) {
+          delete body.nextMarker;
+          body.continuationToken = response.continuationToken;
+        }
         yield response;
       } while (marker);
     }
