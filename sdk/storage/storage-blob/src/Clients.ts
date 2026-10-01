@@ -2213,8 +2213,8 @@ export class BlobClient extends StorageClient {
           );
         }
 
-        // A known count still reads the first block on its own: its download hint gates routing.
-        if (!firstChunk && count > 0) {
+        // The first block is read alone only when its download hint can still turn on routing.
+        if (!firstChunk && count > 0 && options.layoutAwareRouting !== "disabled") {
           firstChunk = await this.download(offset, Math.min(blockSize, count), chunkOptions);
         }
 

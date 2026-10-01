@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { Readable } from "node:stream";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse } from "@azure-rest/core-client";
@@ -452,6 +453,31 @@ describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
     await expect(clientPastEnd(3).downloadToBuffer(5)).rejects.toThrow(
       "offset 5 shouldn't be larger than blob size 3",
     );
+  });
+});
+
+describe("BlobClient.downloadToBuffer with routing disabled", () => {
+  it("starts every block at once when the count is known", async () => {
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    const pending: Array<() => void> = [];
+    (client as any).download = (_offset: number, count: number) =>
+      new Promise((resolve) =>
+        pending.push(() => resolve({ readableStreamBody: Readable.from([Buffer.alloc(count)]) })),
+      );
+
+    const downloaded = client.downloadToBuffer(0, 8, {
+      blockSize: 4,
+      concurrency: 2,
+      layoutAwareRouting: "disabled",
+    });
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.lengthOf(pending, 2, "no block should wait for the first one");
+    pending.forEach((release) => release());
+    assert.lengthOf(await downloaded, 8);
   });
 });
 
