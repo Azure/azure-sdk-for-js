@@ -2253,8 +2253,9 @@ export class BlobClient extends StorageClient {
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         });
+        // The first chunk's exact ETag replaces the caller's If-Match, which may be a wildcard.
         const chunkConditions = layoutCache
-          ? { ...options.conditions, ifMatch: options.conditions?.ifMatch ?? firstChunk?.etag }
+          ? { ...options.conditions, ifMatch: firstChunk?.etag }
           : options.conditions;
 
         const batch = new Batch(options.concurrency);

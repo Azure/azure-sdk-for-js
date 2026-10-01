@@ -24,6 +24,7 @@ import type {
   BlobOperations,
 } from "../../src/generated/index.js";
 import type {
+  BlobDownloadOptions,
   BlobGetLayoutResponseModel,
   BlockBlobClient,
   ContainerClient,
@@ -524,6 +525,50 @@ describe("BlobClient.downloadToBuffer with routing disabled", () => {
     assert.lengthOf(pending, 2, "no block should wait for the first one");
     pending.forEach((release) => release());
     assert.lengthOf(await downloaded, 8);
+  });
+});
+
+describe("BlobClient.downloadToBuffer with routing", () => {
+  it("locks routed blocks to the first block's ETag, even under a wildcard condition", async () => {
+    const endpoint = "https://blob.stamp.store.core.windows.net:443/";
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    (client as any).blobContext = {
+      getLayout: async () =>
+        layoutPage(
+          {
+            nextMarker: "",
+            ranges: { range: [{ start: 0, end: 7, endpointIndex: 0 }] },
+            endpoints: { endpoint: [{ index: 0, value: endpoint }] },
+          },
+          { etag: "etag-1" },
+        ),
+    };
+    const reads: Array<{ ifMatch?: string; layoutEndpoint?: string }> = [];
+    (client as any).download = async (
+      _offset: number,
+      count: number,
+      downloadOptions: BlobDownloadOptions,
+    ) => {
+      reads.push({
+        ifMatch: downloadOptions.conditions?.ifMatch,
+        layoutEndpoint: downloadOptions.layoutEndpoint,
+      });
+      return {
+        etag: "etag-1",
+        downloadHint: "layout",
+        readableStreamBody: Readable.from([Buffer.alloc(count)]),
+      };
+    };
+
+    await client.downloadToBuffer(0, 8, { blockSize: 4, conditions: { ifMatch: "*" } });
+
+    assert.deepEqual(reads, [
+      { ifMatch: "*", layoutEndpoint: undefined },
+      { ifMatch: "etag-1", layoutEndpoint: endpoint },
+    ]);
   });
 });
 

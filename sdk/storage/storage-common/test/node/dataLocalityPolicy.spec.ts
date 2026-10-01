@@ -95,7 +95,7 @@ describe("storageDataLocalityPolicy", () => {
     assert.isUndefined(sent.host);
   });
 
-  // The live service sends an absolute URI, but the REST spec documents a bare `hostname:port`.
+  // Endpoints can arrive either as an absolute URI or as a bare `hostname:port`.
   it.each([
     "https://blob.stamp.store.core.windows.net:8443/",
     "blob.stamp.store.core.windows.net:8443",
