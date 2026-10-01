@@ -440,6 +440,76 @@ describe("generateApiReview", () => {
       expect(apiMd.split("export interface VirtualMachine").length - 1).toBe(1);
     });
 
+    describe("export path order", () => {
+      const files = {
+        "dist/esm/index.d.ts": "export declare const value: string;",
+        "dist/esm/shared.d.ts": "export declare function createLoggerContext(): void;",
+        "dist/esm/internal/logger.d.ts": 'export { createLoggerContext } from "../shared.js";',
+        "dist/esm/internal/util.d.ts": 'export { createLoggerContext } from "../shared.js";',
+      };
+      const unsortedExports = {
+        "./internal/util": types("./dist/esm/internal/util.d.ts"),
+        "./internal/logger": types("./dist/esm/internal/logger.d.ts"),
+        ".": types("./dist/esm/index.d.ts"),
+      };
+
+      it("orders export paths with `.` first, then by path, regardless of package.json key order", () => {
+        const { apiMd } = generateApiReview(fixture(files, { exports: unsortedExports }));
+
+        expect(apiMd).toContain(
+          [
+            "| `.` | `import` |",
+            "| `./internal/logger` | `import` |",
+            "| `./internal/util` | `import` |",
+          ].join("\n"),
+        );
+        const headings = apiMd.match(/^## Export .*$/gm);
+        expect(headings).toEqual([
+          "## Export `.`",
+          "## Export `./internal/logger`",
+          "## Export `./internal/util`",
+        ]);
+      });
+
+      it("shows a declaration shared by two subpaths under the alphabetically first one", () => {
+        const { apiMd } = generateApiReview(fixture(files, { exports: unsortedExports }));
+
+        expect(apiMd).toContain(
+          [
+            "## Export `./internal/logger`",
+            "",
+            "### Not exported from `.`",
+            "",
+            "```ts",
+            "export declare function createLoggerContext(): void;",
+            "```",
+          ].join("\n"),
+        );
+        expect(apiMd).toContain(
+          [
+            "## Export `./internal/util`",
+            "",
+            "### Also exported from `./internal/logger`",
+            "",
+            "Definitions are shown under Export `./internal/logger`.",
+            "",
+            "- `createLoggerContext`",
+          ].join("\n"),
+        );
+      });
+
+      it("produces the same hash regardless of package.json exports order", () => {
+        const sortedExports = Object.fromEntries(
+          Object.entries(unsortedExports).sort(([a], [b]) => a.localeCompare(b)),
+        );
+
+        const unsorted = generateApiReview(fixture(files, { exports: unsortedExports }));
+        const sorted = generateApiReview(fixture(files, { exports: sortedExports }));
+
+        expect(unsorted.metadata.apiMdSha256).toBe(sorted.metadata.apiMdSha256);
+      });
+    });
+
     it("shows a subpath declaration that shares a root export's name under Differs from `.`", () => {
       const root = fixture(
         {

@@ -86,9 +86,9 @@ function compatibleVersion(specifier: string): string {
 
 function buildReview(packageRoot: string): Review {
   const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
-  const exportEntries = Object.entries<ExportConditions>(packageJson.exports).filter(
-    ([exportPath]) => exportPath !== "./package.json",
-  );
+  const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
+    .filter(([exportPath]) => exportPath !== "./package.json")
+    .sort(([a], [b]) => a.localeCompare(b, "en"));
 
   const { references, sections } = buildExportSections(
     exportEntries.map(([exportPath, conditions]) => ({
@@ -227,7 +227,7 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
 }
 
 /**
- * Prints each declaration under the first export path (in package.json order) that exposes it.
+ * Prints each declaration under the first export path (`.` first, then by path) that exposes it.
  * Later paths list it by name under "Also exported from". A new declaration that reuses a root
  * export's name goes under "Differs from".
  */
