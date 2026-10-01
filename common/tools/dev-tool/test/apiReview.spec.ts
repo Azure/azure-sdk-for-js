@@ -434,5 +434,39 @@ describe("generateApiReview", () => {
       );
       expect(apiMd.split("export interface VirtualMachine").length - 1).toBe(1);
     });
+
+    it("shows a subpath declaration that shares a root export's name under Differs from `.`", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": "export interface ClientOptions {\n    endpoint: string;\n}",
+          "dist/esm/models/index.d.ts":
+            "export interface ClientOptions {\n    apiVersion: string;\n}",
+        },
+        {
+          exports: {
+            ".": types("./dist/esm/index.d.ts"),
+            "./models": types("./dist/esm/models/index.d.ts"),
+          },
+        },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `./models`",
+          "",
+          "### Differs from `.`",
+          "",
+          "Same name as an Export `.` export, but a different declaration.",
+          "",
+          "```ts",
+          "export interface ClientOptions {",
+          "    apiVersion: string;",
+          "}",
+          "```",
+        ].join("\n"),
+      );
+    });
   });
 });

@@ -19,6 +19,7 @@ interface Review {
 interface ExportSection {
   path: string;
   declarations: string[];
+  differsFromRoot: string[];
   alsoExportedFrom: { path: string; names: string[] }[];
 }
 
@@ -138,6 +139,13 @@ function renderExportSection(section: ExportSection, rootPath: string | undefine
     }
     blocks.push(`\`\`\`ts\n${section.declarations.join("\n\n")}\n\`\`\``);
   }
+  if (section.differsFromRoot.length) {
+    blocks.push(
+      `### Differs from \`${rootPath}\``,
+      `Same name as an Export \`${rootPath}\` export, but a different declaration.`,
+      `\`\`\`ts\n${section.differsFromRoot.join("\n\n")}\n\`\`\``,
+    );
+  }
   for (const earlier of section.alsoExportedFrom) {
     blocks.push(
       `### Also exported from \`${earlier.path}\``,
@@ -175,7 +183,8 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
 
 /**
  * Prints each declaration under the first export path (in package.json order) that exposes it.
- * Later paths list it by name under "Also exported from".
+ * Later paths list it by name under "Also exported from". A new declaration that reuses a root
+ * export's name goes under "Differs from".
  */
 function buildExportSections(exportFiles: { path: string; file: string }[]): ExportSection[] {
   const program = ts.createProgram(
@@ -186,16 +195,22 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
+  const rootNames = new Set<string>();
 
-  return exportFiles.map(({ path: exportPath, file }) => {
+  return exportFiles.map(({ path: exportPath, file }, index) => {
+    const isRoot = index === 0;
     const moduleSymbol = checker.getSymbolAtLocation(program.getSourceFile(file)!)!;
     const exportedSymbols = checker
       .getExportsOfModule(moduleSymbol)
       .sort((a, b) => a.name.localeCompare(b.name, "en"));
 
     const declarations: string[] = [];
+    const differsFromRoot: string[] = [];
     const alsoExportedFrom = new Map<string, string[]>();
     for (const exportedSymbol of exportedSymbols) {
+      if (isRoot) {
+        rootNames.add(exportedSymbol.name);
+      }
       const symbol =
         exportedSymbol.flags & ts.SymbolFlags.Alias
           ? checker.getAliasedSymbol(exportedSymbol)
@@ -209,11 +224,17 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): Exp
         continue;
       }
       shownUnder.set(symbol, exportPath);
-      declarations.push(...printDeclarations(symbol, exportedSymbol.name, printer));
+      const printed = printDeclarations(symbol, exportedSymbol.name, printer);
+      if (!isRoot && rootNames.has(exportedSymbol.name)) {
+        differsFromRoot.push(...printed);
+      } else {
+        declarations.push(...printed);
+      }
     }
     return {
       path: exportPath,
       declarations,
+      differsFromRoot,
       alsoExportedFrom: [...alsoExportedFrom].map(([earlier, names]) => ({
         path: earlier,
         names,
