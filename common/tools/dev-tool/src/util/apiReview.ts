@@ -13,7 +13,13 @@ interface Review {
   name: string;
   entryPoints: { path: string; conditions: string[] }[];
   dependencies: { name: string; version: string; type: DependencyType }[];
-  exportSections: { path: string; declarations: string[] }[];
+  exportSections: ExportSection[];
+}
+
+interface ExportSection {
+  path: string;
+  declarations: string[];
+  alsoExportedFrom: { path: string; names: string[] }[];
 }
 
 type DependencyType = "runtime" | "peer";
@@ -62,11 +68,13 @@ function compatibleVersion(specifier: string): string {
 
 function buildReview(packageRoot: string): Review {
   const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
-  const exportsMap: Record<string, ExportConditions> = packageJson.exports;
+  const exportEntries = Object.entries<ExportConditions>(packageJson.exports).filter(
+    ([exportPath]) => exportPath !== "./package.json",
+  );
 
   return {
     name: packageJson.name,
-    entryPoints: Object.entries(exportsMap).map(([exportPath, conditions]) => ({
+    entryPoints: exportEntries.map(([exportPath, conditions]) => ({
       path: exportPath,
       conditions: Object.keys(conditions),
     })),
@@ -79,10 +87,12 @@ function buildReview(packageRoot: string): Review {
         })),
       )
       .sort((a, b) => a.name.localeCompare(b.name, "en")),
-    exportSections: Object.entries(exportsMap).map(([exportPath, conditions]) => ({
-      path: exportPath,
-      declarations: printExports(path.join(packageRoot, conditions.import.types)),
-    })),
+    exportSections: buildExportSections(
+      exportEntries.map(([exportPath, conditions]) => ({
+        path: exportPath,
+        file: path.join(packageRoot, conditions.import.types),
+      })),
+    ),
   };
 }
 
@@ -104,14 +114,24 @@ ${dependencyRows.join("\n")}
 
 `
     : "";
-  const exportSections = review.exportSections.map(
-    (section) => `## Export \`${section.path}\`
-
-\`\`\`ts
-${section.declarations.join("\n\n")}
-\`\`\`
-`,
-  );
+  const rootPath = review.exportSections[0]?.path;
+  const exportSections = review.exportSections.map((section) => {
+    const blocks = [`## Export \`${section.path}\``];
+    if (section.declarations.length) {
+      if (section.path !== rootPath) {
+        blocks.push(`### Not exported from \`${rootPath}\``);
+      }
+      blocks.push(`\`\`\`ts\n${section.declarations.join("\n\n")}\n\`\`\``);
+    }
+    for (const earlier of section.alsoExportedFrom) {
+      blocks.push(
+        `### Also exported from \`${earlier.path}\``,
+        `Definitions are shown under Export \`${earlier.path}\`.`,
+        earlier.names.map((name) => `- \`${name}\``).join("\n"),
+      );
+    }
+    return `${blocks.join("\n\n")}\n`;
+  });
 
   return `# API review: \`${review.name}\`
 
@@ -149,33 +169,64 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
   return host;
 }
 
-function printExports(entryFile: string): string[] {
-  const program = ts.createProgram([entryFile], compilerOptions, compilerHost);
+/**
+ * Prints each declaration under the first export path (in package.json order) that exposes it.
+ * Later paths list it by name under "Also exported from".
+ */
+function buildExportSections(exportFiles: { path: string; file: string }[]): ExportSection[] {
+  const program = ts.createProgram(
+    exportFiles.map((exportFile) => exportFile.file),
+    compilerOptions,
+    compilerHost,
+  );
   const checker = program.getTypeChecker();
-  const sourceFile = program.getSourceFile(entryFile)!;
-  const moduleSymbol = checker.getSymbolAtLocation(sourceFile)!;
   const printer = ts.createPrinter();
+  const shownUnder = new Map<ts.Symbol, string>();
 
-  const exportedSymbols = checker
-    .getExportsOfModule(moduleSymbol)
-    .sort((a, b) => a.name.localeCompare(b.name, "en"));
+  return exportFiles.map(({ path: exportPath, file }) => {
+    const moduleSymbol = checker.getSymbolAtLocation(program.getSourceFile(file)!)!;
+    const exportedSymbols = checker
+      .getExportsOfModule(moduleSymbol)
+      .sort((a, b) => a.name.localeCompare(b.name, "en"));
 
-  const printed: string[] = [];
-  for (const exportedSymbol of exportedSymbols) {
-    const symbol =
-      exportedSymbol.flags & ts.SymbolFlags.Alias
-        ? checker.getAliasedSymbol(exportedSymbol)
-        : exportedSymbol;
-    for (const declaration of symbol.declarations ?? []) {
-      const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
-      const declaredName = ts.getNameOfDeclaration(declaration);
-      const [reviewNode] = ts.transform(node, [
-        (context) => toReviewShape(context, declaredName, exportedSymbol.name),
-      ]).transformed;
-      printed.push(printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile()));
+    const declarations: string[] = [];
+    const alsoExportedFrom = new Map<string, string[]>();
+    for (const exportedSymbol of exportedSymbols) {
+      const symbol =
+        exportedSymbol.flags & ts.SymbolFlags.Alias
+          ? checker.getAliasedSymbol(exportedSymbol)
+          : exportedSymbol;
+      const earlierPath = shownUnder.get(symbol);
+      if (earlierPath !== undefined) {
+        alsoExportedFrom.set(earlierPath, [
+          ...(alsoExportedFrom.get(earlierPath) ?? []),
+          exportedSymbol.name,
+        ]);
+        continue;
+      }
+      shownUnder.set(symbol, exportPath);
+      for (const declaration of symbol.declarations ?? []) {
+        const node = ts.isVariableDeclaration(declaration)
+          ? declaration.parent.parent
+          : declaration;
+        const declaredName = ts.getNameOfDeclaration(declaration);
+        const [reviewNode] = ts.transform(node, [
+          (context) => toReviewShape(context, declaredName, exportedSymbol.name),
+        ]).transformed;
+        declarations.push(
+          printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile()),
+        );
+      }
     }
-  }
-  return printed;
+    return {
+      path: exportPath,
+      declarations,
+      alsoExportedFrom: [...alsoExportedFrom].map(([earlier, names]) => ({
+        path: earlier,
+        names,
+      })),
+    };
+  });
 }
 
 const statusTags = new Set(["alpha", "beta", "internal", "deprecated"]);

@@ -321,4 +321,118 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("## Dependencies");
     });
   });
+
+  describe("subpaths", () => {
+    const types = (file: string): { import: { types: string } } => ({ import: { types: file } });
+
+    it("skips the ./package.json export", () => {
+      const root = fixture(
+        { "dist/esm/index.d.ts": "export declare const value: string;\n" },
+        {
+          exports: {
+            "./package.json": "./package.json",
+            ".": types("./dist/esm/index.d.ts"),
+          },
+        },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("| --- | --- |\n| `.` | `import` |\n\n");
+    });
+
+    it("prints declarations only a subpath exposes under Not exported from `.`", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": "export declare class NotificationHubsClient {\n}",
+          "dist/esm/api/index.d.ts":
+            "export declare function createClientContext(connectionString: string, hubName: string): void;",
+        },
+        {
+          exports: {
+            ".": types("./dist/esm/index.d.ts"),
+            "./api": types("./dist/esm/api/index.d.ts"),
+          },
+        },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `./api`",
+          "",
+          "### Not exported from `.`",
+          "",
+          "```ts",
+          "export declare function createClientContext(connectionString: string, hubName: string): void;",
+          "```",
+        ].join("\n"),
+      );
+    });
+
+    it("lists declarations already shown under `.` by name instead of repeating them", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": 'export * from "./models/index.js";',
+          "dist/esm/models/index.d.ts":
+            "export interface AdmInstallation {\n    platform: string;\n}",
+        },
+        {
+          exports: {
+            ".": types("./dist/esm/index.d.ts"),
+            "./models": types("./dist/esm/models/index.d.ts"),
+          },
+        },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `./models`",
+          "",
+          "### Also exported from `.`",
+          "",
+          "Definitions are shown under Export `.`.",
+          "",
+          "- `AdmInstallation`",
+        ].join("\n"),
+      );
+      expect(apiMd.split("export interface AdmInstallation").length - 1).toBe(1);
+    });
+
+    it("names the earliest subpath that shows a declaration not exported from `.`", () => {
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": "export declare class ComputeManagementClient {\n}",
+          "dist/esm/models/index.d.ts": 'export * from "./compute/index.js";',
+          "dist/esm/models/compute/index.d.ts":
+            "export interface VirtualMachine {\n    vmId: string;\n}",
+        },
+        {
+          exports: {
+            ".": types("./dist/esm/index.d.ts"),
+            "./models": types("./dist/esm/models/index.d.ts"),
+            "./models/compute": types("./dist/esm/models/compute/index.d.ts"),
+          },
+        },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `./models/compute`",
+          "",
+          "### Also exported from `./models`",
+          "",
+          "Definitions are shown under Export `./models`.",
+          "",
+          "- `VirtualMachine`",
+        ].join("\n"),
+      );
+      expect(apiMd.split("export interface VirtualMachine").length - 1).toBe(1);
+    });
+  });
 });
