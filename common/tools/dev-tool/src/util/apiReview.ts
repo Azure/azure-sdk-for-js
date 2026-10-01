@@ -113,7 +113,11 @@ function buildReview(packageRoot: string): Review {
       file: path.join(packageRoot, conditions[condition].types),
     }));
 
-  const { references, sections } = buildExportSections(exportFiles("import"));
+  const { references, sections } = buildExportSections(
+    packageRoot,
+    "import",
+    exportFiles("import"),
+  );
   const presentConditions = runtimeConditions.filter((condition) =>
     exportEntries.some(([, conditions]) => condition in conditions),
   );
@@ -121,7 +125,7 @@ function buildReview(packageRoot: string): Review {
     sections,
     presentConditions.map((condition) => ({
       condition,
-      sections: buildExportSections(exportFiles(condition)).sections,
+      sections: buildExportSections(packageRoot, condition, exportFiles(condition)).sections,
     })),
   );
 
@@ -336,8 +340,68 @@ function renderExportSection(section: ExportSection, rootPath: string | undefine
   return `${blocks.join("\n\n")}\n`;
 }
 
-const compilerOptions: ts.CompilerOptions = { skipLibCheck: true };
-const compilerHost = createLibCachingHost(compilerOptions);
+const compilerHost = createLibCachingHost({ skipLibCheck: true });
+
+/**
+ * `import` and `require` resolve like Node.js (the module format comes from the nearest
+ * package.json); other conditions resolve like a bundler that targets that condition.
+ * Every view gets the package's own `@types/node`, because declarations shared across targets
+ * (and some browser builds) reference Node.js built-in modules.
+ */
+function compilerOptionsFor(condition: string, packageRoot: string): ts.CompilerOptions {
+  const shared: ts.CompilerOptions = {
+    // assertComplete relies on diagnostics for the package's own declaration files.
+    skipDefaultLibCheck: true,
+    types: ["node"],
+    typeRoots: [path.join(packageRoot, "node_modules", "@types")],
+  };
+  return condition === "import" || condition === "require"
+    ? {
+        ...shared,
+        module: ts.ModuleKind.NodeNext,
+        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+      }
+    : {
+        ...shared,
+        module: ts.ModuleKind.ESNext,
+        moduleResolution: ts.ModuleResolutionKind.Bundler,
+        customConditions: [condition],
+      };
+}
+
+// Cannot find module (2307, 2792), no exported member (2305, 2614, 2694, 2724), and cannot find
+// type definition (2688). Other diagnostics are ignored: the review doesn't type-check.
+const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688]);
+
+/**
+ * Throws when the review would be silently incomplete: implementation files in the program, or
+ * modules and names that don't resolve (they would otherwise quietly become unresolved types).
+ */
+function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
+  const fail = (file: ts.SourceFile, problem: string): never => {
+    throw new Error(`[${condition}] ${path.relative(packageRoot, file.fileName)}: ${problem}`);
+  };
+  const packageFiles = program
+    .getSourceFiles()
+    .filter(
+      (file) =>
+        !program.isSourceFileFromExternalLibrary(file) && !program.isSourceFileDefaultLibrary(file),
+    );
+
+  for (const file of packageFiles) {
+    if (!file.isDeclarationFile) {
+      fail(file, "Implementation file is part of the review program");
+    }
+  }
+  for (const file of packageFiles) {
+    const unresolved = program
+      .getSemanticDiagnostics(file)
+      .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
+    if (unresolved) {
+      fail(file, ts.flattenDiagnosticMessageText(unresolved.messageText, " "));
+    }
+  }
+}
 
 /**
  * Parsing TypeScript's default lib files dominates program creation, so parse them once per
@@ -366,15 +430,20 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
  * Later paths list it by name under "Also exported from". A new declaration that reuses a root
  * export's name goes under "Differs from".
  */
-function buildExportSections(exportFiles: { path: string; file: string }[]): {
+function buildExportSections(
+  packageRoot: string,
+  condition: string,
+  exportFiles: { path: string; file: string }[],
+): {
   references: NamedImports[];
   sections: ExportSection[];
 } {
   const program = ts.createProgram(
     exportFiles.map((exportFile) => exportFile.file),
-    compilerOptions,
+    compilerOptionsFor(condition, packageRoot),
     compilerHost,
   );
+  assertComplete(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();

@@ -36,6 +36,13 @@ function fixture(
   return root;
 }
 
+function dependency(name: string, declarations: string): Record<string, string> {
+  return {
+    [`node_modules/${name}/package.json`]: JSON.stringify({ name, types: "./index.d.ts" }),
+    [`node_modules/${name}/index.d.ts`]: declarations,
+  };
+}
+
 afterAll(() => {
   for (const root of roots.splice(0)) {
     rmSync(root, { recursive: true, force: true });
@@ -546,13 +553,6 @@ describe("generateApiReview", () => {
   });
 
   describe("references", () => {
-    function dependency(name: string, declarations: string): Record<string, string> {
-      return {
-        [`node_modules/${name}/package.json`]: JSON.stringify({ name, types: "./index.d.ts" }),
-        [`node_modules/${name}/index.d.ts`]: declarations,
-      };
-    }
-
     it("collects external types used in signatures into a References import block", () => {
       const root = fixture(
         {
@@ -981,6 +981,133 @@ describe("generateApiReview", () => {
           "@@",
           "```",
         ].join("\n"),
+      );
+    });
+  });
+
+  describe("fail closed", () => {
+    it("throws when a module specifier can't be resolved", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'import type { TokenCredential } from "@azure/core-auth";',
+          "export declare class KeyClient {",
+          "    constructor(credential: TokenCredential);",
+          "}",
+        ].join("\n"),
+      });
+
+      expect(() => generateApiReview(root)).toThrow(
+        "[import] dist/esm/index.d.ts: Cannot find module '@azure/core-auth' or its corresponding type declarations.",
+      );
+    });
+
+    it("throws when a re-exported name doesn't exist in its module", () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts":
+          'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+      });
+
+      expect(() => generateApiReview(root)).toThrow(
+        `[import] dist/esm/index.d.ts: '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'?`,
+      );
+    });
+
+    it("resolves the require view with CommonJS conditions", () => {
+      const index = [
+        'import type { Widget } from "@example/esm-only";',
+        "export declare function makeWidget(): Widget;",
+      ].join("\n");
+      const root = fixture(
+        {
+          "node_modules/@example/esm-only/package.json": JSON.stringify({
+            name: "@example/esm-only",
+            type: "module",
+            exports: { ".": { import: { types: "./index.d.ts" } } },
+          }),
+          "node_modules/@example/esm-only/index.d.ts": "export interface Widget {\n}",
+          "dist/esm/package.json": JSON.stringify({ type: "module" }),
+          "dist/esm/index.d.ts": index,
+          "dist/commonjs/package.json": JSON.stringify({ type: "commonjs" }),
+          "dist/commonjs/index.d.ts": index,
+        },
+        {
+          exports: {
+            ".": {
+              import: { types: "./dist/esm/index.d.ts" },
+              require: { types: "./dist/commonjs/index.d.ts" },
+            },
+          },
+        },
+      );
+
+      expect(() => generateApiReview(root)).toThrow(
+        "[require] dist/commonjs/index.d.ts: Cannot find module '@example/esm-only' or its corresponding type declarations.",
+      );
+    });
+
+    describe("Node.js built-in modules", () => {
+      const nodeTypes = {
+        "node_modules/@types/node/package.json": JSON.stringify({
+          name: "@types/node",
+          types: "./index.d.ts",
+        }),
+        "node_modules/@types/node/index.d.ts":
+          'declare module "node:stream" {\n    export class Readable {\n    }\n}',
+      };
+      const clients = [
+        'import type { Readable } from "node:stream";',
+        "export declare function download(): Readable;",
+      ].join("\n");
+
+      it("resolves Node.js built-in modules with the package's @types/node", () => {
+        const root = fixture({ ...nodeTypes, "dist/esm/index.d.ts": clients });
+
+        const { apiMd } = generateApiReview(root);
+
+        expect(apiMd).toContain('import { Readable } from "node:stream";');
+      });
+
+      it("resolves Node.js built-ins in browser views too", () => {
+        const root = fixture(
+          {
+            ...nodeTypes,
+            "dist/esm/index.d.ts": clients,
+            "dist/browser/index.d.ts": clients,
+          },
+          {
+            exports: {
+              ".": {
+                browser: { types: "./dist/browser/index.d.ts" },
+                import: { types: "./dist/esm/index.d.ts" },
+              },
+            },
+          },
+        );
+
+        const { apiMd } = generateApiReview(root);
+
+        expect(apiMd).toContain("Identical to the ESM view: `browser`.");
+      });
+    });
+
+    it("throws when implementation .ts files are pulled into the program", () => {
+      const root = fixture(
+        {
+          "src/types.ts": "export interface PipelineRequest {\n    url: string;\n}",
+          "dist/esm/index.d.ts": [
+            'import type { PipelineRequest } from "#platform/types";',
+            "export declare function sendRequest(request: PipelineRequest): void;",
+          ].join("\n"),
+        },
+        { imports: { "#platform/*": "./src/*.ts" } },
+      );
+
+      expect(() => generateApiReview(root)).toThrow(
+        "[import] src/types.ts: Implementation file is part of the review program",
       );
     });
   });
