@@ -124,8 +124,33 @@ ${entryPointRows.join("\n")}
 ${dependenciesSection}${exportSections.join("\n")}`;
 }
 
+const compilerOptions: ts.CompilerOptions = { skipLibCheck: true };
+const compilerHost = createLibCachingHost(compilerOptions);
+
+/**
+ * Parsing TypeScript's default lib files dominates program creation, so parse them once per
+ * process and share them across programs (as the language service's DocumentRegistry does).
+ */
+function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
+  const host = ts.createCompilerHost(options);
+  const libDirectory = path.dirname(ts.getDefaultLibFilePath(options));
+  const libFiles = new Map<string, ts.SourceFile | undefined>();
+  const getSourceFile = host.getSourceFile;
+  host.getSourceFile = (fileName, languageVersion, ...rest) => {
+    if (path.dirname(fileName) !== libDirectory) {
+      return getSourceFile(fileName, languageVersion, ...rest);
+    }
+    const key = `${fileName}:${JSON.stringify(languageVersion)}`;
+    if (!libFiles.has(key)) {
+      libFiles.set(key, getSourceFile(fileName, languageVersion, ...rest));
+    }
+    return libFiles.get(key);
+  };
+  return host;
+}
+
 function printExports(entryFile: string): string[] {
-  const program = ts.createProgram([entryFile], { skipLibCheck: true });
+  const program = ts.createProgram([entryFile], compilerOptions, compilerHost);
   const checker = program.getTypeChecker();
   const sourceFile = program.getSourceFile(entryFile)!;
   const moduleSymbol = checker.getSymbolAtLocation(sourceFile)!;
