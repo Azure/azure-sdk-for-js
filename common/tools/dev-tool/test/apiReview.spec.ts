@@ -832,6 +832,92 @@ describe("generateApiReview", () => {
 
       expect(apiMd).not.toContain("## Runtime differences");
     });
+
+    it("shows a changed member as a hunk under its declaration header", () => {
+      const esm = [
+        "export declare class AzureCliCredential {",
+        "    constructor(options?: string);",
+        "    getToken(scopes: string | string[]): Promise<string>;",
+        "}",
+        "export interface AzureCliCredentialOptions {",
+        "    tenantId?: string;",
+        "}",
+      ].join("\n");
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": esm.replace(
+            "getToken(scopes: string | string[]): Promise<string>;",
+            "getToken(_scopes: string | string[]): Promise<string | null>;",
+          ),
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "Identical to the ESM view: `require`.",
+          "",
+          "### `browser`",
+          "",
+          "#### Export `.`",
+          "",
+          "```diff",
+          " export class AzureCliCredential {",
+          "     constructor(options?: string);",
+          "-    getToken(scopes: string | string[]): Promise<string>;",
+          "+    getToken(_scopes: string | string[]): Promise<string | null>;",
+          " }",
+          "```",
+        ].join("\n"),
+      );
+    });
+
+    it("elides lines far from a change with @@ but keeps the header", () => {
+      const esm = [
+        "export declare class KeyClient {",
+        "    getKey(name: string): Promise<string>;",
+        "    backupKey(name: string): Promise<Uint8Array | undefined>;",
+        "    restoreKeyBackup(backup: Uint8Array): Promise<string>;",
+        "    getRandomBytes(count: number): Promise<Uint8Array>;",
+        "    rotateKey(name: string): Promise<string>;",
+        "    releaseKey(name: string, targetAttestationToken: string): Promise<string>;",
+        "    purgeDeletedKey(name: string): Promise<void>;",
+        "}",
+      ].join("\n");
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": esm.replace(
+            "Promise<Uint8Array>;",
+            "Promise<Uint8Array | undefined>;",
+          ),
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "```diff",
+          " export class KeyClient {",
+          "@@",
+          "     backupKey(name: string): Promise<Uint8Array | undefined>;",
+          "     restoreKeyBackup(backup: Uint8Array): Promise<string>;",
+          "-    getRandomBytes(count: number): Promise<Uint8Array>;",
+          "+    getRandomBytes(count: number): Promise<Uint8Array | undefined>;",
+          "     rotateKey(name: string): Promise<string>;",
+          "     releaseKey(name: string, targetAttestationToken: string): Promise<string>;",
+          "@@",
+          "```",
+        ].join("\n"),
+      );
+    });
   });
 });
 

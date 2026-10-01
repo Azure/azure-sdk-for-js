@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
+import { structuredPatch } from "diff";
 import semver from "semver";
 import ts from "typescript";
 
@@ -17,6 +18,12 @@ interface Review {
   references: NamedImports[];
   exportSections: ExportSection[];
   identicalConditions: string[];
+  conditionDiffs: ConditionDiff[];
+}
+
+interface ConditionDiff {
+  condition: string;
+  exports: { path: string; items: string[] }[];
 }
 
 interface NamedImports {
@@ -102,11 +109,16 @@ function buildReview(packageRoot: string): Review {
     }));
 
   const { references, sections } = buildExportSections(exportFiles("import"));
-  const identicalConditions = runtimeConditions
-    .filter((condition) => exportEntries.some(([, conditions]) => condition in conditions))
-    .filter((condition) =>
-      isDeepStrictEqual(buildExportSections(exportFiles(condition)).sections, sections),
-    );
+  const presentConditions = runtimeConditions.filter((condition) =>
+    exportEntries.some(([, conditions]) => condition in conditions),
+  );
+  const { identicalConditions, conditionDiffs } = compareConditions(
+    sections,
+    presentConditions.map((condition) => ({
+      condition,
+      sections: buildExportSections(exportFiles(condition)).sections,
+    })),
+  );
 
   return {
     name: packageJson.name,
@@ -128,7 +140,66 @@ function buildReview(packageRoot: string): Review {
     references,
     exportSections: sections,
     identicalConditions,
+    conditionDiffs,
   };
+}
+
+/**
+ * Compares each condition's view with the ESM view, item by item.
+ */
+function compareConditions(
+  esmSections: ExportSection[],
+  views: { condition: string; sections: ExportSection[] }[],
+): { identicalConditions: string[]; conditionDiffs: ConditionDiff[] } {
+  const identicalConditions: string[] = [];
+  const conditionDiffs: ConditionDiff[] = [];
+  for (const { condition, sections } of views) {
+    if (isDeepStrictEqual(sections, esmSections)) {
+      identicalConditions.push(condition);
+      continue;
+    }
+    conditionDiffs.push({
+      condition,
+      // ESM [{ path: ".", declarations: [a, b] }] vs browser [{ path: ".", declarations: [a, b2] }]
+      //   -> [{ path: ".", items: [diffItem(b, b2)] }]
+      exports: esmSections
+        .map((esmSection, index) => ({
+          path: esmSection.path,
+          items: esmSection.declarations.flatMap((declaration, item) => {
+            const other = sections[index].declarations[item];
+            return other === declaration ? [] : [diffItem(declaration, other)];
+          }),
+        }))
+        .filter((changed) => changed.items.length),
+    });
+  }
+  return { identicalConditions, conditionDiffs };
+}
+
+/**
+ * Renders a unified diff of one declaration that always keeps its first line (the header) and
+ * marks omitted lines with `@@`.
+ */
+function diffItem(before: string, after: string): string {
+  const { hunks } = structuredPatch("", "", `${before}\n`, `${after}\n`, "", "", { context: 2 });
+  const beforeLines = before.split("\n");
+  const lines: string[] = [];
+  let shownThrough = 0;
+  if (hunks[0].oldStart > 1) {
+    lines.push(` ${beforeLines[0]}`);
+    shownThrough = 1;
+  }
+  for (const hunk of hunks) {
+    if (hunk.oldStart > shownThrough + 1) {
+      lines.push("@@");
+    }
+    lines.push(...hunk.lines);
+    shownThrough = hunk.oldStart + hunk.oldLines - 1;
+  }
+  if (shownThrough < beforeLines.length) {
+    lines.push("@@");
+  }
+  return lines.join("\n");
 }
 
 function renderApiMd(review: Review): string {
@@ -162,12 +233,23 @@ ${review.references.map((imports) => formatNamedImports("import", imports)).join
   const exportSections = review.exportSections.map((section) =>
     renderExportSection(section, rootPath),
   );
-  const runtimeDifferencesSection = review.identicalConditions.length
-    ? `
-## Runtime differences
-
-Identical to the ESM view: ${review.identicalConditions.map((c) => `\`${c}\``).join(", ")}.
-`
+  const runtimeBlocks: string[] = [];
+  if (review.identicalConditions.length) {
+    runtimeBlocks.push(
+      `Identical to the ESM view: ${review.identicalConditions.map((c) => `\`${c}\``).join(", ")}.`,
+    );
+  }
+  for (const { condition, exports } of review.conditionDiffs) {
+    runtimeBlocks.push(`### \`${condition}\``);
+    for (const changed of exports) {
+      runtimeBlocks.push(
+        `#### Export \`${changed.path}\``,
+        `\`\`\`diff\n${changed.items.join("\n\n")}\n\`\`\``,
+      );
+    }
+  }
+  const runtimeDifferencesSection = runtimeBlocks.length
+    ? `\n## Runtime differences\n\n${runtimeBlocks.join("\n\n")}\n`
     : "";
 
   return `# API review: \`${review.name}\`
