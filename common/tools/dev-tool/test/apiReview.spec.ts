@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { parse } from "yaml";
+import generateApiReviewCommand from "../src/commands/run/generate-api-review.ts";
 import { generateApiReview } from "../src/util/apiReview.ts";
+import { resolveProject } from "../src/util/resolveProject.ts";
+
+vi.mock("../src/util/resolveProject.ts", () => ({ resolveProject: vi.fn() }));
 
 const roots: string[] = [];
 
@@ -707,5 +712,70 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("arh-forgotten-export");
       expect(apiMd).not.toContain("_sendRequest");
     });
+  });
+});
+
+describe("generate-api-review command", () => {
+  const index = { "dist/esm/index.d.ts": "export declare const value: string;\n" };
+
+  function readReview(directory: string): { apiMd: string; metadata: unknown } {
+    return {
+      apiMd: readFileSync(path.join(directory, "api.md"), "utf8"),
+      metadata: parse(readFileSync(path.join(directory, "api.metadata.yml"), "utf8")),
+    };
+  }
+
+  it("writes api.md and api.metadata.yml to the output directory", async () => {
+    const root = fixture(index);
+    const outputDir = path.join(root, "out");
+
+    const succeeded = await generateApiReviewCommand(
+      "--package-root",
+      root,
+      "--output-dir",
+      outputDir,
+    );
+
+    expect(succeeded).toBe(true);
+    expect(readReview(outputDir)).toEqual(generateApiReview(root));
+  });
+
+  it("writes to the package root when --output-dir is omitted", async () => {
+    const root = fixture(index);
+
+    const succeeded = await generateApiReviewCommand("--package-root", root);
+
+    expect(succeeded).toBe(true);
+    expect(readReview(root)).toEqual(generateApiReview(root));
+  });
+
+  it("finds the package from the current directory when --package-root is omitted", async () => {
+    const root = fixture(index);
+    vi.mocked(resolveProject).mockResolvedValue({
+      name: "@example/review",
+      version: "1.0.0",
+      path: root,
+      packageJson: {} as never,
+    });
+
+    const succeeded = await generateApiReviewCommand();
+
+    expect(succeeded).toBe(true);
+    expect(readReview(root)).toEqual(generateApiReview(root));
+  });
+
+  it("writes nothing and fails when generation throws", async () => {
+    const root = fixture(index, { exports: undefined });
+    const outputDir = path.join(root, "out");
+
+    const succeeded = await generateApiReviewCommand(
+      "--package-root",
+      root,
+      "--output-dir",
+      outputDir,
+    );
+
+    expect(succeeded).toBe(false);
+    expect(existsSync(path.join(outputDir, "api.metadata.yml"))).toBe(false);
   });
 });
