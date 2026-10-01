@@ -250,7 +250,20 @@ function runRegenerateEmitter() {
 }
 
 function installGlobalCliTools() {
-  runShell(`npm install -g @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER}`);
+  const registryResult = spawnSync("npm config get registry", {
+    cwd: SDK_ROOT,
+    encoding: "utf8",
+    shell: true,
+  });
+  const npmRegistry = registryResult.stdout?.trim();
+  if (registryResult.status !== 0 || !npmRegistry) {
+    console.error("##[error]Failed to resolve the repository npm registry");
+    process.exit(registryResult.status || 1);
+  }
+  runShell(
+    `npm install -g @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER} --registry="${npmRegistry}"`,
+    SDK_ROOT,
+  );
   // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
   runShell("npm config set legacy-peer-deps true");
 }

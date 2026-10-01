@@ -67,5 +67,5 @@ node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js ${package-path}
 example:
 
 ```
-track2-js-sdk-changelog-tool sdk/compute/arm-compute
+node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js sdk/compute/arm-compute
 ```
