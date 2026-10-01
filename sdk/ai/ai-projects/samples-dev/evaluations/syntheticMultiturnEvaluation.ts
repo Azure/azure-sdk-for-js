@@ -72,7 +72,7 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "tool_use_quality",
       evaluator_name: "builtin.tool_use_quality",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: {
         messages: "{{item.messages}}",
         tool_definitions: "{{item.tool_definitions}}",
@@ -82,7 +82,7 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "output_quality",
       evaluator_name: "builtin.output_quality",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: {
         messages: "{{item.messages}}",
         tool_definitions: "{{item.tool_definitions}}",
@@ -92,7 +92,7 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "deflection_rate",
       evaluator_name: "builtin.deflection_rate",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: {
         messages: "{{item.messages}}",
         tool_definitions: "{{item.tool_definitions}}",
@@ -102,28 +102,28 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "customer_satisfaction",
       evaluator_name: "builtin.customer_satisfaction",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "task_completion",
       evaluator_name: "builtin.task_completion",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "coherence",
       evaluator_name: "builtin.coherence",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "groundedness",
       evaluator_name: "builtin.groundedness",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
   ];
@@ -203,6 +203,10 @@ export async function main(): Promise<void> {
     console.log("\nDeleting evaluation...");
     await openAIClient.evals.delete(evalObject.id);
     console.log("Evaluation deleted");
+
+    console.log("Deleting agent...");
+    await project.agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   }
 }
 

@@ -134,29 +134,35 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "customer_satisfaction",
       evaluator_name: "builtin.customer_satisfaction",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "task_completion",
       evaluator_name: "builtin.task_completion",
-      initialization_parameters: { model: modelDeploymentName },
-      data_mapping: { messages: "{{item.messages}}" },
+      initialization_parameters: { deployment_name: modelDeploymentName },
+      data_mapping: {
+        messages: "{{item.messages}}",
+        tool_definitions: "{{item.tool_definitions}}",
+      },
     },
     {
       type: "azure_ai_evaluator",
       name: "conversation_coherence",
       evaluator_name: "builtin.coherence",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "groundedness",
       evaluator_name: "builtin.groundedness",
-      initialization_parameters: { model: modelDeploymentName },
-      data_mapping: { messages: "{{item.messages}}" },
+      initialization_parameters: { deployment_name: modelDeploymentName },
+      data_mapping: {
+        messages: "{{item.messages}}",
+        tool_definitions: "{{item.tool_definitions}}",
+      },
     },
   ];
 
@@ -182,31 +188,32 @@ export async function main(): Promise<void> {
   } as any);
   console.log(`Evaluation run created (id: ${run.id})`);
 
-  // Poll for completion
-  while (!["completed", "failed"].includes(run.status)) {
+  // Poll for completion. Treat canceled/cancelled as terminal so the loop exits
+  // for a canceled run.
+  while (!["completed", "failed", "canceled", "cancelled"].includes(run.status)) {
     run = await openAIClient.evals.runs.retrieve(run.id, { eval_id: evalObject.id });
     console.log(`Waiting for eval run to complete... current status: ${run.status}`);
     await new Promise((resolve) => setTimeout(resolve, 5000));
   }
 
-  if (run.status === "completed") {
-    console.log("\nEvaluation run completed successfully!");
-    console.log(`Result Counts: ${JSON.stringify(run.result_counts)}`);
-
-    const outputItems = [];
-    for await (const item of openAIClient.evals.runs.outputItems.list(run.id, {
-      eval_id: evalObject.id,
-    })) {
-      outputItems.push(item);
-    }
-    console.log(`\nOUTPUT ITEMS (Total: ${outputItems.length})`);
-    console.log("-".repeat(60));
-    console.log(JSON.stringify(outputItems, null, 2));
-    console.log("-".repeat(60));
-    console.log(`\nEval Run Report URL: ${run.report_url}`);
-  } else {
-    console.log("\nEvaluation run failed.");
+  if (run.status !== "completed") {
+    throw new Error(`Evaluation run did not complete (status: ${run.status}).`);
   }
+
+  console.log("\nEvaluation run completed successfully!");
+  console.log(`Result Counts: ${JSON.stringify(run.result_counts)}`);
+
+  const outputItems = [];
+  for await (const item of openAIClient.evals.runs.outputItems.list(run.id, {
+    eval_id: evalObject.id,
+  })) {
+    outputItems.push(item);
+  }
+  console.log(`\nOUTPUT ITEMS (Total: ${outputItems.length})`);
+  console.log("-".repeat(60));
+  console.log(JSON.stringify(outputItems, null, 2));
+  console.log("-".repeat(60));
+  console.log(`\nEval Run Report URL: ${run.report_url}`);
 
   // Clean up
   console.log("\nDeleting dataset...");
@@ -216,6 +223,13 @@ export async function main(): Promise<void> {
   console.log("Deleting evaluation...");
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
+
+  // Fail the sample if any evaluator errored, so a judge that can't resolve its
+  // deployment surfaces as a failure rather than a silent success.
+  const erroredCount = (run.result_counts as any)?.errored ?? 0;
+  if (erroredCount > 0) {
+    throw new Error(`Evaluation run had ${erroredCount} errored result(s).`);
+  }
 }
 
 main().catch((err) => {

@@ -118,28 +118,28 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "customer_satisfaction",
       evaluator_name: "builtin.customer_satisfaction",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "task_completion",
       evaluator_name: "builtin.task_completion",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "conversation_coherence",
       evaluator_name: "builtin.coherence",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "groundedness",
       evaluator_name: "builtin.groundedness",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
   ];
@@ -216,6 +216,10 @@ export async function main(): Promise<void> {
   console.log("\nDeleting evaluation...");
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
+
+  console.log("Deleting dataset...");
+  await project.datasets.delete(dataset.name, dataset.version);
+  console.log("Dataset deleted");
 
   console.log("Deleting agent...");
   await project.agents.deleteVersion(agent.name, agent.version);

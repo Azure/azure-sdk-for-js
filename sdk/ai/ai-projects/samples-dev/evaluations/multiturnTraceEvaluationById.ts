@@ -62,41 +62,35 @@ export async function main(): Promise<void> {
       type: "azure_ai_evaluator",
       name: "customer_satisfaction",
       evaluator_name: "builtin.customer_satisfaction",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "task_completion",
       evaluator_name: "builtin.task_completion",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "conversation_coherence",
       evaluator_name: "builtin.coherence",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
     {
       type: "azure_ai_evaluator",
       name: "groundedness",
       evaluator_name: "builtin.groundedness",
-      initialization_parameters: { model: modelDeploymentName },
+      initialization_parameters: { deployment_name: modelDeploymentName },
       data_mapping: { messages: "{{item.messages}}" },
     },
   ];
 
-  console.log("Creating trace-based evaluation group...");
-  const evalObject = await openAIClient.evals.create({
-    name: "Multi-turn Trace Evaluation (by ID)",
-    data_source_config: dataSourceConfig as any,
-    testing_criteria: testingCriteria as any,
-  });
-  console.log(`Evaluation created (id: ${evalObject.id})`);
-
-  // Build the data source based on which IDs are provided.
+  // Build the data source based on which IDs are provided. Validate (and throw)
+  // before creating the evaluation group so a missing-env run doesn't leave an
+  // empty evaluation group behind.
   let traceSource: Record<string, unknown>;
   if (traceIdsStr) {
     // Trace ID mode — provide W3C trace IDs (operation_Id from App Insights).
@@ -121,6 +115,14 @@ export async function main(): Promise<void> {
     console.log(`Using ${conversationIds.length} conversation IDs`);
     traceSource = { type: "conversation_id_source", conversation_ids: conversationIds };
   }
+
+  console.log("Creating trace-based evaluation group...");
+  const evalObject = await openAIClient.evals.create({
+    name: "Multi-turn Trace Evaluation (by ID)",
+    data_source_config: dataSourceConfig as any,
+    testing_criteria: testingCriteria as any,
+  });
+  console.log(`Evaluation created (id: ${evalObject.id})`);
 
   // Create run with evaluation_level = "conversation". evaluation_level is the JS analog
   // of Python's extra_body — the OpenAI client forwards unknown body fields.
