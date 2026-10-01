@@ -286,5 +286,39 @@ describe("generateApiReview", () => {
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
+
+    it("changes the hash on a 0.x minor bump", () => {
+      const runtime = "@typespec/ts-http-runtime";
+      const before = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.8" } }));
+      const after = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.4.0" } }));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
+    it("ignores 0.x patch bumps in the hash", () => {
+      const runtime = "@typespec/ts-http-runtime";
+      const before = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.0" } }));
+      const after = generateApiReview(fixture(index, { dependencies: { [runtime]: "^0.3.8" } }));
+
+      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
+    });
+
+    it("keeps exact prerelease specifiers in the hash", () => {
+      const common = "@azure/maps-common";
+      const before = generateApiReview(
+        fixture(index, { dependencies: { [common]: "1.0.0-beta.2" } }),
+      );
+      const after = generateApiReview(
+        fixture(index, { dependencies: { [common]: "1.0.0-beta.3" } }),
+      );
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
+    it("omits the Dependencies section when there are none", () => {
+      const { apiMd } = generateApiReview(singleExportRoot);
+
+      expect(apiMd).not.toContain("## Dependencies");
+    });
   });
 });

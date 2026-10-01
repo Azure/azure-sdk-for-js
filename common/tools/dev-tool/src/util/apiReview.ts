@@ -4,6 +4,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import semver from "semver";
 import ts from "typescript";
 
 type ExportConditions = Record<string, { types: string }>;
@@ -31,24 +32,32 @@ export function generateApiReview(packageRoot: string): {
 }
 
 /**
- * Hashes the rendered review with dependency versions reduced to their major version.
+ * Hashes the rendered review with dependency versions reduced by `compatibleVersion`.
  */
 function hashApiMd(review: Review): string {
   const hashedReview: Review = {
     ...review,
     dependencies: review.dependencies.map((dependency) => ({
       ...dependency,
-      version: majorVersion(dependency.version),
+      version: compatibleVersion(dependency.version),
     })),
   };
   return createHash("sha256").update(renderApiMd(hashedReview)).digest("hex");
 }
 
 /**
- * Reduces a caret range such as `^1.9.0` to its major version so routine bumps keep the hash.
+ * Reduces a range to its major version (`^1.9.0` becomes `1`, `^0.4.2` becomes `0.4`) so routine
+ * bumps keep the hash. Exact prereleases and non-semver specifiers stay verbatim.
  */
-function majorVersion(specifier: string): string {
-  return /^\^(\d+)\./.exec(specifier)?.[1] ?? specifier;
+function compatibleVersion(specifier: string): string {
+  if (semver.prerelease(specifier)) {
+    return specifier;
+  }
+  const minimum = semver.validRange(specifier) ? semver.minVersion(specifier) : null;
+  if (!minimum) {
+    return specifier;
+  }
+  return minimum.major === 0 ? `0.${minimum.minor}` : `${minimum.major}`;
 }
 
 function buildReview(packageRoot: string): Review {
@@ -84,6 +93,17 @@ function renderApiMd(review: Review): string {
   const dependencyRows = review.dependencies.map(
     (dependency) => `| \`${dependency.name}\` | \`${dependency.version}\` | ${dependency.type} |`,
   );
+  const dependenciesSection = dependencyRows.length
+    ? `## Dependencies
+
+Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.
+
+| Package | Version | Type |
+| --- | --- | --- |
+${dependencyRows.join("\n")}
+
+`
+    : "";
   const exportSections = review.exportSections.map(
     (section) => `## Export \`${section.path}\`
 
@@ -101,15 +121,7 @@ ${section.declarations.join("\n\n")}
 | --- | --- |
 ${entryPointRows.join("\n")}
 
-## Dependencies
-
-Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.
-
-| Package | Version | Type |
-| --- | --- | --- |
-${dependencyRows.join("\n")}
-
-${exportSections.join("\n")}`;
+${dependenciesSection}${exportSections.join("\n")}`;
 }
 
 function printExports(entryFile: string): string[] {
