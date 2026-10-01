@@ -5,9 +5,10 @@
  * This sample demonstrates how to create, inspect, list, cancel, and delete data
  * generation jobs using the datasets API.
  *
- * In the JS SDK, you access these operations via `project.datasets`. Data generation for the
- * `evaluation` scenario is generally available. The supervised and reinforcement fine-tuning
- * scenarios (`supervised_finetuning_preview` / `reinforcement_finetuning_preview`), together with
+ * In the JS SDK, you access these operations via `project.datasets`. This sample uses the
+ * generally available `evaluation` scenario, which writes the generated question-and-answer pairs
+ * to a new versioned dataset. The supervised and reinforcement fine-tuning scenarios
+ * (`supervised_finetuning_preview` / `reinforcement_finetuning_preview`), together with
  * `question_types` and file outputs, are preview features that require the
  * `DataGenerationJobs=V1Preview` opt-in. The client sends this opt-in for you on every data
  * generation job request.
@@ -17,7 +18,7 @@
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
-import type { FileDataGenerationJobOutput } from "@azure/ai-projects";
+import type { DatasetDataGenerationJobOutput } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -31,12 +32,15 @@ export async function main(): Promise<void> {
   const jobName = `sample-data-generation-job-${Date.now()}`;
   const generationPoller = project.datasets.createGenerationJob({
     name: jobName,
-    scenario: "supervised_finetuning_preview",
+    scenario: "evaluation",
     sources: [
       {
         type: "prompt",
-        prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
-        description: "Prompt source for generating sample supervised fine-tuning data.",
+        prompt:
+          "Contoso offers a full refund within 30 days of purchase for any product returned in its " +
+          "original condition. After 30 days, store credit may be issued at the discretion of " +
+          "customer support. Digital goods are non-refundable once downloaded.",
+        description: "Contoso refund policy",
       },
     ],
     generation_configuration: {
@@ -45,10 +49,10 @@ export async function main(): Promise<void> {
       model_options: {
         model: deploymentName,
       },
-      question_types: ["short_answer"],
     },
     output_configuration: {
-      name: `${jobName}.jsonl`,
+      // Output names may contain only letters, digits, hyphens, and underscores (max 50 characters).
+      name: jobName,
       write_mode: "overwrite",
     },
   });
@@ -86,9 +90,9 @@ export async function main(): Promise<void> {
       `Data generation job completed (${generationResult.generated_samples} sample(s) generated)`,
     );
     for (const output of generationResult.outputs ?? []) {
-      if (output.type === "file") {
-        const file = output as FileDataGenerationJobOutput;
-        console.log(`  - Output file: ${file.filename} (id: ${file.id})`);
+      if (output.type === "dataset") {
+        const dataset = output as DatasetDataGenerationJobOutput;
+        console.log(`  - Output dataset: ${dataset.name} (version: ${dataset.version})`);
       }
     }
   }
