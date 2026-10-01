@@ -626,4 +626,86 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("paging.js");
     });
   });
+
+  describe("forgotten exports", () => {
+    it("warns above each member that uses a forgotten declaration", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export type { DatasetsOperations } from "./datasets.js";',
+        "dist/esm/datasets.d.ts": [
+          "export interface DatasetUploadOptions {",
+          "    connectionName?: string;",
+          "}",
+          "export interface DatasetsOperations {",
+          "    uploadFile: (name: string, filePath: string, options?: DatasetUploadOptions) => Promise<void>;",
+          "    uploadFolder: (name: string, folderPath: string, options?: DatasetUploadOptions) => Promise<void>;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "```ts",
+          "export interface DatasetsOperations {",
+          "    // Warning: (arh-forgotten-export: DatasetUploadOptions)",
+          "    uploadFile: (name: string, filePath: string, options?: DatasetUploadOptions) => Promise<void>;",
+          "    // Warning: (arh-forgotten-export: DatasetUploadOptions)",
+          "    uploadFolder: (name: string, folderPath: string, options?: DatasetUploadOptions) => Promise<void>;",
+          "}",
+          "```",
+        ].join("\n"),
+      );
+    });
+
+    it("warns above a top-level declaration whose heritage uses a forgotten declaration", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export { BlobClient } from "./Clients.js";',
+        "dist/esm/StorageClient.d.ts": [
+          "export declare abstract class StorageClient {",
+          "    readonly url: string;",
+          "}",
+        ].join("\n"),
+        "dist/esm/Clients.d.ts": [
+          'import { StorageClient } from "./StorageClient.js";',
+          "export declare class BlobClient extends StorageClient {",
+          "    get containerName(): string;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        "// Warning: (arh-forgotten-export: StorageClient)\nexport class BlobClient extends StorageClient {",
+      );
+    });
+
+    it("warns only about unexported package-local declarations", () => {
+      const root = fixture({
+        "node_modules/@azure/core-auth/package.json": JSON.stringify({
+          name: "@azure/core-auth",
+          types: "./index.d.ts",
+        }),
+        "node_modules/@azure/core-auth/index.d.ts": "export interface TokenCredential {\n}",
+        "dist/esm/index.d.ts": 'export { KeyClient, KeyClientOptions } from "./keyClient.js";',
+        "dist/esm/keyClient.d.ts": [
+          'import type { TokenCredential } from "@azure/core-auth";',
+          "export interface KeyClientOptions {",
+          "    apiVersion?: string;",
+          "}",
+          "export declare function _sendRequest(): void;",
+          "export declare class KeyClient {",
+          "    constructor(credential: TokenCredential, options?: KeyClientOptions);",
+          "    purgeDeletedKey(name: string): Promise<void>;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).not.toContain("arh-forgotten-export");
+      expect(apiMd).not.toContain("_sendRequest");
+    });
+  });
 });

@@ -30,6 +30,16 @@ interface ExportSection {
   alsoExportedFrom: { path: string; names: string[] }[];
 }
 
+/**
+ * How references inside printed declarations appear in the review.
+ */
+interface ReferenceNames {
+  /** The exported name a reference prints as, when it differs from the source. */
+  rewritten(node: ts.Node): string | undefined;
+  /** The name of a package-local declaration that no export path exposes. */
+  forgotten(identifier: ts.Identifier): string | undefined;
+}
+
 type DependencyType = "runtime" | "peer";
 
 const dependencyFields: [field: string, type: DependencyType][] = [
@@ -236,23 +246,44 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
   const rootNames = new Set<string>();
   const references = new Map<string, Set<string>>();
 
-  const referenceName = (node: ts.Node): string | undefined => {
-    const reference = resolveReference(program, node);
-    if (reference?.module) {
-      references.set(
-        reference.module,
-        (references.get(reference.module) ?? new Set()).add(reference.name),
-      );
-    }
-    return reference?.name;
+  const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
+    symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+
+  const exportsByFile = exportFiles.map(({ file }) =>
+    checker
+      .getExportsOfModule(checker.getSymbolAtLocation(program.getSourceFile(file)!)!)
+      .sort((a, b) => a.name.localeCompare(b.name, "en")),
+  );
+  const exposed = new Set(exportsByFile.flat().map(resolveAlias));
+
+  const referenceNames: ReferenceNames = {
+    rewritten: (node) => {
+      const reference = resolveReference(program, node);
+      if (reference?.module) {
+        references.set(
+          reference.module,
+          (references.get(reference.module) ?? new Set()).add(reference.name),
+        );
+      }
+      return reference?.name;
+    },
+    forgotten: (identifier) => {
+      const symbol = checker.getSymbolAtLocation(identifier);
+      const target = symbol && resolveAlias(symbol);
+      const parent = target?.declarations?.[0]?.parent;
+      if (!target || !parent || !ts.isSourceFile(parent) || exposed.has(target)) {
+        return undefined;
+      }
+      return program.isSourceFileFromExternalLibrary(parent) ||
+        program.isSourceFileDefaultLibrary(parent)
+        ? undefined
+        : target.name;
+    },
   };
 
-  const sections = exportFiles.map(({ path: exportPath, file }, index) => {
+  const sections = exportFiles.map(({ path: exportPath }, index) => {
     const isRoot = index === 0;
-    const moduleSymbol = checker.getSymbolAtLocation(program.getSourceFile(file)!)!;
-    const exportedSymbols = checker
-      .getExportsOfModule(moduleSymbol)
-      .sort((a, b) => a.name.localeCompare(b.name, "en"));
+    const exportedSymbols = exportsByFile[index];
 
     const declarations: string[] = [];
     const reExports: { module: string; name: string }[] = [];
@@ -262,10 +293,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const symbol =
-        exportedSymbol.flags & ts.SymbolFlags.Alias
-          ? checker.getAliasedSymbol(exportedSymbol)
-          : exportedSymbol;
+      const symbol = resolveAlias(exportedSymbol);
       const earlierPath = shownUnder.get(symbol);
       if (earlierPath !== undefined) {
         alsoExported.push({ path: earlierPath, name: exportedSymbol.name });
@@ -277,7 +305,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
         reExports.push(reExport);
         continue;
       }
-      const printed = printDeclarations(symbol, exportedSymbol.name, printer, referenceName);
+      const printed = printDeclarations(symbol, exportedSymbol.name, printer, referenceNames);
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(...printed);
       } else {
@@ -398,16 +426,50 @@ function printDeclarations(
   symbol: ts.Symbol,
   publicName: string,
   printer: ts.Printer,
-  referenceName: (node: ts.Node) => string | undefined,
+  referenceNames: ReferenceNames,
 ): string[] {
   return (symbol.declarations ?? []).map((declaration) => {
     const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
     const declaredName = ts.getNameOfDeclaration(declaration);
+
+    // Like API Extractor's ae-forgotten-export, warn on the member (or the declaration itself)
+    // that uses a declaration no export path exposes.
+    const members: readonly ts.Node[] =
+      ts.isClassDeclaration(node) || ts.isInterfaceDeclaration(node) ? node.members : [];
+    const forgotten = new Map<ts.Node, string[]>([
+      [node, forgottenNamesIn(node, referenceNames, new Set(members))],
+      ...members.map((member): [ts.Node, string[]] => [
+        member,
+        forgottenNamesIn(member, referenceNames),
+      ]),
+    ]);
+
     const [reviewNode] = ts.transform(node, [
-      (context) => toReviewShape(context, declaredName, publicName, referenceName),
+      (context) =>
+        toReviewShape(context, declaredName, publicName, referenceNames.rewritten, forgotten),
     ]).transformed;
     return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
   });
+}
+
+function forgottenNamesIn(
+  node: ts.Node,
+  referenceNames: ReferenceNames,
+  skip: ReadonlySet<ts.Node> = new Set(),
+): string[] {
+  const names = new Set<string>();
+  const walk = (child: ts.Node): void => {
+    if (skip.has(child)) {
+      return;
+    }
+    const name = ts.isIdentifier(child) ? referenceNames.forgotten(child) : undefined;
+    if (name) {
+      names.add(name);
+    }
+    ts.forEachChild(child, walk);
+  };
+  walk(node);
+  return [...names];
 }
 
 const statusTags = new Set(["alpha", "beta", "internal", "deprecated"]);
@@ -433,6 +495,7 @@ function toReviewShape(
   declaredName: ts.Node | undefined,
   publicName: string,
   referenceName: (node: ts.Node) => string | undefined,
+  forgotten: ReadonlyMap<ts.Node, string[]>,
 ): ts.Transformer<ts.Node> {
   const visit = (node: ts.Node): ts.Node | undefined => {
     if (isPrivateMember(node)) {
@@ -462,6 +525,14 @@ function toReviewShape(
       );
     }
     ts.setEmitFlags(result, ts.EmitFlags.NoComments);
+    for (const name of forgotten.get(node) ?? []) {
+      ts.addSyntheticLeadingComment(
+        result,
+        ts.SyntaxKind.SingleLineCommentTrivia,
+        ` Warning: (arh-forgotten-export: ${name})`,
+        true,
+      );
+    }
     for (const tag of ts.getJSDocTags(node)) {
       if (statusTags.has(tag.tagName.text)) {
         ts.addSyntheticLeadingComment(
