@@ -88,4 +88,83 @@ describe("generateApiReview", () => {
       ].join("\n"),
     );
   });
+
+  describe("printing", () => {
+    it("keeps status tags as line comments and drops prose", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "/**",
+          " * Prose here.",
+          " * @beta",
+          " */",
+          "export declare function preview(): void;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("// @beta\nexport declare function preview(): void;");
+      expect(apiMd).not.toContain("Prose here");
+    });
+
+    it("keeps status tags on individual overloads", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "export declare class CryptographyClient {",
+          "    /**",
+          "     * Encrypts the given plaintext with the specified encryption parameters.",
+          "     */",
+          "    encrypt(parameters: object): Promise<Uint8Array>;",
+          "    /**",
+          "     * Encrypts the given plaintext with the specified cryptography algorithm.",
+          "     * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.",
+          "     */",
+          "    encrypt(algorithm: string, plaintext: Uint8Array): Promise<Uint8Array>;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "export class CryptographyClient {",
+          "    encrypt(parameters: object): Promise<Uint8Array>;",
+          "    // @deprecated",
+          "    encrypt(algorithm: string, plaintext: Uint8Array): Promise<Uint8Array>;",
+          "}",
+        ].join("\n"),
+      );
+    });
+
+    it("omits private members and prints classes without declare", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "export declare class KeyClient {",
+          "    private readonly client;",
+          "    readonly vaultUrl: string;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
+    });
+
+    it("omits the #private brand that tsc emits for ES private fields", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "export declare class Stack {",
+          "    #private;",
+          "    name: string;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export class Stack {\n    name: string;\n}");
+    });
+  });
 });
