@@ -42,10 +42,17 @@ function printExports(entryFile: string): string {
     .sort((a, b) => a.name.localeCompare(b.name, "en"));
 
   const printed: string[] = [];
-  for (const symbol of exportedSymbols) {
+  for (const exportedSymbol of exportedSymbols) {
+    const symbol =
+      exportedSymbol.flags & ts.SymbolFlags.Alias
+        ? checker.getAliasedSymbol(exportedSymbol)
+        : exportedSymbol;
     for (const declaration of symbol.declarations ?? []) {
       const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
-      const [reviewNode] = ts.transform(node, [toReviewShape]).transformed;
+      const declaredName = ts.getNameOfDeclaration(declaration);
+      const [reviewNode] = ts.transform(node, [
+        (context) => toReviewShape(context, declaredName, exportedSymbol.name),
+      ]).transformed;
       printed.push(printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile()));
     }
   }
@@ -68,11 +75,19 @@ function isPrivateMember(node: ts.Node): boolean {
 
 /**
  * Drops comments (keeping status tags as `// @tag`), private class members, and `declare` on classes.
+ * Renames the declaration to its public export name.
  */
-function toReviewShape(context: ts.TransformationContext): ts.Transformer<ts.Node> {
+function toReviewShape(
+  context: ts.TransformationContext,
+  declaredName: ts.Node | undefined,
+  publicName: string,
+): ts.Transformer<ts.Node> {
   const visit = (node: ts.Node): ts.Node | undefined => {
     if (isPrivateMember(node)) {
       return undefined;
+    }
+    if (node === declaredName) {
+      return context.factory.createIdentifier(publicName);
     }
     let result = ts.visitEachChild(node, visit, context);
     if (ts.isClassDeclaration(result)) {

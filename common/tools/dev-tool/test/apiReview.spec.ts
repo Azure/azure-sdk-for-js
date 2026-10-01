@@ -167,4 +167,71 @@ describe("generateApiReview", () => {
       expect(apiMd).toContain("export class Stack {\n    name: string;\n}");
     });
   });
+
+  describe("export resolution", () => {
+    it("follows export * into other declaration files", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export * from "./keyClient.js";',
+        "dist/esm/keyClient.d.ts": [
+          "export declare class KeyClient {",
+          "    readonly vaultUrl: string;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
+    });
+
+    it("prints only the names a named re-export exposes", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export { KeyClient } from "./keyClient.js";',
+        "dist/esm/keyClient.d.ts": [
+          "export declare class KeyClient {",
+          "    readonly vaultUrl: string;",
+          "}",
+          "export declare function createKeyClientHelper(): void;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export class KeyClient {\n    readonly vaultUrl: string;\n}");
+      expect(apiMd).not.toContain("createKeyClientHelper");
+    });
+
+    it("prints an aliased re-export under its public name", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts":
+          'export type { RestorePollerOptions as WorkspaceClientRestorePollerOptions } from "./restorePollerHelpers.js";',
+        "dist/esm/restorePollerHelpers.d.ts": [
+          "export interface RestorePollerOptions {",
+          "    updateIntervalInMs?: number;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        "export interface WorkspaceClientRestorePollerOptions {\n    updateIntervalInMs?: number;\n}",
+      );
+      expect(apiMd).not.toContain("interface RestorePollerOptions");
+    });
+
+    it("resolves re-exports through several hops", () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export * from "./models/index.js";',
+        "dist/esm/models/index.d.ts": 'export type { Widget as WidgetModel } from "./models.js";',
+        "dist/esm/models/models.d.ts": ["export interface Widget {", "    name: string;", "}"].join(
+          "\n",
+        ),
+      });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("export interface WidgetModel {\n    name: string;\n}");
+    });
+  });
 });
