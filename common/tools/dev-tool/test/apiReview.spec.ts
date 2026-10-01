@@ -293,15 +293,23 @@ describe("generateApiReview", () => {
         [
           "## Dependencies",
           "",
-          "Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.",
+          "Version is the specifier from package.json. The review hash uses Hashed as instead of Version.",
           "",
-          "| Package | Version | Type |",
-          "| --- | --- | --- |",
-          "| `@azure/abort-controller` | `^2.1.2` | runtime |",
-          "| `@azure/core-auth` | `workspace:^` | runtime |",
-          "| `@azure/core-client` | `^1.10.0` | peer |",
+          "| Package | Version | Hashed as | Type |",
+          "| --- | --- | --- | --- |",
+          "| `@azure/abort-controller` | `^2.1.2` | `2` | runtime |",
+          "| `@azure/core-auth` | `workspace:^` | `workspace:^` | runtime |",
+          "| `@azure/core-client` | `^1.10.0` | `1` | peer |",
         ].join("\n"),
       );
+    });
+
+    it("shows the hashed form of each dependency version next to its specifier", () => {
+      const root = fixture(index, { dependencies: { "@azure/core-auth": "^1.9.0" } });
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain("| `@azure/core-auth` | `^1.9.0` | `1` | runtime |");
     });
 
     it("hashes api.md with SHA-256 when there are no dependencies", () => {

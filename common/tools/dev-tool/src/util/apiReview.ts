@@ -96,17 +96,12 @@ export function generateApiReview(packageRoot: string): {
 }
 
 /**
- * Hashes the rendered review with dependency versions reduced by `compatibleVersion`.
+ * Hashes api.md without its Version column, so only the "Hashed as" form of dependencies counts.
  */
 function hashApiMd(review: Review): string {
-  const hashedReview: Review = {
-    ...review,
-    dependencies: review.dependencies.map((dependency) => ({
-      ...dependency,
-      version: compatibleVersion(dependency.version),
-    })),
-  };
-  return createHash("sha256").update(renderApiMd(hashedReview)).digest("hex");
+  return createHash("sha256")
+    .update(renderApiMd(review, { forHash: true }))
+    .digest("hex");
 }
 
 /**
@@ -266,20 +261,33 @@ function diffItem(before: string, after: string): string {
   return lines.join("\n");
 }
 
-function renderApiMd(review: Review): string {
+/**
+ * Renders api.md. The hash input (`forHash`) is the same document without the Version column.
+ */
+function renderApiMd(review: Review, { forHash = false } = {}): string {
   const entryPointRows = review.entryPoints.map(
     (entry) => `| \`${entry.path}\` | ${entry.conditions.map((c) => `\`${c}\``).join(", ")} |`,
   );
-  const dependencyRows = review.dependencies.map(
-    (dependency) => `| \`${dependency.name}\` | \`${dependency.version}\` | ${dependency.type} |`,
-  );
+  const dependencyColumns = forHash
+    ? ["Package", "Hashed as", "Type"]
+    : ["Package", "Version", "Hashed as", "Type"];
+  const dependencyRows = review.dependencies.map((dependency) => {
+    const version = forHash ? [] : [`\`${dependency.version}\``];
+    const cells = [
+      `\`${dependency.name}\``,
+      ...version,
+      `\`${compatibleVersion(dependency.version)}\``,
+      dependency.type,
+    ];
+    return `| ${cells.join(" | ")} |`;
+  });
   const dependenciesSection = dependencyRows.length
     ? `## Dependencies
 
-Specifiers are verbatim from package.json. The review hash covers dependency names and major versions only.
+Version is the specifier from package.json. The review hash uses Hashed as instead of Version.
 
-| Package | Version | Type |
-| --- | --- | --- |
+| ${dependencyColumns.join(" | ")} |
+| ${dependencyColumns.map(() => "---").join(" | ")} |
 ${dependencyRows.join("\n")}
 
 `
