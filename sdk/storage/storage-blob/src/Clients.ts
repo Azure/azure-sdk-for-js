@@ -351,7 +351,8 @@ export interface BlobDownloadOptions extends CommonOptions {
    *
    * The endpoint to read this range from, as reported by Get Blob Layout. A one-shot download
    * never fetches or caches a layout of its own, so supplying one here is the only way to route
-   * it. An endpoint that cannot be used is ignored and the account endpoint is read instead.
+   * it. The account endpoint is read instead when the endpoint cannot be parsed or the client's
+   * URL is not `https://` with a host name. An endpoint that cannot be reached fails the read.
    */
   layoutEndpoint?: string;
 }
@@ -1381,6 +1382,11 @@ export class BlobClient extends StorageClient {
         await StorageCRC64Calculator.init();
       }
 
+      // Consumed and removed by storageDataLocalityPolicy; never reaches the wire.
+      const layoutHeaders = options.layoutEndpoint
+        ? { [LAYOUT_ENDPOINT_HEADER]: options.layoutEndpoint }
+        : undefined;
+
       const response = adjustResponse(
         await this.blobContext.download({
           abortSignal: options.abortSignal,
@@ -1388,10 +1394,7 @@ export class BlobClient extends StorageClient {
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
             onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-            // Consumed and removed by storageDataLocalityPolicy; never reaches the wire.
-            headers: options.layoutEndpoint
-              ? { [LAYOUT_ENDPOINT_HEADER]: options.layoutEndpoint }
-              : undefined,
+            headers: layoutHeaders,
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1490,6 +1493,7 @@ export class BlobClient extends StorageClient {
             snapshot: options.snapshot,
             structuredBodyType:
               contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+            requestOptions: { headers: layoutHeaders },
           });
           const resBody = response2.readableStreamBody! as NodeJSReadableStream;
 
@@ -2460,6 +2464,7 @@ export class BlobClient extends StorageClient {
   public getLayout(
     options: BlobGetLayoutOptions = {},
   ): PagedAsyncIterableIterator<BlobGetLayoutResponseModel, BlobGetLayoutResponseModel> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     const iter = this.listLayoutSegments(undefined, options);
     return {
       /**

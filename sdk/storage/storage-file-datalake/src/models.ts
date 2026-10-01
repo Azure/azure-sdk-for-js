@@ -1458,8 +1458,9 @@ export interface FileReadOptions extends CommonOptions {
    *
    * The endpoint to read this range from, as reported by {@link DataLakeFileClient.getLayout}. A
    * one-shot read never fetches or caches a layout of its own, so supplying one here is the only
-   * way to route it. An endpoint that cannot be used is ignored and the account endpoint is read
-   * instead.
+   * way to route it. The account endpoint is read instead when the endpoint cannot be parsed or
+   * the client's URL is not `https://` with a host name. An endpoint that cannot be reached fails
+   * the read.
    */
   layoutEndpoint?: string;
 }

@@ -9,6 +9,7 @@ import type { FullOperationResponse } from "@azure-rest/core-client";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
 import { addStorageCompatResponse } from "../../src/generated/static-helpers/storageCompatResponse.js";
 import type { BlobLayoutSegment } from "../../src/utils/BlobLayoutSegment.js";
 import {
@@ -17,7 +18,11 @@ import {
   toBlobLayoutCacheValue,
   toBlobLayoutSegments,
 } from "../../src/utils/BlobLayoutSegment.js";
-import type { BlobGetLayoutOptionalParams, BlobOperations } from "../../src/generated/index.js";
+import type {
+  BlobDownloadOptionalParams,
+  BlobGetLayoutOptionalParams,
+  BlobOperations,
+} from "../../src/generated/index.js";
 import type {
   BlobGetLayoutResponseModel,
   BlockBlobClient,
@@ -422,6 +427,30 @@ describe("BlobClient.getLayout", () => {
       }
     }).rejects.toThrow("failed");
   });
+
+  it("refuses a customer-provided key over HTTP", () => {
+    const client = new BlobClient(
+      "http://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    const customerProvidedKey = { encryptionKey: "key", encryptionKeySha256: "key-sha256" };
+
+    assert.throws(
+      () => client.getLayout({ customerProvidedKey }),
+      "Customer-provided encryption key must be used over HTTPS.",
+    );
+  });
+
+  it("sends a customer-provided key with the default algorithm", async () => {
+    const { client, calls } = clientWithLayoutPages([pageTwo()]);
+    const customerProvidedKey = { encryptionKey: "key", encryptionKeySha256: "key-sha256" };
+
+    for await (const _page of client.getLayout({ customerProvidedKey })) {
+      // drain
+    }
+
+    assert.equal(calls[0].encryptionAlgorithm, "AES256");
+  });
 });
 
 describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
@@ -478,6 +507,47 @@ describe("BlobClient.downloadToBuffer with routing disabled", () => {
     assert.lengthOf(pending, 2, "no block should wait for the first one");
     pending.forEach((release) => release());
     assert.lengthOf(await downloaded, 8);
+  });
+});
+
+describe("BlobClient.download with a layout endpoint", () => {
+  it("keeps routing when it resumes a stream that ended early", async () => {
+    const endpoint = "https://blob.stamp.store.core.windows.net:443/";
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    const routedTo: unknown[] = [];
+    // The first response promises eight bytes but ends after four.
+    const bodies = [Buffer.alloc(4, 1), Buffer.alloc(4, 2)];
+    (client as any).blobContext = {
+      download: async (downloadOptions: BlobDownloadOptionalParams) => {
+        routedTo.push(downloadOptions.requestOptions?.headers?.[LAYOUT_ENDPOINT_HEADER]);
+        const rawResponse = {
+          request: createPipelineRequest({ url: client.url }),
+          status: 206,
+          headers: createHttpHeaders(),
+          bodyAsText: "",
+        } as FullOperationResponse;
+        return addStorageCompatResponse(
+          rawResponse,
+          { readableStreamBody: Readable.from([bodies.shift()!]) },
+          { contentLength: 8, etag: "etag-1" },
+        );
+      },
+    };
+
+    const response = await client.download(0, 8, {
+      layoutEndpoint: endpoint,
+      maxRetryRequests: 1,
+    });
+    const chunks: Buffer[] = [];
+    for await (const chunk of response.readableStreamBody!) {
+      chunks.push(chunk as Buffer);
+    }
+
+    assert.isTrue(Buffer.concat(chunks).equals(Buffer.from([1, 1, 1, 1, 2, 2, 2, 2])));
+    assert.deepEqual(routedTo, [endpoint, endpoint]);
   });
 });
 
