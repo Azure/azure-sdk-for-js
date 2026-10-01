@@ -31,9 +31,14 @@ interface NamedImports {
   names: string[];
 }
 
+interface Declaration {
+  name: string;
+  text: string;
+}
+
 interface ExportSection {
   path: string;
-  declarations: string[];
+  declarations: Declaration[];
   reExports: NamedImports[];
   differsFromRoot: string[];
   alsoExportedFrom: { path: string; names: string[] }[];
@@ -160,20 +165,49 @@ function compareConditions(
     }
     conditionDiffs.push({
       condition,
-      // ESM [{ path: ".", declarations: [a, b] }] vs browser [{ path: ".", declarations: [a, b2] }]
-      //   -> [{ path: ".", items: [diffItem(b, b2)] }]
       exports: esmSections
         .map((esmSection, index) => ({
           path: esmSection.path,
-          items: esmSection.declarations.flatMap((declaration, item) => {
-            const other = sections[index].declarations[item];
-            return other === declaration ? [] : [diffItem(declaration, other)];
-          }),
+          items: diffItems(esmSection.declarations, sections[index].declarations),
         }))
         .filter((changed) => changed.items.length),
     });
   }
   return { identicalConditions, conditionDiffs };
+}
+
+/**
+ * Diffs two views of an export section by declaration name, sorted by name.
+ */
+// ESM [{ name: "A", text: a }, { name: "B", text: b }] vs browser [{ name: "B", text: b2 }, { name: "C", text: c }]
+//   -> ["-a", diffItem(b, b2), "+c"]
+function diffItems(esm: Declaration[], other: Declaration[]): string[] {
+  const esmByName = new Map(esm.map((declaration) => [declaration.name, declaration.text]));
+  const otherByName = new Map(other.map((declaration) => [declaration.name, declaration.text]));
+  const names = [...new Set([...esmByName.keys(), ...otherByName.keys()])].sort((a, b) =>
+    a.localeCompare(b, "en"),
+  );
+  return names.flatMap((name) => {
+    const before = esmByName.get(name);
+    const after = otherByName.get(name);
+    if (before === after) {
+      return [];
+    }
+    if (after === undefined) {
+      return [prefixLines("-", before!)];
+    }
+    if (before === undefined) {
+      return [prefixLines("+", after)];
+    }
+    return [diffItem(before, after)];
+  });
+}
+
+function prefixLines(prefix: string, text: string): string {
+  return text
+    .split("\n")
+    .map((line) => `${prefix}${line}`)
+    .join("\n");
 }
 
 /**
@@ -280,7 +314,7 @@ function renderExportSection(section: ExportSection, rootPath: string | undefine
       blocks.push(`### Not exported from \`${rootPath}\``);
     }
     const code = [
-      section.declarations.join("\n\n"),
+      section.declarations.map((declaration) => declaration.text).join("\n\n"),
       section.reExports.map((reExport) => formatNamedImports("export", reExport)).join("\n"),
     ];
     blocks.push(`\`\`\`ts\n${code.filter(Boolean).join("\n\n")}\n\`\`\``);
@@ -386,7 +420,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
     const isRoot = index === 0;
     const exportedSymbols = exportsByFile[index];
 
-    const declarations: string[] = [];
+    const declarations: Declaration[] = [];
     const reExports: { module: string; name: string }[] = [];
     const differsFromRoot: string[] = [];
     const alsoExported: { path: string; name: string }[] = [];
@@ -410,7 +444,7 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(...printed);
       } else {
-        declarations.push(...printed);
+        declarations.push({ name: exportedSymbol.name, text: printed.join("\n\n") });
       }
     }
     return {

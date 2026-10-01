@@ -876,6 +876,71 @@ describe("generateApiReview", () => {
       );
     });
 
+    it("shows a declaration missing from a condition as removed lines", () => {
+      const queueClient =
+        "export declare class QueueClient {\n    getProperties(): Promise<void>;\n}";
+      const esm = [
+        queueClient,
+        "export declare function generateAccountSASQueryParameters(accountSASSignatureValues: object): string;",
+      ].join("\n");
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": queueClient,
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "#### Export `.`",
+          "",
+          "```diff",
+          "-export declare function generateAccountSASQueryParameters(accountSASSignatureValues: object): string;",
+          "```",
+        ].join("\n"),
+      );
+    });
+
+    it("shows a declaration only a condition has as added lines", () => {
+      const esm = [
+        "export declare class AvroReadableFromStream {",
+        "    constructor(readable: NodeJS.ReadableStream);",
+        "}",
+      ].join("\n");
+      const root = fixture(
+        {
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": [
+            "export declare class AvroReadableFromBlob {",
+            "    constructor(blob: Blob);",
+            "}",
+          ].join("\n"),
+        },
+        { exports: coreAuthExports },
+      );
+
+      const { apiMd } = generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "```diff",
+          "+export class AvroReadableFromBlob {",
+          "+    constructor(blob: Blob);",
+          "+}",
+          "",
+          "-export class AvroReadableFromStream {",
+          "-    constructor(readable: NodeJS.ReadableStream);",
+          "-}",
+          "```",
+        ].join("\n"),
+      );
+    });
+
     it("elides lines far from a change with @@ but keeps the header", () => {
       const esm = [
         "export declare class KeyClient {",
