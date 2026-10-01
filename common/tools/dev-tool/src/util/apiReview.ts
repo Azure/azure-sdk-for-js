@@ -7,30 +7,58 @@ import ts from "typescript";
 
 type ExportConditions = Record<string, { types: string }>;
 
+interface Review {
+  name: string;
+  entryPoints: { path: string; conditions: string[] }[];
+  exportSections: { path: string; declarations: string[] }[];
+}
+
 export function generateApiReview(packageRoot: string): { apiMd: string } {
+  return { apiMd: renderApiMd(buildReview(packageRoot)) };
+}
+
+function buildReview(packageRoot: string): Review {
   const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
   const exportsMap: Record<string, ExportConditions> = packageJson.exports;
 
-  const lines = [`# API review: \`${packageJson.name}\``, ""];
-
-  lines.push("## Entry points", "", "| Export path | Conditions |", "| --- | --- |");
-  for (const [exportPath, conditions] of Object.entries(exportsMap)) {
-    const conditionList = Object.keys(conditions)
-      .map((condition) => `\`${condition}\``)
-      .join(", ");
-    lines.push(`| \`${exportPath}\` | ${conditionList} |`);
-  }
-  lines.push("");
-
-  for (const [exportPath, conditions] of Object.entries(exportsMap)) {
-    const entryFile = path.join(packageRoot, conditions.import.types);
-    lines.push(`## Export \`${exportPath}\``, "", "```ts", printExports(entryFile), "```", "");
-  }
-
-  return { apiMd: lines.join("\n") };
+  return {
+    name: packageJson.name,
+    entryPoints: Object.entries(exportsMap).map(([exportPath, conditions]) => ({
+      path: exportPath,
+      conditions: Object.keys(conditions),
+    })),
+    exportSections: Object.entries(exportsMap).map(([exportPath, conditions]) => ({
+      path: exportPath,
+      declarations: printExports(path.join(packageRoot, conditions.import.types)),
+    })),
+  };
 }
 
-function printExports(entryFile: string): string {
+function renderApiMd(review: Review): string {
+  const entryPointRows = review.entryPoints.map(
+    (entry) => `| \`${entry.path}\` | ${entry.conditions.map((c) => `\`${c}\``).join(", ")} |`,
+  );
+  const exportSections = review.exportSections.map(
+    (section) => `## Export \`${section.path}\`
+
+\`\`\`ts
+${section.declarations.join("\n\n")}
+\`\`\`
+`,
+  );
+
+  return `# API review: \`${review.name}\`
+
+## Entry points
+
+| Export path | Conditions |
+| --- | --- |
+${entryPointRows.join("\n")}
+
+${exportSections.join("\n")}`;
+}
+
+function printExports(entryFile: string): string[] {
   const program = ts.createProgram([entryFile], { skipLibCheck: true });
   const checker = program.getTypeChecker();
   const sourceFile = program.getSourceFile(entryFile)!;
@@ -56,7 +84,7 @@ function printExports(entryFile: string): string {
       printed.push(printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile()));
     }
   }
-  return printed.join("\n\n");
+  return printed;
 }
 
 const statusTags = new Set(["alpha", "beta", "internal", "deprecated"]);
