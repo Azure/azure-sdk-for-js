@@ -93,6 +93,8 @@ function buildReview(packageRoot: string): Review {
       path: exportPath,
       conditions: Object.keys(conditions),
     })),
+    // { dependencies: { tslib: "^2.8.1" }, peerDependencies: { pg: ">=8.0.0" } }
+    //   -> [{ name: "pg", version: ">=8.0.0", type: "peer" }, { name: "tslib", version: "^2.8.1", type: "runtime" }]
     dependencies: dependencyFields
       .flatMap(([field, type]) =>
         Object.entries<string>(packageJson[field] ?? {}).map(([name, version]) => ({
@@ -150,6 +152,8 @@ ${entryPointRows.join("\n")}
 ${dependenciesSection}${referencesSection}${exportSections.join("\n")}`;
 }
 
+// ("import", { module: "m", names: ["A"] })      -> 'import { A } from "m";'
+// ("export", { module: "m", names: ["A", "B"] }) -> 'export {\n    A,\n    B,\n} from "m";'
 function formatNamedImports(keyword: "import" | "export", { module, names }: NamedImports): string {
   const list =
     names.length === 1
@@ -285,10 +289,14 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
     return {
       path: exportPath,
       declarations,
+      // [{ module: "a", name: "X" }, { module: "a", name: "Y" }, { module: "b", name: "Z" }]
+      //   -> [{ module: "a", names: ["X", "Y"] }, { module: "b", names: ["Z"] }]
       reExports: [...Map.groupBy(reExports, (reExport) => reExport.module)].map(
         ([module, entries]) => ({ module, names: entries.map((entry) => entry.name) }),
       ),
       differsFromRoot,
+      // [{ path: ".", name: "X" }, { path: ".", name: "Y" }, { path: "./models", name: "Z" }]
+      //   -> [{ path: ".", names: ["X", "Y"] }, { path: "./models", names: ["Z"] }]
       alsoExportedFrom: [...Map.groupBy(alsoExported, (entry) => entry.path)].map(
         ([earlier, entries]) => ({ path: earlier, names: entries.map((entry) => entry.name) }),
       ),
@@ -296,6 +304,8 @@ function buildExportSections(exportFiles: { path: string; file: string }[]): {
   });
 
   return {
+    // Map { "b" => Set { "Z" }, "a" => Set { "Y", "X" } }
+    //   -> [{ module: "a", names: ["X", "Y"] }, { module: "b", names: ["Z"] }]
     references: [...references]
       .map(([module, names]) => ({
         module,
