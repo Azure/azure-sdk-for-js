@@ -13,6 +13,7 @@ type ExportConditions = Record<string, { types: string }>;
 
 interface Review {
   name: string;
+  version: string;
   entryPoints: { path: string; conditions: string[] }[];
   dependencies: { name: string; version: string; type: DependencyType }[];
   references: NamedImports[];
@@ -56,6 +57,7 @@ interface ReferenceNames {
 
 // Non-ESM conditions, in the order the review lists them.
 const runtimeConditions = ["require", "browser", "react-native", "workerd"];
+const conditionOrder = ["import", ...runtimeConditions];
 
 type DependencyType = "runtime" | "peer";
 
@@ -64,12 +66,33 @@ const dependencyFields: [field: string, type: DependencyType][] = [
   ["peerDependencies", "peer"],
 ];
 
+// Bump when the api.md format changes. Baseline and target reviews must use the same parser.
+const parserVersion = "1.0.0";
+
+/**
+ * The contents of api.metadata.yml. Only `apiMdSha256` identifies the reviewed API surface.
+ */
+export interface ApiReviewMetadata {
+  apiMdSha256: string;
+  packageVersion: string;
+  parserVersion: string;
+  typescriptVersion: string;
+}
+
 export function generateApiReview(packageRoot: string): {
   apiMd: string;
-  metadata: { apiMdSha256: string };
+  metadata: ApiReviewMetadata;
 } {
   const review = buildReview(packageRoot);
-  return { apiMd: renderApiMd(review), metadata: { apiMdSha256: hashApiMd(review) } };
+  return {
+    apiMd: renderApiMd(review),
+    metadata: {
+      apiMdSha256: hashApiMd(review),
+      packageVersion: review.version,
+      parserVersion,
+      typescriptVersion: ts.version,
+    },
+  };
 }
 
 /**
@@ -131,9 +154,12 @@ function buildReview(packageRoot: string): Review {
 
   return {
     name: packageJson.name,
+    version: packageJson.version,
     entryPoints: exportEntries.map(([exportPath, conditions]) => ({
       path: exportPath,
-      conditions: Object.keys(conditions),
+      conditions: Object.keys(conditions).sort(
+        (a, b) => conditionOrder.indexOf(a) - conditionOrder.indexOf(b),
+      ),
     })),
     // { dependencies: { tslib: "^2.8.1" }, peerDependencies: { pg: ">=8.0.0" } }
     //   -> [{ name: "pg", version: ">=8.0.0", type: "peer" }, { name: "tslib", version: "^2.8.1", type: "runtime" }]

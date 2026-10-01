@@ -6,6 +6,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import ts from "typescript";
 import { parse } from "yaml";
 import generateApiReviewCommand from "../src/commands/run/generate-api-review.ts";
 import { generateApiReview } from "../src/util/apiReview.ts";
@@ -74,6 +75,31 @@ describe("generateApiReview", () => {
         "| `.` | `import` |",
       ].join("\n"),
     );
+  });
+
+  it("lists conditions in a fixed order regardless of package.json key order", () => {
+    const root = fixture(
+      {
+        "dist/browser/index.d.ts": "export declare const value: string;",
+        "dist/react-native/index.d.ts": "export declare const value: string;",
+        "dist/esm/index.d.ts": "export declare const value: string;",
+        "dist/commonjs/index.d.ts": "export declare const value: string;",
+      },
+      {
+        exports: {
+          ".": {
+            browser: { types: "./dist/browser/index.d.ts" },
+            "react-native": { types: "./dist/react-native/index.d.ts" },
+            import: { types: "./dist/esm/index.d.ts" },
+            require: { types: "./dist/commonjs/index.d.ts" },
+          },
+        },
+      },
+    );
+
+    const { apiMd } = generateApiReview(root);
+
+    expect(apiMd).toContain("| `.` | `import`, `require`, `browser`, `react-native` |");
   });
 
   it("prints exported declarations under their export path", () => {
@@ -325,6 +351,24 @@ describe("generateApiReview", () => {
       );
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
+    it("records the package, parser and TypeScript versions in the metadata", () => {
+      const { metadata } = generateApiReview(fixture(index, { version: "1.2.3" }));
+
+      expect(metadata).toEqual({
+        apiMdSha256: expect.stringMatching(/^[0-9a-f]{64}$/),
+        packageVersion: "1.2.3",
+        parserVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
+        typescriptVersion: ts.version,
+      });
+    });
+
+    it("keeps version fields out of the hash", () => {
+      const before = generateApiReview(fixture(index, { version: "1.2.3" }));
+      const after = generateApiReview(fixture(index, { version: "1.2.4" }));
+
+      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
     });
 
     it("omits the Dependencies section when there are none", () => {
