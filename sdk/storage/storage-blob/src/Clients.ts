@@ -2169,52 +2169,60 @@ export class BlobClient extends StorageClient {
         // Blob Properties: the round trip is saved outright, and a blob that fits inside one
         // block is fully downloaded by that same request.
         let firstChunk: BlobDownloadResponseParsed | undefined;
-        if (!count) {
-          let blobSize: number | undefined;
-          try {
-            firstChunk = await this.download(offset, blockSize, chunkOptions);
-            blobSize = totalSizeFromContentRange(firstChunk.contentRange);
-          } catch (error) {
-            // 416 means the offset is at or past the end of the blob, which an empty blob always
-            // is. The error still reports the size, which is all that is left to learn.
-            if (!isRestError(error) || error.statusCode !== 416) {
-              throw error;
+        try {
+          if (!count) {
+            let blobSize: number | undefined;
+            try {
+              firstChunk = await this.download(offset, blockSize, chunkOptions);
+              blobSize = totalSizeFromContentRange(firstChunk.contentRange);
+            } catch (error) {
+              // 416 means the offset is at or past the end of the blob, which an empty blob always
+              // is. The error still reports the size, which is all that is left to learn.
+              if (!isRestError(error) || error.statusCode !== 416) {
+                throw error;
+              }
+              blobSize = totalSizeFromContentRange(error.response?.headers.get("content-range"));
+              // A 416 that does not say how big the blob is leaves nothing to recover from, and the
+              // original error describes the failure better than anything synthesized here would.
+              if (blobSize === undefined) {
+                throw error;
+              }
             }
-            blobSize = totalSizeFromContentRange(error.response?.headers.get("content-range"));
-            // A 416 that does not say how big the blob is leaves nothing to recover from, and the
-            // original error describes the failure better than anything synthesized here would.
+
             if (blobSize === undefined) {
-              throw error;
+              throw new Error(
+                "Unable to determine the blob size because the service returned no Content-Range header.",
+              );
+            }
+            if (offset > blobSize) {
+              throw new RangeError(
+                `offset ${offset} shouldn't be larger than blob size ${blobSize}`,
+              );
+            }
+            count = blobSize - offset;
+          }
+
+          // Allocate the buffer of size = count if the buffer is not provided
+          if (!buffer) {
+            try {
+              buffer = Buffer.alloc(count);
+            } catch (error: any) {
+              throw new Error(
+                `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
+                { cause: error },
+              );
             }
           }
 
-          if (blobSize === undefined) {
-            throw new Error(
-              "Unable to determine the blob size because the service returned no Content-Range header.",
+          if (buffer.length < count) {
+            throw new RangeError(
+              `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
             );
           }
-          if (offset > blobSize) {
-            throw new RangeError(`offset ${offset} shouldn't be larger than blob size ${blobSize}`);
-          }
-          count = blobSize - offset;
-        }
-
-        // Allocate the buffer of size = count if the buffer is not provided
-        if (!buffer) {
-          try {
-            buffer = Buffer.alloc(count);
-          } catch (error: any) {
-            throw new Error(
-              `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
-              { cause: error },
-            );
-          }
-        }
-
-        if (buffer.length < count) {
-          throw new RangeError(
-            `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
-          );
+        } catch (error) {
+          // Nothing has read the first chunk yet, and its unread body would hold the connection.
+          (firstChunk?.readableStreamBody as Readable | undefined)?.destroy();
+          throw error;
         }
 
         // The first block is read alone only when its download hint can still turn on routing.

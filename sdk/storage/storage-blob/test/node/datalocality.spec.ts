@@ -485,6 +485,23 @@ describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
   });
 });
 
+describe("BlobClient.downloadToBuffer with an unknown count", () => {
+  it.each([
+    ["the buffer is too small", "bytes 0-3/8", "The buffer's size should be equal to or larger"],
+    ["the size is not reported", undefined, "Unable to determine the blob size"],
+  ])("releases the first chunk when %s", async (_case, contentRange, message) => {
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    const body = Readable.from([Buffer.alloc(4)]);
+    (client as any).download = async () => ({ contentRange, readableStreamBody: body });
+
+    await expect(client.downloadToBuffer(Buffer.alloc(2))).rejects.toThrow(message);
+    assert.isTrue(body.destroyed);
+  });
+});
+
 describe("BlobClient.downloadToBuffer with routing disabled", () => {
   it("starts every block at once when the count is known", async () => {
     const client = new BlobClient(
