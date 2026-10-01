@@ -486,9 +486,6 @@ const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688])
  * modules and names that don't resolve (they would otherwise quietly become unresolved types).
  */
 function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
-  const fail = (file: ts.SourceFile, problem: string): never => {
-    throw new Error(`[${condition}] ${path.relative(packageRoot, file.fileName)}: ${problem}`);
-  };
   const packageFiles = program
     .getSourceFiles()
     .filter(
@@ -498,7 +495,9 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
 
   for (const file of packageFiles) {
     if (!file.isDeclarationFile) {
-      fail(file, "Implementation file is part of the review program");
+      throw new Error(
+        `[${condition}] ${path.relative(packageRoot, file.fileName)}: Implementation file is part of the review program`,
+      );
     }
   }
   for (const file of packageFiles) {
@@ -506,7 +505,9 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
       .getSemanticDiagnostics(file)
       .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
     if (unresolved) {
-      fail(file, ts.flattenDiagnosticMessageText(unresolved.messageText, " "));
+      throw new Error(
+        `[${condition}] ${path.relative(packageRoot, file.fileName)}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
+      );
     }
   }
 }
