@@ -179,7 +179,7 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it.each([undefined, null, "", "   ", 0, false])(
+    it.each([undefined, null, ""])(
       "should use the default message when the log body is empty (%s)",
       (body) => {
         testLogRecord.body = body;
@@ -191,6 +191,21 @@ describe("logUtils.ts", () => {
         assert.strictEqual(baseData.message, "n/a");
       },
     );
+
+    it.each([
+      [0, "0"],
+      [false, "false"],
+      ["   ", "   "],
+      [" warning ", " warning "],
+    ])("should preserve non-empty log body %s", (body, expectedMessage) => {
+      testLogRecord.body = body;
+      testLogRecord.attributes = {};
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as MessageData;
+
+      assert.strictEqual(baseData.message, expectedMessage);
+    });
 
     it("should route custom measurements on logs to measurements", () => {
       testLogRecord.body = "Test message";

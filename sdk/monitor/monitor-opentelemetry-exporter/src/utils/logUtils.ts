@@ -116,7 +116,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
-    const message = log.body ? serializeAttribute(log.body).trim() : "";
+    const message = log.body == null ? undefined : serializeAttribute(log.body);
     const messageData: MessageData = {
       kind: "MessageData",
       message: message || DEFAULT_LOG_MESSAGE,
