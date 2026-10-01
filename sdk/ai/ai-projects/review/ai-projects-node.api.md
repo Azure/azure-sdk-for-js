@@ -2601,7 +2601,7 @@ export interface DataGenerationJobResult {
 }
 
 // @public
-export type DataGenerationJobScenario = "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
+export type DataGenerationJobScenario = "supervised_finetuning_preview" | "reinforcement_finetuning_preview" | "evaluation";
 
 // @public
 export interface DataGenerationJobSource {
@@ -5371,13 +5371,13 @@ export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTa
 // @public
 export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
     output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
-    scenario: "reinforcement_finetuning";
+    scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
 export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
     output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
-    scenario: "reinforcement_finetuning";
+    scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
@@ -5759,13 +5759,13 @@ export interface StructuredOutputDefinition {
 // @public
 export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
     output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
-    scenario: "supervised_finetuning";
+    scenario: "supervised_finetuning_preview";
 }
 
 // @public
 export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
     output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
-    scenario: "supervised_finetuning";
+    scenario: "supervised_finetuning_preview";
 }
 
 // @public

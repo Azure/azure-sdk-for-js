@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   const jobName = `sample-data-generation-job-${Date.now()}`;
   const generationPoller = project.datasets.createGenerationJob({
     name: jobName,
-    scenario: "supervised_finetuning",
+    scenario: "supervised_finetuning_preview",
     sources: [
       {
         type: "prompt",

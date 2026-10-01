@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Rename data-generation job scenario values `supervised_finetuning` and `reinforcement_finetuning` to `supervised_finetuning_preview` and `reinforcement_finetuning_preview` in `DataGenerationJobScenario` and the corresponding job input and response models. Keep `evaluation` unchanged. [#40166](https://github.com/Azure/azure-sdk-for-js/issues/40166)
 - Move evaluator version CRUD, list, and generation-job operations from `project.beta.evaluators` to `project.evaluators`, replacing their `BetaEvaluators*OptionalParams` types with `Evaluators*OptionalParams`. Keep `getCredentials`, `pendingUpload`, and their options under `project.beta.evaluators`. [#40152](https://github.com/Azure/azure-sdk-for-js/issues/40152)
 - Move data-generation job operations from `project.beta.datasets` to `project.datasets`, replace `BetaDatasets*GenerationJob*OptionalParams` with the corresponding `Datasets*GenerationJob*OptionalParams`, and remove the empty `BetaDatasetsOperations` group. Preserve the `DataGenerationJobs=V1Preview` header and `JobPoller<DataGenerationJobResult>` return type. [#40147](https://github.com/Azure/azure-sdk-for-js/issues/40147)
 - Move optimization job operations from `project.beta.agents` to `project.agents`, replace their `BetaAgents*OptimizationJobOptionalParams` types with `Agents*OptimizationJobOptionalParams`, and remove the `AgentsOptimization=V2Preview` opt-in. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
@@ -29,6 +30,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `2b572b3a58b56537b66ed3c6f9fc9e93eb6c4af0`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2b572b3a58b56537b66ed3c6f9fc9e93eb6c4af0). [#40166](https://github.com/Azure/azure-sdk-for-js/issues/40166)
 - Add multi-turn evaluation samples under `samples-dev/evaluations`: conversation evaluation over a JSONL dataset, conversation simulation against an agent, synthetic generation-with-simulation, and trace-based evaluation by conversation/trace ID and by agent filter. [#40161](https://github.com/Azure/azure-sdk-for-js/pull/40161)
 - Keep custom code, prompt, and endpoint evaluator definitions in preview, requiring explicit `requestOptions.headers` opt-in with `"foundry-features": "Evaluations=V1Preview"` on `project.evaluators`; rubric definitions remain generally available without this header. [#40152](https://github.com/Azure/azure-sdk-for-js/issues/40152)
 - Regenerate the client from azure-rest-api-specs commit `8c957a5e7a56a9852ac6ec588a543eb5a514bc5c`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/8c957a5e7a56a9852ac6ec588a543eb5a514bc5c). [#40152](https://github.com/Azure/azure-sdk-for-js/issues/40152)
