@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByWorkspace, $delete, update, create, get } from "./operations.js";
-export {
-  type FirmwaresListByWorkspaceOptionalParams,
-  type FirmwaresDeleteOptionalParams,
-  type FirmwaresUpdateOptionalParams,
-  type FirmwaresCreateOptionalParams,
-  type FirmwaresGetOptionalParams,
+export type {
+  FirmwaresListByWorkspaceOptionalParams,
+  FirmwaresDeleteOptionalParams,
+  FirmwaresUpdateOptionalParams,
+  FirmwaresCreateOptionalParams,
+  FirmwaresGetOptionalParams,
 } from "./options.js";
