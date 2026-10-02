@@ -50,8 +50,8 @@ describe("ContainerService test", () => {
       {
         uriSanitizers: [
           {
-            target: "api-version=2026-06-02-preview",
-            value: "api-version=2026-05-02-preview",
+            target: "api-version=2026-07-02-preview",
+            value: "api-version=2026-07-01",
           },
         ],
       },
