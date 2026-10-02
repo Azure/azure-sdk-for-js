@@ -25,7 +25,7 @@ export function _getSend(
     {
       scope: scope,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,6 @@ export async function _getDeserialize(
 
   return generateDetailedCostReportOperationResultDeserializer(result.body);
 }
-
 /** Gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request. */
 export function get(
   context: Client,
@@ -68,7 +67,7 @@ export function get(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _getSend(context, operationId, scope, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<GenerateDetailedCostReportOperationResult>,
     GenerateDetailedCostReportOperationResult

@@ -15,14 +15,12 @@ export interface BenefitRecommendationsOperations {
     options?: BenefitRecommendationsListOptionalParams,
   ) => PagedAsyncIterableIterator<BenefitRecommendationModel>;
 }
-
 function _getBenefitRecommendations(context: CostManagementContext) {
   return {
     list: (billingScope: string, options?: BenefitRecommendationsListOptionalParams) =>
       list(context, billingScope, options),
   };
 }
-
 export function _getBenefitRecommendationsOperations(
   context: CostManagementContext,
 ): BenefitRecommendationsOperations {
