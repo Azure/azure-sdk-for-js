@@ -5,15 +5,8 @@ import type { HttpMethods } from "@azure/core-rest-pipeline";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { diag } from "@opentelemetry/api";
 import type { VirtualMachineInfo } from "./types.js";
-import {
-  AIMS_API_VERSION,
-  AIMS_FORMAT,
-  AIMS_URI,
-  EU_CONNECTION_STRING,
-  EU_ENDPOINTS,
-  NON_EU_CONNECTION_STRING,
-  StatsbeatResourceProvider,
-} from "./types.js";
+import { AIMS_API_VERSION, AIMS_FORMAT, AIMS_URI, StatsbeatResourceProvider } from "./types.js";
+import { getBuiltInStatsbeatConnectionString } from "./statsbeatConfiguration.js";
 import os from "node:os";
 
 export class StatsbeatMetrics {
@@ -99,14 +92,6 @@ export class StatsbeatMetrics {
   }
 
   protected getConnectionString(endpointUrl: string): string {
-    let region: string;
-    try {
-      const stampName = new URL(endpointUrl).hostname.toLowerCase().split(".")[0];
-      region = stampName.split("-")[0];
-    } catch {
-      return NON_EU_CONNECTION_STRING;
-    }
-
-    return EU_ENDPOINTS.includes(region) ? EU_CONNECTION_STRING : NON_EU_CONNECTION_STRING;
+    return getBuiltInStatsbeatConnectionString(endpointUrl);
   }
 }
