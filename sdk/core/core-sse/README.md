@@ -64,13 +64,11 @@ const events = await createReconnectingSseStream(
     // Reconnection is unlimited by default. Set maxRetries to bound the total
     // number of reconnection requests over the lifetime of this stream.
     maxRetries: 5,
+    // Terminal markers are service-defined, not part of the SSE protocol.
+    isTerminalEvent: (event) => event.data === "[DONE]",
   },
 );
 for await (const event of events) {
-  if (event.data === "[DONE]") {
-    // Breaking cancels the active response and stops later reconnect attempts.
-    break;
-  }
   console.log(event);
 }
 ```
@@ -83,6 +81,14 @@ started. The reconnect delay starts at 3000 ms and is replaced by valid
 `retry:` fields from the service. A nonempty event ID is provided to the connection
 factory after an `id:` field so the factory can send an exact `Last-Event-ID` header
 on the next request.
+
+SSE has no built-in terminal event. For a service that defines one, pass an
+`isTerminalEvent` predicate. Both `createSseStream(body, { isTerminalEvent })` and
+`createReconnectingSseStream(connect, { isTerminalEvent })` cancel the response
+as soon as a terminal event is recognized, even if no reader is attached. The
+matching event is still yielded before the stream closes. The reconnecting
+stream does not reconnect afterward. Without this option, terminal markers are
+ordinary events; match the event type as well as the data if the service requires it.
 
 When `validateResponse` is omitted, the connection must return an HTTP status
 and headers. The default accepts HTTP 200 with a `text/event-stream` content type,

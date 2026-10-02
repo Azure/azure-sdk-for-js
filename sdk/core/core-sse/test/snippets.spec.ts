@@ -39,14 +39,12 @@ describe("snippets", () => {
         // Reconnection is unlimited by default. Set maxRetries to bound the total
         // number of reconnection requests over the lifetime of this stream.
         maxRetries: 5,
+        // Terminal markers are service-defined, not part of the SSE protocol.
+        isTerminalEvent: (event) => event.data === "[DONE]",
       },
     );
 
     for await (const event of events) {
-      if (event.data === "[DONE]") {
-        // Breaking cancels the active response and stops later reconnect attempts.
-        break;
-      }
       console.log(event);
     }
   });

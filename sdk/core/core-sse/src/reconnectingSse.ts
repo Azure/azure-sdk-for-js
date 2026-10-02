@@ -164,10 +164,25 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
           try {
             for await (const event of current.iterable) {
               throwIfAborted(aborter.signal);
+              let terminal: boolean;
+              try {
+                terminal = options.isTerminalEvent?.(event) ?? false;
+              } catch (error: unknown) {
+                throw new FatalSseTerminalEventError(error);
+              }
+              if (terminal) {
+                await safeCancel(activeCancel);
+              }
               yield event;
+              if (terminal) {
+                return;
+              }
             }
             lastTransportError = undefined;
           } catch (error: unknown) {
+            if (error instanceof FatalSseTerminalEventError) {
+              throw error.cause;
+            }
             if (error instanceof InvalidSseRetryError || error instanceof InvalidSseChunkError) {
               throw error;
             }
@@ -287,6 +302,15 @@ class FatalSseConnectionError extends Error {
 
   constructor(cause: unknown) {
     super("The SSE connection response was rejected.");
+    this.cause = cause;
+  }
+}
+
+class FatalSseTerminalEventError extends Error {
+  override readonly cause: unknown;
+
+  constructor(cause: unknown) {
+    super("The SSE terminal event predicate failed.");
     this.cause = cause;
   }
 }

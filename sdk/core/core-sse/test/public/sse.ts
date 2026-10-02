@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventMessageStream } from "../../src/index.js";
+import type { EventMessageStream, SseStreamOptions } from "../../src/index.js";
 import {
   assertAsyncIterable,
   genChunks,
@@ -23,9 +23,37 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(
   rtName: string,
-  createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => EventMessageStream,
+  createStream: (
+    cb: (write: (chunk: Uint8Array) => void) => void,
+    options?: SseStreamOptions,
+  ) => EventMessageStream,
 ): SuiteCollector {
   return describe(`[${rtName}] Server-sent Events`, () => {
+    it("yields a terminal event and ignores later events when configured", async () => {
+      const stream = createStream(
+        (write) => {
+          write(encoder.encode("data: first\n\ndata: [DONE]\n\ndata: ignored\n\n"));
+        },
+        { isTerminalEvent: (event) => event.data === "[DONE]" },
+      );
+      const events = [];
+      for await (const event of stream) {
+        events.push(event.data);
+      }
+      assert.deepEqual(events, ["first", "[DONE]"]);
+    });
+
+    it("does not treat terminal markers specially without an option", async () => {
+      const stream = createStream((write) => {
+        write(encoder.encode("data: [DONE]\n\ndata: next\n\n"));
+      });
+      const events = [];
+      for await (const event of stream) {
+        events.push(event.data);
+      }
+      assert.deepEqual(events, ["[DONE]", "next"]);
+    });
+
     matrix([[0, 1, 2, 10000]], async function (count: number) {
       matrix([[1, 3, 10]], async function (chunkLen: number) {
         it(`handles ${count} events chunked into chunks of length ${chunkLen}`, async () => {

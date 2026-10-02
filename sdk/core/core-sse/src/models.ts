@@ -32,6 +32,17 @@ export type EventMessageStream = ReadableStream<EventMessage> &
 export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
 
 /**
+ * Options for parsing a single SSE response body.
+ */
+export interface SseStreamOptions {
+  /**
+   * Identifies a service-defined terminal event. The response body is canceled
+   * immediately; the matching event remains available before the stream closes.
+   */
+  isTerminalEvent?: (event: EventMessage) => boolean;
+}
+
+/**
  * Context supplied when establishing an SSE connection.
  */
 export interface SseConnectOptions {
@@ -111,6 +122,12 @@ export interface ReconnectingSseStreamOptions<TResponse extends SseConnectRespon
    * pending reconnection delays.
    */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Identifies a service-defined terminal event. The response body is canceled
+   * immediately, the matching event is yielded, and the stream closes without reconnecting.
+   */
+  isTerminalEvent?: (event: EventMessage) => boolean;
 
   /**
    * The event ID to send with the initial request.

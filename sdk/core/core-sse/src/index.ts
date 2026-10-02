@@ -17,4 +17,5 @@ export type {
   SseResponseValidationResult,
   SseResponseValidator,
   SseStream,
+  SseStreamOptions,
 } from "./models.js";

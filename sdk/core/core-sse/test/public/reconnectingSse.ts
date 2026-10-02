@@ -116,6 +116,107 @@ export function buildReconnectingSseTests(
       assert.equal(connect.mock.calls.length, 2);
     });
 
+    it("yields a terminal event, cancels its body, and does not reconnect", async () => {
+      let canceled = false;
+      const connect = vi.fn(async () =>
+        response(
+          createBody({
+            chunks: ["data: first\n\ndata: [DONE]\n\ndata: ignored\n\n"],
+            hang: true,
+            onCancel: () => (canceled = true),
+          }),
+        ),
+      );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({
+          maxRetries: 0,
+          isTerminalEvent: (event) => event.data === "[DONE]",
+        }),
+      );
+      const events: EventMessage[] = [];
+      for await (const event of stream) {
+        events.push(event);
+      }
+
+      assert.deepEqual(
+        events.map(({ data }) => data),
+        ["first", "[DONE]"],
+      );
+      await vi.waitFor(() => assert.isTrue(canceled));
+      assert.equal(connect.mock.calls.length, 1);
+    });
+
+    it("cancels an unread terminal event without reconnecting", async () => {
+      let canceled = false;
+      const connect = vi.fn(async () =>
+        response(
+          createBody({
+            chunks: ["data: [DONE]\n\n"],
+            hang: true,
+            onCancel: () => (canceled = true),
+          }),
+        ),
+      );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({
+          maxRetries: 0,
+          isTerminalEvent: (event) => event.data === "[DONE]",
+        }),
+      );
+
+      await vi.waitFor(() => assert.isTrue(canceled));
+      assert.equal(connect.mock.calls.length, 1);
+      const reader = stream.getReader();
+      assert.equal((await reader.read()).value?.data, "[DONE]");
+      assert.isTrue((await reader.read()).done);
+      assert.equal(connect.mock.calls.length, 1);
+    });
+
+    it("recognizes a terminal event after reconnecting", async () => {
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({ chunks: ["id: one\ndata: first\n\n"] })))
+        .mockResolvedValueOnce(response(createBody({ chunks: ["data: [DONE]\n\n"] })));
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({
+          maxRetries: 1,
+          isTerminalEvent: (event) => event.data === "[DONE]",
+        }),
+      );
+
+      const events: EventMessage[] = [];
+      for await (const event of stream) {
+        events.push(event);
+      }
+      assert.deepEqual(
+        events.map(({ data }) => data),
+        ["first", "[DONE]"],
+      );
+      assert.equal(connect.mock.calls.length, 2);
+      assert.equal(connect.mock.calls[1][0].lastEventId, "one");
+    });
+
+    it("propagates terminal event predicate failures without retrying", async () => {
+      const failure = new Error("invalid terminal event");
+      const connect = vi.fn(async () =>
+        response(createBody({ chunks: ["data: event\n\n"], hang: true })),
+      );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({
+          isTerminalEvent: () => {
+            throw failure;
+          },
+        }),
+      );
+
+      await expect(stream.getReader().read()).rejects.toBe(failure);
+      assert.equal(connect.mock.calls.length, 1);
+    });
+
     it("connects eagerly and omits Last-Event-ID from the initial request", async () => {
       const attempts: SseConnectOptions[] = [];
       const connect = vi.fn(async (options: SseConnectOptions) => {

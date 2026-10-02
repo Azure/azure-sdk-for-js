@@ -6,7 +6,8 @@
 
 - Add `createReconnectingSseStream` for EventSource-style reconnection with
   `Last-Event-ID`, server-provided retry delays, default HTTP response validation,
-  cancellation, and optional retry limits. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+  cancellation, optional retry limits, and service-defined terminal events.
+  `createSseStream` also supports terminal events. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
 
 ### Breaking Changes
 

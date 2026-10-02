@@ -79,6 +79,7 @@ async function getStream(createRequest, lastEventId) {
     },
     {
       lastEventId,
+      isTerminalEvent: (event) => event.data === "[DONE]",
       validateResponse: async (response) => {
         if (response.status === "204") {
           return "stop";

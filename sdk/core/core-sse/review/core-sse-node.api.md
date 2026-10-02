@@ -16,13 +16,13 @@ export function createReconnectingSseStream<TResponse extends SseHttpResponse>(c
 export function createReconnectingSseStream<TResponse extends SseConnectResponse>(connect: SseConnect<TResponse>, options: ReconnectingSseStreamOptions<TResponse>): Promise<EventMessageStream>;
 
 // @public
-export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
+export function createSseStream(chunkStream: ReadableStream<Uint8Array>, options?: SseStreamOptions): EventMessageStream;
 
 // @public
-export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageStream;
+export function createSseStream(chunkStream: NodeIncomingMessage, options?: SseStreamOptions): EventMessageStream;
 
 // @public
-export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: NodeJSReadableStream, options?: SseStreamOptions): EventMessageStream;
 
 // @public
 export interface EventMessage {
@@ -46,6 +46,7 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 // @public
 export interface ReconnectingSseStreamOptions<TResponse extends SseConnectResponse> {
     abortSignal?: AbortSignalLike;
+    isTerminalEvent?: (event: EventMessage) => boolean;
     lastEventId?: string;
     maxRetries?: number;
     retryDelayInMs?: number;
@@ -88,6 +89,11 @@ export class SseRetryError extends Error {
 
 // @public
 export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
+
+// @public
+export interface SseStreamOptions {
+    isTerminalEvent?: (event: EventMessage) => boolean;
+}
 
 // (No @packageDocumentation comment for this package)
 

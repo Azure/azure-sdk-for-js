@@ -7,6 +7,7 @@ import type {
   EventMessageStream,
   NodeJSReadableStream,
   SseStream,
+  SseStreamOptions,
 } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
@@ -22,24 +23,61 @@ enum ControlChars {
 /**
  * Processes a response stream into a stream of events.
  * @param chunkStream - A stream of Uint8Array chunks
+ * @param options - Optional service-defined terminal event detection.
  * @returns A stream of EventMessage objects
  */
-export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
+export function createSseStream(
+  chunkStream: ReadableStream<Uint8Array>,
+  options?: SseStreamOptions,
+): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
  * @param chunkStream - A NodeJS HTTP response
+ * @param options - Optional service-defined terminal event detection.
  * @returns A stream of EventMessage objects
  */
-export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageStream;
+export function createSseStream(
+  chunkStream: NodeIncomingMessage,
+  options?: SseStreamOptions,
+): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
  * @param chunkStream - A NodeJS Readable stream
+ * @param options - Optional service-defined terminal event detection.
  * @returns A stream of EventMessage objects
  */
-export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
-export function createSseStream(chunkStream: SseStream): EventMessageStream {
+export function createSseStream(
+  chunkStream: NodeJSReadableStream,
+  options?: SseStreamOptions,
+): EventMessageStream;
+export function createSseStream(
+  chunkStream: SseStream,
+  options: SseStreamOptions = {},
+): EventMessageStream {
   const { cancel, iterable } = createSseParser(chunkStream);
-  return createStream(iterable, cancel);
+  return createStream(
+    options.isTerminalEvent
+      ? stopAtTerminalEvent(iterable, options.isTerminalEvent, cancel)
+      : iterable,
+    cancel,
+  );
+}
+
+async function* stopAtTerminalEvent(
+  iterable: AsyncIterable<EventMessage>,
+  isTerminalEvent: (event: EventMessage) => boolean,
+  cancel: () => Promise<void>,
+): AsyncIterableIterator<EventMessage> {
+  for await (const event of iterable) {
+    const terminal = isTerminalEvent(event);
+    if (terminal) {
+      await cancel();
+    }
+    yield event;
+    if (terminal) {
+      return;
+    }
+  }
 }
 
 interface SseParserCallbacks {
