@@ -85,16 +85,29 @@ minimumReleaseAgeExclude:
   - '@typespec/ts-http-runtime'
 
 # Ensure lockfile includes optional dependencies for all CI and development platforms
-# This prevents lockfile churn when running pnpm install on different OSes
-# Lists all OS/CPU combinations used in CI (Ubuntu, Windows, macOS) and dev machines
+# This prevents lockfile churn and mirroring issues when running pnpm install
 supportedArchitectures:
   os:
     - linux
     - darwin
     - win32
+    - android
+    - freebsd
+    - openbsd
+    - netbsd
+    - openharmony
+    - aix
+    - sunos
   cpu:
     - x64
     - arm64
+    - arm
+    - ia32
+    - ppc64
+    - s390x
+    - riscv64
+    - loong64
+    - mips64el
   libc:
     - glibc
     - musl
