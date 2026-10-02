@@ -800,7 +800,7 @@ export type CertManagerIssuerKind = string;
 
 // @public
 export interface CertManagerIssuerRef {
-    group: string;
+    group?: string;
     kind: CertManagerIssuerKind;
     name: string;
 }
@@ -1209,6 +1209,7 @@ export interface DataflowGraphDestinationNodeSettings {
     dataDestination: string;
     endpointRef: string;
     headers?: DataflowGraphDestinationHeaderActionUnion[];
+    outputSchemaSettings?: DataflowGraphDestinationSchemaSettings;
 }
 
 // @public
@@ -1216,6 +1217,15 @@ export interface DataflowGraphDestinationRemoveHeaderAction extends DataflowGrap
     // (undocumented)
     actionType: "Remove";
     key: string;
+}
+
+// @public
+export type DataflowGraphDestinationSchemaSerializationFormat = string;
+
+// @public
+export interface DataflowGraphDestinationSchemaSettings {
+    schemaRef?: string;
+    serializationFormat: DataflowGraphDestinationSchemaSerializationFormat;
 }
 
 // @public
@@ -1569,7 +1579,16 @@ export interface InstanceResource extends TrackedResource {
     extendedLocation: ExtendedLocation;
     identity?: ManagedServiceIdentity;
     properties?: InstanceProperties;
+    sku?: InstanceSku;
 }
+
+// @public
+export interface InstanceSku {
+    name: InstanceSkuName;
+}
+
+// @public
+export type InstanceSkuName = string;
 
 // @public
 export interface InstanceUpdateOptionalParams extends OperationOptions {
@@ -1792,6 +1811,12 @@ export enum KnownDataflowGraphDestinationHeaderActionType {
 }
 
 // @public
+export enum KnownDataflowGraphDestinationSchemaSerializationFormat {
+    Delta = "Delta",
+    Parquet = "Parquet"
+}
+
+// @public
 export enum KnownDataflowGraphNodeType {
     Destination = "Destination",
     Graph = "Graph",
@@ -1866,6 +1891,12 @@ export enum KnownInstanceFeatureMode {
     Disabled = "Disabled",
     Preview = "Preview",
     Stable = "Stable"
+}
+
+// @public
+export enum KnownInstanceSkuName {
+    Essentials = "Essentials",
+    Standard = "Standard"
 }
 
 // @public
@@ -2029,7 +2060,8 @@ export enum KnownVersions {
     V20250401 = "2025-04-01",
     V20251001 = "2025-10-01",
     V20260301 = "2026-03-01",
-    V20260701 = "2026-07-01"
+    V20260701 = "2026-07-01",
+    V20261001 = "2026-10-01"
 }
 
 // @public

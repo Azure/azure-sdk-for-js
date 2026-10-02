@@ -1,5 +1,24 @@
 # Release History
 
+## 3.0.0 (2026-10-02)
+
+### Features Added
+  - Added Interface DataflowGraphDestinationSchemaSettings
+  - Added Interface InstanceSku
+  - Interface DataflowGraphDestinationNodeSettings has a new optional parameter outputSchemaSettings
+  - Interface InstanceResource has a new optional parameter sku
+  - Added Type Alias DataflowGraphDestinationSchemaSerializationFormat
+  - Added Type Alias InstanceSkuName
+  - Added Enum KnownDataflowGraphDestinationSchemaSerializationFormat
+  - Added Enum KnownInstanceSkuName
+  - Enum KnownVersions has a new value V20261001
+
+### Breaking Changes
+  - Operation BrokerListenerOperations.createOrUpdate has a new signature
+  - Operation BrokerListenerOperations.get has a new signature
+  - Operation BrokerListenerOperations.listByResourceGroup has a new signature
+  - Parameter group of interface CertManagerIssuerRef is now optional
+
 ## 2.1.0 (2026-07-28)
 
 ### Features Added
