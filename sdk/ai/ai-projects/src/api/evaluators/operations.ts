@@ -7,15 +7,16 @@ import {
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
-  evaluatorGenerationJobSerializer,
   evaluatorGenerationJobDeserializer,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  evaluatorGenerationInputsSerializer,
 } from "../../models/models.js";
 import type {
   _PagedEvaluatorVersion,
   EvaluatorVersion,
   EvaluatorGenerationJob,
   _AgentsPagedResultEvaluatorGenerationJob,
+  EvaluatorGenerationInputs,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -259,7 +260,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -279,7 +280,7 @@ export function _createGenerationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluatorGenerationJobSerializer(job),
+    body: evaluatorGenerationInputsSerializer(job),
   });
 }
 
@@ -312,7 +313,7 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<EvaluatorVersion> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.

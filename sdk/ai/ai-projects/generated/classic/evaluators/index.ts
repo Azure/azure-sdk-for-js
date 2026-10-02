@@ -28,7 +28,11 @@ import {
   EvaluatorsListOptionalParams,
   EvaluatorsListVersionsOptionalParams,
 } from "../../api/evaluators/options.js";
-import { EvaluatorVersion, EvaluatorGenerationJob } from "../../models/models.js";
+import {
+  EvaluatorVersion,
+  EvaluatorGenerationInputs,
+  EvaluatorGenerationJob,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -66,7 +70,7 @@ export interface EvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    job: EvaluatorGenerationJob,
+    job: EvaluatorGenerationInputs,
     options?: EvaluatorsCreateGenerationJobOptionalParams,
   ) => PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;
   /** Updates the specified evaluator version in place. */
@@ -114,7 +118,7 @@ function _getEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: EvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: EvaluatorGenerationJob,
+      job: EvaluatorGenerationInputs,
       options?: EvaluatorsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
     updateVersion: (

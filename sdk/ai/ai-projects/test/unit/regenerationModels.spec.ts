@@ -12,6 +12,10 @@ import type {
   CreateTelephonyBindingRequest,
   CreateTelephonyBindingRequestUnion,
   CreateTelephonyCallJobRequest,
+  DataGenerationJobConfigurationUnion,
+  DataGenerationJobInputsUnion,
+  DataGenerationJobType,
+  EvaluationDataGenerationJobOutputConfiguration,
   ErrorModel,
   FunctionTool,
   MisalignmentErrorDetailsResource,
@@ -20,6 +24,8 @@ import type {
   RealtimeConversationItemMessageSystem,
   RealtimeConversationItemMessageUser,
   RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
+  ReinforcementFineTuningDataGenerationJobOutputConfiguration,
+  SupervisedFineTuningDataGenerationJobOutputConfiguration,
   TelephonyCallEndReason,
   TelephonyCallJob,
   TelephonyCallJobTerminalReason,
@@ -38,6 +44,10 @@ import {
   createTelephonyCallJobRequestSerializer,
   customToolParamDeserializer,
   customToolParamSerializer,
+  dataGenerationJobConfigurationUnionDeserializer,
+  dataGenerationJobConfigurationUnionSerializer,
+  dataGenerationJobInputsUnionSerializer,
+  dataGenerationJobUnionDeserializer,
   errorDeserializer,
   functionToolDeserializer,
   functionToolParamDeserializer,
@@ -78,6 +88,74 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("uses exactly the upstream data-generation discriminator values", () => {
+    expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
+      "simple_qna" | "traces" | "tool_use" | "simulation_seed"
+    >();
+  });
+
+  const generationConfigurations: DataGenerationJobConfigurationUnion[] = [
+    { type: "simple_qna", max_samples: 2, question_types: ["short_answer"] },
+    { type: "traces", max_samples: 3, redact_private_content: false },
+    { type: "tool_use", max_samples: 4 },
+    { type: "simulation_seed" },
+  ];
+
+  it.each(generationConfigurations)(
+    "round-trips the renamed $type generation configuration without losing fields",
+    (configuration) => {
+      const input = {
+        ...configuration,
+        train_split: 0,
+        model_options: { model: "test-model" },
+      };
+      expect(toWire(dataGenerationJobConfigurationUnionSerializer(input))).toEqual(input);
+      expect(dataGenerationJobConfigurationUnionDeserializer(input)).toMatchObject(input);
+    },
+  );
+
+  const evaluationOutput: EvaluationDataGenerationJobOutputConfiguration = {
+    name: "evaluation-data",
+    description: "Generated evaluation data",
+    tags: { purpose: "test" },
+    write_mode: "overwrite",
+  };
+  const supervisedOutput: SupervisedFineTuningDataGenerationJobOutputConfiguration = {
+    name: "supervised.jsonl",
+    write_mode: "merge",
+    merge_file_id: "file-supervised",
+  };
+  const reinforcementOutput: ReinforcementFineTuningDataGenerationJobOutputConfiguration = {
+    name: "reinforcement.jsonl",
+    write_mode: "overwrite",
+    merge_file_id: "file-reinforcement",
+  };
+
+  it.each([
+    { scenario: "evaluation", output_configuration: evaluationOutput },
+    { scenario: "supervised_finetuning_preview", output_configuration: supervisedOutput },
+    { scenario: "reinforcement_finetuning_preview", output_configuration: reinforcementOutput },
+  ] as const)(
+    "retains renamed $scenario output configuration in requests and responses",
+    (output) => {
+      const input: DataGenerationJobInputsUnion = {
+        ...output,
+        name: "configuration-test",
+        sources: [{ type: "prompt", prompt: "Generate data." }],
+        generation_configuration: { type: "simple_qna", max_samples: 2 },
+      };
+      expect(toWire(dataGenerationJobInputsUnionSerializer(input))).toEqual(input);
+      expect(
+        dataGenerationJobUnionDeserializer({
+          ...input,
+          id: "job-1",
+          status: "succeeded",
+          created_at: 0,
+        }),
+      ).toMatchObject(input);
+    },
+  );
+
   it("round-trips the GA browser automation tool through agent tool dispatch", () => {
     const tool: BrowserAutomationTool = {
       type: "browser_automation",
