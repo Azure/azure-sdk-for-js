@@ -18,7 +18,11 @@
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
-import type { DatasetDataGenerationJobOutput } from "@azure/ai-projects";
+import type {
+  DatasetDataGenerationJobOutput,
+  EvaluationDataGenerationJobOutputConfiguration,
+  SimpleQnADataGenerationJobConfiguration,
+} from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -30,6 +34,18 @@ export async function main(): Promise<void> {
 
   console.log("Creating data generation job...");
   const jobName = `sample-data-generation-job-${Date.now()}`;
+  const generationConfiguration: SimpleQnADataGenerationJobConfiguration = {
+    type: "simple_qna",
+    max_samples: 15,
+    model_options: {
+      model: deploymentName,
+    },
+  };
+  const outputConfiguration: EvaluationDataGenerationJobOutputConfiguration = {
+    // Output names may contain only letters, digits, hyphens, and underscores (max 50 characters).
+    name: jobName,
+    write_mode: "overwrite",
+  };
   const generationPoller = project.datasets.createGenerationJob({
     name: jobName,
     scenario: "evaluation",
@@ -43,18 +59,8 @@ export async function main(): Promise<void> {
         description: "Contoso refund policy",
       },
     ],
-    generation_configuration: {
-      type: "simple_qna",
-      max_samples: 15,
-      model_options: {
-        model: deploymentName,
-      },
-    },
-    output_configuration: {
-      // Output names may contain only letters, digits, hyphens, and underscores (max 50 characters).
-      name: jobName,
-      write_mode: "overwrite",
-    },
+    generation_configuration: generationConfiguration,
+    output_configuration: outputConfiguration,
   });
 
   // Creating a data generation job is a long-running operation. Once `submitted()` resolves the

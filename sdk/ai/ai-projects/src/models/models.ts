@@ -13824,7 +13824,7 @@ export interface DataGenerationJob {
   /** The sources used for the data generation job. */
   sources: DataGenerationJobSourceUnion[];
   /** The generation configuration for the data generation job. */
-  generation_configuration: DataGenerationJobOptionsUnion;
+  generation_configuration: DataGenerationJobConfigurationUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
   /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
@@ -13842,7 +13842,7 @@ export function dataGenerationJobDeserializer(item: any): DataGenerationJob {
     error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     name: item["name"],
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
@@ -13861,7 +13861,7 @@ export interface DataGenerationJobInputs {
   /** The sources used for the data generation job. */
   sources: DataGenerationJobSourceUnion[];
   /** The generation configuration for the data generation job. */
-  generation_configuration: DataGenerationJobOptionsUnion;
+  generation_configuration: DataGenerationJobConfigurationUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
   /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
   scenario: DataGenerationJobScenario;
@@ -13871,7 +13871,7 @@ export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs)
   return {
     name: item["name"],
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
@@ -14099,8 +14099,8 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
   };
 }
 
-/** Options for managing data generation jobs. */
-export interface DataGenerationJobOptions {
+/** Configuration for managing data generation jobs. */
+export interface DataGenerationJobConfiguration {
   /** The data generation job type. */
   /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
   type: DataGenerationJobType;
@@ -14110,7 +14110,9 @@ export interface DataGenerationJobOptions {
   model_options?: DataGenerationModelOptions;
 }
 
-export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOptions): any {
+export function dataGenerationJobConfigurationSerializer(
+  item: DataGenerationJobConfiguration,
+): any {
   return {
     type: item["type"],
     train_split: item["train_split"],
@@ -14120,7 +14122,9 @@ export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOption
   };
 }
 
-export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJobOptions {
+export function dataGenerationJobConfigurationDeserializer(
+  item: any,
+): DataGenerationJobConfiguration {
   return {
     type: item["type"],
     train_split: item["train_split"],
@@ -14130,61 +14134,69 @@ export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJ
   };
 }
 
-/** Alias for DataGenerationJobOptionsUnion */
-export type DataGenerationJobOptionsUnion =
-  | SimpleQnADataGenerationJobOptions
-  | TracesDataGenerationJobOptions
-  | SimulationSeedDataGenerationJobOptions
-  | ToolUseFineTuningDataGenerationJobOptions
-  | DataGenerationJobOptions;
+/** Alias for DataGenerationJobConfigurationUnion */
+export type DataGenerationJobConfigurationUnion =
+  | SimpleQnADataGenerationJobConfiguration
+  | TracesDataGenerationJobConfiguration
+  | SimulationSeedDataGenerationJobConfiguration
+  | ToolUseFineTuningDataGenerationJobConfiguration
+  | DataGenerationJobConfiguration;
 
-export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobOptionsUnion): any {
+export function dataGenerationJobConfigurationUnionSerializer(
+  item: DataGenerationJobConfigurationUnion,
+): any {
   switch (item.type) {
     case "simple_qna":
-      return simpleQnADataGenerationJobOptionsSerializer(item as SimpleQnADataGenerationJobOptions);
+      return simpleQnADataGenerationJobConfigurationSerializer(
+        item as SimpleQnADataGenerationJobConfiguration,
+      );
 
     case "traces":
-      return tracesDataGenerationJobOptionsSerializer(item as TracesDataGenerationJobOptions);
+      return tracesDataGenerationJobConfigurationSerializer(
+        item as TracesDataGenerationJobConfiguration,
+      );
 
     case "simulation_seed":
-      return simulationSeedDataGenerationJobOptionsSerializer(
-        item as SimulationSeedDataGenerationJobOptions,
+      return simulationSeedDataGenerationJobConfigurationSerializer(
+        item as SimulationSeedDataGenerationJobConfiguration,
       );
 
     case "tool_use":
-      return toolUseFineTuningDataGenerationJobOptionsSerializer(
-        item as ToolUseFineTuningDataGenerationJobOptions,
+      return toolUseFineTuningDataGenerationJobConfigurationSerializer(
+        item as ToolUseFineTuningDataGenerationJobConfiguration,
       );
 
     default:
-      return dataGenerationJobOptionsSerializer(item);
+      return dataGenerationJobConfigurationSerializer(item);
   }
 }
 
-export function dataGenerationJobOptionsUnionDeserializer(
+export function dataGenerationJobConfigurationUnionDeserializer(
   item: any,
-): DataGenerationJobOptionsUnion {
+): DataGenerationJobConfigurationUnion {
   switch (item["type"]) {
     case "simple_qna":
-      return simpleQnADataGenerationJobOptionsDeserializer(
-        item as SimpleQnADataGenerationJobOptions,
+      return simpleQnADataGenerationJobConfigurationDeserializer(
+        item as SimpleQnADataGenerationJobConfiguration,
       );
 
     case "traces":
-      return tracesDataGenerationJobOptionsDeserializer(item as TracesDataGenerationJobOptions);
+      return tracesDataGenerationJobConfigurationDeserializer(
+        item as TracesDataGenerationJobConfiguration,
+      );
 
     case "simulation_seed":
-      return simulationSeedDataGenerationJobOptionsDeserializer(
-        item as SimulationSeedDataGenerationJobOptions,
+      return simulationSeedDataGenerationJobConfigurationDeserializer(
+        item as SimulationSeedDataGenerationJobConfiguration,
       );
 
     case "tool_use":
-      return toolUseFineTuningDataGenerationJobOptionsDeserializer(
-        item as ToolUseFineTuningDataGenerationJobOptions,
+      return toolUseFineTuningDataGenerationJobConfigurationDeserializer(
+        item as ToolUseFineTuningDataGenerationJobConfiguration,
       );
 
     default:
-      return dataGenerationJobOptionsDeserializer(item);
+      return dataGenerationJobConfigurationDeserializer(item);
   }
 }
 
@@ -14207,8 +14219,8 @@ export function dataGenerationModelOptionsDeserializer(item: any): DataGeneratio
   };
 }
 
-/** The options for a data generation job with SimpleQnA type. */
-export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
+/** The configuration for a data generation job with SimpleQnA type. */
+export interface SimpleQnADataGenerationJobConfiguration extends DataGenerationJobConfiguration {
   /** The data generation job type, which is SimpleQnA for this model. */
   type: "simple_qna";
   /** The question types to generate. Used only for fine-tuning scenarios. */
@@ -14218,8 +14230,8 @@ export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOpti
   max_samples: number;
 }
 
-export function simpleQnADataGenerationJobOptionsSerializer(
-  item: SimpleQnADataGenerationJobOptions,
+export function simpleQnADataGenerationJobConfigurationSerializer(
+  item: SimpleQnADataGenerationJobConfiguration,
 ): any {
   return {
     type: item["type"],
@@ -14236,9 +14248,9 @@ export function simpleQnADataGenerationJobOptionsSerializer(
   };
 }
 
-export function simpleQnADataGenerationJobOptionsDeserializer(
+export function simpleQnADataGenerationJobConfigurationDeserializer(
   item: any,
-): SimpleQnADataGenerationJobOptions {
+): SimpleQnADataGenerationJobConfiguration {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -14257,8 +14269,8 @@ export function simpleQnADataGenerationJobOptionsDeserializer(
 /** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. This is a preview feature. */
 export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 
-/** The options for a data generation job with Traces type. */
-export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
+/** The configuration for a data generation job with Traces type. */
+export interface TracesDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
   /** The data generation job type, which is Traces for this model. */
   type: "traces";
   /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
@@ -14268,8 +14280,8 @@ export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions
   max_samples?: number;
 }
 
-export function tracesDataGenerationJobOptionsSerializer(
-  item: TracesDataGenerationJobOptions,
+export function tracesDataGenerationJobConfigurationSerializer(
+  item: TracesDataGenerationJobConfiguration,
 ): any {
   return {
     type: item["type"],
@@ -14282,9 +14294,9 @@ export function tracesDataGenerationJobOptionsSerializer(
   };
 }
 
-export function tracesDataGenerationJobOptionsDeserializer(
+export function tracesDataGenerationJobConfigurationDeserializer(
   item: any,
-): TracesDataGenerationJobOptions {
+): TracesDataGenerationJobConfiguration {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -14297,13 +14309,13 @@ export function tracesDataGenerationJobOptionsDeserializer(
 }
 
 /** The options for a simulation seed data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
-export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
   /** The data generation job type, which is SimulationSeed for this model. */
   type: "simulation_seed";
 }
 
-export function simulationSeedDataGenerationJobOptionsSerializer(
-  item: SimulationSeedDataGenerationJobOptions,
+export function simulationSeedDataGenerationJobConfigurationSerializer(
+  item: SimulationSeedDataGenerationJobConfiguration,
 ): any {
   return {
     type: item["type"],
@@ -14314,9 +14326,9 @@ export function simulationSeedDataGenerationJobOptionsSerializer(
   };
 }
 
-export function simulationSeedDataGenerationJobOptionsDeserializer(
+export function simulationSeedDataGenerationJobConfigurationDeserializer(
   item: any,
-): SimulationSeedDataGenerationJobOptions {
+): SimulationSeedDataGenerationJobConfiguration {
   return {
     type: item["type"],
     train_split: item["train_split"],
@@ -14326,8 +14338,8 @@ export function simulationSeedDataGenerationJobOptionsDeserializer(
   };
 }
 
-/** The options for a data generation job with ToolUse type. This is a preview feature used only for fine-tuning scenarios. */
-export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
+/** The configuration for a data generation job with ToolUse type. This is a preview feature used only for fine-tuning scenarios. */
+export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
   /** The data generation job type, which is ToolUse for this model. */
   type: "tool_use";
 
@@ -14335,8 +14347,8 @@ export interface ToolUseFineTuningDataGenerationJobOptions extends DataGeneratio
   max_samples: number;
 }
 
-export function toolUseFineTuningDataGenerationJobOptionsSerializer(
-  item: ToolUseFineTuningDataGenerationJobOptions,
+export function toolUseFineTuningDataGenerationJobConfigurationSerializer(
+  item: ToolUseFineTuningDataGenerationJobConfiguration,
 ): any {
   return {
     type: item["type"],
@@ -14348,9 +14360,9 @@ export function toolUseFineTuningDataGenerationJobOptionsSerializer(
   };
 }
 
-export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
+export function toolUseFineTuningDataGenerationJobConfigurationDeserializer(
   item: any,
-): ToolUseFineTuningDataGenerationJobOptions {
+): ToolUseFineTuningDataGenerationJobConfiguration {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -27797,7 +27809,7 @@ export interface EvaluationDataGenerationJob extends DataGenerationJob {
   /** The scenario of the data generation job, which is Evaluation for this model. */
   scenario: "evaluation";
   /** Optional dataset output configuration for the generated evaluation data. */
-  output_configuration?: EvaluationDataGenerationJobOutputTarget;
+  output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
 }
 
 export function evaluationDataGenerationJobDeserializer(item: any): EvaluationDataGenerationJob {
@@ -27808,7 +27820,7 @@ export function evaluationDataGenerationJobDeserializer(item: any): EvaluationDa
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     name: item["name"],
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
@@ -27819,12 +27831,12 @@ export function evaluationDataGenerationJobDeserializer(item: any): EvaluationDa
         : new Date(item["finished_at"] * 1000),
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : evaluationDataGenerationJobOutputTargetDeserializer(item["output_configuration"]),
+      : evaluationDataGenerationJobOutputConfigurationDeserializer(item["output_configuration"]),
   };
 }
 
-/** Dataset output target for an evaluation data generation job. */
-export interface EvaluationDataGenerationJobOutputTarget {
+/** Dataset output configuration for an evaluation data generation job. */
+export interface EvaluationDataGenerationJobOutputConfiguration {
   /** Dataset name to assign to the output. */
   name?: string;
   /** Description to assign to the output dataset. */
@@ -27835,8 +27847,8 @@ export interface EvaluationDataGenerationJobOutputTarget {
   write_mode?: DataGenerationJobOutputWriteMode;
 }
 
-export function evaluationDataGenerationJobOutputTargetSerializer(
-  item: EvaluationDataGenerationJobOutputTarget,
+export function evaluationDataGenerationJobOutputConfigurationSerializer(
+  item: EvaluationDataGenerationJobOutputConfiguration,
 ): any {
   return {
     name: item["name"],
@@ -27846,9 +27858,9 @@ export function evaluationDataGenerationJobOutputTargetSerializer(
   };
 }
 
-export function evaluationDataGenerationJobOutputTargetDeserializer(
+export function evaluationDataGenerationJobOutputConfigurationDeserializer(
   item: any,
-): EvaluationDataGenerationJobOutputTarget {
+): EvaluationDataGenerationJobOutputConfiguration {
   return {
     name: item["name"],
     description: item["description"],
@@ -27864,7 +27876,7 @@ export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob
   /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
   scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
-  output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
 }
 
 export function supervisedFineTuningDataGenerationJobDeserializer(
@@ -27877,7 +27889,7 @@ export function supervisedFineTuningDataGenerationJobDeserializer(
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     name: item["name"],
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
@@ -27888,12 +27900,14 @@ export function supervisedFineTuningDataGenerationJobDeserializer(
         : new Date(item["finished_at"] * 1000),
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : supervisedFineTuningDataGenerationJobOutputTargetDeserializer(item["output_configuration"]),
+      : supervisedFineTuningDataGenerationJobOutputConfigurationDeserializer(
+          item["output_configuration"],
+        ),
   };
 }
 
-/** File output target for a supervised fine-tuning data generation job. This is a preview feature. */
-export interface SupervisedFineTuningDataGenerationJobOutputTarget {
+/** File output configuration for a supervised fine-tuning data generation job. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJobOutputConfiguration {
   /** Filename to assign to the generated fine-tuning file. */
   name: string;
   /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
@@ -27902,8 +27916,8 @@ export interface SupervisedFineTuningDataGenerationJobOutputTarget {
   merge_file_id?: string;
 }
 
-export function supervisedFineTuningDataGenerationJobOutputTargetSerializer(
-  item: SupervisedFineTuningDataGenerationJobOutputTarget,
+export function supervisedFineTuningDataGenerationJobOutputConfigurationSerializer(
+  item: SupervisedFineTuningDataGenerationJobOutputConfiguration,
 ): any {
   return {
     name: item["name"],
@@ -27912,9 +27926,9 @@ export function supervisedFineTuningDataGenerationJobOutputTargetSerializer(
   };
 }
 
-export function supervisedFineTuningDataGenerationJobOutputTargetDeserializer(
+export function supervisedFineTuningDataGenerationJobOutputConfigurationDeserializer(
   item: any,
-): SupervisedFineTuningDataGenerationJobOutputTarget {
+): SupervisedFineTuningDataGenerationJobOutputConfiguration {
   return {
     name: item["name"],
     write_mode: item["write_mode"],
@@ -27927,7 +27941,7 @@ export interface ReinforcementFineTuningDataGenerationJob extends DataGeneration
   /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
   scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
-  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
 }
 
 export function reinforcementFineTuningDataGenerationJobDeserializer(
@@ -27940,7 +27954,7 @@ export function reinforcementFineTuningDataGenerationJobDeserializer(
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     name: item["name"],
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
@@ -27951,14 +27965,14 @@ export function reinforcementFineTuningDataGenerationJobDeserializer(
         : new Date(item["finished_at"] * 1000),
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : reinforcementFineTuningDataGenerationJobOutputTargetDeserializer(
+      : reinforcementFineTuningDataGenerationJobOutputConfigurationDeserializer(
           item["output_configuration"],
         ),
   };
 }
 
-/** File output target for a reinforcement fine-tuning data generation job. This is a preview feature. */
-export interface ReinforcementFineTuningDataGenerationJobOutputTarget {
+/** File output configuration for a reinforcement fine-tuning data generation job. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJobOutputConfiguration {
   /** Filename to assign to the generated fine-tuning file. */
   name: string;
   /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
@@ -27967,8 +27981,8 @@ export interface ReinforcementFineTuningDataGenerationJobOutputTarget {
   merge_file_id?: string;
 }
 
-export function reinforcementFineTuningDataGenerationJobOutputTargetSerializer(
-  item: ReinforcementFineTuningDataGenerationJobOutputTarget,
+export function reinforcementFineTuningDataGenerationJobOutputConfigurationSerializer(
+  item: ReinforcementFineTuningDataGenerationJobOutputConfiguration,
 ): any {
   return {
     name: item["name"],
@@ -27977,9 +27991,9 @@ export function reinforcementFineTuningDataGenerationJobOutputTargetSerializer(
   };
 }
 
-export function reinforcementFineTuningDataGenerationJobOutputTargetDeserializer(
+export function reinforcementFineTuningDataGenerationJobOutputConfigurationDeserializer(
   item: any,
-): ReinforcementFineTuningDataGenerationJobOutputTarget {
+): ReinforcementFineTuningDataGenerationJobOutputConfiguration {
   return {
     name: item["name"],
     write_mode: item["write_mode"],
@@ -28027,7 +28041,7 @@ export interface EvaluationDataGenerationJobInputs extends DataGenerationJobInpu
   /** The scenario of the data generation job, which is Evaluation for this model. */
   scenario: "evaluation";
   /** Optional dataset output configuration for the generated evaluation data. */
-  output_configuration?: EvaluationDataGenerationJobOutputTarget;
+  output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
 }
 
 export function evaluationDataGenerationJobInputsSerializer(
@@ -28036,13 +28050,13 @@ export function evaluationDataGenerationJobInputsSerializer(
   return {
     name: item["name"],
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : evaluationDataGenerationJobOutputTargetSerializer(item["output_configuration"]),
+      : evaluationDataGenerationJobOutputConfigurationSerializer(item["output_configuration"]),
   };
 }
 
@@ -28051,7 +28065,7 @@ export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerat
   /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
   scenario: "supervised_finetuning_preview";
   /** Optional file output configuration for the generated supervised fine-tuning data. */
-  output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
 }
 
 export function supervisedFineTuningDataGenerationJobInputsSerializer(
@@ -28060,13 +28074,15 @@ export function supervisedFineTuningDataGenerationJobInputsSerializer(
   return {
     name: item["name"],
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : supervisedFineTuningDataGenerationJobOutputTargetSerializer(item["output_configuration"]),
+      : supervisedFineTuningDataGenerationJobOutputConfigurationSerializer(
+          item["output_configuration"],
+        ),
   };
 }
 
@@ -28075,7 +28091,7 @@ export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGene
   /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
   scenario: "reinforcement_finetuning_preview";
   /** Optional file output configuration for the generated reinforcement fine-tuning data. */
-  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
 }
 
 export function reinforcementFineTuningDataGenerationJobInputsSerializer(
@@ -28084,13 +28100,13 @@ export function reinforcementFineTuningDataGenerationJobInputsSerializer(
   return {
     name: item["name"],
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
-    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
       item["generation_configuration"],
     ),
     scenario: item["scenario"],
     output_configuration: !item["output_configuration"]
       ? item["output_configuration"]
-      : reinforcementFineTuningDataGenerationJobOutputTargetSerializer(
+      : reinforcementFineTuningDataGenerationJobOutputConfigurationSerializer(
           item["output_configuration"],
         ),
   };

@@ -2,10 +2,59 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "../src/index.js";
+import type {
+  DataGenerationJobConfiguration,
+  DataGenerationJobConfigurationUnion,
+  EvaluationDataGenerationJobOutputConfiguration,
+  ReinforcementFineTuningDataGenerationJobOutputConfiguration,
+  SimpleQnADataGenerationJobConfiguration,
+  SimulationSeedDataGenerationJobConfiguration,
+  SupervisedFineTuningDataGenerationJobOutputConfiguration,
+  ToolUseFineTuningDataGenerationJobConfiguration,
+  TracesDataGenerationJobConfiguration,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, expect, it } from "vitest";
 
 describe("dataset generation jobs", () => {
+  it("exports configuration models aligned with the wire fields", () => {
+    const baseConfiguration: DataGenerationJobConfiguration = { type: "traces" };
+    const configurations: [
+      SimpleQnADataGenerationJobConfiguration,
+      TracesDataGenerationJobConfiguration,
+      SimulationSeedDataGenerationJobConfiguration,
+      ToolUseFineTuningDataGenerationJobConfiguration,
+    ] = [
+      { type: "simple_qna", max_samples: 2 },
+      { type: "traces" },
+      { type: "simulation_seed" },
+      { type: "tool_use", max_samples: 2 },
+    ];
+    const configurationUnion: DataGenerationJobConfigurationUnion[] = configurations;
+    const outputConfigurations: [
+      EvaluationDataGenerationJobOutputConfiguration,
+      SupervisedFineTuningDataGenerationJobOutputConfiguration,
+      ReinforcementFineTuningDataGenerationJobOutputConfiguration,
+    ] = [
+      { name: "evaluation-output" },
+      { name: "supervised-output.jsonl" },
+      { name: "reinforcement-output.jsonl" },
+    ];
+
+    expect(baseConfiguration.type).toBe("traces");
+    expect(configurationUnion.map(({ type }) => type)).toEqual([
+      "simple_qna",
+      "traces",
+      "simulation_seed",
+      "tool_use",
+    ]);
+    expect(outputConfigurations.map(({ name }) => name)).toEqual([
+      "evaluation-output",
+      "supervised-output.jsonl",
+      "reinforcement-output.jsonl",
+    ]);
+  });
+
   // TODO(dataset-generation): unskip after recording added.
   it.skip("creates, inspects, lists, cancels and deletes a generation job", async () => {
     const project = new AIProjectClient(

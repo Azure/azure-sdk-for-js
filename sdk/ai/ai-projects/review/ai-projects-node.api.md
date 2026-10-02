@@ -2549,7 +2549,7 @@ export interface DataGenerationJob {
     readonly created_at?: Date;
     readonly error?: ErrorModel;
     readonly finished_at?: Date;
-    generation_configuration: DataGenerationJobOptionsUnion;
+    generation_configuration: DataGenerationJobConfigurationUnion;
     readonly id?: string;
     name: string;
     readonly result?: DataGenerationJobResult;
@@ -2559,8 +2559,18 @@ export interface DataGenerationJob {
 }
 
 // @public
+export interface DataGenerationJobConfiguration {
+    model_options?: DataGenerationModelOptions;
+    train_split?: number;
+    type: DataGenerationJobType;
+}
+
+// @public
+export type DataGenerationJobConfigurationUnion = SimpleQnADataGenerationJobConfiguration | TracesDataGenerationJobConfiguration | SimulationSeedDataGenerationJobConfiguration | ToolUseFineTuningDataGenerationJobConfiguration | DataGenerationJobConfiguration;
+
+// @public
 export interface DataGenerationJobInputs {
-    generation_configuration: DataGenerationJobOptionsUnion;
+    generation_configuration: DataGenerationJobConfigurationUnion;
     name: string;
     scenario: DataGenerationJobScenario;
     sources: DataGenerationJobSourceUnion[];
@@ -2568,16 +2578,6 @@ export interface DataGenerationJobInputs {
 
 // @public
 export type DataGenerationJobInputsUnion = EvaluationDataGenerationJobInputs | SupervisedFineTuningDataGenerationJobInputs | ReinforcementFineTuningDataGenerationJobInputs | DataGenerationJobInputs;
-
-// @public
-export interface DataGenerationJobOptions {
-    model_options?: DataGenerationModelOptions;
-    train_split?: number;
-    type: DataGenerationJobType;
-}
-
-// @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -2959,18 +2959,18 @@ export interface EvaluationComparisonInsightResult extends InsightResult {
 
 // @public
 export interface EvaluationDataGenerationJob extends DataGenerationJob {
-    output_configuration?: EvaluationDataGenerationJobOutputTarget;
+    output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
     scenario: "evaluation";
 }
 
 // @public
 export interface EvaluationDataGenerationJobInputs extends DataGenerationJobInputs {
-    output_configuration?: EvaluationDataGenerationJobOutputTarget;
+    output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
     scenario: "evaluation";
 }
 
 // @public
-export interface EvaluationDataGenerationJobOutputTarget {
+export interface EvaluationDataGenerationJobOutputConfiguration {
     description?: string;
     name?: string;
     tags?: Record<string, string>;
@@ -5370,18 +5370,18 @@ export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTa
 
 // @public
 export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
-    output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+    output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
     scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
 export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-    output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+    output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
     scenario: "reinforcement_finetuning_preview";
 }
 
 // @public
-export interface ReinforcementFineTuningDataGenerationJobOutputTarget {
+export interface ReinforcementFineTuningDataGenerationJobOutputConfiguration {
     merge_file_id?: string;
     name: string;
     write_mode?: DataGenerationJobOutputWriteMode;
@@ -5656,7 +5656,7 @@ export interface ShellToolboxTool extends ToolboxTool {
 }
 
 // @public
-export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
+export interface SimpleQnADataGenerationJobConfiguration extends DataGenerationJobConfiguration {
     max_samples: number;
     question_types?: SimpleQnAFineTuningQuestionType[];
     type: "simple_qna";
@@ -5666,7 +5666,7 @@ export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOpti
 export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 
 // @public
-export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
     type: "simulation_seed";
 }
 
@@ -5758,18 +5758,18 @@ export interface StructuredOutputDefinition {
 
 // @public
 export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
-    output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+    output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
     scenario: "supervised_finetuning_preview";
 }
 
 // @public
 export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
-    output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+    output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
     scenario: "supervised_finetuning_preview";
 }
 
 // @public
-export interface SupervisedFineTuningDataGenerationJobOutputTarget {
+export interface SupervisedFineTuningDataGenerationJobOutputConfiguration {
     merge_file_id?: string;
     name: string;
     write_mode?: DataGenerationJobOutputWriteMode;
@@ -6446,13 +6446,13 @@ export type ToolType = "function" | "file_search" | "computer" | "computer_use_p
 export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
-export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
+export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
     max_samples: number;
     type: "tool_use";
 }
 
 // @public
-export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
+export interface TracesDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
     max_samples?: number;
     redact_private_content?: boolean;
     type: "traces";
