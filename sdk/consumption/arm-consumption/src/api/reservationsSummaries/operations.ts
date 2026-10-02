@@ -32,7 +32,7 @@ export function _listSend(
     "/{+resourceScope}/providers/Microsoft.Consumption/reservationSummaries{?api%2Dversion,grain,startDate,endDate,%24filter,reservationId,reservationOrderId}",
     {
       resourceScope: resourceScope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       grain: grain,
       startDate: options?.startDate,
       endDate: options?.endDate,
@@ -78,7 +78,7 @@ export function list(
     () => _listSend(context, resourceScope, grain, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -96,7 +96,7 @@ export function _listByReservationOrderAndReservationSend(
     {
       reservationOrderId: reservationOrderId,
       reservationId: reservationId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       grain: grain,
       "%24filter": options?.filter,
     },
@@ -148,7 +148,7 @@ export function listByReservationOrderAndReservation(
       ),
     _listByReservationOrderAndReservationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -162,7 +162,7 @@ export function _listByReservationOrderSend(
     "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationSummaries{?api%2Dversion,grain,%24filter}",
     {
       reservationOrderId: reservationOrderId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       grain: grain,
       "%24filter": options?.filter,
     },
@@ -204,6 +204,6 @@ export function listByReservationOrder(
     () => _listByReservationOrderSend(context, reservationOrderId, grain, options),
     _listByReservationOrderDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

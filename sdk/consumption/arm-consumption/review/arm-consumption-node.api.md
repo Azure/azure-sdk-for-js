@@ -285,7 +285,7 @@ export interface CreditsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface CreditsOperations {
-    get: (billingAccountId: string, billingProfileId: string, options?: CreditsGetOptionalParams) => Promise<CreditSummary | undefined>;
+    get: (billingAccountId: string, billingProfileId: string, options?: CreditsGetOptionalParams) => Promise<CreditSummary | void>;
 }
 
 // @public
@@ -580,6 +580,7 @@ export enum KnownReservationRecommendationKind {
 
 // @public
 export enum KnownScope {
+    ManagementGroup = "ManagementGroup",
     Shared = "Shared",
     Single = "Single"
 }
@@ -625,7 +626,8 @@ export enum KnownUsageDetailsKind {
 
 // @public
 export enum KnownVersions {
-    V20240801 = "2024-08-01"
+    V20240801 = "2024-08-01",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -649,6 +651,13 @@ export interface LegacyChargeSummaryProperties {
     readonly currency?: string;
     readonly usageEnd?: string;
     readonly usageStart?: string;
+}
+
+// @public
+export interface LegacyManagementGroupScopeReservationRecommendationProperties extends LegacyReservationRecommendationProperties {
+    readonly managementGroupId: string;
+    scope: "ManagementGroup";
+    readonly tenantId: string;
 }
 
 // @public
@@ -679,7 +688,7 @@ export interface LegacyReservationRecommendationProperties {
 }
 
 // @public
-export type LegacyReservationRecommendationPropertiesUnion = LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties | LegacyReservationRecommendationProperties;
+export type LegacyReservationRecommendationPropertiesUnion = LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties | LegacyManagementGroupScopeReservationRecommendationProperties | LegacyReservationRecommendationProperties;
 
 // @public
 export interface LegacyReservationTransactionProperties {
@@ -1053,6 +1062,13 @@ export interface ModernChargeSummaryProperties {
 }
 
 // @public
+export interface ModernManagementGroupScopeReservationRecommendationProperties extends ModernReservationRecommendationProperties {
+    readonly managementGroupId: string;
+    scope: "ManagementGroup";
+    readonly tenantId: string;
+}
+
+// @public
 export interface ModernReservationRecommendation extends ReservationRecommendation {
     kind: "modern";
     properties: ModernReservationRecommendationPropertiesUnion;
@@ -1082,7 +1098,7 @@ export interface ModernReservationRecommendationProperties {
 }
 
 // @public
-export type ModernReservationRecommendationPropertiesUnion = ModernSingleScopeReservationRecommendationProperties | ModernSharedScopeReservationRecommendationProperties | ModernReservationRecommendationProperties;
+export type ModernReservationRecommendationPropertiesUnion = ModernSingleScopeReservationRecommendationProperties | ModernSharedScopeReservationRecommendationProperties | ModernManagementGroupScopeReservationRecommendationProperties | ModernReservationRecommendationProperties;
 
 // @public
 export interface ModernReservationTransaction extends Resource {
@@ -1495,6 +1511,7 @@ export interface ReservationRecommendationDetailsCalculatedSavingsProperties {
 // @public
 export interface ReservationRecommendationDetailsGetOptionalParams extends OperationOptions {
     filter?: string;
+    managementGroupId?: string;
 }
 
 // @public
@@ -1502,27 +1519,38 @@ export interface ReservationRecommendationDetailsModel extends Resource {
     readonly currency?: string;
     readonly etag?: string;
     location?: string;
+    readonly managementGroupId?: string;
+    readonly projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties;
     readonly resource?: ReservationRecommendationDetailsResourceProperties;
     readonly resourceGroup?: string;
     readonly savings?: ReservationRecommendationDetailsSavingsProperties;
     readonly scope?: string;
     sku?: string;
     readonly tags?: Record<string, string>;
+    readonly tenantId?: string;
     readonly usage?: ReservationRecommendationDetailsUsageProperties;
 }
 
 // @public
 export interface ReservationRecommendationDetailsOperations {
-    get: (resourceScope: string, scope: Scope, region: string, term: Term, lookBackPeriod: LookBackPeriod, product: string, options?: ReservationRecommendationDetailsGetOptionalParams) => Promise<ReservationRecommendationDetailsModel | undefined>;
+    get: (resourceScope: string, scope: Scope, region: string, term: Term, lookBackPeriod: LookBackPeriod, product: string, options?: ReservationRecommendationDetailsGetOptionalParams) => Promise<ReservationRecommendationDetailsModel | void>;
+}
+
+// @public
+export interface ReservationRecommendationDetailsProjectedUsageProperties {
+    readonly totalRetailUsageInCUs?: number;
 }
 
 // @public
 export interface ReservationRecommendationDetailsProperties {
     readonly currency?: string;
+    readonly managementGroupId?: string;
+    readonly projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties;
     readonly resource?: ReservationRecommendationDetailsResourceProperties;
     readonly resourceGroup?: string;
     readonly savings?: ReservationRecommendationDetailsSavingsProperties;
     readonly scope?: string;
+    readonly tenantId?: string;
     readonly usage?: ReservationRecommendationDetailsUsageProperties;
 }
 
@@ -1775,7 +1803,7 @@ export interface TagsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface TagsOperations {
-    get: (scope: string, options?: TagsGetOptionalParams) => Promise<TagsResult | undefined>;
+    get: (scope: string, options?: TagsGetOptionalParams) => Promise<TagsResult | void>;
 }
 
 // @public
