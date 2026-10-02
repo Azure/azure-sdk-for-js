@@ -90,6 +90,9 @@ export function buildPagedAsyncIterator<
         }
       } else {
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        if (cursorFieldName && hasMoreFieldName) {
+          initialRequestUrl = new URL(resolvedPageLink);
+        }
         result =
           nextLinkMethod === "POST"
             ? await client.pathUnchecked(resolvedPageLink).post(nextPageRequestOptions)

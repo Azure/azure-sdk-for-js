@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list, createOrUpdate, deleteEvaluationRule, get } from "./operations.js";
+export { list, createOrUpdate, $delete, get } from "./operations.js";
 export type {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,

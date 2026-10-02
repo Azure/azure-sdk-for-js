@@ -35,7 +35,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
-    "@vitest/coverage-istanbul": "^4.0.0",
+    "@vitest/coverage-istanbul": "^5.0.0",
     "eslint": "^10.8.0",
     "pino-pretty": "^13.1.1",
     "prettier": "^3.9.1",
@@ -43,7 +43,7 @@
     "tsx": "^4.17.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "~8.65.0",
-    "vitest": "^4.0.0"
+    "vitest": "^5.0.0"
   },
   "scripts": {
     "build": "tsc",

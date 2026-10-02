@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list RecoveryResource resources by RecoveryPlan
  *
  * @summary list RecoveryResource resources by RecoveryPlan
- * x-ms-original-file: 2026-04-01-preview/RecoveryResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryResources_List_MaximumSet_Gen.json
  */
 async function recoveryResourcesListMaximumSet() {
   const credential = new DefaultAzureCredential();

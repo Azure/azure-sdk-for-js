@@ -61,7 +61,7 @@ export function _listByInstancePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -89,7 +89,6 @@ export async function _listByInstancePoolDeserialize(
 
   return _managedInstanceListResultDeserializer(result.body);
 }
-
 /** Gets a list of all managed instances in an instance pool. */
 export function listByInstancePool(
   context: Client,
@@ -102,7 +101,11 @@ export function listByInstancePool(
     () => _listByInstancePoolSend(context, resourceGroupName, instancePoolName, options),
     _listByInstancePoolDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -121,7 +124,7 @@ export function _validateAzureKeyVaultEncryptionKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +152,6 @@ export async function _validateAzureKeyVaultEncryptionKeyDeserialize(
 
   return;
 }
-
 /** Validates customer managed key. */
 export function validateAzureKeyVaultEncryptionKey(
   context: Client,
@@ -176,7 +178,7 @@ export function validateAzureKeyVaultEncryptionKey(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -193,7 +195,7 @@ export function _listByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       numberOfQueries: options?.numberOfQueries,
       databases: options?.databases,
       startTime: options?.startTime,
@@ -227,7 +229,6 @@ export async function _listByManagedInstanceDeserialize(
 
   return _topQueriesListResultDeserializer(result.body);
 }
-
 /** Get top resource consuming queries of a managed instance. */
 export function listByManagedInstance(
   context: Client,
@@ -240,7 +241,11 @@ export function listByManagedInstance(
     () => _listByManagedInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByManagedInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -256,7 +261,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,7 +286,6 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<M
 
   return managedInstanceDeserializer(result.body);
 }
-
 /** Stops the managed instance. */
 export function stop(
   context: Client,
@@ -294,7 +298,7 @@ export function stop(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _stopSend(context, resourceGroupName, managedInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 }
 
@@ -310,7 +314,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,7 +339,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return managedInstanceDeserializer(result.body);
 }
-
 /** Starts the managed instance. */
 export function start(
   context: Client,
@@ -348,7 +351,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, managedInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 }
 
@@ -364,7 +367,7 @@ export function _refreshStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -391,7 +394,6 @@ export async function _refreshStatusDeserialize(
 
   return refreshExternalGovernanceStatusOperationResultMIDeserializer(result.body);
 }
-
 /** Refresh external governance enablement status. */
 export function refreshStatus(
   context: Client,
@@ -408,7 +410,7 @@ export function refreshStatus(
     getInitialResponse: () =>
       _refreshStatusSend(context, resourceGroupName, managedInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<RefreshExternalGovernanceStatusOperationResultMI>,
     RefreshExternalGovernanceStatusOperationResultMI
@@ -429,7 +431,7 @@ export function _reevaluateInaccessibleDatabaseStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -453,7 +455,6 @@ export async function _reevaluateInaccessibleDatabaseStateDeserialize(
 
   return;
 }
-
 /** Reevaluates the inaccessibility state of all managed databases. */
 export function reevaluateInaccessibleDatabaseState(
   context: Client,
@@ -478,7 +479,7 @@ export function reevaluateInaccessibleDatabaseState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -497,7 +498,7 @@ export function _listOutboundNetworkDependenciesByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -524,7 +525,6 @@ export async function _listOutboundNetworkDependenciesByManagedInstanceDeseriali
 
   return _outboundEnvironmentEndpointCollectionDeserializer(result.body);
 }
-
 /** Gets the collection of outbound network dependencies for the given managed instance. */
 export function listOutboundNetworkDependenciesByManagedInstance(
   context: Client,
@@ -545,7 +545,11 @@ export function listOutboundNetworkDependenciesByManagedInstance(
       ),
     _listOutboundNetworkDependenciesByManagedInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -561,7 +565,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       replicaType: options?.replicaType,
     },
     {
@@ -584,7 +588,6 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Failovers a managed instance. */
 export function failover(
   context: Client,
@@ -598,7 +601,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, managedInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -610,7 +613,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/managedInstances{?api%2Dversion,%24expand}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -638,7 +641,6 @@ export async function _listDeserialize(
 
   return _managedInstanceListResultDeserializer(result.body);
 }
-
 /** Gets a list of all managed instances in the subscription. */
 export function list(
   context: Client,
@@ -649,7 +651,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -663,7 +669,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -691,7 +697,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _managedInstanceListResultDeserializer(result.body);
 }
-
 /** Gets a list of managed instances in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -703,7 +708,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -719,7 +728,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -741,7 +750,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a managed instance. */
 export function $delete(
   context: Client,
@@ -755,7 +763,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, managedInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -772,7 +780,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -799,7 +807,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return managedInstanceDeserializer(result.body);
 }
-
 /** Updates a managed instance. */
 export function update(
   context: Client,
@@ -814,7 +821,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, managedInstanceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 }
 
@@ -831,7 +838,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -860,7 +867,6 @@ export async function _createOrUpdateDeserialize(
 
   return managedInstanceDeserializer(result.body);
 }
-
 /** Creates or updates a managed instance. */
 export function createOrUpdate(
   context: Client,
@@ -875,7 +881,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, managedInstanceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 }
 
@@ -891,7 +897,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -917,7 +923,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return managedInstanceDeserializer(result.body);
 }
-
 /** Gets a managed instance. */
 export async function get(
   context: Client,

@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
  * Returns 200 (OK) on successful deletion, 204 (No Content) if the service exists but the query keys not found, or 404 (Not Found) if the service is not found.
  * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
- * x-ms-original-file: 2026-03-01-preview/SearchDeleteQueryKey.json
+ * x-ms-original-file: 2026-09-01-preview/SearchDeleteQueryKey.json
  */
 async function searchDeleteQueryKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

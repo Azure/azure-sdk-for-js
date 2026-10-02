@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the action of alert rule.
  *
  * @summary creates or updates the action of alert rule.
- * x-ms-original-file: 2025-07-01-preview/actions/CreateActionOfAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/actions/CreateActionOfAlertRule.json
  */
 async function createsOrUpdatesAnActionOfAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

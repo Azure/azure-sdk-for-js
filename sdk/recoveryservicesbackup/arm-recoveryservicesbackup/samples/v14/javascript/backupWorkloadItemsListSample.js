@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides a pageable list of workload item of a specific container according to the query filter and the pagination
  * parameters.
- * x-ms-original-file: 2026-07-01/AzureWorkload/BackupWorkloadItems_List.json
+ * x-ms-original-file: 2026-08-01/AzureWorkload/BackupWorkloadItems_List.json
  */
 async function listWorkloadItemsInContainer() {
   const credential = new DefaultAzureCredential();

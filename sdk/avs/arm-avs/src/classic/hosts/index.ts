@@ -2,13 +2,26 @@
 // Licensed under the MIT License.
 
 import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { get, list } from "../../api/hosts/operations.js";
-import type { HostsGetOptionalParams, HostsListOptionalParams } from "../../api/hosts/options.js";
-import type { Host } from "../../models/models.js";
+import { update, get, list } from "../../api/hosts/operations.js";
+import type {
+  HostsUpdateOptionalParams,
+  HostsGetOptionalParams,
+  HostsListOptionalParams,
+} from "../../api/hosts/options.js";
+import type { Host, HostUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Hosts operations. */
 export interface HostsOperations {
+  /** Update a Host */
+  update: (
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    hostId: string,
+    properties: HostUpdate,
+    options?: HostsUpdateOptionalParams,
+  ) => Promise<Host>;
   /** Get a Host */
   get: (
     resourceGroupName: string,
@@ -28,6 +41,23 @@ export interface HostsOperations {
 
 function _getHosts(context: AzureVMwareSolutionAPIContext) {
   return {
+    update: (
+      resourceGroupName: string,
+      privateCloudName: string,
+      clusterName: string,
+      hostId: string,
+      properties: HostUpdate,
+      options?: HostsUpdateOptionalParams,
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        hostId,
+        properties,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       privateCloudName: string,

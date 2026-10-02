@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list AIManager resources by subscription ID
  *
  * @summary list AIManager resources by subscription ID
- * x-ms-original-file: 2026-05-02-preview/AIManagers_ListBySubscription.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagers_ListBySubscription.json
  */
 async function listsAIManagerResourcesBySubscription() {
   const credential = new DefaultAzureCredential();

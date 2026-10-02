@@ -9,10 +9,11 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/monitor-opentelemetry-exporter...
+      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/monitor-opentelemetry-exporter... --filter @azure/opentelemetry-instrumentation-azure-sdk...
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}"
-    displayName: "Build ESLint Plugin and Lint Libraries"
+    displayName: "Build Lint Prerequisites and Lint Libraries"
 
   - pwsh: |
       pnpm test --filter @azure/eslint-plugin-azure-sdk...

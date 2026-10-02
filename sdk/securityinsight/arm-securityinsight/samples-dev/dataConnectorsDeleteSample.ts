@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteAPIPolling.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteAPIPolling.json
  */
 async function deleteAAPIPollingDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteAAPIPollingDataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteGenericUI.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteGenericUI.json
  */
 async function deleteAGenericUIDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function deleteAGenericUIDataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteGoogleCloudPlatform.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteGoogleCloudPlatform.json
  */
 async function deleteAGCPDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function deleteAGCPDataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteMicrosoftPurviewInformationProtectionDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteMicrosoftPurviewInformationProtectionDataConnetor.json
  */
 async function deleteAnMicrosoftPurviewInformationProtectionDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function deleteAnMicrosoftPurviewInformationProtectionDataConnector(): Pro
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteMicrosoftThreatIntelligenceDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteMicrosoftThreatIntelligenceDataConnector.json
  */
 async function deleteAnMicrosoftThreatIntelligenceDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function deleteAnMicrosoftThreatIntelligenceDataConnector(): Promise<void>
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteOffice365ProjectDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteOffice365ProjectDataConnetor.json
  */
 async function deleteAnOffice365ProjectDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function deleteAnOffice365ProjectDataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteOfficeDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteOfficeDataConnetor.json
  */
 async function deleteAnOffice365DataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -103,7 +103,7 @@ async function deleteAnOffice365DataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeleteOfficePowerBIDataConnetor.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeleteOfficePowerBIDataConnetor.json
  */
 async function deleteAnOfficePowerBIDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function deleteAnOfficePowerBIDataConnector(): Promise<void> {
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeletePremiumMicrosoftDefenderForThreatIntelligenceDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeletePremiumMicrosoftDefenderForThreatIntelligenceDataConnector.json
  */
 async function deletesAPremiumMicrosoftDefenderForThreatIntelligenceDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -129,7 +129,7 @@ async function deletesAPremiumMicrosoftDefenderForThreatIntelligenceDataConnecto
  * This sample demonstrates how to delete the data connector.
  *
  * @summary delete the data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DeletePurviewAuditDataConnector.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DeletePurviewAuditDataConnector.json
  */
 async function deleteAPurviewAuditDataConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary add or Update ResourceGuardProxy under vault
  * Secures vault critical operations
- * x-ms-original-file: 2026-07-01/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: 2026-08-01/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 async function createResourceGuardProxy() {
   const credential = new DefaultAzureCredential();

@@ -5,13 +5,7 @@ steps:
   # NOTE: common.yml is job-scoped and is included by the job/stage template that
   # consumes this file. Do not include it here.
   - script: |
-      npm ci
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
-    displayName: "Install generate-doc tool dependencies"
-
-  - script: |
-      npm run build
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
+      pnpm build --filter @azure-tools/generate-doc...
     displayName: "Compile tool"
 
   - pwsh: |

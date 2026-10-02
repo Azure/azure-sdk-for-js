@@ -30,7 +30,6 @@ export interface JobVersionsOperations {
     options?: JobVersionsGetOptionalParams,
   ) => Promise<JobVersion>;
 }
-
 function _getJobVersions(context: SqlManagementContext) {
   return {
     listByJob: (
@@ -50,7 +49,6 @@ function _getJobVersions(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, jobName, jobVersion, options),
   };
 }
-
 export function _getJobVersionsOperations(context: SqlManagementContext): JobVersionsOperations {
   return {
     ..._getJobVersions(context),

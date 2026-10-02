@@ -583,7 +583,6 @@ export interface LongTermRetentionBackupsOperations {
     options?: LongTermRetentionBackupsGetOptionalParams,
   ) => Promise<LongTermRetentionBackup>;
 }
-
 function _getLongTermRetentionBackups(context: SqlManagementContext) {
   return {
     listByResourceGroupServer: (
@@ -1543,7 +1542,6 @@ function _getLongTermRetentionBackups(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getLongTermRetentionBackupsOperations(
   context: SqlManagementContext,
 ): LongTermRetentionBackupsOperations {

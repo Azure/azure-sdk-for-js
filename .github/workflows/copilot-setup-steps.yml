@@ -16,12 +16,14 @@ jobs:
     # If you do not check out your code, Copilot will do this for you.
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install gh-aw extension
-        uses: github/gh-aw-actions/setup-cli@bc8c008a419c5b7a29df6f5641edd35fd1c6ea85 # v0.87.10
+        uses: github/gh-aw-actions/setup-cli@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
         with:
-          version: v0.87.10
+          version: v0.89.21
 
       - name: Set up Node.js
         uses: actions/setup-node@v6

@@ -1,6 +1,16 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/availableVersions/index.ts",
+    "../src/api/upgradeHistories/index.ts",
+    "../src/api/appLinkMembers/index.ts",
+    "../src/api/appLinks/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

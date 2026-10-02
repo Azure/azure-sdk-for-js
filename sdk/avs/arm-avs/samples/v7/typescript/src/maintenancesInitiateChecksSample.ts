@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initiate maintenance readiness checks
  *
  * @summary initiate maintenance readiness checks
- * x-ms-original-file: 2025-09-01/Maintenances_InitiateChecks.json
+ * x-ms-original-file: 2026-03-01/Maintenances_InitiateChecks.json
  */
 async function maintenancesInitiateChecks(): Promise<void> {
   const credential = new DefaultAzureCredential();
