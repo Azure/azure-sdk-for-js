@@ -8,22 +8,22 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Config Template Resource
  *
  * @summary create or update a Config Template Resource
- * x-ms-original-file: 2025-06-01/ConfigTemplates_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/ConfigTemplates_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function configTemplatesCreateOrUpdateMaximumSet(): Promise<void> {
+async function configTemplatesCreateOrUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.configTemplates.createOrUpdate("rgconfigurationmanager", "testname", {
-    properties: { description: "ccdyggozwmhyvemlcwlsnhijwg" },
-    tags: { key6936: "vnqujuvnbxonbsgb" },
-    location: "egqjo",
+    properties: { description: "fvklsykvqiyosqetvdnjg" },
+    tags: {},
+    location: "lltpsbfqidpuumxvdnidshkdsx",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await configTemplatesCreateOrUpdateMaximumSet();
+  await configTemplatesCreateOrUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
