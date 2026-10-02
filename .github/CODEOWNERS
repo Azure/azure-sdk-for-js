@@ -588,7 +588,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

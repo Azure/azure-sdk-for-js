@@ -24,7 +24,7 @@ export function _listByElasticSanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,7 +42,10 @@ export async function _listByElasticSanDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
