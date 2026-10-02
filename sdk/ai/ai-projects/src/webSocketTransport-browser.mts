@@ -216,6 +216,7 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
   for (const [name, value] of Object.entries(headers)) {
     switch (name.toLowerCase()) {
       case "authorization":
+      case "x-ms-voice-structured-inputs":
         break;
       case "foundry-features":
         foundryFeatures = value;
