@@ -1,50 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
   ServiceConfigurationResource,
-  serviceConfigurationResourceSerializer,
-  serviceConfigurationResourceDeserializer,
   ServiceConfigurationResourcePatch,
-  serviceConfigurationResourcePatchSerializer,
   _ServiceConfigurationList,
-  _serviceConfigurationListDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  serviceConfigurationResourceSerializer,
+  serviceConfigurationResourceDeserializer,
+  serviceConfigurationResourcePatchSerializer,
+  _serviceConfigurationListDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByEndpointResourceSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,10 +46,7 @@ export function _listByEndpointResourceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -65,7 +56,10 @@ export async function _listByEndpointResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -77,16 +71,14 @@ export function listByEndpointResource(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByEndpointResourceSend(context, resourceUri, endpointName, options),
     _listByEndpointResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2027-01-01" },
   );
 }
 
@@ -103,26 +95,23 @@ export function _$deleteSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -130,11 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the service details to the target resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceUri: string,
@@ -166,7 +150,7 @@ export function _updateSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,10 +159,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
   });
 }
@@ -189,7 +170,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -222,9 +206,7 @@ export function _createOrupdateSend(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
@@ -232,7 +214,7 @@ export function _createOrupdateSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,10 +223,7 @@ export function _createOrupdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
   });
 }
@@ -255,7 +234,10 @@ export async function _createOrupdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -269,9 +251,7 @@ export async function createOrupdate(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceConfigurationResource> {
   const result = await _createOrupdateSend(
     context,
@@ -297,7 +277,7 @@ export function _getSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,10 +285,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -318,7 +295,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
