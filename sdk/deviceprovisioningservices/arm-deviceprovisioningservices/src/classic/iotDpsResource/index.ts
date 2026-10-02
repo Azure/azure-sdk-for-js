@@ -48,6 +48,7 @@ import type {
   TagsResource,
   IotDpsSkuDefinition,
   GroupIdInformation,
+  PrivateLinkResources,
   OperationInputs,
   NameAvailabilityInfo,
 } from "../../models/models.js";
@@ -94,7 +95,7 @@ export interface IotDpsResourceOperations {
     resourceGroupName: string,
     resourceName: string,
     options?: IotDpsResourceListPrivateLinkResourcesOptionalParams,
-  ) => PagedAsyncIterableIterator<GroupIdInformation>;
+  ) => Promise<PrivateLinkResources>;
   /** Get the specified private link resource for the given provisioning service */
   getPrivateLinkResources: (
     resourceGroupName: string,
@@ -131,11 +132,6 @@ export interface IotDpsResourceOperations {
     options?: IotDpsResourceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /** Deletes the Provisioning Service. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     provisioningServiceName: string,

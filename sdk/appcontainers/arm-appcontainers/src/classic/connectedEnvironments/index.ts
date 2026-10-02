@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   checkNameAvailability,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/connectedEnvironments/operations.js";
-import {
+import type {
   ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
   ConnectedEnvironmentsListBySubscriptionOptionalParams,
   ConnectedEnvironmentsListByResourceGroupOptionalParams,
@@ -20,14 +20,16 @@ import {
   ConnectedEnvironmentsCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsGetOptionalParams,
 } from "../../api/connectedEnvironments/options.js";
-import {
+import type {
   ConnectedEnvironment,
+  ConnectedEnvironmentPatchResource,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConnectedEnvironments operations. */
 export interface ConnectedEnvironmentsOperations {
@@ -69,6 +71,7 @@ export interface ConnectedEnvironmentsOperations {
   update: (
     resourceGroupName: string,
     connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironmentPatchResource,
     options?: ConnectedEnvironmentsUpdateOptionalParams,
   ) => Promise<ConnectedEnvironment>;
   /** Creates or updates an connectedEnvironment. */
@@ -145,8 +148,9 @@ function _getConnectedEnvironments(context: ContainerAppsAPIContext) {
     update: (
       resourceGroupName: string,
       connectedEnvironmentName: string,
+      environmentEnvelope: ConnectedEnvironmentPatchResource,
       options?: ConnectedEnvironmentsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, connectedEnvironmentName, options),
+    ) => update(context, resourceGroupName, connectedEnvironmentName, environmentEnvelope, options),
     createOrUpdate: (
       resourceGroupName: string,
       connectedEnvironmentName: string,

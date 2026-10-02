@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
@@ -9,27 +9,28 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dotNetComponents/operations.js";
-import {
+import type {
   DotNetComponentsListOptionalParams,
   DotNetComponentsDeleteOptionalParams,
   DotNetComponentsUpdateOptionalParams,
   DotNetComponentsCreateOrUpdateOptionalParams,
   DotNetComponentsGetOptionalParams,
 } from "../../api/dotNetComponents/options.js";
-import { DotNetComponent } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DotNetComponent } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DotNetComponents operations. */
 export interface DotNetComponentsOperations {
-  /** Get the .NET Components for a managed environment. */
+  /** Lists the .NET components in a managed environment. */
   list: (
     resourceGroupName: string,
     environmentName: string,
     options?: DotNetComponentsListOptionalParams,
   ) => PagedAsyncIterableIterator<DotNetComponent>;
-  /** Delete a .NET Component. */
+  /** Deletes a .NET component from a managed environment. */
   delete: (
     resourceGroupName: string,
     environmentName: string,
@@ -98,7 +99,7 @@ export interface DotNetComponentsOperations {
     dotNetComponentEnvelope: DotNetComponent,
     options?: DotNetComponentsCreateOrUpdateOptionalParams,
   ) => Promise<DotNetComponent>;
-  /** Get a .NET Component. */
+  /** Gets the details of a .NET component in a managed environment. */
   get: (
     resourceGroupName: string,
     environmentName: string,

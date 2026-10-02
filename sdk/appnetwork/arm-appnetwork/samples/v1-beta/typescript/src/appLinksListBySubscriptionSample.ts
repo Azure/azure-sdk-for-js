@@ -5,10 +5,10 @@ import { AppLinkClient } from "@azure/arm-appnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list AppLink resources by subscription.
+ * This sample demonstrates how to list Azure Kubernetes Application Network resources by subscription.
  *
- * @summary list AppLink resources by subscription.
- * x-ms-original-file: 2025-08-01-preview/AppLinks_ListBySubscription.json
+ * @summary list Azure Kubernetes Application Network resources by subscription.
+ * x-ms-original-file: 2026-08-01-preview/AppLinks_ListBySubscription.json
  */
 async function appLinksListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

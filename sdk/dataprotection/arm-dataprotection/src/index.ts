@@ -48,6 +48,7 @@ export type {
   BlobBackupRuleMode,
   BlobBackupPatternType,
   AdlsBlobBackupDatasourceParametersForAutoProtection,
+  GenericBackupDatasourceParameters,
   ProtectionStatusDetails,
   UserFacingError,
   InnerError,
@@ -89,6 +90,8 @@ export type {
   ItemLevelRestoreCriteriaUnion,
   ItemPathBasedRestoreCriteria,
   RangeBasedItemLevelRestoreCriteria,
+  GenericRestoreDatasourceCriteria,
+  ResourceListSelectionCriteria,
   KubernetesStorageClassRestoreCriteria,
   KubernetesPVRestoreCriteria,
   KubernetesClusterRestoreCriteria,
@@ -117,6 +120,8 @@ export type {
   MonitoringSettings,
   AzureMonitorAlertSettings,
   AlertsState,
+  CostManagementSettings,
+  GranularityLevel,
   ProvisioningState,
   ResourceMoveState,
   ResourceMoveDetails,
@@ -258,6 +263,7 @@ export {
   KnownSourceDataStoreType,
   KnownSyncType,
   KnownAlertsState,
+  KnownGranularityLevel,
   KnownProvisioningState,
   KnownResourceMoveState,
   KnownSoftDeleteState,
@@ -401,3 +407,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

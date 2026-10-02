@@ -46,7 +46,7 @@ export function _upgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,17 +59,18 @@ export function _upgradeSend(
 }
 
 export async function _upgradeDeserialize(result: PathUncheckedResponse): Promise<SearchService> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchServiceDeserializer(result.body);
 }
-
 /** Upgrades the Azure AI Search service to the latest version available. */
 export function upgrade(
   context: Client,
@@ -77,12 +78,12 @@ export function upgrade(
   searchServiceName: string,
   options: ServicesUpgradeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SearchService>, SearchService> {
-  return getLongRunningPoller(context, _upgradeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _upgradeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _upgradeSend(context, resourceGroupName, searchServiceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<SearchService>, SearchService>;
 }
 
@@ -94,7 +95,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,14 +119,15 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _searchServiceListResultDeserializer(result.body);
 }
-
 /** Gets a list of all search services in the given subscription. */
 export function listBySubscription(
   context: Client,
@@ -139,7 +141,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -154,7 +156,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,14 +180,15 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _searchServiceListResultDeserializer(result.body);
 }
-
 /** Gets a list of all search services in the given resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -200,7 +203,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -217,7 +220,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,22 +241,18 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /**
  * Deletes a search service in the given resource group, along with its associated resources.
  * Returns 200 (OK) on successful deletion, or 204 (No Content) if the service is not found.
- */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
@@ -278,7 +277,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,14 +301,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchServiceDeserializer(result.body);
 }
-
 /** Updates an existing search service in the given resource group. */
 export async function update(
   context: Client,
@@ -335,7 +335,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,14 +361,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchServiceDeserializer(result.body);
 }
-
 /** Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values. */
 export function createOrUpdate(
   context: Client,
@@ -383,7 +384,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, searchServiceName, service, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<SearchService>, SearchService>;
 }
 
@@ -399,7 +400,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -421,14 +422,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchServiceDeserializer(result.body);
 }
-
 /** Gets the search service with the given name in the given resource group. */
 export async function get(
   context: Client,
@@ -449,7 +451,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -475,14 +477,15 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return checkNameAvailabilityOutputDeserializer(result.body);
 }
-
 /** Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net). */
 export async function checkNameAvailability(
   context: Client,

@@ -8,33 +8,27 @@ export interface DistributedAvailabilityGroupsSetRoleOptionalParams extends Oper
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsFailoverOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsListByInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DistributedAvailabilityGroupsGetOptionalParams extends OperationOptions {}

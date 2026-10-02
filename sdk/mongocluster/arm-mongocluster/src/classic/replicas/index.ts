@@ -16,7 +16,6 @@ export interface ReplicasOperations {
     options?: ReplicasListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<Replica>;
 }
-
 function _getReplicas(context: MongoClusterManagementContext) {
   return {
     listByParent: (
@@ -26,7 +25,6 @@ function _getReplicas(context: MongoClusterManagementContext) {
     ) => listByParent(context, resourceGroupName, mongoClusterName, options),
   };
 }
-
 export function _getReplicasOperations(context: MongoClusterManagementContext): ReplicasOperations {
   return {
     ..._getReplicas(context),

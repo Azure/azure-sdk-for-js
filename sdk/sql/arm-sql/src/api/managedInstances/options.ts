@@ -14,13 +14,11 @@ export interface ManagedInstancesListByInstancePoolOptionalParams extends Operat
   /** The child resources to include in the response. */
   expand?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesListByManagedInstanceOptionalParams extends OperationOptions {
   /** How many 'top queries' to return. Default is 5. */
@@ -38,34 +36,28 @@ export interface ManagedInstancesListByManagedInstanceOptionalParams extends Ope
   /** Metric to be used for ranking top queries. Default is 'cpu' */
   observationMetric?: MetricType;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesStopOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesRefreshStatusOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesReevaluateInaccessibleDatabaseStateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedInstancesFailoverOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -73,37 +65,31 @@ export interface ManagedInstancesFailoverOptionalParams extends OperationOptions
   /** The type of replica to be failed over. */
   replicaType?: ReplicaType;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesListOptionalParams extends OperationOptions {
   /** The child resources to include in the response. */
   expand?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesListByResourceGroupOptionalParams extends OperationOptions {
   /** The child resources to include in the response. */
   expand?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedInstancesGetOptionalParams extends OperationOptions {
   /** The child resources to include in the response. */

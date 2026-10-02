@@ -32,7 +32,6 @@ export type {
   AIModel,
   AIModelProperties,
   ModelSpec,
-  CalculateCostRequest,
   CalculateCostResponse,
   CalculateCostPlan,
   ServingPerformanceEstimation,
@@ -43,6 +42,8 @@ export type {
   ModelSourceType,
   CredentialValue,
   InlineCredential,
+  ManagedIdentityCredential,
+  MicrosoftFoundrySource,
   ModelDeployment,
   ModelDeploymentProperties,
   ModelDeploymentProvisioningState,
@@ -52,6 +53,11 @@ export type {
   AutoscaleProfile,
   ModelDeploymentOverrides,
   ModelDeploymentStatus,
+  CustomAIModel,
+  CustomAIModelProperties,
+  CustomAIModelProvisioningState,
+  BaseModelReference,
+  CustomAIModelSpec,
 } from "./models.js";
 export {
   KnownOrigin,
@@ -66,5 +72,6 @@ export {
   KnownModelSourceType,
   KnownModelDeploymentProvisioningState,
   KnownModelDeploymentPerformanceMode,
+  KnownCustomAIModelProvisioningState,
   KnownVersions,
 } from "./models.js";

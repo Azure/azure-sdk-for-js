@@ -43,7 +43,6 @@ export type {
   AIModel,
   AIModelProperties,
   ModelSpec,
-  CalculateCostRequest,
   CalculateCostResponse,
   CalculateCostPlan,
   ServingPerformanceEstimation,
@@ -54,6 +53,8 @@ export type {
   ModelSourceType,
   CredentialValue,
   InlineCredential,
+  ManagedIdentityCredential,
+  MicrosoftFoundrySource,
   ModelDeployment,
   ModelDeploymentProperties,
   ModelDeploymentProvisioningState,
@@ -63,6 +64,11 @@ export type {
   AutoscaleProfile,
   ModelDeploymentOverrides,
   ModelDeploymentStatus,
+  CustomAIModel,
+  CustomAIModelProperties,
+  CustomAIModelProvisioningState,
+  BaseModelReference,
+  CustomAIModelSpec,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -77,6 +83,7 @@ export {
   KnownModelSourceType,
   KnownModelDeploymentProvisioningState,
   KnownModelDeploymentPerformanceMode,
+  KnownCustomAIModelProvisioningState,
   KnownVersions,
 } from "./models/index.js";
 export type { ContainerServiceClientOptionalParams } from "./api/index.js";
@@ -104,6 +111,13 @@ export type {
   AIModelsGetOptionalParams,
 } from "./api/aiModels/index.js";
 export type {
+  CustomAIModelsCalculateCostOptionalParams,
+  CustomAIModelsListOptionalParams,
+  CustomAIModelsDeleteOptionalParams,
+  CustomAIModelsCreateOrUpdateOptionalParams,
+  CustomAIModelsGetOptionalParams,
+} from "./api/customAIModels/index.js";
+export type {
   ModelDeploymentsListByAIManagerNamespaceOptionalParams,
   ModelDeploymentsDeleteOptionalParams,
   ModelDeploymentsCreateOrUpdateOptionalParams,
@@ -120,6 +134,7 @@ export type {
   AIManagerNamespacesOperations,
   AIManagersOperations,
   AIModelsOperations,
+  CustomAIModelsOperations,
   ModelDeploymentsOperations,
   ModelSourcesOperations,
   OperationsOperations,

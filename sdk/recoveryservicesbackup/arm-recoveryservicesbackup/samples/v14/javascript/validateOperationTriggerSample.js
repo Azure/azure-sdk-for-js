@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
  *
  * @summary validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
  */
 async function triggerValidateOperation() {
   const credential = new DefaultAzureCredential();

@@ -69,6 +69,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     this.connectionString = super.getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
+      disableOfflineStorage: options.disableOfflineStorage,
     };
 
     this.networkAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
