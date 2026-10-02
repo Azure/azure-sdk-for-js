@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { get } from "../../api/operationStatuses/operations.js";
-import { OperationStatusesGetOptionalParams } from "../../api/operationStatuses/options.js";
-import { OperationStatus } from "../../models/models.js";
+import type { OperationStatusesGetOptionalParams } from "../../api/operationStatuses/options.js";
+import type { OperationStatus } from "../../models/models.js";
 
 /** Interface representing a OperationStatuses operations. */
 export interface OperationStatusesOperations {
@@ -15,7 +15,6 @@ export interface OperationStatusesOperations {
     options?: OperationStatusesGetOptionalParams,
   ) => Promise<OperationStatus>;
 }
-
 function _getOperationStatuses(context: OperationalInsightsManagementContext) {
   return {
     get: (
@@ -25,7 +24,6 @@ function _getOperationStatuses(context: OperationalInsightsManagementContext) {
     ) => get(context, location, asyncOperationId, options),
   };
 }
-
 export function _getOperationStatusesOperations(
   context: OperationalInsightsManagementContext,
 ): OperationStatusesOperations {

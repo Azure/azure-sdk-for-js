@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/storageInsightConfigs/operations.js";
-import {
+import type {
   StorageInsightConfigsListByWorkspaceOptionalParams,
   StorageInsightConfigsDeleteOptionalParams,
   StorageInsightConfigsCreateOrUpdateOptionalParams,
   StorageInsightConfigsGetOptionalParams,
 } from "../../api/storageInsightConfigs/options.js";
-import { StorageInsight } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { StorageInsight } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageInsightConfigs operations. */
 export interface StorageInsightConfigsOperations {
@@ -48,7 +48,6 @@ export interface StorageInsightConfigsOperations {
     options?: StorageInsightConfigsGetOptionalParams,
   ) => Promise<StorageInsight>;
 }
-
 function _getStorageInsightConfigs(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -85,7 +84,6 @@ function _getStorageInsightConfigs(context: OperationalInsightsManagementContext
     ) => get(context, resourceGroupName, workspaceName, storageInsightName, options),
   };
 }
-
 export function _getStorageInsightConfigsOperations(
   context: OperationalInsightsManagementContext,
 ): StorageInsightConfigsOperations {

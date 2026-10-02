@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type {
   LogAnalyticsQueryPackQuery,
-  logAnalyticsQueryPackQuerySerializer,
-  logAnalyticsQueryPackQueryDeserializer,
   _LogAnalyticsQueryPackQueryListResult,
-  _logAnalyticsQueryPackQueryListResultDeserializer,
   LogAnalyticsQueryPackQuerySearchProperties,
-  logAnalyticsQueryPackQuerySearchPropertiesSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  logAnalyticsQueryPackQuerySerializer,
+  logAnalyticsQueryPackQueryDeserializer,
+  _logAnalyticsQueryPackQueryListResultDeserializer,
+  logAnalyticsQueryPackQuerySearchPropertiesSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   QueriesListSearchOptionalParams,
   QueriesListOptionalParams,
   QueriesDeleteOptionalParams,
@@ -25,12 +25,8 @@ import {
   QueriesPutOptionalParams,
   QueriesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSearchSend(
   context: Client,
@@ -45,7 +41,7 @@ export function _listSearchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       includeBody: options?.includeBody,
       "%24skipToken": options?.skipToken,
@@ -68,14 +64,15 @@ export async function _listSearchDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _logAnalyticsQueryPackQueryListResultDeserializer(result.body);
 }
-
 /** Search a list of Queries defined within a Log Analytics QueryPack according to given search properties. */
 export function listSearch(
   context: Client,
@@ -90,7 +87,7 @@ export function listSearch(
       _listSearchSend(context, resourceGroupName, queryPackName, querySearchProperties, options),
     _listSearchDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -106,7 +103,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       includeBody: options?.includeBody,
       "%24skipToken": options?.skipToken,
@@ -127,14 +124,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _logAnalyticsQueryPackQueryListResultDeserializer(result.body);
 }
-
 /** Gets a list of Queries defined within a Log Analytics QueryPack. */
 export function list(
   context: Client,
@@ -147,7 +145,7 @@ export function list(
     () => _listSend(context, resourceGroupName, queryPackName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -165,7 +163,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,14 +176,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a specific Query defined within an Log Analytics QueryPack. */
 export async function $delete(
   context: Client,
@@ -213,7 +212,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,14 +232,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
-
 /** Adds or Updates a specific Query within a Log Analytics QueryPack. */
 export async function update(
   context: Client,
@@ -276,7 +276,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -296,14 +296,15 @@ export async function _putDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
-
 /** Adds or Updates a specific Query within a Log Analytics QueryPack. */
 export async function put(
   context: Client,
@@ -338,7 +339,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,14 +357,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
-
 /** Gets a specific Log Analytics Query defined within a Log Analytics QueryPack. */
 export async function get(
   context: Client,

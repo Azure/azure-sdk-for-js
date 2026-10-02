@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   retryBin,
   stop,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/summaryLogs/operations.js";
-import {
+import type {
   SummaryLogsRetryBinOptionalParams,
   SummaryLogsStopOptionalParams,
   SummaryLogsStartOptionalParams,
@@ -20,10 +20,11 @@ import {
   SummaryLogsCreateOrUpdateOptionalParams,
   SummaryLogsGetOptionalParams,
 } from "../../api/summaryLogs/options.js";
-import { SummaryLogs, SummaryLogsRetryBin } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SummaryLogs, SummaryLogsRetryBin } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SummaryLogs operations. */
 export interface SummaryLogsOperations {
@@ -138,7 +139,6 @@ export interface SummaryLogsOperations {
     options?: SummaryLogsGetOptionalParams,
   ) => Promise<SummaryLogs>;
 }
-
 function _getSummaryLogs(context: OperationalInsightsManagementContext) {
   return {
     retryBin: (
@@ -298,7 +298,6 @@ function _getSummaryLogs(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, summaryLogsName, options),
   };
 }
-
 export function _getSummaryLogsOperations(
   context: OperationalInsightsManagementContext,
 ): SummaryLogsOperations {

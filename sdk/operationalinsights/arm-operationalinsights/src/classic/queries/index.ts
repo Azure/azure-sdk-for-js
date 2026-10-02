@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listSearch, list, $delete, update, put, get } from "../../api/queries/operations.js";
-import {
+import type {
   QueriesListSearchOptionalParams,
   QueriesListOptionalParams,
   QueriesDeleteOptionalParams,
@@ -11,11 +11,11 @@ import {
   QueriesPutOptionalParams,
   QueriesGetOptionalParams,
 } from "../../api/queries/options.js";
-import {
+import type {
   LogAnalyticsQueryPackQuery,
   LogAnalyticsQueryPackQuerySearchProperties,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Queries operations. */
 export interface QueriesOperations {
@@ -63,7 +63,6 @@ export interface QueriesOperations {
     options?: QueriesGetOptionalParams,
   ) => Promise<LogAnalyticsQueryPackQuery>;
 }
-
 function _getQueries(context: OperationalInsightsManagementContext) {
   return {
     listSearch: (
@@ -102,7 +101,6 @@ function _getQueries(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, queryPackName, id, options),
   };
 }
-
 export function _getQueriesOperations(
   context: OperationalInsightsManagementContext,
 ): QueriesOperations {
