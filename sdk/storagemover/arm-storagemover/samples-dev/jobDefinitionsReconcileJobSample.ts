@@ -5,26 +5,26 @@ import { StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updates properties for a Project resource. Properties not specified in the request body will be unchanged.
+ * This sample demonstrates how to post action to reconcile the running job.
  *
- * @summary updates properties for a Project resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2026-05-01/Projects_Update.json
+ * @summary post action to reconcile the running job.
+ * x-ms-original-file: 2026-05-01/JobDefinitions_ReconcileJob.json
  */
-async function projectsUpdate(): Promise<void> {
+async function jobDefinitionsReconcileJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
   const client = new StorageMoverClient(credential, subscriptionId);
-  const result = await client.projects.update(
+  const result = await client.jobDefinitions.reconcileJob(
     "examples-rg",
     "examples-storageMoverName",
     "examples-projectName",
-    { properties: { description: "Example Project Description" } },
+    "examples-jobDefinitionName",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await projectsUpdate();
+  await jobDefinitionsReconcileJob();
 }
 
 main().catch(console.error);

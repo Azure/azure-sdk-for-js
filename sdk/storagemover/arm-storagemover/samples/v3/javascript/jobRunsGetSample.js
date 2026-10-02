@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Job Run resource.
  *
  * @summary gets a Job Run resource.
- * x-ms-original-file: 2025-12-01/JobRuns_Get.json
+ * x-ms-original-file: 2026-05-01/JobRuns_Get.json
  */
 async function jobRunsGet() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function jobRunsGet() {
  * This sample demonstrates how to gets a Job Run resource.
  *
  * @summary gets a Job Run resource.
- * x-ms-original-file: 2025-12-01/JobRuns_Get_With_Schedule.json
+ * x-ms-original-file: 2026-05-01/JobRuns_Get_With_Schedule.json
  */
 async function jobRunsGetWithSchedule() {
   const credential = new DefaultAzureCredential();

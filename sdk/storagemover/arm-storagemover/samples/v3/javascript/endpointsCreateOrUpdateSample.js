@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_AzureMultiCloudConnector.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureMultiCloudConnector.json
  */
 async function endpointsCreateOrUpdateAzureMultiCloudConnector() {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function endpointsCreateOrUpdateAzureMultiCloudConnector() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json
  */
 async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,39 @@ async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_AzureStorageNfsFileShare.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureStorageBlobContainer_CrossTenant.json
+ */
+async function endpointsCreateOrUpdateAzureStorageBlobContainerCrossTenant() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
+  const client = new StorageMoverClient(credential, subscriptionId);
+  const result = await client.endpoints.createOrUpdate(
+    "examples-rg",
+    "examples-storageMoverName",
+    "examples-endpointName",
+    {
+      properties: {
+        description: "Cross-tenant source Storage Blob Container Endpoint",
+        blobContainerName: "examples-blobcontainer",
+        endpointType: "AzureStorageBlobContainer",
+        endpointKind: "Source",
+        storageAccountResourceId:
+          "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesourcesa",
+        enableCrossTenantTransfer: true,
+        allowedStorageAccounts: [
+          "/subscriptions/0a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809/resourceGroups/partner-rg/providers/Microsoft.Storage/storageAccounts/partnertargetsa",
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
+ *
+ * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureStorageNfsFileShare.json
  */
 async function endpointsCreateOrUpdateAzureStorageNfsFileShare() {
   const credential = new DefaultAzureCredential();
@@ -93,7 +125,7 @@ async function endpointsCreateOrUpdateAzureStorageNfsFileShare() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare.json
  */
 async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
   const credential = new DefaultAzureCredential();
@@ -121,7 +153,39 @@ async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_NfsMount.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare_CrossTenant.json
+ */
+async function endpointsCreateOrUpdateAzureStorageSmbFileShareCrossTenant() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
+  const client = new StorageMoverClient(credential, subscriptionId);
+  const result = await client.endpoints.createOrUpdate(
+    "examples-rg",
+    "examples-storageMoverName",
+    "examples-endpointName",
+    {
+      properties: {
+        description: "Cross-tenant source Azure Storage SMB file share Endpoint",
+        endpointType: "AzureStorageSmbFileShare",
+        endpointKind: "Source",
+        fileShareName: "examples-fileshare",
+        storageAccountResourceId:
+          "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesourcesa",
+        enableCrossTenantTransfer: true,
+        allowedStorageAccounts: [
+          "/subscriptions/0a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809/resourceGroups/partner-rg/providers/Microsoft.Storage/storageAccounts/partnertargetsa",
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
+ *
+ * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_NfsMount.json
  */
 async function endpointsCreateOrUpdateNfsMount() {
   const credential = new DefaultAzureCredential();
@@ -135,6 +199,7 @@ async function endpointsCreateOrUpdateNfsMount() {
       properties: {
         description: "Example NFS Mount Endpoint Description",
         endpointType: "NfsMount",
+        sourceType: "NfsMount",
         endpointKind: "Source",
         export: "examples-exportName",
         host: "0.0.0.0",
@@ -148,7 +213,7 @@ async function endpointsCreateOrUpdateNfsMount() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_S3WithHMAC.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_S3WithHMAC.json
  */
 async function endpointsCreateOrUpdateS3WithHmac() {
   const credential = new DefaultAzureCredential();
@@ -180,7 +245,7 @@ async function endpointsCreateOrUpdateS3WithHmac() {
  * This sample demonstrates how to creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_SmbMount.json
+ * x-ms-original-file: 2026-05-01/Endpoints_CreateOrUpdate_SmbMount.json
  */
 async function endpointsCreateOrUpdateSmbMount() {
   const credential = new DefaultAzureCredential();
@@ -199,6 +264,7 @@ async function endpointsCreateOrUpdateSmbMount() {
           usernameUri: "https://examples-azureKeyVault.vault.azure.net/secrets/examples-username",
         },
         endpointType: "SmbMount",
+        sourceType: "SmbMount",
         endpointKind: "Source",
         host: "0.0.0.0",
         shareName: "examples-shareName",
@@ -211,8 +277,10 @@ async function endpointsCreateOrUpdateSmbMount() {
 async function main() {
   await endpointsCreateOrUpdateAzureMultiCloudConnector();
   await endpointsCreateOrUpdateAzureStorageBlobContainer();
+  await endpointsCreateOrUpdateAzureStorageBlobContainerCrossTenant();
   await endpointsCreateOrUpdateAzureStorageNfsFileShare();
   await endpointsCreateOrUpdateAzureStorageSmbFileShare();
+  await endpointsCreateOrUpdateAzureStorageSmbFileShareCrossTenant();
   await endpointsCreateOrUpdateNfsMount();
   await endpointsCreateOrUpdateS3WithHmac();
   await endpointsCreateOrUpdateSmbMount();
