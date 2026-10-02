@@ -76,6 +76,13 @@ or unsafe change exits nonzero before formatting can disguise the failure.
   discriminator values, and terminal serializer/deserializer registrations.
   Unrelated removed values and intentionally customized-away models are not
   resurrected; ambiguous legacy dispatch still requires review.
+  The explicitly approved exception for the data-generation configuration
+  migration (azure-rest-api-specs#46941) adopts the upstream
+  `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and
+  `simulation_seed`, without the customized `task_generation` value. The policy
+  validates these exact values; future discriminator changes still require review.
+  Retire renamed options/output-target declarations with the generated-model
+  removal synchronizer, including dependent legacy task-generation models.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
   hand-maintained implementations are not replaced wholesale. A protected

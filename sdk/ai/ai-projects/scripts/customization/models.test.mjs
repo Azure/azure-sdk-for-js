@@ -44,6 +44,62 @@ function evaluate(text) {
   return sandbox.exports;
 }
 
+const dataGenerationValues = '"simple_qna" | "traces" | "tool_use" | "simulation_seed"';
+
+test("data generation schema renames adopt only the explicitly approved upstream discriminator", () => {
+  const discriminator = `export type DataGenerationJobType = ${dataGenerationValues};`;
+  const options = `
+export interface DataGenerationJobOptions { type: DataGenerationJobType; }
+${["simple_qna", "traces", "tool_use", "simulation_seed"]
+  .map(
+    (value, index) =>
+      `export interface Old${index} extends DataGenerationJobOptions { type: "${value}"; }`,
+  )
+  .join("\n")}`;
+  const base = tree(discriminator + options);
+  const custom = tree(
+    discriminator.replace(";", ' | "task_generation";') +
+      options +
+      'export type Unrelated = "kept";',
+  );
+  const incoming = tree(
+    discriminator +
+      "export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }",
+  );
+  const result = succeeded(base, custom, incoming);
+  const text = result.files.get(modelFile);
+  assert.doesNotMatch(text, /"task_generation"/);
+  assert.match(text, /type Unrelated = "kept"/);
+  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed"])
+    assert.ok(text.includes(`"${value}"`));
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+
+  // A subsequent regeneration must not resurrect the customized discriminator.
+  const repeated = succeeded(incoming, result.files, incoming);
+  assert.doesNotMatch(repeated.files.get(modelFile), /"task_generation"/);
+});
+
+test("unapproved data generation values and unrelated full-union retention still require review", () => {
+  const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  for (const incoming of [
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "future";`),
+    tree('export type DataGenerationJobType = "simple_qna";'),
+    tree("export type DataGenerationJobType = string;"),
+  ]) {
+    const result = plan(base, base, incoming);
+    assert.equal(result.files.size, 0);
+    assert.match(result.diagnostics[0].message, /approved upstream-values policy/);
+  }
+  const unrelated = tree(`
+export type OtherKind = "legacy";
+export interface Other { kind: OtherKind; }
+export interface Legacy extends Other { kind: "legacy"; }
+`);
+  const result = plan(unrelated, unrelated, tree('export type OtherKind = "new";'));
+  assert.equal(result.files.size, 0);
+  assert.ok(result.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
+});
+
 function assertModelTypes(files, packageRoot) {
   const configuration = ts.readConfigFile(
     path.join(packageRoot, "tsconfig.test.node.json"),

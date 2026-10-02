@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import type { EvaluatorVersion, EvaluatorGenerationJob } from "../../models/models.js";
+import type {
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+  EvaluatorGenerationInputs,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   EvaluatorsDeleteGenerationJobOptionalParams,
@@ -31,46 +35,6 @@ import {
   list,
   listVersions,
 } from "../../api/evaluators/operations.js";
-<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/classic/evaluators/index.ts
-import {
-  EvaluatorsDeleteGenerationJobOptionalParams,
-  EvaluatorsCancelGenerationJobOptionalParams,
-  EvaluatorsListGenerationJobsOptionalParams,
-  EvaluatorsGetGenerationJobOptionalParams,
-  EvaluatorsCreateGenerationJobOptionalParams,
-  EvaluatorsUpdateVersionOptionalParams,
-  EvaluatorsCreateVersionOptionalParams,
-  EvaluatorsDeleteVersionOptionalParams,
-  EvaluatorsGetVersionOptionalParams,
-  EvaluatorsListOptionalParams,
-  EvaluatorsListVersionsOptionalParams,
-} from "../../api/evaluators/options.js";
-import {
-  EvaluatorVersion,
-  EvaluatorGenerationInputs,
-  EvaluatorGenerationJob,
-} from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/classic/evaluators/index.ts
-import {
-  EvaluatorsDeleteGenerationJobOptionalParams,
-  EvaluatorsCancelGenerationJobOptionalParams,
-  EvaluatorsListGenerationJobsOptionalParams,
-  EvaluatorsGetGenerationJobOptionalParams,
-  EvaluatorsCreateGenerationJobOptionalParams,
-  EvaluatorsUpdateVersionOptionalParams,
-  EvaluatorsCreateVersionOptionalParams,
-  EvaluatorsDeleteVersionOptionalParams,
-  EvaluatorsGetVersionOptionalParams,
-  EvaluatorsListOptionalParams,
-  EvaluatorsListVersionsOptionalParams,
-} from "../../api/evaluators/options.js";
-import { EvaluatorVersion, EvaluatorGenerationJob } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-=======
->>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/classic/evaluators/index.ts
 
 /** Operations for EvaluatorsOperations. */
 export interface EvaluatorsOperations {

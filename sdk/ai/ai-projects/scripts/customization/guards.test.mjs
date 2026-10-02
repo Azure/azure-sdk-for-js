@@ -43,6 +43,59 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
+  const upstream =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const legacy = upstream.replace(";", ' | "task_generation";');
+  assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  for (const output of [
+    legacy,
+    upstream.replace('"traces" | ', ""),
+    upstream.replace(";", ' | "unexpected";'),
+  ]) {
+    has(
+      validate(modelFixture(upstream, legacy, upstream, output)),
+      "DataGenerationJobType",
+      undefined,
+      "must adopt upstream values",
+    );
+  }
+  const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
+  has(
+    validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),
+    "OtherKind",
+    undefined,
+    "Lost custom-only union",
+  );
+});
+
+test("only the legacy task model and converters may retire with the approved configuration migration", () => {
+  const discriminator =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const base = `${discriminator}
+export interface DataGenerationJobOptions { type: DataGenerationJobType; }`;
+  const customized = `${base}
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions { type: "task_generation"; }
+export function taskGenerationDataGenerationJobOptionsSerializer(item: TaskGenerationDataGenerationJobOptions): any { return item; }
+export function taskGenerationDataGenerationJobOptionsDeserializer(item: any): TaskGenerationDataGenerationJobOptions { return item; }
+`;
+  const incoming = `${discriminator}
+export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }`;
+  const files = modelFixture(base, customized, incoming, incoming);
+  files.baseSource.set(
+    "index.ts",
+    `${scaffold}export type { TaskGenerationDataGenerationJobOptions } from "./models/models.js";`,
+  );
+  files.source.set("index.ts", scaffold);
+  assert.deepEqual(validate(files), []);
+  for (const generated of [base, discriminator]) {
+    const rejected = validate({ ...files, generated: tree({ "models/models.ts": generated }) });
+    has(rejected, "TaskGenerationDataGenerationJobOptions", undefined, "Lost maintained");
+  }
+  files.baseSource.set("models/models.ts", customized + "export interface Unrelated {}");
+  has(validate(files), "Unrelated", undefined, "Lost maintained");
+});
+
 function evaluatorPromotionFixture() {
   const beta = "classic/beta/evaluators/index.ts";
   const root = "classic/evaluators/index.ts";

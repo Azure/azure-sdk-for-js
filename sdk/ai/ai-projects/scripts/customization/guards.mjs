@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
@@ -523,7 +524,17 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     alternatives(output, indexes.output, renames, report),
   ];
   requireDelta(unions[0], unions[2], unions[3], target, "union alternative", report);
-  preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  if (
+    target.name === "DataGenerationJobType" &&
+    isUpstreamDataGenerationType(base?.node) &&
+    isUpstreamDataGenerationType(custom?.node, true) &&
+    isUpstreamDataGenerationType(incoming?.node)
+  ) {
+    if (!isUpstreamDataGenerationType(output?.node))
+      report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
+  } else {
+    preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  }
   if (/Serializer$|Deserializer$/.test(incoming?.name ?? custom.name)) {
     const resolved = [
       resolveAlias(base, indexes.base, renames, report),
@@ -554,6 +565,42 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
       renames,
     );
   }
+}
+
+function retiredTaskGeneration(name, base, custom, incoming) {
+  if (
+    ![
+      "TaskGenerationDataGenerationJobOptions",
+      "taskGenerationDataGenerationJobOptionsSerializer",
+      "taskGenerationDataGenerationJobOptionsDeserializer",
+    ].includes(name)
+  )
+    return false;
+  const single = (index, key) =>
+    index.get(key)?.length === 1 ? index.get(key)[0].node : undefined;
+  const legacy = single(custom, "TaskGenerationDataGenerationJobOptions");
+  return Boolean(
+    !incoming.has(name) &&
+    base.has("DataGenerationJobOptions") &&
+    !incoming.has("DataGenerationJobOptions") &&
+    incoming.has("DataGenerationJobConfiguration") &&
+    isUpstreamDataGenerationType(single(base, "DataGenerationJobType")) &&
+    isUpstreamDataGenerationType(single(custom, "DataGenerationJobType"), true) &&
+    isUpstreamDataGenerationType(single(incoming, "DataGenerationJobType")) &&
+    legacy &&
+    ts.isInterfaceDeclaration(legacy) &&
+    legacy.heritageClauses?.some((clause) =>
+      clause.types.some((type) => nameOf(type.expression) === "DataGenerationJobOptions"),
+    ) &&
+    legacy.members.some(
+      (member) =>
+        nameOf(member.name) === "type" &&
+        member.type &&
+        ts.isLiteralTypeNode(member.type) &&
+        ts.isStringLiteral(member.type.literal) &&
+        member.type.literal.text === "task_generation",
+    ),
+  );
 }
 
 function checkModels(trees, renames, report) {
@@ -588,6 +635,8 @@ function checkModels(trees, renames, report) {
       const output = find(indexes.output, custom.name, custom.file, renames, report);
       if (base && !incoming) continue;
       if (!output) {
+        if (retiredTaskGeneration(custom.name, indexes.base, indexes.custom, indexes.incoming))
+          continue;
         const alias = aliasTarget(custom.node);
         if (
           alias &&
@@ -732,6 +781,7 @@ function exportsOf(modules, file, report, seen = new Set()) {
 
 function checkExports(trees, renames, report) {
   const baseInventory = inventory(trees.base);
+  const customInventory = inventory(trees.custom);
   const incomingInventory = inventory(trees.incoming);
   for (const file of ["index.ts", "models/index.ts", "classic/index.ts"]) {
     const previous = exportsOf(trees.custom, file, report);
@@ -764,6 +814,8 @@ function checkExports(trees, renames, report) {
         emittedBase.get(name) ??
         [...emittedBase.values()].find((item) => mapped(item.name, renames) === name);
       const generatedName = counterpart?.imported ?? entry.imported;
+      if (retiredTaskGeneration(generatedName, baseInventory, customInventory, incomingInventory))
+        continue;
       if (
         candidates(baseInventory, generatedName, renames).length &&
         !candidates(incomingInventory, generatedName, renames).length

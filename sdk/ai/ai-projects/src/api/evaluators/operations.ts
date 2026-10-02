@@ -7,24 +7,16 @@ import {
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/api/evaluators/operations.ts
-  EvaluatorGenerationInputs,
-  evaluatorGenerationInputsSerializer,
-  EvaluatorGenerationJob,
-||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
-  EvaluatorGenerationJob,
-  evaluatorGenerationJobSerializer,
-=======
-  evaluatorGenerationJobSerializer,
->>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
   evaluatorGenerationJobDeserializer,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  evaluatorGenerationInputsSerializer,
 } from "../../models/models.js";
 import type {
   _PagedEvaluatorVersion,
   EvaluatorVersion,
   EvaluatorGenerationJob,
   _AgentsPagedResultEvaluatorGenerationJob,
+  EvaluatorGenerationInputs,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -280,33 +272,6 @@ export function _createGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/api/evaluators/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluatorGenerationInputsSerializer(job),
-    });
-||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluatorGenerationJobSerializer(job),
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -315,9 +280,8 @@ export function _createGenerationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluatorGenerationJobSerializer(job),
+    body: evaluatorGenerationInputsSerializer(job),
   });
->>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
 }
 
 export async function _createGenerationJobDeserialize(
