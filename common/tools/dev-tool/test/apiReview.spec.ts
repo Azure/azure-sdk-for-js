@@ -185,6 +185,26 @@ describe("generateApiReview", () => {
       );
     });
 
+    it("prints a status tag on an exported variable once, above the statement", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "/**",
+          " * A constant that indicates whether the environment the code is running is a Node.js compatible environment.",
+          " *",
+          " * @deprecated",
+          " *",
+          " * Use `isNodeLike` instead.",
+          " */",
+          "export declare const isNode: boolean;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("// @deprecated\nexport declare const isNode: boolean;");
+      expect(apiMd.split("// @deprecated").length - 1).toBe(1);
+    });
+
     it("omits private members and prints classes without declare", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
@@ -542,6 +562,106 @@ describe("generateApiReview", () => {
 
       expect(apiMd).toContain("export default class PlaywrightReporter {");
       expect(apiMd).not.toContain("class default");
+    });
+  });
+
+  describe("module objects", () => {
+    it("prints export * as a namespace block of the module's exports", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export * as fn from "./fn.js";',
+        "dist/esm/expressions.d.ts": "export type Expression = string;",
+        "dist/esm/fn.d.ts": [
+          'import { type Expression } from "./expressions.js";',
+          "/** Adds two numbers as a deploy-time expression. */",
+          "export declare function add(left: number, right: number): number;",
+          "export declare function sub(left: number, right: number): number;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "```ts",
+          "export declare namespace fn {",
+          "    export declare function add(left: number, right: number): number;",
+          "",
+          "    export declare function sub(left: number, right: number): number;",
+          "}",
+          "```",
+        ].join("\n"),
+      );
+      expect(apiMd).not.toContain("import { type Expression");
+      expect(apiMd).not.toContain("fn.js");
+    });
+
+    it("prints import * as X re-exported as a namespace block", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'import * as PurviewAccount from "./account/index.js";',
+          "export { PurviewAccount };",
+        ].join("\n"),
+        "dist/esm/account/index.d.ts":
+          "export declare function createClient(endpoint: string): void;",
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "export declare namespace PurviewAccount {",
+          "    export declare function createClient(endpoint: string): void;",
+          "}",
+        ].join("\n"),
+      );
+      expect(apiMd).not.toContain("account/index.js");
+    });
+
+    it("nests module objects inside namespace blocks", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'import * as PurviewAccount from "./account/index.js";',
+          "export { PurviewAccount };",
+        ].join("\n"),
+        "dist/esm/account/index.d.ts": [
+          'import * as Models from "./models.js";',
+          "export declare function createClient(endpoint: string): void;",
+          "export { Models };",
+        ].join("\n"),
+        "dist/esm/account/models.d.ts": "export interface Account {\n    name: string;\n}",
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "    export declare namespace Models {",
+          "        export interface Account {",
+          "            name: string;",
+          "        }",
+          "    }",
+        ].join("\n"),
+      );
+    });
+
+    it("doesn't report namespace members as forgotten exports", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          'export * as types from "./types.js";',
+          'export { KeyVaultService } from "./service.js";',
+        ].join("\n"),
+        "dist/esm/types.d.ts": 'export type SkuName = "standard" | "premium";',
+        "dist/esm/service.d.ts": [
+          'import type { SkuName } from "./types.js";',
+          "export declare class KeyVaultService {",
+          "    sku: SkuName;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).not.toContain("arh-forgotten-export");
     });
   });
 

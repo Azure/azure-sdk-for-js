@@ -562,12 +562,43 @@ function buildExportSections(
   const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
     symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
 
+  const exportsOf = (moduleSymbol: ts.Symbol): ts.Symbol[] =>
+    checker.getExportsOfModule(moduleSymbol).sort((a, b) => a.name.localeCompare(b.name, "en"));
+
+  // `export * as fn from "./fn.js"` and `import * as fn ...; export { fn }` export a whole module.
+  const isModuleObject = (symbol: ts.Symbol): boolean =>
+    symbol.declarations?.some(ts.isSourceFile) ?? false;
+
   const exportsByFile = exportFiles.map(({ file }) =>
-    checker
-      .getExportsOfModule(checker.getSymbolAtLocation(program.getSourceFile(file)!)!)
-      .sort((a, b) => a.name.localeCompare(b.name, "en")),
+    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!),
   );
-  const exposed = new Set(exportsByFile.flat().map(resolveAlias));
+
+  // Everything reachable through an export path, including members of exported module objects.
+  const exposed = new Set<ts.Symbol>();
+  const expose = (symbols: ts.Symbol[]): void => {
+    for (const symbol of symbols.map(resolveAlias)) {
+      if (!exposed.has(symbol)) {
+        exposed.add(symbol);
+        if (isModuleObject(symbol)) {
+          expose(exportsOf(symbol));
+        }
+      }
+    }
+  };
+  expose(exportsByFile.flat());
+
+  // Prints a module object as `export declare namespace <name> { <its exports> }`.
+  const printModuleObject = (name: string, moduleSymbol: ts.Symbol): string => {
+    const members = exportsOf(moduleSymbol).map((member) => {
+      const target = resolveAlias(member);
+      return isModuleObject(target)
+        ? printModuleObject(member.name, target)
+        : printDeclarations(target, member.name, printer, referenceNames).join("\n\n");
+    });
+    // Indent every non-empty line (blank lines between members stay empty).
+    const body = members.join("\n\n").replace(/^(?=.)/gm, "    ");
+    return `export declare namespace ${name} {\n${body}\n}`;
+  };
 
   const referenceNames: ReferenceNames = {
     rewritten: (node) => {
@@ -618,7 +649,9 @@ function buildExportSections(
         reExports.push(reExport);
         continue;
       }
-      const printed = printDeclarations(symbol, exportedSymbol.name, printer, referenceNames);
+      const printed = isModuleObject(symbol)
+        ? [printModuleObject(exportedSymbol.name, symbol)]
+        : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames);
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(...printed);
       } else {
@@ -865,7 +898,10 @@ function toReviewShape(
         true,
       );
     }
-    for (const tag of ts.getJSDocTags(node)) {
+    // getJSDocTags also reports a variable statement's tags on its declarations; print them once,
+    // on the statement.
+    const tags = ts.isVariableDeclaration(node) ? [] : ts.getJSDocTags(node);
+    for (const tag of tags) {
       if (statusTags.has(tag.tagName.text)) {
         ts.addSyntheticLeadingComment(
           result,
