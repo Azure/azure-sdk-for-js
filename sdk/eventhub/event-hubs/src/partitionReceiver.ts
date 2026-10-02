@@ -490,7 +490,11 @@ function onMessage(
   if (!context.message) {
     return;
   }
-  const data = fromRheaMessage(context.message, !!options.skipParsingBodyAsJson);
+  const data = fromRheaMessage(
+    context.message,
+    !!options.skipParsingBodyAsJson,
+    !!options.skipConvertingDate,
+  );
   const receivedEventData = convertAMQPMesage(data);
   obj.checkpoint = receivedEventData.sequenceNumber;
   if (options.trackLastEnqueuedEventProperties) {
