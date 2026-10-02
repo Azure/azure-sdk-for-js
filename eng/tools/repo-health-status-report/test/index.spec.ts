@@ -163,6 +163,28 @@ describe("getBuildResult", () => {
     expect(pipelines["@azure/example"].ci?.lint?.status).toBe("succeeded");
   });
 
+  it.each(["Copy Packages", "Create and Validate API Review"])(
+    "records failed Build validation task %s",
+    async (taskName) => {
+      const pipelines = createPipelines("ci");
+      getBuildMock.mockResolvedValue(createBuildResponse());
+      getBuildTimelineMock.mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            records: [
+              { name: "Build libraries", result: "succeeded" },
+              { name: taskName, result: "failed" },
+            ],
+          }),
+        ),
+      );
+
+      await runBuild("ci", pipelines);
+
+      expect(pipelines["@azure/example"].ci?.build?.status).toBe("failed");
+    },
+  );
+
   it("records non-federated integration test tasks", async () => {
     const pipelines = createPipelines("tests");
     getBuildMock.mockResolvedValue(createBuildResponse());

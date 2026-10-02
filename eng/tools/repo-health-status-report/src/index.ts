@@ -218,7 +218,11 @@ async function fetchBuildResult(
   for (const task of timelineResult.records ?? []) {
     const taskName = task.name ?? "";
     if (buildKind === "ci") {
-      if (taskName.includes("Build libraries")) {
+      if (
+        taskName.includes("Build libraries") ||
+        taskName.includes("Copy Packages") ||
+        taskName.includes("Create and Validate API Review")
+      ) {
         recordTestResult(task, "build", pipelineResult);
       } else if (
         taskName.includes("Build ESLint Plugin and Lint Libraries") ||
