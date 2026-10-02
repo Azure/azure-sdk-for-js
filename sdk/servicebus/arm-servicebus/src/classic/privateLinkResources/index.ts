@@ -15,7 +15,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesGetOptionalParams,
   ) => Promise<PrivateLinkResourcesListResult>;
 }
-
 function _getPrivateLinkResources(context: ServiceBusManagementContext) {
   return {
     get: (
@@ -25,7 +24,6 @@ function _getPrivateLinkResources(context: ServiceBusManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: ServiceBusManagementContext,
 ): PrivateLinkResourcesOperations {

@@ -29,7 +29,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: ServiceBusManagementContext) {
   return {
     reconcile: (
@@ -53,7 +52,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: ServiceBusManagemen
       ),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: ServiceBusManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

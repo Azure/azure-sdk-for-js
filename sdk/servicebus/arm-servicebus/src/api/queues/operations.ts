@@ -51,7 +51,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       "%24skip": options?.skip,
       "%24top": options?.top,
     },
@@ -80,7 +80,6 @@ export async function _listByNamespaceDeserialize(
 
   return _sbQueueListResultDeserializer(result.body);
 }
-
 /** Gets the queues within a namespace. */
 export function listByNamespace(
   context: Client,
@@ -93,7 +92,11 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -111,7 +114,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +136,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a queue from the specified namespace in a resource group. */
 export async function $delete(
   context: Client,
@@ -161,7 +163,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +190,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return sbQueueDeserializer(result.body);
 }
-
 /** Creates or updates a Service Bus queue. This operation is idempotent. */
 export async function createOrUpdate(
   context: Client,
@@ -223,7 +224,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,7 +249,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<SB
 
   return sbQueueDeserializer(result.body);
 }
-
 /** Returns a description for the specified queue. */
 export async function get(
   context: Client,
@@ -278,7 +278,7 @@ export function _regenerateKeysSend(
       namespaceName: namespaceName,
       queueName: queueName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +307,6 @@ export async function _regenerateKeysDeserialize(
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Regenerates the primary or secondary connection strings to the queue. */
 export async function regenerateKeys(
   context: Client,
@@ -346,7 +345,7 @@ export function _listKeysSend(
       namespaceName: namespaceName,
       queueName: queueName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +370,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Primary and secondary connection strings to the queue. */
 export async function listKeys(
   context: Client,
@@ -406,7 +404,7 @@ export function _listAuthorizationRulesSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +431,6 @@ export async function _listAuthorizationRulesDeserialize(
 
   return _sbAuthorizationRuleListResultDeserializer(result.body);
 }
-
 /** Gets all authorization rules for a queue. */
 export function listAuthorizationRules(
   context: Client,
@@ -448,7 +445,11 @@ export function listAuthorizationRules(
       _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, queueName, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -468,7 +469,7 @@ export function _deleteAuthorizationRuleSend(
       namespaceName: namespaceName,
       queueName: queueName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,7 +493,6 @@ export async function _deleteAuthorizationRuleDeserialize(
 
   return;
 }
-
 /** Deletes a queue authorization rule. */
 export async function deleteAuthorizationRule(
   context: Client,
@@ -530,7 +530,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       namespaceName: namespaceName,
       queueName: queueName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -559,7 +559,6 @@ export async function _createOrUpdateAuthorizationRuleDeserialize(
 
   return sbAuthorizationRuleDeserializer(result.body);
 }
-
 /** Creates an authorization rule for a queue. */
 export async function createOrUpdateAuthorizationRule(
   context: Client,
@@ -598,7 +597,7 @@ export function _getAuthorizationRuleSend(
       namespaceName: namespaceName,
       queueName: queueName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -625,7 +624,6 @@ export async function _getAuthorizationRuleDeserialize(
 
   return sbAuthorizationRuleDeserializer(result.body);
 }
-
 /** Gets an authorization rule for a queue by rule name. */
 export async function getAuthorizationRule(
   context: Client,

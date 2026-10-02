@@ -16,7 +16,6 @@ export interface NetworkSecurityPerimeterConfigurationOperations {
     options?: NetworkSecurityPerimeterConfigurationListOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfiguration(context: ServiceBusManagementContext) {
   return {
     list: (
@@ -26,7 +25,6 @@ function _getNetworkSecurityPerimeterConfiguration(context: ServiceBusManagement
     ) => list(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationOperations(
   context: ServiceBusManagementContext,
 ): NetworkSecurityPerimeterConfigurationOperations {

@@ -177,7 +177,7 @@ export interface NamespacesOperations {
     namespaceName: string,
     parameters: SBNamespaceUpdateParameters,
     options?: NamespacesUpdateOptionalParams,
-  ) => Promise<SBNamespace | undefined>;
+  ) => Promise<SBNamespace | void>;
   /** Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -206,7 +206,6 @@ export interface NamespacesOperations {
     options?: NamespacesGetOptionalParams,
   ) => Promise<SBNamespace>;
 }
-
 function _getNamespaces(context: ServiceBusManagementContext) {
   return {
     checkNameAvailability: (
@@ -384,7 +383,6 @@ function _getNamespaces(context: ServiceBusManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getNamespacesOperations(
   context: ServiceBusManagementContext,
 ): NamespacesOperations {
