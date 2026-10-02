@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to attach to the output stream of a specific container instance in a specified resource group and container group.
  *
  * @summary attach to the output stream of a specific container instance in a specified resource group and container group.
- * x-ms-original-file: 2026-06-01-preview/ContainerAttach.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerAttach.json
  */
 async function containerAttach(): Promise<void> {
   const credential = new DefaultAzureCredential();

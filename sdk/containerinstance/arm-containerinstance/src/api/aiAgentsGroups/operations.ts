@@ -3,31 +3,31 @@
 
 import type { ContainerInstanceManagementContext as Client } from "../index.js";
 import type {
-  _SandboxGroupListResult,
-  SandboxGroup,
-  SandboxGroupTagsUpdate,
-  SandboxGroupAccessToken,
+  _AiAgentsGroupListResult,
+  AiAgentsGroup,
+  AiAgentsGroupTagsUpdate,
+  AiAgentsGroupAccessToken,
 } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  _sandboxGroupListResultDeserializer,
-  sandboxGroupSerializer,
-  sandboxGroupDeserializer,
-  sandboxGroupTagsUpdateSerializer,
-  sandboxGroupAccessTokenDeserializer,
+  _aiAgentsGroupListResultDeserializer,
+  aiAgentsGroupSerializer,
+  aiAgentsGroupDeserializer,
+  aiAgentsGroupTagsUpdateSerializer,
+  aiAgentsGroupAccessTokenDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  SandboxGroupsConnectOptionalParams,
-  SandboxGroupsDeleteOptionalParams,
-  SandboxGroupsUpdateOptionalParams,
-  SandboxGroupsCreateOrUpdateOptionalParams,
-  SandboxGroupsGetOptionalParams,
-  SandboxGroupsListByResourceGroupOptionalParams,
-  SandboxGroupsListBySubscriptionOptionalParams,
+  AiAgentsGroupsConnectOptionalParams,
+  AiAgentsGroupsDeleteOptionalParams,
+  AiAgentsGroupsUpdateOptionalParams,
+  AiAgentsGroupsCreateOrUpdateOptionalParams,
+  AiAgentsGroupsGetOptionalParams,
+  AiAgentsGroupsListByResourceGroupOptionalParams,
+  AiAgentsGroupsListBySubscriptionOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -36,16 +36,16 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 export function _connectSend(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsConnectOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsConnectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}/connect{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}/connect{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      sandboxGroupName: sandboxGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      aiAgentsGroupName: aiAgentsGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +59,7 @@ export function _connectSend(
 
 export async function _connectDeserialize(
   result: PathUncheckedResponse,
-): Promise<SandboxGroupAccessToken> {
+): Promise<AiAgentsGroupAccessToken> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -70,33 +70,32 @@ export async function _connectDeserialize(
     throw error;
   }
 
-  return sandboxGroupAccessTokenDeserializer(result.body);
+  return aiAgentsGroupAccessTokenDeserializer(result.body);
 }
-
-/** Get an access token and endpoint for connecting to the SandboxGroup. */
+/** Get an access token and endpoint for connecting to the AiAgentsGroup. */
 export async function connect(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsConnectOptionalParams = { requestOptions: {} },
-): Promise<SandboxGroupAccessToken> {
-  const result = await _connectSend(context, resourceGroupName, sandboxGroupName, options);
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsConnectOptionalParams = { requestOptions: {} },
+): Promise<AiAgentsGroupAccessToken> {
+  const result = await _connectSend(context, resourceGroupName, aiAgentsGroupName, options);
   return _connectDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsDeleteOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      sandboxGroupName: sandboxGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      aiAgentsGroupName: aiAgentsGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,37 +117,36 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
-/** Delete a SandboxGroup */
+/** Delete an AiAgentsGroup */
 export function $delete(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsDeleteOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, sandboxGroupName, options),
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, aiAgentsGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  properties: SandboxGroupTagsUpdate,
-  options: SandboxGroupsUpdateOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  properties: AiAgentsGroupTagsUpdate,
+  options: AiAgentsGroupsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      sandboxGroupName: sandboxGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      aiAgentsGroupName: aiAgentsGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,11 +156,11 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sandboxGroupTagsUpdateSerializer(properties),
+    body: aiAgentsGroupTagsUpdateSerializer(properties),
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SandboxGroup> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AiAgentsGroup> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -173,41 +171,40 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return sandboxGroupDeserializer(result.body);
+  return aiAgentsGroupDeserializer(result.body);
 }
-
-/** Update a SandboxGroup */
+/** Update an AiAgentsGroup */
 export function update(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  properties: SandboxGroupTagsUpdate,
-  options: SandboxGroupsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<SandboxGroup>, SandboxGroup> {
+  aiAgentsGroupName: string,
+  properties: AiAgentsGroupTagsUpdate,
+  options: AiAgentsGroupsUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, sandboxGroupName, properties, options),
+      _updateSend(context, resourceGroupName, aiAgentsGroupName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
-  }) as PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+  }) as PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  resource: SandboxGroup,
-  options: SandboxGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  resource: AiAgentsGroup,
+  options: AiAgentsGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      sandboxGroupName: sandboxGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      aiAgentsGroupName: aiAgentsGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,13 +214,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sandboxGroupSerializer(resource),
+    body: aiAgentsGroupSerializer(resource),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SandboxGroup> {
+): Promise<AiAgentsGroup> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -234,40 +231,39 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return sandboxGroupDeserializer(result.body);
+  return aiAgentsGroupDeserializer(result.body);
 }
-
-/** Create a SandboxGroup */
+/** Create an AiAgentsGroup */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  resource: SandboxGroup,
-  options: SandboxGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<SandboxGroup>, SandboxGroup> {
+  aiAgentsGroupName: string,
+  resource: AiAgentsGroup,
+  options: AiAgentsGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, sandboxGroupName, resource, options),
+      _createOrUpdateSend(context, resourceGroupName, aiAgentsGroupName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
-  }) as PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+  }) as PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>;
 }
 
 export function _getSend(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsGetOptionalParams = { requestOptions: {} },
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      sandboxGroupName: sandboxGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      aiAgentsGroupName: aiAgentsGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +275,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<SandboxGroup> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AiAgentsGroup> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -290,31 +286,30 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sa
     throw error;
   }
 
-  return sandboxGroupDeserializer(result.body);
+  return aiAgentsGroupDeserializer(result.body);
 }
-
-/** Get a SandboxGroup */
+/** Get an AiAgentsGroup */
 export async function get(
   context: Client,
   resourceGroupName: string,
-  sandboxGroupName: string,
-  options: SandboxGroupsGetOptionalParams = { requestOptions: {} },
-): Promise<SandboxGroup> {
-  const result = await _getSend(context, resourceGroupName, sandboxGroupName, options);
+  aiAgentsGroupName: string,
+  options: AiAgentsGroupsGetOptionalParams = { requestOptions: {} },
+): Promise<AiAgentsGroup> {
+  const result = await _getSend(context, resourceGroupName, aiAgentsGroupName, options);
   return _getDeserialize(result);
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: SandboxGroupsListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: AiAgentsGroupsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -328,7 +323,7 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SandboxGroupListResult> {
+): Promise<_AiAgentsGroupListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -339,15 +334,14 @@ export async function _listByResourceGroupDeserialize(
     throw error;
   }
 
-  return _sandboxGroupListResultDeserializer(result.body);
+  return _aiAgentsGroupListResultDeserializer(result.body);
 }
-
-/** List SandboxGroup resources by resource group */
+/** List AiAgentsGroup resources by resource group */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: SandboxGroupsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SandboxGroup> {
+  options: AiAgentsGroupsListByResourceGroupOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AiAgentsGroup> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -356,20 +350,20 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: SandboxGroupsListBySubscriptionOptionalParams = { requestOptions: {} },
+  options: AiAgentsGroupsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/sandboxGroups{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/aiAgentsGroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,7 +377,7 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_SandboxGroupListResult> {
+): Promise<_AiAgentsGroupListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -394,14 +388,13 @@ export async function _listBySubscriptionDeserialize(
     throw error;
   }
 
-  return _sandboxGroupListResultDeserializer(result.body);
+  return _aiAgentsGroupListResultDeserializer(result.body);
 }
-
-/** List SandboxGroup resources by subscription ID */
+/** List AiAgentsGroup resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: SandboxGroupsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SandboxGroup> {
+  options: AiAgentsGroupsListBySubscriptionOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AiAgentsGroup> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -410,7 +403,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

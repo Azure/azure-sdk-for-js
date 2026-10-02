@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the network dependencies for this container group to allow complete control of network setting and configuration. For container groups, this will always be an empty list.
  *
  * @summary gets all the network dependencies for this container group to allow complete control of network setting and configuration. For container groups, this will always be an empty list.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsGetOutboundNetworkDependenciesEndpoints.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsGetOutboundNetworkDependenciesEndpoints.json
  */
 async function containerGroupsGetOutboundNetworkDependenciesEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
