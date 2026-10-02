@@ -14,7 +14,7 @@ TypeSpec is Microsoft's new API specification language that provides better tool
 - **The generation process changes** - you'll use TypeSpec definitions instead of OpenAPI/Swagger files
 - **Build scripts and configuration update** - new tooling replaces AutoRest
 - **Internal generated code structure changes** - but your hand-written client code adapts with minimal changes
-- **Customization workflow** - generated code is placed in `generated/` and then copied to `src/` with merge capabilities
+- **Customization workflow** - generated code is isolated in `src/generated/`
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ directory: specification/ai/Azure.AI.Projects
 commit: a720ec94da68a0d77a691ddd563a4528883638ee
 repo: Azure/azure-rest-api-specs
 additionalDirectories:
-- specification/common-types/resource-management
+  - specification/common-types/resource-management
 ```
 
 ### Step 3: Understand the New Generated Structure
@@ -59,25 +59,24 @@ After migration, your package will have this structure:
 
 ```
 sdk/your-service/your-package/
-├── generated/              # Generated TypeScript code (temporary)
-│   ├── api/
-│   ├── models/
-│   ├── static-helpers/
-│   ├── index.ts
-│   └── restorePollerHelpers.ts (if LRO is used)
-├── src/                    # Your source code (generated + customizations)
-│   ├── index.ts            # Your public exports
-│   ├── yourClient.ts       # Your hand-written client code
-│   ├── api/                # Copied from generated folder by customization (if any are needed)
-|   └── ...
+├── src/
+│   ├── generated/          # Emitter-owned TypeScript code
+│   │   ├── api/
+│   │   ├── models/
+│   │   ├── static-helpers/
+│   │   ├── index.ts
+│   │   └── restorePollerHelpers.ts (if LRO is used)
+│   ├── index.ts            # Stable public entry point
+│   └── yourClient.ts       # Handwritten wrapper code
 ├── tsp-location.yaml       # TypeSpec configuration
 └── package.json
 ```
 
 **Key differences from AutoRest:**
 
-- Generated code initially goes to `generated/` (package root)
-- The customization tool copies files from `generated/` to `src/`
+- Generated code goes to `src/generated/`.
+- Handwritten wrappers stay outside `src/generated/`.
+- Generation does not use a three-way merge.
 - `tsp-location.yaml` replaces AutoRest configuration
 - Generated models and client interfaces follow modern TypeScript conventions
 
@@ -100,7 +99,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
 ```json
 {
   "scripts": {
-    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d && npm run format",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
@@ -143,19 +142,23 @@ cd sdk/your-service/your-package
 npm run generate:client
 ```
 
-### Step 7: Apply Customizations
+### Step 7: Set Up Customizations
 
-Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
+Run the customization initialization command once:
 
 ```bash
-npx dev-tool customization apply --skip index.ts
+npx dev-tool customization init
 ```
 
 This command:
 
-1. Copies all files from `generated/` to `src/`
-2. Performs 3-way merges with any existing files in `src/`
-3. Preserves your customizations from previous versions
+1. Moves generated source to `src/generated/`.
+2. Creates stable facade entry points under `src/`.
+3. Removes the legacy merge command from package scripts.
+4. Updates package paths that refer to generated source.
+
+Add handwritten customizations outside `src/generated/`. Future generation replaces only the
+files in `src/generated/`.
 
 ### Step 8: Add Helper Functions (If Needed)
 
@@ -167,7 +170,7 @@ Add a `mapPagedAsyncIterable` function to handle pagination mapping:
 // src/mappings.ts
 export function mapPagedAsyncIterable<T, U>(
   iterable: PagedAsyncIterableIterator<T>,
-  mapper: (item: T) => U
+  mapper: (item: T) => U,
 ): PagedAsyncIterableIterator<U> {
   return {
     next() {
@@ -230,11 +233,10 @@ Delete the following files that are no longer needed:
 
 - `swagger/README.md` (or similar AutoRest configuration)
 - Any custom AutoRest configuration files
-- The old `src/generated/` directory
 
 ### Step 11: Test and Validate
 
-1. **Generate and apply customizations:**
+1. **Generate the SDK:**
 
    ```bash
    npm run generate:client
@@ -258,10 +260,10 @@ Delete the following files that are no longer needed:
 
 ### Using the Customization Workflow
 
-- **Always generate to `generated/` first** - never modify files in this directory directly
-- **Use the customization tool** to copy files to `src/` and preserve customizations
+- **Keep generated source in `src/generated/`** - never modify files in this directory directly
+- **Keep handwritten wrappers outside `src/generated/`**
 - **Keep customizations minimal** - prefer TypeSpec definition changes over post-generation modifications
-- **Test the customization merge** - the 3-way merge can help but may require manual conflict resolution
+- **Build after generation** - compilation detects wrappers that depend on obsolete generated APIs
 
 ### Ongoing Development
 
@@ -285,18 +287,18 @@ After migration, your development workflow becomes:
 **Solution:**
 
 1. Run `pnpm install` to ensure dependencies are installed
-2. Check that the customization tool completed successfully
+2. Check that TypeSpec generation completed successfully
 3. Verify all imports are pointing to the correct files in `src/`
 
-### Merge Conflicts During Customization
+### Handwritten Layer Build Failures
 
-**Problem:** The customization tool reports merge conflicts.
+**Problem:** Handwritten source does not compile after generation.
 **Solution:**
 
-1. Examine the conflicted files in `src/`
-2. Resolve conflict markers manually
-3. Test that the resolution maintains your customizations
-4. Consider updating TypeSpec definitions to reduce future conflicts
+1. Review the generated API changes in `src/generated/`
+2. Update the handwritten wrappers in `src/`
+3. Build the package again
+4. Consider updating TypeSpec definitions to remove unnecessary wrappers
 
 ### API Surface Changes
 

@@ -1,5 +1,5 @@
 extends: ../../../warp.base.config.yml
 exports:
-  "./api": "./src/api/index.ts"
-  "./api/widgets": "./src/api/widgets/index.ts"
-  "./models": "./src/models/index.ts"
+  "./api": "./src/generated/api/index.ts"
+  "./api/widgets": "./src/generated/api/widgets/index.ts"
+  "./models": "./src/generated/models/index.ts"

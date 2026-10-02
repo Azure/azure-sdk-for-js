@@ -6,12 +6,14 @@
 
 Generate from the package scan. Include:
 
-- **Repository layout** — directory tree with `generated/` vs `src/` annotations
+- **Repository layout** — directory tree with generated and handwritten source annotations
 - **Source layout** — module structure under `src/` (clients, models, helpers, etc.)
-- **Code generation** — toolchain (`TypeSpec → emitter → generated/ → dev-tool customization apply → src/`), `tsp-location.yaml` format
+- **Code generation** — document the detected workflow:
+  - Recommended: `TypeSpec → emitter → src/generated/ → handwritten src/ entry points`
+  - Legacy: `TypeSpec → emitter → generated/ → dev-tool customization apply → src/`
 - **Generated vs hand-authored** — table showing mechanism, location, when to use
 - **Public client types** — all client classes and their purpose
-- **Key hand-authored files** — table of important files in `src/` that don't exist in `generated/`
+- **Key hand-authored files** — table of important files outside the generated-source directory
 - **Dependencies** — runtime and dev dependencies from `package.json`
 - **Build and test commands** — `pnpm turbo build --filter=@azure/<package>... --token 1`, `pnpm run test`
 
@@ -19,7 +21,16 @@ Generate from the package scan. Include:
 
 ## references/customization.md (if customization layout exists)
 
-Generate from comparing `generated/` and `src/`. Document:
+Generate from the detected customization layout.
+
+For `src/generated/`, document:
+
+- **Generated source boundary** — files under `src/generated/` are emitter-owned.
+- **Facade entry points** — show how handwritten entry points re-export or replace generated APIs.
+- **Handwritten file inventory** — explain each wrapper or helper outside `src/generated/`.
+- **Common scenarios after regeneration** — generated signature changes, removed exports, and wrapper build failures.
+
+For the legacy root `generated/` layout, document:
 
 - **The customization command** — document the actual command detected in Phase 0 (e.g., `dev-tool customization apply`, `customization apply-v2`). Include required flags and prerequisites (committed state in both directories).
 - **The 3-way merge algorithm** — how base/custom/result snapshots work, merge scenarios table
@@ -31,6 +42,7 @@ Generate from comparing `generated/` and `src/`. Document:
 Reference `documentation/modular-customization.md` for the full customization workflow details.
 
 Also include:
+
 - **Troubleshooting** — merge conflicts, missing exports, build failures after regeneration
 - **Quick-reference checklist** — post-regeneration verification steps
 
@@ -45,5 +57,7 @@ Question: "Create these reference files now (recommended), edit first, or skip?"
 📍 **Phase 2 complete** | Created: references/ | Next: Phase 3
 
 ---
+
 ## → Next: Phase 3 — Validate
+
 Read [03-validate.md](03-validate.md) and begin immediately.
