@@ -5,18 +5,15 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackGetOptionalParams extends OperationOptions {}

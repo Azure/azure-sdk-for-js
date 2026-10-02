@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to support info for firewall.
  *
  * @summary support info for firewall.
- * x-ms-original-file: 2026-05-11-preview/Firewalls_getSupportInfo_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_getSupportInfo_MaximumSet_Gen.json
  */
 async function firewallsGetSupportInfoMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function firewallsGetSupportInfoMaximumSetGen() {
  * This sample demonstrates how to support info for firewall.
  *
  * @summary support info for firewall.
- * x-ms-original-file: 2026-05-11-preview/Firewalls_getSupportInfo_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_getSupportInfo_MinimumSet_Gen.json
  */
 async function firewallsGetSupportInfoMinimumSetGen() {
   const credential = new DefaultAzureCredential();

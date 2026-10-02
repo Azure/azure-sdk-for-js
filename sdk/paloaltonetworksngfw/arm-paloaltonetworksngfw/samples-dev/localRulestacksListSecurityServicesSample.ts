@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the security services for rulestack
  *
  * @summary list the security services for rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function localRulestacksListSecurityServicesMaximumSetGen(): Promise<void>
  * This sample demonstrates how to list the security services for rulestack
  *
  * @summary list the security services for rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a GlobalRulestackResource
  *
  * @summary get a GlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_Get_MaximumSet_Gen.json
  */
 async function globalRulestackGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function globalRulestackGetMaximumSetGen() {
  * This sample demonstrates how to get a GlobalRulestackResource
  *
  * @summary get a GlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_Get_MinimumSet_Gen.json
  */
 async function globalRulestackGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();

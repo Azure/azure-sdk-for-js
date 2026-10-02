@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reset counters
  *
  * @summary reset counters
- * x-ms-original-file: 2026-05-11-preview/LocalRules_resetCounters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_resetCounters_MaximumSet_Gen.json
  */
 async function localRulesResetCountersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function localRulesResetCountersMaximumSetGen() {
  * This sample demonstrates how to reset counters
  *
  * @summary reset counters
- * x-ms-original-file: 2026-05-11-preview/LocalRules_resetCounters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_resetCounters_MinimumSet_Gen.json
  */
 async function localRulesResetCountersMinimumSetGen() {
   const credential = new DefaultAzureCredential();

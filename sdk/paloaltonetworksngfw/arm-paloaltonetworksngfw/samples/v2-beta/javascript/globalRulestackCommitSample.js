@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to commit rulestack configuration
  *
  * @summary commit rulestack configuration
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_commit_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_commit_MaximumSet_Gen.json
  */
 async function globalRulestackCommitMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function globalRulestackCommitMaximumSetGen() {
  * This sample demonstrates how to commit rulestack configuration
  *
  * @summary commit rulestack configuration
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_commit_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_commit_MinimumSet_Gen.json
  */
 async function globalRulestackCommitMinimumSetGen() {
   const credential = new DefaultAzureCredential();

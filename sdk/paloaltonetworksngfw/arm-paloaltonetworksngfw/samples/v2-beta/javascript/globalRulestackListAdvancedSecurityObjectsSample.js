@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the list of advanced security objects
  *
  * @summary get the list of advanced security objects
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listAdvancedSecurityObjects_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listAdvancedSecurityObjects_MaximumSet_Gen.json
  */
 async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen() {
  * This sample demonstrates how to get the list of advanced security objects
  *
  * @summary get the list of advanced security objects
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listAdvancedSecurityObjects_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listAdvancedSecurityObjects_MinimumSet_Gen.json
  */
 async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen() {
   const credential = new DefaultAzureCredential();
