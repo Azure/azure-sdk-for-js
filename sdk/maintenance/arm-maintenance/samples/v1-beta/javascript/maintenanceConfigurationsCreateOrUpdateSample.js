@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or Update configuration record
  *
  * @summary create or Update configuration record
- * x-ms-original-file: 2023-10-01-preview/MaintenanceConfigurations_CreateOrUpdateForResource.json
+ * x-ms-original-file: 2025-10-01-preview/MaintenanceConfigurations_CreateOrUpdateForResource.json
  */
 async function maintenanceConfigurationsCreateOrUpdateForResource() {
   const credential = new DefaultAzureCredential();

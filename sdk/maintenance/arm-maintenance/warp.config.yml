@@ -6,7 +6,7 @@ exports:
   "./api": "./src/api/index.ts"
   "./api/updates": "./src/api/updates/index.ts"
   "./api/applyUpdateForResourceGroup": "./src/api/applyUpdateForResourceGroup/index.ts"
-  "./api/scheduledEvent": "./src/api/scheduledEvent/index.ts"
+  "./api/scheduledEvents": "./src/api/scheduledEvents/index.ts"
   "./api/configurationAssignmentsWithinSubscription": "./src/api/configurationAssignmentsWithinSubscription/index.ts"
   "./api/maintenanceConfigurationsForResourceGroup": "./src/api/maintenanceConfigurationsForResourceGroup/index.ts"
   "./api/publicMaintenanceConfigurations": "./src/api/publicMaintenanceConfigurations/index.ts"
