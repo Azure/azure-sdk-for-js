@@ -100,6 +100,12 @@ export interface SqlResourcesRetrieveContinuousBackupInformationOptionalParams e
 }
 
 /** Optional parameters. */
+export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface SqlResourcesListSqlContainersOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -130,6 +136,18 @@ export interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams exten
 export interface SqlResourcesGetClientEncryptionKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -151,6 +169,18 @@ export interface SqlResourcesUpdateSqlContainerThroughputOptionalParams extends 
 export interface SqlResourcesGetSqlContainerThroughputOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -170,6 +200,12 @@ export interface SqlResourcesUpdateSqlDatabaseThroughputOptionalParams extends O
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlDatabaseThroughputOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlResourcesSqlDatabasePartitionMergeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlDatabasesOptionalParams extends OperationOptions {}
