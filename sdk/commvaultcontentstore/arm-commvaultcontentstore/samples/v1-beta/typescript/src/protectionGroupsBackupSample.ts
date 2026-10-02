@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to ad-hoc backup of protected items resource in given protection group.
  *
  * @summary ad-hoc backup of protected items resource in given protection group.
- * x-ms-original-file: 2026-07-03-preview/ProtectionGroups_Backup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ProtectionGroups_Backup_MaximumSet_Gen.json
  */
 async function protectionGroupsBackupMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list CloudAccount resources by resource group
  *
  * @summary list CloudAccount resources by resource group
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function cloudAccountsListByResourceGroupMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function cloudAccountsListByResourceGroupMaximumSetGeneratedByMaximumSetRu
  * This sample demonstrates how to list CloudAccount resources by resource group
  *
  * @summary list CloudAccount resources by resource group
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function cloudAccountsListByResourceGroupMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Storage
  *
  * @summary create a Storage
- * x-ms-original-file: 2026-07-03-preview/Storages_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Storages_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function storagesCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

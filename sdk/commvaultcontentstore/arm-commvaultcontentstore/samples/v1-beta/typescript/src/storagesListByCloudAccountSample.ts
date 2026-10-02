@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Storage resources by CloudAccount
  *
  * @summary list Storage resources by CloudAccount
- * x-ms-original-file: 2026-07-03-preview/Storages_ListByCloudAccount_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Storages_ListByCloudAccount_MaximumSet_Gen.json
  */
 async function storagesListByCloudAccountMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

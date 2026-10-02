@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stop Backup for a Protection Group
  *
  * @summary stop Backup for a Protection Group
- * x-ms-original-file: 2026-07-03-preview/ProtectionGroups_StopBackup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ProtectionGroups_StopBackup_MaximumSet_Gen.json
  */
 async function protectionGroupsStopBackupMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

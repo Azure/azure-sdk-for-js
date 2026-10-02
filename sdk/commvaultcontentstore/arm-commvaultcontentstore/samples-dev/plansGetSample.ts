@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a CommvaultPlan
  *
  * @summary get a CommvaultPlan
- * x-ms-original-file: 2026-07-03-preview/Plans_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Plans_Get_MaximumSet_Gen.json
  */
 async function plansGetMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to links a new SaaS to the cloud account.
  *
  * @summary links a new SaaS to the cloud account.
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_LinkSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_LinkSaaS_MaximumSet_Gen.json
  */
 async function linksANewSaaSToTheOrganizationOfTheUnderlyingMonitorGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

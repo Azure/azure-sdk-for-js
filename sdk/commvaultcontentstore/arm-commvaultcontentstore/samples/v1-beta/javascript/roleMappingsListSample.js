@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list RoleMapping resources by CloudAccount
  *
  * @summary list RoleMapping resources by CloudAccount
- * x-ms-original-file: 2026-07-03-preview/RoleMappings_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/RoleMappings_List_MaximumSet_Gen.json
  */
 async function roleMappingsList() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function roleMappingsList() {
  * This sample demonstrates how to list RoleMapping resources by CloudAccount
  *
  * @summary list RoleMapping resources by CloudAccount
- * x-ms-original-file: 2026-07-03-preview/RoleMappings_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/RoleMappings_List_MinimumSet_Gen.json
  */
 async function roleMappingsListMinimumSetListRoleMappingsWithSingleRole() {
   const credential = new DefaultAzureCredential();
