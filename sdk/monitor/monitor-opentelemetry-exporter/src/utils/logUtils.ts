@@ -51,6 +51,7 @@ import {
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
   DEFAULT_BREEZE_DATA_VERSION,
+  DEFAULT_LOG_MESSAGE,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -115,9 +116,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
+    const message = log.body == null ? undefined : serializeAttribute(log.body);
     const messageData: MessageData = {
       kind: "MessageData",
-      message: serializeAttribute(log.body),
+      message: message || DEFAULT_LOG_MESSAGE,
       severityLevel: getSeverity(log.severityNumber),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };

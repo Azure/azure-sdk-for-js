@@ -187,7 +187,7 @@
 # ServiceLabel: %Container Registry
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/    @aditishree1 @amanrao23 @sajeetharan @topshot99
+/sdk/cosmosdb/    @aditishree1 @amanrao23 @sajeetharan @topshot99 @Azure/azure-cosmos-sdk
 
 # ServiceLabel: %Cosmos %Service Attention
 # ServiceOwners: @sajeetharan @simorenoh

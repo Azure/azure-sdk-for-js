@@ -16,6 +16,7 @@ exports:
   "./api/amlFilesystems": "./src/api/amlFilesystems/index.ts"
   "./api/storageTargets": "./src/api/storageTargets/index.ts"
   "./api/caches": "./src/api/caches/index.ts"
+  "./api/rebalanceJobs": "./src/api/rebalanceJobs/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 
