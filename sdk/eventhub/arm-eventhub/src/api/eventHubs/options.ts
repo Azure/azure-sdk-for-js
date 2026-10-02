@@ -10,30 +10,21 @@ export interface EventHubsListByNamespaceOptionalParams extends OperationOptions
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface EventHubsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsRegenerateKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsListKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsListAuthorizationRulesOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsDeleteAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EventHubsGetAuthorizationRuleOptionalParams extends OperationOptions {}

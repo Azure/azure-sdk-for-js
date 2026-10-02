@@ -10,12 +10,9 @@ export interface SchemaRegistryListByNamespaceOptionalParams extends OperationOp
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface SchemaRegistryDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SchemaRegistryCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SchemaRegistryGetOptionalParams extends OperationOptions {}

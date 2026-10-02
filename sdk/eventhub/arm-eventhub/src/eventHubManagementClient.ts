@@ -18,6 +18,8 @@ import type { DisasterRecoveryConfigsOperations } from "./classic/disasterRecove
 import { _getDisasterRecoveryConfigsOperations } from "./classic/disasterRecoveryConfigs/index.js";
 import type { EventHubsOperations } from "./classic/eventHubs/index.js";
 import { _getEventHubsOperations } from "./classic/eventHubs/index.js";
+import type { FabricShortcutsOperations } from "./classic/fabricShortcuts/index.js";
+import { _getFabricShortcutsOperations } from "./classic/fabricShortcuts/index.js";
 import type { NamespacesOperations } from "./classic/namespaces/index.js";
 import { _getNamespacesOperations } from "./classic/namespaces/index.js";
 import type { NetworkSecurityPerimeterConfigurationOperationsOperations } from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
@@ -32,6 +34,8 @@ import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResour
 import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
 import type { SchemaRegistryOperations } from "./classic/schemaRegistry/index.js";
 import { _getSchemaRegistryOperations } from "./classic/schemaRegistry/index.js";
+import type { UpgradePreferencesOperationsOperations } from "./classic/upgradePreferencesOperations/index.js";
+import { _getUpgradePreferencesOperationsOperations } from "./classic/upgradePreferencesOperations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -62,14 +66,7 @@ export class EventHubManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createEventHubManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createEventHubManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.applicationGroupOperations = _getApplicationGroupOperationsOperations(this._client);
     this.schemaRegistry = _getSchemaRegistryOperations(this._client);
@@ -78,6 +75,8 @@ export class EventHubManagementClient {
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.namespaces = _getNamespacesOperations(this._client);
     this.configuration = _getConfigurationOperations(this._client);
+    this.upgradePreferencesOperations = _getUpgradePreferencesOperationsOperations(this._client);
+    this.fabricShortcuts = _getFabricShortcutsOperations(this._client);
     this.consumerGroups = _getConsumerGroupsOperations(this._client);
     this.networkSecurityPerimeterConfigurations =
       _getNetworkSecurityPerimeterConfigurationsOperations(this._client);
@@ -100,6 +99,10 @@ export class EventHubManagementClient {
   public readonly namespaces: NamespacesOperations;
   /** The operation groups for configuration */
   public readonly configuration: ConfigurationOperations;
+  /** The operation groups for upgradePreferencesOperations */
+  public readonly upgradePreferencesOperations: UpgradePreferencesOperationsOperations;
+  /** The operation groups for fabricShortcuts */
+  public readonly fabricShortcuts: FabricShortcutsOperations;
   /** The operation groups for consumerGroups */
   public readonly consumerGroups: ConsumerGroupsOperations;
   /** The operation groups for networkSecurityPerimeterConfigurations */

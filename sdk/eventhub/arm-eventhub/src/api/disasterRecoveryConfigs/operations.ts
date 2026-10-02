@@ -54,7 +54,7 @@ export function _failOverSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,6 @@ export async function _failOverDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace */
 export async function failOver(
   context: Client,
@@ -103,7 +102,7 @@ export function _breakPairingSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +124,6 @@ export async function _breakPairingDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
-
 /** This operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces */
 export async function breakPairing(
   context: Client,
@@ -150,7 +148,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +175,6 @@ export async function _listDeserialize(
 
   return _armDisasterRecoveryListResultDeserializer(result.body);
 }
-
 /** Gets all Alias(Disaster Recovery configurations) */
 export function list(
   context: Client,
@@ -190,7 +187,11 @@ export function list(
     () => _listSend(context, resourceGroupName, namespaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -208,7 +209,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +231,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an Alias(Disaster Recovery configuration) */
 export async function $delete(
   context: Client,
@@ -258,7 +258,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +287,6 @@ export async function _createOrUpdateDeserialize(
 
   return armDisasterRecoveryDeserializer(result.body);
 }
-
 /** Creates or updates a new Alias(Disaster Recovery configuration) */
 export async function createOrUpdate(
   context: Client,
@@ -322,7 +321,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -347,7 +346,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ar
 
   return armDisasterRecoveryDeserializer(result.body);
 }
-
 /** Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace */
 export async function get(
   context: Client,
@@ -373,7 +371,7 @@ export function _checkNameAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +400,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResultDeserializer(result.body);
 }
-
 /** Check the give Namespace name availability. */
 export async function checkNameAvailability(
   context: Client,
@@ -437,7 +434,7 @@ export function _listKeysSend(
       namespaceName: namespaceName,
       alias: alias,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,7 +459,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Gets the primary and secondary connection strings for the Namespace. */
 export async function listKeys(
   context: Client,
@@ -497,7 +493,7 @@ export function _listAuthorizationRulesSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       alias: alias,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -524,7 +520,6 @@ export async function _listAuthorizationRulesDeserialize(
 
   return _authorizationRuleListResultDeserializer(result.body);
 }
-
 /** Gets a list of authorization rules for a Namespace. */
 export function listAuthorizationRules(
   context: Client,
@@ -538,7 +533,11 @@ export function listAuthorizationRules(
     () => _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, alias, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -558,7 +557,7 @@ export function _getAuthorizationRuleSend(
       namespaceName: namespaceName,
       alias: alias,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -585,7 +584,6 @@ export async function _getAuthorizationRuleDeserialize(
 
   return authorizationRuleDeserializer(result.body);
 }
-
 /** Gets an AuthorizationRule for a Namespace by rule name. */
 export async function getAuthorizationRule(
   context: Client,
