@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the information of the ManagedOps instance.
  *
  * @summary gets the information of the ManagedOps instance.
- * x-ms-original-file: 2025-07-28-preview/ManagedOps_Get.json
+ * x-ms-original-file: 2026-01-06-preview/ManagedOps_Get.json
  */
 async function managedOpsGet() {
   const credential = new DefaultAzureCredential();
