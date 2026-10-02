@@ -35,7 +35,7 @@ export function _listByFrontDoorSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,7 @@ export function listByFrontDoor(
     () => _listByFrontDoorSend(context, resourceGroupName, frontDoorName, options),
     _listByFrontDoorDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -93,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       rulesEngineName: rulesEngineName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, frontDoorName, rulesEngineName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       rulesEngineName: rulesEngineName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<RulesEngine>, RulesEngine>;
 }
 
@@ -219,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
       rulesEngineName: rulesEngineName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
