@@ -9,7 +9,7 @@ import {
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { RetrieveStreamResponse } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import {
@@ -17,6 +17,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 
 export function _retrieveStreamSend(
@@ -28,7 +29,7 @@ export function _retrieveStreamSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,9 +43,6 @@ export function _retrieveStreamSend(
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
-      ...(options?.queryWorkIQSourceAuthorization !== undefined
-        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -55,8 +53,8 @@ export function _retrieveStreamSend(
 }
 
 export async function _retrieveStreamDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Uint8Array> {
+  result: PathUncheckedResponse & RetrieveStreamResponse,
+): Promise<RetrieveStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -67,7 +65,7 @@ export async function _retrieveStreamDeserialize(
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /**
@@ -84,9 +82,9 @@ export async function retrieveStream(
   context: Client,
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveStreamOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
+): Promise<RetrieveStreamResponse> {
   const streamableMethod = _retrieveStreamSend(context, retrievalRequest, options);
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _retrieveStreamDeserialize(result);
 }
 
@@ -99,7 +97,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,9 +114,6 @@ export function _retrieveSend(
         : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.queryWorkIQSourceAuthorization !== undefined
-        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }

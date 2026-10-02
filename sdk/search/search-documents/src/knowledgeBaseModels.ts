@@ -5,7 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   CorsOptions,
   KnowledgeSourceReference,
-  KnowledgeBaseRetrieveDefaults,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeBaseActivityRecordUnion,
@@ -37,11 +36,6 @@ export interface RetrieveOptions extends OperationOptions {
    * enforce security restrictions on documents.
    */
   querySourceAuthorization?: string;
-  /**
-   * User assertion for a customer-owned Microsoft Entra application configured on a Work IQ
-   * knowledge source. The service uses this assertion for on-behalf-of authentication to Work IQ.
-   */
-  queryWorkIQSourceAuthorization?: string;
 }
 
 /**
@@ -53,11 +47,6 @@ export interface RetrieveStreamOptions extends OperationOptions {
    * enforce security restrictions on documents.
    */
   querySourceAuthorization?: string;
-  /**
-   * User assertion for a customer-owned Microsoft Entra application configured on a Work IQ
-   * knowledge source. The service uses this assertion for on-behalf-of authentication to Work IQ.
-   */
-  queryWorkIQSourceAuthorization?: string;
 }
 
 /**
@@ -154,10 +143,4 @@ export interface KnowledgeBase {
    * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
    */
   corsOptions?: CorsOptions;
-  /**
-   * Persisted request-wide retrieve defaults for this knowledge base. These values apply to
-   * retrieve requests that omit the corresponding fields; request-time values take precedence
-   * when present.
-   */
-  retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
 }

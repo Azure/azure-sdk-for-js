@@ -9,7 +9,6 @@ export type {
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
-  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,

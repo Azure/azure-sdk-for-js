@@ -74,14 +74,14 @@ The convenience layer converts between generated and public types via `src/servi
 Generation command (from `package.json`):
 
 ```
-tsp-client update -d --emitter-options="api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
+tsp-client update -d --emitter-options="api-version=2026-10-01;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
 ```
 
 Run via: `npm run generate:client`. **All changes must be committed first** — the 3-way merge requires committed state.
 
 **Important flags:**
 
-- `api-version=2026-08-01-preview` — **required**. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; this override ensures the emitter generates the intended preview surface instead of another default version. Bump this value when moving to a newer preview.
+- `api-version=2026-10-01` — **required**. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; this override ensures the emitter generates the intended GA surface instead of another default version.
 - `ignore-nullable-on-optional=true` — mitigates TypeSpec's `T | null` on optional properties
 - `wrap-non-model-return=false` — prevents wrapping non-model return types
 - `--skip index.ts` — barrel export is manually maintained

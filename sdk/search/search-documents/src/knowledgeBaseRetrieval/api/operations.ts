@@ -30,7 +30,7 @@ export function _retrieveStreamSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,9 +43,6 @@ export function _retrieveStreamSend(
       accept: "text/event-stream",
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.queryWorkIQSourceAuthorization !== undefined
-        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -96,7 +93,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,9 +110,6 @@ export function _retrieveSend(
         : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.queryWorkIQSourceAuthorization !== undefined
-        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }

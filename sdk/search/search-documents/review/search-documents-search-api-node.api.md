@@ -51,7 +51,7 @@ export function createSearch(endpointParam: string, credential: KeyCredential | 
 export function getDocument(context: SearchContext, key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
 
 // @public
-export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<number>;
+export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
@@ -106,9 +106,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
     highlightPreTag?: string;
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
     querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
@@ -120,12 +119,10 @@ export interface SearchGetOptionalParams extends OperationOptions {
     select?: string;
     semanticConfiguration?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
     skip?: number;
-    speller?: QuerySpellerType;
     top?: number;
 }
 
@@ -145,14 +142,11 @@ export interface SearchPostOptionalParams extends OperationOptions {
     highlightFields?: string[];
     highlightPostTag?: string;
     highlightPreTag?: string;
-    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
     querySourceAuthorization?: string;
-    querySpeller?: QuerySpellerType;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -163,7 +157,6 @@ export interface SearchPostOptionalParams extends OperationOptions {
     select?: string;
     semanticConfigurationName?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;

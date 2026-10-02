@@ -2,15 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the preview-only retrieve request/response
- * surface in the 2026-08-01-preview data plane:
+ * @summary Demonstrates the GA retrieve request/response surface:
  *   - `maxOutputDocuments` to cap the number of documents returned.
  *   - `includeActivity` to receive per-step activity records.
  *   - Activity records that carry the structured `model` used (e.g. for
  *     query-planning and answer-synthesis steps).
- *   - Reference-level Purview sensitivity-label metadata via
- *     `searchSensitivityLabelInfo` (per reference) and
- *     `responseSensitivityLabelInfo` (per response).
  *   - The current output modes — `extractiveData` and `answerSynthesis`.
  *
  * The sample provisions a knowledge base backed by a search-index
@@ -25,7 +21,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const {
   KnowledgeRetrievalClient,
   KnownKnowledgeRetrievalOutputMode,
-  KnownKnowledgeSourceResultsProcessing,
   SearchIndexClient,
 } = require("@azure/search-documents");
 
@@ -46,15 +41,6 @@ const citationKinds = new Set([
   "file",
   "indexedSql",
 ]);
-const citationNegativeControls = new Set([
-  "workIQ",
-  "fabricDataAgent",
-  "fabricOntology",
-  "web",
-  "remoteSharePoint",
-  "mcpServer",
-]);
-
 function assertSample(condition, message) {
   if (!condition) {
     throw new Error(`Sample assertion failed: ${message}`);
@@ -73,14 +59,13 @@ async function provision(client) {
   const ks = {
     name: KNOWLEDGE_SOURCE_NAME,
     kind: "searchIndex",
-    resultsProcessing: KnownKnowledgeSourceResultsProcessing.Rerank,
     searchIndexParameters: { searchIndexName: INDEX_NAME },
   };
   await client.createKnowledgeSource(ks);
 
   const searchClient = client.getSearchClient(INDEX_NAME);
   await searchClient.uploadDocuments([
-    { id: "sample-1", content: "The August preview adds behavioral retrieval controls." },
+    { id: "sample-1", content: "Knowledge retrieval searches configured data sources." },
   ]);
 
   const knowledgeBase = {
@@ -107,12 +92,6 @@ function validateCitationUrls(response) {
         `${reference.type} citationUrl should point to the Search service, not the original source`,
       );
       seenKinds.add(reference.type);
-    }
-    if (citationNegativeControls.has(reference.type)) {
-      assertSample(
-        !("citationUrl" in reference) || reference.citationUrl === undefined,
-        `${reference.type} is a negative control and should not expose citationUrl`,
-      );
     }
   }
 
@@ -148,24 +127,12 @@ function printResponse(label, response) {
 
   console.log(`  references: ${response.references?.length ?? 0}`);
   for (const ref of response.references ?? []) {
-    // Purview sensitivity-label metadata is surfaced per reference for
-    // source kinds that support it (e.g. searchIndex, remoteSharePoint).
-    const refLabel =
-      "searchSensitivityLabelInfo" in ref ? ref.searchSensitivityLabelInfo : undefined;
-    console.log(
-      `    - ${ref.type}` + (refLabel?.displayName ? ` [label=${refLabel.displayName}]` : ""),
-    );
-  }
-
-  if (response.responseSensitivityLabelInfo?.displayName) {
-    console.log(
-      `  responseSensitivityLabelInfo: ${response.responseSensitivityLabelInfo.displayName}`,
-    );
+    console.log(`    - ${ref.type}`);
   }
 }
 
 async function main() {
-  console.log(`Running Knowledge Retrieval Preview Response Sample....`);
+  console.log(`Running Knowledge Retrieval Response Sample....`);
   if (!endpoint) {
     console.log("Be sure to set a valid ENDPOINT with proper authorization.");
     return;
@@ -208,55 +175,6 @@ async function main() {
       outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
     };
     printResponse("answerSynthesis", await retrievalClient.retrieve(synthesisRequest));
-
-    if (provisionLocalFixture) {
-      const noRerankResponse = await retrievalClient.retrieve({
-        intents: [{ type: "semantic", search: "What changed in the August preview?" }],
-        outputMode: KnownKnowledgeRetrievalOutputMode.ExtractiveData,
-        knowledgeSourceParams: [
-          {
-            kind: "searchIndex",
-            knowledgeSourceName: KNOWLEDGE_SOURCE_NAME,
-            resultsProcessing: KnownKnowledgeSourceResultsProcessing.None,
-          },
-        ],
-      });
-      assertSample(
-        (noRerankResponse.references ?? []).every(
-          (reference) => reference.rerankerScore === undefined,
-        ),
-        "resultsProcessing=none should omit rerankerScore",
-      );
-
-      const excludedResponse = await retrievalClient.retrieve({
-        intents: [{ type: "semantic", search: "What changed in the August preview?" }],
-        outputMode: KnownKnowledgeRetrievalOutputMode.ExtractiveData,
-        retrievalReasoningEffort: { kind: "medium" },
-        knowledgeSourceParams: [
-          {
-            kind: "searchIndex",
-            knowledgeSourceName: KNOWLEDGE_SOURCE_NAME,
-            neverQuerySource: true,
-          },
-        ],
-      });
-      assertSample(
-        !(excludedResponse.references ?? []).some((reference) => reference.type === "searchIndex"),
-        "request-local neverQuerySource should exclude the source from this nonminimal retrieval",
-      );
-      const storedKnowledgeBase = await indexClient.getKnowledgeBase(KNOWLEDGE_BASE_NAME);
-      assertSample(
-        storedKnowledgeBase.knowledgeSources.some(
-          (source) => source.name === KNOWLEDGE_SOURCE_NAME,
-        ),
-        "request-local neverQuerySource must not remove the stored KB member",
-      );
-      const storedSource = await indexClient.getKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
-      assertSample(
-        storedSource.resultsProcessing === KnownKnowledgeSourceResultsProcessing.Rerank,
-        "request overrides must not mutate stored resultsProcessing",
-      );
-    }
   } finally {
     if (provisionLocalFixture) {
       await teardown(indexClient);

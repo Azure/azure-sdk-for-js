@@ -10,6 +10,7 @@ import {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
+import { RetrieveStreamResponse } from "../models/models.js";
 import { retrieveStream, retrieve } from "./api/operations.js";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -50,7 +51,7 @@ export class KnowledgeBaseRetrievalClient {
   retrieveStream(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
     options: RetrieveStreamOptionalParams = { requestOptions: {} },
-  ): Promise<Uint8Array> {
+  ): Promise<RetrieveStreamResponse> {
     return retrieveStream(this._client, retrievalRequest, options);
   }
 
