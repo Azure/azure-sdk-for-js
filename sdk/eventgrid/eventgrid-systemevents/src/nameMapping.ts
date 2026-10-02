@@ -143,6 +143,7 @@ import type {
   KeyVaultSecretExpiredEventData,
   KeyVaultSecretNearExpiryEventData,
   KeyVaultSecretNewVersionCreatedEventData,
+  LifecycleHookEventsEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesModelRegisteredEventData,
@@ -423,6 +424,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.UserDisconnected" event. */
   "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
+  /** An interface for the event data of a "Microsoft.Compute.VirtualMachineScaleSets.LifecycleHookEvents" event. */
+  "Microsoft.Compute.VirtualMachineScaleSets.LifecycleHookEvents": LifecycleHookEventsEventData;
   /** An interface for the event data of a "Microsoft.ContainerRegistry.ChartDeleted" event. */
   "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
   /** An interface for the event data of a "Microsoft.ContainerRegistry.ChartPushed" event. */
