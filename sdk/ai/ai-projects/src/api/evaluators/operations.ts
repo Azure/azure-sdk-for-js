@@ -7,7 +7,16 @@ import {
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/api/evaluators/operations.ts
+  EvaluatorGenerationInputs,
+  evaluatorGenerationInputsSerializer,
+  EvaluatorGenerationJob,
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  EvaluatorGenerationJob,
   evaluatorGenerationJobSerializer,
+=======
+  evaluatorGenerationJobSerializer,
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
   evaluatorGenerationJobDeserializer,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
 } from "../../models/models.js";
@@ -259,7 +268,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -271,6 +280,33 @@ export function _createGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluatorGenerationInputsSerializer(job),
+    });
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluatorGenerationJobSerializer(job),
+    });
+=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -281,6 +317,7 @@ export function _createGenerationJobSend(
     },
     body: evaluatorGenerationJobSerializer(job),
   });
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
 }
 
 export async function _createGenerationJobDeserialize(
@@ -312,7 +349,7 @@ export async function _createGenerationJobDeserialize(
  */
 export function createGenerationJob(
   context: Client,
-  job: EvaluatorGenerationJob,
+  job: EvaluatorGenerationInputs,
   options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<EvaluatorVersion> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.

@@ -31,6 +31,46 @@ import {
   list,
   listVersions,
 } from "../../api/evaluators/operations.js";
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/classic/evaluators/index.ts
+import {
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
+  EvaluatorsUpdateVersionOptionalParams,
+  EvaluatorsCreateVersionOptionalParams,
+  EvaluatorsDeleteVersionOptionalParams,
+  EvaluatorsGetVersionOptionalParams,
+  EvaluatorsListOptionalParams,
+  EvaluatorsListVersionsOptionalParams,
+} from "../../api/evaluators/options.js";
+import {
+  EvaluatorVersion,
+  EvaluatorGenerationInputs,
+  EvaluatorGenerationJob,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/classic/evaluators/index.ts
+import {
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
+  EvaluatorsUpdateVersionOptionalParams,
+  EvaluatorsCreateVersionOptionalParams,
+  EvaluatorsDeleteVersionOptionalParams,
+  EvaluatorsGetVersionOptionalParams,
+  EvaluatorsListOptionalParams,
+  EvaluatorsListVersionsOptionalParams,
+} from "../../api/evaluators/options.js";
+import { EvaluatorVersion, EvaluatorGenerationJob } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+=======
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/classic/evaluators/index.ts
 
 /** Operations for EvaluatorsOperations. */
 export interface EvaluatorsOperations {
@@ -66,7 +106,7 @@ export interface EvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    job: EvaluatorGenerationJob,
+    job: EvaluatorGenerationInputs,
     options?: EvaluatorsCreateGenerationJobOptionalParams,
   ) => JobPoller<EvaluatorVersion>;
   /** Updates the specified evaluator version in place. */
@@ -114,7 +154,7 @@ export function _getEvaluatorsOperations(context: AIProjectContext): EvaluatorsO
     getGenerationJob: (jobId: string, options?: EvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      job: EvaluatorGenerationJob,
+      job: EvaluatorGenerationInputs,
       options?: EvaluatorsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
     updateVersion: (

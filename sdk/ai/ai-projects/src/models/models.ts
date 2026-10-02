@@ -6835,6 +6835,25 @@ export function pendingUploadResponseDeserializer(item: any): PendingUploadRespo
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** A low/typical/ceiling range for an estimated quantity. Cost values apply average per-call usage assumptions to each call-count scenario. Expected values may be fractional, including estimated model-call counts. */
+export interface AgentOptimizationEstimateBand {
+  /** Lower estimate based on model calls required for every run. */
+  low: number;
+  /** Expected estimate based on model calls consumed by a typical run. */
+  typical: number;
+  /** Upper bound calculated from the maximum number of model calls. */
+  ceiling: number;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A low/typical/ceiling range for an estimated quantity. Expected values may be fractional, including estimated model-call counts. */
+export interface AgentOptimizationEstimateBand {
+  /** Lower bound. */
+  low: number;
+  /** Central estimate. */
+  typical: number;
+  /** Upper bound. */
+  ceiling: number;
+=======
 /** Blob reference details. */
 export interface BlobReference {
   /** Blob URI path for client to upload data. Example: `https://blob.windows.core.net/Container/Path` */
@@ -6843,6 +6862,7 @@ export interface BlobReference {
   storageAccountArmId: string;
   /** Credential info to access the storage account. */
   credential: SasCredential;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function blobReferenceDeserializer(item: any): BlobReference {
@@ -8171,23 +8191,91 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Data Generation Job resource. */
+export interface DataGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Result produced on success. */
+  readonly result?: DataGenerationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The display name of the data generation job. */
+  name: string;
+  /** The sources used for the data generation job. */
+  sources: DataGenerationJobSourceUnion[];
+  /** The generation configuration for the data generation job. */
+  generation_configuration: DataGenerationJobConfigurationUnion;
+  /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
+  scenario: DataGenerationJobScenario;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at: Date;
+  /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Data Generation Job resource. */
+export interface DataGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Result produced on success. */
+  readonly result?: DataGenerationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The display name of the data generation job. */
+  name: string;
+  /** The sources used for the data generation job. */
+  sources: DataGenerationJobSourceUnion[];
+  /** The generation configuration for the data generation job. */
+  generation_configuration: DataGenerationJobOptionsUnion;
+  /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
+  scenario: DataGenerationJobScenario;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at: Date;
+  /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+=======
 /** An Azure AI Search tool stored in a toolbox. */
 export interface AzureAISearchToolboxTool extends ToolboxTool {
   /** The type of the Azure AI Search toolbox tool. Always `azure_ai_search`. */
   type: "azure_ai_search";
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function azureAISearchToolboxToolSerializer(item: AzureAISearchToolboxTool): any {
   return {
     type: item["type"],
     name: item["name"],
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+=======
     description: item["description"],
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
     azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -8519,7 +8607,37 @@ export function toolSearchToolboxToolSerializer(item: ToolSearchToolboxTool): an
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Configuration for managing data generation jobs. */
+export interface DataGenerationJobConfiguration {
+  /** The data generation job type. */
+  /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
+  type: DataGenerationJobType;
+  /** The proportion of the generated data to be used for training when the data is used for fine-tuning. The rest will be used for validation. Value should be between 0 and 1. */
+  train_split?: number;
+  /** The LLM model options. */
+  model_options?: DataGenerationModelOptions;
+}
+
+export function dataGenerationJobConfigurationSerializer(
+  item: DataGenerationJobConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Options for managing data generation jobs. */
+export interface DataGenerationJobOptions {
+  /** The data generation job type. */
+  /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
+  type: DataGenerationJobType;
+  /** The proportion of the generated data to be used for training when the data is used for fine-tuning. The rest will be used for validation. Value should be between 0 and 1. */
+  train_split?: number;
+  /** The LLM model options. */
+  model_options?: DataGenerationModelOptions;
+}
+
+export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOptions): any {
+=======
 export function toolSearchToolboxToolDeserializer(item: any): ToolSearchToolboxTool {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     type: item["type"],
     name: item["name"],
@@ -8530,6 +8648,13 @@ export function toolSearchToolboxToolDeserializer(item: any): ToolSearchToolboxT
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function dataGenerationJobConfigurationDeserializer(
+  item: any,
+): DataGenerationJobConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJobOptions {
+=======
 export function toolboxSkillUnionArraySerializer(result: Array<ToolboxSkillUnion>): any[] {
   return result.map((item) => {
     return toolboxSkillUnionSerializer(item);
@@ -8554,31 +8679,158 @@ export function toolboxSkillSerializer(item: ToolboxSkill): any {
 }
 
 export function toolboxSkillDeserializer(item: any): ToolboxSkill {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     type: item["type"],
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Alias for DataGenerationJobConfigurationUnion */
+export type DataGenerationJobConfigurationUnion =
+  | SimpleQnADataGenerationJobConfiguration
+  | TracesDataGenerationJobConfiguration
+  | SimulationSeedDataGenerationJobConfiguration
+  | ToolUseFineTuningDataGenerationJobConfiguration
+  | DataGenerationJobConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Alias for DataGenerationJobOptionsUnion */
+export type DataGenerationJobOptionsUnion =
+  | SimpleQnADataGenerationJobOptions
+  | TracesDataGenerationJobOptions
+  | SimulationSeedDataGenerationJobOptions
+  | ToolUseFineTuningDataGenerationJobOptions
+  | DataGenerationJobOptions;
+=======
 /** Alias for ToolboxSkillUnion */
 export type ToolboxSkillUnion = ToolboxSkillReference | ToolboxSkill;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function dataGenerationJobConfigurationUnionSerializer(
+  item: DataGenerationJobConfigurationUnion,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobOptionsUnion): any {
+=======
 export function toolboxSkillUnionSerializer(item: ToolboxSkillUnion): any {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   switch (item.type) {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    case "simple_qna":
+      return simpleQnADataGenerationJobConfigurationSerializer(
+        item as SimpleQnADataGenerationJobConfiguration,
+      );
+
+    case "traces":
+      return tracesDataGenerationJobConfigurationSerializer(
+        item as TracesDataGenerationJobConfiguration,
+      );
+
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobConfigurationSerializer(
+        item as SimulationSeedDataGenerationJobConfiguration,
+      );
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobConfigurationSerializer(
+        item as ToolUseFineTuningDataGenerationJobConfiguration,
+      );
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    case "simple_qna":
+      return simpleQnADataGenerationJobOptionsSerializer(item as SimpleQnADataGenerationJobOptions);
+
+    case "traces":
+      return tracesDataGenerationJobOptionsSerializer(item as TracesDataGenerationJobOptions);
+
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsSerializer(
+        item as SimulationSeedDataGenerationJobOptions,
+      );
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobOptionsSerializer(
+        item as ToolUseFineTuningDataGenerationJobOptions,
+      );
+=======
     case "skill_reference":
       return toolboxSkillReferenceSerializer(item as ToolboxSkillReference);
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 
     default:
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+      return dataGenerationJobConfigurationSerializer(item);
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+      return dataGenerationJobOptionsSerializer(item);
+=======
       return toolboxSkillSerializer(item);
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   }
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function dataGenerationJobConfigurationUnionDeserializer(
+  item: any,
+): DataGenerationJobConfigurationUnion {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function dataGenerationJobOptionsUnionDeserializer(
+  item: any,
+): DataGenerationJobOptionsUnion {
+=======
 export function toolboxSkillUnionDeserializer(item: any): ToolboxSkillUnion {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   switch (item["type"]) {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    case "simple_qna":
+      return simpleQnADataGenerationJobConfigurationDeserializer(
+        item as SimpleQnADataGenerationJobConfiguration,
+      );
+
+    case "traces":
+      return tracesDataGenerationJobConfigurationDeserializer(
+        item as TracesDataGenerationJobConfiguration,
+      );
+
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobConfigurationDeserializer(
+        item as SimulationSeedDataGenerationJobConfiguration,
+      );
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobConfigurationDeserializer(
+        item as ToolUseFineTuningDataGenerationJobConfiguration,
+      );
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    case "simple_qna":
+      return simpleQnADataGenerationJobOptionsDeserializer(
+        item as SimpleQnADataGenerationJobOptions,
+      );
+
+    case "traces":
+      return tracesDataGenerationJobOptionsDeserializer(item as TracesDataGenerationJobOptions);
+
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsDeserializer(
+        item as SimulationSeedDataGenerationJobOptions,
+      );
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobOptionsDeserializer(
+        item as ToolUseFineTuningDataGenerationJobOptions,
+      );
+=======
     case "skill_reference":
       return toolboxSkillReferenceDeserializer(item as ToolboxSkillReference);
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 
     default:
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+      return dataGenerationJobConfigurationDeserializer(item);
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+      return dataGenerationJobOptionsDeserializer(item);
+=======
       return toolboxSkillDeserializer(item);
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   }
 }
 
@@ -8604,19 +8856,59 @@ export function toolboxSkillReferenceDeserializer(item: any): ToolboxSkillRefere
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** The configuration for a data generation job with SimpleQnA type. */
+export interface SimpleQnADataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+  /** The data generation job type, which is SimpleQnA for this model. */
+  type: "simple_qna";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
+  /** The question types to generate. Used only for fine-tuning scenarios. */
+  question_types?: SimpleQnAFineTuningQuestionType[];
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** The options for a data generation job with SimpleQnA type. */
+export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is SimpleQnA for this model. */
+  type: "simple_qna";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
+  /** The question types to generate. Used only for fine-tuning scenarios. */
+  question_types?: SimpleQnAFineTuningQuestionType[];
+=======
 /** Policy configuration for a toolbox, including content safety and other governance settings. */
 export interface ToolboxPolicies {
   /** Responsible AI content filtering configuration. */
   rai_config?: RaiConfig;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function simpleQnADataGenerationJobConfigurationSerializer(
+  item: SimpleQnADataGenerationJobConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function simpleQnADataGenerationJobOptionsSerializer(
+  item: SimpleQnADataGenerationJobOptions,
+): any {
+=======
 export function toolboxPoliciesSerializer(item: ToolboxPolicies): any {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function simpleQnADataGenerationJobConfigurationDeserializer(
+  item: any,
+): SimpleQnADataGenerationJobConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function simpleQnADataGenerationJobOptionsDeserializer(
+  item: any,
+): SimpleQnADataGenerationJobOptions {
+=======
 export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     rai_config: !item["rai_config"]
       ? item["rai_config"]
@@ -8624,6 +8916,31 @@ export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. This is a preview feature. */
+export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
+
+/** The configuration for a data generation job with Traces type. */
+export interface TracesDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+  /** The data generation job type, which is Traces for this model. */
+  type: "traces";
+  /** Maximum number of samples to generate, up to service-defined limits. If omitted, sampling is turned off. */
+  max_samples?: number;
+  /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
+  redact_private_content?: boolean;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. This is a preview feature. */
+export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
+
+/** The options for a data generation job with Traces type. */
+export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is Traces for this model. */
+  type: "traces";
+  /** Maximum number of samples to generate, up to service-defined limits. If omitted, sampling is turned off. */
+  max_samples?: number;
+  /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
+  redact_private_content?: boolean;
+=======
 /** A specific version of a toolbox. */
 export interface ToolboxVersionObject {
   /**
@@ -8651,9 +8968,20 @@ export interface ToolboxVersionObject {
   skills?: ToolboxSkillUnion[];
   /** Policy configuration for the toolbox version. */
   policies?: ToolboxPolicies;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function tracesDataGenerationJobConfigurationSerializer(
+  item: TracesDataGenerationJobConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function tracesDataGenerationJobOptionsSerializer(
+  item: TracesDataGenerationJobOptions,
+): any {
+=======
 export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObject {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     metadata: !item["metadata"]
       ? item["metadata"]
@@ -8671,6 +8999,33 @@ export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObjec
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function tracesDataGenerationJobConfigurationDeserializer(
+  item: any,
+): TracesDataGenerationJobConfiguration {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
+    redact_private_content: item["redact_private_content"],
+  };
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function tracesDataGenerationJobOptionsDeserializer(
+  item: any,
+): TracesDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
+    redact_private_content: item["redact_private_content"],
+  };
+=======
 /** A toolbox that stores reusable tool definitions for agents. */
 export interface ToolboxObject {
   /** The unique identifier of the toolbox. */
@@ -8683,8 +9038,20 @@ export interface ToolboxObject {
   versions?: ToolboxVersions;
   /** The version identifier that the toolbox currently points to. Defaults to the latest version. Can be changed via updateToolbox. */
   default_version: string;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** The configuration for a task generation data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
+export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+  /** The data generation job type, which is SimulationSeed for this model. */
+  type: "simulation_seed";
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** The options for a task generation data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
+export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is SimulationSeed for this model. */
+  type: "simulation_seed";
+=======
 export function toolboxObjectDeserializer(item: any): ToolboxObject {
   return {
     id: item["id"],
@@ -8693,8 +9060,18 @@ export function toolboxObjectDeserializer(item: any): ToolboxObject {
     versions: !item["versions"] ? item["versions"] : toolboxVersionsDeserializer(item["versions"]),
     default_version: item["default_version"],
   };
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function simulationSeedDataGenerationJobConfigurationSerializer(
+  item: SimulationSeedDataGenerationJobConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function simulationSeedDataGenerationJobOptionsSerializer(
+  item: SimulationSeedDataGenerationJobOptions,
+): any {
+=======
 /** The versions associated with a toolbox. */
 export interface ToolboxVersions {
   /** The latest version of the toolbox. */
@@ -8702,11 +9079,17 @@ export interface ToolboxVersions {
 }
 
 export function toolboxVersionsDeserializer(item: any): ToolboxVersions {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     latest: toolboxVersionObjectDeserializer(item["latest"]),
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function simulationSeedDataGenerationJobConfigurationDeserializer(
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function simulationSeedDataGenerationJobOptionsDeserializer(
+=======
 /** The response returned by the latest toolbox MCP endpoint. */
 export type ToolboxesInvokeLatestToolboxMcpResponse = { body: unknown };
 
@@ -8723,8 +9106,15 @@ export interface _AgentsPagedResultToolboxObject {
 }
 
 export function _agentsPagedResultToolboxObjectDeserializer(
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   item: any,
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+): SimulationSeedDataGenerationJobConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+): SimulationSeedDataGenerationJobOptions {
+=======
 ): _AgentsPagedResultToolboxObject {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     data: toolboxObjectArrayDeserializer(item["data"]),
     first_id: item["first_id"],
@@ -8733,12 +9123,53 @@ export function _agentsPagedResultToolboxObjectDeserializer(
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** The configuration for a data generation job with ToolUse type. This is a preview feature used only for fine-tuning scenarios. */
+export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+  /** The data generation job type, which is ToolUse for this model. */
+  type: "tool_use";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** The options for a data generation job with ToolUse type. This is a preview feature used only for fine-tuning scenarios. */
+export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is ToolUse for this model. */
+  type: "tool_use";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
+=======
 export function toolboxObjectArrayDeserializer(result: Array<ToolboxObject>): any[] {
   return result.map((item) => {
     return toolboxObjectDeserializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function toolUseFineTuningDataGenerationJobConfigurationSerializer(
+  item: ToolUseFineTuningDataGenerationJobConfiguration,
+): any {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
+  };
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function toolUseFineTuningDataGenerationJobOptionsSerializer(
+  item: ToolUseFineTuningDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
+  };
+=======
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultToolboxVersionObject {
   /** The requested list of items. */
@@ -8749,11 +9180,24 @@ export interface _AgentsPagedResultToolboxVersionObject {
   last_id?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   has_more: boolean;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function toolUseFineTuningDataGenerationJobConfigurationDeserializer(
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
+=======
 export function _agentsPagedResultToolboxVersionObjectDeserializer(
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   item: any,
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+): ToolUseFineTuningDataGenerationJobConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+): ToolUseFineTuningDataGenerationJobOptions {
+=======
 ): _AgentsPagedResultToolboxVersionObject {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     data: toolboxVersionObjectArrayDeserializer(item["data"]),
     first_id: item["first_id"],
@@ -8768,6 +9212,21 @@ export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersi
   });
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Evaluation data generation job resource. */
+export interface EvaluationDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Evaluation for this model. */
+  scenario: "evaluation";
+  /** Optional dataset output configuration for the generated evaluation data. */
+  output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Evaluation data generation job resource. */
+export interface EvaluationDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Evaluation for this model. */
+  scenario: "evaluation";
+  /** Optional dataset output configuration for the generated evaluation data. */
+  output_configuration?: EvaluationDataGenerationJobOutputTarget;
+=======
 /** The trigger that started an agent insight run. */
 export type AgentInsightRunTrigger = "on_demand" | "scheduled";
 
@@ -8781,25 +9240,105 @@ export interface _AgentsPagedResultAgentInsightRun {
   last_id?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   has_more: boolean;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function _agentsPagedResultAgentInsightRunDeserializer(
   item: any,
 ): _AgentsPagedResultAgentInsightRun {
   return {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    id: item["id"],
+    result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : evaluationDataGenerationJobOutputConfigurationDeserializer(item["output_configuration"]),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    id: item["id"],
+    result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : evaluationDataGenerationJobOutputTargetDeserializer(item["output_configuration"]),
+=======
     data: agentInsightRunArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Dataset output configuration for an evaluation data generation job. */
+export interface EvaluationDataGenerationJobOutputConfiguration {
+  /** Dataset name to assign to the output. */
+  name?: string;
+  /** Description to assign to the output dataset. */
+  description?: string;
+  /** Tags to assign to the output dataset. */
+  tags?: Record<string, string>;
+  /** Controls how dataset outputs are written. If omitted, defaults to `overwrite` and creates the next dataset version using only newly generated rows. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Dataset output target for an evaluation data generation job. */
+export interface EvaluationDataGenerationJobOutputTarget {
+  /** Dataset name to assign to the output. */
+  name?: string;
+  /** Description to assign to the output dataset. */
+  description?: string;
+  /** Tags to assign to the output dataset. */
+  tags?: Record<string, string>;
+  /** Controls how dataset outputs are written. If omitted, defaults to `overwrite` and creates the next dataset version using only newly generated rows. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+=======
 export function agentInsightRunArrayDeserializer(result: Array<AgentInsightRun>): any[] {
   return result.map((item) => {
     return agentInsightRunDeserializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function evaluationDataGenerationJobOutputConfigurationSerializer(
+  item: EvaluationDataGenerationJobOutputConfiguration,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    tags: item["tags"],
+    write_mode: item["write_mode"],
+  };
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function evaluationDataGenerationJobOutputTargetSerializer(
+  item: EvaluationDataGenerationJobOutputTarget,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    tags: item["tags"],
+    write_mode: item["write_mode"],
+  };
+=======
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultAgentInsight {
   /** The requested list of items. */
@@ -8810,11 +9349,24 @@ export interface _AgentsPagedResultAgentInsight {
   last_id?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   has_more: boolean;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function evaluationDataGenerationJobOutputConfigurationDeserializer(
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function evaluationDataGenerationJobOutputTargetDeserializer(
+=======
 export function _agentsPagedResultAgentInsightDeserializer(
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   item: any,
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+): EvaluationDataGenerationJobOutputConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+): EvaluationDataGenerationJobOutputTarget {
+=======
 ): _AgentsPagedResultAgentInsight {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     data: agentInsightArrayDeserializer(item["data"]),
     first_id: item["first_id"],
@@ -8829,6 +9381,21 @@ export function agentInsightArrayDeserializer(result: Array<AgentInsight>): any[
   });
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Supervised fine-tuning data generation job resource. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
+  /** Optional file output configuration for the generated supervised fine-tuning data. */
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Supervised fine-tuning data generation job resource. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
+  /** Optional file output configuration for the generated supervised fine-tuning data. */
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+=======
 /** A persisted issue discovered from an agent's traces. */
 export interface AgentInsight {
   /** The insight identifier. */
@@ -8857,6 +9424,7 @@ export interface AgentInsight {
   readonly description: string;
   /** Additional insight details. Omitted unless details are requested. */
   readonly details?: AgentInsightDetails;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function agentInsightDeserializer(item: any): AgentInsight {
@@ -8869,14 +9437,65 @@ export function agentInsightDeserializer(item: any): AgentInsight {
     severity: item["severity"],
     category: item["category"],
     status: item["status"],
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+=======
     trace_count: item["trace_count"],
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
     created_at: new Date(item["created_at"] * 1000),
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : supervisedFineTuningDataGenerationJobOutputConfigurationDeserializer(
+          item["output_configuration"],
+        ),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : supervisedFineTuningDataGenerationJobOutputTargetDeserializer(item["output_configuration"]),
+=======
     updated_at: new Date(item["updated_at"] * 1000),
     description: item["description"],
     details: !item["details"] ? item["details"] : agentInsightDetailsDeserializer(item["details"]),
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** File output configuration for a supervised fine-tuning data generation job. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJobOutputConfiguration {
+  /** Filename to assign to the generated fine-tuning file. */
+  name: string;
+  /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+  /** File ID to merge into when `write_mode` is `merge`. */
+  merge_file_id?: string;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** File output target for a supervised fine-tuning data generation job. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJobOutputTarget {
+  /** Filename to assign to the generated fine-tuning file. */
+  name: string;
+  /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+  /** File ID to merge into when `write_mode` is `merge`. */
+  merge_file_id?: string;
+=======
 /** The severity of an agent insight. */
 export type AgentInsightSeverity = "high" | "medium" | "low";
 
@@ -8891,9 +9510,20 @@ export interface AgentInsightDetails {
   linked_traces: AgentInsightLinkedTrace[];
   /** The recommended remediation for this insight. */
   recommended_actions: AgentInsightRecommendedAction;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function supervisedFineTuningDataGenerationJobOutputConfigurationSerializer(
+  item: SupervisedFineTuningDataGenerationJobOutputConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function supervisedFineTuningDataGenerationJobOutputTargetSerializer(
+  item: SupervisedFineTuningDataGenerationJobOutputTarget,
+): any {
+=======
 export function agentInsightDetailsDeserializer(item: any): AgentInsightDetails {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     highlighted_traces: agentInsightHighlightedTraceArrayDeserializer(item["highlighted_traces"]),
     linked_traces: agentInsightLinkedTraceArrayDeserializer(item["linked_traces"]),
@@ -8901,14 +9531,49 @@ export function agentInsightDetailsDeserializer(item: any): AgentInsightDetails 
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function supervisedFineTuningDataGenerationJobOutputConfigurationDeserializer(
+  item: any,
+): SupervisedFineTuningDataGenerationJobOutputConfiguration {
+  return {
+    name: item["name"],
+    write_mode: item["write_mode"],
+    merge_file_id: item["merge_file_id"],
+  };
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function supervisedFineTuningDataGenerationJobOutputTargetDeserializer(
+  item: any,
+): SupervisedFineTuningDataGenerationJobOutputTarget {
+  return {
+    name: item["name"],
+    write_mode: item["write_mode"],
+    merge_file_id: item["merge_file_id"],
+  };
+=======
 export function agentInsightHighlightedTraceArrayDeserializer(
   result: Array<AgentInsightHighlightedTrace>,
 ): any[] {
   return result.map((item) => {
     return agentInsightHighlightedTraceDeserializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Reinforcement fine-tuning data generation job resource. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
+  /** Optional file output configuration for the generated reinforcement fine-tuning data. */
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Reinforcement fine-tuning data generation job resource. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJob extends DataGenerationJob {
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
+  /** Optional file output configuration for the generated reinforcement fine-tuning data. */
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+=======
 /** A highlighted trace that provides evidence for an agent insight. */
 export interface AgentInsightHighlightedTrace {
   /** The trace identifier. */
@@ -8921,26 +9586,94 @@ export interface AgentInsightHighlightedTrace {
   total_tokens?: number;
   /** The time when the trace was recorded. */
   timestamp: Date;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function agentInsightHighlightedTraceDeserializer(item: any): AgentInsightHighlightedTrace {
   return {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    id: item["id"],
+    result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : reinforcementFineTuningDataGenerationJobOutputConfigurationDeserializer(
+          item["output_configuration"],
+        ),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    id: item["id"],
+    result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionDeserializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : reinforcementFineTuningDataGenerationJobOutputTargetDeserializer(
+          item["output_configuration"],
+        ),
+=======
     trace_id: item["trace_id"],
     summary: item["summary"],
     duration_ms: item["duration_ms"],
     total_tokens: item["total_tokens"],
     timestamp: new Date(item["timestamp"] * 1000),
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** File output configuration for a reinforcement fine-tuning data generation job. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJobOutputConfiguration {
+  /** Filename to assign to the generated fine-tuning file. */
+  name: string;
+  /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+  /** File ID to merge into when `write_mode` is `merge`. */
+  merge_file_id?: string;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** File output target for a reinforcement fine-tuning data generation job. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJobOutputTarget {
+  /** Filename to assign to the generated fine-tuning file. */
+  name: string;
+  /** Controls how file outputs are written. If omitted, defaults to `overwrite` and writes only the newly generated fine-tuning file content. */
+  write_mode?: DataGenerationJobOutputWriteMode;
+  /** File ID to merge into when `write_mode` is `merge`. */
+  merge_file_id?: string;
+=======
 export function agentInsightLinkedTraceArrayDeserializer(
   result: Array<AgentInsightLinkedTrace>,
 ): any[] {
   return result.map((item) => {
     return agentInsightLinkedTraceDeserializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function reinforcementFineTuningDataGenerationJobOutputConfigurationSerializer(
+  item: ReinforcementFineTuningDataGenerationJobOutputConfiguration,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function reinforcementFineTuningDataGenerationJobOutputTargetSerializer(
+  item: ReinforcementFineTuningDataGenerationJobOutputTarget,
+): any {
+=======
 /** A lightweight trace reference linked to an agent insight as supporting evidence. */
 export interface AgentInsightLinkedTrace {
   /** The trace identifier. */
@@ -8950,12 +9683,18 @@ export interface AgentInsightLinkedTrace {
 }
 
 export function agentInsightLinkedTraceDeserializer(item: any): AgentInsightLinkedTrace {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     trace_id: item["trace_id"],
     timestamp: new Date(item["timestamp"] * 1000),
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function reinforcementFineTuningDataGenerationJobOutputConfigurationDeserializer(
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function reinforcementFineTuningDataGenerationJobOutputTargetDeserializer(
+=======
 /** The recommended remediation for an agent insight. */
 export interface AgentInsightRecommendedAction {
   /** The single recommended fix for the issue represented by the insight. */
@@ -8963,8 +9702,15 @@ export interface AgentInsightRecommendedAction {
 }
 
 export function agentInsightRecommendedActionDeserializer(
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   item: any,
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+): ReinforcementFineTuningDataGenerationJobOutputConfiguration {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+): ReinforcementFineTuningDataGenerationJobOutputTarget {
+=======
 ): AgentInsightRecommendedAction {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     proposed_fix: agentInsightProposedFixDeserializer(item["proposed_fix"]),
   };
@@ -9011,6 +9757,31 @@ export function agentInsightProposedFixChangeArrayDeserializer(
   });
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Caller-supplied inputs for a data generation job. */
+export interface DataGenerationJobInputs {
+  /** The display name of the data generation job. */
+  name: string;
+  /** The sources used for the data generation job. */
+  sources: DataGenerationJobSourceUnion[];
+  /** The generation configuration for the data generation job. */
+  generation_configuration: DataGenerationJobConfigurationUnion;
+  /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
+  scenario: DataGenerationJobScenario;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Caller-supplied inputs for a data generation job. */
+export interface DataGenerationJobInputs {
+  /** The display name of the data generation job. */
+  name: string;
+  /** The sources used for the data generation job. */
+  sources: DataGenerationJobSourceUnion[];
+  /** The generation configuration for the data generation job. */
+  generation_configuration: DataGenerationJobOptionsUnion;
+  /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
+  /** The discriminator possible values: evaluation, supervised_finetuning_preview, reinforcement_finetuning_preview */
+  scenario: DataGenerationJobScenario;
+=======
 /** A customer-renderable change in a proposed fix. */
 export interface AgentInsightProposedFixChange {
   /** The source path changed by a code change. */
@@ -9027,12 +9798,28 @@ export interface AgentInsightProposedFixChange {
   old_value?: AgentInsightJsonValue;
   /** The bounded Prompt value after the change. Present for Prompt changes, including when null. */
   new_value?: AgentInsightJsonValue;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function agentInsightProposedFixChangeDeserializer(
   item: any,
 ): AgentInsightProposedFixChange {
   return {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+=======
     path: item["path"],
     language: item["language"],
     diff: item["diff"],
@@ -9040,6 +9827,7 @@ export function agentInsightProposedFixChangeDeserializer(
     target: item["target"],
     old_value: item["old_value"],
     new_value: item["new_value"],
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -9052,10 +9840,73 @@ export interface AgentInsightUpdate {
   status?: AgentInsightStatus;
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Caller-supplied inputs for an evaluation data generation job. */
+export interface EvaluationDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Evaluation for this model. */
+  scenario: "evaluation";
+  /** Optional dataset output configuration for the generated evaluation data. */
+  output_configuration?: EvaluationDataGenerationJobOutputConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Caller-supplied inputs for an evaluation data generation job. */
+export interface EvaluationDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Evaluation for this model. */
+  scenario: "evaluation";
+  /** Optional dataset output configuration for the generated evaluation data. */
+  output_configuration?: EvaluationDataGenerationJobOutputTarget;
+=======
 export function agentInsightUpdateSerializer(item: AgentInsightUpdate): any {
   return { status: item["status"] };
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function evaluationDataGenerationJobInputsSerializer(
+  item: EvaluationDataGenerationJobInputs,
+): any {
+  return {
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : evaluationDataGenerationJobOutputConfigurationSerializer(item["output_configuration"]),
+  };
+}
+
+/** Caller-supplied inputs for a supervised fine-tuning data generation job. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
+  /** Optional file output configuration for the generated supervised fine-tuning data. */
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputConfiguration;
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function evaluationDataGenerationJobInputsSerializer(
+  item: EvaluationDataGenerationJobInputs,
+): any {
+  return {
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : evaluationDataGenerationJobOutputTargetSerializer(item["output_configuration"]),
+  };
+}
+
+/** Caller-supplied inputs for a supervised fine-tuning data generation job. This is a preview feature. */
+export interface SupervisedFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Supervised Fine-tuning preview for this model. */
+  scenario: "supervised_finetuning_preview";
+  /** Optional file output configuration for the generated supervised fine-tuning data. */
+  output_configuration?: SupervisedFineTuningDataGenerationJobOutputTarget;
+=======
 /** Evaluation Taxonomy Definition */
 export interface EvaluationTaxonomy {
   /** Asset ID, a unique identifier for the asset */
@@ -9074,10 +9925,34 @@ export interface EvaluationTaxonomy {
   taxonomyCategories?: TaxonomyCategory[];
   /** Additional properties for the evaluation taxonomy. */
   properties?: Record<string, string>;
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function evaluationTaxonomySerializer(item: EvaluationTaxonomy): any {
   return {
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : supervisedFineTuningDataGenerationJobOutputConfigurationSerializer(
+          item["output_configuration"],
+        ),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : supervisedFineTuningDataGenerationJobOutputTargetSerializer(item["output_configuration"]),
+=======
     description: item["description"],
     tags: item["tags"],
     taxonomyInput: evaluationTaxonomyInputUnionSerializer(item["taxonomyInput"]),
@@ -9085,13 +9960,63 @@ export function evaluationTaxonomySerializer(item: EvaluationTaxonomy): any {
       ? item["taxonomyCategories"]
       : taxonomyCategoryArraySerializer(item["taxonomyCategories"]),
     properties: item["properties"],
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Caller-supplied inputs for a reinforcement fine-tuning data generation job. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
+  /** Optional file output configuration for the generated reinforcement fine-tuning data. */
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputConfiguration;
+}
+
+export function reinforcementFineTuningDataGenerationJobInputsSerializer(
+  item: ReinforcementFineTuningDataGenerationJobInputs,
+): any {
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Caller-supplied inputs for a reinforcement fine-tuning data generation job. This is a preview feature. */
+export interface ReinforcementFineTuningDataGenerationJobInputs extends DataGenerationJobInputs {
+  /** The scenario of the data generation job, which is Reinforcement Fine-tuning preview for this model. */
+  scenario: "reinforcement_finetuning_preview";
+  /** Optional file output configuration for the generated reinforcement fine-tuning data. */
+  output_configuration?: ReinforcementFineTuningDataGenerationJobOutputTarget;
+}
+
+export function reinforcementFineTuningDataGenerationJobInputsSerializer(
+  item: ReinforcementFineTuningDataGenerationJobInputs,
+): any {
+=======
 export function evaluationTaxonomyDeserializer(item: any): EvaluationTaxonomy {
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   return {
     id: item["id"],
     name: item["name"],
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobConfigurationUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : reinforcementFineTuningDataGenerationJobOutputConfigurationSerializer(
+          item["output_configuration"],
+        ),
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    generation_configuration: dataGenerationJobOptionsUnionSerializer(
+      item["generation_configuration"],
+    ),
+    scenario: item["scenario"],
+    output_configuration: !item["output_configuration"]
+      ? item["output_configuration"]
+      : reinforcementFineTuningDataGenerationJobOutputTargetSerializer(
+          item["output_configuration"],
+        ),
+=======
     version: item["version"],
     description: item["description"],
     tags: item["tags"],
@@ -9100,6 +10025,7 @@ export function evaluationTaxonomyDeserializer(item: any): EvaluationTaxonomy {
       ? item["taxonomyCategories"]
       : taxonomyCategoryArrayDeserializer(item["taxonomyCategories"]),
     properties: item["properties"],
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -9981,6 +10907,57 @@ export function datasetReferenceDeserializer(item: any): DatasetReference {
 /** Category of a warning surfaced on a generated evaluator version. Extensible so new warning categories (e.g., safety, output quality) can be introduced without a breaking change. */
 export type GenerationWarningType = "input_quality";
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
+export interface EvaluatorGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: EvaluatorGenerationInputs;
+  /** Result produced on success. */
+  readonly result?: EvaluatorVersion;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at: Date;
+  /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+  /** Token consumption summary. Populated when the job reaches a terminal state. */
+  readonly usage?: EvaluatorGenerationTokenUsage;
+  /** Non-fatal input-quality advisories produced by the generation pipeline. Read-only; service-generated; populated only on terminal jobs when advisories fired. Omitted when generation was clean. Cleared when a subsequent `PATCH` to the paired `EvaluatorVersion.definition` invalidates the advisories. */
+  readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
+}
+
+export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
+  };
+}
+
+export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : evaluatorGenerationInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    usage: !item["usage"]
+      ? item["usage"]
+      : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
+    input_quality_warnings: !item["input_quality_warnings"]
+      ? item["input_quality_warnings"]
+      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
+  };
+}
+
+=======
 /** Request body for getting evaluator credentials */
 export interface EvaluatorCredentialRequest {
   /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
@@ -10043,6 +11020,7 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
   };
 }
 
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 /** Caller-supplied inputs for an evaluator generation job. */
 export interface EvaluatorGenerationInputs {
   /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
@@ -10060,16 +11038,6 @@ export interface EvaluatorGenerationInputs {
 export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
   return {
     sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
-    model: item["model"],
-    evaluator_name: item["evaluator_name"],
-    evaluator_display_name: item["evaluator_display_name"],
-    evaluator_description: item["evaluator_description"],
-  };
-}
-
-export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
-  return {
-    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
     model: item["model"],
     evaluator_name: item["evaluator_name"],
     evaluator_display_name: item["evaluator_display_name"],
@@ -10323,6 +11291,206 @@ export function datasetEvaluatorGenerationJobSourceDeserializer(
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+/** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
+export interface EvaluatorGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Result produced on success. */
+  readonly result?: EvaluatorVersion;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
+  sources: EvaluatorGenerationJobSourceUnion[];
+  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
+  model: string;
+  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
+  evaluator_name: string;
+  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
+  evaluator_display_name?: string;
+  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
+  evaluator_description?: string;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at: Date;
+  /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+  /** Token consumption summary. Populated when the job reaches a terminal state. */
+  readonly usage?: EvaluatorGenerationTokenUsage;
+  /** Non-fatal input-quality advisories produced by the generation pipeline. Read-only; service-generated; populated only on terminal jobs when advisories fired. Omitted when generation was clean. Cleared when a subsequent `PATCH` to the paired `EvaluatorVersion.definition` invalidates the advisories. */
+  readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
+}
+
+export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
+  return {
+    id: item["id"],
+    result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    usage: !item["usage"]
+      ? item["usage"]
+      : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
+    input_quality_warnings: !item["input_quality_warnings"]
+      ? item["input_quality_warnings"]
+      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
+  };
+}
+
+/** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
+export interface EvaluatorGenerationTokenUsage {
+  /** Number of input (prompt) tokens consumed. */
+  input_tokens: number;
+  /** Number of output (completion) tokens generated. */
+  output_tokens: number;
+  /** Total tokens consumed (input + output). */
+  total_tokens: number;
+}
+
+export function evaluatorGenerationTokenUsageDeserializer(
+  item: any,
+): EvaluatorGenerationTokenUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    output_tokens: item["output_tokens"],
+    total_tokens: item["total_tokens"],
+  };
+}
+
+export function rubricGenerationInputQualityWarningArrayDeserializer(
+  result: Array<RubricGenerationInputQualityWarning>,
+): any[] {
+  return result.map((item) => {
+    return rubricGenerationInputQualityWarningDeserializer(item);
+  });
+}
+
+/** A non-fatal advisory produced during rubric evaluator generation when resolved inputs are technically valid but likely too weak to produce a high-quality rubric. Read-only; service-generated. Persisted with the terminal EvaluatorGenerationJob. */
+export interface RubricGenerationInputQualityWarning {
+  /** Stable searchable machine-readable warning code. */
+  code: RubricGenerationInputQualityWarningCode;
+  /** Advisory severity. Initial values: `warning`. */
+  severity: RubricGenerationInputQualityWarningSeverity;
+  /** Human-readable message suitable for direct SDK/CLI/UI display. Must not include raw prompt, instruction, dataset, or trace text. */
+  message: string;
+  /** Which source category the warning applies to. `aggregate` is used only for cross-source warnings. */
+  source: RubricGenerationInputQualityWarningSource;
+  /** Zero-based index into `EvaluatorGenerationJob.sources` when the warning applies to a specific source. Omitted for aggregate warnings and for warnings not tied to one source. */
+  source_index?: number;
+}
+
+export function rubricGenerationInputQualityWarningDeserializer(
+  item: any,
+): RubricGenerationInputQualityWarning {
+  return {
+    code: item["code"],
+    severity: item["severity"],
+    message: item["message"],
+    source: item["source"],
+    source_index: item["source_index"],
+  };
+}
+
+/** Stable searchable machine-readable warning code for a rubric-generation input-quality warning. Values are `snake_case`; clients must tolerate additional service-defined identifiers. */
+export type RubricGenerationInputQualityWarningCode =
+  | "empty_prompt"
+  | "short_prompt"
+  | "empty_agent_instructions"
+  | "short_agent_instructions"
+  | "empty_dataset_content"
+  | "short_dataset_content"
+  | "low_trace_count"
+  | "insufficient_total_input";
+
+/** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
+export type RubricGenerationInputQualityWarningSeverity = "warning";
+
+/** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
+export type RubricGenerationInputQualityWarningSource =
+  "prompt" | "agent" | "dataset" | "aggregate";
+
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
+export interface EvaluatorGenerationTokenUsage {
+  /** Number of input (prompt) tokens consumed. */
+  input_tokens: number;
+  /** Number of output (completion) tokens generated. */
+  output_tokens: number;
+  /** Total tokens consumed (input + output). */
+  total_tokens: number;
+}
+
+export function evaluatorGenerationTokenUsageDeserializer(
+  item: any,
+): EvaluatorGenerationTokenUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    output_tokens: item["output_tokens"],
+    total_tokens: item["total_tokens"],
+  };
+}
+
+export function rubricGenerationInputQualityWarningArrayDeserializer(
+  result: Array<RubricGenerationInputQualityWarning>,
+): any[] {
+  return result.map((item) => {
+    return rubricGenerationInputQualityWarningDeserializer(item);
+  });
+}
+
+/** A non-fatal advisory produced during rubric evaluator generation when resolved inputs are technically valid but likely too weak to produce a high-quality rubric. Read-only; service-generated. Persisted with the terminal EvaluatorGenerationJob. */
+export interface RubricGenerationInputQualityWarning {
+  /** Stable searchable machine-readable warning code. */
+  code: RubricGenerationInputQualityWarningCode;
+  /** Advisory severity. Initial values: `warning`. */
+  severity: RubricGenerationInputQualityWarningSeverity;
+  /** Human-readable message suitable for direct SDK/CLI/UI display. Must not include raw prompt, instruction, dataset, or trace text. */
+  message: string;
+  /** Which source category the warning applies to. `aggregate` is used only for cross-source warnings. */
+  source: RubricGenerationInputQualityWarningSource;
+  /** Zero-based index into `EvaluatorGenerationJob.inputs.sources` when the warning applies to a specific source. Omitted for aggregate warnings and for warnings not tied to one source. */
+  source_index?: number;
+}
+
+export function rubricGenerationInputQualityWarningDeserializer(
+  item: any,
+): RubricGenerationInputQualityWarning {
+  return {
+    code: item["code"],
+    severity: item["severity"],
+    message: item["message"],
+    source: item["source"],
+    source_index: item["source_index"],
+  };
+}
+
+/** Stable searchable machine-readable warning code for a rubric-generation input-quality warning. Values are `snake_case`; clients must tolerate additional service-defined identifiers. */
+export type RubricGenerationInputQualityWarningCode =
+  | "empty_prompt"
+  | "short_prompt"
+  | "empty_agent_instructions"
+  | "short_agent_instructions"
+  | "empty_dataset_content"
+  | "short_dataset_content"
+  | "low_trace_count"
+  | "insufficient_total_input";
+
+/** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
+export type RubricGenerationInputQualityWarningSeverity = "warning";
+
+/** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
+export type RubricGenerationInputQualityWarningSource =
+  "prompt" | "agent" | "dataset" | "aggregate";
+
+=======
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultAgentInsightMonitorListItem {
   /** The requested list of items. */
@@ -10346,8 +11514,24 @@ export function _agentsPagedResultAgentInsightMonitorListItemDeserializer(
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolODVeZI/result/src/models/models.ts
+export function evaluatorGenerationJobArrayDeserializer(
+  result: Array<EvaluatorGenerationJob>,
+||||||| /tmp/azsdk-dev-toolODVeZI/base/sdk/ai/ai-projects/generated/models/models.ts
+export function evaluatorGenerationJobArraySerializer(
+  result: Array<EvaluatorGenerationJob>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSerializer(item);
+  });
+}
+
+export function evaluatorGenerationJobArrayDeserializer(
+  result: Array<EvaluatorGenerationJob>,
+=======
 export function agentInsightMonitorListItemArrayDeserializer(
   result: Array<AgentInsightMonitorListItem>,
+>>>>>>> /tmp/azsdk-dev-toolODVeZI/custom/sdk/ai/ai-projects/src/models/models.ts
 ): any[] {
   return result.map((item) => {
     return agentInsightMonitorListItemDeserializer(item);
