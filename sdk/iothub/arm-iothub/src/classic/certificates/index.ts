@@ -74,7 +74,6 @@ export interface CertificatesOperations {
     options?: CertificatesGetOptionalParams,
   ) => Promise<CertificateDescription>;
 }
-
 function _getCertificates(context: IotHubContext) {
   return {
     verify: (
@@ -144,7 +143,6 @@ function _getCertificates(context: IotHubContext) {
     ) => get(context, resourceGroupName, resourceName, certificateName, options),
   };
 }
-
 export function _getCertificatesOperations(context: IotHubContext): CertificatesOperations {
   return {
     ..._getCertificates(context),

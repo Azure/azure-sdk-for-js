@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Describes the Machine Extension Upgrade Properties. */
 export interface MachineExtensionUpgrade {
   /** Describes the Extension Target Properties. */
@@ -5194,14 +5194,8 @@ export type InstanceViewTypes = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-09-16-preview API version. */
-  V20250916Preview = "2025-09-16-preview",
-  /** The 2026-02-12-preview API version. */
-  V20260212Preview = "2026-02-12-preview",
-  /** The 2026-06-04-preview API version. */
-  V20260604Preview = "2026-06-04-preview",
-  /** The 2026-06-16-preview API version. */
-  V20260616Preview = "2026-06-16-preview",
+  /** The 2026-07-15 API version. */
+  V20260715 = "2026-07-15",
 }
 
 export function _licensePropertiesSerializer(item: License): any {

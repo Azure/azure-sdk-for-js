@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/networkSecurityPerimeterAssociableResourceTypes/operations.js";
 import type { NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams } from "../../api/networkSecurityPerimeterAssociableResourceTypes/options.js";
-import type { PerimeterAssociableResource } from "../../models/microsoft/network/models.js";
+import type { PerimeterAssociableResource } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterAssociableResourceTypes operations. */

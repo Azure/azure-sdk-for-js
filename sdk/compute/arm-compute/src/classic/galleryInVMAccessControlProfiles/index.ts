@@ -120,7 +120,6 @@ export interface GalleryInVMAccessControlProfilesOperations {
     options?: GalleryInVMAccessControlProfilesGetOptionalParams,
   ) => Promise<GalleryInVMAccessControlProfile>;
 }
-
 function _getGalleryInVMAccessControlProfiles(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -270,7 +269,6 @@ function _getGalleryInVMAccessControlProfiles(context: ComputeManagementContext)
     ) => get(context, resourceGroupName, galleryName, inVMAccessControlProfileName, options),
   };
 }
-
 export function _getGalleryInVMAccessControlProfilesOperations(
   context: ComputeManagementContext,
 ): GalleryInVMAccessControlProfilesOperations {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1368,9 +1368,9 @@ export type BareMetalMachineHardwareValidationResult = string;
 /** BareMetalMachineMonitoringConfigurationStatus represents the monitoring configuration status of the bare metal machine. */
 export interface BareMetalMachineMonitoringConfigurationStatus {
   /** The log level for the monitoring configuration status of the bare metal machine. */
-  logLevel?: BareMetalMachineMetricsConfigurationStatusLogLevel;
+  logLevel?: BareMetalMachineMonitoringConfigurationStatusLogLevel;
   /** The metrics level for the monitoring configuration status of the bare metal machine. */
-  metricsLevel?: BareMetalMachineMetricsConfigurationStatusMetricsLevel;
+  metricsLevel?: BareMetalMachineMonitoringConfigurationStatusMetricsLevel;
 }
 
 export function bareMetalMachineMonitoringConfigurationStatusDeserializer(
@@ -1383,7 +1383,7 @@ export function bareMetalMachineMonitoringConfigurationStatusDeserializer(
 }
 
 /** The log level for the monitoring configuration status of the bare metal machine. */
-export enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel {
+export enum KnownBareMetalMachineMonitoringConfigurationStatusLogLevel {
   /** Logs are emitted at the default log level. */
   Default = "Default",
   /** Logs are emitted at the Nexus log level. */
@@ -1392,16 +1392,16 @@ export enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel {
 
 /**
  * The log level for the monitoring configuration status of the bare metal machine. \
- * {@link KnownBareMetalMachineMetricsConfigurationStatusLogLevel} can be used interchangeably with BareMetalMachineMetricsConfigurationStatusLogLevel,
+ * {@link KnownBareMetalMachineMonitoringConfigurationStatusLogLevel} can be used interchangeably with BareMetalMachineMonitoringConfigurationStatusLogLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Logs are emitted at the default log level. \
  * **Nexus**: Logs are emitted at the Nexus log level.
  */
-export type BareMetalMachineMetricsConfigurationStatusLogLevel = string;
+export type BareMetalMachineMonitoringConfigurationStatusLogLevel = string;
 
 /** The metrics level for the monitoring configuration status of the bare metal machine. */
-export enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel {
+export enum KnownBareMetalMachineMonitoringConfigurationStatusMetricsLevel {
   /** Metrics are emitted at the default metrics level. */
   Default = "Default",
   /** Metrics are emitted at the Nexus metrics level. */
@@ -1410,13 +1410,13 @@ export enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel {
 
 /**
  * The metrics level for the monitoring configuration status of the bare metal machine. \
- * {@link KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel} can be used interchangeably with BareMetalMachineMetricsConfigurationStatusMetricsLevel,
+ * {@link KnownBareMetalMachineMonitoringConfigurationStatusMetricsLevel} can be used interchangeably with BareMetalMachineMonitoringConfigurationStatusMetricsLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Metrics are emitted at the default metrics level. \
  * **Nexus**: Metrics are emitted at the Nexus metrics level.
  */
-export type BareMetalMachineMetricsConfigurationStatusMetricsLevel = string;
+export type BareMetalMachineMonitoringConfigurationStatusMetricsLevel = string;
 
 /** The power state derived from the baseboard management controller. */
 export enum KnownBareMetalMachinePowerState {
@@ -4062,27 +4062,27 @@ export interface ClusterPatchParameters {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
-  aggregatorOrSingleRackDefinition?: RackDefinition;
+  aggregatorOrSingleRackDefinition?: RackDefinitionPatch;
   /** The settings for the log analytics workspace used for output of logs from this cluster. */
   analyticsOutputSettings?: AnalyticsOutputSettings;
   /** The customer-provided location information to identify where the cluster resides. */
   clusterLocation?: string;
   /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
-  clusterServicePrincipal?: ServicePrincipalInformation;
+  clusterServicePrincipal?: ServicePrincipalInformationPatch;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
   commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
-  computeDeploymentThreshold?: ValidationThreshold;
+  computeDeploymentThreshold?: ValidationThresholdPatch;
   /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
-  computeRackDefinitions?: RackDefinition[];
+  computeRackDefinitions?: RackDefinitionPatch[];
   /** The settings for cluster runtime protection. */
-  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
-  secretArchive?: ClusterSecretArchive;
+  secretArchive?: ClusterSecretArchivePatch;
   /** The settings for the secret archive used to hold credentials for the cluster. */
   secretArchiveSettings?: SecretArchiveSettings;
   /** The strategy for updating the cluster. */
-  updateStrategy?: ClusterUpdateStrategy;
+  updateStrategy?: ClusterUpdateStrategyPatch;
   /** The settings for how security vulnerability scanning is applied to the cluster. */
   vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
@@ -4115,27 +4115,27 @@ export function clusterPatchParametersSerializer(item: ClusterPatchParameters): 
 /** ClusterPatchProperties represents the properties of the cluster for patching. */
 export interface ClusterPatchProperties {
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
-  aggregatorOrSingleRackDefinition?: RackDefinition;
+  aggregatorOrSingleRackDefinition?: RackDefinitionPatch;
   /** The settings for the log analytics workspace used for output of logs from this cluster. */
   analyticsOutputSettings?: AnalyticsOutputSettings;
   /** The customer-provided location information to identify where the cluster resides. */
   clusterLocation?: string;
   /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
-  clusterServicePrincipal?: ServicePrincipalInformation;
+  clusterServicePrincipal?: ServicePrincipalInformationPatch;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
   commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
-  computeDeploymentThreshold?: ValidationThreshold;
+  computeDeploymentThreshold?: ValidationThresholdPatch;
   /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
-  computeRackDefinitions?: RackDefinition[];
+  computeRackDefinitions?: RackDefinitionPatch[];
   /** The settings for cluster runtime protection. */
-  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
-  secretArchive?: ClusterSecretArchive;
+  secretArchive?: ClusterSecretArchivePatch;
   /** The settings for the secret archive used to hold credentials for the cluster. */
   secretArchiveSettings?: SecretArchiveSettings;
   /** The strategy for updating the cluster. */
-  updateStrategy?: ClusterUpdateStrategy;
+  updateStrategy?: ClusterUpdateStrategyPatch;
   /** The settings for how security vulnerability scanning is applied to the cluster. */
   vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
@@ -4144,38 +4144,263 @@ export function clusterPatchPropertiesSerializer(item: ClusterPatchProperties): 
   return {
     aggregatorOrSingleRackDefinition: !item["aggregatorOrSingleRackDefinition"]
       ? item["aggregatorOrSingleRackDefinition"]
-      : rackDefinitionSerializer(item["aggregatorOrSingleRackDefinition"]),
+      : rackDefinitionPatchSerializer(item["aggregatorOrSingleRackDefinition"]),
     analyticsOutputSettings: !item["analyticsOutputSettings"]
       ? item["analyticsOutputSettings"]
       : analyticsOutputSettingsSerializer(item["analyticsOutputSettings"]),
     clusterLocation: item["clusterLocation"],
     clusterServicePrincipal: !item["clusterServicePrincipal"]
       ? item["clusterServicePrincipal"]
-      : servicePrincipalInformationSerializer(item["clusterServicePrincipal"]),
+      : servicePrincipalInformationPatchSerializer(item["clusterServicePrincipal"]),
     commandOutputSettings: !item["commandOutputSettings"]
       ? item["commandOutputSettings"]
       : commandOutputSettingsSerializer(item["commandOutputSettings"]),
     computeDeploymentThreshold: !item["computeDeploymentThreshold"]
       ? item["computeDeploymentThreshold"]
-      : validationThresholdSerializer(item["computeDeploymentThreshold"]),
+      : validationThresholdPatchSerializer(item["computeDeploymentThreshold"]),
     computeRackDefinitions: !item["computeRackDefinitions"]
       ? item["computeRackDefinitions"]
-      : rackDefinitionArraySerializer(item["computeRackDefinitions"]),
+      : rackDefinitionPatchArraySerializer(item["computeRackDefinitions"]),
     runtimeProtectionConfiguration: !item["runtimeProtectionConfiguration"]
       ? item["runtimeProtectionConfiguration"]
-      : runtimeProtectionConfigurationSerializer(item["runtimeProtectionConfiguration"]),
+      : runtimeProtectionConfigurationPatchSerializer(item["runtimeProtectionConfiguration"]),
     secretArchive: !item["secretArchive"]
       ? item["secretArchive"]
-      : clusterSecretArchiveSerializer(item["secretArchive"]),
+      : clusterSecretArchivePatchSerializer(item["secretArchive"]),
     secretArchiveSettings: !item["secretArchiveSettings"]
       ? item["secretArchiveSettings"]
       : secretArchiveSettingsSerializer(item["secretArchiveSettings"]),
     updateStrategy: !item["updateStrategy"]
       ? item["updateStrategy"]
-      : clusterUpdateStrategySerializer(item["updateStrategy"]),
+      : clusterUpdateStrategyPatchSerializer(item["updateStrategy"]),
     vulnerabilityScanningSettings: !item["vulnerabilityScanningSettings"]
       ? item["vulnerabilityScanningSettings"]
       : vulnerabilityScanningSettingsPatchSerializer(item["vulnerabilityScanningSettings"]),
+  };
+}
+
+/** RackDefinitionPatch represents details regarding the rack for patch operations. */
+export interface RackDefinitionPatch {
+  /** The zone name used for this rack when created. Availability zones are used for workload placement. */
+  availabilityZone?: string;
+  /** The unordered list of bare metal machine configuration. */
+  bareMetalMachineConfigurationData?: BareMetalMachineConfigurationDataPatch[];
+  /** The resource ID of the network rack that matches this rack definition. */
+  networkRackId?: string;
+  /** The free-form description of the rack's location. */
+  rackLocation?: string;
+  /** The unique identifier for the rack within Network Cloud cluster. An alternate unique alphanumeric value other than a serial number may be provided if desired. */
+  rackSerialNumber?: string;
+  /** The resource ID of the sku for the rack being added. */
+  rackSkuId?: string;
+  /** The list of storage appliance configuration data for this rack. */
+  storageApplianceConfigurationData?: StorageApplianceConfigurationDataPatch[];
+}
+
+export function rackDefinitionPatchSerializer(item: RackDefinitionPatch): any {
+  return {
+    availabilityZone: item["availabilityZone"],
+    bareMetalMachineConfigurationData: !item["bareMetalMachineConfigurationData"]
+      ? item["bareMetalMachineConfigurationData"]
+      : bareMetalMachineConfigurationDataPatchArraySerializer(
+          item["bareMetalMachineConfigurationData"],
+        ),
+    networkRackId: item["networkRackId"],
+    rackLocation: item["rackLocation"],
+    rackSerialNumber: item["rackSerialNumber"],
+    rackSkuId: item["rackSkuId"],
+    storageApplianceConfigurationData: !item["storageApplianceConfigurationData"]
+      ? item["storageApplianceConfigurationData"]
+      : storageApplianceConfigurationDataPatchArraySerializer(
+          item["storageApplianceConfigurationData"],
+        ),
+  };
+}
+
+export function bareMetalMachineConfigurationDataPatchArraySerializer(
+  result: Array<BareMetalMachineConfigurationDataPatch>,
+): any[] {
+  return result.map((item) => {
+    return bareMetalMachineConfigurationDataPatchSerializer(item);
+  });
+}
+
+/** BareMetalMachineConfigurationDataPatch represents configuration for the bare metal machine for patch operations. */
+export interface BareMetalMachineConfigurationDataPatch {
+  /** The connection string for the baseboard management controller including IP address and protocol. */
+  readonly bmcConnectionString?: string;
+  /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
+  bmcCredentials?: AdministrativeCredentialsPatch;
+  /** The MAC address of the BMC for this machine. */
+  bmcMacAddress?: string;
+  /** The MAC address associated with the PXE NIC card. */
+  bootMacAddress?: string;
+  /** The free-form additional information about the machine, e.g. an asset tag. */
+  machineDetails?: string;
+  /** The user-provided name for the bare metal machine created from this specification. If not provided, the machine name will be generated programmatically. */
+  machineName?: string;
+  /** The slot the physical machine is in the rack based on the BOM configuration. */
+  rackSlot?: number;
+  /** The serial number of the machine. Hardware suppliers may use an alternate value. For example, service tag. */
+  serialNumber?: string;
+}
+
+export function bareMetalMachineConfigurationDataPatchSerializer(
+  item: BareMetalMachineConfigurationDataPatch,
+): any {
+  return {
+    bmcCredentials: !item["bmcCredentials"]
+      ? item["bmcCredentials"]
+      : administrativeCredentialsPatchSerializer(item["bmcCredentials"]),
+    bmcMacAddress: item["bmcMacAddress"],
+    bootMacAddress: item["bootMacAddress"],
+    machineDetails: item["machineDetails"],
+    machineName: item["machineName"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
+  };
+}
+
+/** AdministrativeCredentialsPatch represents the admin credentials for the device requiring password-based authentication. */
+export interface AdministrativeCredentialsPatch {
+  /** The password of the administrator of the device used during initialization. */
+  password?: string;
+  /** The username of the administrator of the device used during initialization. */
+  username?: string;
+}
+
+export function administrativeCredentialsPatchSerializer(
+  item: AdministrativeCredentialsPatch,
+): any {
+  return { password: item["password"], username: item["username"] };
+}
+
+export function storageApplianceConfigurationDataPatchArraySerializer(
+  result: Array<StorageApplianceConfigurationDataPatch>,
+): any[] {
+  return result.map((item) => {
+    return storageApplianceConfigurationDataPatchSerializer(item);
+  });
+}
+
+/** StorageApplianceConfigurationDataPatch represents configuration for the storage application for patch operations. */
+export interface StorageApplianceConfigurationDataPatch {
+  /** The credentials of the administrative interface on this storage appliance. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
+  adminCredentials?: AdministrativeCredentialsPatch;
+  /** The slot that storage appliance is in the rack based on the BOM configuration. */
+  rackSlot?: number;
+  /** The serial number of the appliance. */
+  serialNumber?: string;
+  /** The user-provided name for the storage appliance that will be created from this specification. */
+  storageApplianceName?: string;
+}
+
+export function storageApplianceConfigurationDataPatchSerializer(
+  item: StorageApplianceConfigurationDataPatch,
+): any {
+  return {
+    adminCredentials: !item["adminCredentials"]
+      ? item["adminCredentials"]
+      : administrativeCredentialsPatchSerializer(item["adminCredentials"]),
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
+    storageApplianceName: item["storageApplianceName"],
+  };
+}
+
+/** ServicePrincipalInformationPatch represents the details of the service principal to be used by the cluster during Arc Appliance installation for patch operations. */
+export interface ServicePrincipalInformationPatch {
+  /** The application ID, also known as client ID, of the service principal. */
+  applicationId?: string;
+  /** The password of the service principal. */
+  password?: string;
+  /** The principal ID, also known as the object ID, of the service principal. */
+  principalId?: string;
+  /** The tenant ID, also known as the directory ID, of the tenant in which the service principal is created. */
+  tenantId?: string;
+}
+
+export function servicePrincipalInformationPatchSerializer(
+  item: ServicePrincipalInformationPatch,
+): any {
+  return {
+    applicationId: item["applicationId"],
+    password: item["password"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+/** ValidationThresholdPatch indicates allowed machine and node hardware and deployment failures for patch operations. */
+export interface ValidationThresholdPatch {
+  /** Selection of how the type evaluation is applied to the cluster calculation. */
+  grouping?: ValidationThresholdGrouping;
+  /** Selection of how the threshold should be evaluated. */
+  type?: ValidationThresholdType;
+  /** The numeric threshold value. */
+  value?: number;
+}
+
+export function validationThresholdPatchSerializer(item: ValidationThresholdPatch): any {
+  return { grouping: item["grouping"], type: item["type"], value: item["value"] };
+}
+
+export function rackDefinitionPatchArraySerializer(result: Array<RackDefinitionPatch>): any[] {
+  return result.map((item) => {
+    return rackDefinitionPatchSerializer(item);
+  });
+}
+
+/** RuntimeProtectionConfigurationPatch represents the runtime protection configuration for the cluster for patch operations. */
+export interface RuntimeProtectionConfigurationPatch {
+  /** The definition update mode for runtime protection. */
+  definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
+  /** The mode of operation for runtime protection. */
+  enforcementLevel?: RuntimeProtectionEnforcementLevel;
+}
+
+export function runtimeProtectionConfigurationPatchSerializer(
+  item: RuntimeProtectionConfigurationPatch,
+): any {
+  return {
+    definitionUpdateMode: item["definitionUpdateMode"],
+    enforcementLevel: item["enforcementLevel"],
+  };
+}
+
+/** ClusterSecretArchivePatch configures the key vault to archive the secrets of the cluster for later retrieval for patch operations. */
+export interface ClusterSecretArchivePatch {
+  /** The resource ID of the key vault to archive the secrets of the cluster. */
+  keyVaultId?: string;
+  /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
+  useKeyVault?: ClusterSecretArchiveEnabled;
+}
+
+export function clusterSecretArchivePatchSerializer(item: ClusterSecretArchivePatch): any {
+  return { keyVaultId: item["keyVaultId"], useKeyVault: item["useKeyVault"] };
+}
+
+/** ClusterUpdateStrategyPatch represents the strategy for updating the cluster for patch operations. */
+export interface ClusterUpdateStrategyPatch {
+  /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
+  maxUnavailable?: number;
+  /** The mode of operation for runtime protection. */
+  strategyType?: ClusterUpdateStrategyType;
+  /** Selection of how the threshold should be evaluated. */
+  thresholdType?: ValidationThresholdType;
+  /** The numeric threshold value. */
+  thresholdValue?: number;
+  /** The time to wait between the increments of update defined by the strategy. */
+  waitTimeMinutes?: number;
+}
+
+export function clusterUpdateStrategyPatchSerializer(item: ClusterUpdateStrategyPatch): any {
+  return {
+    maxUnavailable: item["maxUnavailable"],
+    strategyType: item["strategyType"],
+    thresholdType: item["thresholdType"],
+    thresholdValue: item["thresholdValue"],
+    waitTimeMinutes: item["waitTimeMinutes"],
   };
 }
 
@@ -7299,16 +7524,16 @@ export interface StorageAppliance extends TrackedResource {
   readonly etag?: string;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: ExtendedLocation;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7372,16 +7597,16 @@ export function storageApplianceDeserializer(item: any): StorageAppliance {
 
 /** StorageApplianceProperties represents the properties of the storage appliance. */
 export interface StorageApplianceProperties {
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7418,23 +7643,23 @@ export interface StorageApplianceProperties {
 
 export function storageAppliancePropertiesSerializer(item: StorageApplianceProperties): any {
   return {
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
   };
 }
 
 export function storageAppliancePropertiesDeserializer(item: any): StorageApplianceProperties {
   return {
+    rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
-    rackId: item["rackId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
@@ -7516,9 +7741,9 @@ export function storageApplianceExpansionShelfDeserializer(
 /** The monitoring configuration status of the storage appliance. */
 export interface StorageApplianceMonitoringConfigurationStatus {
   /** The log level for the monitoring configuration status of the storage appliance. */
-  logLevel?: StorageApplianceMetricsConfigurationStatusLogLevel;
+  logLevel?: StorageApplianceMonitoringConfigurationStatusLogLevel;
   /** The metrics level for the monitoring configuration status of the storage appliance. */
-  metricsLevel?: StorageApplianceMetricsConfigurationStatusMetricsLevel;
+  metricsLevel?: StorageApplianceMonitoringConfigurationStatusMetricsLevel;
 }
 
 export function storageApplianceMonitoringConfigurationStatusDeserializer(
@@ -7531,7 +7756,7 @@ export function storageApplianceMonitoringConfigurationStatusDeserializer(
 }
 
 /** The log level for the monitoring configuration status of the storage appliance. */
-export enum KnownStorageApplianceMetricsConfigurationStatusLogLevel {
+export enum KnownStorageApplianceMonitoringConfigurationStatusLogLevel {
   /** Logs are emitted at the default log level. */
   Default = "Default",
   /** Logs are emitted at the Nexus log level. */
@@ -7540,16 +7765,16 @@ export enum KnownStorageApplianceMetricsConfigurationStatusLogLevel {
 
 /**
  * The log level for the monitoring configuration status of the storage appliance. \
- * {@link KnownStorageApplianceMetricsConfigurationStatusLogLevel} can be used interchangeably with StorageApplianceMetricsConfigurationStatusLogLevel,
+ * {@link KnownStorageApplianceMonitoringConfigurationStatusLogLevel} can be used interchangeably with StorageApplianceMonitoringConfigurationStatusLogLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Logs are emitted at the default log level. \
  * **Nexus**: Logs are emitted at the Nexus log level.
  */
-export type StorageApplianceMetricsConfigurationStatusLogLevel = string;
+export type StorageApplianceMonitoringConfigurationStatusLogLevel = string;
 
 /** The metrics level for the monitoring configuration status of the storage appliance. */
-export enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel {
+export enum KnownStorageApplianceMonitoringConfigurationStatusMetricsLevel {
   /** Metrics are emitted at the default metrics level. */
   Default = "Default",
   /** Metrics are emitted at the Nexus metrics level. */
@@ -7558,13 +7783,13 @@ export enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel {
 
 /**
  * The metrics level for the monitoring configuration status of the storage appliance. \
- * {@link KnownStorageApplianceMetricsConfigurationStatusMetricsLevel} can be used interchangeably with StorageApplianceMetricsConfigurationStatusMetricsLevel,
+ * {@link KnownStorageApplianceMonitoringConfigurationStatusMetricsLevel} can be used interchangeably with StorageApplianceMonitoringConfigurationStatusMetricsLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default**: Metrics are emitted at the default metrics level. \
  * **Nexus**: Metrics are emitted at the Nexus metrics level.
  */
-export type StorageApplianceMetricsConfigurationStatusMetricsLevel = string;
+export type StorageApplianceMonitoringConfigurationStatusMetricsLevel = string;
 
 /** The indicator of whether the storage appliance supports remote vendor management. */
 export enum KnownRemoteVendorManagementFeature {
@@ -8587,7 +8812,7 @@ export interface VirtualMachinePatchParameters {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The credentials used to login to the image repository that has access to the specified image. */
-  vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+  vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch;
 }
 
 export function virtualMachinePatchParametersSerializer(item: VirtualMachinePatchParameters): any {
@@ -8605,14 +8830,34 @@ export function virtualMachinePatchParametersSerializer(item: VirtualMachinePatc
 /** VirtualMachinePatchProperties represents the properties of the virtual machine that can be patched. */
 export interface VirtualMachinePatchProperties {
   /** The credentials used to login to the image repository that has access to the specified image. */
-  vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+  vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch;
 }
 
 export function virtualMachinePatchPropertiesSerializer(item: VirtualMachinePatchProperties): any {
   return {
     vmImageRepositoryCredentials: !item["vmImageRepositoryCredentials"]
       ? item["vmImageRepositoryCredentials"]
-      : imageRepositoryCredentialsSerializer(item["vmImageRepositoryCredentials"]),
+      : imageRepositoryCredentialsPatchSerializer(item["vmImageRepositoryCredentials"]),
+  };
+}
+
+/** ImageRepositoryCredentialsPatch represents the credentials used to login to the image repository for patch operations. */
+export interface ImageRepositoryCredentialsPatch {
+  /** The password or token used to access an image in the target repository. */
+  password?: string;
+  /** The URL of the authentication server used to validate the repository credentials. */
+  registryUrl?: string;
+  /** The username used to access an image in the target repository. */
+  username?: string;
+}
+
+export function imageRepositoryCredentialsPatchSerializer(
+  item: ImageRepositoryCredentialsPatch,
+): any {
+  return {
+    password: item["password"],
+    registryUrl: item["registryUrl"],
+    username: item["username"],
   };
 }
 
@@ -9485,6 +9730,7 @@ export function bmcKeySetArrayDeserializer(result: Array<BmcKeySet>): any[] {
 export interface AgentPool extends TrackedResource {
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** The administrator credentials to be used for the nodes in this agent pool. */
   administratorConfiguration?: AdministratorConfiguration;
@@ -10224,7 +10470,7 @@ export interface ConsolePatchParameters {
   /** The date and time after which the key will be disallowed access. */
   expiration?: Date;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
-  sshPublicKey?: SshPublicKey;
+  sshPublicKey?: SshPublicKeyPatch;
 }
 
 export function consolePatchParametersSerializer(item: ConsolePatchParameters): any {
@@ -10243,7 +10489,7 @@ export interface ConsolePatchProperties {
   /** The date and time after which the key will be disallowed access. */
   expiration?: Date;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
-  sshPublicKey?: SshPublicKey;
+  sshPublicKey?: SshPublicKeyPatch;
 }
 
 export function consolePatchPropertiesSerializer(item: ConsolePatchProperties): any {
@@ -10252,8 +10498,18 @@ export function consolePatchPropertiesSerializer(item: ConsolePatchProperties): 
     expiration: !item["expiration"] ? item["expiration"] : item["expiration"].toISOString(),
     sshPublicKey: !item["sshPublicKey"]
       ? item["sshPublicKey"]
-      : sshPublicKeySerializer(item["sshPublicKey"]),
+      : sshPublicKeyPatchSerializer(item["sshPublicKey"]),
   };
+}
+
+/** SshPublicKeyPatch represents the public key used to authenticate with a resource through SSH. */
+export interface SshPublicKeyPatch {
+  /** The SSH public key data. */
+  keyData?: string;
+}
+
+export function sshPublicKeyPatchSerializer(item: SshPublicKeyPatch): any {
+  return { keyData: item["keyData"] };
 }
 
 /** ConsoleList represents a list of virtual machine consoles. */
@@ -10511,10 +10767,8 @@ export function clusterMetricsConfigurationArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
-  /** The 2026-01-01-preview API version. */
-  V20260101Preview = "2026-01-01-preview",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _accessBridgePropertiesSerializer(item: AccessBridge): any {
@@ -10891,35 +11145,35 @@ export function _clusterPatchParametersPropertiesSerializer(item: ClusterPatchPa
   return {
     aggregatorOrSingleRackDefinition: !item["aggregatorOrSingleRackDefinition"]
       ? item["aggregatorOrSingleRackDefinition"]
-      : rackDefinitionSerializer(item["aggregatorOrSingleRackDefinition"]),
+      : rackDefinitionPatchSerializer(item["aggregatorOrSingleRackDefinition"]),
     analyticsOutputSettings: !item["analyticsOutputSettings"]
       ? item["analyticsOutputSettings"]
       : analyticsOutputSettingsSerializer(item["analyticsOutputSettings"]),
     clusterLocation: item["clusterLocation"],
     clusterServicePrincipal: !item["clusterServicePrincipal"]
       ? item["clusterServicePrincipal"]
-      : servicePrincipalInformationSerializer(item["clusterServicePrincipal"]),
+      : servicePrincipalInformationPatchSerializer(item["clusterServicePrincipal"]),
     commandOutputSettings: !item["commandOutputSettings"]
       ? item["commandOutputSettings"]
       : commandOutputSettingsSerializer(item["commandOutputSettings"]),
     computeDeploymentThreshold: !item["computeDeploymentThreshold"]
       ? item["computeDeploymentThreshold"]
-      : validationThresholdSerializer(item["computeDeploymentThreshold"]),
+      : validationThresholdPatchSerializer(item["computeDeploymentThreshold"]),
     computeRackDefinitions: !item["computeRackDefinitions"]
       ? item["computeRackDefinitions"]
-      : rackDefinitionArraySerializer(item["computeRackDefinitions"]),
+      : rackDefinitionPatchArraySerializer(item["computeRackDefinitions"]),
     runtimeProtectionConfiguration: !item["runtimeProtectionConfiguration"]
       ? item["runtimeProtectionConfiguration"]
-      : runtimeProtectionConfigurationSerializer(item["runtimeProtectionConfiguration"]),
+      : runtimeProtectionConfigurationPatchSerializer(item["runtimeProtectionConfiguration"]),
     secretArchive: !item["secretArchive"]
       ? item["secretArchive"]
-      : clusterSecretArchiveSerializer(item["secretArchive"]),
+      : clusterSecretArchivePatchSerializer(item["secretArchive"]),
     secretArchiveSettings: !item["secretArchiveSettings"]
       ? item["secretArchiveSettings"]
       : secretArchiveSettingsSerializer(item["secretArchiveSettings"]),
     updateStrategy: !item["updateStrategy"]
       ? item["updateStrategy"]
-      : clusterUpdateStrategySerializer(item["updateStrategy"]),
+      : clusterUpdateStrategyPatchSerializer(item["updateStrategy"]),
     vulnerabilityScanningSettings: !item["vulnerabilityScanningSettings"]
       ? item["vulnerabilityScanningSettings"]
       : vulnerabilityScanningSettingsPatchSerializer(item["vulnerabilityScanningSettings"]),
@@ -11172,23 +11426,23 @@ export function _rackPatchParametersPropertiesSerializer(item: RackPatchParamete
 
 export function _storageAppliancePropertiesSerializer(item: StorageAppliance): any {
   return {
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
   };
 }
 
 export function _storageAppliancePropertiesDeserializer(item: any) {
   return {
+    rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
-    rackId: item["rackId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
@@ -11359,7 +11613,7 @@ export function _virtualMachinePatchParametersPropertiesSerializer(
   return {
     vmImageRepositoryCredentials: !item["vmImageRepositoryCredentials"]
       ? item["vmImageRepositoryCredentials"]
-      : imageRepositoryCredentialsSerializer(item["vmImageRepositoryCredentials"]),
+      : imageRepositoryCredentialsPatchSerializer(item["vmImageRepositoryCredentials"]),
   };
 }
 
@@ -11599,7 +11853,7 @@ export function _consolePatchParametersPropertiesSerializer(item: ConsolePatchPa
     expiration: !item["expiration"] ? item["expiration"] : item["expiration"].toISOString(),
     sshPublicKey: !item["sshPublicKey"]
       ? item["sshPublicKey"]
-      : sshPublicKeySerializer(item["sshPublicKey"]),
+      : sshPublicKeyPatchSerializer(item["sshPublicKey"]),
   };
 }
 

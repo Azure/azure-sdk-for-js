@@ -8,6 +8,5 @@ export interface TargetTypesListOptionalParams extends OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
 }
-
 /** Optional parameters. */
 export interface TargetTypesGetOptionalParams extends OperationOptions {}

@@ -3,7 +3,8 @@
 
 import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import {
-  refreshRecommendations,
+  evaluate,
+  discover,
   listAll,
   list,
   $delete,
@@ -12,7 +13,8 @@ import {
   get,
 } from "../../api/workspaces/operations.js";
 import type {
-  WorkspacesRefreshRecommendationsOptionalParams,
+  WorkspacesEvaluateOptionalParams,
+  WorkspacesDiscoverOptionalParams,
   WorkspacesListAllOptionalParams,
   WorkspacesListOptionalParams,
   WorkspacesDeleteOptionalParams,
@@ -20,18 +22,29 @@ import type {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
-import type { Workspace, WorkspaceUpdate, WorkspaceEvaluation } from "../../models/models.js";
+import type {
+  Workspace,
+  WorkspaceUpdate,
+  WorkspaceDiscovery,
+  WorkspaceEvaluation,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {
-  /** Refreshes recommendation status for all scenarios in a given workspace. */
-  refreshRecommendations: (
+  /** Triggers scenario evaluation for the workspace. */
+  evaluate: (
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesRefreshRecommendationsOptionalParams,
+    options?: WorkspacesEvaluateOptionalParams,
   ) => PollerLike<OperationState<WorkspaceEvaluation>, WorkspaceEvaluation>;
+  /** Triggers resource discovery for the workspace. */
+  discover: (
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesDiscoverOptionalParams,
+  ) => PollerLike<OperationState<WorkspaceDiscovery>, WorkspaceDiscovery>;
   /** Get a list of all Workspace resources in a subscription. */
   listAll: (options?: WorkspacesListAllOptionalParams) => PagedAsyncIterableIterator<Workspace>;
   /** Get a list of Workspace resources in a resource group. */
@@ -45,7 +58,7 @@ export interface WorkspacesOperations {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** The operation to update a Workspace. */
+  /** Update a Workspace. */
   update: (
     resourceGroupName: string,
     workspaceName: string,
@@ -66,14 +79,18 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
-
 function _getWorkspaces(context: ChaosManagementContext) {
   return {
-    refreshRecommendations: (
+    evaluate: (
       resourceGroupName: string,
       workspaceName: string,
-      options?: WorkspacesRefreshRecommendationsOptionalParams,
-    ) => refreshRecommendations(context, resourceGroupName, workspaceName, options),
+      options?: WorkspacesEvaluateOptionalParams,
+    ) => evaluate(context, resourceGroupName, workspaceName, options),
+    discover: (
+      resourceGroupName: string,
+      workspaceName: string,
+      options?: WorkspacesDiscoverOptionalParams,
+    ) => discover(context, resourceGroupName, workspaceName, options),
     listAll: (options?: WorkspacesListAllOptionalParams) => listAll(context, options),
     list: (resourceGroupName: string, options?: WorkspacesListOptionalParams) =>
       list(context, resourceGroupName, options),
@@ -101,7 +118,6 @@ function _getWorkspaces(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getWorkspacesOperations(context: ChaosManagementContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),

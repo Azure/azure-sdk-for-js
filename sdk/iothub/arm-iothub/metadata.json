@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Devices": "2026-03-01-preview"
+    "Microsoft.Devices": "2026-05-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {
@@ -35,6 +35,7 @@
       "@azure/arm-iothub!RoutingEventHubProperties:interface": "Microsoft.Devices.RoutingEventHubProperties",
       "@azure/arm-iothub!RoutingStorageContainerProperties:interface": "Microsoft.Devices.RoutingStorageContainerProperties",
       "@azure/arm-iothub!RoutingCosmosDBSqlApiProperties:interface": "Microsoft.Devices.RoutingCosmosDBSqlApiProperties",
+      "@azure/arm-iothub!RoutingEventStreamProperties:interface": "Microsoft.Devices.RoutingEventStreamProperties",
       "@azure/arm-iothub!RouteProperties:interface": "Microsoft.Devices.RouteProperties",
       "@azure/arm-iothub!FallbackRouteProperties:interface": "Microsoft.Devices.FallbackRouteProperties",
       "@azure/arm-iothub!EnrichmentProperties:interface": "Microsoft.Devices.EnrichmentProperties",
@@ -109,6 +110,7 @@
       "@azure/arm-iothub!KnownNetworkRuleIPAction:enum": "Microsoft.Devices.NetworkRuleIPAction",
       "@azure/arm-iothub!KnownAuthenticationType:enum": "Microsoft.Devices.AuthenticationType",
       "@azure/arm-iothub!KnownRoutingStorageContainerPropertiesEncoding:enum": "Microsoft.Devices.RoutingStorageContainerPropertiesEncoding",
+      "@azure/arm-iothub!KnownEventStreamAuthenticationType:enum": "Microsoft.Devices.EventStreamAuthenticationType",
       "@azure/arm-iothub!KnownRoutingSource:enum": "Microsoft.Devices.RoutingSource",
       "@azure/arm-iothub!KnownCapabilities:enum": "Microsoft.Devices.Capabilities",
       "@azure/arm-iothub!KnownIotHubReplicaRoleType:enum": "Microsoft.Devices.IotHubReplicaRoleType",

@@ -10,3 +10,10 @@ extends:
         LEDGER_URI: $(LEDGER_URI)
         LEDGER_NAME: $(LEDGER_NAME)
         IDENTITY_SERVICE_URL: $(IDENTITY_SERVICE_URL)
+      # Confidential Ledger test resources are expensive to provision: every matrix leg stands
+      # up a dedicated three-replica CCF cluster on confidential (SNP) hardware, which takes
+      # roughly eight minutes. Run one representative leg on the nightly pipeline and keep the
+      # full platform matrix on tests-weekly.
+      ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly')) }}:
+        MatrixFilters:
+          - DependencyVersion=max

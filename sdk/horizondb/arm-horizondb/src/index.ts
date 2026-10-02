@@ -30,6 +30,14 @@ export type {
   ProvisioningState,
   ZonePlacementPolicy,
   HorizonDbClusterParameterGroupConnectionProperties,
+  HorizonDbClusterAuthConfig,
+  AuthenticationState,
+  HorizonDbComputeModel,
+  HorizonDbComputeModelType,
+  HorizonDbClusterMirroring,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
   TrackedResource,
   Resource,
   SystemData,
@@ -53,9 +61,6 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
-  PrivateEndpointConnectionUpdate,
-  OptionalPropertiesUpdateableProperties,
-  PrivateEndpointConnection,
   HorizonDbPrivateLinkResource,
   PrivateLinkResourceProperties,
   HorizonDbParameterGroup,
@@ -64,6 +69,11 @@ export type {
   HorizonDbParameterGroupForPatchUpdate,
   HorizonDbParameterGroupPropertiesForPatchUpdate,
   HorizonDbParameterGroupConnectionProperties,
+  HorizonDbAdministrator,
+  HorizonDbAdministratorProperties,
+  PrincipalTypes,
+  HorizonDbAdministratorAdd,
+  HorizonDbAdministratorPropertiesForAdd,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -73,15 +83,28 @@ export {
   KnownState,
   KnownProvisioningState,
   KnownZonePlacementPolicy,
+  KnownAuthenticationState,
+  KnownHorizonDbComputeModelType,
+  KnownManagedServiceIdentityType,
   KnownCreatedByType,
   KnownCreateModePool,
   KnownReplicaRole,
   KnownPrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
+  KnownPrincipalTypes,
   KnownVersions,
 } from "./models/index.js";
 export type { HorizonDbClientOptionalParams } from "./api/index.js";
 export type {
+  HorizonDbAdministratorsListOptionalParams,
+  HorizonDbAdministratorsDeleteOptionalParams,
+  HorizonDbAdministratorsCreateOrUpdateOptionalParams,
+  HorizonDbAdministratorsGetOptionalParams,
+} from "./api/horizonDbAdministrators/index.js";
+export type {
+  HorizonDbClustersRestartOptionalParams,
+  HorizonDbClustersStopOptionalParams,
+  HorizonDbClustersStartOptionalParams,
   HorizonDbClustersListBySubscriptionOptionalParams,
   HorizonDbClustersListByResourceGroupOptionalParams,
   HorizonDbClustersDeleteOptionalParams,
@@ -111,7 +134,7 @@ export type {
 } from "./api/horizonDbPools/index.js";
 export type {
   HorizonDbPrivateEndpointConnectionsDeleteOptionalParams,
-  HorizonDbPrivateEndpointConnectionsUpdateOptionalParams,
+  HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams,
   HorizonDbPrivateEndpointConnectionsListOptionalParams,
   HorizonDbPrivateEndpointConnectionsGetOptionalParams,
 } from "./api/horizonDbPrivateEndpointConnections/index.js";
@@ -128,6 +151,7 @@ export type {
 } from "./api/horizonDbReplicas/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
+  HorizonDbAdministratorsOperations,
   HorizonDbClustersOperations,
   HorizonDbFirewallRulesOperations,
   HorizonDbParameterGroupsOperations,
@@ -140,3 +164,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -16,8 +16,9 @@ import type {
   BetaDatasetsListGenerationJobsOptionalParams,
   BetaDatasetsGetGenerationJobOptionalParams,
 } from "../../../api/beta/datasets/options.js";
-import type { DataGenerationJob } from "../../../models/models.js";
+import type { DataGenerationJob, DataGenerationJobResult } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaDatasets operations. */
 export interface BetaDatasetsOperations {
@@ -35,7 +36,7 @@ export interface BetaDatasetsOperations {
   createGenerationJob: (
     job: DataGenerationJob,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => JobPoller<DataGenerationJobResult>;
   /** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the details of a job from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
  *
  * @summary get the details of a job from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
- * x-ms-original-file: 2026-03-01-preview/iothub_getjob.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_getjob.json
  */
 async function iotHubResourceGetJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

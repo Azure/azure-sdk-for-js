@@ -68,7 +68,7 @@ export function _runCommandSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,6 @@ export async function _runCommandDeserialize(
 
   return runCommandResultDeserializer(result.body);
 }
-
 /** Run command on a virtual machine in a VM scale set. */
 export function runCommand(
   context: Client,
@@ -113,7 +112,7 @@ export function runCommand(
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, vmScaleSetName, instanceId, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -131,7 +130,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +152,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Starts a virtual machine in a VM scale set. */
 export function start(
   context: Client,
@@ -168,7 +166,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -188,7 +186,7 @@ export function _retrieveBootDiagnosticsDataSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       sasUriExpirationTimeInMinutes: options?.sasUriExpirationTimeInMinutes,
     },
     {
@@ -216,7 +214,6 @@ export async function _retrieveBootDiagnosticsDataDeserialize(
 
   return retrieveBootDiagnosticsDataResultDeserializer(result.body);
 }
-
 /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
 export async function retrieveBootDiagnosticsData(
   context: Client,
@@ -251,7 +248,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +270,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Restarts a virtual machine in a VM scale set. */
 export function restart(
   context: Client,
@@ -288,7 +284,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -306,7 +302,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -328,7 +324,6 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
 export function redeploy(
   context: Client,
@@ -343,7 +338,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -361,7 +356,7 @@ export function _powerOffSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -384,7 +379,6 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export function powerOff(
   context: Client,
@@ -399,7 +393,7 @@ export function powerOff(
     getInitialResponse: () =>
       _powerOffSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -417,7 +411,7 @@ export function _performMaintenanceSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -439,7 +433,6 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
 
   return;
 }
-
 /** Performs maintenance on a virtual machine in a VM scale set. */
 export function performMaintenance(
   context: Client,
@@ -454,7 +447,7 @@ export function performMaintenance(
     getInitialResponse: () =>
       _performMaintenanceSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -473,7 +466,7 @@ export function _attachDetachDataDisksSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -502,7 +495,6 @@ export async function _attachDetachDataDisksDeserialize(
 
   return storageProfileDeserializer(result.body);
 }
-
 /** Attach and detach data disks to/from a virtual machine in a VM scale set. */
 export function attachDetachDataDisks(
   context: Client,
@@ -525,7 +517,7 @@ export function attachDetachDataDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<StorageProfile>, StorageProfile>;
 }
 
@@ -543,7 +535,7 @@ export function _simulateEvictionSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,7 +557,6 @@ export async function _simulateEvictionDeserialize(result: PathUncheckedResponse
 
   return;
 }
-
 /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
 export async function simulateEviction(
   context: Client,
@@ -598,7 +589,7 @@ export function _reimageAllSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -620,7 +611,6 @@ export async function _reimageAllDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
 export function reimageAll(
   context: Client,
@@ -635,7 +625,7 @@ export function reimageAll(
     getInitialResponse: () =>
       _reimageAllSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -653,7 +643,7 @@ export function _reimageSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -681,7 +671,6 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
 export function reimage(
   context: Client,
@@ -696,7 +685,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -714,7 +703,7 @@ export function _getInstanceViewSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -741,7 +730,6 @@ export async function _getInstanceViewDeserialize(
 
   return virtualMachineScaleSetVMInstanceViewDeserializer(result.body);
 }
-
 /** Gets the status of a virtual machine from a VM scale set. */
 export async function getInstanceView(
   context: Client,
@@ -774,7 +762,7 @@ export function _deallocateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -796,7 +784,6 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
 export function deallocate(
   context: Client,
@@ -811,7 +798,7 @@ export function deallocate(
     getInitialResponse: () =>
       _deallocateSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -829,7 +816,7 @@ export function _approveRollingUpgradeSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -853,7 +840,6 @@ export async function _approveRollingUpgradeDeserialize(
 
   return;
 }
-
 /** Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance. */
 export function approveRollingUpgrade(
   context: Client,
@@ -868,7 +854,7 @@ export function approveRollingUpgrade(
     getInitialResponse: () =>
       _approveRollingUpgradeSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -884,7 +870,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineScaleSetName: virtualMachineScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24filter": options?.filter,
       "%24select": options?.select,
       "%24expand": options?.expand,
@@ -914,7 +900,6 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetVMListResultDeserializer(result.body);
 }
-
 /** Gets a list of all virtual machines in a VM scale sets. */
 export function list(
   context: Client,
@@ -927,7 +912,7 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualMachineScaleSetName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -945,7 +930,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -968,7 +953,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a virtual machine from a VM scale set. */
 export function $delete(
   context: Client,
@@ -983,7 +967,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1002,7 +986,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1036,7 +1020,6 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetVMDeserializer(result.body);
 }
-
 /** Updates a virtual machine of a VM scale set. */
 export function update(
   context: Client,
@@ -1052,7 +1035,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmScaleSetName, instanceId, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSetVM>, VirtualMachineScaleSetVM>;
 }
 
@@ -1070,7 +1053,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -1098,7 +1081,6 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetVMDeserializer(result.body);
 }
-
 /** Gets a virtual machine from a VM scale set. */
 export async function get(
   context: Client,

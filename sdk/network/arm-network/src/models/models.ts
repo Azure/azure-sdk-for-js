@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type {
   NetworkInterfaceIPConfiguration,
   VirtualNetworkTap,
@@ -52,6 +58,7 @@ import {
 import type {
   ApplicationGateway,
   ApplicationGatewayPrivateEndpointConnection,
+  AuthenticationPolicy,
   AzureFirewall,
   BastionHost,
   DdosCustomPolicy,
@@ -63,6 +70,7 @@ import type {
   ExpressRouteCrossConnection,
   FirewallPolicy,
   FirewallPolicyRuleCollectionGroup,
+  FirewallPolicyKubeSelectorGroup,
   NetworkManager,
   IpAllocation,
   IpGroup,
@@ -98,6 +106,8 @@ import type {
   ServiceGateway,
   InterconnectGroup,
   Subgroup,
+  FirstPartyServiceTag,
+  AddressPrefixSet,
   ApplicationGatewayPrivateLinkResource,
   CustomIpPrefix,
   DscpConfiguration,
@@ -110,10 +120,11 @@ import type {
   AzureFirewallFqdnTag,
   ExpressRouteServiceProvider,
   BgpServiceCommunity,
-} from "./microsoft/network/models.js";
+} from "./network/models.js";
 import {
   applicationGatewayPrivateEndpointConnectionArrayDeserializer,
   applicationGatewayArrayDeserializer,
+  authenticationPolicyArrayDeserializer,
   azureFirewallArrayDeserializer,
   bastionHostArrayDeserializer,
   ddosCustomPolicyArrayDeserializer,
@@ -125,6 +136,7 @@ import {
   expressRouteCrossConnectionArrayDeserializer,
   firewallPolicyArrayDeserializer,
   firewallPolicyRuleCollectionGroupArrayDeserializer,
+  firewallPolicyKubeSelectorGroupArrayDeserializer,
   networkManagerArrayDeserializer,
   ipAllocationArrayDeserializer,
   ipGroupArrayDeserializer,
@@ -160,6 +172,8 @@ import {
   serviceGatewayArrayDeserializer,
   subgroupArrayDeserializer,
   interconnectGroupArrayDeserializer,
+  firstPartyServiceTagArrayDeserializer,
+  addressPrefixSetArrayDeserializer,
   applicationGatewayPrivateLinkResourceArrayDeserializer,
   customIpPrefixArrayDeserializer,
   dscpConfigurationArrayDeserializer,
@@ -172,14 +186,8 @@ import {
   azureFirewallFqdnTagArrayDeserializer,
   expressRouteServiceProviderArrayDeserializer,
   bgpServiceCommunityArrayDeserializer,
-} from "./microsoft/network/models.js";
+} from "./network/models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
@@ -280,6 +288,76 @@ export function _applicationSecurityGroupListResultDeserializer(
 ): _ApplicationSecurityGroupListResult {
   return {
     value: applicationSecurityGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** The response of a AuthenticationPolicy list operation. */
+export interface _AuthenticationPolicyListResult {
+  /** The AuthenticationPolicy items on this page */
+  value: AuthenticationPolicy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _authenticationPolicyListResultDeserializer(
+  item: any,
+): _AuthenticationPolicyListResult {
+  return {
+    value: authenticationPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -510,58 +588,22 @@ export function _firewallPolicyRuleCollectionGroupListResultDeserializer(
   };
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** The response of a FirewallPolicyKubeSelectorGroup list operation. */
+export interface _FirewallPolicyKubeSelectorGroupListResult {
+  /** The FirewallPolicyKubeSelectorGroup items on this page */
+  value: FirewallPolicyKubeSelectorGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-export function systemDataDeserializer(item: any): SystemData {
+export function _firewallPolicyKubeSelectorGroupListResultDeserializer(
+  item: any,
+): _FirewallPolicyKubeSelectorGroupListResult {
   return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
+    value: firewallPolicyKubeSelectorGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
 
 /** The response of a NetworkManager list operation. */
 export interface _NetworkManagerListResult {
@@ -1404,6 +1446,38 @@ export interface _SubgroupListResult {
 export function _subgroupListResultDeserializer(item: any): _SubgroupListResult {
   return {
     value: subgroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** The response of a FirstPartyServiceTag list operation. */
+export interface _FirstPartyServiceTagListResult {
+  /** The FirstPartyServiceTag items on this page */
+  value: FirstPartyServiceTag[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _firstPartyServiceTagListResultDeserializer(
+  item: any,
+): _FirstPartyServiceTagListResult {
+  return {
+    value: firstPartyServiceTagArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** The response of a AddressPrefixSet list operation. */
+export interface _AddressPrefixSetListResult {
+  /** The AddressPrefixSet items on this page */
+  value: AddressPrefixSet[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _addressPrefixSetListResultDeserializer(item: any): _AddressPrefixSetListResult {
+  return {
+    value: addressPrefixSetArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }

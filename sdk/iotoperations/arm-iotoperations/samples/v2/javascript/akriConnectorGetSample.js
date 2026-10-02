@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a AkriConnectorResource
  *
  * @summary get a AkriConnectorResource
- * x-ms-original-file: 2026-03-01/AkriConnector_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/AkriConnector_Get_MaximumSet_Gen.json
  */
 async function akriConnectorGetMaximumSet() {
   const credential = new DefaultAzureCredential();

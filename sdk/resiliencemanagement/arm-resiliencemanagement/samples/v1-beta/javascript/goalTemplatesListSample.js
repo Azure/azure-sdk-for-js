@@ -5,10 +5,10 @@ const { AzureResilienceManagementClient } = require("@azure/arm-resiliencemanage
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list GoalTemplate resources by tenant
+ * This sample demonstrates how to lists the goal templates of a service group. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
  *
- * @summary list GoalTemplate resources by tenant
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_List_MaximumSet_Gen.json
+ * @summary lists the goal templates of a service group. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_List_MaximumSet_Gen.json
  */
 async function goalTemplatesListMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -25,10 +25,10 @@ async function goalTemplatesListMaximumSet() {
 }
 
 /**
- * This sample demonstrates how to list GoalTemplate resources by tenant
+ * This sample demonstrates how to lists the goal templates of a service group. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
  *
- * @summary list GoalTemplate resources by tenant
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_List_MinimumSet_Gen.json
+ * @summary lists the goal templates of a service group. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_List_MinimumSet_Gen.json
  */
 async function goalTemplatesListMinimumSet() {
   const credential = new DefaultAzureCredential();

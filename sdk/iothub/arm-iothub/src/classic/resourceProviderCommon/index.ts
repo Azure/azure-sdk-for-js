@@ -13,14 +13,12 @@ export interface ResourceProviderCommonOperations {
     options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ) => Promise<UserSubscriptionQuotaListResult>;
 }
-
 function _getResourceProviderCommon(context: IotHubContext) {
   return {
     getSubscriptionQuota: (options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams) =>
       getSubscriptionQuota(context, options),
   };
 }
-
 export function _getResourceProviderCommonOperations(
   context: IotHubContext,
 ): ResourceProviderCommonOperations {

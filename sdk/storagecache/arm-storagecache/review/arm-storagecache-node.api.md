@@ -964,6 +964,8 @@ export interface ErrorResponse {
 export interface ExpansionJob extends TrackedResource {
     newStorageCapacityTiB?: number;
     readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
+    readonly rebalanceJobId?: string;
+    runRebalanceJob?: boolean;
     readonly status?: ExpansionJobPropertiesStatus;
 }
 
@@ -973,6 +975,8 @@ export interface ExpansionJobProperties {
     newStorageCapacityTiB?: number;
     readonly percentComplete?: number;
     readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
+    readonly rebalanceJobId?: string;
+    runRebalanceJob?: boolean;
     readonly startTimeUTC?: Date;
     readonly state?: ExpansionJobStatusType;
     readonly statusCode?: string;
@@ -1438,6 +1442,33 @@ export enum KnownReasonCode {
 }
 
 // @public
+export enum KnownRebalanceJobAdminStatus {
+    Active = "Active",
+    Cancel = "Cancel"
+}
+
+// @public
+export enum KnownRebalanceJobPropertiesProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownRebalanceJobStatusType {
+    Canceled = "Canceled",
+    Cancelling = "Cancelling",
+    Completed = "Completed",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    RollingBack = "RollingBack"
+}
+
+// @public
 export enum KnownStorageTargetType {
     BlobNfs = "blobNfs",
     Clfs = "clfs",
@@ -1462,7 +1493,8 @@ export enum KnownUsernameSource {
 
 // @public
 export enum KnownVersions {
-    V20260101 = "2026-01-01"
+    V20260101 = "2026-01-01",
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -1591,6 +1623,91 @@ export interface ProxyResource extends Resource {
 export type ReasonCode = string;
 
 // @public
+export interface RebalanceJob extends ProxyResource {
+    properties?: RebalanceJobProperties;
+}
+
+// @public
+export type RebalanceJobAdminStatus = string;
+
+// @public
+export interface RebalanceJobProperties {
+    readonly adminStatus?: RebalanceJobAdminStatus;
+    readonly expansionJobId?: string;
+    readonly provisioningState?: RebalanceJobPropertiesProvisioningState;
+    readonly status?: RebalanceJobPropertiesStatus;
+}
+
+// @public
+export type RebalanceJobPropertiesProvisioningState = string;
+
+// @public
+export interface RebalanceJobPropertiesStatus {
+    readonly balancePercent?: number;
+    readonly bytesMoved?: number;
+    readonly completionTimeUTC?: Date;
+    readonly dirsMigrated?: number;
+    readonly estimatedRemainingSeconds?: number;
+    readonly filesMigrated?: number;
+    readonly filesMovedPerSecond?: number;
+    readonly percentComplete?: number;
+    readonly startTimeUTC?: Date;
+    readonly state?: RebalanceJobStatusType;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
+    readonly throughputMiBps?: number;
+    readonly totalErrors?: number;
+    readonly totalSkipped?: number;
+}
+
+// @public
+export interface RebalanceJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RebalanceJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RebalanceJobsListByAmlFilesystemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RebalanceJobsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, options?: RebalanceJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, options?: RebalanceJobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, properties: RebalanceJobUpdate, options?: RebalanceJobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RebalanceJob>, RebalanceJob>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, properties: RebalanceJobUpdate, options?: RebalanceJobsUpdateOptionalParams) => Promise<RebalanceJob>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, options?: RebalanceJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, options?: RebalanceJobsGetOptionalParams) => Promise<RebalanceJob>;
+    listByAmlFilesystem: (resourceGroupName: string, amlFilesystemName: string, options?: RebalanceJobsListByAmlFilesystemOptionalParams) => PagedAsyncIterableIterator<RebalanceJob>;
+    update: (resourceGroupName: string, amlFilesystemName: string, rebalanceJobName: string, properties: RebalanceJobUpdate, options?: RebalanceJobsUpdateOptionalParams) => PollerLike<OperationState<RebalanceJob>, RebalanceJob>;
+}
+
+// @public
+export type RebalanceJobStatusType = string;
+
+// @public
+export interface RebalanceJobsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RebalanceJobUpdate {
+    properties?: RebalanceJobUpdateProperties;
+}
+
+// @public
+export interface RebalanceJobUpdateProperties {
+    adminStatus?: RebalanceJobAdminStatus;
+}
+
+// @public
 export interface RequiredAmlFilesystemSubnetsSize {
     filesystemSubnetSize?: number;
 }
@@ -1716,6 +1833,7 @@ export class StorageCacheManagementClient {
     readonly importJobs: ImportJobsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly rebalanceJobs: RebalanceJobsOperations;
     readonly skus: SkusOperations;
     readonly storageTargetOperations: StorageTargetOperationsOperations;
     readonly storageTargets: StorageTargetsOperations;

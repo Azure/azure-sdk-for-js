@@ -5,44 +5,73 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
+ * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
  *
- * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkCancel_MaximumSet_Gen.json
+ * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_BasicSuccess.json
  */
-async function virtualMachineBulkOperationsBulkCancelGeneratedByMaximumSetRule(): Promise<void> {
+async function _01CancelMultipleOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkCancelOperations(
-    "myResourceGroup",
-    "eastus2euap",
-    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      ],
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
+ * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
  *
- * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkCancel_MinimumSet_Gen.json
+ * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_OperationNotFoundError.json
  */
-async function virtualMachineBulkOperationsBulkCancelGeneratedByMinimumSetRule(): Promise<void> {
+async function _03ResponseWithAnUnknownOperationErrorDuringCancellation(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkCancelOperations(
-    "myResourceGroup",
-    "eastus2euap",
-    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
+    "example-rg",
+    "eastus",
+    { operationIds: ["dddddddd-dddd-dddd-dddd-dddddddddddd"] },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
+ *
+ * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_PartialSuccess.json
+ */
+async function _02ResponseWithPartiallySuccessfulResult(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkCancelOperations(
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      ],
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkCancelGeneratedByMaximumSetRule();
-  await virtualMachineBulkOperationsBulkCancelGeneratedByMinimumSetRule();
+  await _01CancelMultipleOperations();
+  await _03ResponseWithAnUnknownOperationErrorDuringCancellation();
+  await _02ResponseWithPartiallySuccessfulResult();
 }
 
 main().catch(console.error);

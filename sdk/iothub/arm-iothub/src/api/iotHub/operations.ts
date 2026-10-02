@@ -24,7 +24,7 @@ export function _manualFailoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       iotHubName: iotHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,7 +50,6 @@ export async function _manualFailoverDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see https://aka.ms/manualfailover */
 export function manualFailover(
   context: Client,
@@ -65,6 +64,6 @@ export function manualFailover(
     getInitialResponse: () =>
       _manualFailoverSend(context, iotHubName, resourceGroupName, failoverInput, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

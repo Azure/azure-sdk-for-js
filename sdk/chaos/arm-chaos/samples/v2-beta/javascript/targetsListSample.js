@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of Target resources that extend a tracked regional resource.
  *
  * @summary get a list of Target resources that extend a tracked regional resource.
- * x-ms-original-file: 2026-05-01-preview/Targets_List.json
+ * x-ms-original-file: 2026-08-01-preview/Targets_List.json
  */
 async function listAllTargetsThatExtendAVirtualMachineResource() {
   const credential = new DefaultAzureCredential();

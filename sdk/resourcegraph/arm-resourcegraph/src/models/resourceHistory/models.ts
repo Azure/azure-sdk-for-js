@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DateTimeInterval, ResultFormat } from "../resourceGraphCommon/models.js";
-import { dateTimeIntervalSerializer } from "../resourceGraphCommon/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { DateTimeInterval, ResultFormat } from "../resourceGraphCommon/models.js";
+import { dateTimeIntervalSerializer } from "../resourceGraphCommon/models.js";
+
 /** Describes a history request to be executed. */
 export interface ResourcesHistoryRequest {
   /** Azure subscriptions against which to execute the query. */

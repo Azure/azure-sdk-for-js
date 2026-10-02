@@ -64,7 +64,6 @@ export interface VirtualMachineImagesEdgeZoneOperations {
     options?: VirtualMachineImagesEdgeZoneListPublishersOptionalParams,
   ) => Promise<VirtualMachineImageResource[]>;
 }
-
 function _getVirtualMachineImagesEdgeZone(context: ComputeManagementContext) {
   return {
     get: (
@@ -104,7 +103,6 @@ function _getVirtualMachineImagesEdgeZone(context: ComputeManagementContext) {
     ) => listPublishers(context, location, edgeZone, options),
   };
 }
-
 export function _getVirtualMachineImagesEdgeZoneOperations(
   context: ComputeManagementContext,
 ): VirtualMachineImagesEdgeZoneOperations {

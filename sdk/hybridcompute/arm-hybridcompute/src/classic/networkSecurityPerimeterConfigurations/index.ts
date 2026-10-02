@@ -66,7 +66,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: HybridComputeManagementContext) {
   return {
     reconcileForPrivateLinkScope: (
@@ -119,7 +118,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: HybridComputeManage
     ) => getByPrivateLinkScope(context, resourceGroupName, scopeName, perimeterName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: HybridComputeManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

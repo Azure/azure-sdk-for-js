@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault.json
+ * x-ms-original-file: 2026-07-01/PATCHVault.json
  */
 async function updateResource() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateResource() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithCMK.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithCMK.json
  */
 async function updateResourceWithCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function updateResourceWithCustomerManagedKeys() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithCMK3.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithCMK3.json
  */
 async function updateResourceWithCustomerManagedKeys3() {
   const credential = new DefaultAzureCredential();
@@ -89,7 +89,7 @@ async function updateResourceWithCustomerManagedKeys3() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithCostManagementSettings.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithCostManagementSettings.json
  */
 async function updateVaultWithCostManagementSettings() {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function updateVaultWithCostManagementSettings() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithImmutabilityConfig.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithImmutabilityConfig.json
  */
 async function updateVaultWithImmutabilityConfig() {
   const credential = new DefaultAzureCredential();
@@ -127,7 +127,7 @@ async function updateVaultWithImmutabilityConfig() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithMonitoringSettings.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithMonitoringSettings.json
  */
 async function updateVaultWithMonitoringSetting() {
   const credential = new DefaultAzureCredential();
@@ -156,7 +156,7 @@ async function updateVaultWithMonitoringSetting() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithRedundancySettings.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithRedundancySettings.json
  */
 async function updateVaultWithRedundancySetting() {
   const credential = new DefaultAzureCredential();
@@ -177,7 +177,24 @@ async function updateVaultWithRedundancySetting() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithSourceScanConfiguration.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithRegionOfChoiceSettings.json
+ */
+async function updateVaultWithRegionOfChoiceSettings() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const client = new RecoveryServicesClient(credential, subscriptionId);
+  const result = await client.vaults.update("HelloWorld", "swaggerExample", {
+    properties: { regionOfChoiceSettings: { status: "Enabled" } },
+    tags: { PatchKey: "PatchKeyUpdated" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates the vault.
+ *
+ * @summary updates the vault.
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithSourceScanConfiguration.json
  */
 async function updateVaultWithSourceScanConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -212,7 +229,7 @@ async function updateVaultWithSourceScanConfiguration() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PATCHVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: 2026-07-01/PATCHVault_WithUserAssignedIdentity.json
  */
 async function updateResourceWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -235,7 +252,7 @@ async function updateResourceWithUserAssignedIdentity() {
  * This sample demonstrates how to updates the vault.
  *
  * @summary updates the vault.
- * x-ms-original-file: 2026-05-01/PatchVault_WithCMK2.json
+ * x-ms-original-file: 2026-07-01/PatchVault_WithCMK2.json
  */
 async function updateResourceWithCustomerManagedKeys2() {
   const credential = new DefaultAzureCredential();
@@ -257,6 +274,7 @@ async function main() {
   await updateVaultWithImmutabilityConfig();
   await updateVaultWithMonitoringSetting();
   await updateVaultWithRedundancySetting();
+  await updateVaultWithRegionOfChoiceSettings();
   await updateVaultWithSourceScanConfiguration();
   await updateResourceWithUserAssignedIdentity();
   await updateResourceWithCustomerManagedKeys2();

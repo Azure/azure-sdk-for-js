@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/l2Networks/operations.js";
-import {
+import type {
   L2NetworksListBySubscriptionOptionalParams,
   L2NetworksListByResourceGroupOptionalParams,
   L2NetworksDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   L2NetworksCreateOrUpdateOptionalParams,
   L2NetworksGetOptionalParams,
 } from "../../api/l2Networks/options.js";
-import { OperationStatusResult, L2Network } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, L2Network } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a L2Networks operations. */
 export interface L2NetworksOperations {

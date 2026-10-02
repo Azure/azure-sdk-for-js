@@ -257,6 +257,41 @@ describe("LogHandler", () => {
       );
     });
 
+    it("should prefer an explicitly configured console logSeverity over the env var", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "WARN";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+        logSeverity: SeverityNumber.ERROR,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.ERROR,
+      );
+      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    });
+
+    it("should use an explicitly configured console logSeverity when no env var is set", () => {
+      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+        logSeverity: SeverityNumber.ERROR,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.ERROR,
+      );
+    });
+
     it("should not register log instrumentations when the logging level is NONE", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
       const config = new InternalConfig();

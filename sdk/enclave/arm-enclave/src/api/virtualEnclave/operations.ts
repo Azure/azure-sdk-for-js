@@ -51,7 +51,7 @@ export function _handleApprovalDeletionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +80,7 @@ export async function _handleApprovalDeletionDeserialize(
 
   return approvalActionResponseDeserializer(result.body);
 }
+
 /** Callback that triggers on approval deletion state change. */
 export function handleApprovalDeletion(
   context: Client,
@@ -94,7 +95,7 @@ export function handleApprovalDeletion(
     getInitialResponse: () =>
       _handleApprovalDeletionSend(context, resourceGroupName, virtualEnclaveName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
 }
 
@@ -111,7 +112,7 @@ export function _handleApprovalCreationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,6 +141,7 @@ export async function _handleApprovalCreationDeserialize(
 
   return approvalActionResponseDeserializer(result.body);
 }
+
 /** Callback that triggers on approval state change. */
 export function handleApprovalCreation(
   context: Client,
@@ -154,7 +156,7 @@ export function handleApprovalCreation(
     getInitialResponse: () =>
       _handleApprovalCreationSend(context, resourceGroupName, virtualEnclaveName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
 }
 
@@ -166,7 +168,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/virtualEnclaves{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,6 +195,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _enclaveResourceListResultDeserializer(result.body);
 }
+
 /** List EnclaveResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -203,11 +206,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -221,7 +220,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,6 +247,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _enclaveResourceListResultDeserializer(result.body);
 }
+
 /** List EnclaveResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -259,11 +259,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -279,7 +275,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -301,6 +297,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a EnclaveResource */
 export function $delete(
   context: Client,
@@ -313,7 +310,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, virtualEnclaveName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -330,7 +327,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -357,6 +354,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return enclaveResourceDeserializer(result.body);
 }
+
 /** Update a EnclaveResource */
 export function update(
   context: Client,
@@ -371,7 +369,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, virtualEnclaveName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<EnclaveResource>, EnclaveResource>;
 }
 
@@ -388,7 +386,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,6 +415,7 @@ export async function _createOrUpdateDeserialize(
 
   return enclaveResourceDeserializer(result.body);
 }
+
 /** Create a EnclaveResource */
 export function createOrUpdate(
   context: Client,
@@ -431,7 +430,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, virtualEnclaveName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<EnclaveResource>, EnclaveResource>;
 }
 
@@ -447,7 +446,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualEnclaveName: virtualEnclaveName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -472,6 +471,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
 
   return enclaveResourceDeserializer(result.body);
 }
+
 /** Get a EnclaveResource */
 export async function get(
   context: Client,

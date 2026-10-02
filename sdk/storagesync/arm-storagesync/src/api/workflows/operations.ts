@@ -33,7 +33,7 @@ export function _abortSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       workflowId: workflowId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,7 +86,7 @@ export function _listByStorageSyncServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +127,7 @@ export function listByStorageSyncService(
       _listByStorageSyncServiceSend(context, resourceGroupName, storageSyncServiceName, options),
     _listByStorageSyncServiceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2022-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -145,7 +145,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       workflowId: workflowId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

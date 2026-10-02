@@ -92,6 +92,7 @@ export interface CommunityEndpointsOperations {
     options?: CommunityEndpointsGetOptionalParams,
   ) => Promise<CommunityEndpointResource>;
 }
+
 function _getCommunityEndpoints(context: MissionContext) {
   return {
     handleApprovalDeletion: (
@@ -170,6 +171,7 @@ function _getCommunityEndpoints(context: MissionContext) {
     ) => get(context, resourceGroupName, communityName, communityEndpointName, options),
   };
 }
+
 export function _getCommunityEndpointsOperations(
   context: MissionContext,
 ): CommunityEndpointsOperations {

@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-06/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/Operations_List_MaximumSet_Gen copy.json
  */
-async function operationsListGeneratedByMaximumSetRule(): Promise<void> {
+async function _02OperationsListMaximumSetGenExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -26,9 +26,27 @@ async function operationsListGeneratedByMaximumSetRule(): Promise<void> {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-06/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListGeneratedByMinimumSetRule(): Promise<void> {
+async function operationsListMaximumSetGenExample(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.operations.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-10-06-preview/Operations_List_MinimumSet_Gen.json
+ */
+async function operationsListMinimumGenExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -41,8 +59,9 @@ async function operationsListGeneratedByMinimumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await operationsListGeneratedByMaximumSetRule();
-  await operationsListGeneratedByMinimumSetRule();
+  await _02OperationsListMaximumSetGenExample();
+  await operationsListMaximumSetGenExample();
+  await operationsListMinimumGenExample();
 }
 
 main().catch(console.error);

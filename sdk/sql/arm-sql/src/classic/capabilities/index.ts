@@ -14,14 +14,12 @@ export interface CapabilitiesOperations {
     options?: CapabilitiesListByLocationOptionalParams,
   ) => Promise<LocationCapabilities>;
 }
-
 function _getCapabilities(context: SqlManagementContext) {
   return {
     listByLocation: (locationName: string, options?: CapabilitiesListByLocationOptionalParams) =>
       listByLocation(context, locationName, options),
   };
 }
-
 export function _getCapabilitiesOperations(context: SqlManagementContext): CapabilitiesOperations {
   return {
     ..._getCapabilities(context),

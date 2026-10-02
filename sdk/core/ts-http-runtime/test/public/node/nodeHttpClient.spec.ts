@@ -112,7 +112,7 @@ function yieldHttpResponse(response: IncomingMessage): void {
 
 describe("NodeHttpClient", function () {
   beforeEach(function () {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
     const clientRequest = createRequest();
     vi.mocked(https.request).mockReturnValue(clientRequest);
     vi.mocked(http.request).mockReturnValue(clientRequest);
@@ -221,6 +221,60 @@ describe("NodeHttpClient", function () {
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
+  });
+
+  it("should honor timeout while reading a buffered response body", async function () {
+    const client = createDefaultHttpClient();
+    const timeoutLength = 2000;
+    const streamResponse = new FakeResponse();
+    const clientRequest = createRequest();
+    clientRequest.destroy = function (this: FakeRequest, e: Error) {
+      streamResponse.destroy(e);
+      return clientRequest;
+    };
+    vi.mocked(https.request).mockReturnValueOnce(clientRequest);
+
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength,
+    });
+    const promise = client.sendRequest(request);
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    streamResponse.write("The start of an HTTP body");
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    await Promise.resolve();
+
+    vi.advanceTimersByTime(timeoutLength);
+
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.strictEqual(e.name, "AbortError");
+    }
+  });
+
+  it("should clear timeout before returning a streamed response body", async function () {
+    const client = createDefaultHttpClient();
+    const timeoutLength = 2000;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    streamResponse.write("The start of an HTTP body");
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+
+    const response = await promise;
+
+    assert.isDefined(response.readableStreamBody);
+    assert.strictEqual(vi.getTimerCount(), 0);
+    streamResponse.destroy();
   });
 
   it("should stream response body on matching status code", async function () {

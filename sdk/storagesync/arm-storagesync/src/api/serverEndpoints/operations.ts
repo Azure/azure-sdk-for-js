@@ -49,7 +49,7 @@ export function _recallActionSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       serverEndpointName: serverEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +100,7 @@ export function recallAction(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -118,7 +118,7 @@ export function _listBySyncGroupSend(
       resourceGroupName: resourceGroupName,
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +166,7 @@ export function listBySyncGroup(
       ),
     _listBySyncGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2022-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -186,7 +186,7 @@ export function _$deleteSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       serverEndpointName: serverEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +231,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -251,7 +251,7 @@ export function _updateSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       serverEndpointName: serverEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -303,7 +303,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
 }
 
@@ -324,7 +324,7 @@ export function _createSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       serverEndpointName: serverEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,7 +376,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2022-09-01",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
 }
 
@@ -396,7 +396,7 @@ export function _getSend(
       storageSyncServiceName: storageSyncServiceName,
       syncGroupName: syncGroupName,
       serverEndpointName: serverEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

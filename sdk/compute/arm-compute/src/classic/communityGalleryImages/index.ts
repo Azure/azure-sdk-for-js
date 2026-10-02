@@ -26,7 +26,6 @@ export interface CommunityGalleryImagesOperations {
     options?: CommunityGalleryImagesGetOptionalParams,
   ) => Promise<CommunityGalleryImage>;
 }
-
 function _getCommunityGalleryImages(context: ComputeManagementContext) {
   return {
     list: (
@@ -42,7 +41,6 @@ function _getCommunityGalleryImages(context: ComputeManagementContext) {
     ) => get(context, location, publicGalleryName, galleryImageName, options),
   };
 }
-
 export function _getCommunityGalleryImagesOperations(
   context: ComputeManagementContext,
 ): CommunityGalleryImagesOperations {

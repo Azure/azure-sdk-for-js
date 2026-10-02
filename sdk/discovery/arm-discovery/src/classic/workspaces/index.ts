@@ -34,11 +34,6 @@ export interface WorkspacesOperations {
     options?: WorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Workspace>;
   /** Delete a Workspace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -65,7 +60,6 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
-
 function _getWorkspaces(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: WorkspacesListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getWorkspaces(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getWorkspacesOperations(context: DiscoveryContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),

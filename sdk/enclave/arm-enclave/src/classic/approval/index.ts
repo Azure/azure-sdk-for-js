@@ -68,6 +68,7 @@ export interface ApprovalOperations {
     options?: ApprovalGetOptionalParams,
   ) => Promise<ApprovalResource>;
 }
+
 function _getApproval(context: MissionContext) {
   return {
     notifyInitiator: (
@@ -96,6 +97,7 @@ function _getApproval(context: MissionContext) {
       get(context, resourceUri, approvalName, options),
   };
 }
+
 export function _getApprovalOperations(context: MissionContext): ApprovalOperations {
   return {
     ..._getApproval(context),

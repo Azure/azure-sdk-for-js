@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VpnPacketCaptureStartParameters } from "../../models/microsoft/network/models.js";
+import type { VpnPacketCaptureStartParameters } from "../../models/network/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -107,6 +107,12 @@ export interface VirtualNetworkGatewaysGetResiliencyInformationOptionalParams ex
   updateIntervalInMs?: number;
   /** Attempt to recalculate the Resiliency Information for the gateway */
   attemptRefresh?: boolean;
+}
+
+/** Optional parameters. */
+export interface VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */

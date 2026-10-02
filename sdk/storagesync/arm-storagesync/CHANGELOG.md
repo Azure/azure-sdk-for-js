@@ -1,5 +1,33 @@
 # Release History
 
+## 10.1.0 (2026-08-13)
+
+### Features Added
+  - Added operation CloudEndpointsOperations.beginUpdate
+  - Added operation CloudEndpointsOperations.beginUpdateAndWait
+  - Added operation CloudEndpointsOperations.update
+  - Added Interface CloudEndpointsUpdateOptionalParams
+  - Added Interface CloudEndpointUpdateParameters
+  - Added Interface CloudEndpointUpdateProperties
+  - Interface CloudEndpoint has a new optional parameter changeEnumerationIntervalDays
+  - Interface CloudEndpointCreateParameters has a new optional parameter changeEnumerationIntervalDays
+  - Interface CloudEndpointCreateParametersProperties has a new optional parameter changeEnumerationIntervalDays
+  - Interface CloudEndpointProperties has a new optional parameter changeEnumerationIntervalDays
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter inProgressLargeFilePath
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter inProgressLargeFilePercentComplete
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter inProgressLargeFileSizeBytes
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter isRemainingFinal
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter recentItemsPerSecond
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter recentMegabytesPerSecond
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter remainingDeleteCount
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter remainingDirectoryCount
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter remainingFileCount
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter remainingLogicalSizeBytes
+  - Interface ServerEndpointSyncActivityStatus has a new optional parameter warning
+  - Added Type Alias ServerEndpointSyncSessionWarningType
+  - Added Enum KnownServerEndpointSyncSessionWarningType
+  - Enum KnownVersions has a new value V20251201
+
 ## 10.0.0 (2026-07-16)
 
 ### Features Added

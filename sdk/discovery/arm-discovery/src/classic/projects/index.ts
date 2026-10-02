@@ -29,11 +29,6 @@ export interface ProjectsOperations {
     options?: ProjectsListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<Project>;
   /** Delete a Project */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -64,7 +59,6 @@ export interface ProjectsOperations {
     options?: ProjectsGetOptionalParams,
   ) => Promise<Project>;
 }
-
 function _getProjects(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -100,7 +94,6 @@ function _getProjects(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, projectName, options),
   };
 }
-
 export function _getProjectsOperations(context: DiscoveryContext): ProjectsOperations {
   return {
     ..._getProjects(context),

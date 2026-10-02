@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Capability that extends a Target resource.
  *
  * @summary delete a Capability that extends a Target resource.
- * x-ms-original-file: 2026-05-01-preview/Capabilities_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/Capabilities_Delete.json
  */
 async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
   const credential = new DefaultAzureCredential();

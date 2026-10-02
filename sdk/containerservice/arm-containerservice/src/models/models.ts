@@ -1104,6 +1104,8 @@ export interface AgentPoolNetworkProfile {
   allowedHostPorts?: PortRange[];
   /** The IDs of the application security groups which agent pool will associate when created. */
   applicationSecurityGroups?: string[];
+  /** DRANET settings of an agent pool. */
+  dranet?: DranetProfile;
 }
 
 export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile): any {
@@ -1119,6 +1121,7 @@ export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile)
       : item["applicationSecurityGroups"].map((p: any) => {
           return p;
         }),
+    dranet: !item["dranet"] ? item["dranet"] : dranetProfileSerializer(item["dranet"]),
   };
 }
 
@@ -1135,6 +1138,7 @@ export function agentPoolNetworkProfileDeserializer(item: any): AgentPoolNetwork
       : item["applicationSecurityGroups"].map((p: any) => {
           return p;
         }),
+    dranet: !item["dranet"] ? item["dranet"] : dranetProfileDeserializer(item["dranet"]),
   };
 }
 
@@ -1221,6 +1225,40 @@ export enum KnownProtocol {
  */
 export type Protocol = string;
 
+/** DRANET settings of an agent pool. */
+export interface DranetProfile {
+  /** The DRANET mode for the agent pool. */
+  mode?: DranetMode;
+}
+
+export function dranetProfileSerializer(item: DranetProfile): any {
+  return { mode: item["mode"] };
+}
+
+export function dranetProfileDeserializer(item: any): DranetProfile {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** The DRANET mode for the agent pool. */
+export enum KnownDranetMode {
+  /** DRANET is not managed by AKS. */
+  Unmanaged = "Unmanaged",
+  /** DRANET is managed by AKS. */
+  Managed = "Managed",
+}
+
+/**
+ * The DRANET mode for the agent pool. \
+ * {@link KnownDranetMode} can be used interchangeably with DranetMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unmanaged**: DRANET is not managed by AKS. \
+ * **Managed**: DRANET is managed by AKS.
+ */
+export type DranetMode = string;
+
 /** The Windows agent pool's specific profile. */
 export interface AgentPoolWindowsProfile {
   /** Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
@@ -1269,6 +1307,8 @@ export enum KnownAgentPoolSSHAccess {
   LocalUser = "LocalUser",
   /** SSH service will be turned off on the node. */
   Disabled = "Disabled",
+  /** SSH to node with EntraId integration. More information can be found under https://aka.ms/aks/ssh/aad */
+  EntraId = "EntraId",
 }
 
 /**
@@ -1277,7 +1317,8 @@ export enum KnownAgentPoolSSHAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LocalUser**: Can SSH onto the node as a local user using private key. \
- * **Disabled**: SSH service will be turned off on the node.
+ * **Disabled**: SSH service will be turned off on the node. \
+ * **EntraId**: SSH to node with EntraId integration. More information can be found under https:\//aka.ms\/aks\/ssh\/aad
  */
 export type AgentPoolSSHAccess = string;
 
@@ -2184,6 +2225,8 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFips?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2257,6 +2300,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeResourceGroupProfile",
       "enableRbac",
       "supportPlan",
+      "enableFips",
       "networkProfile",
       "aadProfile",
       "autoUpgradeProfile",
@@ -2367,6 +2411,8 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFips?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2453,6 +2499,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -2564,6 +2611,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),
@@ -4068,10 +4116,20 @@ export type BackendPoolType = string;
 
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
+  /** The SKU of the managed cluster NAT Gateway. Defaults to 'StandardV2' where available in the region, otherwise 'Standard'. */
+  sku?: ManagedClusterNATGatewaySku;
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
   managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
   /** The effective outbound IP resources of the cluster NAT gateway. */
   readonly effectiveOutboundIPs?: ResourceReference[];
+  /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
+  outboundIPPrefixes?: {
+    publicIPPrefixes?: string[];
+  };
+  /** Desired outbound IP resources for the managed NAT Gateway. */
+  outboundIPs?: {
+    publicIPs?: string[];
+  };
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. */
   idleTimeoutInMinutes?: number;
 }
@@ -4080,9 +4138,16 @@ export function managedClusterNATGatewayProfileSerializer(
   item: ManagedClusterNATGatewayProfile,
 ): any {
   return {
+    sku: item["sku"],
     managedOutboundIPProfile: !item["managedOutboundIPProfile"]
       ? item["managedOutboundIPProfile"]
       : managedClusterManagedOutboundIPProfileSerializer(item["managedOutboundIPProfile"]),
+    outboundIPPrefixes: !item["outboundIPPrefixes"]
+      ? item["outboundIPPrefixes"]
+      : _managedClusterNATGatewayProfileOutboundIpPrefixesSerializer(item["outboundIPPrefixes"]),
+    outboundIPs: !item["outboundIPs"]
+      ? item["outboundIPs"]
+      : _managedClusterNATGatewayProfileOutboundIPsSerializer(item["outboundIPs"]),
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
   };
 }
@@ -4091,26 +4156,53 @@ export function managedClusterNATGatewayProfileDeserializer(
   item: any,
 ): ManagedClusterNATGatewayProfile {
   return {
+    sku: item["sku"],
     managedOutboundIPProfile: !item["managedOutboundIPProfile"]
       ? item["managedOutboundIPProfile"]
       : managedClusterManagedOutboundIPProfileDeserializer(item["managedOutboundIPProfile"]),
     effectiveOutboundIPs: !item["effectiveOutboundIPs"]
       ? item["effectiveOutboundIPs"]
       : resourceReferenceArrayDeserializer(item["effectiveOutboundIPs"]),
+    outboundIPPrefixes: !item["outboundIPPrefixes"]
+      ? item["outboundIPPrefixes"]
+      : _managedClusterNATGatewayProfileOutboundIpPrefixesDeserializer(item["outboundIPPrefixes"]),
+    outboundIPs: !item["outboundIPs"]
+      ? item["outboundIPs"]
+      : _managedClusterNATGatewayProfileOutboundIPsDeserializer(item["outboundIPs"]),
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
   };
 }
+
+/** The SKU of a managed cluster NAT Gateway. */
+export enum KnownManagedClusterNATGatewaySku {
+  /** Use a Standard SKU NAT Gateway. */
+  Standard = "Standard",
+  /** Use a StandardV2 SKU NAT Gateway. This is the default for new clusters in regions where it is available. */
+  StandardV2 = "StandardV2",
+}
+
+/**
+ * The SKU of a managed cluster NAT Gateway. \
+ * {@link KnownManagedClusterNATGatewaySku} can be used interchangeably with ManagedClusterNATGatewaySku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Use a Standard SKU NAT Gateway. \
+ * **StandardV2**: Use a StandardV2 SKU NAT Gateway. This is the default for new clusters in regions where it is available.
+ */
+export type ManagedClusterNATGatewaySku = string;
 
 /** Profile of the managed outbound IP resources of the managed cluster. */
 export interface ManagedClusterManagedOutboundIPProfile {
   /** The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. */
   count?: number;
+  /** The desired number of IPv6 outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). */
+  countIPv6?: number;
 }
 
 export function managedClusterManagedOutboundIPProfileSerializer(
   item: ManagedClusterManagedOutboundIPProfile,
 ): any {
-  return { count: item["count"] };
+  return { count: item["count"], countIPv6: item["countIPv6"] };
 }
 
 export function managedClusterManagedOutboundIPProfileDeserializer(
@@ -4118,6 +4210,67 @@ export function managedClusterManagedOutboundIPProfileDeserializer(
 ): ManagedClusterManagedOutboundIPProfile {
   return {
     count: item["count"],
+    countIPv6: item["countIPv6"],
+  };
+}
+
+/** model interface _ManagedClusterNATGatewayProfileOutboundIpPrefixes */
+export interface _ManagedClusterNATGatewayProfileOutboundIpPrefixes {
+  /** A list of public IP prefix resources. */
+  publicIPPrefixes?: string[];
+}
+
+export function _managedClusterNATGatewayProfileOutboundIpPrefixesSerializer(
+  item: _ManagedClusterNATGatewayProfileOutboundIpPrefixes,
+): any {
+  return {
+    publicIPPrefixes: !item["publicIPPrefixes"]
+      ? item["publicIPPrefixes"]
+      : item["publicIPPrefixes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _managedClusterNATGatewayProfileOutboundIpPrefixesDeserializer(
+  item: any,
+): _ManagedClusterNATGatewayProfileOutboundIpPrefixes {
+  return {
+    publicIPPrefixes: !item["publicIPPrefixes"]
+      ? item["publicIPPrefixes"]
+      : item["publicIPPrefixes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** model interface _ManagedClusterNATGatewayProfileOutboundIPs */
+export interface _ManagedClusterNATGatewayProfileOutboundIPs {
+  /** A list of public IP resources. */
+  publicIPs?: string[];
+}
+
+export function _managedClusterNATGatewayProfileOutboundIPsSerializer(
+  item: _ManagedClusterNATGatewayProfileOutboundIPs,
+): any {
+  return {
+    publicIPs: !item["publicIPs"]
+      ? item["publicIPs"]
+      : item["publicIPs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _managedClusterNATGatewayProfileOutboundIPsDeserializer(
+  item: any,
+): _ManagedClusterNATGatewayProfileOutboundIPs {
+  return {
+    publicIPs: !item["publicIPs"]
+      ? item["publicIPs"]
+      : item["publicIPs"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -4633,6 +4786,8 @@ export interface ManagedClusterSecurityProfile {
   defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
+  /** Encryption at rest of Kubernetes resource objects. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption */
+  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
   /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
@@ -4649,6 +4804,11 @@ export function managedClusterSecurityProfileSerializer(item: ManagedClusterSecu
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsSerializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileSerializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentitySerializer(item["workloadIdentity"]),
@@ -4673,6 +4833,11 @@ export function managedClusterSecurityProfileDeserializer(
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsDeserializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileDeserializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentityDeserializer(item["workloadIdentity"]),
@@ -4837,7 +5002,7 @@ export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeser
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
   keyId?: string;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
@@ -4880,6 +5045,41 @@ export enum KnownKeyVaultNetworkAccessTypes {
  * **Private**: Key vault disables public access and enables private link.
  */
 export type KeyVaultNetworkAccessTypes = string;
+
+/** Encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export interface KubernetesResourceObjectEncryptionProfile {
+  /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  infrastructureEncryption?: InfrastructureEncryption;
+}
+
+export function kubernetesResourceObjectEncryptionProfileSerializer(
+  item: KubernetesResourceObjectEncryptionProfile,
+): any {
+  return { infrastructureEncryption: item["infrastructureEncryption"] };
+}
+
+export function kubernetesResourceObjectEncryptionProfileDeserializer(
+  item: any,
+): KubernetesResourceObjectEncryptionProfile {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+  };
+}
+
+/** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export enum KnownInfrastructureEncryption {
+  /** Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  Enabled = "Enabled",
+}
+
+/**
+ * Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
+ */
+export type InfrastructureEncryption = string;
 
 /** Workload identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
@@ -5383,6 +5583,8 @@ export function managedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerDese
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
+  /** Set this to enable and configure Azure Monitor Container Insights for the cluster, which collects Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
+  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
   /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
 }
@@ -5394,6 +5596,9 @@ export function managedClusterAzureMonitorProfileSerializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsSerializer(item["metrics"]),
+    containerInsights: !item["containerInsights"]
+      ? item["containerInsights"]
+      : managedClusterAzureMonitorProfileContainerInsightsSerializer(item["containerInsights"]),
     appMonitoring: !item["appMonitoring"]
       ? item["appMonitoring"]
       : managedClusterAzureMonitorProfileAppMonitoringSerializer(item["appMonitoring"]),
@@ -5407,6 +5612,9 @@ export function managedClusterAzureMonitorProfileDeserializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsDeserializer(item["metrics"]),
+    containerInsights: !item["containerInsights"]
+      ? item["containerInsights"]
+      : managedClusterAzureMonitorProfileContainerInsightsDeserializer(item["containerInsights"]),
     appMonitoring: !item["appMonitoring"]
       ? item["appMonitoring"]
       : managedClusterAzureMonitorProfileAppMonitoringDeserializer(item["appMonitoring"]),
@@ -5497,10 +5705,70 @@ export function managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer
   };
 }
 
+/** Azure Monitor Container Insights profile. Represents the configuration for collecting Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
+export interface ManagedClusterAzureMonitorProfileContainerInsights {
+  /** Indicates if Azure Monitor Container Insights Logs Addon is enabled or not. */
+  enabled?: boolean;
+  /** Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs. */
+  logAnalyticsWorkspaceResourceId?: string;
+  /** The syslog host port. If not specified, the default port is 28330. */
+  syslogPort?: number;
+  /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false i.e. the prometheus scraping is enabled. */
+  disablePrometheusMetricsScraping?: boolean;
+  /** Configures container network logs ingestion with Azure Monitor. The log types ingested are controlled by the associated CRD; if unspecified, defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
+  containerNetworkLogs?: ContainerNetworkLogs;
+}
+
+export function managedClusterAzureMonitorProfileContainerInsightsSerializer(
+  item: ManagedClusterAzureMonitorProfileContainerInsights,
+): any {
+  return {
+    enabled: item["enabled"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    syslogPort: item["syslogPort"],
+    disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
+    containerNetworkLogs: item["containerNetworkLogs"],
+  };
+}
+
+export function managedClusterAzureMonitorProfileContainerInsightsDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileContainerInsights {
+  return {
+    enabled: item["enabled"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    syslogPort: item["syslogPort"],
+    disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
+    containerNetworkLogs: item["containerNetworkLogs"],
+  };
+}
+
+/** Allowed values for container network logs ingestion with Azure Monitor. When `Enabled`, the specific log types ingested are controlled by the associated CRD; defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
+export enum KnownContainerNetworkLogs {
+  /** Azure monitor ingestion of container network logs is disabled */
+  Disabled = "Disabled",
+  /** Azure monitor ingestion of container network logs is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Allowed values for container network logs ingestion with Azure Monitor. When `Enabled`, the specific log types ingested are controlled by the associated CRD; defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. \
+ * {@link KnownContainerNetworkLogs} can be used interchangeably with ContainerNetworkLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Azure monitor ingestion of container network logs is disabled \
+ * **Enabled**: Azure monitor ingestion of container network logs is enabled
+ */
+export type ContainerNetworkLogs = string;
+
 /** Application Monitoring profile for AKS. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
   /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+  /** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
+  /** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
@@ -5511,6 +5779,16 @@ export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
       ? item["autoInstrumentation"]
       : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationSerializer(
           item["autoInstrumentation"],
+        ),
+    openTelemetryMetrics: !item["openTelemetryMetrics"]
+      ? item["openTelemetryMetrics"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
+          item["openTelemetryMetrics"],
+        ),
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
@@ -5523,6 +5801,16 @@ export function managedClusterAzureMonitorProfileAppMonitoringDeserializer(
       ? item["autoInstrumentation"]
       : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationDeserializer(
           item["autoInstrumentation"],
+        ),
+    openTelemetryMetrics: !item["openTelemetryMetrics"]
+      ? item["openTelemetryMetrics"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
+          item["openTelemetryMetrics"],
+        ),
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
@@ -5544,6 +5832,58 @@ export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentatio
 ): ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
   return {
     enabled: item["enabled"],
+  };
+}
+
+/** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+  /** Indicates if Application Monitoring OpenTelemetry Metrics is enabled or not. */
+  enabled?: boolean;
+  /** The host port for OpenTelemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
+  httpPort?: number;
+  /** The host port for OpenTelemetry GRPC metrics. If not specified, the default port is 28334. */
+  grpcPort?: number;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics,
+): any {
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+  return {
+    enabled: item["enabled"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
+  };
+}
+
+/** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
+  /** Indicates if Application Monitoring OpenTelemetry Logs and traces is enabled or not. */
+  enabled?: boolean;
+  /** The host port for OpenTelemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
+  httpPort?: number;
+  /** The host port for OpenTelemetry GRPC logs and traces. If not specified, the default port is 28332. */
+  grpcPort?: number;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces,
+): any {
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
+  return {
+    enabled: item["enabled"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
   };
 }
 
@@ -8613,6 +8953,10 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-05-01 API version. */
   V20260501 = "2026-05-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -8862,6 +9206,7 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -8973,6 +9318,7 @@ export function _managedClusterPropertiesDeserializer(item: any) {
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),

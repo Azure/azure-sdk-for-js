@@ -45,7 +45,7 @@ export function _getSend(
       skus: skus,
       version: version,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return virtualMachineImageDeserializer(result.body);
 }
-
 /** Gets a virtual machine image. */
 export async function get(
   context: Client,
@@ -102,7 +101,7 @@ export function _listWithPropertiesSend(
       publisherName: publisherName,
       offer: offer,
       skus: skus,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": expand,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
@@ -132,7 +131,6 @@ export async function _listWithPropertiesDeserialize(
 
   return virtualMachineImageArrayDeserializer(result.body);
 }
-
 export async function listWithProperties(
   context: Client,
   location: string,
@@ -170,7 +168,7 @@ export function _listSend(
       publisherName: publisherName,
       offer: offer,
       skus: skus,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
@@ -200,7 +198,6 @@ export async function _listDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU. */
 export async function list(
   context: Client,
@@ -228,7 +225,7 @@ export function _listSkusSend(
       location: location,
       publisherName: publisherName,
       offer: offer,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +252,6 @@ export async function _listSkusDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image SKUs for the specified location, publisher, and offer. */
 export async function listSkus(
   context: Client,
@@ -280,7 +276,7 @@ export function _listOffersSend(
       subscriptionId: context.subscriptionId,
       location: location,
       publisherName: publisherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +303,6 @@ export async function _listOffersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image offers for the specified location and publisher. */
 export async function listOffers(
   context: Client,
@@ -329,7 +324,7 @@ export function _listPublishersSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,7 +351,6 @@ export async function _listPublishersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image publishers for the specified Azure location. */
 export async function listPublishers(
   context: Client,
@@ -379,7 +373,7 @@ export function _listByEdgeZoneSend(
       subscriptionId: context.subscriptionId,
       location: location,
       edgeZone: edgeZone,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +400,6 @@ export async function _listByEdgeZoneDeserialize(
 
   return vmImagesInEdgeZoneListResultDeserializer(result.body);
 }
-
 /** Gets a list of all virtual machine image versions for the specified edge zone */
 export async function listByEdgeZone(
   context: Client,

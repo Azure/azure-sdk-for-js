@@ -6,6 +6,7 @@ export type { AccountConnectionsOperations } from "./accountConnections/index.js
 export type { AccountsOperations } from "./accounts/index.js";
 export type { AgentApplicationsOperations } from "./agentApplications/index.js";
 export type { AgentDeploymentsOperations } from "./agentDeployments/index.js";
+export type { ArcDeploymentsOperations } from "./arcDeployments/index.js";
 export type { CommitmentPlansOperations } from "./commitmentPlans/index.js";
 export type { CommitmentTiersOperations } from "./commitmentTiers/index.js";
 export type { ComputeOperationsOperations } from "./computeOperations/index.js";

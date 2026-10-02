@@ -4,19 +4,22 @@
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
+  ExpressRouteAuthorizationKey,
   ExpressRoutePortAuthorization,
   _ExpressRoutePortAuthorizationListResult,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
+  expressRouteAuthorizationKeyDeserializer,
   expressRoutePortAuthorizationSerializer,
   expressRoutePortAuthorizationDeserializer,
   _expressRoutePortAuthorizationListResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ExpressRoutePortAuthorizationsListKeysOptionalParams,
   ExpressRoutePortAuthorizationsListOptionalParams,
   ExpressRoutePortAuthorizationsDeleteOptionalParams,
   ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams,
@@ -25,6 +28,66 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listKeysSend(
+  context: Client,
+  resourceGroupName: string,
+  expressRoutePortName: string,
+  authorizationName: string,
+  options: ExpressRoutePortAuthorizationsListKeysOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}/listKeys{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      expressRoutePortName: expressRoutePortName,
+      authorizationName: authorizationName,
+      "api%2Dversion": "2026-01-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listKeysDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExpressRouteAuthorizationKey> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return expressRouteAuthorizationKeyDeserializer(result.body);
+}
+
+/** Gets the authorization key associated with the specified express route port authorization. */
+export async function listKeys(
+  context: Client,
+  resourceGroupName: string,
+  expressRoutePortName: string,
+  authorizationName: string,
+  options: ExpressRoutePortAuthorizationsListKeysOptionalParams = { requestOptions: {} },
+): Promise<ExpressRouteAuthorizationKey> {
+  const result = await _listKeysSend(
+    context,
+    resourceGroupName,
+    expressRoutePortName,
+    authorizationName,
+    options,
+  );
+  return _listKeysDeserialize(result);
+}
 
 export function _listSend(
   context: Client,
@@ -38,7 +101,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +141,7 @@ export function list(
     () => _listSend(context, resourceGroupName, expressRoutePortName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -96,7 +159,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +196,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, expressRoutePortName, authorizationName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +215,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +267,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<ExpressRoutePortAuthorization>, ExpressRoutePortAuthorization>;
 }
 
@@ -222,7 +285,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

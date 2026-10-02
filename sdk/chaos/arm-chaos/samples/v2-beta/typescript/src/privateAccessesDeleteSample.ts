@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a private access
  *
  * @summary delete a private access
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_Delete.json
  */
 async function deleteAPrivateAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

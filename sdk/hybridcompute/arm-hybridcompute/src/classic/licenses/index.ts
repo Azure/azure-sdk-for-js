@@ -119,7 +119,6 @@ export interface LicensesOperations {
     options?: LicensesGetOptionalParams,
   ) => Promise<License>;
 }
-
 function _getLicenses(context: HybridComputeManagementContext) {
   return {
     validateLicense: (parameters: License, options?: LicensesValidateLicenseOptionalParams) =>
@@ -217,7 +216,6 @@ function _getLicenses(context: HybridComputeManagementContext) {
       get(context, resourceGroupName, licenseName, options),
   };
 }
-
 export function _getLicensesOperations(
   context: HybridComputeManagementContext,
 ): LicensesOperations {

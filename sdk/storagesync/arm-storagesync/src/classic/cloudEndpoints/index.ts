@@ -12,6 +12,7 @@ import {
   preBackup,
   listBySyncGroup,
   $delete,
+  update,
   create,
   get,
 } from "../../api/cloudEndpoints/operations.js";
@@ -25,12 +26,14 @@ import type {
   CloudEndpointsPreBackupOptionalParams,
   CloudEndpointsListBySyncGroupOptionalParams,
   CloudEndpointsDeleteOptionalParams,
+  CloudEndpointsUpdateOptionalParams,
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsGetOptionalParams,
 } from "../../api/cloudEndpoints/options.js";
 import type {
   CloudEndpoint,
   CloudEndpointCreateParameters,
+  CloudEndpointUpdateParameters,
   BackupRequest,
   PostBackupResponse,
   PreRestoreRequest,
@@ -227,6 +230,33 @@ export interface CloudEndpointsOperations {
     cloudEndpointName: string,
     options?: CloudEndpointsDeleteOptionalParams,
   ) => Promise<void>;
+  /** Patch a given CloudEndpoint. */
+  update: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    properties: CloudEndpointUpdateParameters,
+    options?: CloudEndpointsUpdateOptionalParams,
+  ) => PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    properties: CloudEndpointUpdateParameters,
+    options?: CloudEndpointsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CloudEndpoint>, CloudEndpoint>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    properties: CloudEndpointUpdateParameters,
+    options?: CloudEndpointsUpdateOptionalParams,
+  ) => Promise<CloudEndpoint>;
   /** Create a new CloudEndpoint. */
   create: (
     resourceGroupName: string,
@@ -624,6 +654,61 @@ function _getCloudEndpoints(context: MicrosoftStorageSyncContext) {
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
+        options,
+      );
+    },
+    update: (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      cloudEndpointName: string,
+      properties: CloudEndpointUpdateParameters,
+      options?: CloudEndpointsUpdateOptionalParams,
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        properties,
+        options,
+      ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      cloudEndpointName: string,
+      properties: CloudEndpointUpdateParameters,
+      options?: CloudEndpointsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        properties,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      cloudEndpointName: string,
+      properties: CloudEndpointUpdateParameters,
+      options?: CloudEndpointsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        properties,
         options,
       );
     },

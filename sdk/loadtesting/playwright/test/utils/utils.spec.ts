@@ -43,36 +43,54 @@ import { parseJwt } from "../../src/utils/parseJwt.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
-import * as childProcess from "node:child_process";
+import * as coreProcess from "@azure/core-process";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import type { FullConfig } from "@playwright/test";
 
-vi.mock("child_process", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("child_process")>();
+vi.mock("@azure/core-process", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@azure/core-process")>();
   return {
     ...actual,
-    exec: vi.fn((command, callback) => {
-      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-        callback(null, "git version 2.37.1", "");
-      } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-        callback(null, "true", "");
-      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
-        callback(null, "Test commit message", "");
+    execFile: vi.fn(async (command: string, args: string[]) => {
+      if (
+        command === GitHubActionsConstants.GIT_VERSION_COMMAND.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_VERSION_COMMAND.args.join(" ")
+      ) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (
+        command === GitHubActionsConstants.GIT_REV_PARSE.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_REV_PARSE.args.join(" ")
+      ) {
+        return { stdout: "true", stderr: "" };
+      } else if (
+        command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.args.join(" ")
+      ) {
+        return { stdout: "Test commit message", stderr: "" };
       } else {
-        callback(new Error(`Command not mocked: ${command}`), "", "");
+        throw new Error(`Command not mocked: ${command} ${args.join(" ")}`);
       }
-      return {} as childProcess.ChildProcess;
     }),
-    execSync: vi.fn((command) => {
-      if (command.includes("playwright --version")) {
-        return Buffer.from("1.42.0");
+    spawnSync: vi.fn((command: string, args: string[]) => {
+      let stdout: string;
+      if (args.includes("playwright") && args.includes("--version")) {
+        stdout = "1.42.0";
       } else if (command === "echo") {
-        return Buffer.from("Version 1.2.3");
+        stdout = "Version 1.2.3";
       } else {
-        throw new Error(`Command not mocked: ${command}`);
+        throw new Error(`Command not mocked: ${command} ${args.join(" ")}`);
       }
+      return {
+        error: undefined,
+        output: [null, stdout, ""],
+        pid: 1,
+        signal: null,
+        status: 0,
+        stderr: "",
+        stdout,
+      };
     }),
   };
 });
@@ -601,7 +619,7 @@ describe("Service Utils", () => {
     const mockVersion = "1.2.3";
     delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
     vi.spyOn(packageManager, "getPackageManager").mockReturnValue({
-      runCommand: vi.fn().mockReturnValue("echo"),
+      runCommand: vi.fn().mockReturnValue({ command: "echo", args: [] }),
       getVersionFromStdout: vi.fn().mockReturnValue(mockVersion),
     });
 
@@ -735,21 +753,14 @@ describe("Service Utils", () => {
     };
 
     // Create a new mock implementation for this test only
-    vi.mocked(childProcess.exec).mockImplementation(
-      (command: any, options: any, callback?: any) => {
-        // Handle the case where callback is the second argument
-        const cb = typeof options === "function" ? options : callback;
-
-        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-          setTimeout(() => cb(null, "false", ""), 0); // Not inside a git repository
-        } else {
-          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
-        }
-        return {} as childProcess.ChildProcess;
-      },
-    );
+    vi.mocked(coreProcess.execFile).mockImplementation(async (command, args) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND.command) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE.command) {
+        return { stdout: "false", stderr: "" };
+      }
+      throw new Error(`Command not mocked: ${command} ${args?.join(" ")}`);
+    });
 
     const result = await getRunName(ciInfo);
     expect(result).toBe("");
@@ -764,23 +775,16 @@ describe("Service Utils", () => {
     };
 
     // Create a new mock implementation for this test only
-    vi.mocked(childProcess.exec).mockImplementation(
-      (command: any, options: any, callback?: any) => {
-        // Handle the case where callback is the second argument
-        const cb = typeof options === "function" ? options : callback;
-
-        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-          setTimeout(() => cb(null, "true", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
-          setTimeout(() => cb(new Error("Command failed"), "", "stderr output"), 0);
-        } else {
-          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
-        }
-        return {} as childProcess.ChildProcess;
-      },
-    );
+    vi.mocked(coreProcess.execFile).mockImplementation(async (command, args) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND.command) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE.command) {
+        return { stdout: "true", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.command) {
+        throw new Error("Command failed");
+      }
+      throw new Error(`Command not mocked: ${command} ${args?.join(" ")}`);
+    });
 
     const result = await getRunName(ciInfo);
     expect(result).toBe("");

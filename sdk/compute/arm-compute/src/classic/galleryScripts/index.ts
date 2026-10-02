@@ -107,7 +107,6 @@ export interface GalleryScriptsOperations {
     options?: GalleryScriptsGetOptionalParams,
   ) => Promise<GalleryScript>;
 }
-
 function _getGalleryScripts(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -237,7 +236,6 @@ function _getGalleryScripts(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, galleryName, galleryScriptName, options),
   };
 }
-
 export function _getGalleryScriptsOperations(
   context: ComputeManagementContext,
 ): GalleryScriptsOperations {

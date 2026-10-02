@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of valid SKUs for an IoT hub.
  *
  * @summary get the list of valid SKUs for an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_getskus.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_getskus.json
  */
 async function iotHubResourceGetValidSkus(): Promise<void> {
   const credential = new DefaultAzureCredential();

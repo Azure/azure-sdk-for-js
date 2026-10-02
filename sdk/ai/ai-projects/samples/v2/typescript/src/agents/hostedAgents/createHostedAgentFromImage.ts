@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
     }
   }
 
-  // ── Route the agent endpoint to the new version ───────────────────────
+  // ── Patch the agent endpoint to route to the new version ─────────────
   const endpointConfig: AgentEndpointConfig = {
     version_selector: {
       version_selection_rules: [
@@ -69,7 +69,7 @@ export async function main(): Promise<void> {
     },
     protocol_configuration: { responses: {} },
   };
-  await project.agents.updateAgent(agentName, { agentEndpoint: endpointConfig });
+  await project.agents.patchAgentObject(agentName, { agentEndpoint: endpointConfig });
   console.log(`Agent endpoint configured for version ${created.version}`);
 
   const fetched = await project.agents.getVersion(agentName, created.version);

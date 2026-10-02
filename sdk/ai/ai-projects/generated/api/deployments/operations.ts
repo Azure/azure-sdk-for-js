@@ -112,7 +112,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
   return deploymentUnionDeserializer(result.body);
 }
 
-/** Gets a deployed model. */
+/** Retrieves a deployed model. */
 export async function get(
   context: Client,
   name: string,

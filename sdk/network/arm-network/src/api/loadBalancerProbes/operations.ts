@@ -4,8 +4,8 @@
 import type { NetworkManagementContext as Client } from "../index.js";
 import type { Probe } from "../../models/common/models.js";
 import { cloudErrorDeserializer, probeDeserializer } from "../../models/common/models.js";
-import type { _LoadBalancerProbeListResult } from "../../models/microsoft/network/models.js";
-import { _loadBalancerProbeListResultDeserializer } from "../../models/microsoft/network/models.js";
+import type { _LoadBalancerProbeListResult } from "../../models/network/models.js";
+import { _loadBalancerProbeListResultDeserializer } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -28,7 +28,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,7 @@ export function list(
     () => _listSend(context, resourceGroupName, loadBalancerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -86,7 +86,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
       probeName: probeName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

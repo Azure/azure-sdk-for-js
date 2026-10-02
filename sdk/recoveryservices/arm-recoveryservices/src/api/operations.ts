@@ -30,7 +30,7 @@ export function _getOperationResultSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -44,7 +44,7 @@ export function _getOperationResultSend(
 
 export async function _getOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<Vault | undefined> {
+): Promise<Vault | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -55,7 +55,11 @@ export async function _getOperationResultDeserialize(
     throw error;
   }
 
-  return result.body ? vaultDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return vaultDeserializer(result.body);
 }
 
 /** Gets the operation result for a resource. */
@@ -65,7 +69,7 @@ export async function getOperationResult(
   vaultName: string,
   operationId: string,
   options: GetOperationResultOptionalParams = { requestOptions: {} },
-): Promise<Vault | undefined> {
+): Promise<Vault | void> {
   const result = await _getOperationResultSend(
     context,
     resourceGroupName,
@@ -90,7 +94,7 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

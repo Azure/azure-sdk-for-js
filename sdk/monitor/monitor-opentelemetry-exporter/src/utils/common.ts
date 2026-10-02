@@ -31,7 +31,12 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import { experimentalOpenTelemetryValues, MaxPropertyLengths, type Tags } from "../types.js";
+import {
+  experimentalOpenTelemetryValues,
+  MaxPropertyLengths,
+  type Measurements,
+  type Tags,
+} from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
@@ -46,7 +51,10 @@ import {
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
-import { DEFAULT_BREEZE_DATA_VERSION } from "./constants/applicationinsights.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+  DEFAULT_BREEZE_DATA_VERSION,
+} from "./constants/applicationinsights.js";
 import {
   getHttpHost,
   getHttpMethod,
@@ -301,6 +309,52 @@ export function shouldCreateResourceMetric(): boolean {
 
 export function isSyntheticSource(attributes: Attributes): boolean {
   return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
+}
+
+const MAX_CUSTOM_MEASUREMENT_KEY_LENGTH = 150;
+
+/**
+ * Extracts finite numeric custom measurements from OpenTelemetry attributes.
+ * @internal
+ */
+export function createCustomMeasurements(
+  attributes?: Readonly<Record<string, unknown>>,
+): Measurements {
+  const measurements: Measurements = {};
+  let customMeasurements = attributes?.[ApplicationInsightsCustomMeasurements];
+  if (typeof customMeasurements === "string") {
+    try {
+      customMeasurements = JSON.parse(customMeasurements);
+    } catch (error) {
+      if (error instanceof SyntaxError || error instanceof RangeError) {
+        return measurements;
+      }
+      throw error;
+    }
+  }
+  if (
+    customMeasurements === null ||
+    typeof customMeasurements !== "object" ||
+    Array.isArray(customMeasurements)
+  ) {
+    return measurements;
+  }
+
+  const entries =
+    customMeasurements instanceof Map
+      ? customMeasurements.entries()
+      : Object.entries(customMeasurements);
+  for (const [key, value] of entries) {
+    if (
+      typeof key === "string" &&
+      key.length > 0 &&
+      typeof value === "number" &&
+      Number.isFinite(value)
+    ) {
+      measurements[key.substring(0, MAX_CUSTOM_MEASUREMENT_KEY_LENGTH)] = value;
+    }
+  }
+  return measurements;
 }
 
 /**

@@ -48,7 +48,7 @@ export function _getSend(
       location: location,
       commandId: commandId,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ru
 
   return runCommandDocumentDeserializer(result.body);
 }
-
 /** Gets specific run command for a subscription in a location. */
 export async function get(
   context: Client,
@@ -95,7 +94,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,7 +121,6 @@ export async function _listDeserialize(
 
   return _runCommandListResultDeserializer(result.body);
 }
-
 /** Lists all available run commands for a subscription in a location. */
 export function list(
   context: Client,
@@ -134,7 +132,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -150,7 +148,7 @@ export function _listByVirtualMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -178,7 +176,6 @@ export async function _listByVirtualMachineDeserialize(
 
   return _virtualMachineRunCommandsListResultDeserializer(result.body);
 }
-
 /** The operation to get all run commands of a Virtual Machine. */
 export function listByVirtualMachine(
   context: Client,
@@ -191,7 +188,7 @@ export function listByVirtualMachine(
     () => _listByVirtualMachineSend(context, resourceGroupName, vmName, options),
     _listByVirtualMachineDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -209,7 +206,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +228,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the run command. */
 export function $delete(
   context: Client,
@@ -246,7 +242,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmName, runCommandName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -265,7 +261,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +290,6 @@ export async function _updateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to update the run command. */
 export function update(
   context: Client,
@@ -310,7 +305,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmName, runCommandName, runCommand, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -329,7 +324,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,7 +353,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to create or update the run command. */
 export function createOrUpdate(
   context: Client,
@@ -374,7 +368,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmName, runCommandName, runCommand, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -392,7 +386,7 @@ export function _getByVirtualMachineSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -420,7 +414,6 @@ export async function _getByVirtualMachineDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to get the run command. */
 export async function getByVirtualMachine(
   context: Client,

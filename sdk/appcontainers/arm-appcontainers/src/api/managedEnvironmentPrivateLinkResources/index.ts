@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list } from "./operations.js";
-export type { ManagedEnvironmentPrivateLinkResourcesListOptionalParams } from "./options.js";
+export { get, list } from "./operations.js";
+export type {
+  ManagedEnvironmentPrivateLinkResourcesGetOptionalParams,
+  ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
+} from "./options.js";

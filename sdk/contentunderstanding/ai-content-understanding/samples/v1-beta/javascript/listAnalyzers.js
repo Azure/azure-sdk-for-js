@@ -7,14 +7,16 @@
  * This sample demonstrates how to list all available analyzers in your Microsoft Foundry
  * resource, including both prebuilt and custom analyzers.
  *
- * The listAnalyzers method returns all analyzers in your resource, including:
- * - Prebuilt analyzers: System-provided analyzers like prebuilt-documentSearch, prebuilt-invoice
- * - Custom analyzers: Analyzers you've created
+ * ## About listing analyzers
+ *
+ * The `listAnalyzers` method returns an async iterable of all analyzers in your resource, including:
+ * - **Prebuilt analyzers**: System-provided analyzers like `prebuilt-documentSearch`, `prebuilt-invoice`, etc.
+ * - **Custom analyzers**: Analyzers you've created
  *
  * This is useful for:
- * - Discovery: See what analyzers are available in your resource
- * - Management: Get an overview of all your custom analyzers
- * - Debugging: Verify that analyzers were created successfully
+ * - **Discovery**: See what analyzers are available in your resource
+ * - **Management**: Get an overview of all your custom analyzers
+ * - **Debugging**: Verify that analyzers were created successfully
  */
 
 require("dotenv/config");

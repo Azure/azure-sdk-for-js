@@ -15,7 +15,7 @@ import {
   StatsbeatInstrumentationsMap,
 } from "../types.js";
 import { Logger as InternalLogger } from "../shared/logging/index.js";
-import { addNumberFlag, hasNumberFlag } from "./common.js";
+import { addNumberFlag, hasNumberFlag, removeNumberFlag } from "./common.js";
 
 let instance: StatsbeatConfiguration;
 
@@ -143,7 +143,12 @@ class StatsbeatConfiguration {
     try {
       const currentFeaturesBitMap = Number(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]);
       if (!isNaN(currentFeaturesBitMap)) {
-        featureBitMap |= currentFeaturesBitMap;
+        // The AKS resource detector feature always reflects whether *this* process was able to
+        // read the AKS cluster metadata, so it is never inherited from a seeded bit map.
+        featureBitMap |= removeNumberFlag(
+          currentFeaturesBitMap,
+          StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+        );
       }
       process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
         instrumentation: instrumentationBitMap,

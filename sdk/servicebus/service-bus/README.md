@@ -215,6 +215,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Dead letter queues](#dead-letter-queues)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
+- [List message sessions](#list-message-sessions)
 - [Manage resources of a service bus namespace](#manage-resources-of-a-service-bus-namespace)
 - [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples)
 
@@ -482,6 +483,37 @@ Once the receiver is created you can use choose between 3 ways to receive messag
 
 You can read more about how sessions work [here][docsms_messagesessions].
 
+### List message sessions
+
+To discover which sessions have active messages or session state in a queue or subscription, use `listMessageSessions()`:
+
+```ts snippet:ReadmeSampleListMessageSessions
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+// List all sessions with active messages or session state in a queue
+for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
+  console.log("Session ID:", sessionId);
+}
+
+// List sessions in a subscription
+for await (const sessionId of serviceBusClient.listMessageSessions("my-topic", "my-subscription")) {
+  console.log("Session ID:", sessionId);
+}
+
+// List only sessions whose stored session state was set or updated in the last seven days
+const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+  sessionStateUpdatedAfter,
+})) {
+  console.log("Recently updated session ID:", sessionId);
+}
+```
+
 ### Manage resources of a service bus namespace
 
 `ServiceBusAdministrationClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
@@ -508,6 +540,27 @@ const queueRuntimeProperties =
   await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
 console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMessageCount}`);
 
+// Topic runtime properties additionally report the total number of SQL and correlation filters
+// across all of the topic's subscriptions. These counts are served by the 2024-05 service API
+// version and later; on an older version they are `undefined`.
+const topicName = "my-topic";
+const subscriptionName = "my-subscription";
+await serviceBusAdministrationClient.createTopic(topicName);
+// A new subscription carries a default rule with a SQL TrueFilter. Adding a correlation rule
+// gives the topic one of each, so the counts below aggregate across the subscription's rules.
+await serviceBusAdministrationClient.createSubscription(topicName, subscriptionName);
+await serviceBusAdministrationClient.createRule(
+  topicName,
+  subscriptionName,
+  "my-correlation-rule",
+  { correlationId: "my-correlation-id" },
+);
+const topicRuntimeProperties =
+  await serviceBusAdministrationClient.getTopicRuntimeProperties(topicName);
+console.log(`SQL filter count = ${topicRuntimeProperties.sqlFilterCount}`);
+console.log(`Correlation filter count = ${topicRuntimeProperties.correlationFilterCount}`);
+
+await serviceBusAdministrationClient.deleteTopic(topicName);
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 

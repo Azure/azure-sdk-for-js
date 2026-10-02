@@ -3,8 +3,8 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { VpnServerConfigurationsResponse } from "../../models/microsoft/network/models.js";
-import { vpnServerConfigurationsResponseDeserializer } from "../../models/microsoft/network/models.js";
+import type { VpnServerConfigurationsResponse } from "../../models/network/models.js";
+import { vpnServerConfigurationsResponseDeserializer } from "../../models/network/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams } from "./options.js";
@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,7 @@ export function list(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listSend(context, resourceGroupName, virtualWANName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<
     OperationState<VpnServerConfigurationsResponse>,
     VpnServerConfigurationsResponse

@@ -132,12 +132,6 @@ export interface DeadLetterOptions {
 
 export { delay }
 
-// @public
-export interface DeleteMessagesOptions extends OperationOptionsBase {
-    beforeEnqueueTime?: Date;
-    maxMessageCount: number;
-}
-
 export { Delivery }
 
 // @public
@@ -188,6 +182,11 @@ export { isRestError }
 export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
+export interface ListMessageSessionsOptions extends OperationOptionsBase {
+    sessionStateUpdatedAfter?: Date;
+}
+
+// @public
 export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ServiceBusReceivedMessage): Promise<void>;
@@ -224,11 +223,6 @@ export interface ProcessErrorArgs {
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
     identifier: string;
-}
-
-// @public
-export interface PurgeMessagesOptions extends OperationOptionsBase {
-    beforeEnqueueTime?: Date;
 }
 
 // @public
@@ -333,7 +327,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
 // @public
 export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
-    serviceVersion?: "2021-05" | "2017-04";
+    serviceVersion?: "2024-05" | "2021-05" | "2017-04";
 }
 
 // @public
@@ -351,6 +345,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
+    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
 }
 
 // @public
@@ -499,13 +495,11 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
-    deleteMessages(options: DeleteMessagesOptions): Promise<number>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
-    purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
@@ -652,11 +646,13 @@ export interface TopicProperties {
 // @public
 export interface TopicRuntimeProperties {
     accessedAt: Date;
+    correlationFilterCount?: number;
     createdAt: Date;
     modifiedAt: Date;
     name: string;
     scheduledMessageCount: number;
     sizeInBytes?: number;
+    sqlFilterCount?: number;
     subscriptionCount?: number;
 }
 

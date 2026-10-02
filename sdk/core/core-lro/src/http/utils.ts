@@ -35,7 +35,7 @@ export function rewriteUrl({
     try {
       originalUrl = new URL(url, baseUrl);
     } catch (e) {
-      throw new Error(`Invalid input URL provided: ${url}`);
+      throw new Error(`Invalid input URL provided: ${url}`, { cause: e });
     }
   }
 
@@ -43,7 +43,7 @@ export function rewriteUrl({
   try {
     newBase = new URL(baseUrl);
   } catch (e) {
-    throw new Error(`Invalid base URL provided: ${baseUrl}`);
+    throw new Error(`Invalid base URL provided: ${baseUrl}`, { cause: e });
   }
 
   const rewrittenUrl = new URL(

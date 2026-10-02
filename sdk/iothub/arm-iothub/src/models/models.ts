@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -891,6 +891,8 @@ export interface RoutingEndpoints {
   storageContainers?: RoutingStorageContainerProperties[];
   /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
   cosmosDBSqlContainers?: RoutingCosmosDBSqlApiProperties[];
+  /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
+  eventStreams?: RoutingEventStreamProperties[];
 }
 
 export function routingEndpointsSerializer(item: RoutingEndpoints): any {
@@ -910,6 +912,9 @@ export function routingEndpointsSerializer(item: RoutingEndpoints): any {
     cosmosDBSqlContainers: !item["cosmosDBSqlContainers"]
       ? item["cosmosDBSqlContainers"]
       : routingCosmosDBSqlApiPropertiesArraySerializer(item["cosmosDBSqlContainers"]),
+    eventStreams: !item["eventStreams"]
+      ? item["eventStreams"]
+      : routingEventStreamPropertiesArraySerializer(item["eventStreams"]),
   };
 }
 
@@ -930,6 +935,9 @@ export function routingEndpointsDeserializer(item: any): RoutingEndpoints {
     cosmosDBSqlContainers: !item["cosmosDBSqlContainers"]
       ? item["cosmosDBSqlContainers"]
       : routingCosmosDBSqlApiPropertiesArrayDeserializer(item["cosmosDBSqlContainers"]),
+    eventStreams: !item["eventStreams"]
+      ? item["eventStreams"]
+      : routingEventStreamPropertiesArrayDeserializer(item["eventStreams"]),
   };
 }
 
@@ -1364,6 +1372,86 @@ export function routingCosmosDBSqlApiPropertiesDeserializer(
     partitionKeyTemplate: item["partitionKeyTemplate"],
   };
 }
+
+export function routingEventStreamPropertiesArraySerializer(
+  result: Array<RoutingEventStreamProperties>,
+): any[] {
+  return result.map((item) => {
+    return routingEventStreamPropertiesSerializer(item);
+  });
+}
+
+export function routingEventStreamPropertiesArrayDeserializer(
+  result: Array<RoutingEventStreamProperties>,
+): any[] {
+  return result.map((item) => {
+    return routingEventStreamPropertiesDeserializer(item);
+  });
+}
+
+/** The properties related to an event stream endpoint. */
+export interface RoutingEventStreamProperties {
+  /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved:  events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
+  name: string;
+  /** Id of the event stream endpoint */
+  readonly id?: string;
+  /** The url of the underlying event hub namespace of the event stream endpoint. It must include the protocol sb:// */
+  endpointUri: string;
+  /** Event hub name on the event hub namespace */
+  entityPath: string;
+  /** Method used to authenticate against the event stream endpoint */
+  authenticationType?: EventStreamAuthenticationType;
+  /** Managed identity properties of routing event stream endpoint. */
+  identity?: ManagedIdentity;
+  /** The unique GUID of the target Microsoft Fabric workspace for the event stream endpoint. */
+  workspaceId?: string;
+  /** The unique GUID of the target event stream under the workspace. */
+  eventStreamId?: string;
+  /** The unique GUID of the custom source for the event stream. */
+  sourceId?: string;
+}
+
+export function routingEventStreamPropertiesSerializer(item: RoutingEventStreamProperties): any {
+  return {
+    name: item["name"],
+    endpointUri: item["endpointUri"],
+    entityPath: item["entityPath"],
+    authenticationType: item["authenticationType"],
+    identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
+    workspaceId: item["workspaceId"],
+    eventStreamId: item["eventStreamId"],
+    sourceId: item["sourceId"],
+  };
+}
+
+export function routingEventStreamPropertiesDeserializer(item: any): RoutingEventStreamProperties {
+  return {
+    name: item["name"],
+    id: item["id"],
+    endpointUri: item["endpointUri"],
+    entityPath: item["entityPath"],
+    authenticationType: item["authenticationType"],
+    identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
+    workspaceId: item["workspaceId"],
+    eventStreamId: item["eventStreamId"],
+    sourceId: item["sourceId"],
+  };
+}
+
+/** Specifies authentication type being used for connecting to the event stream account. */
+export enum KnownEventStreamAuthenticationType {
+  /** identityBased authentication */
+  IdentityBased = "identityBased",
+}
+
+/**
+ * Specifies authentication type being used for connecting to the event stream account. \
+ * {@link KnownEventStreamAuthenticationType} can be used interchangeably with EventStreamAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **identityBased**: identityBased authentication
+ */
+export type EventStreamAuthenticationType = string;
 
 export function routePropertiesArraySerializer(result: Array<RouteProperties>): any[] {
   return result.map((item) => {
@@ -1882,7 +1970,7 @@ export type IpVersion = string;
 
 /** Represents properties related to the Azure Device Registry (ADR). */
 export interface DeviceRegistry {
-  /** The identifier of the Azure Device Registry namespace associated with the GEN2 SKU hub. */
+  /** The identifier of the Azure Device Registry namespace */
   namespaceResourceId?: string;
   /** The identity used to manage the ADR namespace from the data plane. */
   identityResourceId?: string;
@@ -1970,8 +2058,6 @@ export enum KnownIotHubSku {
   B2 = "B2",
   /** B3 */
   B3 = "B3",
-  /** GEN2 */
-  GEN2 = "GEN2",
 }
 
 /**
@@ -1985,12 +2071,11 @@ export enum KnownIotHubSku {
  * **S3**: S3 \
  * **B1**: B1 \
  * **B2**: B2 \
- * **B3**: B3 \
- * **GEN2**: GEN2
+ * **B3**: B3
  */
 export type IotHubSku = string;
 /** The billing tier for the IoT hub. */
-export type IotHubSkuTier = "Free" | "Standard" | "Basic" | "Generation2";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
 /** model interface ArmIdentity */
 export interface ArmIdentity {
@@ -2457,7 +2542,7 @@ export function routingMessageSerializer(item: RoutingMessage): any {
 /** Twin reference input parameter. This is an optional parameter */
 export interface RoutingTwin {
   /** Twin Tags */
-  tags?: any;
+  tags?: Record<string, any>;
   properties?: RoutingTwinProperties;
 }
 
@@ -2473,9 +2558,9 @@ export function routingTwinSerializer(item: RoutingTwin): any {
 /** model interface RoutingTwinProperties */
 export interface RoutingTwinProperties {
   /** Twin desired properties */
-  desired?: any;
-  /** Twin desired properties */
-  reported?: any;
+  desired?: Record<string, any>;
+  /** Twin reported properties */
+  reported?: Record<string, any>;
 }
 
 export function routingTwinPropertiesSerializer(item: RoutingTwinProperties): any {
@@ -3183,4 +3268,6 @@ export function nameDeserializer(item: any): Name {
 export enum KnownVersions {
   /** The 2026-03-01-preview API version. */
   V20260301Preview = "2026-03-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }

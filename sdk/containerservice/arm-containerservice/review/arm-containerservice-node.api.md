@@ -167,6 +167,7 @@ export type AgentPoolMode = string;
 export interface AgentPoolNetworkProfile {
     allowedHostPorts?: PortRange[];
     applicationSecurityGroups?: string[];
+    dranet?: DranetProfile;
     nodePublicIPTags?: IPTag[];
 }
 
@@ -369,6 +370,9 @@ export interface CompatibleVersions {
 // @public
 export type ConnectionStatus = string;
 
+// @public
+export type ContainerNetworkLogs = string;
+
 // @public (undocumented)
 export class ContainerServiceClient {
     constructor(credential: TokenCredential, options?: ContainerServiceClientOptionalParams);
@@ -477,6 +481,14 @@ export interface DelegatedResource {
 
 // @public
 export type DeletePolicy = string;
+
+// @public
+export type DranetMode = string;
+
+// @public
+export interface DranetProfile {
+    mode?: DranetMode;
+}
 
 // @public
 export interface EndpointDependency {
@@ -605,6 +617,9 @@ export interface IdentityBindingsOperations {
 }
 
 // @public
+export type InfrastructureEncryption = string;
+
+// @public
 export type IpFamily = string;
 
 // @public
@@ -693,6 +708,7 @@ export enum KnownAgentPoolMode {
 // @public
 export enum KnownAgentPoolSSHAccess {
     Disabled = "Disabled",
+    EntraId = "EntraId",
     LocalUser = "LocalUser"
 }
 
@@ -730,6 +746,12 @@ export enum KnownConnectionStatus {
 }
 
 // @public
+export enum KnownContainerNetworkLogs {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -741,6 +763,12 @@ export enum KnownCreatedByType {
 export enum KnownDeletePolicy {
     Delete = "Delete",
     Keep = "Keep"
+}
+
+// @public
+export enum KnownDranetMode {
+    Managed = "Managed",
+    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -791,6 +819,11 @@ export enum KnownIdentityBindingProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownInfrastructureEncryption {
+    Enabled = "Enabled"
 }
 
 // @public
@@ -878,6 +911,12 @@ export enum KnownLocalDNSServeStale {
 export enum KnownLocalDNSState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedClusterNATGatewaySku {
+    Standard = "Standard",
+    StandardV2 = "StandardV2"
 }
 
 // @public
@@ -1148,7 +1187,9 @@ export enum KnownVersions {
     V20260201 = "2026-02-01",
     V20260301 = "2026-03-01",
     V20260401 = "2026-04-01",
-    V20260501 = "2026-05-01"
+    V20260501 = "2026-05-01",
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -1190,6 +1231,11 @@ export type KubeletDiskType = string;
 // @public
 export interface KubernetesPatchVersion {
     upgrades?: string[];
+}
+
+// @public
+export interface KubernetesResourceObjectEncryptionProfile {
+    infrastructureEncryption?: InfrastructureEncryption;
 }
 
 // @public
@@ -1370,6 +1416,7 @@ export interface ManagedCluster extends TrackedResource {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1531,17 +1578,43 @@ export interface ManagedClusterAutoUpgradeProfile {
 // @public
 export interface ManagedClusterAzureMonitorProfile {
     appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
+    containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
     metrics?: ManagedClusterAzureMonitorProfileMetrics;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
     autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+    openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
+    openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
     enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
+    enabled?: boolean;
+    grpcPort?: number;
+    httpPort?: number;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+    enabled?: boolean;
+    grpcPort?: number;
+    httpPort?: number;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileContainerInsights {
+    containerNetworkLogs?: ContainerNetworkLogs;
+    disablePrometheusMetricsScraping?: boolean;
+    enabled?: boolean;
+    logAnalyticsWorkspaceResourceId?: string;
+    syslogPort?: number;
 }
 
 // @public
@@ -1654,6 +1727,7 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 // @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
+    countIPv6?: number;
 }
 
 // @public
@@ -1666,7 +1740,17 @@ export interface ManagedClusterNATGatewayProfile {
     readonly effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+    outboundIPPrefixes?: {
+        publicIPPrefixes?: string[];
+    };
+    outboundIPs?: {
+        publicIPs?: string[];
+    };
+    sku?: ManagedClusterNATGatewaySku;
 }
+
+// @public
+export type ManagedClusterNATGatewaySku = string;
 
 // @public
 export interface ManagedClusterNodeProvisioningProfile {
@@ -1761,6 +1845,7 @@ export interface ManagedClusterProperties {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -1844,6 +1929,7 @@ export interface ManagedClusterSecurityProfile {
     customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+    kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 

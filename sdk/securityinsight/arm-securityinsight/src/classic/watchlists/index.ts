@@ -29,21 +29,21 @@ export interface WatchlistsOperations {
     workspaceName: string,
     watchlistAlias: string,
     options?: WatchlistsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Watchlist>, Watchlist>;
   /** @deprecated use delete instead */
   beginDelete: (
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
     options?: WatchlistsDeleteOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<Watchlist>, Watchlist>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
     options?: WatchlistsDeleteOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<Watchlist>;
   /** Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with rawContent and contentType properties. */
   createOrUpdate: (
     resourceGroupName: string,

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-computerecommender",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.2",
   "description": "A generated SDK for ComputeRecommenderManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -45,9 +45,9 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -139,6 +139,20 @@
       "require": {
         "types": "./dist/commonjs/api/spotPlacementScores/index.d.ts",
         "default": "./dist/commonjs/api/spotPlacementScores/index.js"
+      }
+    },
+    "./api/skuMixPlacementScores": {
+      "browser": {
+        "types": "./dist/browser/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/browser/api/skuMixPlacementScores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/esm/api/skuMixPlacementScores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/commonjs/api/skuMixPlacementScores/index.js"
       }
     },
     "./api/operations": {

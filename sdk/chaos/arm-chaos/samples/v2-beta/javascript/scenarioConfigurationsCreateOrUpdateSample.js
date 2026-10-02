@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a scenario definition.
  *
  * @summary create or update a scenario definition.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_CreateOrUpdate.json
  */
 async function createOrUpdateAScenarioConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -23,13 +23,6 @@ async function createOrUpdateAScenarioConfiguration() {
       properties: {
         scenarioId:
           "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/workspaces/exampleWorkspace/scenarios/12345678-1234-1234-1234-123456789012",
-        exclusions: {
-          resources: [
-            "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/protectedVM",
-          ],
-          tags: [{ key: "environment", value: "production" }],
-          types: ["Microsoft.Compute/virtualMachineScaleSets"],
-        },
         parameters: [
           { key: "duration", value: "PT10M" },
           {
@@ -38,7 +31,16 @@ async function createOrUpdateAScenarioConfiguration() {
               '["/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/vm1","/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/vm2"]',
           },
         ],
-        filters: { locations: ["eastus"], zones: ["1"] },
+        resourceTargeting: {
+          include: { locations: ["eastus"], zones: ["1"] },
+          exclude: {
+            resources: [
+              "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/protectedVM",
+            ],
+            tags: [{ key: "environment", value: "production" }],
+            types: ["Microsoft.Compute/virtualMachineScaleSets"],
+          },
+        },
       },
     },
   );
@@ -49,7 +51,7 @@ async function createOrUpdateAScenarioConfiguration() {
  * This sample demonstrates how to create or update a scenario definition.
  *
  * @summary create or update a scenario definition.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_CreateOrUpdate_With_Physical_Zones.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_CreateOrUpdate_With_Physical_Zones.json
  */
 async function createOrUpdateAScenarioConfigurationWithPhysicalZoneTargeting() {
   const credential = new DefaultAzureCredential();
@@ -64,13 +66,15 @@ async function createOrUpdateAScenarioConfigurationWithPhysicalZoneTargeting() {
       properties: {
         scenarioId:
           "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/workspaces/exampleWorkspace/scenarios/12345678-1234-1234-1234-123456789012",
-        exclusions: {
-          resources: [
-            "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/protectedVM",
-          ],
-        },
         parameters: [{ key: "duration", value: "PT10M" }],
-        filters: { locations: ["westus2"], physicalZones: ["westus2-az1"] },
+        resourceTargeting: {
+          include: { physicalZones: ["westus2-az1"] },
+          exclude: {
+            resources: [
+              "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/protectedVM",
+            ],
+          },
+        },
       },
     },
   );

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a AkriConnectorTemplateResource
  *
  * @summary create a AkriConnectorTemplateResource
- * x-ms-original-file: 2026-03-01/AkriConnectorTemplate_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/AkriConnectorTemplate_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function akriConnectorTemplateCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,6 +32,14 @@ async function akriConnectorTemplateCreateOrUpdateMaximumSet(): Promise<void> {
               },
               imageName: "akri-connectors/rest",
               tagDigestSettings: { tagDigestType: "Tag", tag: "0.5.0-20250825.4" },
+              readinessProbe: {
+                exec: { command: ["cat", "/tmp/ready"] },
+                failureThreshold: 3,
+                initialDelaySeconds: 5,
+                periodSeconds: 10,
+                successThreshold: 1,
+                timeoutSeconds: 2,
+              },
             },
           },
         },

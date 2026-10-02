@@ -12,6 +12,7 @@ import {
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
+import { ToolboxesOperations, _getToolboxesOperations } from "./classic/toolboxes/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -27,15 +28,9 @@ export class AIProjectClient {
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAIProject(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAIProject(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+    this.toolboxes = _getToolboxesOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
@@ -45,6 +40,8 @@ export class AIProjectClient {
     this.beta = _getBetaOperations(this._client);
   }
 
+  /** The operation groups for toolboxes */
+  public readonly toolboxes: ToolboxesOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

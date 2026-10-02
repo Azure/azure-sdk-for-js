@@ -24,7 +24,7 @@ export function _locationOperationStatusSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2022-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

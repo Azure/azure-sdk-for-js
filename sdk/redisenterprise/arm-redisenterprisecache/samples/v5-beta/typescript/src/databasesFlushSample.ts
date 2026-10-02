@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to flushes all the keys in this database and also from its linked databases.
  *
  * @summary flushes all the keys in this database and also from its linked databases.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesFlush.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesFlush.json
  */
 async function howToFlushAllTheKeysInTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

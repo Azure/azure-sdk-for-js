@@ -48,14 +48,7 @@ export class IotHubClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createIotHub(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createIotHub(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.resourceProviderCommon = _getResourceProviderCommonOperations(this._client);
     this.privateLinkResourcesOperations = _getPrivateLinkResourcesOperationsOperations(

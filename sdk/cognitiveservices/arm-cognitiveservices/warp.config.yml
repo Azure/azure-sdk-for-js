@@ -28,6 +28,7 @@ exports:
   "./api/computeOperations": "./src/api/computeOperations/index.ts"
   "./api/managedComputeDeployments": "./src/api/managedComputeDeployments/index.ts"
   "./api/agentApplications": "./src/api/agentApplications/index.ts"
+  "./api/arcDeployments": "./src/api/arcDeployments/index.ts"
   "./api/quotaTiers": "./src/api/quotaTiers/index.ts"
   "./api/projectCapabilityHosts": "./src/api/projectCapabilityHosts/index.ts"
   "./api/projectConnections": "./src/api/projectConnections/index.ts"

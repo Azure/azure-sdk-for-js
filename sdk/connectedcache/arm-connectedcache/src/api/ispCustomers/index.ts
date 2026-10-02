@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type IspCustomersListBySubscriptionOptionalParams,
-  type IspCustomersListByResourceGroupOptionalParams,
-  type IspCustomersDeleteOptionalParams,
-  type IspCustomersUpdateOptionalParams,
-  type IspCustomersCreateOrUpdateOptionalParams,
-  type IspCustomersGetOptionalParams,
+export type {
+  IspCustomersListBySubscriptionOptionalParams,
+  IspCustomersListByResourceGroupOptionalParams,
+  IspCustomersDeleteOptionalParams,
+  IspCustomersUpdateOptionalParams,
+  IspCustomersCreateOrUpdateOptionalParams,
+  IspCustomersGetOptionalParams,
 } from "./options.js";

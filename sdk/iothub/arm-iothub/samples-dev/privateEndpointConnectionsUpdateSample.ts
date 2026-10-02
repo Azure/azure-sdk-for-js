@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the status of a private endpoint connection with the specified name
  *
  * @summary update the status of a private endpoint connection with the specified name
- * x-ms-original-file: 2026-03-01-preview/iothub_updateprivateendpointconnection.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_updateprivateendpointconnection.json
  */
 async function privateEndpointConnectionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

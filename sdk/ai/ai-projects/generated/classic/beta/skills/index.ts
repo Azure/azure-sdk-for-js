@@ -88,11 +88,6 @@ export interface BetaSkillsOperations {
     options?: BetaSkillsCreateOptionalParams,
   ) => Promise<SkillVersion>;
   /** Removes the specified skill and its associated versions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     name: string,
     foundryFeatures: "Skills=V1Preview",

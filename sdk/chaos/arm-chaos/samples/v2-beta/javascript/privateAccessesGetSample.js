@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a private access resource
  *
  * @summary get a private access resource
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_Get_Get_A_Private_Access_Resource.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_Get_Get_A_Private_Access_Resource.json
  */
 async function getAPrivateAccessResource() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAPrivateAccessResource() {
  * This sample demonstrates how to get a private access resource
  *
  * @summary get a private access resource
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_Get_Get_A_Private_Access_Resource_With_Private_Endpoint.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_Get_Get_A_Private_Access_Resource_With_Private_Endpoint.json
  */
 async function getAPrivateAccessResourceWithPrivateEndpoint() {
   const credential = new DefaultAzureCredential();

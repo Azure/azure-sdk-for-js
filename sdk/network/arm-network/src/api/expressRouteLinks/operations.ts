@@ -3,14 +3,11 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  ExpressRouteLink,
-  _ExpressRouteLinkListResult,
-} from "../../models/microsoft/network/models.js";
+import type { ExpressRouteLink, _ExpressRouteLinkListResult } from "../../models/network/models.js";
 import {
   expressRouteLinkDeserializer,
   _expressRouteLinkListResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -33,7 +30,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +70,7 @@ export function list(
     () => _listSend(context, resourceGroupName, expressRoutePortName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -91,7 +88,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       expressRoutePortName: expressRoutePortName,
       linkName: linkName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

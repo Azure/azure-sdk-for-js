@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ClusterMeshProfile resources by Fleet
  *
  * @summary list ClusterMeshProfile resources by Fleet
- * x-ms-original-file: 2026-03-02-preview/ClusterMeshProfiles_ListByFleet.json
+ * x-ms-original-file: 2026-06-02-preview/ClusterMeshProfiles_ListByFleet.json
  */
 async function listTheClusterMeshProfileResourcesByFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();

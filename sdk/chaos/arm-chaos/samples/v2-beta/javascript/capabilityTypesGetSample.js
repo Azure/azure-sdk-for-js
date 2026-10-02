@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Capability Type resource for given Target Type and location.
  *
  * @summary get a Capability Type resource for given Target Type and location.
- * x-ms-original-file: 2026-05-01-preview/CapabilityTypes_Get.json
+ * x-ms-original-file: 2026-08-01-preview/CapabilityTypes_Get.json
  */
 async function getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location() {
   const credential = new DefaultAzureCredential();

@@ -25,7 +25,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -44,14 +44,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _targetTypeListResultDeserializer(result.body);
 }
-
 /** Get a list of Target Type resources for given location. */
 export function list(
   context: Client,
@@ -66,7 +67,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -83,7 +84,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       targetTypeName: targetTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,14 +100,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return targetTypeDeserializer(result.body);
 }
-
 /** Get a Target Type resources for given location. */
 export async function get(
   context: Client,

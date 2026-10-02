@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a DataflowGraphResource
  *
  * @summary create a DataflowGraphResource
- * x-ms-original-file: 2026-03-01/DataflowGraph_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/DataflowGraph_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowGraphCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

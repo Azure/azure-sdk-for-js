@@ -18,6 +18,7 @@ import {
   StatsbeatInstrumentationMap,
 } from "../../../src/types.js";
 import { getOsPrefix, hasNumberFlag } from "../../../src/utils/common.js";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
@@ -479,6 +480,7 @@ describe("Main functions", () => {
 
   it("should set AKS_RESOURCE_DETECTOR_POPULATION feature when AKS resource attributes are populated", () => {
     const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
     env.CLUSTER_RESOURCE_ID =
       "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
     process.env = env;
@@ -508,6 +510,150 @@ describe("Main functions", () => {
     assert.notOk(
       features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
       "AKS_RESOURCE_DETECTOR_POPULATION should not be set",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in AKS when the cluster metadata is not available", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set without AKS cluster metadata",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in App Service", () => {
+    const env = <{ [id: string]: string }>{};
+    // App Service populates cloud.resource_id via its own resource detector.
+    env.WEBSITE_SITE_NAME = "testSiteName";
+    env.WEBSITE_OWNER_NAME = "00000000-0000-0000-0000-000000000000+testResourceGroup-CentralUS";
+    env.WEBSITE_RESOURCE_GROUP = "testResourceGroup";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set in App Service",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature in Azure Functions", () => {
+    const env = <{ [id: string]: string }>{};
+    // Azure Functions also populates cloud.resource_id via its own resource detector.
+    env.WEBSITE_SITE_NAME = "testSiteName";
+    env.WEBSITE_OWNER_NAME = "00000000-0000-0000-0000-000000000000+testResourceGroup-CentralUS";
+    env.WEBSITE_RESOURCE_GROUP = "testResourceGroup";
+    env.FUNCTIONS_WORKER_RUNTIME = "node";
+    env.FUNCTIONS_EXTENSION_VERSION = "~4";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set in Azure Functions",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature when the cluster resource ID is not an AKS cluster", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.CLUSTER_RESOURCE_ID = "my-self-managed-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for a non AKS cluster resource ID",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature for a malformed AKS cluster resource ID", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.CLUSTER_RESOURCE_ID =
+      "garbage/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for a malformed cluster resource ID",
+    );
+  });
+
+  it("should not inherit a seeded AKS_RESOURCE_DETECTOR_POPULATION feature bit", () => {
+    const env = <{ [id: string]: string }>{};
+    // Legacy numeric statsbeat seed claiming the AKS resource detector populated attributes.
+    env.AZURE_MONITOR_STATSBEAT_FEATURES =
+      StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION.toString();
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be inherited from the environment",
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature for resource attributes set by the customer", () => {
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "10.0.0.1";
+    env.OTEL_RESOURCE_ATTRIBUTES =
+      "k8s.cluster.name=my-cluster,cloud.resource_id=/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      resource: resourceFromAttributes({
+        "k8s.cluster.name": "my-other-cluster",
+      }),
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set for customer supplied attributes",
     );
   });
 

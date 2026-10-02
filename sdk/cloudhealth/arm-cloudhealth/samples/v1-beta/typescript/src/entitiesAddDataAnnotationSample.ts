@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add a data annotation to an entity
  *
  * @summary add a data annotation to an entity
- * x-ms-original-file: 2026-05-01-preview/Entities_AddDataAnnotation.json
+ * x-ms-original-file: 2026-09-01-preview/Entities_AddDataAnnotation.json
  */
 async function entitiesAddDataAnnotation(): Promise<void> {
   const credential = new DefaultAzureCredential();

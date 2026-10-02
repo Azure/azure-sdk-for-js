@@ -73,11 +73,12 @@ export function executeActions(
         exitCode = runInPackageDirs(action, packageDirs);
         break;
       case "check-format":
-        exitCode = runInPackageDirs(action, packageDirs, (packageDir) => {
-          console.log(
-            `\nInvoke "npm run format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
-          );
-        });
+        exitCode = runInPackageDirs(
+          action,
+          packageDirs,
+          (packageDir) =>
+            `Formatting check failed in ${tryGetPkgRelativePath(packageDir)}. Run "pnpm format" from that directory and commit the resulting changes.`,
+        );
         break;
 
       case "check-package-version":

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Experiment resource.
  *
  * @summary create or update a Experiment resource.
- * x-ms-original-file: 2026-05-01-preview/Experiments_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_CreateOrUpdate.json
  */
 async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

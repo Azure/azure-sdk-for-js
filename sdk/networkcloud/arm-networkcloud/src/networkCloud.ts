@@ -1,71 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  NetworkCloudContext,
-  NetworkCloudOptionalParams,
-  createNetworkCloud,
-} from "./api/index.js";
-import {
-  AccessBridgesOperations,
-  _getAccessBridgesOperations,
-} from "./classic/accessBridges/index.js";
-import { AgentPoolsOperations, _getAgentPoolsOperations } from "./classic/agentPools/index.js";
-import {
-  BareMetalMachineKeySetsOperations,
-  _getBareMetalMachineKeySetsOperations,
-} from "./classic/bareMetalMachineKeySets/index.js";
-import {
-  BareMetalMachinesOperations,
-  _getBareMetalMachinesOperations,
-} from "./classic/bareMetalMachines/index.js";
-import { BmcKeySetsOperations, _getBmcKeySetsOperations } from "./classic/bmcKeySets/index.js";
-import {
-  CloudServicesNetworksOperations,
-  _getCloudServicesNetworksOperations,
-} from "./classic/cloudServicesNetworks/index.js";
-import {
-  ClusterManagersOperations,
-  _getClusterManagersOperations,
-} from "./classic/clusterManagers/index.js";
-import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
-import { ConsolesOperations, _getConsolesOperations } from "./classic/consoles/index.js";
-import {
-  KubernetesClusterFeaturesOperations,
-  _getKubernetesClusterFeaturesOperations,
-} from "./classic/kubernetesClusterFeatures/index.js";
-import {
-  KubernetesClustersOperations,
-  _getKubernetesClustersOperations,
-} from "./classic/kubernetesClusters/index.js";
-import {
-  KubernetesVersionsOperations,
-  _getKubernetesVersionsOperations,
-} from "./classic/kubernetesVersions/index.js";
-import { L2NetworksOperations, _getL2NetworksOperations } from "./classic/l2Networks/index.js";
-import { L3NetworksOperations, _getL3NetworksOperations } from "./classic/l3Networks/index.js";
-import {
-  MetricsConfigurationsOperations,
-  _getMetricsConfigurationsOperations,
-} from "./classic/metricsConfigurations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { RackSkusOperations, _getRackSkusOperations } from "./classic/rackSkus/index.js";
-import { RacksOperations, _getRacksOperations } from "./classic/racks/index.js";
-import {
-  StorageAppliancesOperations,
-  _getStorageAppliancesOperations,
-} from "./classic/storageAppliances/index.js";
-import {
-  TrunkedNetworksOperations,
-  _getTrunkedNetworksOperations,
-} from "./classic/trunkedNetworks/index.js";
-import {
-  VirtualMachinesOperations,
-  _getVirtualMachinesOperations,
-} from "./classic/virtualMachines/index.js";
-import { VolumesOperations, _getVolumesOperations } from "./classic/volumes/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { NetworkCloudContext, NetworkCloudOptionalParams } from "./api/index.js";
+import { createNetworkCloud } from "./api/index.js";
+import type { AccessBridgesOperations } from "./classic/accessBridges/index.js";
+import { _getAccessBridgesOperations } from "./classic/accessBridges/index.js";
+import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
+import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import type { BareMetalMachineKeySetsOperations } from "./classic/bareMetalMachineKeySets/index.js";
+import { _getBareMetalMachineKeySetsOperations } from "./classic/bareMetalMachineKeySets/index.js";
+import type { BareMetalMachinesOperations } from "./classic/bareMetalMachines/index.js";
+import { _getBareMetalMachinesOperations } from "./classic/bareMetalMachines/index.js";
+import type { BmcKeySetsOperations } from "./classic/bmcKeySets/index.js";
+import { _getBmcKeySetsOperations } from "./classic/bmcKeySets/index.js";
+import type { CloudServicesNetworksOperations } from "./classic/cloudServicesNetworks/index.js";
+import { _getCloudServicesNetworksOperations } from "./classic/cloudServicesNetworks/index.js";
+import type { ClusterManagersOperations } from "./classic/clusterManagers/index.js";
+import { _getClusterManagersOperations } from "./classic/clusterManagers/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
+import type { ConsolesOperations } from "./classic/consoles/index.js";
+import { _getConsolesOperations } from "./classic/consoles/index.js";
+import type { KubernetesClusterFeaturesOperations } from "./classic/kubernetesClusterFeatures/index.js";
+import { _getKubernetesClusterFeaturesOperations } from "./classic/kubernetesClusterFeatures/index.js";
+import type { KubernetesClustersOperations } from "./classic/kubernetesClusters/index.js";
+import { _getKubernetesClustersOperations } from "./classic/kubernetesClusters/index.js";
+import type { KubernetesVersionsOperations } from "./classic/kubernetesVersions/index.js";
+import { _getKubernetesVersionsOperations } from "./classic/kubernetesVersions/index.js";
+import type { L2NetworksOperations } from "./classic/l2Networks/index.js";
+import { _getL2NetworksOperations } from "./classic/l2Networks/index.js";
+import type { L3NetworksOperations } from "./classic/l3Networks/index.js";
+import { _getL3NetworksOperations } from "./classic/l3Networks/index.js";
+import type { MetricsConfigurationsOperations } from "./classic/metricsConfigurations/index.js";
+import { _getMetricsConfigurationsOperations } from "./classic/metricsConfigurations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { RackSkusOperations } from "./classic/rackSkus/index.js";
+import { _getRackSkusOperations } from "./classic/rackSkus/index.js";
+import type { RacksOperations } from "./classic/racks/index.js";
+import { _getRacksOperations } from "./classic/racks/index.js";
+import type { StorageAppliancesOperations } from "./classic/storageAppliances/index.js";
+import { _getStorageAppliancesOperations } from "./classic/storageAppliances/index.js";
+import type { TrunkedNetworksOperations } from "./classic/trunkedNetworks/index.js";
+import { _getTrunkedNetworksOperations } from "./classic/trunkedNetworks/index.js";
+import type { VirtualMachinesOperations } from "./classic/virtualMachines/index.js";
+import { _getVirtualMachinesOperations } from "./classic/virtualMachines/index.js";
+import type { VolumesOperations } from "./classic/volumes/index.js";
+import { _getVolumesOperations } from "./classic/volumes/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { NetworkCloudOptionalParams } from "./api/networkCloudContext.js";
 
@@ -80,14 +63,7 @@ export class NetworkCloud {
     subscriptionId: string,
     options: NetworkCloudOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createNetworkCloud(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createNetworkCloud(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.metricsConfigurations = _getMetricsConfigurationsOperations(this._client);
     this.consoles = _getConsolesOperations(this._client);

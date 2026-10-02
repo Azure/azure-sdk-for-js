@@ -1,25 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ALLOWED_REDIRECT_DOMAIN_SUFFIXES } from "../Declarations/Constants.js";
+import { ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS } from "../Declarations/Constants.js";
+
+interface NormalizedNetloc {
+  host: string;
+  port: number;
+}
 
 /**
- * Normalize a netloc-like value (`user@host:port`) to a bare lowercase host with no trailing dot.
+ * Normalize a netloc-like value (`user@host:port`) to a lowercase host and effective HTTPS port.
  */
-function normalizeHost(netloc: string): string {
-  const afterUserInfo = netloc.split("@").pop() ?? "";
-  // Strip an IPv6 zone/bracket safely: only split on the last ':' if it's not inside brackets.
-  let host = afterUserInfo;
-  if (host.startsWith("[")) {
-    const end = host.indexOf("]");
-    host = end >= 0 ? host.slice(0, end + 1) : host;
-  } else {
-    const colon = host.lastIndexOf(":");
-    if (colon >= 0) {
-      host = host.slice(0, colon);
-    }
+function normalizeNetloc(netloc: string): NormalizedNetloc | undefined {
+  try {
+    const url = new URL(`https://${netloc}`);
+    return {
+      host: url.hostname.toLowerCase().replace(/\.+$/, ""),
+      port: url.port ? Number(url.port) : 443,
+    };
+  } catch {
+    return undefined;
   }
-  return host.toLowerCase().replace(/\.+$/, "");
 }
 
 /**
@@ -30,10 +31,10 @@ function normalizeHost(netloc: string): string {
  * to an unrelated host.
  *
  * A redirect is permitted only when the target equals the currently configured host exactly, or
- * when both the current host and the redirect target are under one of the known Azure Monitor
- * ingestion host suffixes (see {@link ALLOWED_REDIRECT_DOMAIN_SUFFIXES}). Customers with a custom
- * (non-Azure) ingestion host will therefore not have server-issued cross-host redirects followed;
- * such deployments should configure their proxy to terminate redirects locally.
+ * when both the current host and the redirect target are under known Azure Monitor ingestion host
+ * suffixes in the same cloud (see {@link ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS}). Customers with a
+ * custom (non-Azure) ingestion host will therefore not have server-issued cross-host redirects
+ * followed; such deployments should configure their proxy to terminate redirects locally.
  *
  * @internal
  */
@@ -44,16 +45,21 @@ export function isSameRegisteredDomain(
   if (!currentNetloc || !redirectNetloc) {
     return false;
   }
-  const currentHost = normalizeHost(currentNetloc);
-  const redirectHost = normalizeHost(redirectNetloc);
-  if (!currentHost || !redirectHost) {
+  const current = normalizeNetloc(currentNetloc);
+  const redirect = normalizeNetloc(redirectNetloc);
+  if (!current?.host || !redirect?.host) {
     return false;
   }
-  if (currentHost === redirectHost) {
-    return true;
+  if (current.host === redirect.host) {
+    return current.port === redirect.port;
   }
-  for (const suffix of ALLOWED_REDIRECT_DOMAIN_SUFFIXES) {
-    if (currentHost.endsWith(suffix) && redirectHost.endsWith(suffix)) {
+  if (current.port !== 443 || redirect.port !== 443) {
+    return false;
+  }
+  for (const suffixGroup of ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS) {
+    const currentHostIsTrusted = suffixGroup.some((suffix) => current.host.endsWith(suffix));
+    const redirectHostIsTrusted = suffixGroup.some((suffix) => redirect.host.endsWith(suffix));
+    if (currentHostIsTrusted && redirectHostIsTrusted) {
       return true;
     }
   }

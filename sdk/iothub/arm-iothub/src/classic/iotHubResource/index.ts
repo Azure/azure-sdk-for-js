@@ -270,7 +270,6 @@ export interface IotHubResourceOperations {
     options?: IotHubResourceGetOptionalParams,
   ) => Promise<IotHubDescription>;
 }
-
 function _getIotHubResource(context: IotHubContext) {
   return {
     checkNameAvailability: (
@@ -497,7 +496,6 @@ function _getIotHubResource(context: IotHubContext) {
     ) => get(context, resourceGroupName, resourceName, options),
   };
 }
-
 export function _getIotHubResourceOperations(context: IotHubContext): IotHubResourceOperations {
   return {
     ..._getIotHubResource(context),

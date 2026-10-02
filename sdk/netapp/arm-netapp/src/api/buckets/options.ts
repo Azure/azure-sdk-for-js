@@ -8,29 +8,36 @@ export interface BucketsRefreshCertificateOptionalParams extends OperationOption
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface BucketsGenerateAkvCredentialsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface BucketsGenerateCredentialsOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BucketsListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BucketsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface BucketsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface BucketsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface BucketsGetOptionalParams extends OperationOptions {}

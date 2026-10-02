@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a private link resource.
  *
  * @summary gets a private link resource.
- * x-ms-original-file: 2026-01-20-preview/PrivateLinkResources_Get.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateLinkResources_Get.json
  */
-async function getsAPrivateLinkResourceForHorizonDb(): Promise<void> {
+async function getsAPrivateLinkResourceForHorizonDB(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function getsAPrivateLinkResourceForHorizonDb(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getsAPrivateLinkResourceForHorizonDb();
+  await getsAPrivateLinkResourceForHorizonDB();
 }
 
 main().catch(console.error);

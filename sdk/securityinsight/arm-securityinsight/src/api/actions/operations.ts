@@ -35,7 +35,7 @@ export function _listByAlertRuleSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       ruleId: ruleId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function listByAlertRule(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -100,7 +100,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       ruleId: ruleId,
       actionId: actionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +160,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       ruleId: ruleId,
       actionId: actionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +228,7 @@ export function _getSend(
       workspaceName: workspaceName,
       ruleId: ruleId,
       actionId: actionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

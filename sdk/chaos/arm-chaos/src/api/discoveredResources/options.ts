@@ -5,6 +5,5 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DiscoveredResourcesListByWorkspaceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DiscoveredResourcesGetOptionalParams extends OperationOptions {}

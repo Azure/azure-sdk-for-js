@@ -8,6 +8,9 @@ import {
   listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getMicrosoft365PublishDefaults,
+  getMicrosoft365Package,
+  publishToMicrosoft365,
   getSessionLogStream,
   listSessions,
   stopSession,
@@ -19,6 +22,7 @@ import {
   downloadAgentCode,
   createVersionFromCode,
   updateAgentObject,
+  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -37,6 +41,9 @@ import type {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -48,6 +55,7 @@ import type {
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsUpdateAgentObjectOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -73,6 +81,10 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
+  Microsoft365PublishDefaults,
+  Microsoft365PublishScope,
+  GetMicrosoft365PackageResponse,
+  Microsoft365PublishResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -119,6 +131,32 @@ export interface AgentsOperations {
     content: Uint8Array,
     options?: AgentsUploadSessionFileOptionalParams,
   ) => Promise<SessionFileWriteResponse>;
+  /**
+   * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+   * request for a Foundry agent.
+   */
+  getMicrosoft365PublishDefaults: (
+    agentName: string,
+    options?: GetMicrosoft365PublishDefaultsOptionalParams,
+  ) => Promise<Microsoft365PublishDefaults>;
+  /**
+   * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+   * request, without publishing it. Returns the app package as `application/zip`.
+   */
+  getMicrosoft365Package: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: GetMicrosoft365PackageOptionalParams,
+  ) => Promise<GetMicrosoft365PackageResponse>;
+  /**
+   * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+   * Teams app ids.
+   */
+  publishToMicrosoft365: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: PublishToMicrosoft365OptionalParams,
+  ) => Promise<Microsoft365PublishResponse>;
   /**
    * Streams console logs (stdout / stderr) for a specific hosted agent session
    * as a Server-Sent Events (SSE) stream.
@@ -232,6 +270,11 @@ export interface AgentsOperations {
     agentName: string,
     options?: AgentsUpdateAgentObjectOptionalParams,
   ) => Promise<Agent>;
+  /** Modifies an existing agent. */
+  patchAgentObject: (
+    agentName: string,
+    options?: AgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -336,6 +379,20 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
     ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
+    getMicrosoft365PublishDefaults: (
+      agentName: string,
+      options?: GetMicrosoft365PublishDefaultsOptionalParams,
+    ) => getMicrosoft365PublishDefaults(context, agentName, options),
+    getMicrosoft365Package: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: GetMicrosoft365PackageOptionalParams,
+    ) => getMicrosoft365Package(context, agentName, publishScope, options),
+    publishToMicrosoft365: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: PublishToMicrosoft365OptionalParams,
+    ) => publishToMicrosoft365(context, agentName, publishScope, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,
@@ -375,6 +432,8 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
+    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
+      patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),
     deleteVersion: (

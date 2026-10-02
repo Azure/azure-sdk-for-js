@@ -3,6 +3,7 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  refreshLdapBindPassword,
   changeKeyVault,
   getChangeKeyVaultInformation,
   transitionToCmk,
@@ -15,6 +16,7 @@ import {
   get,
 } from "../../api/accounts/operations.js";
 import type {
+  AccountsRefreshLdapBindPasswordOptionalParams,
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -36,6 +38,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {
+  /** Refresh LDAP Bind DN password by fetching the latest password from Azure Key Vault. */
+  refreshLdapBindPassword: (
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRefreshLdapBindPasswordOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault. */
   changeKeyVault: (
     resourceGroupName: string,
@@ -96,8 +104,14 @@ export interface AccountsOperations {
     options?: AccountsGetOptionalParams,
   ) => Promise<NetAppAccount>;
 }
+
 function _getAccounts(context: NetAppManagementContext) {
   return {
+    refreshLdapBindPassword: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: AccountsRefreshLdapBindPasswordOptionalParams,
+    ) => refreshLdapBindPassword(context, resourceGroupName, accountName, options),
     changeKeyVault: (
       resourceGroupName: string,
       accountName: string,
@@ -143,6 +157,7 @@ function _getAccounts(context: NetAppManagementContext) {
       get(context, resourceGroupName, accountName, options),
   };
 }
+
 export function _getAccountsOperations(context: NetAppManagementContext): AccountsOperations {
   return {
     ..._getAccounts(context),

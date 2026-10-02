@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.IoTOperations": "2026-03-01"
+    "Microsoft.IoTOperations": "2026-07-01"
   },
-  "emitterVersion": "0.52.1",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.IoTOperations",
     "CrossLanguageDefinitionId": {
@@ -195,6 +195,8 @@
       "@azure/arm-iotoperations!AkriConnectorTemplateTrustList:interface": "Microsoft.IoTOperations.AkriConnectorTemplateTrustList",
       "@azure/arm-iotoperations!AkriConnectorTemplateRuntimeImageConfiguration:interface": "Microsoft.IoTOperations.AkriConnectorTemplateRuntimeImageConfiguration",
       "@azure/arm-iotoperations!AkriConnectorTemplateRuntimeImageConfigurationSettings:interface": "Microsoft.IoTOperations.AkriConnectorTemplateRuntimeImageConfigurationSettings",
+      "@azure/arm-iotoperations!AkriConnectorTemplateReadinessProbe:interface": "Microsoft.IoTOperations.AkriConnectorTemplateReadinessProbe",
+      "@azure/arm-iotoperations!AkriConnectorTemplateExecAction:interface": "Microsoft.IoTOperations.AkriConnectorTemplateExecAction",
       "@azure/arm-iotoperations!AkriConnectorsRegistrySettings:interface": "Microsoft.IoTOperations.AkriConnectorsRegistrySettings",
       "@azure/arm-iotoperations!AkriConnectorsRegistryEndpointRef:interface": "Microsoft.IoTOperations.AkriConnectorsRegistryEndpointRef",
       "@azure/arm-iotoperations!AkriConnectorsContainerRegistry:interface": "Microsoft.IoTOperations.AkriConnectorsContainerRegistry",
@@ -235,6 +237,7 @@
       "@azure/arm-iotoperations!KnownPrivateKeyAlgorithm:enum": "Microsoft.IoTOperations.PrivateKeyAlgorithm",
       "@azure/arm-iotoperations!KnownPrivateKeyRotationPolicy:enum": "Microsoft.IoTOperations.PrivateKeyRotationPolicy",
       "@azure/arm-iotoperations!KnownOperatorValues:enum": "Microsoft.IoTOperations.OperatorValues",
+      "@azure/arm-iotoperations!KnownHighPriorityMessagesBackpressureHandling:enum": "Microsoft.IoTOperations.HighPriorityMessagesBackpressureHandling",
       "@azure/arm-iotoperations!KnownBrokerMemoryProfile:enum": "Microsoft.IoTOperations.BrokerMemoryProfile",
       "@azure/arm-iotoperations!KnownBrokerPersistencePolicyMode:enum": "Microsoft.IoTOperations.BrokerPersistencePolicyMode",
       "@azure/arm-iotoperations!KnownBrokerStateStoreKeyType:enum": "Microsoft.IoTOperations.BrokerStateStoreKeyType",

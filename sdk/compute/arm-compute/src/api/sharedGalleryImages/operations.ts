@@ -33,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       location: location,
       galleryUniqueName: galleryUniqueName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
       sharedTo: options?.sharedTo,
     },
     {
@@ -61,7 +61,6 @@ export async function _listDeserialize(
 
   return _sharedGalleryImageListDeserializer(result.body);
 }
-
 /** List shared gallery images by subscription id or tenant id. */
 export function list(
   context: Client,
@@ -74,7 +73,7 @@ export function list(
     () => _listSend(context, location, galleryUniqueName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -92,7 +91,7 @@ export function _getSend(
       location: location,
       galleryUniqueName: galleryUniqueName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +116,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sh
 
   return sharedGalleryImageDeserializer(result.body);
 }
-
 /** Get a shared gallery image by subscription id or tenant id. */
 export async function get(
   context: Client,

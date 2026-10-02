@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the certificate.
  *
  * @summary returns the certificate.
- * x-ms-original-file: 2026-03-01-preview/iothub_getcertificate.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_getcertificate.json
  */
 async function certificatesGet() {
   const credential = new DefaultAzureCredential();

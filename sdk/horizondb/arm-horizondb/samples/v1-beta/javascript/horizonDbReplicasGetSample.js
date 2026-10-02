@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets information about a HorizonDb replica.
+ * This sample demonstrates how to gets information about a HorizonDB replica.
  *
- * @summary gets information about a HorizonDb replica.
- * x-ms-original-file: 2026-01-20-preview/Replicas_Get.json
+ * @summary gets information about a HorizonDB replica.
+ * x-ms-original-file: 2026-05-01-preview/Replicas_Get.json
  */
-async function getAHorizonDbReplica() {
+async function getAHorizonDBReplica() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getAHorizonDbReplica() {
 }
 
 async function main() {
-  await getAHorizonDbReplica();
+  await getAHorizonDBReplica();
 }
 
 main().catch(console.error);

@@ -37,11 +37,6 @@ export interface EnterpriseMccCustomersOperations {
     options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
   /** This api deletes an existing enterprise mcc customer resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,
@@ -68,7 +63,6 @@ export interface EnterpriseMccCustomersOperations {
     options?: EnterpriseMccCustomersGetOptionalParams,
   ) => Promise<EnterpriseMccCustomerResource>;
 }
-
 function _getEnterpriseMccCustomers(context: ConnectedCacheContext) {
   return {
     listBySubscription: (options?: EnterpriseMccCustomersListBySubscriptionOptionalParams) =>
@@ -101,7 +95,6 @@ function _getEnterpriseMccCustomers(context: ConnectedCacheContext) {
     ) => get(context, resourceGroupName, customerResourceName, options),
   };
 }
-
 export function _getEnterpriseMccCustomersOperations(
   context: ConnectedCacheContext,
 ): EnterpriseMccCustomersOperations {

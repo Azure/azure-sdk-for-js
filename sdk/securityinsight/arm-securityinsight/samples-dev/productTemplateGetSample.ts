@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a template by its identifier.
  *
  * @summary gets a template by its identifier.
- * x-ms-original-file: 2025-07-01-preview/contentTemplates/GetProductTemplateById.json
+ * x-ms-original-file: 2025-10-01-preview/contentTemplates/GetProductTemplateById.json
  */
 async function getATemplate(): Promise<void> {
   const credential = new DefaultAzureCredential();

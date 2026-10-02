@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of private access resources in a subscription.
  *
  * @summary get a list of private access resources in a subscription.
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_ListAll.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_ListAll.json
  */
 async function listAllPrivateAccessesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

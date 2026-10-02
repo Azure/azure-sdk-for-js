@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists all HorizonDb parameter groups in a subscription.
+ * This sample demonstrates how to lists all HorizonDB parameter groups in a subscription.
  *
- * @summary lists all HorizonDb parameter groups in a subscription.
- * x-ms-original-file: 2026-01-20-preview/ParameterGroups_ListBySubscription.json
+ * @summary lists all HorizonDB parameter groups in a subscription.
+ * x-ms-original-file: 2026-05-01-preview/ParameterGroups_ListBySubscription.json
  */
-async function listHorizonDbParameterGroupsInASubscription() {
+async function listHorizonDBParameterGroupsInASubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listHorizonDbParameterGroupsInASubscription() {
 }
 
 async function main() {
-  await listHorizonDbParameterGroupsInASubscription();
+  await listHorizonDBParameterGroupsInASubscription();
 }
 
 main().catch(console.error);

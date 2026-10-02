@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   uncordon,
   start,
@@ -21,7 +21,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/bareMetalMachines/operations.js";
-import {
+import type {
   BareMetalMachinesUncordonOptionalParams,
   BareMetalMachinesStartOptionalParams,
   BareMetalMachinesRunReadCommandsOptionalParams,
@@ -40,16 +40,17 @@ import {
   BareMetalMachinesCreateOrUpdateOptionalParams,
   BareMetalMachinesGetOptionalParams,
 } from "../../api/bareMetalMachines/options.js";
-import {
+import type {
   OperationStatusResult,
   BareMetalMachine,
   BareMetalMachineRunCommandParameters,
   BareMetalMachineRunDataExtractsParameters,
   BareMetalMachineRunReadCommandsParameters,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BareMetalMachines operations. */
 export interface BareMetalMachinesOperations {

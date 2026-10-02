@@ -1002,10 +1002,9 @@ export class ClientContext {
   // TODO: move
   private getSessionParams(resourceLink: string): SessionContext {
     const resourceId: string = null;
-    let resourceAddress: string = null;
     const parserOutput = parseLink(resourceLink);
 
-    resourceAddress = parserOutput.objectBody.self;
+    const resourceAddress = parserOutput.objectBody.self;
 
     const resourceType = parserOutput.type;
     return {

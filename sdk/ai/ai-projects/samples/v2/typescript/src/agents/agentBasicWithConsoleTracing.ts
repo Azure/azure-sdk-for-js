@@ -8,61 +8,40 @@
  * Set the following environment variables before running:
  *   FOUNDRY_PROJECT_ENDPOINT - Your Microsoft Foundry project endpoint URL
  *   FOUNDRY_MODEL_NAME       - The deployment name of the model to use
+ *   FOUNDRY_AGENT_NAME       - Optional agent name. Defaults to "MyAgent"
  *
  * @summary Demonstrates agent operations with OpenTelemetry console tracing.
  */
 
-// Set up OpenTelemetry and Azure SDK instrumentation BEFORE importing Azure SDK packages.
-// In TypeScript compiled to CommonJS, static `import` statements are hoisted to the top
-// of the file. To ensure the RITM (require-in-the-middle) hook from registerInstrumentations
-// can intercept @azure/core-tracing, Azure SDK packages must be loaded dynamically AFTER
-// instrumentation is registered.
-import {
-  NodeTracerProvider,
-  ConsoleSpanExporter,
-  SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-node";
-import { context, trace } from "@opentelemetry/api";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+// Import tracing setup first so instrumentation is registered before Azure SDK modules load.
+import { provider, context, trace } from "./consoleTracingSetup.js";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
-
-// Set up OpenTelemetry at module scope, before Azure SDK packages are loaded.
-const provider = new NodeTracerProvider({
-  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
-});
-provider.register();
-
-// Bridge @azure/core-tracing to OpenTelemetry.
-// This must run before any Azure SDK package is imported so the RITM hook can intercept
-// @azure/core-tracing when it is first require()'d.
-registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 export async function main(): Promise<void> {
-  // Dynamically import Azure SDK packages after instrumentation is registered.
-  const { DefaultAzureCredential } = await import("@azure/identity");
-  const { AIProjectClient } = await import("@azure/ai-projects");
+  const tracer = trace.getTracer("AgentBasicWithConsoleTraces");
 
-  // Create AI Project client with tracing enabled (experimental)
+  // Create AI Project client with per-instance tracing options.
   // To capture prompt and completion content in traces, set contentRecording to true.
   // Note: content recording may include sensitive data such as user inputs and model outputs.
-  // Alternatively, you can set these options via environment variables:
+  // Precedence: tracingOptions property > environment variable > default value.
+  // Environment variables (used when a property is omitted):
   //   contentRecording:           OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT (default: false)
   //   traceContextPropagation:    AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION (default: true)
   //   experimental:               AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING (default: false)
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
     tracingOptions: {
-      experimental: true,
       contentRecording: false,
       traceContextPropagation: true,
+      experimental: true,
     },
   });
   const openAIClient = project.getOpenAIClient();
-
-  const tracer = trace.getTracer("AgentBasicWithConsoleTraces");
 
   // Create a parent span for the scenario
   const span = tracer.startSpan("agentBasicWithConsoleTraces");
@@ -71,7 +50,7 @@ export async function main(): Promise<void> {
   await context.with(ctx, async () => {
     // Create agent
     console.log("Creating agent...");
-    const agent = await project.agents.createVersion("my-agent-console-tracing", {
+    const agent = await project.agents.createVersion(agentName, {
       kind: "prompt",
       model: deploymentName,
       instructions: "You are a helpful assistant that answers general questions",

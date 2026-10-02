@@ -480,12 +480,16 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(result.policy!.issuerName).toEqual("Self");
     expect(result.policy!.subject).toEqual("cn=MyCert");
 
-    await client.updateCertificatePolicy(certificateName, {
+    const updatedPolicy = await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
       subject: "cn=MyOtherCert",
     });
+    expect(updatedPolicy.issuerName).toEqual("Self");
+    expect(updatedPolicy.subject).toEqual("cn=MyOtherCert");
+
     const updated = await client.getCertificate(certificateName);
     expect(updated.policy!.issuerName).toEqual("Self");
+    expect(updated.policy!.subject).toEqual("cn=MyOtherCert");
   });
 
   it("can read, cancel and delete a certificate's operation", async () => {

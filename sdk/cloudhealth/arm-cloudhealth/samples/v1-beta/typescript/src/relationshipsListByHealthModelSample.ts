@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Relationship resources by HealthModel
  *
  * @summary list Relationship resources by HealthModel
- * x-ms-original-file: 2026-05-01-preview/Relationships_ListByHealthModel.json
+ * x-ms-original-file: 2026-09-01-preview/Relationships_ListByHealthModel.json
  */
 async function relationshipsListByHealthModel(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/interconnectBlocks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _interconnectBlockListResultDeserializer(result.body);
 }
-
 /** Lists all of the Interconnect Blocks in the subscription. Use the nextLink property in the response to get the next page of Interconnect Blocks. */
 export function listBySubscription(
   context: Client,
@@ -76,7 +75,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -90,7 +89,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +116,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _interconnectBlockListResultDeserializer(result.body);
 }
-
 /** Lists all of the Interconnect Blocks in the specified resource group. Use the nextLink property in the response to get the next page of Interconnect Blocks. */
 export function listByResourceGroup(
   context: Client,
@@ -129,7 +127,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -145,7 +143,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       interconnectBlockName: interconnectBlockName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,7 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an Interconnect Block. The operation is only allowed when there are no virtual machines or VMSS VM instances associated with the Interconnect Block. */
 export function $delete(
   context: Client,
@@ -181,7 +178,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, interconnectBlockName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -198,7 +195,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       interconnectBlockName: interconnectBlockName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +224,6 @@ export async function _updateDeserialize(
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified. */
 export function update(
   context: Client,
@@ -242,7 +238,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, interconnectBlockName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<InterconnectBlock>, InterconnectBlock>;
 }
 
@@ -259,7 +255,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       interconnectBlockName: interconnectBlockName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +284,6 @@ export async function _createOrUpdateDeserialize(
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified. */
 export function createOrUpdate(
   context: Client,
@@ -303,7 +298,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, interconnectBlockName, resource, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<InterconnectBlock>, InterconnectBlock>;
 }
 
@@ -319,7 +314,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       interconnectBlockName: interconnectBlockName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -345,7 +340,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Retrieves information about an Interconnect Block. */
 export async function get(
   context: Client,

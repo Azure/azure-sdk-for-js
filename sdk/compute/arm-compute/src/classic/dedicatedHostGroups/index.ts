@@ -59,7 +59,6 @@ export interface DedicatedHostGroupsOperations {
     options?: DedicatedHostGroupsGetOptionalParams,
   ) => Promise<DedicatedHostGroup>;
 }
-
 function _getDedicatedHostGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: DedicatedHostGroupsListBySubscriptionOptionalParams) =>
@@ -92,7 +91,6 @@ function _getDedicatedHostGroups(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, hostGroupName, options),
   };
 }
-
 export function _getDedicatedHostGroupsOperations(
   context: ComputeManagementContext,
 ): DedicatedHostGroupsOperations {

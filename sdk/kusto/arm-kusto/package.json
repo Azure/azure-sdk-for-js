@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-kusto",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0",
   "description": "A generated SDK for KustoManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -374,6 +374,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kusto"
   }
 }

@@ -99,7 +99,9 @@ export class PlaywrightServiceClient {
       if (error instanceof Error) {
         throw error;
       }
-      throw new Error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
+      throw new Error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message, {
+        cause: error,
+      });
     }
   }
 }

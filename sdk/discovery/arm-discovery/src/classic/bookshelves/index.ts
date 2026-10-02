@@ -34,11 +34,6 @@ export interface BookshelvesOperations {
     options?: BookshelvesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Bookshelf>;
   /** Delete a Bookshelf */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     bookshelfName: string,
@@ -65,7 +60,6 @@ export interface BookshelvesOperations {
     options?: BookshelvesGetOptionalParams,
   ) => Promise<Bookshelf>;
 }
-
 function _getBookshelves(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: BookshelvesListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getBookshelves(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, bookshelfName, options),
   };
 }
-
 export function _getBookshelvesOperations(context: DiscoveryContext): BookshelvesOperations {
   return {
     ..._getBookshelves(context),

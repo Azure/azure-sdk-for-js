@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
-  type ResourceAnchorsListByResourceGroupOptionalParams,
-  type ResourceAnchorsDeleteOptionalParams,
-  type ResourceAnchorsUpdateOptionalParams,
-  type ResourceAnchorsGetOptionalParams,
-  type ResourceAnchorsCreateOrUpdateOptionalParams,
-  type ResourceAnchorsListBySubscriptionOptionalParams,
+export type {
+  ResourceAnchorsListByResourceGroupOptionalParams,
+  ResourceAnchorsDeleteOptionalParams,
+  ResourceAnchorsUpdateOptionalParams,
+  ResourceAnchorsGetOptionalParams,
+  ResourceAnchorsCreateOrUpdateOptionalParams,
+  ResourceAnchorsListBySubscriptionOptionalParams,
 } from "./options.js";

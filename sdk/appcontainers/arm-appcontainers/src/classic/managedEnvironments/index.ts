@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
+  checkMigrationEligibility,
   listWorkloadProfileStates,
   getAuthToken,
   listBySubscription,
@@ -12,7 +13,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedEnvironments/operations.js";
-import {
+import type {
+  ManagedEnvironmentsCheckMigrationEligibilityOptionalParams,
   ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
   ManagedEnvironmentsListBySubscriptionOptionalParams,
@@ -22,17 +24,27 @@ import {
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsGetOptionalParams,
 } from "../../api/managedEnvironments/options.js";
-import {
+import type {
   ManagedEnvironment,
   EnvironmentAuthToken,
   WorkloadProfileStates,
+  CheckMigrationEligibilityRequest,
+  CheckMigrationEligibilityResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedEnvironments operations. */
 export interface ManagedEnvironmentsOperations {
+  /** Checks whether a Managed Environment can be migrated to a target mode. */
+  checkMigrationEligibility: (
+    resourceGroupName: string,
+    environmentName: string,
+    body: CheckMigrationEligibilityRequest,
+    options?: ManagedEnvironmentsCheckMigrationEligibilityOptionalParams,
+  ) => Promise<CheckMigrationEligibilityResponse>;
   /** Get all workload Profile States for a Managed Environment. */
   listWorkloadProfileStates: (
     resourceGroupName: string,
@@ -124,6 +136,12 @@ export interface ManagedEnvironmentsOperations {
 
 function _getManagedEnvironments(context: ContainerAppsAPIContext) {
   return {
+    checkMigrationEligibility: (
+      resourceGroupName: string,
+      environmentName: string,
+      body: CheckMigrationEligibilityRequest,
+      options?: ManagedEnvironmentsCheckMigrationEligibilityOptionalParams,
+    ) => checkMigrationEligibility(context, resourceGroupName, environmentName, body, options),
     listWorkloadProfileStates: (
       resourceGroupName: string,
       environmentName: string,

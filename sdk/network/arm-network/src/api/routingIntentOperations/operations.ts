@@ -3,15 +3,12 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  RoutingIntent,
-  _ListRoutingIntentResult,
-} from "../../models/microsoft/network/models.js";
+import type { RoutingIntent, _ListRoutingIntentResult } from "../../models/network/models.js";
 import {
   routingIntentSerializer,
   routingIntentDeserializer,
   _listRoutingIntentResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualHubName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -96,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       routingIntentName: routingIntentName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualHubName, routingIntentName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       routingIntentName: routingIntentName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<RoutingIntent>, RoutingIntent>;
 }
 
@@ -222,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       routingIntentName: routingIntentName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -235,7 +235,7 @@ function getNumberOfReceivers(
   const receivers = connectionContext.messageReceivers;
   const receiverNames = Object.keys(receivers);
   const count = receiverNames.reduce(
-    (acc, name) => (receivers[name].receiverType === receiverType ? ++acc : acc),
+    (acc, name) => (receivers[name].receiverType === receiverType ? acc + 1 : acc),
     0,
   );
   return count;

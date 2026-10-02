@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of Capability resources that extend a Target resource.
  *
  * @summary get a list of Capability resources that extend a Target resource.
- * x-ms-original-file: 2026-05-01-preview/Capabilities_List.json
+ * x-ms-original-file: 2026-08-01-preview/Capabilities_List.json
  */
 async function listAllCapabilitiesThatExtendAVirtualMachineTargetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

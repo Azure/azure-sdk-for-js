@@ -4,9 +4,6 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface RecoveryPointsUpdateOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface RecoveryPointsListOptionalParams extends OperationOptions {
   filter?: string;
 }

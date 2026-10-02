@@ -43,7 +43,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -71,7 +71,6 @@ export async function _listDeserialize(
 
   return _virtualMachineRunCommandsListResultDeserializer(result.body);
 }
-
 /** The operation to get all run commands of an instance in Virtual Machine Scaleset. */
 export function list(
   context: Client,
@@ -85,7 +84,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -105,7 +104,7 @@ export function _$deleteSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +126,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the VMSS VM run command. */
 export function $delete(
   context: Client,
@@ -143,7 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmScaleSetName, instanceId, runCommandName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +162,7 @@ export function _updateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +191,6 @@ export async function _updateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to update the VMSS VM run command. */
 export function update(
   context: Client,
@@ -218,7 +215,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -239,7 +236,7 @@ export function _createOrUpdateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +265,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to create or update the VMSS VM run command. */
 export function createOrUpdate(
   context: Client,
@@ -293,7 +289,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineRunCommand>, VirtualMachineRunCommand>;
 }
 
@@ -313,7 +309,7 @@ export function _getSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       runCommandName: runCommandName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -341,7 +337,6 @@ export async function _getDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to get the VMSS VM run command. */
 export async function get(
   context: Client,

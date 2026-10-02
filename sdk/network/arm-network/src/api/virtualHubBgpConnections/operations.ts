@@ -7,11 +7,11 @@ import type {
   BgpConnection,
   _ListVirtualHubBgpConnectionResults,
   PeerRoute,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
   _listVirtualHubBgpConnectionResultsDeserializer,
   peerRouteArrayRecordDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -39,7 +39,7 @@ export function _listAdvertisedRoutesSend(
       resourceGroupName: resourceGroupName,
       hubName: hubName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,7 @@ export function listAdvertisedRoutes(
     getInitialResponse: () =>
       _listAdvertisedRoutesSend(context, resourceGroupName, hubName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<Record<string, PeerRoute[]>>, Record<string, PeerRoute[]>>;
 }
 
@@ -99,7 +99,7 @@ export function _listLearnedRoutesSend(
       resourceGroupName: resourceGroupName,
       hubName: hubName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function listLearnedRoutes(
     getInitialResponse: () =>
       _listLearnedRoutesSend(context, resourceGroupName, hubName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<Record<string, PeerRoute[]>>, Record<string, PeerRoute[]>>;
 }
 
@@ -157,7 +157,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,6 +197,6 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualHubName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }

@@ -162,7 +162,6 @@ export interface DedicatedHostsOperations {
     options?: DedicatedHostsGetOptionalParams,
   ) => Promise<DedicatedHost>;
 }
-
 function _getDedicatedHosts(context: ComputeManagementContext) {
   return {
     restart: (
@@ -331,7 +330,6 @@ function _getDedicatedHosts(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, hostGroupName, hostName, options),
   };
 }
-
 export function _getDedicatedHostsOperations(
   context: ComputeManagementContext,
 ): DedicatedHostsOperations {

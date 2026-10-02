@@ -22,8 +22,8 @@ Follow the full guidelines in [performance-review-guidelines.md](../prompts/perf
 6. **Retry & polling** — exponential backoff, no retry on 4xx
    (except 408/429), polling ≥ 1 s, respect Retry-After
 7. **Sync blocking** — no `readFileSync` / `execSync` in production
-8. **Bundle size** — no large new deps (> 50 KB), no Node-only imports
-   in browser paths, no `export *` barrels
+8. **Bundle size** — no large new deps (> 50 KB minified + gzipped), no
+   Node-only imports in browser paths, no `export *` barrels
 9. **Async patterns** — `Promise.all` for independent calls; no
    unbounded concurrency; no unnecessary `async`
 10. **Caching** — hoist RegExp and repeated computation; eviction on
