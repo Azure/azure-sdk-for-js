@@ -71,63 +71,75 @@ describe("dataset generation promotion", () => {
     expect(client.beta).not.toHaveProperty("datasets");
   });
 
-  it("preserves body serialization, job identity and polling headers", async () => {
-    const result = { generated_samples: 2 };
-    const { client, requests } = createClient(
-      {
-        status: 202,
-        body: { id: "job-1", status: "queued" },
-        headers: { "operation-location": `${endpoint}/operations/operation-1` },
-      },
-      { body: { status: "succeeded", result } },
-    );
-    const poller = client.datasets.createGenerationJob(inputs, {
-      operationId: "operation-1",
-      requestOptions: { headers: { "x-custom": "retained" } },
-    });
-    await poller.submitted();
-    expect(poller.operationState?.jobId).toBe("job-1");
-    await poller.poll();
-    expect(poller.operationState?.jobId).toBe("job-1");
-    expect(poller.result).toMatchObject(result);
-    expect(requests).toHaveLength(2);
-    expect(JSON.parse(requests[0].body as string)).toEqual(inputs);
-    expect(new URL(requests[0].url).pathname).toBe(
-      "/api/projects/test-project/data_generation_jobs",
-    );
-    expect(requests[0].headers.get("operation-id")).toBe("operation-1");
-    for (const request of requests) {
-      expect(request.headers.get("foundry-features")).toBe("DataGenerationJobs=V1Preview");
-      expect(request.headers.get("x-custom")).toBe("retained");
-    }
-  });
+  it.each(["supervised_finetuning_preview", "reinforcement_finetuning_preview"] as const)(
+    "preserves %s body serialization, job identity and polling headers",
+    async (scenario) => {
+      const scenarioInputs = { ...inputs, scenario };
+      const result = { generated_samples: 2 };
+      const { client, requests } = createClient(
+        {
+          status: 202,
+          body: { id: "job-1", status: "queued" },
+          headers: { "operation-location": `${endpoint}/operations/operation-1` },
+        },
+        { body: { status: "succeeded", result } },
+      );
+      const poller = client.datasets.createGenerationJob(scenarioInputs, {
+        operationId: "operation-1",
+        requestOptions: { headers: { "x-custom": "retained" } },
+      });
+      await poller.submitted();
+      expect(poller.operationState?.jobId).toBe("job-1");
+      await poller.poll();
+      expect(poller.operationState?.jobId).toBe("job-1");
+      expect(poller.result).toMatchObject(result);
+      expect(requests).toHaveLength(2);
+      expect(JSON.parse(requests[0].body as string)).toEqual(scenarioInputs);
+      expect(new URL(requests[0].url).pathname).toBe(
+        "/api/projects/test-project/data_generation_jobs",
+      );
+      expect(requests[0].headers.get("operation-id")).toBe("operation-1");
+      for (const request of requests) {
+        expect(request.headers.get("foundry-features")).toBe("DataGenerationJobs=V1Preview");
+        expect(request.headers.get("x-custom")).toBe("retained");
+      }
+    },
+  );
 
-  it("routes get, cancel and delete through datasets with the existing preview header", async () => {
-    const { client, requests } = createClient(
-      { body: { ...inputs, id: "job-1", type: "data_generation", status: "queued" } },
-      { body: { ...inputs, id: "job-1", type: "data_generation", status: "cancelled" } },
-      { status: 204 },
-    );
-    const options = { requestOptions: { headers: { "x-custom": "retained" } } };
-    expect(await client.datasets.getGenerationJob("job-1", options)).toMatchObject({
-      id: "job-1",
-    });
-    expect(await client.datasets.cancelGenerationJob("job-1", options)).toMatchObject({
-      status: "cancelled",
-    });
-    await client.datasets.deleteGenerationJob("job-1", options);
-    expect(requests.map((request) => request.method)).toEqual(["GET", "POST", "DELETE"]);
-    expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
-      "/api/projects/test-project/data_generation_jobs/job-1",
-      "/api/projects/test-project/data_generation_jobs/job-1:cancel",
-      "/api/projects/test-project/data_generation_jobs/job-1",
-    ]);
-    for (const request of requests) {
-      expect(new URL(request.url).searchParams.get("api-version")).toBe("v1");
-      expect(request.headers.get("foundry-features")).toBe("DataGenerationJobs=V1Preview");
-      expect(request.headers.get("x-custom")).toBe("retained");
-    }
-  });
+  it.each(["supervised_finetuning_preview", "reinforcement_finetuning_preview"] as const)(
+    "routes %s get, cancel and delete through datasets with the existing preview header",
+    async (scenario) => {
+      const scenarioInputs = { ...inputs, scenario };
+      const { client, requests } = createClient(
+        { body: { ...scenarioInputs, id: "job-1", type: "data_generation", status: "queued" } },
+        { body: { ...scenarioInputs, id: "job-1", type: "data_generation", status: "cancelled" } },
+        { status: 204 },
+      );
+      const options = { requestOptions: { headers: { "x-custom": "retained" } } };
+      expect(await client.datasets.getGenerationJob("job-1", options)).toMatchObject({
+        id: "job-1",
+        scenario,
+        output_configuration: scenarioInputs.output_configuration,
+      });
+      expect(await client.datasets.cancelGenerationJob("job-1", options)).toMatchObject({
+        status: "cancelled",
+        scenario,
+        output_configuration: scenarioInputs.output_configuration,
+      });
+      await client.datasets.deleteGenerationJob("job-1", options);
+      expect(requests.map((request) => request.method)).toEqual(["GET", "POST", "DELETE"]);
+      expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
+        "/api/projects/test-project/data_generation_jobs/job-1",
+        "/api/projects/test-project/data_generation_jobs/job-1:cancel",
+        "/api/projects/test-project/data_generation_jobs/job-1",
+      ]);
+      for (const request of requests) {
+        expect(new URL(request.url).searchParams.get("api-version")).toBe("v1");
+        expect(request.headers.get("foundry-features")).toBe("DataGenerationJobs=V1Preview");
+        expect(request.headers.get("x-custom")).toBe("retained");
+      }
+    },
+  );
 
   it("preserves ErrorModel details", async () => {
     const error = { code: "invalid_job", message: "Invalid job.", param: "jobId" };

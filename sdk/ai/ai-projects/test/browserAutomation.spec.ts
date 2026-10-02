@@ -1,31 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, expect, it } from "vitest";
-import { AIProjectClient } from "../src/index.js";
-import type { BrowserAutomationTool, BrowserAutomationToolboxTool } from "../src/index.js";
-import { DefaultAzureCredential } from "@azure/identity";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type {
+  AIProjectClient,
+  BrowserAutomationTool,
+  BrowserAutomationToolboxTool,
+} from "../src/index.js";
+import {
+  createProjectsClient,
+  createRecorder,
+  getToolConnectionId,
+} from "./public/utils/createClient.js";
 
 describe("GA browser automation", () => {
-  it.skip("creates an agent version with BrowserAutomationTool", async () => {
-    // TODO(browser-automation): unskip after recording added.
-    const project = new AIProjectClient(
-      process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>",
-      new DefaultAzureCredential(),
-    );
+  let recorder: Recorder;
+  let project: AIProjectClient;
+
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    project = createProjectsClient(recorder);
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("creates an agent version with BrowserAutomationTool", async () => {
     const tool: BrowserAutomationTool = {
       type: "browser_automation",
       browser_automation: {
         connection: {
-          project_connection_id:
-            process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
-            "<browser automation project connection id>",
+          project_connection_id: getToolConnectionId("browser-automation"),
         },
       },
     };
     const agent = await project.agents.createVersion("browser-automation-test", {
       kind: "prompt",
-      model: process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       tools: [tool],
     });
     try {
@@ -36,20 +50,13 @@ describe("GA browser automation", () => {
     }
   });
 
-  it.skip("creates a toolbox version with BrowserAutomationToolboxTool", async () => {
-    // TODO(browser-automation-toolbox): unskip after recording added.
-    const project = new AIProjectClient(
-      process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>",
-      new DefaultAzureCredential(),
-    );
+  it("creates a toolbox version with BrowserAutomationToolboxTool", async () => {
     const tool: BrowserAutomationToolboxTool = {
       type: "browser_automation",
       name: "browser",
       browser_automation: {
         connection: {
-          project_connection_id:
-            process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
-            "<browser automation project connection id>",
+          project_connection_id: getToolConnectionId("browser-automation"),
         },
       },
     };
