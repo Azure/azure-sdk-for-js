@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.RecoveryServices": "2026-07-01"
+    "Microsoft.RecoveryServices": "2026-08-01"
   },
   "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
@@ -177,6 +177,7 @@
       "@azure/arm-recoveryservicesbackup!ILRRequest:interface": "Microsoft.RecoveryServices.ILRRequest",
       "@azure/arm-recoveryservicesbackup!AzureFileShareProvisionILRRequest:interface": "Microsoft.RecoveryServices.AzureFileShareProvisionILRRequest",
       "@azure/arm-recoveryservicesbackup!IaasVMILRRegistrationRequest:interface": "Microsoft.RecoveryServices.IaasVMILRRegistrationRequest",
+      "@azure/arm-recoveryservicesbackup!InstantItemRecoveryOperationResultRequest:interface": "Microsoft.RecoveryServices.InstantItemRecoveryOperationResultRequest",
       "@azure/arm-recoveryservicesbackup!ProtectionPolicyResource:interface": "Microsoft.RecoveryServices.ProtectionPolicyResource",
       "@azure/arm-recoveryservicesbackup!ProtectionPolicy:interface": "Microsoft.RecoveryServices.ProtectionPolicy",
       "@azure/arm-recoveryservicesbackup!AzureVmWorkloadProtectionPolicy:interface": "Microsoft.RecoveryServices.AzureVmWorkloadProtectionPolicy",
@@ -445,6 +446,7 @@
       "@azure/arm-recoveryservicesbackup!ProtectionPoliciesOperations#delete:member": "Microsoft.RecoveryServices.ProtectionPolicies.delete",
       "@azure/arm-recoveryservicesbackup!ProtectionPoliciesOperations#createOrUpdate:member": "Microsoft.RecoveryServices.ProtectionPolicies.createOrUpdate",
       "@azure/arm-recoveryservicesbackup!ProtectionPoliciesOperations#get:member": "Microsoft.RecoveryServices.ProtectionPolicies.get",
+      "@azure/arm-recoveryservicesbackup!ItemLevelRecoveryConnectionsOperations#listInstantItemRecoveryOperationResult:member": "Microsoft.RecoveryServices.ItemLevelRecoveryConnections.listInstantItemRecoveryOperationResult",
       "@azure/arm-recoveryservicesbackup!ItemLevelRecoveryConnectionsOperations#revoke:member": "Microsoft.RecoveryServices.ItemLevelRecoveryConnections.revoke",
       "@azure/arm-recoveryservicesbackup!ItemLevelRecoveryConnectionsOperations#provision:member": "Microsoft.RecoveryServices.ItemLevelRecoveryConnections.provision",
       "@azure/arm-recoveryservicesbackup!RestoresOperations#trigger:member": "Microsoft.RecoveryServices.Restores.trigger",

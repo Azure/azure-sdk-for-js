@@ -7,6 +7,7 @@ export {
   listOptimizationJobs,
   getOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
 } from "./operations.js";
 export type {
   BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -14,4 +15,5 @@ export type {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
+  BetaAgentsCreateFromPromptOptionalParams,
 } from "./options.js";

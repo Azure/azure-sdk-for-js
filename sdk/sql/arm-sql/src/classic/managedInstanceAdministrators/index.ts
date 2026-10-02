@@ -83,7 +83,6 @@ export interface ManagedInstanceAdministratorsOperations {
     options?: ManagedInstanceAdministratorsGetOptionalParams,
   ) => Promise<ManagedInstanceAdministrator>;
 }
-
 function _getManagedInstanceAdministrators(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -184,7 +183,6 @@ function _getManagedInstanceAdministrators(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, administratorName, options),
   };
 }
-
 export function _getManagedInstanceAdministratorsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceAdministratorsOperations {

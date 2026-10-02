@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to prepares source vault for Data Move operation
  *
  * @summary prepares source vault for Data Move operation
- * x-ms-original-file: 2026-07-01/BackupDataMove/PrepareDataMove_Post.json
+ * x-ms-original-file: 2026-08-01/BackupDataMove/PrepareDataMove_Post.json
  */
 async function prepareDataMove() {
   const credential = new DefaultAzureCredential();

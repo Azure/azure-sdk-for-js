@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listSecrets,
   list,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/connectedEnvironmentsDaprComponents/operations.js";
-import {
+import type {
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsDaprComponentsGetOptionalParams,
 } from "../../api/connectedEnvironmentsDaprComponents/options.js";
-import { DaprComponent, DaprSecretsCollection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DaprComponent, DaprSecretsCollection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConnectedEnvironmentsDaprComponents operations. */
 export interface ConnectedEnvironmentsDaprComponentsOperations {

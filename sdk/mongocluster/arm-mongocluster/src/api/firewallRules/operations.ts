@@ -35,7 +35,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listByMongoClusterDeserialize(
 
   return _firewallRuleListResultDeserializer(result.body);
 }
-
 /** List all the firewall rules in a given mongo cluster. */
 export function listByMongoCluster(
   context: Client,
@@ -75,7 +74,11 @@ export function listByMongoCluster(
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
 
@@ -93,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a mongo cluster firewall rule. */
 export function $delete(
   context: Client,
@@ -130,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +151,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return firewallRuleDeserializer(result.body);
 }
-
 /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
 export function createOrUpdate(
   context: Client,
@@ -201,7 +202,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
@@ -219,7 +220,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,7 +245,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallRuleDeserializer(result.body);
 }
-
 /** Gets information about a mongo cluster firewall rule. */
 export async function get(
   context: Client,

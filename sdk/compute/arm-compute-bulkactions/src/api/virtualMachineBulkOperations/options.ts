@@ -8,7 +8,7 @@ export interface VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptio
 
 /** Optional parameters. */
 export interface VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams extends OperationOptions {
-  /** The number of minutes to look back for errors. */
+  /** The number of minutes before the current time to include when listing bulk action errors. */
   lookbackInMinutes?: number;
 }
 
@@ -23,12 +23,6 @@ export interface VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalPara
 
 /** Optional parameters. */
 export interface VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface VirtualMachineBulkOperationsBulkVdiFlexCreateOperationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface VirtualMachineBulkOperationsBulkCreateOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VirtualMachineBulkOperationsBulkStartOperationOptionalParams extends OperationOptions {}

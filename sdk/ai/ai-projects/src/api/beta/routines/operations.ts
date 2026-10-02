@@ -13,6 +13,7 @@ import {
   apiErrorResponseDeserializer,
   routineTriggerUnionRecordSerializer,
   routineActionUnionSerializer,
+  routineAuthorizationSerializer,
   routineDeserializer,
   _pagedResultWithNextLinkRoutineDeserializer,
   _pagedResultWithNextLinkRoutineRunDeserializer,
@@ -454,6 +455,9 @@ export function _createOrUpdateSend(
         ? options?.triggers
         : routineTriggerUnionRecordSerializer(options?.triggers),
       action: !options?.action ? options?.action : routineActionUnionSerializer(options?.action),
+      authorization: !options?.authorization
+        ? options?.authorization
+        : routineAuthorizationSerializer(options?.authorization),
     },
   });
 }

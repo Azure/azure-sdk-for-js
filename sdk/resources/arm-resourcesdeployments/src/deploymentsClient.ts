@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DeploymentsContext,
-  DeploymentsClientOptionalParams,
-  createDeployments,
-} from "./api/index.js";
-import {
-  DeploymentOperationsOperations,
-  _getDeploymentOperationsOperations,
-} from "./classic/deploymentOperations/index.js";
-import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { DeploymentsContext, DeploymentsClientOptionalParams } from "./api/index.js";
+import { createDeployments } from "./api/index.js";
+import type { DeploymentOperationsOperations } from "./classic/deploymentOperations/index.js";
+import { _getDeploymentOperationsOperations } from "./classic/deploymentOperations/index.js";
+import type { DeploymentsOperations } from "./classic/deployments/index.js";
+import { _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DeploymentsClientOptionalParams } from "./api/deploymentsContext.js";
 
@@ -42,14 +38,7 @@ export class DeploymentsClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDeployments(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDeployments(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.deploymentOperations = _getDeploymentOperationsOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);

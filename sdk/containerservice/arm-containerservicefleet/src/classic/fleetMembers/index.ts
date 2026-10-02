@@ -59,6 +59,7 @@ export interface FleetMembersOperations {
     options?: FleetMembersGetOptionalParams,
   ) => Promise<FleetMember>;
 }
+
 function _getFleetMembers(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -94,6 +95,7 @@ function _getFleetMembers(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, fleetMemberName, options),
   };
 }
+
 export function _getFleetMembersOperations(
   context: ContainerServiceFleetContext,
 ): FleetMembersOperations {

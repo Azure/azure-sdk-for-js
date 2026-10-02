@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  generateClientToken,
   deleteUser,
   createOrReplaceUser,
   getUser,
@@ -21,6 +22,7 @@ export {
   getConversation,
 } from "./operations.js";
 export type {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,

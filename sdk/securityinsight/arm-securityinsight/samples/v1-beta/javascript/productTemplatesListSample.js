@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all templates in the catalog.
  *
  * @summary gets all templates in the catalog.
- * x-ms-original-file: 2025-07-01-preview/contentTemplates/GetProductTemplates.json
+ * x-ms-original-file: 2025-10-01-preview/contentTemplates/GetProductTemplates.json
  */
 async function getAllInstalledTemplates() {
   const credential = new DefaultAzureCredential();
