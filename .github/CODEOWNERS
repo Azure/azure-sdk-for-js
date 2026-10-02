@@ -1821,6 +1821,10 @@
 /.github/workflows/tester.lock.yml       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.md       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.lock.yml @Azure/azure-sdk-for-js-core
+/.github/workflows/issue-investigation.md       @Azure/azure-sdk-for-js-core
+/.github/workflows/issue-investigation.lock.yml @Azure/azure-sdk-for-js-core
+/.github/workflows/issue-investigation-tests.yml @Azure/azure-sdk-for-js-core
+/eng/tools/issue-investigation/         @Azure/azure-sdk-for-js-core
 /.github/agents/agentic-workflows.agent.md @Azure/azure-sdk-for-js-core
 /.github/agents/archie.agent.md          @maorleger @Azure/azure-sdk-for-js-core
 /.github/agents/dash.agent.md            @Azure/azure-sdk-for-js-core
