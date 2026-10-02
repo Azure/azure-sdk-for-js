@@ -31,7 +31,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,6 @@ export async function _listDeserialize(
 
   return _listWorkspaceQuotasDeserializer(result.body);
 }
-
 /** Gets the currently assigned Workspace Quotas based on VMFamily. */
 export function list(
   context: Client,
@@ -73,7 +72,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -89,7 +88,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +117,6 @@ export async function _updateDeserialize(
 
   return updateWorkspaceQuotasResultDeserializer(result.body);
 }
-
 /** Update quota for each VM family in workspace. */
 export async function update(
   context: Client,

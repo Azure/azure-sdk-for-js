@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all enabled features for a workspace
  *
  * @summary lists all enabled features for a workspace
- * x-ms-original-file: 2026-03-15-preview/WorkspaceFeature/list.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceFeature/list.json
  */
 async function listWorkspaceFeatures() {
   const credential = new DefaultAzureCredential();

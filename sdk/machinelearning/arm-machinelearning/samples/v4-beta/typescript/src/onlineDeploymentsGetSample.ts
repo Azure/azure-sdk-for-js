@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Inference Deployment Deployment.
  *
  * @summary get Inference Deployment Deployment.
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/KubernetesOnlineDeployment/get.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/KubernetesOnlineDeployment/get.json
  */
 async function getKubernetesOnlineDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getKubernetesOnlineDeployment(): Promise<void> {
  * This sample demonstrates how to get Inference Deployment Deployment.
  *
  * @summary get Inference Deployment Deployment.
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/ManagedOnlineDeployment/get.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/ManagedOnlineDeployment/get.json
  */
 async function getManagedOnlineDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

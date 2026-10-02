@@ -43,7 +43,6 @@ export interface EnvironmentContainersOperations {
     options?: EnvironmentContainersGetOptionalParams,
   ) => Promise<EnvironmentContainer>;
 }
-
 function _getEnvironmentContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -72,7 +71,6 @@ function _getEnvironmentContainers(context: AzureMachineLearningServicesManageme
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getEnvironmentContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): EnvironmentContainersOperations {

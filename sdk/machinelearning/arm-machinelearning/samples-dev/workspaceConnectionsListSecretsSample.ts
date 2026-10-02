@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the secrets of a machine learning workspaces connections.
  *
  * @summary list all the secrets of a machine learning workspaces connections.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/listSecrets.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/listSecrets.json
  */
 async function getWorkspaceConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

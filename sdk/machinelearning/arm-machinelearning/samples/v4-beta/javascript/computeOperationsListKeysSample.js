@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
  *
  * @summary gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
- * x-ms-original-file: 2026-03-15-preview/Compute/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/listKeys.json
  */
 async function listAKSComputeKeys() {
   const credential = new DefaultAzureCredential();

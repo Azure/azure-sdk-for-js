@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a batch inference endpoint (asynchronous).
  *
  * @summary creates a batch inference endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchEndpoint/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchEndpoint/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceBatchEndpoint() {
   const credential = new DefaultAzureCredential();

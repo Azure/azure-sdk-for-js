@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to publish version asset into registry.
  *
  * @summary publish version asset into registry.
- * x-ms-original-file: 2026-03-15-preview/Workspace/CodeVersion/publish.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/CodeVersion/publish.json
  */
 async function publishWorkspaceCodeVersion() {
   const credential = new DefaultAzureCredential();

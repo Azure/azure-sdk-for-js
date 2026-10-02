@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the currently assigned Workspace Quotas based on VMFamily.
  *
  * @summary gets the currently assigned Workspace Quotas based on VMFamily.
- * x-ms-original-file: 2026-03-15-preview/Quota/list.json
+ * x-ms-original-file: 2026-05-15-preview/Quota/list.json
  */
 async function listWorkspaceQuotasByVMFamily() {
   const credential = new DefaultAzureCredential();

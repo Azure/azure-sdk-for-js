@@ -44,7 +44,7 @@ export function _testConnectionSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _testConnectionDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Test machine learning workspaces connections under the specified workspace. */
 export function testConnection(
   context: Client,
@@ -87,7 +86,7 @@ export function testConnection(
     getInitialResponse: () =>
       _testConnectionSend(context, resourceGroupName, workspaceName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -105,7 +104,7 @@ export function _listSecretsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,7 +131,6 @@ export async function _listSecretsDeserialize(
 
   return workspaceConnectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** List all the secrets of a machine learning workspaces connections. */
 export async function listSecrets(
   context: Client,
@@ -163,7 +161,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll ?? false,
@@ -193,7 +191,6 @@ export async function _listDeserialize(
 
   return _workspaceConnectionPropertiesV2BasicResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists all the available machine learning workspaces connections under the specified workspace. */
 export function list(
   context: Client,
@@ -209,7 +206,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -228,7 +225,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +247,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete machine learning workspaces connections by name. */
 export async function $delete(
   context: Client,
@@ -283,7 +279,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +310,6 @@ export async function _updateDeserialize(
 
   return workspaceConnectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Update machine learning workspaces connections under the specified workspace. */
 export async function update(
   context: Client,
@@ -347,7 +342,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,7 +373,6 @@ export async function _createDeserialize(
 
   return workspaceConnectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Create or update machine learning workspaces connections under the specified workspace. */
 export async function create(
   context: Client,
@@ -411,7 +405,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,7 +432,6 @@ export async function _getDeserialize(
 
   return workspaceConnectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Lists machine learning workspaces connections by name. */
 export async function get(
   context: Client,

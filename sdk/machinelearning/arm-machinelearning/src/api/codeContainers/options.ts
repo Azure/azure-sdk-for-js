@@ -8,12 +8,9 @@ export interface CodeContainersListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface CodeContainersDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CodeContainersCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CodeContainersGetOptionalParams extends OperationOptions {}

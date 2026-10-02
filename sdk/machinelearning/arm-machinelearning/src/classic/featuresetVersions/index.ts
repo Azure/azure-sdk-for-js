@@ -130,7 +130,6 @@ export interface FeaturesetVersionsOperations {
     options?: FeaturesetVersionsGetOptionalParams,
   ) => Promise<FeaturesetVersion>;
 }
-
 function _getFeaturesetVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     backfill: (
@@ -267,7 +266,6 @@ function _getFeaturesetVersions(context: AzureMachineLearningServicesManagementC
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getFeaturesetVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): FeaturesetVersionsOperations {

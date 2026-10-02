@@ -118,7 +118,6 @@ export interface InferenceEndpointsOperations {
     options?: InferenceEndpointsGetOptionalParams,
   ) => Promise<InferenceEndpoint>;
 }
-
 function _getInferenceEndpoints(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -278,7 +277,6 @@ function _getInferenceEndpoints(context: AzureMachineLearningServicesManagementC
     ) => get(context, resourceGroupName, workspaceName, poolName, endpointName, options),
   };
 }
-
 export function _getInferenceEndpointsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): InferenceEndpointsOperations {

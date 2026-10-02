@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list model containers.
  *
  * @summary list model containers.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ModelContainer/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ModelContainer/list.json
  */
 async function listWorkspaceModelContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the details (e.g IP address, port etc) of all the compute nodes in the compute.
  *
  * @summary get the details (e.g IP address, port etc) of all the compute nodes in the compute.
- * x-ms-original-file: 2026-03-15-preview/Compute/listNodes.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/listNodes.json
  */
 async function getComputeNodesInformationForACompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -83,7 +83,6 @@ export interface ManagedNetworkSettingsRuleOperations {
     options?: ManagedNetworkSettingsRuleGetOptionalParams,
   ) => Promise<OutboundRuleBasicResource>;
 }
-
 function _getManagedNetworkSettingsRule(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -164,7 +163,6 @@ function _getManagedNetworkSettingsRule(context: AzureMachineLearningServicesMan
     ) => get(context, resourceGroupName, workspaceName, ruleName, options),
   };
 }
-
 export function _getManagedNetworkSettingsRuleOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ManagedNetworkSettingsRuleOperations {

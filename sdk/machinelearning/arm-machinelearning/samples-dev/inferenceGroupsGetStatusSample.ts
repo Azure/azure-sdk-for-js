@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve inference group status.
  *
  * @summary retrieve inference group status.
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceGroup/getStatus.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceGroup/getStatus.json
  */
 async function getStatusWorkspaceInferenceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

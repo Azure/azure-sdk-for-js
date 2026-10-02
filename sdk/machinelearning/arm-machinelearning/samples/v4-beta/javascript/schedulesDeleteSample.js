@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete schedule.
  *
  * @summary delete schedule.
- * x-ms-original-file: 2026-03-15-preview/Schedule/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Schedule/delete.json
  */
 async function deleteSchedule() {
   const credential = new DefaultAzureCredential();

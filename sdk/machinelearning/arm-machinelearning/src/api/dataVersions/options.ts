@@ -9,7 +9,6 @@ export interface DataVersionsPublishOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface DataVersionsListOptionalParams extends OperationOptions {
   /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
@@ -26,12 +25,9 @@ export interface DataVersionsListOptionalParams extends OperationOptions {
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface DataVersionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DataVersionsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DataVersionsGetOptionalParams extends OperationOptions {}

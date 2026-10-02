@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Online Endpoint.
  *
  * @summary get Online Endpoint.
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineEndpoint/get.json
  */
 async function getWorkspaceOnlineEndpoint() {
   const credential = new DefaultAzureCredential();

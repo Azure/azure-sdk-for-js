@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists keys of Azure Machine Learning Workspaces notebook.
  *
  * @summary lists keys of Azure Machine Learning Workspaces notebook.
- * x-ms-original-file: 2026-03-15-preview/Notebook/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Notebook/listKeys.json
  */
 async function listWorkspaceKeys() {
   const credential = new DefaultAzureCredential();

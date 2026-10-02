@@ -91,7 +91,6 @@ export interface WorkspaceConnectionsOperations {
     options?: WorkspaceConnectionsGetOptionalParams,
   ) => Promise<WorkspaceConnectionPropertiesV2BasicResource>;
 }
-
 function _getWorkspaceConnections(context: AzureMachineLearningServicesManagementContext) {
   return {
     testConnection: (
@@ -167,7 +166,6 @@ function _getWorkspaceConnections(context: AzureMachineLearningServicesManagemen
     ) => get(context, resourceGroupName, workspaceName, connectionName, options),
   };
 }
-
 export function _getWorkspaceConnectionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): WorkspaceConnectionsOperations {

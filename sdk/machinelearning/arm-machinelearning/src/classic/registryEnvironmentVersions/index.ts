@@ -89,7 +89,6 @@ export interface RegistryEnvironmentVersionsOperations {
     options?: RegistryEnvironmentVersionsGetOptionalParams,
   ) => Promise<EnvironmentVersion>;
 }
-
 function _getRegistryEnvironmentVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -203,7 +202,6 @@ function _getRegistryEnvironmentVersions(context: AzureMachineLearningServicesMa
     ) => get(context, resourceGroupName, registryName, environmentName, version, options),
   };
 }
-
 export function _getRegistryEnvironmentVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryEnvironmentVersionsOperations {

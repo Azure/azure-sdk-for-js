@@ -76,7 +76,6 @@ export interface SchedulesOperations {
     options?: SchedulesGetOptionalParams,
   ) => Promise<Schedule>;
 }
-
 function _getSchedules(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -143,7 +142,6 @@ function _getSchedules(context: AzureMachineLearningServicesManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getSchedulesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): SchedulesOperations {
