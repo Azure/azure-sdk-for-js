@@ -1,5 +1,64 @@
 # Release History
 
+## 10.1.0 (2026-08-20)
+
+### Features Added
+  - Added Interface AFDDomainMtlsParameters
+  - Added Interface AfdSecretMtlsCertificateChain
+  - Added Interface AfdUrlSigningAction
+  - Added Interface AfdUrlSigningActionParameters
+  - Added Interface ClientCertificateRequiredAndOriginValidatesAdvancedSettings
+  - Added Interface ClientCertificateRequiredAndValidatedAdvancedSettings
+  - Added Interface ClientCertificateValidatedIfPresentedAdvancedSettings
+  - Added Interface CompleteMtlsPassthroughToOriginAdvancedSettings
+  - Added Interface DeliveryRuleEdgeActionParameters
+  - Added Interface EdgeAction
+  - Interface AFDDomain has a new optional parameter mtlsSettings
+  - Interface AFDDomainHttpsParameters has a new optional parameter serverTlsGroupPolicy
+  - Interface AFDDomainHttpsParameters has a new optional parameter serverTlsGroups
+  - Interface AFDDomainProperties has a new optional parameter mtlsSettings
+  - Interface AFDDomainUpdateParameters has a new optional parameter mtlsSettings
+  - Interface AFDDomainUpdatePropertiesParameters has a new optional parameter mtlsSettings
+  - Interface AFDEndpoint has a new optional parameter enforceMtls
+  - Interface AFDEndpointProperties has a new optional parameter enforceMtls
+  - Interface AFDEndpointPropertiesUpdateParameters has a new optional parameter enforceMtls
+  - Interface AFDEndpointUpdateParameters has a new optional parameter enforceMtls
+  - Interface AFDOrigin has a new optional parameter certificateNameCheckValidationMode
+  - Interface AFDOrigin has a new optional parameter customCertificateSubjects
+  - Interface AFDOriginProperties has a new optional parameter certificateNameCheckValidationMode
+  - Interface AFDOriginProperties has a new optional parameter customCertificateSubjects
+  - Interface AFDOriginUpdateParameters has a new optional parameter certificateNameCheckValidationMode
+  - Interface AFDOriginUpdateParameters has a new optional parameter customCertificateSubjects
+  - Interface AFDOriginUpdatePropertiesParameters has a new optional parameter certificateNameCheckValidationMode
+  - Interface AFDOriginUpdatePropertiesParameters has a new optional parameter customCertificateSubjects
+  - Interface OriginAuthenticationProperties has a new optional parameter tokenDestinationHeader
+  - Interface SecurityPolicyWebApplicationFirewallAssociation has a new optional parameter routes
+  - Interface SecurityPolicyWebApplicationFirewallParameters has a new optional parameter isProfileLevel
+  - Added Type Alias AFDDomainMtlsParametersUnion
+  - Added Type Alias AfdServerTlsGroup
+  - Added Type Alias AfdServerTlsGroupPolicy
+  - Added Type Alias CertificateNameCheckValidationMode
+  - Added Type Alias CertificateRevocationCheckEnabledState
+  - Added Type Alias EnforceMtlsEnabledState
+  - Added Type Alias InvocationPoint
+  - Added Type Alias MtlsScenarioType
+  - Added Type Alias OriginAuthenticationTokenDestinationHeader
+  - Added Type Alias TypeName
+  - Added Enum KnownAfdServerTlsGroup
+  - Added Enum KnownAfdServerTlsGroupPolicy
+  - Added Enum KnownCertificateNameCheckValidationMode
+  - Added Enum KnownCertificateRevocationCheckEnabledState
+  - Added Enum KnownEnforceMtlsEnabledState
+  - Added Enum KnownInvocationPoint
+  - Added Enum KnownMtlsScenarioType
+  - Added Enum KnownOriginAuthenticationTokenDestinationHeader
+  - Added Enum KnownTypeName
+  - Enum KnownDeliveryRuleActionName has a new value AfdUrlSigning
+  - Enum KnownDeliveryRuleActionName has a new value EdgeAction
+  - Enum KnownDeliveryRuleActionParametersType has a new value DeliveryRuleEdgeActionParameters
+  - Enum KnownSecretType has a new value MtlsCertificateChain
+  - Enum KnownVersions has a new value V20260701
+
 ## 10.0.0 (2026-07-27)
 
 ### Features Added

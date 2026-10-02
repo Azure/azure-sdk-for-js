@@ -96,14 +96,7 @@ export class CdnManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCdnManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCdnManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.managedRuleSets = _getManagedRuleSetsOperations(this._client);
     this.edgeNodes = _getEdgeNodesOperations(this._client);
