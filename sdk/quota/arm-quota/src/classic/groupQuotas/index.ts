@@ -22,11 +22,6 @@ export interface GroupQuotasOperations {
     options?: GroupQuotasListOptionalParams,
   ) => PagedAsyncIterableIterator<GroupQuotasEntity>;
   /** Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managementGroupId: string,
     groupQuotaName: string,
