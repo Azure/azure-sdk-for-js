@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type * as util from "node:util";
 import { createPrinter, updateBackend } from "../src/util/printer.ts";
 
 vi.mock("node:util", async (importOriginal) => ({
-  ...(await importOriginal()),
-  styleText: vi.fn((format: string, text: string) => `<${format}>${text}</${format}>`),
+  ...(await importOriginal<typeof util>()),
+  styleText: vi.fn<typeof util.styleText>((format, text) => `<${format}>${text}</${format}>`),
 }));
 
 describe("createPrinter", () => {
