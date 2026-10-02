@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -177,535 +177,6 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** EndpointDeploymentResourcePropertiesBasicResource is preview-only. */
-export interface EndpointDeploymentResourcePropertiesBasicResource extends ProxyResource {
-  properties: EndpointDeploymentResourcePropertiesUnion;
-}
-
-export function endpointDeploymentResourcePropertiesBasicResourceSerializer(
-  item: EndpointDeploymentResourcePropertiesBasicResource,
-): any {
-  return { properties: endpointDeploymentResourcePropertiesUnionSerializer(item["properties"]) };
-}
-
-export function endpointDeploymentResourcePropertiesBasicResourceDeserializer(
-  item: any,
-): EndpointDeploymentResourcePropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: endpointDeploymentResourcePropertiesUnionDeserializer(item["properties"]),
-  };
-}
-
-/** model interface EndpointDeploymentResourceProperties */
-export interface EndpointDeploymentResourceProperties {
-  /** The failure reason if the creation failed. */
-  failureReason?: string;
-  /** Read-only provision state status property. */
-  readonly provisioningState?: DefaultResourceProvisioningState;
-  /** Kind of the deployment. */
-  /** The discriminator possible values: Azure.ContentSafety, managedOnlineEndpoint, Azure.OpenAI, Azure.Speech */
-  type: string;
-}
-
-export function endpointDeploymentResourcePropertiesSerializer(
-  item: EndpointDeploymentResourceProperties,
-): any {
-  return { failureReason: item["failureReason"], type: item["type"] };
-}
-
-export function endpointDeploymentResourcePropertiesDeserializer(
-  item: any,
-): EndpointDeploymentResourceProperties {
-  return {
-    failureReason: item["failureReason"],
-    provisioningState: item["provisioningState"],
-    type: item["type"],
-  };
-}
-
-/** Alias for EndpointDeploymentResourcePropertiesUnion */
-export type EndpointDeploymentResourcePropertiesUnion =
-  | ContentSafetyEndpointDeploymentResourceProperties
-  | ManagedOnlineEndpointDeploymentResourceProperties
-  | OpenAIEndpointDeploymentResourceProperties
-  | SpeechEndpointDeploymentResourceProperties
-  | EndpointDeploymentResourceProperties;
-
-export function endpointDeploymentResourcePropertiesUnionSerializer(
-  item: EndpointDeploymentResourcePropertiesUnion,
-): any {
-  switch (item.type) {
-    case "Azure.ContentSafety":
-      return contentSafetyEndpointDeploymentResourcePropertiesSerializer(
-        item as ContentSafetyEndpointDeploymentResourceProperties,
-      );
-
-    case "managedOnlineEndpoint":
-      return managedOnlineEndpointDeploymentResourcePropertiesSerializer(
-        item as ManagedOnlineEndpointDeploymentResourceProperties,
-      );
-
-    case "Azure.OpenAI":
-      return openAIEndpointDeploymentResourcePropertiesSerializer(
-        item as OpenAIEndpointDeploymentResourceProperties,
-      );
-
-    case "Azure.Speech":
-      return speechEndpointDeploymentResourcePropertiesSerializer(
-        item as SpeechEndpointDeploymentResourceProperties,
-      );
-
-    default:
-      return endpointDeploymentResourcePropertiesSerializer(item);
-  }
-}
-
-export function endpointDeploymentResourcePropertiesUnionDeserializer(
-  item: any,
-): EndpointDeploymentResourcePropertiesUnion {
-  switch (item["type"]) {
-    case "Azure.ContentSafety":
-      return contentSafetyEndpointDeploymentResourcePropertiesDeserializer(
-        item as ContentSafetyEndpointDeploymentResourceProperties,
-      );
-
-    case "managedOnlineEndpoint":
-      return managedOnlineEndpointDeploymentResourcePropertiesDeserializer(
-        item as ManagedOnlineEndpointDeploymentResourceProperties,
-      );
-
-    case "Azure.OpenAI":
-      return openAIEndpointDeploymentResourcePropertiesDeserializer(
-        item as OpenAIEndpointDeploymentResourceProperties,
-      );
-
-    case "Azure.Speech":
-      return speechEndpointDeploymentResourcePropertiesDeserializer(
-        item as SpeechEndpointDeploymentResourceProperties,
-      );
-
-    default:
-      return endpointDeploymentResourcePropertiesDeserializer(item);
-  }
-}
-
-/** Known values of {@link DefaultResourceProvisioningState} that the service accepts. */
-export enum KnownDefaultResourceProvisioningState {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** Failed */
-  Failed = "Failed",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Scaling */
-  Scaling = "Scaling",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/** Type of DefaultResourceProvisioningState */
-export type DefaultResourceProvisioningState = string;
-
-/** model interface ContentSafetyEndpointDeploymentResourceProperties */
-export interface ContentSafetyEndpointDeploymentResourceProperties extends EndpointDeploymentResourceProperties {
-  /** Model used for the endpoint deployment. */
-  model: EndpointDeploymentModel;
-  /** The name of RAI policy. */
-  raiPolicyName?: string;
-  sku?: CognitiveServicesSku;
-  /** Deployment model version upgrade option. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
-  /** Kind of the deployment. */
-  type: "Azure.ContentSafety";
-}
-
-export function contentSafetyEndpointDeploymentResourcePropertiesSerializer(
-  item: ContentSafetyEndpointDeploymentResourceProperties,
-): any {
-  return {
-    failureReason: item["failureReason"],
-    type: item["type"],
-    model: endpointDeploymentModelSerializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuSerializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-export function contentSafetyEndpointDeploymentResourcePropertiesDeserializer(
-  item: any,
-): ContentSafetyEndpointDeploymentResourceProperties {
-  return {
-    failureReason: item["failureReason"],
-    provisioningState: item["provisioningState"],
-    type: item["type"],
-    model: endpointDeploymentModelDeserializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuDeserializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-/** model interface EndpointDeploymentModel */
-export interface EndpointDeploymentModel {
-  /** Model format */
-  format?: string;
-  /** Model name. */
-  name?: string;
-  /** Optional. Deployment model source ARM resource ID. */
-  source?: string;
-  /** Model version. */
-  version?: string;
-}
-
-export function endpointDeploymentModelSerializer(item: EndpointDeploymentModel): any {
-  return {
-    format: item["format"],
-    name: item["name"],
-    source: item["source"],
-    version: item["version"],
-  };
-}
-
-export function endpointDeploymentModelDeserializer(item: any): EndpointDeploymentModel {
-  return {
-    format: item["format"],
-    name: item["name"],
-    source: item["source"],
-    version: item["version"],
-  };
-}
-
-/** model interface CognitiveServicesSku */
-export interface CognitiveServicesSku {
-  capacity?: number;
-  family?: string;
-  name?: string;
-  size?: string;
-  tier?: string;
-}
-
-export function cognitiveServicesSkuSerializer(item: CognitiveServicesSku): any {
-  return {
-    capacity: item["capacity"],
-    family: item["family"],
-    name: item["name"],
-    size: item["size"],
-    tier: item["tier"],
-  };
-}
-
-export function cognitiveServicesSkuDeserializer(item: any): CognitiveServicesSku {
-  return {
-    capacity: item["capacity"],
-    family: item["family"],
-    name: item["name"],
-    size: item["size"],
-    tier: item["tier"],
-  };
-}
-
-/** Deployment model version upgrade option. */
-export enum KnownDeploymentModelVersionUpgradeOption {
-  /** OnceNewDefaultVersionAvailable */
-  OnceNewDefaultVersionAvailable = "OnceNewDefaultVersionAvailable",
-  /** OnceCurrentVersionExpired */
-  OnceCurrentVersionExpired = "OnceCurrentVersionExpired",
-  /** NoAutoUpgrade */
-  NoAutoUpgrade = "NoAutoUpgrade",
-}
-
-/**
- * Deployment model version upgrade option. \
- * {@link KnownDeploymentModelVersionUpgradeOption} can be used interchangeably with DeploymentModelVersionUpgradeOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OnceNewDefaultVersionAvailable** \
- * **OnceCurrentVersionExpired** \
- * **NoAutoUpgrade**
- */
-export type DeploymentModelVersionUpgradeOption = string;
-
-/** model interface ManagedOnlineEndpointDeploymentResourceProperties */
-export interface ManagedOnlineEndpointDeploymentResourceProperties extends EndpointDeploymentResourceProperties {
-  /** Enum to determine endpoint compute type. */
-  endpointComputeType?: EndpointComputeType;
-  model?: string;
-  /** Kind of the deployment. */
-  type: "managedOnlineEndpoint";
-}
-
-export function managedOnlineEndpointDeploymentResourcePropertiesSerializer(
-  item: ManagedOnlineEndpointDeploymentResourceProperties,
-): any {
-  return {
-    failureReason: item["failureReason"],
-    type: item["type"],
-    endpointComputeType: item["endpointComputeType"],
-    model: item["model"],
-  };
-}
-
-export function managedOnlineEndpointDeploymentResourcePropertiesDeserializer(
-  item: any,
-): ManagedOnlineEndpointDeploymentResourceProperties {
-  return {
-    failureReason: item["failureReason"],
-    provisioningState: item["provisioningState"],
-    type: item["type"],
-    endpointComputeType: item["endpointComputeType"],
-    model: item["model"],
-  };
-}
-
-/** Enum to determine endpoint compute type. */
-export enum KnownEndpointComputeType {
-  /** Managed */
-  Managed = "Managed",
-  /** Kubernetes */
-  Kubernetes = "Kubernetes",
-  /** AzureMLCompute */
-  AzureMLCompute = "AzureMLCompute",
-}
-
-/**
- * Enum to determine endpoint compute type. \
- * {@link KnownEndpointComputeType} can be used interchangeably with EndpointComputeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Managed** \
- * **Kubernetes** \
- * **AzureMLCompute**
- */
-export type EndpointComputeType = string;
-
-/** model interface OpenAIEndpointDeploymentResourceProperties */
-export interface OpenAIEndpointDeploymentResourceProperties extends EndpointDeploymentResourceProperties {
-  /** Model used for the endpoint deployment. */
-  model: EndpointDeploymentModel;
-  /** The name of RAI policy. */
-  raiPolicyName?: string;
-  sku?: CognitiveServicesSku;
-  /** Deployment model version upgrade option. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
-  /** Kind of the deployment. */
-  type: "Azure.OpenAI";
-}
-
-export function openAIEndpointDeploymentResourcePropertiesSerializer(
-  item: OpenAIEndpointDeploymentResourceProperties,
-): any {
-  return {
-    failureReason: item["failureReason"],
-    type: item["type"],
-    model: endpointDeploymentModelSerializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuSerializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-export function openAIEndpointDeploymentResourcePropertiesDeserializer(
-  item: any,
-): OpenAIEndpointDeploymentResourceProperties {
-  return {
-    failureReason: item["failureReason"],
-    provisioningState: item["provisioningState"],
-    type: item["type"],
-    model: endpointDeploymentModelDeserializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuDeserializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-/** model interface SpeechEndpointDeploymentResourceProperties */
-export interface SpeechEndpointDeploymentResourceProperties extends EndpointDeploymentResourceProperties {
-  /** Model used for the endpoint deployment. */
-  model: EndpointDeploymentModel;
-  /** The name of RAI policy. */
-  raiPolicyName?: string;
-  sku?: CognitiveServicesSku;
-  /** Deployment model version upgrade option. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
-  /** Kind of the deployment. */
-  type: "Azure.Speech";
-}
-
-export function speechEndpointDeploymentResourcePropertiesSerializer(
-  item: SpeechEndpointDeploymentResourceProperties,
-): any {
-  return {
-    failureReason: item["failureReason"],
-    type: item["type"],
-    model: endpointDeploymentModelSerializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuSerializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-export function speechEndpointDeploymentResourcePropertiesDeserializer(
-  item: any,
-): SpeechEndpointDeploymentResourceProperties {
-  return {
-    failureReason: item["failureReason"],
-    provisioningState: item["provisioningState"],
-    type: item["type"],
-    model: endpointDeploymentModelDeserializer(item["model"]),
-    raiPolicyName: item["raiPolicyName"],
-    sku: !item["sku"] ? item["sku"] : cognitiveServicesSkuDeserializer(item["sku"]),
-    versionUpgradeOption: item["versionUpgradeOption"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** Paged collection of EndpointDeploymentResourcePropertiesBasicResource items */
-export interface _EndpointDeploymentResourcePropertiesBasicResourceArmPaginatedResult {
-  /** The EndpointDeploymentResourcePropertiesBasicResource items on this page */
-  value: EndpointDeploymentResourcePropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _endpointDeploymentResourcePropertiesBasicResourceArmPaginatedResultDeserializer(
-  item: any,
-): _EndpointDeploymentResourcePropertiesBasicResourceArmPaginatedResult {
-  return {
-    value: endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function endpointDeploymentResourcePropertiesBasicResourceArraySerializer(
-  result: Array<EndpointDeploymentResourcePropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return endpointDeploymentResourcePropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(
-  result: Array<EndpointDeploymentResourcePropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return endpointDeploymentResourcePropertiesBasicResourceDeserializer(item);
-  });
-}
-
 /** An object that represents a machine learning workspace. */
 export interface Workspace extends ProxyResource {
   /** The managed service identities assigned to this resource. */
@@ -715,16 +186,11 @@ export interface Workspace extends ProxyResource {
   /** Optional. This field is required to be implemented by the RP because AML is supporting more than one tier */
   sku?: Sku;
   tags?: Record<string, string>;
-  /** The URI of agents endpoint associated with this workspace. */
-  readonly agentsEndpointUri?: string;
   /** The flag to indicate whether to allow public access when behind VNet. */
   allowPublicAccessWhenBehindVnet?: boolean;
-  /** The flag to indicate whether we will do role assignment for the workspace MSI on resource group level. */
-  allowRoleAssignmentOnRG?: boolean;
   /** ARM id of the application insights associated with this workspace. */
   applicationInsights?: string;
   associatedWorkspaces?: string[];
-  containerRegistries?: string[];
   /** ARM id of the container registry associated with this workspace. */
   containerRegistry?: string;
   /** The description of this workspace. */
@@ -733,12 +199,7 @@ export interface Workspace extends ProxyResource {
   discoveryUrl?: string;
   enableDataIsolation?: boolean;
   enableServiceSideCMKEncryption?: boolean;
-  /** Flag to tell if simplified CMK should be enabled for this workspace. */
-  enableSimplifiedCmk?: boolean;
-  /** Flag to tell if SoftwareBillOfMaterials should be enabled for this workspace. */
-  enableSoftwareBillOfMaterials?: boolean;
   encryption?: EncryptionProperty;
-  existingWorkspaces?: string[];
   /** Settings for feature store type workspace. */
   featureStoreSettings?: FeatureStoreSettings;
   /** The friendly name for this workspace. This name in mutable */
@@ -748,16 +209,11 @@ export interface Workspace extends ProxyResource {
   hubResourceId?: string;
   /** The compute name for image build */
   imageBuildCompute?: string;
-  /** The list of IPv4  addresses that are allowed to access the workspace. */
-  ipAllowlist?: string[];
   /** ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created */
   keyVault?: string;
-  keyVaults?: string[];
   managedNetwork?: ManagedNetworkSettings;
   /** The URI associated with this workspace that machine learning flow must point at to set up tracking. */
   readonly mlFlowTrackingUri?: string;
-  /** A set of rules governing the network accessibility of the workspace. */
-  networkAcls?: NetworkAcls;
   /** The notebook info of Azure ML workspace. */
   readonly notebookInfo?: NotebookResourceInfo;
   /** The user assigned identity resource id that represents the workspace identity. */
@@ -780,11 +236,8 @@ export interface Workspace extends ProxyResource {
   readonly serviceProvisionedResourceGroup?: string;
   /** The list of shared private link resources in this workspace. */
   sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-  /** Retention time in days after workspace get soft deleted. */
-  softDeleteRetentionInDays?: number;
   /** ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created */
   storageAccount?: string;
-  storageAccounts?: string[];
   /** If the storage associated with the workspace has hierarchical namespace(HNS) enabled. */
   readonly storageHnsEnabled?: boolean;
   /** The auth mode used for accessing the system datastores of the workspace. */
@@ -835,16 +288,11 @@ export function workspaceDeserializer(item: any): Workspace {
 
 /** The properties of a machine learning workspace. */
 export interface WorkspaceProperties {
-  /** The URI of agents endpoint associated with this workspace. */
-  readonly agentsEndpointUri?: string;
   /** The flag to indicate whether to allow public access when behind VNet. */
   allowPublicAccessWhenBehindVnet?: boolean;
-  /** The flag to indicate whether we will do role assignment for the workspace MSI on resource group level. */
-  allowRoleAssignmentOnRG?: boolean;
   /** ARM id of the application insights associated with this workspace. */
   applicationInsights?: string;
   associatedWorkspaces?: string[];
-  containerRegistries?: string[];
   /** ARM id of the container registry associated with this workspace. */
   containerRegistry?: string;
   /** The description of this workspace. */
@@ -853,12 +301,7 @@ export interface WorkspaceProperties {
   discoveryUrl?: string;
   enableDataIsolation?: boolean;
   enableServiceSideCMKEncryption?: boolean;
-  /** Flag to tell if simplified CMK should be enabled for this workspace. */
-  enableSimplifiedCmk?: boolean;
-  /** Flag to tell if SoftwareBillOfMaterials should be enabled for this workspace. */
-  enableSoftwareBillOfMaterials?: boolean;
   encryption?: EncryptionProperty;
-  existingWorkspaces?: string[];
   /** Settings for feature store type workspace. */
   featureStoreSettings?: FeatureStoreSettings;
   /** The friendly name for this workspace. This name in mutable */
@@ -868,16 +311,11 @@ export interface WorkspaceProperties {
   hubResourceId?: string;
   /** The compute name for image build */
   imageBuildCompute?: string;
-  /** The list of IPv4  addresses that are allowed to access the workspace. */
-  ipAllowlist?: string[];
   /** ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created */
   keyVault?: string;
-  keyVaults?: string[];
   managedNetwork?: ManagedNetworkSettings;
   /** The URI associated with this workspace that machine learning flow must point at to set up tracking. */
   readonly mlFlowTrackingUri?: string;
-  /** A set of rules governing the network accessibility of the workspace. */
-  networkAcls?: NetworkAcls;
   /** The notebook info of Azure ML workspace. */
   readonly notebookInfo?: NotebookResourceInfo;
   /** The user assigned identity resource id that represents the workspace identity. */
@@ -900,11 +338,8 @@ export interface WorkspaceProperties {
   readonly serviceProvisionedResourceGroup?: string;
   /** The list of shared private link resources in this workspace. */
   sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-  /** Retention time in days after workspace get soft deleted. */
-  softDeleteRetentionInDays?: number;
   /** ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created */
   storageAccount?: string;
-  storageAccounts?: string[];
   /** If the storage associated with the workspace has hierarchical namespace(HNS) enabled. */
   readonly storageHnsEnabled?: boolean;
   /** The auth mode used for accessing the system datastores of the workspace. */
@@ -922,16 +357,10 @@ export interface WorkspaceProperties {
 export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
   return {
     allowPublicAccessWhenBehindVnet: item["allowPublicAccessWhenBehindVnet"],
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     associatedWorkspaces: !item["associatedWorkspaces"]
       ? item["associatedWorkspaces"]
       : item["associatedWorkspaces"].map((p: any) => {
-          return p;
-        }),
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : item["containerRegistries"].map((p: any) => {
           return p;
         }),
     containerRegistry: item["containerRegistry"],
@@ -939,16 +368,9 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
     discoveryUrl: item["discoveryUrl"],
     enableDataIsolation: item["enableDataIsolation"],
     enableServiceSideCMKEncryption: item["enableServiceSideCMKEncryption"],
-    enableSimplifiedCmk: item["enableSimplifiedCmk"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertySerializer(item["encryption"]),
-    existingWorkspaces: !item["existingWorkspaces"]
-      ? item["existingWorkspaces"]
-      : item["existingWorkspaces"].map((p: any) => {
-          return p;
-        }),
     featureStoreSettings: !item["featureStoreSettings"]
       ? item["featureStoreSettings"]
       : featureStoreSettingsSerializer(item["featureStoreSettings"]),
@@ -956,23 +378,10 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
     hbiWorkspace: item["hbiWorkspace"],
     hubResourceId: item["hubResourceId"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     keyVault: item["keyVault"],
-    keyVaults: !item["keyVaults"]
-      ? item["keyVaults"]
-      : item["keyVaults"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsSerializer(item["managedNetwork"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsSerializer(item["networkAcls"]),
     primaryUserAssignedIdentity: item["primaryUserAssignedIdentity"],
     provisionNetworkNow: item["provisionNetworkNow"],
     publicNetworkAccess: item["publicNetworkAccess"],
@@ -985,13 +394,7 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArraySerializer(item["sharedPrivateLinkResources"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     storageAccount: item["storageAccount"],
-    storageAccounts: !item["storageAccounts"]
-      ? item["storageAccounts"]
-      : item["storageAccounts"].map((p: any) => {
-          return p;
-        }),
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     v1LegacyMode: item["v1LegacyMode"],
     workspaceHubConfig: !item["workspaceHubConfig"]
@@ -1002,18 +405,11 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
 
 export function workspacePropertiesDeserializer(item: any): WorkspaceProperties {
   return {
-    agentsEndpointUri: item["agentsEndpointUri"],
     allowPublicAccessWhenBehindVnet: item["allowPublicAccessWhenBehindVnet"],
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     associatedWorkspaces: !item["associatedWorkspaces"]
       ? item["associatedWorkspaces"]
       : item["associatedWorkspaces"].map((p: any) => {
-          return p;
-        }),
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : item["containerRegistries"].map((p: any) => {
           return p;
         }),
     containerRegistry: item["containerRegistry"],
@@ -1021,16 +417,9 @@ export function workspacePropertiesDeserializer(item: any): WorkspaceProperties 
     discoveryUrl: item["discoveryUrl"],
     enableDataIsolation: item["enableDataIsolation"],
     enableServiceSideCMKEncryption: item["enableServiceSideCMKEncryption"],
-    enableSimplifiedCmk: item["enableSimplifiedCmk"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertyDeserializer(item["encryption"]),
-    existingWorkspaces: !item["existingWorkspaces"]
-      ? item["existingWorkspaces"]
-      : item["existingWorkspaces"].map((p: any) => {
-          return p;
-        }),
     featureStoreSettings: !item["featureStoreSettings"]
       ? item["featureStoreSettings"]
       : featureStoreSettingsDeserializer(item["featureStoreSettings"]),
@@ -1038,24 +427,11 @@ export function workspacePropertiesDeserializer(item: any): WorkspaceProperties 
     hbiWorkspace: item["hbiWorkspace"],
     hubResourceId: item["hubResourceId"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     keyVault: item["keyVault"],
-    keyVaults: !item["keyVaults"]
-      ? item["keyVaults"]
-      : item["keyVaults"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsDeserializer(item["managedNetwork"]),
     mlFlowTrackingUri: item["mlFlowTrackingUri"],
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsDeserializer(item["networkAcls"]),
     notebookInfo: !item["notebookInfo"]
       ? item["notebookInfo"]
       : notebookResourceInfoDeserializer(item["notebookInfo"]),
@@ -1077,13 +453,7 @@ export function workspacePropertiesDeserializer(item: any): WorkspaceProperties 
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArrayDeserializer(item["sharedPrivateLinkResources"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     storageAccount: item["storageAccount"],
-    storageAccounts: !item["storageAccounts"]
-      ? item["storageAccounts"]
-      : item["storageAccounts"].map((p: any) => {
-          return p;
-        }),
     storageHnsEnabled: item["storageHnsEnabled"],
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     tenantId: item["tenantId"],
@@ -1751,67 +1121,6 @@ export enum KnownManagedNetworkKind {
  */
 export type ManagedNetworkKind = string;
 
-/** model interface NetworkAcls */
-export interface NetworkAcls {
-  /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
-  defaultAction?: DefaultActionType;
-  /** Rules governing the accessibility of a resource from a specific ip address or ip range. */
-  ipRules?: IPRule[];
-}
-
-export function networkAclsSerializer(item: NetworkAcls): any {
-  return {
-    defaultAction: item["defaultAction"],
-    ipRules: !item["ipRules"] ? item["ipRules"] : ipRuleArraySerializer(item["ipRules"]),
-  };
-}
-
-export function networkAclsDeserializer(item: any): NetworkAcls {
-  return {
-    defaultAction: item["defaultAction"],
-    ipRules: !item["ipRules"] ? item["ipRules"] : ipRuleArrayDeserializer(item["ipRules"]),
-  };
-}
-
-/** Known values of {@link DefaultActionType} that the service accepts. */
-export enum KnownDefaultActionType {
-  /** Deny */
-  Deny = "Deny",
-  /** Allow */
-  Allow = "Allow",
-}
-
-/** Type of DefaultActionType */
-export type DefaultActionType = string;
-
-export function ipRuleArraySerializer(result: Array<IPRule>): any[] {
-  return result.map((item) => {
-    return ipRuleSerializer(item);
-  });
-}
-
-export function ipRuleArrayDeserializer(result: Array<IPRule>): any[] {
-  return result.map((item) => {
-    return ipRuleDeserializer(item);
-  });
-}
-
-/** Contains an IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). Value could be 'Allow' or  'Deny'. */
-export interface IPRule {
-  /** An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). Value could be 'Allow' or  'Deny'. */
-  value?: string;
-}
-
-export function ipRuleSerializer(item: IPRule): any {
-  return { value: item["value"] };
-}
-
-export function ipRuleDeserializer(item: any): IPRule {
-  return {
-    value: item["value"],
-  };
-}
-
 /** model interface NotebookResourceInfo */
 export interface NotebookResourceInfo {
   fqdn?: string;
@@ -2431,6 +1740,104 @@ export function workspaceHubConfigDeserializer(item: any): WorkspaceHubConfig {
   };
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
 /** The parameters for updating a machine learning workspace. */
 export interface WorkspaceUpdateParameters {
   identity?: ManagedServiceIdentity;
@@ -2438,7 +1845,6 @@ export interface WorkspaceUpdateParameters {
   sku?: Sku;
   /** The resource tags for the machine learning workspace. */
   tags?: Record<string, string>;
-  allowRoleAssignmentOnRG?: boolean;
   /** ARM id of the application insights associated with this workspace. */
   applicationInsights?: string;
   /** ARM id of the container registry associated with this workspace. */
@@ -2446,8 +1852,6 @@ export interface WorkspaceUpdateParameters {
   /** The description of this workspace. */
   description?: string;
   enableDataIsolation?: boolean;
-  /** Flag to tell if SoftwareBillOfMaterials should be enabled for this workspace */
-  enableSoftwareBillOfMaterials?: boolean;
   encryption?: EncryptionUpdateProperties;
   /** Settings for feature store type workspace. */
   featureStoreSettings?: FeatureStoreSettings;
@@ -2455,11 +1859,7 @@ export interface WorkspaceUpdateParameters {
   friendlyName?: string;
   /** The compute name for image build */
   imageBuildCompute?: string;
-  /** The list of IPv4 addresses that are allowed to access the workspace. */
-  ipAllowlist?: string[];
   managedNetwork?: ManagedNetworkSettings;
-  /** A set of rules governing the network accessibility of the workspace. */
-  networkAcls?: NetworkAcls;
   /** The user assigned identity resource id that represents the workspace identity. */
   primaryUserAssignedIdentity?: string;
   /** Whether requests from Public Network are allowed. */
@@ -2468,8 +1868,6 @@ export interface WorkspaceUpdateParameters {
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
   serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
-  /** Retention time in days after workspace get soft deleted. */
-  softDeleteRetentionInDays?: number;
   /** The auth mode used for accessing the system datastores of the workspace. */
   systemDatastoresAuthMode?: SystemDatastoresAuthMode;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
@@ -2482,24 +1880,19 @@ export function workspaceUpdateParametersSerializer(item: WorkspaceUpdateParamet
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
     properties: areAllPropsUndefined(item, [
-      "allowRoleAssignmentOnRG",
       "applicationInsights",
       "containerRegistry",
       "description",
       "enableDataIsolation",
-      "enableSoftwareBillOfMaterials",
       "encryption",
       "featureStoreSettings",
       "friendlyName",
       "imageBuildCompute",
-      "ipAllowlist",
       "managedNetwork",
-      "networkAcls",
       "primaryUserAssignedIdentity",
       "publicNetworkAccess",
       "serverlessComputeSettings",
       "serviceManagedResourcesSettings",
-      "softDeleteRetentionInDays",
       "systemDatastoresAuthMode",
       "v1LegacyMode",
     ])
@@ -2512,7 +1905,6 @@ export function workspaceUpdateParametersSerializer(item: WorkspaceUpdateParamet
 
 /** The parameters for updating a machine learning workspace. */
 export interface WorkspacePropertiesUpdateParameters {
-  allowRoleAssignmentOnRG?: boolean;
   /** ARM id of the application insights associated with this workspace. */
   applicationInsights?: string;
   /** ARM id of the container registry associated with this workspace. */
@@ -2520,8 +1912,6 @@ export interface WorkspacePropertiesUpdateParameters {
   /** The description of this workspace. */
   description?: string;
   enableDataIsolation?: boolean;
-  /** Flag to tell if SoftwareBillOfMaterials should be enabled for this workspace */
-  enableSoftwareBillOfMaterials?: boolean;
   encryption?: EncryptionUpdateProperties;
   /** Settings for feature store type workspace. */
   featureStoreSettings?: FeatureStoreSettings;
@@ -2529,11 +1919,7 @@ export interface WorkspacePropertiesUpdateParameters {
   friendlyName?: string;
   /** The compute name for image build */
   imageBuildCompute?: string;
-  /** The list of IPv4 addresses that are allowed to access the workspace. */
-  ipAllowlist?: string[];
   managedNetwork?: ManagedNetworkSettings;
-  /** A set of rules governing the network accessibility of the workspace. */
-  networkAcls?: NetworkAcls;
   /** The user assigned identity resource id that represents the workspace identity. */
   primaryUserAssignedIdentity?: string;
   /** Whether requests from Public Network are allowed. */
@@ -2542,8 +1928,6 @@ export interface WorkspacePropertiesUpdateParameters {
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
   serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
-  /** Retention time in days after workspace get soft deleted. */
-  softDeleteRetentionInDays?: number;
   /** The auth mode used for accessing the system datastores of the workspace. */
   systemDatastoresAuthMode?: SystemDatastoresAuthMode;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
@@ -2554,12 +1938,10 @@ export function workspacePropertiesUpdateParametersSerializer(
   item: WorkspacePropertiesUpdateParameters,
 ): any {
   return {
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     containerRegistry: item["containerRegistry"],
     description: item["description"],
     enableDataIsolation: item["enableDataIsolation"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionUpdatePropertiesSerializer(item["encryption"]),
@@ -2568,17 +1950,9 @@ export function workspacePropertiesUpdateParametersSerializer(
       : featureStoreSettingsSerializer(item["featureStoreSettings"]),
     friendlyName: item["friendlyName"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsSerializer(item["managedNetwork"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsSerializer(item["networkAcls"]),
     primaryUserAssignedIdentity: item["primaryUserAssignedIdentity"],
     publicNetworkAccess: item["publicNetworkAccess"],
     serverlessComputeSettings: !item["serverlessComputeSettings"]
@@ -2587,7 +1961,6 @@ export function workspacePropertiesUpdateParametersSerializer(
     serviceManagedResourcesSettings: !item["serviceManagedResourcesSettings"]
       ? item["serviceManagedResourcesSettings"]
       : serviceManagedResourcesSettingsSerializer(item["serviceManagedResourcesSettings"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     v1LegacyMode: item["v1LegacyMode"],
   };
@@ -4844,8 +4217,6 @@ export interface EnvironmentVersionProperties extends AssetBase {
    * <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
    */
   image?: string;
-  /** Environment image details. */
-  imageDetails?: ImageDetails;
   /** Defines configuration specific to inference. */
   inferenceConfig?: InferenceContainerProperties;
   /** The type of operating system. */
@@ -4867,9 +4238,6 @@ export function environmentVersionPropertiesSerializer(item: EnvironmentVersionP
     build: !item["build"] ? item["build"] : buildContextSerializer(item["build"]),
     condaFile: item["condaFile"],
     image: item["image"],
-    imageDetails: !item["imageDetails"]
-      ? item["imageDetails"]
-      : imageDetailsSerializer(item["imageDetails"]),
     inferenceConfig: !item["inferenceConfig"]
       ? item["inferenceConfig"]
       : inferenceContainerPropertiesSerializer(item["inferenceConfig"]),
@@ -4898,9 +4266,6 @@ export function environmentVersionPropertiesDeserializer(item: any): Environment
     condaFile: item["condaFile"],
     environmentType: item["environmentType"],
     image: item["image"],
-    imageDetails: !item["imageDetails"]
-      ? item["imageDetails"]
-      : imageDetailsDeserializer(item["imageDetails"]),
     inferenceConfig: !item["inferenceConfig"]
       ? item["inferenceConfig"]
       : inferenceContainerPropertiesDeserializer(item["inferenceConfig"]),
@@ -4970,255 +4335,6 @@ export enum KnownEnvironmentType {
  * **UserCreated**
  */
 export type EnvironmentType = string;
-
-/** model interface ImageDetails */
-export interface ImageDetails {
-  /** Indicates if image exists */
-  exists?: boolean;
-  /** Container image details */
-  image?: ImageInfo;
-  /** Vulnerability findings details */
-  vulnerabilityFindings?: VulnerabilityFindings;
-}
-
-export function imageDetailsSerializer(item: ImageDetails): any {
-  return {
-    exists: item["exists"],
-    image: !item["image"] ? item["image"] : imageInfoSerializer(item["image"]),
-    vulnerabilityFindings: !item["vulnerabilityFindings"]
-      ? item["vulnerabilityFindings"]
-      : vulnerabilityFindingsSerializer(item["vulnerabilityFindings"]),
-  };
-}
-
-export function imageDetailsDeserializer(item: any): ImageDetails {
-  return {
-    exists: item["exists"],
-    image: !item["image"] ? item["image"] : imageInfoDeserializer(item["image"]),
-    vulnerabilityFindings: !item["vulnerabilityFindings"]
-      ? item["vulnerabilityFindings"]
-      : vulnerabilityFindingsDeserializer(item["vulnerabilityFindings"]),
-  };
-}
-
-/** model interface ImageInfo */
-export interface ImageInfo {
-  /** Image digest */
-  digest?: string;
-  /** Container registry host name */
-  hostname?: string;
-  /** Repository name */
-  repository?: string;
-  /** Image tag */
-  tag?: string;
-}
-
-export function imageInfoSerializer(item: ImageInfo): any {
-  return {
-    digest: item["digest"],
-    hostname: item["hostname"],
-    repository: item["repository"],
-    tag: item["tag"],
-  };
-}
-
-export function imageInfoDeserializer(item: any): ImageInfo {
-  return {
-    digest: item["digest"],
-    hostname: item["hostname"],
-    repository: item["repository"],
-    tag: item["tag"],
-  };
-}
-
-/** model interface VulnerabilityFindings */
-export interface VulnerabilityFindings {
-  /** AssetId (Image digest). */
-  assetId?: string;
-  /** Number of critical findings. */
-  readonly criticalFindingsCount?: number;
-  /** List of vulnerability findings. */
-  data?: VulnerabilityDetails[];
-  /** Time the report was generated. */
-  generatedTime?: Date;
-  /** Number of high findings. */
-  readonly highFindingsCount?: number;
-  /** Scan result date. */
-  lastScanDate?: Date;
-  /** Vulnerability scanner name. */
-  scanner?: string;
-  /** Data source (internal). */
-  source?: string;
-  /** Total findings count. */
-  readonly totalFindingsCount?: number;
-}
-
-export function vulnerabilityFindingsSerializer(item: VulnerabilityFindings): any {
-  return {
-    assetId: item["assetId"],
-    data: !item["data"] ? item["data"] : vulnerabilityDetailsArraySerializer(item["data"]),
-    generatedTime: !item["generatedTime"]
-      ? item["generatedTime"]
-      : item["generatedTime"].toISOString(),
-    lastScanDate: !item["lastScanDate"] ? item["lastScanDate"] : item["lastScanDate"].toISOString(),
-    scanner: item["scanner"],
-    source: item["source"],
-  };
-}
-
-export function vulnerabilityFindingsDeserializer(item: any): VulnerabilityFindings {
-  return {
-    assetId: item["assetId"],
-    criticalFindingsCount: item["criticalFindingsCount"],
-    data: !item["data"] ? item["data"] : vulnerabilityDetailsArrayDeserializer(item["data"]),
-    generatedTime: !item["generatedTime"] ? item["generatedTime"] : new Date(item["generatedTime"]),
-    highFindingsCount: item["highFindingsCount"],
-    lastScanDate: !item["lastScanDate"] ? item["lastScanDate"] : new Date(item["lastScanDate"]),
-    scanner: item["scanner"],
-    source: item["source"],
-    totalFindingsCount: item["totalFindingsCount"],
-  };
-}
-
-export function vulnerabilityDetailsArraySerializer(result: Array<VulnerabilityDetails>): any[] {
-  return result.map((item) => {
-    return vulnerabilityDetailsSerializer(item);
-  });
-}
-
-export function vulnerabilityDetailsArrayDeserializer(result: Array<VulnerabilityDetails>): any[] {
-  return result.map((item) => {
-    return vulnerabilityDetailsDeserializer(item);
-  });
-}
-
-/** model interface VulnerabilityDetails */
-export interface VulnerabilityDetails {
-  /** CVE id. */
-  cve?: string;
-  /** CVE url. */
-  cveUrl?: string;
-  /** DueDate for vulnerability. Provider data or PublishDate + 30 days. */
-  dueDate?: Date;
-  /** Vulnerability ID. */
-  readonly id?: string;
-  /** Dependency details. */
-  packageDetails?: PackageDetails[];
-  /** Indicates if there is a known patch for vulnerability. */
-  patchable?: boolean;
-  /** Vulnerability ID from provider. */
-  providerId?: string;
-  /** Vulnerability publish date. */
-  publishDate?: Date;
-  /** Vulnerability Risk value. */
-  risk?: VulnerabilityRisk;
-  /** Vulnerability description. */
-  solution?: string;
-  /** Vulnerability name. */
-  title?: string;
-  /** Vendor vulnerability ID (USN, GH Advisory, etc). */
-  vendorId?: string;
-  /** Vendor vulnerability url. */
-  vendorUrl?: string;
-}
-
-export function vulnerabilityDetailsSerializer(item: VulnerabilityDetails): any {
-  return {
-    cve: item["cve"],
-    cveUrl: item["cveUrl"],
-    dueDate: !item["dueDate"] ? item["dueDate"] : item["dueDate"].toISOString(),
-    packageDetails: !item["packageDetails"]
-      ? item["packageDetails"]
-      : packageDetailsArraySerializer(item["packageDetails"]),
-    patchable: item["patchable"],
-    providerId: item["providerId"],
-    publishDate: !item["publishDate"] ? item["publishDate"] : item["publishDate"].toISOString(),
-    risk: item["risk"],
-    solution: item["solution"],
-    title: item["title"],
-    vendorId: item["vendorId"],
-    vendorUrl: item["vendorUrl"],
-  };
-}
-
-export function vulnerabilityDetailsDeserializer(item: any): VulnerabilityDetails {
-  return {
-    cve: item["cve"],
-    cveUrl: item["cveUrl"],
-    dueDate: !item["dueDate"] ? item["dueDate"] : new Date(item["dueDate"]),
-    id: item["id"],
-    packageDetails: !item["packageDetails"]
-      ? item["packageDetails"]
-      : packageDetailsArrayDeserializer(item["packageDetails"]),
-    patchable: item["patchable"],
-    providerId: item["providerId"],
-    publishDate: !item["publishDate"] ? item["publishDate"] : new Date(item["publishDate"]),
-    risk: item["risk"],
-    solution: item["solution"],
-    title: item["title"],
-    vendorId: item["vendorId"],
-    vendorUrl: item["vendorUrl"],
-  };
-}
-
-export function packageDetailsArraySerializer(result: Array<PackageDetails>): any[] {
-  return result.map((item) => {
-    return packageDetailsSerializer(item);
-  });
-}
-
-export function packageDetailsArrayDeserializer(result: Array<PackageDetails>): any[] {
-  return result.map((item) => {
-    return packageDetailsDeserializer(item);
-  });
-}
-
-/** model interface PackageDetails */
-export interface PackageDetails {
-  /** Install path. */
-  installPath?: string;
-  /** Installed version. */
-  installedVersion?: string;
-  /** Package or dependency name. */
-  name?: string;
-  /** Patched version. */
-  patchedVersion?: string;
-}
-
-export function packageDetailsSerializer(item: PackageDetails): any {
-  return {
-    installPath: item["installPath"],
-    installedVersion: item["installedVersion"],
-    name: item["name"],
-    patchedVersion: item["patchedVersion"],
-  };
-}
-
-export function packageDetailsDeserializer(item: any): PackageDetails {
-  return {
-    installPath: item["installPath"],
-    installedVersion: item["installedVersion"],
-    name: item["name"],
-    patchedVersion: item["patchedVersion"],
-  };
-}
-
-/** Known values of {@link VulnerabilityRisk} that the service accepts. */
-export enum KnownVulnerabilityRisk {
-  /** UNKNOWN */
-  Unknown = "UNKNOWN",
-  /** CRITICAL */
-  Critical = "CRITICAL",
-  /** HIGH */
-  High = "HIGH",
-  /** MEDIUM */
-  Medium = "MEDIUM",
-  /** LOW */
-  LOW = "LOW",
-}
-
-/** Type of VulnerabilityRisk */
-export type VulnerabilityRisk = string;
 
 /** model interface InferenceContainerProperties */
 export interface InferenceContainerProperties {
@@ -8863,932 +7979,6 @@ export function featurestoreEntityVersionArrayDeserializer(
   });
 }
 
-/** InferencePool is a preview-only resource. */
-export interface InferencePool extends TrackedResource {
-  /** [Required] Additional attributes of the entity. */
-  properties: InferencePoolProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
-  /** Sku details required for ARM contract for Autoscaling. */
-  sku?: Sku;
-}
-
-export function inferencePoolSerializer(item: InferencePool): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: inferencePoolPropertiesSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-  };
-}
-
-export function inferencePoolDeserializer(item: any): InferencePool {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: inferencePoolPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
-  };
-}
-
-/** Inference pool configuration */
-export interface InferencePoolProperties extends PropertiesBase {
-  /** Provisioning state for the pool. */
-  readonly provisioningState?: PoolProvisioningState;
-  /** Gets or sets ScaleUnitConfiguration for the inference pool. Used if PoolType=ScaleUnit. */
-  scaleUnitConfiguration?: ScaleUnitConfiguration;
-}
-
-export function inferencePoolPropertiesSerializer(item: InferencePoolProperties): any {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArraySerializer(item["properties"]),
-    scaleUnitConfiguration: !item["scaleUnitConfiguration"]
-      ? item["scaleUnitConfiguration"]
-      : scaleUnitConfigurationSerializer(item["scaleUnitConfiguration"]),
-  };
-}
-
-export function inferencePoolPropertiesDeserializer(item: any): InferencePoolProperties {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArrayDeserializer(item["properties"]),
-    provisioningState: item["provisioningState"],
-    scaleUnitConfiguration: !item["scaleUnitConfiguration"]
-      ? item["scaleUnitConfiguration"]
-      : scaleUnitConfigurationDeserializer(item["scaleUnitConfiguration"]),
-  };
-}
-
-/** State of pool related resources provisioning. */
-export enum KnownPoolProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Updating */
-  Updating = "Updating",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * State of pool related resources provisioning. \
- * {@link KnownPoolProvisioningState} can be used interchangeably with PoolProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Updating** \
- * **Canceled**
- */
-export type PoolProvisioningState = string;
-
-/** Configuration for ScaleUnit pool. */
-export interface ScaleUnitConfiguration {
-  /** Gets or sets a value indicating whether PublicEgress is disabled. */
-  disablePublicEgress?: boolean;
-  /** Gets or sets a list of Registry sources that will be used to confirm identity, storage, ACR. */
-  registries?: string[];
-}
-
-export function scaleUnitConfigurationSerializer(item: ScaleUnitConfiguration): any {
-  return {
-    disablePublicEgress: item["disablePublicEgress"],
-    registries: !item["registries"]
-      ? item["registries"]
-      : item["registries"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function scaleUnitConfigurationDeserializer(item: any): ScaleUnitConfiguration {
-  return {
-    disablePublicEgress: item["disablePublicEgress"],
-    registries: !item["registries"]
-      ? item["registries"]
-      : item["registries"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** Base definition for pool resources. */
-export interface PropertiesBase {
-  /** Description of the resource. */
-  description?: string;
-  /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: StringStringKeyValuePair[];
-}
-
-export function propertiesBaseSerializer(item: PropertiesBase): any {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArraySerializer(item["properties"]),
-  };
-}
-
-export function propertiesBaseDeserializer(item: any): PropertiesBase {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArrayDeserializer(item["properties"]),
-  };
-}
-
-export function stringStringKeyValuePairArraySerializer(
-  result: Array<StringStringKeyValuePair>,
-): any[] {
-  return result.map((item) => {
-    return stringStringKeyValuePairSerializer(item);
-  });
-}
-
-export function stringStringKeyValuePairArrayDeserializer(
-  result: Array<StringStringKeyValuePair>,
-): any[] {
-  return result.map((item) => {
-    return stringStringKeyValuePairDeserializer(item);
-  });
-}
-
-/** model interface StringStringKeyValuePair */
-export interface StringStringKeyValuePair {
-  key?: string;
-  value?: string;
-}
-
-export function stringStringKeyValuePairSerializer(item: StringStringKeyValuePair): any {
-  return { key: item["key"], value: item["value"] };
-}
-
-export function stringStringKeyValuePairDeserializer(item: any): StringStringKeyValuePair {
-  return {
-    key: item["key"],
-    value: item["value"],
-  };
-}
-
-/** Strictly used in update requests. */
-export interface PartialMinimalTrackedResourceWithSkuAndIdentity extends PartialMinimalTrackedResource {
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PartialManagedServiceIdentity;
-  /** Sku details required for ARM contract for Autoscaling. */
-  sku?: PartialSku;
-}
-
-export function partialMinimalTrackedResourceWithSkuAndIdentitySerializer(
-  item: PartialMinimalTrackedResourceWithSkuAndIdentity,
-): any {
-  return {
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : partialManagedServiceIdentitySerializer(item["identity"]),
-    sku: !item["sku"] ? item["sku"] : partialSkuSerializer(item["sku"]),
-  };
-}
-
-/** A paginated list of InferencePool entities. */
-export interface _InferencePoolTrackedResourceArmPaginatedResult {
-  /** The InferencePool items on this page */
-  value: InferencePool[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _inferencePoolTrackedResourceArmPaginatedResultDeserializer(
-  item: any,
-): _InferencePoolTrackedResourceArmPaginatedResult {
-  return {
-    value: inferencePoolArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function inferencePoolArraySerializer(result: Array<InferencePool>): any[] {
-  return result.map((item) => {
-    return inferencePoolSerializer(item);
-  });
-}
-
-export function inferencePoolArrayDeserializer(result: Array<InferencePool>): any[] {
-  return result.map((item) => {
-    return inferencePoolDeserializer(item);
-  });
-}
-
-/** InferenceEndpoint is a preview-only resource. */
-export interface InferenceEndpoint extends TrackedResource {
-  /** [Required] Additional attributes of the entity. */
-  properties: InferenceEndpointProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
-  /** Sku details required for ARM contract for Autoscaling. */
-  sku?: Sku;
-}
-
-export function inferenceEndpointSerializer(item: InferenceEndpoint): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: inferenceEndpointPropertiesSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-  };
-}
-
-export function inferenceEndpointDeserializer(item: any): InferenceEndpoint {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: inferenceEndpointPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
-  };
-}
-
-/** InferenceEndpoint configuration */
-export interface InferenceEndpointProperties extends PropertiesBase {
-  /** [Required] Authentication mode for the endpoint. */
-  authMode: AuthMode;
-  /** Endpoint URI for the inference endpoint. */
-  readonly endpointUri?: string;
-  /** [Required] Group within the same pool with which this endpoint needs to be associated with. */
-  groupName: string;
-  /** Provisioning state for the endpoint. */
-  readonly provisioningState?: PoolProvisioningState;
-  /** RequestConfiguration for endpoint. */
-  requestConfiguration?: RequestConfiguration;
-}
-
-export function inferenceEndpointPropertiesSerializer(item: InferenceEndpointProperties): any {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArraySerializer(item["properties"]),
-    authMode: item["authMode"],
-    groupName: item["groupName"],
-    requestConfiguration: !item["requestConfiguration"]
-      ? item["requestConfiguration"]
-      : requestConfigurationSerializer(item["requestConfiguration"]),
-  };
-}
-
-export function inferenceEndpointPropertiesDeserializer(item: any): InferenceEndpointProperties {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArrayDeserializer(item["properties"]),
-    authMode: item["authMode"],
-    endpointUri: item["endpointUri"],
-    groupName: item["groupName"],
-    provisioningState: item["provisioningState"],
-    requestConfiguration: !item["requestConfiguration"]
-      ? item["requestConfiguration"]
-      : requestConfigurationDeserializer(item["requestConfiguration"]),
-  };
-}
-
-/** Enum to determine endpoint authentication mode. */
-export enum KnownAuthMode {
-  /** AAD */
-  AAD = "AAD",
-}
-
-/**
- * Enum to determine endpoint authentication mode. \
- * {@link KnownAuthMode} can be used interchangeably with AuthMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AAD**
- */
-export type AuthMode = string;
-
-/** Scoring requests configuration. */
-export interface RequestConfiguration {
-  /** The number of maximum concurrent requests per node allowed per deployment. Defaults to 1. */
-  maxConcurrentRequestsPerInstance?: number;
-  /**
-   * The scoring timeout in ISO 8601 format.
-   * Defaults to 5000ms.
-   */
-  requestTimeout?: string;
-}
-
-export function requestConfigurationSerializer(item: RequestConfiguration): any {
-  return {
-    maxConcurrentRequestsPerInstance: item["maxConcurrentRequestsPerInstance"],
-    requestTimeout: item["requestTimeout"],
-  };
-}
-
-export function requestConfigurationDeserializer(item: any): RequestConfiguration {
-  return {
-    maxConcurrentRequestsPerInstance: item["maxConcurrentRequestsPerInstance"],
-    requestTimeout: item["requestTimeout"],
-  };
-}
-
-/** A paginated list of InferenceEndpoint entities. */
-export interface _InferenceEndpointTrackedResourceArmPaginatedResult {
-  /** The InferenceEndpoint items on this page */
-  value: InferenceEndpoint[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _inferenceEndpointTrackedResourceArmPaginatedResultDeserializer(
-  item: any,
-): _InferenceEndpointTrackedResourceArmPaginatedResult {
-  return {
-    value: inferenceEndpointArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function inferenceEndpointArraySerializer(result: Array<InferenceEndpoint>): any[] {
-  return result.map((item) => {
-    return inferenceEndpointSerializer(item);
-  });
-}
-
-export function inferenceEndpointArrayDeserializer(result: Array<InferenceEndpoint>): any[] {
-  return result.map((item) => {
-    return inferenceEndpointDeserializer(item);
-  });
-}
-
-/** InferenceGroup is a preview-only resource. */
-export interface InferenceGroup extends TrackedResource {
-  /** [Required] Additional attributes of the entity. */
-  properties: InferenceGroupProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
-  /** Sku details required for ARM contract for Autoscaling. */
-  sku?: Sku;
-}
-
-export function inferenceGroupSerializer(item: InferenceGroup): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: inferenceGroupPropertiesSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-  };
-}
-
-export function inferenceGroupDeserializer(item: any): InferenceGroup {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: inferenceGroupPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-    kind: item["kind"],
-    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
-  };
-}
-
-/** Inference group configuration */
-export interface InferenceGroupProperties extends PropertiesBase {
-  /** Gets or sets environment configuration for the inference group. Used if PoolType=ScaleUnit. */
-  environmentConfiguration?: GroupEnvironmentConfiguration;
-  /** Gets or sets model configuration for the inference group. Used if PoolType=ScaleUnit. */
-  modelConfiguration?: GroupModelConfiguration;
-  /** Gets or sets compute instance type. */
-  nodeSkuType?: string;
-  /** Provisioning state for the inference group. */
-  readonly provisioningState?: PoolProvisioningState;
-  /** Gets or sets Scale Unit size. */
-  scaleUnitSize?: number;
-}
-
-export function inferenceGroupPropertiesSerializer(item: InferenceGroupProperties): any {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArraySerializer(item["properties"]),
-    environmentConfiguration: !item["environmentConfiguration"]
-      ? item["environmentConfiguration"]
-      : groupEnvironmentConfigurationSerializer(item["environmentConfiguration"]),
-    modelConfiguration: !item["modelConfiguration"]
-      ? item["modelConfiguration"]
-      : groupModelConfigurationSerializer(item["modelConfiguration"]),
-    nodeSkuType: item["nodeSkuType"],
-    scaleUnitSize: item["scaleUnitSize"],
-  };
-}
-
-export function inferenceGroupPropertiesDeserializer(item: any): InferenceGroupProperties {
-  return {
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : stringStringKeyValuePairArrayDeserializer(item["properties"]),
-    environmentConfiguration: !item["environmentConfiguration"]
-      ? item["environmentConfiguration"]
-      : groupEnvironmentConfigurationDeserializer(item["environmentConfiguration"]),
-    modelConfiguration: !item["modelConfiguration"]
-      ? item["modelConfiguration"]
-      : groupModelConfigurationDeserializer(item["modelConfiguration"]),
-    nodeSkuType: item["nodeSkuType"],
-    provisioningState: item["provisioningState"],
-    scaleUnitSize: item["scaleUnitSize"],
-  };
-}
-
-/** Environment configuration options. */
-export interface GroupEnvironmentConfiguration {
-  /** ARM resource ID of the environment specification for the inference pool. */
-  environmentId?: string;
-  /** Environment variables configuration for the inference pool. */
-  environmentVariables?: StringStringKeyValuePair[];
-  /** Liveness probe monitors the health of the container regularly. */
-  livenessProbe?: ProbeSettings;
-  /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
-  readinessProbe?: ProbeSettings;
-  /** This verifies whether the application within a container is started. Startup probes run before any other probe, and, unless it finishes successfully, disables other probes. */
-  startupProbe?: ProbeSettings;
-}
-
-export function groupEnvironmentConfigurationSerializer(item: GroupEnvironmentConfiguration): any {
-  return {
-    environmentId: item["environmentId"],
-    environmentVariables: !item["environmentVariables"]
-      ? item["environmentVariables"]
-      : stringStringKeyValuePairArraySerializer(item["environmentVariables"]),
-    livenessProbe: !item["livenessProbe"]
-      ? item["livenessProbe"]
-      : probeSettingsSerializer(item["livenessProbe"]),
-    readinessProbe: !item["readinessProbe"]
-      ? item["readinessProbe"]
-      : probeSettingsSerializer(item["readinessProbe"]),
-    startupProbe: !item["startupProbe"]
-      ? item["startupProbe"]
-      : probeSettingsSerializer(item["startupProbe"]),
-  };
-}
-
-export function groupEnvironmentConfigurationDeserializer(
-  item: any,
-): GroupEnvironmentConfiguration {
-  return {
-    environmentId: item["environmentId"],
-    environmentVariables: !item["environmentVariables"]
-      ? item["environmentVariables"]
-      : stringStringKeyValuePairArrayDeserializer(item["environmentVariables"]),
-    livenessProbe: !item["livenessProbe"]
-      ? item["livenessProbe"]
-      : probeSettingsDeserializer(item["livenessProbe"]),
-    readinessProbe: !item["readinessProbe"]
-      ? item["readinessProbe"]
-      : probeSettingsDeserializer(item["readinessProbe"]),
-    startupProbe: !item["startupProbe"]
-      ? item["startupProbe"]
-      : probeSettingsDeserializer(item["startupProbe"]),
-  };
-}
-
-/** Deployment container liveness/readiness probe configuration. */
-export interface ProbeSettings {
-  /** The number of failures to allow before returning an unhealthy status. */
-  failureThreshold?: number;
-  /** The delay before the first probe in ISO 8601 format. */
-  initialDelay?: string;
-  /** The length of time between probes in ISO 8601 format. */
-  period?: string;
-  /** The number of successful probes before returning a healthy status. */
-  successThreshold?: number;
-  /** The probe timeout in ISO 8601 format. */
-  timeout?: string;
-}
-
-export function probeSettingsSerializer(item: ProbeSettings): any {
-  return {
-    failureThreshold: item["failureThreshold"],
-    initialDelay: item["initialDelay"],
-    period: item["period"],
-    successThreshold: item["successThreshold"],
-    timeout: item["timeout"],
-  };
-}
-
-export function probeSettingsDeserializer(item: any): ProbeSettings {
-  return {
-    failureThreshold: item["failureThreshold"],
-    initialDelay: item["initialDelay"],
-    period: item["period"],
-    successThreshold: item["successThreshold"],
-    timeout: item["timeout"],
-  };
-}
-
-/** Model configuration options. */
-export interface GroupModelConfiguration {
-  /** The URI path to the model. */
-  modelId?: string;
-}
-
-export function groupModelConfigurationSerializer(item: GroupModelConfiguration): any {
-  return { modelId: item["modelId"] };
-}
-
-export function groupModelConfigurationDeserializer(item: any): GroupModelConfiguration {
-  return {
-    modelId: item["modelId"],
-  };
-}
-
-/** Strictly used in update requests. */
-export interface PartialMinimalTrackedResourceWithSku extends PartialMinimalTrackedResource {
-  /** Sku details required for ARM contract for Autoscaling. */
-  sku?: PartialSku;
-}
-
-export function partialMinimalTrackedResourceWithSkuSerializer(
-  item: PartialMinimalTrackedResourceWithSku,
-): any {
-  return {
-    tags: item["tags"],
-    sku: !item["sku"] ? item["sku"] : partialSkuSerializer(item["sku"]),
-  };
-}
-
-/** A paginated list of InferenceGroup entities. */
-export interface _InferenceGroupTrackedResourceArmPaginatedResult {
-  /** The InferenceGroup items on this page */
-  value: InferenceGroup[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _inferenceGroupTrackedResourceArmPaginatedResultDeserializer(
-  item: any,
-): _InferenceGroupTrackedResourceArmPaginatedResult {
-  return {
-    value: inferenceGroupArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function inferenceGroupArraySerializer(result: Array<InferenceGroup>): any[] {
-  return result.map((item) => {
-    return inferenceGroupSerializer(item);
-  });
-}
-
-export function inferenceGroupArrayDeserializer(result: Array<InferenceGroup>): any[] {
-  return result.map((item) => {
-    return inferenceGroupDeserializer(item);
-  });
-}
-
-/** model interface DeltaModelStatusRequest */
-export interface DeltaModelStatusRequest {
-  /** Gets or sets collection of delta models to retrieve status for. */
-  deltaModels?: string[];
-  /** Gets or sets target base model. */
-  targetBaseModel?: string;
-}
-
-export function deltaModelStatusRequestSerializer(item: DeltaModelStatusRequest): any {
-  return {
-    deltaModels: !item["deltaModels"]
-      ? item["deltaModels"]
-      : item["deltaModels"].map((p: any) => {
-          return p;
-        }),
-    targetBaseModel: item["targetBaseModel"],
-  };
-}
-
-/** Contract returning to user the delta models. */
-export interface DeltaModelStatusResponse {
-  /** Gets or sets actual instance count. */
-  actualInstanceCount?: number;
-  /** Gets or sets dictionary representing modelID and its current state. */
-  deltaModels?: Record<string, DeltaModelCurrentState[]>;
-  /** Gets or sets expected instance count. */
-  expectedInstanceCount?: number;
-  /** Gets or sets revision ID. */
-  revisionId?: string;
-  /** Gets or sets target base model. */
-  targetBaseModel?: string;
-}
-
-export function deltaModelStatusResponseDeserializer(item: any): DeltaModelStatusResponse {
-  return {
-    actualInstanceCount: item["actualInstanceCount"],
-    deltaModels: !item["deltaModels"]
-      ? item["deltaModels"]
-      : Object.fromEntries(
-          Object.entries(item["deltaModels"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : deltaModelCurrentStateArrayDeserializer(p1),
-          ]),
-        ),
-    expectedInstanceCount: item["expectedInstanceCount"],
-    revisionId: item["revisionId"],
-    targetBaseModel: item["targetBaseModel"],
-  };
-}
-
-export function deltaModelCurrentStateArrayDeserializer(
-  result: Array<DeltaModelCurrentState>,
-): any[] {
-  return result.map((item) => {
-    return deltaModelCurrentStateDeserializer(item);
-  });
-}
-
-/** Contract for DeltaModelCurrentState. */
-export interface DeltaModelCurrentState {
-  /** Gets or sets Count of instances with model. */
-  count?: number;
-  /** Gets or sets sample of instances with model. */
-  sampleInstanceID?: string;
-  /** Gets or sets status. */
-  status?: string;
-}
-
-export function deltaModelCurrentStateDeserializer(item: any): DeltaModelCurrentState {
-  return {
-    count: item["count"],
-    sampleInstanceID: item["sampleInstanceID"],
-    status: item["status"],
-  };
-}
-
-/** model interface DeltaModelListRequest */
-export interface DeltaModelListRequest {
-  /** Gets or sets number of delta models to return. Default: -1, means that all will be returned. */
-  count?: number;
-  /** Gets or sets skip token for paginated response. */
-  skipToken?: string;
-  /** Gets or sets target base model. */
-  targetBaseModel?: string;
-}
-
-export function deltaModelListRequestSerializer(item: DeltaModelListRequest): any {
-  return {
-    count: item["count"],
-    skipToken: item["skipToken"],
-    targetBaseModel: item["targetBaseModel"],
-  };
-}
-
-/** A paginated list of String entities. */
-export interface _StringArmPaginatedResult {
-  /** The Stringforlist items on this page */
-  value: string[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _stringArmPaginatedResultDeserializer(item: any): _StringArmPaginatedResult {
-  return {
-    value: item["value"].map((p: any) => {
-      return p;
-    }),
-    nextLink: item["nextLink"],
-  };
-}
-
-/** Contract base for DeltaModelChangeRequest. Used for adding or removing. */
-export interface DeltaModelModifyRequest {
-  /** Gets or sets delta models to remove. */
-  addDeltaModels?: string[];
-  /** Gets or sets delta models to remove. */
-  removeDeltaModels?: string[];
-  /** Gets or sets target base model. */
-  targetBaseModel?: string;
-}
-
-export function deltaModelModifyRequestSerializer(item: DeltaModelModifyRequest): any {
-  return {
-    addDeltaModels: !item["addDeltaModels"]
-      ? item["addDeltaModels"]
-      : item["addDeltaModels"].map((p: any) => {
-          return p;
-        }),
-    removeDeltaModels: !item["removeDeltaModels"]
-      ? item["removeDeltaModels"]
-      : item["removeDeltaModels"].map((p: any) => {
-          return p;
-        }),
-    targetBaseModel: item["targetBaseModel"],
-  };
-}
-
-/** model interface GroupStatus */
-export interface GroupStatus {
-  /** Gets or sets the actual capacity info for the group. */
-  actualCapacityInfo?: ActualCapacityInfo;
-  /** Gets or sets the actual number of endpoints in the group. */
-  endpointCount?: number;
-  /** Gets or sets the request number of instances for the group. */
-  requestedCapacity?: number;
-}
-
-export function groupStatusDeserializer(item: any): GroupStatus {
-  return {
-    actualCapacityInfo: !item["actualCapacityInfo"]
-      ? item["actualCapacityInfo"]
-      : actualCapacityInfoDeserializer(item["actualCapacityInfo"]),
-    endpointCount: item["endpointCount"],
-    requestedCapacity: item["requestedCapacity"],
-  };
-}
-
-/** model interface ActualCapacityInfo */
-export interface ActualCapacityInfo {
-  /** Gets or sets the total number of instances (scale units) regardless of provisioning state or whether current group payload version matches the target group payload. */
-  total?: number;
-  /** Gets or sets the number of instances (scale units) which have Succeeded provisioning state and target group payload. */
-  succeeded?: number;
-  /** Gets or sets the number of instances (scale units) which have Failed provisioning state and have target group payload. */
-  failed?: number;
-  /** Gets or sets the number of instances (scale units) which have Succeeded provisioning state but do not have target group payload. */
-  outdatedSucceeded?: number;
-  /** Gets or sets the number of instances (scale units) which have Failed provisioning state but do not have target group payload. */
-  outdatedFailed?: number;
-}
-
-export function actualCapacityInfoDeserializer(item: any): ActualCapacityInfo {
-  return {
-    total: item["total"],
-    succeeded: item["succeeded"],
-    failed: item["failed"],
-    outdatedSucceeded: item["outdatedSucceeded"],
-    outdatedFailed: item["outdatedFailed"],
-  };
-}
-
-/** A paginated list of SkuResource entities. */
-export interface _SkuResourceArmPaginatedResult {
-  /** The SkuResource items on this page */
-  value: SkuResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _skuResourceArmPaginatedResultDeserializer(
-  item: any,
-): _SkuResourceArmPaginatedResult {
-  return {
-    value: skuResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function skuResourceArrayDeserializer(result: Array<SkuResource>): any[] {
-  return result.map((item) => {
-    return skuResourceDeserializer(item);
-  });
-}
-
-/** Fulfills ARM Contract requirement to list all available SKUS for a resource. */
-export interface SkuResource {
-  /** Gets or sets the Sku Capacity. */
-  capacity?: SkuCapacity;
-  /** The resource type name. */
-  readonly resourceType?: string;
-  /** Gets or sets the Sku. */
-  sku?: SkuSetting;
-}
-
-export function skuResourceDeserializer(item: any): SkuResource {
-  return {
-    capacity: !item["capacity"] ? item["capacity"] : skuCapacityDeserializer(item["capacity"]),
-    resourceType: item["resourceType"],
-    sku: !item["sku"] ? item["sku"] : skuSettingDeserializer(item["sku"]),
-  };
-}
-
-/** SKU capacity information */
-export interface SkuCapacity {
-  /** Gets or sets the default capacity. */
-  default?: number;
-  /** Gets or sets the maximum. */
-  maximum?: number;
-  /** Gets or sets the minimum. */
-  minimum?: number;
-  /** Node scaling setting for the compute sku. */
-  scaleType?: SkuScaleType;
-}
-
-export function skuCapacityDeserializer(item: any): SkuCapacity {
-  return {
-    default: item["default"],
-    maximum: item["maximum"],
-    minimum: item["minimum"],
-    scaleType: item["scaleType"],
-  };
-}
-
-/** Node scaling setting for the compute sku. */
-export enum KnownSkuScaleType {
-  /** Automatically scales node count. */
-  Automatic = "Automatic",
-  /** Node count scaled upon user request. */
-  Manual = "Manual",
-  /** Fixed set of nodes. */
-  None = "None",
-}
-
-/**
- * Node scaling setting for the compute sku. \
- * {@link KnownSkuScaleType} can be used interchangeably with SkuScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Automatic**: Automatically scales node count. \
- * **Manual**: Node count scaled upon user request. \
- * **None**: Fixed set of nodes.
- */
-export type SkuScaleType = string;
-
-/** SkuSetting fulfills the need for stripped down SKU info in ARM contract. */
-export interface SkuSetting {
-  /** [Required] The name of the SKU. Ex - P3. It is typically a letter+number code. */
-  name: string;
-  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuTier;
-}
-
-export function skuSettingDeserializer(item: any): SkuSetting {
-  return {
-    name: item["name"],
-    tier: item["tier"],
-  };
-}
-
 /** Azure Resource Manager resource envelope. */
 export interface MarketplaceSubscription extends ProxyResource {
   /** [Required] Additional attributes of the entity. */
@@ -10457,6 +8647,61 @@ export enum KnownEgressPublicNetworkAccessType {
  */
 export type EgressPublicNetworkAccessType = string;
 
+/** Enum to determine endpoint compute type. */
+export enum KnownEndpointComputeType {
+  /** Managed */
+  Managed = "Managed",
+  /** Kubernetes */
+  Kubernetes = "Kubernetes",
+  /** AzureMLCompute */
+  AzureMLCompute = "AzureMLCompute",
+}
+
+/**
+ * Enum to determine endpoint compute type. \
+ * {@link KnownEndpointComputeType} can be used interchangeably with EndpointComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed** \
+ * **Kubernetes** \
+ * **AzureMLCompute**
+ */
+export type EndpointComputeType = string;
+
+/** Deployment container liveness/readiness probe configuration. */
+export interface ProbeSettings {
+  /** The number of failures to allow before returning an unhealthy status. */
+  failureThreshold?: number;
+  /** The delay before the first probe in ISO 8601 format. */
+  initialDelay?: string;
+  /** The length of time between probes in ISO 8601 format. */
+  period?: string;
+  /** The number of successful probes before returning a healthy status. */
+  successThreshold?: number;
+  /** The probe timeout in ISO 8601 format. */
+  timeout?: string;
+}
+
+export function probeSettingsSerializer(item: ProbeSettings): any {
+  return {
+    failureThreshold: item["failureThreshold"],
+    initialDelay: item["initialDelay"],
+    period: item["period"],
+    successThreshold: item["successThreshold"],
+    timeout: item["timeout"],
+  };
+}
+
+export function probeSettingsDeserializer(item: any): ProbeSettings {
+  return {
+    failureThreshold: item["failureThreshold"],
+    initialDelay: item["initialDelay"],
+    period: item["period"],
+    successThreshold: item["successThreshold"],
+    timeout: item["timeout"],
+  };
+}
+
 /** Online deployment scoring requests configuration. */
 export interface OnlineRequestSettings {
   /** The number of maximum concurrent requests per node allowed per deployment. Defaults to 1. */
@@ -10853,6 +9098,21 @@ export function managedOnlineDeploymentDeserializer(item: any): ManagedOnlineDep
   };
 }
 
+/** Strictly used in update requests. */
+export interface PartialMinimalTrackedResourceWithSku extends PartialMinimalTrackedResource {
+  /** Sku details required for ARM contract for Autoscaling. */
+  sku?: PartialSku;
+}
+
+export function partialMinimalTrackedResourceWithSkuSerializer(
+  item: PartialMinimalTrackedResourceWithSku,
+): any {
+  return {
+    tags: item["tags"],
+    sku: !item["sku"] ? item["sku"] : partialSkuSerializer(item["sku"]),
+  };
+}
+
 /** A paginated list of OnlineDeployment entities. */
 export interface _OnlineDeploymentTrackedResourceArmPaginatedResult {
   /** The OnlineDeployment items on this page */
@@ -10914,6 +9174,104 @@ export interface DeploymentLogs {
 export function deploymentLogsDeserializer(item: any): DeploymentLogs {
   return {
     content: item["content"],
+  };
+}
+
+/** A paginated list of SkuResource entities. */
+export interface _SkuResourceArmPaginatedResult {
+  /** The SkuResource items on this page */
+  value: SkuResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _skuResourceArmPaginatedResultDeserializer(
+  item: any,
+): _SkuResourceArmPaginatedResult {
+  return {
+    value: skuResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function skuResourceArrayDeserializer(result: Array<SkuResource>): any[] {
+  return result.map((item) => {
+    return skuResourceDeserializer(item);
+  });
+}
+
+/** Fulfills ARM Contract requirement to list all available SKUS for a resource. */
+export interface SkuResource {
+  /** Gets or sets the Sku Capacity. */
+  capacity?: SkuCapacity;
+  /** The resource type name. */
+  readonly resourceType?: string;
+  /** Gets or sets the Sku. */
+  sku?: SkuSetting;
+}
+
+export function skuResourceDeserializer(item: any): SkuResource {
+  return {
+    capacity: !item["capacity"] ? item["capacity"] : skuCapacityDeserializer(item["capacity"]),
+    resourceType: item["resourceType"],
+    sku: !item["sku"] ? item["sku"] : skuSettingDeserializer(item["sku"]),
+  };
+}
+
+/** SKU capacity information */
+export interface SkuCapacity {
+  /** Gets or sets the default capacity. */
+  default?: number;
+  /** Gets or sets the maximum. */
+  maximum?: number;
+  /** Gets or sets the minimum. */
+  minimum?: number;
+  /** Node scaling setting for the compute sku. */
+  scaleType?: SkuScaleType;
+}
+
+export function skuCapacityDeserializer(item: any): SkuCapacity {
+  return {
+    default: item["default"],
+    maximum: item["maximum"],
+    minimum: item["minimum"],
+    scaleType: item["scaleType"],
+  };
+}
+
+/** Node scaling setting for the compute sku. */
+export enum KnownSkuScaleType {
+  /** Automatically scales node count. */
+  Automatic = "Automatic",
+  /** Node count scaled upon user request. */
+  Manual = "Manual",
+  /** Fixed set of nodes. */
+  None = "None",
+}
+
+/**
+ * Node scaling setting for the compute sku. \
+ * {@link KnownSkuScaleType} can be used interchangeably with SkuScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: Automatically scales node count. \
+ * **Manual**: Node count scaled upon user request. \
+ * **None**: Fixed set of nodes.
+ */
+export type SkuScaleType = string;
+
+/** SkuSetting fulfills the need for stripped down SKU info in ARM contract. */
+export interface SkuSetting {
+  /** [Required] The name of the SKU. Ex - P3. It is typically a letter+number code. */
+  name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTier;
+}
+
+export function skuSettingDeserializer(item: any): SkuSetting {
+  return {
+    name: item["name"],
+    tier: item["tier"],
   };
 }
 
@@ -13342,12 +11700,10 @@ export interface JobBaseProperties extends ResourceBase {
   /** Is the asset archived? */
   isArchived?: boolean;
   /** [Required] Specifies the type of job. */
-  /** The discriminator possible values: AutoML, Command, Distillation, FineTuning, Pipeline, Spark, Sweep */
+  /** The discriminator possible values: AutoML, Command, Pipeline, Spark, Sweep */
   jobType: JobType;
   /** Notification setting for the job */
   notificationSetting?: NotificationSetting;
-  /** Parent job name. */
-  parentJobName?: string;
   /**
    * List of JobEndpoints.
    * For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
@@ -13374,7 +11730,6 @@ export function jobBasePropertiesSerializer(item: JobBaseProperties): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
   };
 }
@@ -13404,7 +11759,6 @@ export function jobBasePropertiesDeserializer(item: any): JobBaseProperties {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -13419,14 +11773,7 @@ export function jobBasePropertiesDeserializer(item: any): JobBaseProperties {
 
 /** Alias for JobBasePropertiesUnion */
 export type JobBasePropertiesUnion =
-  | AutoMLJob
-  | CommandJob
-  | DistillationJob
-  | FineTuningJob
-  | PipelineJob
-  | SparkJob
-  | SweepJob
-  | JobBaseProperties;
+  AutoMLJob | CommandJob | PipelineJob | SparkJob | SweepJob | JobBaseProperties;
 
 export function jobBasePropertiesUnionSerializer(item: JobBasePropertiesUnion): any {
   switch (item.jobType) {
@@ -13435,12 +11782,6 @@ export function jobBasePropertiesUnionSerializer(item: JobBasePropertiesUnion): 
 
     case "Command":
       return commandJobSerializer(item as CommandJob);
-
-    case "Distillation":
-      return distillationJobSerializer(item as DistillationJob);
-
-    case "FineTuning":
-      return fineTuningJobSerializer(item as FineTuningJob);
 
     case "Pipeline":
       return pipelineJobSerializer(item as PipelineJob);
@@ -13463,12 +11804,6 @@ export function jobBasePropertiesUnionDeserializer(item: any): JobBaseProperties
 
     case "Command":
       return commandJobDeserializer(item as CommandJob);
-
-    case "Distillation":
-      return distillationJobDeserializer(item as DistillationJob);
-
-    case "FineTuning":
-      return fineTuningJobDeserializer(item as FineTuningJob);
 
     case "Pipeline":
       return pipelineJobDeserializer(item as PipelineJob);
@@ -13632,10 +11967,6 @@ export enum KnownJobType {
   Pipeline = "Pipeline",
   /** Spark */
   Spark = "Spark",
-  /** FineTuning */
-  FineTuning = "FineTuning",
-  /** Distillation */
-  Distillation = "Distillation",
 }
 
 /**
@@ -13647,9 +11978,7 @@ export enum KnownJobType {
  * **Command** \
  * **Sweep** \
  * **Pipeline** \
- * **Spark** \
- * **FineTuning** \
- * **Distillation**
+ * **Spark**
  */
 export type JobType = string;
 
@@ -13868,7 +12197,6 @@ export function autoMLJobSerializer(item: AutoMLJob): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
     description: item["description"],
     properties: item["properties"],
@@ -13900,7 +12228,6 @@ export function autoMLJobDeserializer(item: any): AutoMLJob {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -17858,7 +16185,6 @@ export function commandJobSerializer(item: CommandJob): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
     description: item["description"],
     properties: item["properties"],
@@ -17896,7 +16222,6 @@ export function commandJobDeserializer(item: any): CommandJob {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -17961,7 +16286,7 @@ export function commandJobDeserializer(item: any): CommandJob {
 /** Base definition for job distribution configuration. */
 export interface DistributionConfiguration {
   /** [Required] Specifies the type of distribution framework. */
-  /** The discriminator possible values: Mpi, PyTorch, Ray, TensorFlow */
+  /** The discriminator possible values: Mpi, PyTorch, TensorFlow */
   distributionType: DistributionType;
 }
 
@@ -17976,8 +16301,7 @@ export function distributionConfigurationDeserializer(item: any): DistributionCo
 }
 
 /** Alias for DistributionConfigurationUnion */
-export type DistributionConfigurationUnion =
-  Mpi | PyTorch | Ray | TensorFlow | DistributionConfiguration;
+export type DistributionConfigurationUnion = Mpi | PyTorch | TensorFlow | DistributionConfiguration;
 
 export function distributionConfigurationUnionSerializer(
   item: DistributionConfigurationUnion,
@@ -17988,9 +16312,6 @@ export function distributionConfigurationUnionSerializer(
 
     case "PyTorch":
       return pyTorchSerializer(item as PyTorch);
-
-    case "Ray":
-      return raySerializer(item as Ray);
 
     case "TensorFlow":
       return tensorFlowSerializer(item as TensorFlow);
@@ -18010,9 +16331,6 @@ export function distributionConfigurationUnionDeserializer(
     case "PyTorch":
       return pyTorchDeserializer(item as PyTorch);
 
-    case "Ray":
-      return rayDeserializer(item as Ray);
-
     case "TensorFlow":
       return tensorFlowDeserializer(item as TensorFlow);
 
@@ -18029,8 +16347,6 @@ export enum KnownDistributionType {
   TensorFlow = "TensorFlow",
   /** Mpi */
   Mpi = "Mpi",
-  /** Ray distribution type. */
-  Ray = "Ray",
 }
 
 /**
@@ -18040,8 +16356,7 @@ export enum KnownDistributionType {
  * ### Known values supported by the service
  * **PyTorch** \
  * **TensorFlow** \
- * **Mpi** \
- * **Ray**: Ray distribution type.
+ * **Mpi**
  */
 export type DistributionType = string;
 
@@ -18089,51 +16404,6 @@ export function pyTorchDeserializer(item: any): PyTorch {
   };
 }
 
-/**
- * Ray distribution configuration.
- * A class for managing the configuration for a distributed Ray job.
- */
-export interface Ray extends DistributionConfiguration {
-  /** The port of the head ray process. */
-  port?: number;
-  /** The address of Ray head node. */
-  address?: string;
-  /** Provide this argument to start the Ray dashboard GUI. */
-  includeDashboard?: boolean;
-  /** The port to bind the dashboard server to. */
-  dashboardPort?: number;
-  /** Additional arguments passed to ray start in head node. */
-  headNodeAdditionalArgs?: string;
-  /** Additional arguments passed to ray start in worker node. */
-  workerNodeAdditionalArgs?: string;
-  /** [Required] Specifies the type of distribution framework. */
-  distributionType: "Ray";
-}
-
-export function raySerializer(item: Ray): any {
-  return {
-    distributionType: item["distributionType"],
-    port: item["port"],
-    address: item["address"],
-    includeDashboard: item["includeDashboard"],
-    dashboardPort: item["dashboardPort"],
-    headNodeAdditionalArgs: item["headNodeAdditionalArgs"],
-    workerNodeAdditionalArgs: item["workerNodeAdditionalArgs"],
-  };
-}
-
-export function rayDeserializer(item: any): Ray {
-  return {
-    distributionType: item["distributionType"],
-    port: item["port"],
-    address: item["address"],
-    includeDashboard: item["includeDashboard"],
-    dashboardPort: item["dashboardPort"],
-    headNodeAdditionalArgs: item["headNodeAdditionalArgs"],
-    workerNodeAdditionalArgs: item["workerNodeAdditionalArgs"],
-  };
-}
-
 /** TensorFlow distribution configuration. */
 export interface TensorFlow extends DistributionConfiguration {
   /** Number of parameter server tasks. */
@@ -18177,725 +16447,6 @@ export function commandJobLimitsDeserializer(item: any): CommandJobLimits {
   };
 }
 
-/** Distillation Job definition. */
-export interface DistillationJob extends JobBaseProperties {
-  /** [Required] */
-  dataGenerationDetails: DataGenerationVerticalUnion;
-  /** [Required] */
-  finetuningDetails: FinetuningDetails;
-  /** [Required] */
-  outputs: Record<string, JobOutputUnion | null>;
-  /** Queue settings for the job */
-  queueSettings?: QueueSettings;
-  /** Instance types and other resources for the job */
-  resources?: JobResources;
-  /** [Required] Specifies the type of job. */
-  jobType: "Distillation";
-}
-
-export function distillationJobSerializer(item: DistillationJob): any {
-  return {
-    componentId: item["componentId"],
-    computeId: item["computeId"],
-    displayName: item["displayName"],
-    experimentName: item["experimentName"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : identityConfigurationUnionSerializer(item["identity"]),
-    isArchived: item["isArchived"],
-    jobType: item["jobType"],
-    notificationSetting: !item["notificationSetting"]
-      ? item["notificationSetting"]
-      : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
-    services: item["services"],
-    description: item["description"],
-    properties: item["properties"],
-    tags: item["tags"],
-    dataGenerationDetails: dataGenerationVerticalUnionSerializer(item["dataGenerationDetails"]),
-    finetuningDetails: finetuningDetailsSerializer(item["finetuningDetails"]),
-    outputs: item["outputs"],
-    queueSettings: !item["queueSettings"]
-      ? item["queueSettings"]
-      : queueSettingsSerializer(item["queueSettings"]),
-    resources: !item["resources"] ? item["resources"] : jobResourcesSerializer(item["resources"]),
-  };
-}
-
-export function distillationJobDeserializer(item: any): DistillationJob {
-  return {
-    componentId: item["componentId"],
-    computeId: item["computeId"],
-    displayName: item["displayName"],
-    experimentName: item["experimentName"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : identityConfigurationUnionDeserializer(item["identity"]),
-    isArchived: item["isArchived"],
-    jobType: item["jobType"],
-    notificationSetting: !item["notificationSetting"]
-      ? item["notificationSetting"]
-      : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
-    services: !item["services"]
-      ? item["services"]
-      : Object.fromEntries(
-          Object.entries(item["services"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : jobServiceDeserializer(p1),
-          ]),
-        ),
-    status: item["status"],
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : Object.fromEntries(
-          Object.entries(item["properties"]).map(([k1, p1]: [string, any]) => [k1, !p1 ? p1 : p1]),
-        ),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(
-          Object.entries(item["tags"]).map(([k1, p1]: [string, any]) => [k1, !p1 ? p1 : p1]),
-        ),
-    dataGenerationDetails: dataGenerationVerticalUnionDeserializer(item["dataGenerationDetails"]),
-    finetuningDetails: finetuningDetailsDeserializer(item["finetuningDetails"]),
-    outputs: Object.fromEntries(
-      Object.entries(item["outputs"]).map(([k, p]: [string, any]) => [
-        k,
-        !p ? p : jobOutputUnionDeserializer(p),
-      ]),
-    ),
-    queueSettings: !item["queueSettings"]
-      ? item["queueSettings"]
-      : queueSettingsDeserializer(item["queueSettings"]),
-    resources: !item["resources"] ? item["resources"] : jobResourcesDeserializer(item["resources"]),
-  };
-}
-
-/** model interface DataGenerationVertical */
-export interface DataGenerationVertical {
-  /** [Required] DataGeneration Task type. */
-  dataGenerationTaskType: DataGenerationTaskType;
-  /** [Required] Enum to determine the type of Data Generation. */
-  /** The discriminator possible values: LabelGeneration */
-  dataGenerationType: DataGenerationType;
-  /** Prompt Settings. */
-  promptSettings?: PromptSettings;
-  /** [Required] Teacher Model Endpoint Details. */
-  teacherModelEndpoint: TeacherModelEndpoint;
-  teacherModelSettings?: TeacherModelSettings;
-}
-
-export function dataGenerationVerticalSerializer(item: DataGenerationVertical): any {
-  return {
-    dataGenerationTaskType: item["dataGenerationTaskType"],
-    dataGenerationType: item["dataGenerationType"],
-    promptSettings: !item["promptSettings"]
-      ? item["promptSettings"]
-      : promptSettingsSerializer(item["promptSettings"]),
-    teacherModelEndpoint: teacherModelEndpointSerializer(item["teacherModelEndpoint"]),
-    teacherModelSettings: !item["teacherModelSettings"]
-      ? item["teacherModelSettings"]
-      : teacherModelSettingsSerializer(item["teacherModelSettings"]),
-  };
-}
-
-export function dataGenerationVerticalDeserializer(item: any): DataGenerationVertical {
-  return {
-    dataGenerationTaskType: item["dataGenerationTaskType"],
-    dataGenerationType: item["dataGenerationType"],
-    promptSettings: !item["promptSettings"]
-      ? item["promptSettings"]
-      : promptSettingsDeserializer(item["promptSettings"]),
-    teacherModelEndpoint: teacherModelEndpointDeserializer(item["teacherModelEndpoint"]),
-    teacherModelSettings: !item["teacherModelSettings"]
-      ? item["teacherModelSettings"]
-      : teacherModelSettingsDeserializer(item["teacherModelSettings"]),
-  };
-}
-
-/** Alias for DataGenerationVerticalUnion */
-export type DataGenerationVerticalUnion = LabelGeneration | DataGenerationVertical;
-
-export function dataGenerationVerticalUnionSerializer(item: DataGenerationVerticalUnion): any {
-  switch (item.dataGenerationType) {
-    case "LabelGeneration":
-      return labelGenerationSerializer(item as LabelGeneration);
-
-    default:
-      return dataGenerationVerticalSerializer(item);
-  }
-}
-
-export function dataGenerationVerticalUnionDeserializer(item: any): DataGenerationVerticalUnion {
-  switch (item["dataGenerationType"]) {
-    case "LabelGeneration":
-      return labelGenerationDeserializer(item as LabelGeneration);
-
-    default:
-      return dataGenerationVerticalDeserializer(item);
-  }
-}
-
-/** Enum to determine the type of Data Generation Task. */
-export enum KnownDataGenerationTaskType {
-  /** Generate conversational data (multi/single turn) */
-  Conversation = "Conversation",
-  /** Generate Math data for numerical responses */
-  Math = "Math",
-  /** Generate Natural Language Inference data */
-  Nli = "Nli",
-  /** Generate Natural Language Understanding data for Question Answering data */
-  NluQa = "NluQa",
-  /** Generate Key Summary for an Article */
-  Summarization = "Summarization",
-}
-
-/**
- * Enum to determine the type of Data Generation Task. \
- * {@link KnownDataGenerationTaskType} can be used interchangeably with DataGenerationTaskType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Conversation**: Generate conversational data (multi\/single turn) \
- * **Math**: Generate Math data for numerical responses \
- * **Nli**: Generate Natural Language Inference data \
- * **NluQa**: Generate Natural Language Understanding data for Question Answering data \
- * **Summarization**: Generate Key Summary for an Article
- */
-export type DataGenerationTaskType = string;
-
-/** Enum to determine the type of Data Generation. */
-export enum KnownDataGenerationType {
-  /** Label Generation by Teacher Model Inferencing */
-  LabelGeneration = "LabelGeneration",
-  /** Synthetic Data Generation */
-  DataGeneration = "DataGeneration",
-}
-
-/**
- * Enum to determine the type of Data Generation. \
- * {@link KnownDataGenerationType} can be used interchangeably with DataGenerationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LabelGeneration**: Label Generation by Teacher Model Inferencing \
- * **DataGeneration**: Synthetic Data Generation
- */
-export type DataGenerationType = string;
-
-/** model interface PromptSettings */
-export interface PromptSettings {
-  enableChainOfDensity?: boolean;
-  enableChainOfThought?: boolean;
-  maxLenSummary?: number;
-}
-
-export function promptSettingsSerializer(item: PromptSettings): any {
-  return {
-    enableChainOfDensity: item["enableChainOfDensity"],
-    enableChainOfThought: item["enableChainOfThought"],
-    maxLenSummary: item["maxLenSummary"],
-  };
-}
-
-export function promptSettingsDeserializer(item: any): PromptSettings {
-  return {
-    enableChainOfDensity: item["enableChainOfDensity"],
-    enableChainOfThought: item["enableChainOfThought"],
-    maxLenSummary: item["maxLenSummary"],
-  };
-}
-
-/** model interface TeacherModelEndpoint */
-export interface TeacherModelEndpoint {
-  endpointName?: string;
-}
-
-export function teacherModelEndpointSerializer(item: TeacherModelEndpoint): any {
-  return { endpointName: item["endpointName"] };
-}
-
-export function teacherModelEndpointDeserializer(item: any): TeacherModelEndpoint {
-  return {
-    endpointName: item["endpointName"],
-  };
-}
-
-/** model interface TeacherModelSettings */
-export interface TeacherModelSettings {
-  /** Teacher Model Request Settings. */
-  teacherModelEndpointRequestSettings?: TeacherModelEndpointRequestSettings;
-  /** Teacher Model Inference Settings. */
-  teacherModelInferenceParameters?: Record<string, string>;
-}
-
-export function teacherModelSettingsSerializer(item: TeacherModelSettings): any {
-  return {
-    teacherModelEndpointRequestSettings: !item["teacherModelEndpointRequestSettings"]
-      ? item["teacherModelEndpointRequestSettings"]
-      : teacherModelEndpointRequestSettingsSerializer(item["teacherModelEndpointRequestSettings"]),
-    teacherModelInferenceParameters: item["teacherModelInferenceParameters"],
-  };
-}
-
-export function teacherModelSettingsDeserializer(item: any): TeacherModelSettings {
-  return {
-    teacherModelEndpointRequestSettings: !item["teacherModelEndpointRequestSettings"]
-      ? item["teacherModelEndpointRequestSettings"]
-      : teacherModelEndpointRequestSettingsDeserializer(
-          item["teacherModelEndpointRequestSettings"],
-        ),
-    teacherModelInferenceParameters: !item["teacherModelInferenceParameters"]
-      ? item["teacherModelInferenceParameters"]
-      : Object.fromEntries(
-          Object.entries(item["teacherModelInferenceParameters"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : p1,
-          ]),
-        ),
-  };
-}
-
-/** model interface TeacherModelEndpointRequestSettings */
-export interface TeacherModelEndpointRequestSettings {
-  minEndpointSuccessRatio?: number;
-  requestBatchSize?: number;
-}
-
-export function teacherModelEndpointRequestSettingsSerializer(
-  item: TeacherModelEndpointRequestSettings,
-): any {
-  return {
-    minEndpointSuccessRatio: item["minEndpointSuccessRatio"],
-    requestBatchSize: item["requestBatchSize"],
-  };
-}
-
-export function teacherModelEndpointRequestSettingsDeserializer(
-  item: any,
-): TeacherModelEndpointRequestSettings {
-  return {
-    minEndpointSuccessRatio: item["minEndpointSuccessRatio"],
-    requestBatchSize: item["requestBatchSize"],
-  };
-}
-
-/** model interface LabelGeneration */
-export interface LabelGeneration extends DataGenerationVertical {
-  /** Training data for fine tuning. */
-  trainingData?: JobInputUnion;
-  /** Validation data for fine tuning. */
-  validationData?: JobInputUnion;
-  /** [Required] Enum to determine the type of Data Generation. */
-  dataGenerationType: "LabelGeneration";
-}
-
-export function labelGenerationSerializer(item: LabelGeneration): any {
-  return {
-    dataGenerationTaskType: item["dataGenerationTaskType"],
-    dataGenerationType: item["dataGenerationType"],
-    promptSettings: !item["promptSettings"]
-      ? item["promptSettings"]
-      : promptSettingsSerializer(item["promptSettings"]),
-    teacherModelEndpoint: teacherModelEndpointSerializer(item["teacherModelEndpoint"]),
-    teacherModelSettings: !item["teacherModelSettings"]
-      ? item["teacherModelSettings"]
-      : teacherModelSettingsSerializer(item["teacherModelSettings"]),
-    trainingData: !item["trainingData"]
-      ? item["trainingData"]
-      : jobInputUnionSerializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionSerializer(item["validationData"]),
-  };
-}
-
-export function labelGenerationDeserializer(item: any): LabelGeneration {
-  return {
-    dataGenerationTaskType: item["dataGenerationTaskType"],
-    dataGenerationType: item["dataGenerationType"],
-    promptSettings: !item["promptSettings"]
-      ? item["promptSettings"]
-      : promptSettingsDeserializer(item["promptSettings"]),
-    teacherModelEndpoint: teacherModelEndpointDeserializer(item["teacherModelEndpoint"]),
-    teacherModelSettings: !item["teacherModelSettings"]
-      ? item["teacherModelSettings"]
-      : teacherModelSettingsDeserializer(item["teacherModelSettings"]),
-    trainingData: !item["trainingData"]
-      ? item["trainingData"]
-      : jobInputUnionDeserializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionDeserializer(item["validationData"]),
-  };
-}
-
-/** model interface FinetuningDetails */
-export interface FinetuningDetails {
-  /** Finetuning Hyperparameters */
-  hyperParameters?: Record<string, string>;
-  /** [Required] Student model for fine tuning. */
-  studentModel: JobInputUnion;
-}
-
-export function finetuningDetailsSerializer(item: FinetuningDetails): any {
-  return {
-    hyperParameters: item["hyperParameters"],
-    studentModel: jobInputUnionSerializer(item["studentModel"]),
-  };
-}
-
-export function finetuningDetailsDeserializer(item: any): FinetuningDetails {
-  return {
-    hyperParameters: !item["hyperParameters"]
-      ? item["hyperParameters"]
-      : Object.fromEntries(
-          Object.entries(item["hyperParameters"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : p1,
-          ]),
-        ),
-    studentModel: jobInputUnionDeserializer(item["studentModel"]),
-  };
-}
-
-/** model interface JobResources */
-export interface JobResources {
-  /** List of instance types to choose from. */
-  instanceTypes?: string[];
-}
-
-export function jobResourcesSerializer(item: JobResources): any {
-  return {
-    instanceTypes: !item["instanceTypes"]
-      ? item["instanceTypes"]
-      : item["instanceTypes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function jobResourcesDeserializer(item: any): JobResources {
-  return {
-    instanceTypes: !item["instanceTypes"]
-      ? item["instanceTypes"]
-      : item["instanceTypes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** FineTuning Job definition. */
-export interface FineTuningJob extends JobBaseProperties {
-  /** [Required] */
-  fineTuningDetails: FineTuningVerticalUnion;
-  /** [Required] */
-  outputs: Record<string, JobOutputUnion | null>;
-  /** Queue settings for the job */
-  queueSettings?: QueueSettings;
-  /** Instance types and other resources for the job */
-  resources?: JobResources;
-  /** [Required] Specifies the type of job. */
-  jobType: "FineTuning";
-}
-
-export function fineTuningJobSerializer(item: FineTuningJob): any {
-  return {
-    componentId: item["componentId"],
-    computeId: item["computeId"],
-    displayName: item["displayName"],
-    experimentName: item["experimentName"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : identityConfigurationUnionSerializer(item["identity"]),
-    isArchived: item["isArchived"],
-    jobType: item["jobType"],
-    notificationSetting: !item["notificationSetting"]
-      ? item["notificationSetting"]
-      : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
-    services: item["services"],
-    description: item["description"],
-    properties: item["properties"],
-    tags: item["tags"],
-    fineTuningDetails: fineTuningVerticalUnionSerializer(item["fineTuningDetails"]),
-    outputs: item["outputs"],
-    queueSettings: !item["queueSettings"]
-      ? item["queueSettings"]
-      : queueSettingsSerializer(item["queueSettings"]),
-    resources: !item["resources"] ? item["resources"] : jobResourcesSerializer(item["resources"]),
-  };
-}
-
-export function fineTuningJobDeserializer(item: any): FineTuningJob {
-  return {
-    componentId: item["componentId"],
-    computeId: item["computeId"],
-    displayName: item["displayName"],
-    experimentName: item["experimentName"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : identityConfigurationUnionDeserializer(item["identity"]),
-    isArchived: item["isArchived"],
-    jobType: item["jobType"],
-    notificationSetting: !item["notificationSetting"]
-      ? item["notificationSetting"]
-      : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
-    services: !item["services"]
-      ? item["services"]
-      : Object.fromEntries(
-          Object.entries(item["services"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : jobServiceDeserializer(p1),
-          ]),
-        ),
-    status: item["status"],
-    description: item["description"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : Object.fromEntries(
-          Object.entries(item["properties"]).map(([k1, p1]: [string, any]) => [k1, !p1 ? p1 : p1]),
-        ),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(
-          Object.entries(item["tags"]).map(([k1, p1]: [string, any]) => [k1, !p1 ? p1 : p1]),
-        ),
-    fineTuningDetails: fineTuningVerticalUnionDeserializer(item["fineTuningDetails"]),
-    outputs: Object.fromEntries(
-      Object.entries(item["outputs"]).map(([k, p]: [string, any]) => [
-        k,
-        !p ? p : jobOutputUnionDeserializer(p),
-      ]),
-    ),
-    queueSettings: !item["queueSettings"]
-      ? item["queueSettings"]
-      : queueSettingsDeserializer(item["queueSettings"]),
-    resources: !item["resources"] ? item["resources"] : jobResourcesDeserializer(item["resources"]),
-  };
-}
-
-/** model interface FineTuningVertical */
-export interface FineTuningVertical {
-  /** [Required] Input model for fine tuning. */
-  model: JobInputUnion;
-  /** [Required] Enum to determine the type of fine tuning. */
-  /** The discriminator possible values: AzureOpenAI, Custom */
-  modelProvider: ModelProvider;
-  /** [Required] Fine tuning task type. */
-  taskType: FineTuningTaskType;
-  /** [Required] Training data for fine tuning. */
-  trainingData: JobInputUnion;
-  /** Validation data for fine tuning. */
-  validationData?: JobInputUnion;
-}
-
-export function fineTuningVerticalSerializer(item: FineTuningVertical): any {
-  return {
-    model: jobInputUnionSerializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionSerializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionSerializer(item["validationData"]),
-  };
-}
-
-export function fineTuningVerticalDeserializer(item: any): FineTuningVertical {
-  return {
-    model: jobInputUnionDeserializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionDeserializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionDeserializer(item["validationData"]),
-  };
-}
-
-/** Alias for FineTuningVerticalUnion */
-export type FineTuningVerticalUnion =
-  AzureOpenAiFineTuning | CustomModelFineTuning | FineTuningVertical;
-
-export function fineTuningVerticalUnionSerializer(item: FineTuningVerticalUnion): any {
-  switch (item.modelProvider) {
-    case "AzureOpenAI":
-      return azureOpenAiFineTuningSerializer(item as AzureOpenAiFineTuning);
-
-    case "Custom":
-      return customModelFineTuningSerializer(item as CustomModelFineTuning);
-
-    default:
-      return fineTuningVerticalSerializer(item);
-  }
-}
-
-export function fineTuningVerticalUnionDeserializer(item: any): FineTuningVerticalUnion {
-  switch (item["modelProvider"]) {
-    case "AzureOpenAI":
-      return azureOpenAiFineTuningDeserializer(item as AzureOpenAiFineTuning);
-
-    case "Custom":
-      return customModelFineTuningDeserializer(item as CustomModelFineTuning);
-
-    default:
-      return fineTuningVerticalDeserializer(item);
-  }
-}
-
-/** Enum to determine the type of fine tuning. */
-export enum KnownModelProvider {
-  /** Fine tuning using Azure Open AI model. */
-  AzureOpenAI = "AzureOpenAI",
-  /** Fine tuning using custom model. */
-  Custom = "Custom",
-}
-
-/**
- * Enum to determine the type of fine tuning. \
- * {@link KnownModelProvider} can be used interchangeably with ModelProvider,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureOpenAI**: Fine tuning using Azure Open AI model. \
- * **Custom**: Fine tuning using custom model.
- */
-export type ModelProvider = string;
-
-/** Known values of {@link FineTuningTaskType} that the service accepts. */
-export enum KnownFineTuningTaskType {
-  /** ChatCompletion */
-  ChatCompletion = "ChatCompletion",
-  /** TextCompletion */
-  TextCompletion = "TextCompletion",
-  /** TextClassification */
-  TextClassification = "TextClassification",
-  /** QuestionAnswering */
-  QuestionAnswering = "QuestionAnswering",
-  /** TextSummarization */
-  TextSummarization = "TextSummarization",
-  /** TokenClassification */
-  TokenClassification = "TokenClassification",
-  /** TextTranslation */
-  TextTranslation = "TextTranslation",
-  /** ImageClassification */
-  ImageClassification = "ImageClassification",
-  /** ImageInstanceSegmentation */
-  ImageInstanceSegmentation = "ImageInstanceSegmentation",
-  /** ImageObjectDetection */
-  ImageObjectDetection = "ImageObjectDetection",
-  /** VideoMultiObjectTracking */
-  VideoMultiObjectTracking = "VideoMultiObjectTracking",
-}
-
-/** Type of FineTuningTaskType */
-export type FineTuningTaskType = string;
-
-/** model interface AzureOpenAiFineTuning */
-export interface AzureOpenAiFineTuning extends FineTuningVertical {
-  /** HyperParameters for fine tuning Azure Open AI model. */
-  hyperParameters?: AzureOpenAiHyperParameters;
-  /** [Required] Enum to determine the type of fine tuning. */
-  modelProvider: "AzureOpenAI";
-}
-
-export function azureOpenAiFineTuningSerializer(item: AzureOpenAiFineTuning): any {
-  return {
-    model: jobInputUnionSerializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionSerializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionSerializer(item["validationData"]),
-    hyperParameters: !item["hyperParameters"]
-      ? item["hyperParameters"]
-      : azureOpenAiHyperParametersSerializer(item["hyperParameters"]),
-  };
-}
-
-export function azureOpenAiFineTuningDeserializer(item: any): AzureOpenAiFineTuning {
-  return {
-    model: jobInputUnionDeserializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionDeserializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionDeserializer(item["validationData"]),
-    hyperParameters: !item["hyperParameters"]
-      ? item["hyperParameters"]
-      : azureOpenAiHyperParametersDeserializer(item["hyperParameters"]),
-  };
-}
-
-/** Azure Open AI hyperparameters for fine tuning. */
-export interface AzureOpenAiHyperParameters {
-  /** Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance. */
-  batchSize?: number;
-  /** Scaling factor for the learning rate. A smaller learning rate may be useful to avoid over fitting. */
-  learningRateMultiplier?: number;
-  /** The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset. */
-  nEpochs?: number;
-}
-
-export function azureOpenAiHyperParametersSerializer(item: AzureOpenAiHyperParameters): any {
-  return {
-    batchSize: item["batchSize"],
-    learningRateMultiplier: item["learningRateMultiplier"],
-    nEpochs: item["nEpochs"],
-  };
-}
-
-export function azureOpenAiHyperParametersDeserializer(item: any): AzureOpenAiHyperParameters {
-  return {
-    batchSize: item["batchSize"],
-    learningRateMultiplier: item["learningRateMultiplier"],
-    nEpochs: item["nEpochs"],
-  };
-}
-
-/** model interface CustomModelFineTuning */
-export interface CustomModelFineTuning extends FineTuningVertical {
-  /** HyperParameters for fine tuning custom model. */
-  hyperParameters?: Record<string, string>;
-  /** [Required] Enum to determine the type of fine tuning. */
-  modelProvider: "Custom";
-}
-
-export function customModelFineTuningSerializer(item: CustomModelFineTuning): any {
-  return {
-    model: jobInputUnionSerializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionSerializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionSerializer(item["validationData"]),
-    hyperParameters: item["hyperParameters"],
-  };
-}
-
-export function customModelFineTuningDeserializer(item: any): CustomModelFineTuning {
-  return {
-    model: jobInputUnionDeserializer(item["model"]),
-    modelProvider: item["modelProvider"],
-    taskType: item["taskType"],
-    trainingData: jobInputUnionDeserializer(item["trainingData"]),
-    validationData: !item["validationData"]
-      ? item["validationData"]
-      : jobInputUnionDeserializer(item["validationData"]),
-    hyperParameters: !item["hyperParameters"]
-      ? item["hyperParameters"]
-      : Object.fromEntries(
-          Object.entries(item["hyperParameters"]).map(([k1, p1]: [string, any]) => [
-            k1,
-            !p1 ? p1 : p1,
-          ]),
-        ),
-  };
-}
-
 /** Pipeline Job definition: defines generic to MFE attributes. */
 export interface PipelineJob extends JobBaseProperties {
   /** Inputs for the pipeline job. */
@@ -18926,7 +16477,6 @@ export function pipelineJobSerializer(item: PipelineJob): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
     description: item["description"],
     properties: item["properties"],
@@ -18953,7 +16503,6 @@ export function pipelineJobDeserializer(item: any): PipelineJob {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -19048,7 +16597,6 @@ export function sparkJobSerializer(item: SparkJob): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
     description: item["description"],
     properties: item["properties"],
@@ -19104,7 +16652,6 @@ export function sparkJobDeserializer(item: any): SparkJob {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -19339,7 +16886,6 @@ export function sweepJobSerializer(item: SweepJob): any {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingSerializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: item["services"],
     description: item["description"],
     properties: item["properties"],
@@ -19374,7 +16920,6 @@ export function sweepJobDeserializer(item: any): SweepJob {
     notificationSetting: !item["notificationSetting"]
       ? item["notificationSetting"]
       : notificationSettingDeserializer(item["notificationSetting"]),
-    parentJobName: item["parentJobName"],
     services: !item["services"]
       ? item["services"]
       : Object.fromEntries(
@@ -20407,43 +17952,19 @@ export type ServerlessInferenceEndpointAuthMode = string;
 
 /** model interface ContentSafety */
 export interface ContentSafety {
-  /** Specifies the current safety level for content safety. */
-  contentSafetyLevel?: ContentSafetyLevel;
   /** [Required] Specifies the status of content safety. */
   contentSafetyStatus: ContentSafetyStatus;
 }
 
 export function contentSafetySerializer(item: ContentSafety): any {
-  return {
-    contentSafetyLevel: item["contentSafetyLevel"],
-    contentSafetyStatus: item["contentSafetyStatus"],
-  };
+  return { contentSafetyStatus: item["contentSafetyStatus"] };
 }
 
 export function contentSafetyDeserializer(item: any): ContentSafety {
   return {
-    contentSafetyLevel: item["contentSafetyLevel"],
     contentSafetyStatus: item["contentSafetyStatus"],
   };
 }
-
-/** Specifies the current safety level for content safety. */
-export enum KnownContentSafetyLevel {
-  /** Blocking */
-  Blocking = "Blocking",
-  /** Deferred */
-  Deferred = "Deferred",
-}
-
-/**
- * Specifies the current safety level for content safety. \
- * {@link KnownContentSafetyLevel} can be used interchangeably with ContentSafetyLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Blocking** \
- * **Deferred**
- */
-export type ContentSafetyLevel = string;
 
 /** Specifies the status of content safety. */
 export enum KnownContentSafetyStatus {
@@ -20537,6 +18058,26 @@ export function modelSettingsDeserializer(item: any): ModelSettings {
   };
 }
 
+/** Strictly used in update requests. */
+export interface PartialMinimalTrackedResourceWithSkuAndIdentity extends PartialMinimalTrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: PartialManagedServiceIdentity;
+  /** Sku details required for ARM contract for Autoscaling. */
+  sku?: PartialSku;
+}
+
+export function partialMinimalTrackedResourceWithSkuAndIdentitySerializer(
+  item: PartialMinimalTrackedResourceWithSkuAndIdentity,
+): any {
+  return {
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : partialManagedServiceIdentitySerializer(item["identity"]),
+    sku: !item["sku"] ? item["sku"] : partialSkuSerializer(item["sku"]),
+  };
+}
+
 /** A paginated list of ServerlessEndpoint entities. */
 export interface _ServerlessEndpointTrackedResourceArmPaginatedResult {
   /** The ServerlessEndpoint items on this page */
@@ -20565,238 +18106,6 @@ export function serverlessEndpointArrayDeserializer(result: Array<ServerlessEndp
     return serverlessEndpointDeserializer(item);
   });
 }
-
-/** Azure OpenAI Content Filters resource. */
-export interface RaiPolicyPropertiesBasicResource extends ProxyResource {
-  /** Azure OpenAI Content Filters properties. */
-  properties: RaiPolicyProperties;
-}
-
-export function raiPolicyPropertiesBasicResourceSerializer(
-  item: RaiPolicyPropertiesBasicResource,
-): any {
-  return { properties: raiPolicyPropertiesSerializer(item["properties"]) };
-}
-
-export function raiPolicyPropertiesBasicResourceDeserializer(
-  item: any,
-): RaiPolicyPropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: raiPolicyPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Azure OpenAI Content Filters properties. */
-export interface RaiPolicyProperties {
-  /** Name of the base Content Filters. */
-  basePolicyName?: string;
-  completionBlocklists?: RaiBlocklistConfig[];
-  contentFilters?: RaiPolicyContentFilter[];
-  /** Content Filters mode. */
-  mode?: RaiPolicyMode;
-  promptBlocklists?: RaiBlocklistConfig[];
-  /** Content Filters policy type. */
-  type?: RaiPolicyType;
-}
-
-export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
-  return {
-    basePolicyName: item["basePolicyName"],
-    completionBlocklists: !item["completionBlocklists"]
-      ? item["completionBlocklists"]
-      : raiBlocklistConfigArraySerializer(item["completionBlocklists"]),
-    contentFilters: !item["contentFilters"]
-      ? item["contentFilters"]
-      : raiPolicyContentFilterArraySerializer(item["contentFilters"]),
-    mode: item["mode"],
-    promptBlocklists: !item["promptBlocklists"]
-      ? item["promptBlocklists"]
-      : raiBlocklistConfigArraySerializer(item["promptBlocklists"]),
-    type: item["type"],
-  };
-}
-
-export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties {
-  return {
-    basePolicyName: item["basePolicyName"],
-    completionBlocklists: !item["completionBlocklists"]
-      ? item["completionBlocklists"]
-      : raiBlocklistConfigArrayDeserializer(item["completionBlocklists"]),
-    contentFilters: !item["contentFilters"]
-      ? item["contentFilters"]
-      : raiPolicyContentFilterArrayDeserializer(item["contentFilters"]),
-    mode: item["mode"],
-    promptBlocklists: !item["promptBlocklists"]
-      ? item["promptBlocklists"]
-      : raiBlocklistConfigArrayDeserializer(item["promptBlocklists"]),
-    type: item["type"],
-  };
-}
-
-export function raiBlocklistConfigArraySerializer(result: Array<RaiBlocklistConfig>): any[] {
-  return result.map((item) => {
-    return raiBlocklistConfigSerializer(item);
-  });
-}
-
-export function raiBlocklistConfigArrayDeserializer(result: Array<RaiBlocklistConfig>): any[] {
-  return result.map((item) => {
-    return raiBlocklistConfigDeserializer(item);
-  });
-}
-
-/** Azure OpenAI blocklist config. */
-export interface RaiBlocklistConfig {
-  /** If blocking would occur. */
-  blocking?: boolean;
-  /** Name of ContentFilter. */
-  blocklistName?: string;
-}
-
-export function raiBlocklistConfigSerializer(item: RaiBlocklistConfig): any {
-  return { blocking: item["blocking"], blocklistName: item["blocklistName"] };
-}
-
-export function raiBlocklistConfigDeserializer(item: any): RaiBlocklistConfig {
-  return {
-    blocking: item["blocking"],
-    blocklistName: item["blocklistName"],
-  };
-}
-
-export function raiPolicyContentFilterArraySerializer(
-  result: Array<RaiPolicyContentFilter>,
-): any[] {
-  return result.map((item) => {
-    return raiPolicyContentFilterSerializer(item);
-  });
-}
-
-export function raiPolicyContentFilterArrayDeserializer(
-  result: Array<RaiPolicyContentFilter>,
-): any[] {
-  return result.map((item) => {
-    return raiPolicyContentFilterDeserializer(item);
-  });
-}
-
-/** Azure OpenAI Content Filter. */
-export interface RaiPolicyContentFilter {
-  /** Level at which content is filtered. */
-  allowedContentLevel?: AllowedContentLevel;
-  /** If blocking would occur. */
-  blocking?: boolean;
-  /** If the ContentFilter is enabled. */
-  enabled?: boolean;
-  /** Name of ContentFilter. */
-  name?: string;
-  /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource;
-}
-
-export function raiPolicyContentFilterSerializer(item: RaiPolicyContentFilter): any {
-  return {
-    allowedContentLevel: item["allowedContentLevel"],
-    blocking: item["blocking"],
-    enabled: item["enabled"],
-    name: item["name"],
-    source: item["source"],
-  };
-}
-
-export function raiPolicyContentFilterDeserializer(item: any): RaiPolicyContentFilter {
-  return {
-    allowedContentLevel: item["allowedContentLevel"],
-    blocking: item["blocking"],
-    enabled: item["enabled"],
-    name: item["name"],
-    source: item["source"],
-  };
-}
-
-/** Level at which content is filtered. */
-export enum KnownAllowedContentLevel {
-  /** Low */
-  Low = "Low",
-  /** Medium */
-  Medium = "Medium",
-  /** High */
-  High = "High",
-}
-
-/**
- * Level at which content is filtered. \
- * {@link KnownAllowedContentLevel} can be used interchangeably with AllowedContentLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Low** \
- * **Medium** \
- * **High**
- */
-export type AllowedContentLevel = string;
-
-/** Content source to apply the Content Filters. */
-export enum KnownRaiPolicyContentSource {
-  /** Prompt */
-  Prompt = "Prompt",
-  /** Completion */
-  Completion = "Completion",
-}
-
-/**
- * Content source to apply the Content Filters. \
- * {@link KnownRaiPolicyContentSource} can be used interchangeably with RaiPolicyContentSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Prompt** \
- * **Completion**
- */
-export type RaiPolicyContentSource = string;
-
-/** Content Filters mode. */
-export enum KnownRaiPolicyMode {
-  /** Default */
-  Default = "Default",
-  /** Deferred */
-  Deferred = "Deferred",
-  /** Blocking */
-  Blocking = "Blocking",
-}
-
-/**
- * Content Filters mode. \
- * {@link KnownRaiPolicyMode} can be used interchangeably with RaiPolicyMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **Deferred** \
- * **Blocking**
- */
-export type RaiPolicyMode = string;
-
-/** Content Filters policy type. */
-export enum KnownRaiPolicyType {
-  /** UserManaged */
-  UserManaged = "UserManaged",
-  /** SystemManaged */
-  SystemManaged = "SystemManaged",
-}
-
-/**
- * Content Filters policy type. \
- * {@link KnownRaiPolicyType} can be used interchangeably with RaiPolicyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UserManaged** \
- * **SystemManaged**
- */
-export type RaiPolicyType = string;
 
 /** List of private endpoint connection associated with the specified workspace */
 export interface _PrivateEndpointConnectionListResult {
@@ -21841,8 +19150,6 @@ export interface ComputeInstanceProperties {
   subnet?: ResourceId;
   /** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
   applicationSharingPolicy?: ApplicationSharingPolicy;
-  /** Specifies settings for autologger. */
-  autologgerSettings?: ComputeInstanceAutologgerSettings;
   /** Specifies policy and settings for SSH access. */
   sshSettings?: ComputeInstanceSshSettings;
   /** List of Custom Services added to the compute. */
@@ -21861,14 +19168,8 @@ export interface ComputeInstanceProperties {
   readonly state?: ComputeInstanceState;
   /** The Compute Instance Authorization type. Available values are personal (default). */
   computeInstanceAuthorizationType?: ComputeInstanceAuthorizationType;
-  /** Enable Auto OS Patching. Possible values are: true, false. */
-  enableOSPatching?: boolean;
-  /** Enable root access. Possible values are: true, false. */
-  enableRootAccess?: boolean;
   /** Enable SSO (single sign on). Possible values are: true, false. */
   enableSSO?: boolean;
-  /** Release quota if compute instance stopped. Possible values are: true - release quota if compute instance stopped. false - don't release quota when compute instance stopped. */
-  releaseQuotaOnStop?: boolean;
   /** Settings for a personal compute instance. */
   personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
   /** Details of customized scripts to execute for setting up the cluster. */
@@ -21896,9 +19197,6 @@ export function computeInstancePropertiesSerializer(item: ComputeInstancePropert
     vmSize: item["vmSize"],
     subnet: !item["subnet"] ? item["subnet"] : resourceIdSerializer(item["subnet"]),
     applicationSharingPolicy: item["applicationSharingPolicy"],
-    autologgerSettings: !item["autologgerSettings"]
-      ? item["autologgerSettings"]
-      : computeInstanceAutologgerSettingsSerializer(item["autologgerSettings"]),
     sshSettings: !item["sshSettings"]
       ? item["sshSettings"]
       : computeInstanceSshSettingsSerializer(item["sshSettings"]),
@@ -21906,10 +19204,7 @@ export function computeInstancePropertiesSerializer(item: ComputeInstancePropert
       ? item["customServices"]
       : customServiceArraySerializer(item["customServices"]),
     computeInstanceAuthorizationType: item["computeInstanceAuthorizationType"],
-    enableOSPatching: item["enableOSPatching"],
-    enableRootAccess: item["enableRootAccess"],
     enableSSO: item["enableSSO"],
-    releaseQuotaOnStop: item["releaseQuotaOnStop"],
     personalComputeInstanceSettings: !item["personalComputeInstanceSettings"]
       ? item["personalComputeInstanceSettings"]
       : personalComputeInstanceSettingsSerializer(item["personalComputeInstanceSettings"]),
@@ -21929,9 +19224,6 @@ export function computeInstancePropertiesDeserializer(item: any): ComputeInstanc
     vmSize: item["vmSize"],
     subnet: !item["subnet"] ? item["subnet"] : resourceIdDeserializer(item["subnet"]),
     applicationSharingPolicy: item["applicationSharingPolicy"],
-    autologgerSettings: !item["autologgerSettings"]
-      ? item["autologgerSettings"]
-      : computeInstanceAutologgerSettingsDeserializer(item["autologgerSettings"]),
     sshSettings: !item["sshSettings"]
       ? item["sshSettings"]
       : computeInstanceSshSettingsDeserializer(item["sshSettings"]),
@@ -21953,10 +19245,7 @@ export function computeInstancePropertiesDeserializer(item: any): ComputeInstanc
     errors: !item["errors"] ? item["errors"] : errorResponseArrayDeserializer(item["errors"]),
     state: item["state"],
     computeInstanceAuthorizationType: item["computeInstanceAuthorizationType"],
-    enableOSPatching: item["enableOSPatching"],
-    enableRootAccess: item["enableRootAccess"],
     enableSSO: item["enableSSO"],
-    releaseQuotaOnStop: item["releaseQuotaOnStop"],
     personalComputeInstanceSettings: !item["personalComputeInstanceSettings"]
       ? item["personalComputeInstanceSettings"]
       : personalComputeInstanceSettingsDeserializer(item["personalComputeInstanceSettings"]),
@@ -22003,44 +19292,6 @@ export enum KnownApplicationSharingPolicy {
  * **Shared**
  */
 export type ApplicationSharingPolicy = string;
-
-/** Specifies settings for autologger. */
-export interface ComputeInstanceAutologgerSettings {
-  /** Indicates whether mlflow autologger is enabled for notebooks. */
-  mlflowAutologger?: MlflowAutologger;
-}
-
-export function computeInstanceAutologgerSettingsSerializer(
-  item: ComputeInstanceAutologgerSettings,
-): any {
-  return { mlflowAutologger: item["mlflowAutologger"] };
-}
-
-export function computeInstanceAutologgerSettingsDeserializer(
-  item: any,
-): ComputeInstanceAutologgerSettings {
-  return {
-    mlflowAutologger: item["mlflowAutologger"],
-  };
-}
-
-/** Indicates whether mlflow autologger is enabled for notebooks. */
-export enum KnownMlflowAutologger {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Indicates whether mlflow autologger is enabled for notebooks. \
- * {@link KnownMlflowAutologger} can be used interchangeably with MlflowAutologger,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type MlflowAutologger = string;
 
 /** Specifies policy and settings for SSH access. */
 export interface ComputeInstanceSshSettings {
@@ -23521,14 +20772,6 @@ export enum KnownStorageAccountType {
  */
 export type StorageAccountType = string;
 
-export function computeInstanceDataMountArraySerializer(
-  result: Array<ComputeInstanceDataMount>,
-): any[] {
-  return result.map((item) => {
-    return computeInstanceDataMountSerializer(item);
-  });
-}
-
 export function computeInstanceDataMountArrayDeserializer(
   result: Array<ComputeInstanceDataMount>,
 ): any[] {
@@ -23559,21 +20802,6 @@ export interface ComputeInstanceDataMount {
   mountedOn?: Date;
   /** Error of this data mount. */
   error?: string;
-}
-
-export function computeInstanceDataMountSerializer(item: ComputeInstanceDataMount): any {
-  return {
-    source: item["source"],
-    sourceType: item["sourceType"],
-    mountName: item["mountName"],
-    mountAction: item["mountAction"],
-    mountMode: item["mountMode"],
-    createdBy: item["createdBy"],
-    mountPath: item["mountPath"],
-    mountState: item["mountState"],
-    mountedOn: !item["mountedOn"] ? item["mountedOn"] : item["mountedOn"].toISOString(),
-    error: item["error"],
-  };
 }
 
 export function computeInstanceDataMountDeserializer(item: any): ComputeInstanceDataMount {
@@ -24411,203 +21639,6 @@ export function databricksComputeSecretsDeserializer(item: any): DatabricksCompu
   };
 }
 
-/** Stops compute instance after user defined period of inactivity. */
-export interface IdleShutdownSetting {
-  /** Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
-  idleTimeBeforeShutdown?: string;
-}
-
-export function idleShutdownSettingSerializer(item: IdleShutdownSetting): any {
-  return { idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"] };
-}
-
-/** The List Virtual Machine size operation response. */
-export interface VirtualMachineSizeListResult {
-  /** The list of virtual machine sizes supported by AmlCompute. */
-  value?: VirtualMachineSize[];
-}
-
-export function virtualMachineSizeListResultDeserializer(item: any): VirtualMachineSizeListResult {
-  return {
-    value: !item["value"] ? item["value"] : virtualMachineSizeArrayDeserializer(item["value"]),
-  };
-}
-
-export function virtualMachineSizeArrayDeserializer(result: Array<VirtualMachineSize>): any[] {
-  return result.map((item) => {
-    return virtualMachineSizeDeserializer(item);
-  });
-}
-
-/** Describes the properties of a VM size. */
-export interface VirtualMachineSize {
-  /** The name of the virtual machine size. */
-  readonly name?: string;
-  /** The family name of the virtual machine size. */
-  readonly family?: string;
-  /** The number of vCPUs supported by the virtual machine size. */
-  readonly vCPUs?: number;
-  /** The number of gPUs supported by the virtual machine size. */
-  readonly gpus?: number;
-  /** The OS VHD disk size, in MB, allowed by the virtual machine size. */
-  readonly osVhdSizeMB?: number;
-  /** The resource volume size, in MB, allowed by the virtual machine size. */
-  readonly maxResourceVolumeMB?: number;
-  /** The amount of memory, in GB, supported by the virtual machine size. */
-  readonly memoryGB?: number;
-  /** Specifies if the virtual machine size supports low priority VMs. */
-  readonly lowPriorityCapable?: boolean;
-  /** Specifies if the virtual machine size supports premium IO. */
-  readonly premiumIO?: boolean;
-  /** The estimated price information for using a VM. */
-  estimatedVMPrices?: EstimatedVMPrices;
-  /** Specifies the compute types supported by the virtual machine size. */
-  supportedComputeTypes?: string[];
-}
-
-export function virtualMachineSizeDeserializer(item: any): VirtualMachineSize {
-  return {
-    name: item["name"],
-    family: item["family"],
-    vCPUs: item["vCPUs"],
-    gpus: item["gpus"],
-    osVhdSizeMB: item["osVhdSizeMB"],
-    maxResourceVolumeMB: item["maxResourceVolumeMB"],
-    memoryGB: item["memoryGB"],
-    lowPriorityCapable: item["lowPriorityCapable"],
-    premiumIO: item["premiumIO"],
-    estimatedVMPrices: !item["estimatedVMPrices"]
-      ? item["estimatedVMPrices"]
-      : estimatedVMPricesDeserializer(item["estimatedVMPrices"]),
-    supportedComputeTypes: !item["supportedComputeTypes"]
-      ? item["supportedComputeTypes"]
-      : item["supportedComputeTypes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The estimated price info for using a VM. */
-export interface EstimatedVMPrices {
-  /** Three lettered code specifying the currency of the VM price. Example: USD */
-  billingCurrency: BillingCurrency;
-  /** The unit of time measurement for the specified VM price. Example: OneHour */
-  unitOfMeasure: UnitOfMeasure;
-  /** The list of estimated prices for using a VM of a particular OS type, tier, etc. */
-  values: EstimatedVMPrice[];
-}
-
-export function estimatedVMPricesDeserializer(item: any): EstimatedVMPrices {
-  return {
-    billingCurrency: item["billingCurrency"],
-    unitOfMeasure: item["unitOfMeasure"],
-    values: estimatedVMPriceArrayDeserializer(item["values"]),
-  };
-}
-
-/** Three lettered code specifying the currency of the VM price. Example: USD */
-export enum KnownBillingCurrency {
-  /** USD */
-  USD = "USD",
-}
-
-/**
- * Three lettered code specifying the currency of the VM price. Example: USD \
- * {@link KnownBillingCurrency} can be used interchangeably with BillingCurrency,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **USD**
- */
-export type BillingCurrency = string;
-
-/** The unit of time measurement for the specified VM price. Example: OneHour */
-export enum KnownUnitOfMeasure {
-  /** OneHour */
-  OneHour = "OneHour",
-}
-
-/**
- * The unit of time measurement for the specified VM price. Example: OneHour \
- * {@link KnownUnitOfMeasure} can be used interchangeably with UnitOfMeasure,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OneHour**
- */
-export type UnitOfMeasure = string;
-
-export function estimatedVMPriceArrayDeserializer(result: Array<EstimatedVMPrice>): any[] {
-  return result.map((item) => {
-    return estimatedVMPriceDeserializer(item);
-  });
-}
-
-/** The estimated price info for using a VM of a particular OS type, tier, etc. */
-export interface EstimatedVMPrice {
-  /** The price charged for using the VM. */
-  retailPrice: number;
-  /** Operating system type used by the VM. */
-  osType: VMPriceOSType;
-  /** The type of the VM. */
-  vmTier: VMTier;
-}
-
-export function estimatedVMPriceDeserializer(item: any): EstimatedVMPrice {
-  return {
-    retailPrice: item["retailPrice"],
-    osType: item["osType"],
-    vmTier: item["vmTier"],
-  };
-}
-
-/** Operating system type used by the VM. */
-export enum KnownVMPriceOSType {
-  /** Linux */
-  Linux = "Linux",
-  /** Windows */
-  Windows = "Windows",
-}
-
-/**
- * Operating system type used by the VM. \
- * {@link KnownVMPriceOSType} can be used interchangeably with VMPriceOSType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Linux** \
- * **Windows**
- */
-export type VMPriceOSType = string;
-
-/** The type of the VM. */
-export enum KnownVMTier {
-  /** Standard */
-  Standard = "Standard",
-  /** LowPriority */
-  LowPriority = "LowPriority",
-  /** Spot */
-  Spot = "Spot",
-}
-
-/**
- * The type of the VM. \
- * {@link KnownVMTier} can be used interchangeably with VMTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard** \
- * **LowPriority** \
- * **Spot**
- */
-export type VMTier = string;
-
-/** Schema for Compute Instance resize. */
-export interface ResizeSchema {
-  /** The name of the virtual machine size. */
-  targetVMSize?: string;
-}
-
-export function resizeSchemaSerializer(item: ResizeSchema): any {
-  return { targetVMSize: item["targetVMSize"] };
-}
-
 /** The List Aml user feature operation response. */
 export interface _ListAmlUserFeatureResult {
   /** The AmlUserFeature items on this page */
@@ -24644,263 +21675,6 @@ export function amlUserFeatureDeserializer(item: any): AmlUserFeature {
     id: item["id"],
     displayName: item["displayName"],
     description: item["description"],
-  };
-}
-
-/** Paged collection of EndpointModelProperties items */
-export interface EndpointModels {
-  /** The EndpointModelProperties items on this page */
-  value: EndpointModelProperties[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function endpointModelsDeserializer(item: any): EndpointModels {
-  return {
-    value: endpointModelPropertiesArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function endpointModelPropertiesArrayDeserializer(
-  result: Array<EndpointModelProperties>,
-): any[] {
-  return result.map((item) => {
-    return endpointModelPropertiesDeserializer(item);
-  });
-}
-
-/** Endpoint Model properties. */
-export interface EndpointModelProperties {
-  /** The capabilities. */
-  capabilities?: Record<string, string>;
-  deprecation?: EndpointModelDeprecationProperties;
-  /** The capabilities for finetune models. */
-  finetuneCapabilities?: Record<string, string>;
-  /** Deployment model format. */
-  format?: string;
-  /** If the model is default version. */
-  isDefaultVersion?: boolean;
-  /** Model lifecycle status. */
-  lifecycleStatus?: ModelLifecycleStatus;
-  /** The max capacity. */
-  maxCapacity?: number;
-  /** Deployment model name. */
-  name?: string;
-  /** The list of Model Sku. */
-  skus?: EndpointModelSkuProperties[];
-  systemData?: SystemData;
-  /** Optional. Deployment model version. If version is not specified, a default version will be assigned. The default version is different for different models and might change when there is new version available for a model. Default version for a model could be found from list models API. */
-  version?: string;
-}
-
-export function endpointModelPropertiesDeserializer(item: any): EndpointModelProperties {
-  return {
-    capabilities: !item["capabilities"]
-      ? item["capabilities"]
-      : Object.fromEntries(
-          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    deprecation: !item["deprecation"]
-      ? item["deprecation"]
-      : endpointModelDeprecationPropertiesDeserializer(item["deprecation"]),
-    finetuneCapabilities: !item["finetuneCapabilities"]
-      ? item["finetuneCapabilities"]
-      : Object.fromEntries(
-          Object.entries(item["finetuneCapabilities"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    format: item["format"],
-    isDefaultVersion: item["isDefaultVersion"],
-    lifecycleStatus: item["lifecycleStatus"],
-    maxCapacity: item["maxCapacity"],
-    name: item["name"],
-    skus: !item["skus"] ? item["skus"] : endpointModelSkuPropertiesArrayDeserializer(item["skus"]),
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    version: item["version"],
-  };
-}
-
-/** model interface EndpointModelDeprecationProperties */
-export interface EndpointModelDeprecationProperties {
-  /** The datetime of deprecation of the fineTune Model. */
-  fineTune?: Date;
-  /** The datetime of deprecation of the inference Model. */
-  inference?: Date;
-}
-
-export function endpointModelDeprecationPropertiesDeserializer(
-  item: any,
-): EndpointModelDeprecationProperties {
-  return {
-    fineTune: !item["fineTune"] ? item["fineTune"] : new Date(item["fineTune"]),
-    inference: !item["inference"] ? item["inference"] : new Date(item["inference"]),
-  };
-}
-
-/** Model lifecycle status. */
-export enum KnownModelLifecycleStatus {
-  /** GenerallyAvailable */
-  GenerallyAvailable = "GenerallyAvailable",
-  /** Preview */
-  Preview = "Preview",
-}
-
-/**
- * Model lifecycle status. \
- * {@link KnownModelLifecycleStatus} can be used interchangeably with ModelLifecycleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GenerallyAvailable** \
- * **Preview**
- */
-export type ModelLifecycleStatus = string;
-
-export function endpointModelSkuPropertiesArrayDeserializer(
-  result: Array<EndpointModelSkuProperties>,
-): any[] {
-  return result.map((item) => {
-    return endpointModelSkuPropertiesDeserializer(item);
-  });
-}
-
-/** model interface EndpointModelSkuProperties */
-export interface EndpointModelSkuProperties {
-  capacity?: EndpointModelSkuCapacityProperties;
-  /** The list of ARM id for the connection support this SKU. */
-  connectionIds?: string[];
-  /** The datetime of deprecation of the model SKU. */
-  deprecationDate?: Date;
-  /** The name of the model SKU. */
-  name?: string;
-  rateLimits?: EndpointModelSkuRateLimitProperties[];
-  /** The usage name of the model SKU. */
-  usageName?: string;
-}
-
-export function endpointModelSkuPropertiesDeserializer(item: any): EndpointModelSkuProperties {
-  return {
-    capacity: !item["capacity"]
-      ? item["capacity"]
-      : endpointModelSkuCapacityPropertiesDeserializer(item["capacity"]),
-    connectionIds: !item["connectionIds"]
-      ? item["connectionIds"]
-      : item["connectionIds"].map((p: any) => {
-          return p;
-        }),
-    deprecationDate: !item["deprecationDate"]
-      ? item["deprecationDate"]
-      : new Date(item["deprecationDate"]),
-    name: item["name"],
-    rateLimits: !item["rateLimits"]
-      ? item["rateLimits"]
-      : endpointModelSkuRateLimitPropertiesArrayDeserializer(item["rateLimits"]),
-    usageName: item["usageName"],
-  };
-}
-
-/** model interface EndpointModelSkuCapacityProperties */
-export interface EndpointModelSkuCapacityProperties {
-  /** The default capacity. */
-  default?: number;
-  /** The maximum capacity. */
-  maximum?: number;
-}
-
-export function endpointModelSkuCapacityPropertiesDeserializer(
-  item: any,
-): EndpointModelSkuCapacityProperties {
-  return {
-    default: item["default"],
-    maximum: item["maximum"],
-  };
-}
-
-export function endpointModelSkuRateLimitPropertiesArrayDeserializer(
-  result: Array<EndpointModelSkuRateLimitProperties>,
-): any[] {
-  return result.map((item) => {
-    return endpointModelSkuRateLimitPropertiesDeserializer(item);
-  });
-}
-
-/** model interface EndpointModelSkuRateLimitProperties */
-export interface EndpointModelSkuRateLimitProperties {
-  /** The count value of Call Rate Limit. */
-  count?: number;
-  /** The renewal period in seconds of Call Rate Limit. */
-  renewalPeriod?: number;
-  /** The call rate limit for the model. */
-  rules?: EndpointModelSkuRateLimitRuleProperties[];
-}
-
-export function endpointModelSkuRateLimitPropertiesDeserializer(
-  item: any,
-): EndpointModelSkuRateLimitProperties {
-  return {
-    count: item["count"],
-    renewalPeriod: item["renewalPeriod"],
-    rules: !item["rules"]
-      ? item["rules"]
-      : endpointModelSkuRateLimitRulePropertiesArrayDeserializer(item["rules"]),
-  };
-}
-
-export function endpointModelSkuRateLimitRulePropertiesArrayDeserializer(
-  result: Array<EndpointModelSkuRateLimitRuleProperties>,
-): any[] {
-  return result.map((item) => {
-    return endpointModelSkuRateLimitRulePropertiesDeserializer(item);
-  });
-}
-
-/** model interface EndpointModelSkuRateLimitRuleProperties */
-export interface EndpointModelSkuRateLimitRuleProperties {
-  count?: number;
-  /** If the dynamic throttling is enabled. */
-  dynamicThrottlingEnabled?: boolean;
-  key?: string;
-  matchPatterns?: EndpointModelSkuRateLimitRulePatternProperties[];
-  minCount?: number;
-  renewalPeriod?: number;
-}
-
-export function endpointModelSkuRateLimitRulePropertiesDeserializer(
-  item: any,
-): EndpointModelSkuRateLimitRuleProperties {
-  return {
-    count: item["count"],
-    dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
-    key: item["key"],
-    matchPatterns: !item["matchPatterns"]
-      ? item["matchPatterns"]
-      : endpointModelSkuRateLimitRulePatternPropertiesArrayDeserializer(item["matchPatterns"]),
-    minCount: item["minCount"],
-    renewalPeriod: item["renewalPeriod"],
-  };
-}
-
-export function endpointModelSkuRateLimitRulePatternPropertiesArrayDeserializer(
-  result: Array<EndpointModelSkuRateLimitRulePatternProperties>,
-): any[] {
-  return result.map((item) => {
-    return endpointModelSkuRateLimitRulePatternPropertiesDeserializer(item);
-  });
-}
-
-/** model interface EndpointModelSkuRateLimitRulePatternProperties */
-export interface EndpointModelSkuRateLimitRulePatternProperties {
-  method?: string;
-  path?: string;
-}
-
-export function endpointModelSkuRateLimitRulePatternPropertiesDeserializer(
-  item: any,
-): EndpointModelSkuRateLimitRulePatternProperties {
-  return {
-    method: item["method"],
-    path: item["path"],
   };
 }
 
@@ -27018,848 +23792,6 @@ export function workspaceConnectionPropertiesV2BasicResourceArrayDeserializer(
   });
 }
 
-/** RaiBlocklistPropertiesBasicResource is a preview-only resource. */
-export interface RaiBlocklistPropertiesBasicResource extends ProxyResource {
-  /** RAI Custom Blocklist properties. */
-  properties: RaiBlocklistProperties;
-}
-
-export function raiBlocklistPropertiesBasicResourceSerializer(
-  item: RaiBlocklistPropertiesBasicResource,
-): any {
-  return { properties: raiBlocklistPropertiesSerializer(item["properties"]) };
-}
-
-export function raiBlocklistPropertiesBasicResourceDeserializer(
-  item: any,
-): RaiBlocklistPropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: raiBlocklistPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** RAI Custom Blocklist properties. */
-export interface RaiBlocklistProperties {
-  /** Description of the block list. */
-  description?: string;
-}
-
-export function raiBlocklistPropertiesSerializer(item: RaiBlocklistProperties): any {
-  return { description: item["description"] };
-}
-
-export function raiBlocklistPropertiesDeserializer(item: any): RaiBlocklistProperties {
-  return {
-    description: item["description"],
-  };
-}
-
-/** Paged collection of RaiBlocklistPropertiesBasicResource items */
-export interface _RaiBlocklistPropertiesBasicResourceArmPaginatedResult {
-  /** The RaiBlocklistPropertiesBasicResource items on this page */
-  value: RaiBlocklistPropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _raiBlocklistPropertiesBasicResourceArmPaginatedResultDeserializer(
-  item: any,
-): _RaiBlocklistPropertiesBasicResourceArmPaginatedResult {
-  return {
-    value: raiBlocklistPropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function raiBlocklistPropertiesBasicResourceArraySerializer(
-  result: Array<RaiBlocklistPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiBlocklistPropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function raiBlocklistPropertiesBasicResourceArrayDeserializer(
-  result: Array<RaiBlocklistPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiBlocklistPropertiesBasicResourceDeserializer(item);
-  });
-}
-
-/** The Cognitive Services RaiBlocklist Item request body. */
-export interface RaiBlocklistItemBulkRequest {
-  name?: string;
-  /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
-}
-
-export function raiBlocklistItemBulkRequestSerializer(item: RaiBlocklistItemBulkRequest): any {
-  return {
-    name: item["name"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : raiBlocklistItemPropertiesSerializer(item["properties"]),
-  };
-}
-
-/** RAI Custom Blocklist Item properties. */
-export interface RaiBlocklistItemProperties {
-  /** If the pattern is a regex pattern. */
-  isRegex?: boolean;
-  /** Pattern to match against. */
-  pattern?: string;
-}
-
-export function raiBlocklistItemPropertiesSerializer(item: RaiBlocklistItemProperties): any {
-  return { isRegex: item["isRegex"], pattern: item["pattern"] };
-}
-
-export function raiBlocklistItemPropertiesDeserializer(item: any): RaiBlocklistItemProperties {
-  return {
-    isRegex: item["isRegex"],
-    pattern: item["pattern"],
-  };
-}
-
-/** RaiBlocklistItemPropertiesBasicResource is a preview-only resource. */
-export interface RaiBlocklistItemPropertiesBasicResource extends ProxyResource {
-  /** RAI Custom Blocklist Item properties. */
-  properties: RaiBlocklistItemProperties;
-}
-
-export function raiBlocklistItemPropertiesBasicResourceSerializer(
-  item: RaiBlocklistItemPropertiesBasicResource,
-): any {
-  return { properties: raiBlocklistItemPropertiesSerializer(item["properties"]) };
-}
-
-export function raiBlocklistItemPropertiesBasicResourceDeserializer(
-  item: any,
-): RaiBlocklistItemPropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: raiBlocklistItemPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Paged collection of RaiBlocklistItemPropertiesBasicResource items */
-export interface _RaiBlocklistItemPropertiesBasicResourceArmPaginatedResult {
-  /** The RaiBlocklistItemPropertiesBasicResource items on this page */
-  value: RaiBlocklistItemPropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _raiBlocklistItemPropertiesBasicResourceArmPaginatedResultDeserializer(
-  item: any,
-): _RaiBlocklistItemPropertiesBasicResourceArmPaginatedResult {
-  return {
-    value: raiBlocklistItemPropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function raiBlocklistItemPropertiesBasicResourceArraySerializer(
-  result: Array<RaiBlocklistItemPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiBlocklistItemPropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function raiBlocklistItemPropertiesBasicResourceArrayDeserializer(
-  result: Array<RaiBlocklistItemPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiBlocklistItemPropertiesBasicResourceDeserializer(item);
-  });
-}
-
-/** Azure OpenAI Content Filters resource list. */
-export interface _RaiPolicyPropertiesBasicResourceArmPaginatedResult {
-  /** The RaiPolicyPropertiesBasicResource items on this page */
-  value: RaiPolicyPropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _raiPolicyPropertiesBasicResourceArmPaginatedResultDeserializer(
-  item: any,
-): _RaiPolicyPropertiesBasicResourceArmPaginatedResult {
-  return {
-    value: raiPolicyPropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function raiPolicyPropertiesBasicResourceArraySerializer(
-  result: Array<RaiPolicyPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiPolicyPropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function raiPolicyPropertiesBasicResourceArrayDeserializer(
-  result: Array<RaiPolicyPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return raiPolicyPropertiesBasicResourceDeserializer(item);
-  });
-}
-
-/** EndpointResourcePropertiesBasicResource is a preview-only resource. */
-export interface EndpointResourcePropertiesBasicResource extends ProxyResource {
-  properties: EndpointResourcePropertiesUnion;
-}
-
-export function endpointResourcePropertiesBasicResourceSerializer(
-  item: EndpointResourcePropertiesBasicResource,
-): any {
-  return { properties: endpointResourcePropertiesUnionSerializer(item["properties"]) };
-}
-
-export function endpointResourcePropertiesBasicResourceDeserializer(
-  item: any,
-): EndpointResourcePropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: endpointResourcePropertiesUnionDeserializer(item["properties"]),
-  };
-}
-
-/** model interface EndpointResourceProperties */
-export interface EndpointResourceProperties {
-  /** Byo resource id for creating the built-in model service endpoints. */
-  associatedResourceId?: string;
-  /** Deployments info. */
-  deployments?: EndpointDeploymentResourcePropertiesBasicResource[];
-  /** Type of the endpoint. */
-  /** The discriminator possible values: Azure.ContentSafety, managedOnlineEndpoint, Azure.OpenAI, serverlessEndpoint, Azure.Speech */
-  endpointType: EndpointType;
-  /** Uri of the endpoint. */
-  endpointUri?: string;
-  /** The failure reason if the creation failed. */
-  failureReason?: string;
-  /**
-   * Location of the endpoint.
-   * Since input dto and when parse endpoint resource share the same contract
-   * this Location field is just for parse the endpoint resource info
-   * we won't let customer specify the endpoint resource location since we will create it the same location as workspace
-   */
-  location?: string;
-  /** Name of the endpoint. */
-  name?: string;
-  /** Read-only provision state status property. */
-  readonly provisioningState?: DefaultResourceProvisioningState;
-  /** Whether the proxy (non-byo) endpoint is a regular endpoint or a OneKeyV2 AI services account endpoint. */
-  shouldCreateAiServicesEndpoint?: boolean;
-}
-
-export function endpointResourcePropertiesSerializer(item: EndpointResourceProperties): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-export function endpointResourcePropertiesDeserializer(item: any): EndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-/** Alias for EndpointResourcePropertiesUnion */
-export type EndpointResourcePropertiesUnion =
-  | ContentSafetyEndpointResourceProperties
-  | ManagedOnlineEndpointResourceProperties
-  | OpenAIEndpointResourceProperties
-  | ServerlessEndpointResourceProperties
-  | SpeechEndpointResourceProperties
-  | EndpointResourceProperties;
-
-export function endpointResourcePropertiesUnionSerializer(
-  item: EndpointResourcePropertiesUnion,
-): any {
-  switch (item.endpointType) {
-    case "Azure.ContentSafety":
-      return contentSafetyEndpointResourcePropertiesSerializer(
-        item as ContentSafetyEndpointResourceProperties,
-      );
-
-    case "managedOnlineEndpoint":
-      return managedOnlineEndpointResourcePropertiesSerializer(
-        item as ManagedOnlineEndpointResourceProperties,
-      );
-
-    case "Azure.OpenAI":
-      return openAIEndpointResourcePropertiesSerializer(item as OpenAIEndpointResourceProperties);
-
-    case "serverlessEndpoint":
-      return serverlessEndpointResourcePropertiesSerializer(
-        item as ServerlessEndpointResourceProperties,
-      );
-
-    case "Azure.Speech":
-      return speechEndpointResourcePropertiesSerializer(item as SpeechEndpointResourceProperties);
-
-    default:
-      return endpointResourcePropertiesSerializer(item);
-  }
-}
-
-export function endpointResourcePropertiesUnionDeserializer(
-  item: any,
-): EndpointResourcePropertiesUnion {
-  switch (item["endpointType"]) {
-    case "Azure.ContentSafety":
-      return contentSafetyEndpointResourcePropertiesDeserializer(
-        item as ContentSafetyEndpointResourceProperties,
-      );
-
-    case "managedOnlineEndpoint":
-      return managedOnlineEndpointResourcePropertiesDeserializer(
-        item as ManagedOnlineEndpointResourceProperties,
-      );
-
-    case "Azure.OpenAI":
-      return openAIEndpointResourcePropertiesDeserializer(item as OpenAIEndpointResourceProperties);
-
-    case "serverlessEndpoint":
-      return serverlessEndpointResourcePropertiesDeserializer(
-        item as ServerlessEndpointResourceProperties,
-      );
-
-    case "Azure.Speech":
-      return speechEndpointResourcePropertiesDeserializer(item as SpeechEndpointResourceProperties);
-
-    default:
-      return endpointResourcePropertiesDeserializer(item);
-  }
-}
-
-/** Type of the endpoint. */
-export enum KnownEndpointType {
-  /** Azure.OpenAI */
-  AzureOpenAI = "Azure.OpenAI",
-  /** Azure.Speech */
-  AzureSpeech = "Azure.Speech",
-  /** Azure.ContentSafety */
-  AzureContentSafety = "Azure.ContentSafety",
-  /** Azure.Llama */
-  AzureLlama = "Azure.Llama",
-  /** managedOnlineEndpoint */
-  ManagedOnlineEndpoint = "managedOnlineEndpoint",
-  /** serverlessEndpoint */
-  ServerlessEndpoint = "serverlessEndpoint",
-}
-
-/**
- * Type of the endpoint. \
- * {@link KnownEndpointType} can be used interchangeably with EndpointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Azure.OpenAI** \
- * **Azure.Speech** \
- * **Azure.ContentSafety** \
- * **Azure.Llama** \
- * **managedOnlineEndpoint** \
- * **serverlessEndpoint**
- */
-export type EndpointType = string;
-
-/** model interface ContentSafetyEndpointResourceProperties */
-export interface ContentSafetyEndpointResourceProperties extends EndpointResourceProperties {
-  /** Type of the endpoint. */
-  endpointType: "Azure.ContentSafety";
-}
-
-export function contentSafetyEndpointResourcePropertiesSerializer(
-  item: ContentSafetyEndpointResourceProperties,
-): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-export function contentSafetyEndpointResourcePropertiesDeserializer(
-  item: any,
-): ContentSafetyEndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-/** model interface ManagedOnlineEndpointResourceProperties */
-export interface ManagedOnlineEndpointResourceProperties extends EndpointResourceProperties {
-  /** Enum to determine endpoint authentication mode. */
-  authMode?: EndpointAuthMode;
-  compute?: string;
-  description?: string;
-  mirrorTraffic?: Record<string, number>;
-  scoringUri?: string;
-  traffic?: Record<string, number>;
-  /** Type of the endpoint. */
-  endpointType: "managedOnlineEndpoint";
-}
-
-export function managedOnlineEndpointResourcePropertiesSerializer(
-  item: ManagedOnlineEndpointResourceProperties,
-): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-    authMode: item["authMode"],
-    compute: item["compute"],
-    description: item["description"],
-    mirrorTraffic: item["mirrorTraffic"],
-    scoringUri: item["scoringUri"],
-    traffic: item["traffic"],
-  };
-}
-
-export function managedOnlineEndpointResourcePropertiesDeserializer(
-  item: any,
-): ManagedOnlineEndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-    authMode: item["authMode"],
-    compute: item["compute"],
-    description: item["description"],
-    mirrorTraffic: !item["mirrorTraffic"]
-      ? item["mirrorTraffic"]
-      : Object.fromEntries(
-          Object.entries(item["mirrorTraffic"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    scoringUri: item["scoringUri"],
-    traffic: !item["traffic"]
-      ? item["traffic"]
-      : Object.fromEntries(Object.entries(item["traffic"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** model interface OpenAIEndpointResourceProperties */
-export interface OpenAIEndpointResourceProperties extends EndpointResourceProperties {
-  /** Type of the endpoint. */
-  endpointType: "Azure.OpenAI";
-}
-
-export function openAIEndpointResourcePropertiesSerializer(
-  item: OpenAIEndpointResourceProperties,
-): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-export function openAIEndpointResourcePropertiesDeserializer(
-  item: any,
-): OpenAIEndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-/** model interface ServerlessEndpointResourceProperties */
-export interface ServerlessEndpointResourceProperties extends EndpointResourceProperties {
-  authMode?: ServerlessInferenceEndpointAuthMode;
-  capacityReservation?: ServerlessEndpointCapacityReservation;
-  contentSafety?: ServerlessEndpointContentSafety;
-  /** State of the Serverless Endpoint. */
-  endpointState?: ServerlessEndpointState;
-  inferenceEndpoint?: ServerlessEndpointInferenceEndpoint;
-  marketplaceSubscriptionId?: string;
-  metadata?: any;
-  modelSettings?: ServerlessEndpointModelSettings;
-  offer?: ServerlessOffer;
-  /** Type of the endpoint. */
-  endpointType: "serverlessEndpoint";
-}
-
-export function serverlessEndpointResourcePropertiesSerializer(
-  item: ServerlessEndpointResourceProperties,
-): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-    authMode: item["authMode"],
-    capacityReservation: !item["capacityReservation"]
-      ? item["capacityReservation"]
-      : serverlessEndpointCapacityReservationSerializer(item["capacityReservation"]),
-    contentSafety: !item["contentSafety"]
-      ? item["contentSafety"]
-      : serverlessEndpointContentSafetySerializer(item["contentSafety"]),
-    endpointState: item["endpointState"],
-    inferenceEndpoint: !item["inferenceEndpoint"]
-      ? item["inferenceEndpoint"]
-      : serverlessEndpointInferenceEndpointSerializer(item["inferenceEndpoint"]),
-    marketplaceSubscriptionId: item["marketplaceSubscriptionId"],
-    metadata: item["metadata"],
-    modelSettings: !item["modelSettings"]
-      ? item["modelSettings"]
-      : serverlessEndpointModelSettingsSerializer(item["modelSettings"]),
-    offer: !item["offer"] ? item["offer"] : serverlessOfferSerializer(item["offer"]),
-  };
-}
-
-export function serverlessEndpointResourcePropertiesDeserializer(
-  item: any,
-): ServerlessEndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-    authMode: item["authMode"],
-    capacityReservation: !item["capacityReservation"]
-      ? item["capacityReservation"]
-      : serverlessEndpointCapacityReservationDeserializer(item["capacityReservation"]),
-    contentSafety: !item["contentSafety"]
-      ? item["contentSafety"]
-      : serverlessEndpointContentSafetyDeserializer(item["contentSafety"]),
-    endpointState: item["endpointState"],
-    inferenceEndpoint: !item["inferenceEndpoint"]
-      ? item["inferenceEndpoint"]
-      : serverlessEndpointInferenceEndpointDeserializer(item["inferenceEndpoint"]),
-    marketplaceSubscriptionId: item["marketplaceSubscriptionId"],
-    metadata: item["metadata"],
-    modelSettings: !item["modelSettings"]
-      ? item["modelSettings"]
-      : serverlessEndpointModelSettingsDeserializer(item["modelSettings"]),
-    offer: !item["offer"] ? item["offer"] : serverlessOfferDeserializer(item["offer"]),
-  };
-}
-
-/** model interface ServerlessEndpointCapacityReservation */
-export interface ServerlessEndpointCapacityReservation {
-  capacityReservationGroupId: string;
-  endpointReservedCapacity?: number;
-}
-
-export function serverlessEndpointCapacityReservationSerializer(
-  item: ServerlessEndpointCapacityReservation,
-): any {
-  return {
-    capacityReservationGroupId: item["capacityReservationGroupId"],
-    endpointReservedCapacity: item["endpointReservedCapacity"],
-  };
-}
-
-export function serverlessEndpointCapacityReservationDeserializer(
-  item: any,
-): ServerlessEndpointCapacityReservation {
-  return {
-    capacityReservationGroupId: item["capacityReservationGroupId"],
-    endpointReservedCapacity: item["endpointReservedCapacity"],
-  };
-}
-
-/** model interface ServerlessEndpointContentSafety */
-export interface ServerlessEndpointContentSafety {
-  /** Specifies the status of content safety. */
-  contentSafetyStatus: ContentSafetyStatus;
-}
-
-export function serverlessEndpointContentSafetySerializer(
-  item: ServerlessEndpointContentSafety,
-): any {
-  return { contentSafetyStatus: item["contentSafetyStatus"] };
-}
-
-export function serverlessEndpointContentSafetyDeserializer(
-  item: any,
-): ServerlessEndpointContentSafety {
-  return {
-    contentSafetyStatus: item["contentSafetyStatus"],
-  };
-}
-
-/** model interface ServerlessEndpointInferenceEndpoint */
-export interface ServerlessEndpointInferenceEndpoint {
-  readonly headers?: Record<string, string>;
-  readonly uri: string;
-}
-
-export function serverlessEndpointInferenceEndpointSerializer(
-  _item: ServerlessEndpointInferenceEndpoint,
-): any {
-  return {};
-}
-
-export function serverlessEndpointInferenceEndpointDeserializer(
-  item: any,
-): ServerlessEndpointInferenceEndpoint {
-  return {
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(Object.entries(item["headers"]).map(([k, p]: [string, any]) => [k, p])),
-    uri: item["uri"],
-  };
-}
-
-/** model interface ServerlessEndpointModelSettings */
-export interface ServerlessEndpointModelSettings {
-  modelId: string;
-}
-
-export function serverlessEndpointModelSettingsSerializer(
-  item: ServerlessEndpointModelSettings,
-): any {
-  return { modelId: item["modelId"] };
-}
-
-export function serverlessEndpointModelSettingsDeserializer(
-  item: any,
-): ServerlessEndpointModelSettings {
-  return {
-    modelId: item["modelId"],
-  };
-}
-
-/** model interface ServerlessOffer */
-export interface ServerlessOffer {
-  offerName: string;
-  publisher: string;
-}
-
-export function serverlessOfferSerializer(item: ServerlessOffer): any {
-  return { offerName: item["offerName"], publisher: item["publisher"] };
-}
-
-export function serverlessOfferDeserializer(item: any): ServerlessOffer {
-  return {
-    offerName: item["offerName"],
-    publisher: item["publisher"],
-  };
-}
-
-/** model interface SpeechEndpointResourceProperties */
-export interface SpeechEndpointResourceProperties extends EndpointResourceProperties {
-  /** Type of the endpoint. */
-  endpointType: "Azure.Speech";
-}
-
-export function speechEndpointResourcePropertiesSerializer(
-  item: SpeechEndpointResourceProperties,
-): any {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArraySerializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-export function speechEndpointResourcePropertiesDeserializer(
-  item: any,
-): SpeechEndpointResourceProperties {
-  return {
-    associatedResourceId: item["associatedResourceId"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : endpointDeploymentResourcePropertiesBasicResourceArrayDeserializer(item["deployments"]),
-    endpointType: item["endpointType"],
-    endpointUri: item["endpointUri"],
-    failureReason: item["failureReason"],
-    location: item["location"],
-    name: item["name"],
-    provisioningState: item["provisioningState"],
-    shouldCreateAiServicesEndpoint: item["shouldCreateAiServicesEndpoint"],
-  };
-}
-
-/** Paged collection of EndpointResourcePropertiesBasicResource items */
-export interface _EndpointResourcePropertiesBasicResourceArmPaginatedResult {
-  /** The EndpointResourcePropertiesBasicResource items on this page */
-  value: EndpointResourcePropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _endpointResourcePropertiesBasicResourceArmPaginatedResultDeserializer(
-  item: any,
-): _EndpointResourcePropertiesBasicResourceArmPaginatedResult {
-  return {
-    value: endpointResourcePropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function endpointResourcePropertiesBasicResourceArraySerializer(
-  result: Array<EndpointResourcePropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return endpointResourcePropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function endpointResourcePropertiesBasicResourceArrayDeserializer(
-  result: Array<EndpointResourcePropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return endpointResourcePropertiesBasicResourceDeserializer(item);
-  });
-}
-
-/** model interface EndpointKeys */
-export interface EndpointKeys {
-  /** Dictionary of Keys for the endpoint. */
-  keys?: AccountApiKeys;
-}
-
-export function endpointKeysDeserializer(item: any): EndpointKeys {
-  return {
-    keys: !item["keys"] ? item["keys"] : accountApiKeysDeserializer(item["keys"]),
-  };
-}
-
-/** model interface AccountApiKeys */
-export interface AccountApiKeys {
-  key1?: string;
-  key2?: string;
-}
-
-export function accountApiKeysDeserializer(item: any): AccountApiKeys {
-  return {
-    key1: item["key1"],
-    key2: item["key2"],
-  };
-}
-
-/** model interface RegenerateServiceAccountKeyContent */
-export interface RegenerateServiceAccountKeyContent {
-  keyName?: ServiceAccountKeyName;
-}
-
-export function regenerateServiceAccountKeyContentSerializer(
-  item: RegenerateServiceAccountKeyContent,
-): any {
-  return { keyName: item["keyName"] };
-}
-
-/** Known values of {@link ServiceAccountKeyName} that the service accepts. */
-export enum KnownServiceAccountKeyName {
-  /** Key1 */
-  Key1 = "Key1",
-  /** Key2 */
-  Key2 = "Key2",
-}
-
-/** Type of ServiceAccountKeyName */
-export type ServiceAccountKeyName = string;
-
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface OutboundRuleBasicResource extends ProxyResource {
   /** Outbound Rule for the managed network of a machine learning workspace. */
@@ -27911,175 +23843,6 @@ export function outboundRuleBasicResourceArrayDeserializer(
   return result.map((item) => {
     return outboundRuleBasicResourceDeserializer(item);
   });
-}
-
-/** ManagedNetworkSettingsPropertiesBasicResource is a preview-only resource. */
-export interface ManagedNetworkSettingsPropertiesBasicResource extends ProxyResource {
-  /** The properties of the managed network settings of a machine learning workspace. */
-  properties?: ManagedNetworkSettingsProperties;
-}
-
-export function managedNetworkSettingsPropertiesBasicResourceSerializer(
-  item: ManagedNetworkSettingsPropertiesBasicResource,
-): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedNetworkSettingsPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function managedNetworkSettingsPropertiesBasicResourceDeserializer(
-  item: any,
-): ManagedNetworkSettingsPropertiesBasicResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedNetworkSettingsPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of the managed network settings of a machine learning workspace. */
-export interface ManagedNetworkSettingsProperties {
-  /** Managed Network settings for a machine learning workspace. */
-  managedNetwork?: ManagedNetworkSettingsEx;
-  /** The current deployment state of the managed network resource. The provisioningState is to indicate states for resource provisioning. */
-  readonly provisioningState?: ManagedNetworkProvisioningState;
-}
-
-export function managedNetworkSettingsPropertiesSerializer(
-  item: ManagedNetworkSettingsProperties,
-): any {
-  return {
-    managedNetwork: !item["managedNetwork"]
-      ? item["managedNetwork"]
-      : managedNetworkSettingsExSerializer(item["managedNetwork"]),
-  };
-}
-
-export function managedNetworkSettingsPropertiesDeserializer(
-  item: any,
-): ManagedNetworkSettingsProperties {
-  return {
-    managedNetwork: !item["managedNetwork"]
-      ? item["managedNetwork"]
-      : managedNetworkSettingsExDeserializer(item["managedNetwork"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** model interface ManagedNetworkSettingsEx */
-export interface ManagedNetworkSettingsEx extends ManagedNetworkSettings {
-  readonly changeableIsolationModes?: IsolationMode[];
-}
-
-export function managedNetworkSettingsExSerializer(item: ManagedNetworkSettingsEx): any {
-  return {
-    enableNetworkMonitor: item["enableNetworkMonitor"],
-    isolationMode: item["isolationMode"],
-    outboundRules: !item["outboundRules"]
-      ? item["outboundRules"]
-      : outboundRuleUnionRecordSerializer(item["outboundRules"]),
-    status: !item["status"]
-      ? item["status"]
-      : managedNetworkProvisionStatusSerializer(item["status"]),
-    firewallSku: item["firewallSku"],
-    managedNetworkKind: item["managedNetworkKind"],
-  };
-}
-
-export function managedNetworkSettingsExDeserializer(item: any): ManagedNetworkSettingsEx {
-  return {
-    enableNetworkMonitor: item["enableNetworkMonitor"],
-    isolationMode: item["isolationMode"],
-    networkId: item["networkId"],
-    outboundRules: !item["outboundRules"]
-      ? item["outboundRules"]
-      : outboundRuleUnionRecordDeserializer(item["outboundRules"]),
-    status: !item["status"]
-      ? item["status"]
-      : managedNetworkProvisionStatusDeserializer(item["status"]),
-    firewallSku: item["firewallSku"],
-    managedNetworkKind: item["managedNetworkKind"],
-    firewallPublicIpAddress: item["firewallPublicIpAddress"],
-    changeableIsolationModes: !item["changeableIsolationModes"]
-      ? item["changeableIsolationModes"]
-      : item["changeableIsolationModes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Known values of {@link ManagedNetworkProvisioningState} that the service accepts. */
-export enum KnownManagedNetworkProvisioningState {
-  /** Deferred */
-  Deferred = "Deferred",
-  /** Updating */
-  Updating = "Updating",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-}
-
-/** Type of ManagedNetworkProvisioningState */
-export type ManagedNetworkProvisioningState = string;
-
-/** Paged collection of ManagedNetworkSettingsPropertiesBasicResource items */
-export interface _ManagedNetworkListResult {
-  /** The ManagedNetworkSettingsPropertiesBasicResource items on this page */
-  value: ManagedNetworkSettingsPropertiesBasicResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _managedNetworkListResultDeserializer(item: any): _ManagedNetworkListResult {
-  return {
-    value: managedNetworkSettingsPropertiesBasicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function managedNetworkSettingsPropertiesBasicResourceArraySerializer(
-  result: Array<ManagedNetworkSettingsPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return managedNetworkSettingsPropertiesBasicResourceSerializer(item);
-  });
-}
-
-export function managedNetworkSettingsPropertiesBasicResourceArrayDeserializer(
-  result: Array<ManagedNetworkSettingsPropertiesBasicResource>,
-): any[] {
-  return result.map((item) => {
-    return managedNetworkSettingsPropertiesBasicResourceDeserializer(item);
-  });
-}
-
-/** model interface ManagedNetworkSettingsBasicResource */
-export interface ManagedNetworkSettingsBasicResource extends Resource {
-  /** Managed Network settings for a machine learning workspace. */
-  properties?: ManagedNetworkSettings;
-}
-
-export function managedNetworkSettingsBasicResourceSerializer(
-  item: ManagedNetworkSettingsBasicResource,
-): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedNetworkSettingsSerializer(item["properties"]),
-  };
 }
 
 /** The List Usages operation response. */
@@ -28162,6 +23925,183 @@ export function usageNameDeserializer(item: any): UsageName {
     localizedValue: item["localizedValue"],
   };
 }
+
+/** The List Virtual Machine size operation response. */
+export interface VirtualMachineSizeListResult {
+  /** The list of virtual machine sizes supported by AmlCompute. */
+  value?: VirtualMachineSize[];
+}
+
+export function virtualMachineSizeListResultDeserializer(item: any): VirtualMachineSizeListResult {
+  return {
+    value: !item["value"] ? item["value"] : virtualMachineSizeArrayDeserializer(item["value"]),
+  };
+}
+
+export function virtualMachineSizeArrayDeserializer(result: Array<VirtualMachineSize>): any[] {
+  return result.map((item) => {
+    return virtualMachineSizeDeserializer(item);
+  });
+}
+
+/** Describes the properties of a VM size. */
+export interface VirtualMachineSize {
+  /** The name of the virtual machine size. */
+  readonly name?: string;
+  /** The family name of the virtual machine size. */
+  readonly family?: string;
+  /** The number of vCPUs supported by the virtual machine size. */
+  readonly vCPUs?: number;
+  /** The number of gPUs supported by the virtual machine size. */
+  readonly gpus?: number;
+  /** The OS VHD disk size, in MB, allowed by the virtual machine size. */
+  readonly osVhdSizeMB?: number;
+  /** The resource volume size, in MB, allowed by the virtual machine size. */
+  readonly maxResourceVolumeMB?: number;
+  /** The amount of memory, in GB, supported by the virtual machine size. */
+  readonly memoryGB?: number;
+  /** Specifies if the virtual machine size supports low priority VMs. */
+  readonly lowPriorityCapable?: boolean;
+  /** Specifies if the virtual machine size supports premium IO. */
+  readonly premiumIO?: boolean;
+  /** The estimated price information for using a VM. */
+  estimatedVMPrices?: EstimatedVMPrices;
+  /** Specifies the compute types supported by the virtual machine size. */
+  supportedComputeTypes?: string[];
+}
+
+export function virtualMachineSizeDeserializer(item: any): VirtualMachineSize {
+  return {
+    name: item["name"],
+    family: item["family"],
+    vCPUs: item["vCPUs"],
+    gpus: item["gpus"],
+    osVhdSizeMB: item["osVhdSizeMB"],
+    maxResourceVolumeMB: item["maxResourceVolumeMB"],
+    memoryGB: item["memoryGB"],
+    lowPriorityCapable: item["lowPriorityCapable"],
+    premiumIO: item["premiumIO"],
+    estimatedVMPrices: !item["estimatedVMPrices"]
+      ? item["estimatedVMPrices"]
+      : estimatedVMPricesDeserializer(item["estimatedVMPrices"]),
+    supportedComputeTypes: !item["supportedComputeTypes"]
+      ? item["supportedComputeTypes"]
+      : item["supportedComputeTypes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The estimated price info for using a VM. */
+export interface EstimatedVMPrices {
+  /** Three lettered code specifying the currency of the VM price. Example: USD */
+  billingCurrency: BillingCurrency;
+  /** The unit of time measurement for the specified VM price. Example: OneHour */
+  unitOfMeasure: UnitOfMeasure;
+  /** The list of estimated prices for using a VM of a particular OS type, tier, etc. */
+  values: EstimatedVMPrice[];
+}
+
+export function estimatedVMPricesDeserializer(item: any): EstimatedVMPrices {
+  return {
+    billingCurrency: item["billingCurrency"],
+    unitOfMeasure: item["unitOfMeasure"],
+    values: estimatedVMPriceArrayDeserializer(item["values"]),
+  };
+}
+
+/** Three lettered code specifying the currency of the VM price. Example: USD */
+export enum KnownBillingCurrency {
+  /** USD */
+  USD = "USD",
+}
+
+/**
+ * Three lettered code specifying the currency of the VM price. Example: USD \
+ * {@link KnownBillingCurrency} can be used interchangeably with BillingCurrency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **USD**
+ */
+export type BillingCurrency = string;
+
+/** The unit of time measurement for the specified VM price. Example: OneHour */
+export enum KnownUnitOfMeasure {
+  /** OneHour */
+  OneHour = "OneHour",
+}
+
+/**
+ * The unit of time measurement for the specified VM price. Example: OneHour \
+ * {@link KnownUnitOfMeasure} can be used interchangeably with UnitOfMeasure,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneHour**
+ */
+export type UnitOfMeasure = string;
+
+export function estimatedVMPriceArrayDeserializer(result: Array<EstimatedVMPrice>): any[] {
+  return result.map((item) => {
+    return estimatedVMPriceDeserializer(item);
+  });
+}
+
+/** The estimated price info for using a VM of a particular OS type, tier, etc. */
+export interface EstimatedVMPrice {
+  /** The price charged for using the VM. */
+  retailPrice: number;
+  /** Operating system type used by the VM. */
+  osType: VMPriceOSType;
+  /** The type of the VM. */
+  vmTier: VMTier;
+}
+
+export function estimatedVMPriceDeserializer(item: any): EstimatedVMPrice {
+  return {
+    retailPrice: item["retailPrice"],
+    osType: item["osType"],
+    vmTier: item["vmTier"],
+  };
+}
+
+/** Operating system type used by the VM. */
+export enum KnownVMPriceOSType {
+  /** Linux */
+  Linux = "Linux",
+  /** Windows */
+  Windows = "Windows",
+}
+
+/**
+ * Operating system type used by the VM. \
+ * {@link KnownVMPriceOSType} can be used interchangeably with VMPriceOSType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linux** \
+ * **Windows**
+ */
+export type VMPriceOSType = string;
+
+/** The type of the VM. */
+export enum KnownVMTier {
+  /** Standard */
+  Standard = "Standard",
+  /** LowPriority */
+  LowPriority = "LowPriority",
+  /** Spot */
+  Spot = "Spot",
+}
+
+/**
+ * The type of the VM. \
+ * {@link KnownVMTier} can be used interchangeably with VMTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard** \
+ * **LowPriority** \
+ * **Spot**
+ */
+export type VMTier = string;
 
 /** Quota update parameters. */
 export interface QuotaUpdateParameters {
@@ -28361,128 +24301,6 @@ export function resourceNameDeserializer(item: any): ResourceName {
   };
 }
 
-/** A paginated list of AvailableQuota entities. */
-export interface _AvailableQuotaArmPaginatedResult {
-  /** The AvailableQuota items on this page */
-  value: AvailableQuota[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _availableQuotaArmPaginatedResultDeserializer(
-  item: any,
-): _AvailableQuotaArmPaginatedResult {
-  return {
-    value: availableQuotaArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function availableQuotaArrayDeserializer(result: Array<AvailableQuota>): any[] {
-  return result.map((item) => {
-    return availableQuotaDeserializer(item);
-  });
-}
-
-/** model interface AvailableQuota */
-export interface AvailableQuota {
-  /** Available quota properties */
-  properties?: AvailableQuotaProperties;
-}
-
-export function availableQuotaDeserializer(item: any): AvailableQuota {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : availableQuotaPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** model interface AvailableQuotaProperties */
-export interface AvailableQuotaProperties {
-  /** The number of available quota */
-  total?: number;
-}
-
-export function availableQuotaPropertiesDeserializer(item: any): AvailableQuotaProperties {
-  return {
-    total: item["total"],
-  };
-}
-
-/** A paginated list of UsageAndQuotaDetails entities. */
-export interface _UsageAndQuotaDetailsArmPaginatedResult {
-  /** The UsageAndQuotaDetails items on this page */
-  value: UsageAndQuotaDetails[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _usageAndQuotaDetailsArmPaginatedResultDeserializer(
-  item: any,
-): _UsageAndQuotaDetailsArmPaginatedResult {
-  return {
-    value: usageAndQuotaDetailsArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function usageAndQuotaDetailsArrayDeserializer(result: Array<UsageAndQuotaDetails>): any[] {
-  return result.map((item) => {
-    return usageAndQuotaDetailsDeserializer(item);
-  });
-}
-
-/** model interface UsageAndQuotaDetails */
-export interface UsageAndQuotaDetails {
-  /** Model collection name */
-  modelCollection?: string;
-  /** The total number of quota */
-  quota?: number;
-  /** Usage details for each deployment */
-  usageDetails?: PTUDeploymentUsage[];
-}
-
-export function usageAndQuotaDetailsDeserializer(item: any): UsageAndQuotaDetails {
-  return {
-    modelCollection: item["modelCollection"],
-    quota: item["quota"],
-    usageDetails: !item["usageDetails"]
-      ? item["usageDetails"]
-      : ptuDeploymentUsageArrayDeserializer(item["usageDetails"]),
-  };
-}
-
-export function ptuDeploymentUsageArrayDeserializer(result: Array<PTUDeploymentUsage>): any[] {
-  return result.map((item) => {
-    return ptuDeploymentUsageDeserializer(item);
-  });
-}
-
-/** model interface PTUDeploymentUsage */
-export interface PTUDeploymentUsage {
-  /** Usage number from the collection level quota */
-  collectionQuotaUsage?: number;
-  /** Deployment name */
-  deploymentName?: string;
-  /** Resource group name */
-  resourceGroup?: string;
-  /** Usage number from subscription level quota */
-  usage?: number;
-  /** Workspace name */
-  workspaceName?: string;
-}
-
-export function ptuDeploymentUsageDeserializer(item: any): PTUDeploymentUsage {
-  return {
-    collectionQuotaUsage: item["collectionQuotaUsage"],
-    deploymentName: item["deploymentName"],
-    resourceGroup: item["resourceGroup"],
-    usage: item["usage"],
-    workspaceName: item["workspaceName"],
-  };
-}
-
 /** Known values of {@link ListViewType} that the service accepts. */
 export enum KnownListViewType {
   /** ActiveOnly */
@@ -28537,26 +24355,14 @@ export type UnderlyingResourceAction = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2024-10-01-preview API version. */
-  V20241001Preview = "2024-10-01-preview",
-  /** The 2025-10-01-preview API version. */
-  V20251001Preview = "2025-10-01-preview",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
-  /** The 2026-01-15-preview API version. */
-  V20260115Preview = "2026-01-15-preview",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
-  /** The 2026-03-15-preview API version. */
-  V20260315Preview = "2026-03-15-preview",
-}
-
-export function raiBlocklistItemBulkRequestArraySerializer(
-  result: Array<RaiBlocklistItemBulkRequest>,
-): any[] {
-  return result.map((item) => {
-    return raiBlocklistItemBulkRequestSerializer(item);
-  });
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
@@ -28607,16 +24413,10 @@ export function _sharedPrivateLinkResourcePropertiesDeserializer(item: any) {
 export function _workspacePropertiesSerializer(item: Workspace): any {
   return {
     allowPublicAccessWhenBehindVnet: item["allowPublicAccessWhenBehindVnet"],
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     associatedWorkspaces: !item["associatedWorkspaces"]
       ? item["associatedWorkspaces"]
       : item["associatedWorkspaces"].map((p: any) => {
-          return p;
-        }),
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : item["containerRegistries"].map((p: any) => {
           return p;
         }),
     containerRegistry: item["containerRegistry"],
@@ -28624,16 +24424,9 @@ export function _workspacePropertiesSerializer(item: Workspace): any {
     discoveryUrl: item["discoveryUrl"],
     enableDataIsolation: item["enableDataIsolation"],
     enableServiceSideCMKEncryption: item["enableServiceSideCMKEncryption"],
-    enableSimplifiedCmk: item["enableSimplifiedCmk"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertySerializer(item["encryption"]),
-    existingWorkspaces: !item["existingWorkspaces"]
-      ? item["existingWorkspaces"]
-      : item["existingWorkspaces"].map((p: any) => {
-          return p;
-        }),
     featureStoreSettings: !item["featureStoreSettings"]
       ? item["featureStoreSettings"]
       : featureStoreSettingsSerializer(item["featureStoreSettings"]),
@@ -28641,23 +24434,10 @@ export function _workspacePropertiesSerializer(item: Workspace): any {
     hbiWorkspace: item["hbiWorkspace"],
     hubResourceId: item["hubResourceId"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     keyVault: item["keyVault"],
-    keyVaults: !item["keyVaults"]
-      ? item["keyVaults"]
-      : item["keyVaults"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsSerializer(item["managedNetwork"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsSerializer(item["networkAcls"]),
     primaryUserAssignedIdentity: item["primaryUserAssignedIdentity"],
     provisionNetworkNow: item["provisionNetworkNow"],
     publicNetworkAccess: item["publicNetworkAccess"],
@@ -28670,13 +24450,7 @@ export function _workspacePropertiesSerializer(item: Workspace): any {
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArraySerializer(item["sharedPrivateLinkResources"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     storageAccount: item["storageAccount"],
-    storageAccounts: !item["storageAccounts"]
-      ? item["storageAccounts"]
-      : item["storageAccounts"].map((p: any) => {
-          return p;
-        }),
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     v1LegacyMode: item["v1LegacyMode"],
     workspaceHubConfig: !item["workspaceHubConfig"]
@@ -28687,18 +24461,11 @@ export function _workspacePropertiesSerializer(item: Workspace): any {
 
 export function _workspacePropertiesDeserializer(item: any) {
   return {
-    agentsEndpointUri: item["agentsEndpointUri"],
     allowPublicAccessWhenBehindVnet: item["allowPublicAccessWhenBehindVnet"],
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     associatedWorkspaces: !item["associatedWorkspaces"]
       ? item["associatedWorkspaces"]
       : item["associatedWorkspaces"].map((p: any) => {
-          return p;
-        }),
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : item["containerRegistries"].map((p: any) => {
           return p;
         }),
     containerRegistry: item["containerRegistry"],
@@ -28706,16 +24473,9 @@ export function _workspacePropertiesDeserializer(item: any) {
     discoveryUrl: item["discoveryUrl"],
     enableDataIsolation: item["enableDataIsolation"],
     enableServiceSideCMKEncryption: item["enableServiceSideCMKEncryption"],
-    enableSimplifiedCmk: item["enableSimplifiedCmk"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertyDeserializer(item["encryption"]),
-    existingWorkspaces: !item["existingWorkspaces"]
-      ? item["existingWorkspaces"]
-      : item["existingWorkspaces"].map((p: any) => {
-          return p;
-        }),
     featureStoreSettings: !item["featureStoreSettings"]
       ? item["featureStoreSettings"]
       : featureStoreSettingsDeserializer(item["featureStoreSettings"]),
@@ -28723,24 +24483,11 @@ export function _workspacePropertiesDeserializer(item: any) {
     hbiWorkspace: item["hbiWorkspace"],
     hubResourceId: item["hubResourceId"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     keyVault: item["keyVault"],
-    keyVaults: !item["keyVaults"]
-      ? item["keyVaults"]
-      : item["keyVaults"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsDeserializer(item["managedNetwork"]),
     mlFlowTrackingUri: item["mlFlowTrackingUri"],
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsDeserializer(item["networkAcls"]),
     notebookInfo: !item["notebookInfo"]
       ? item["notebookInfo"]
       : notebookResourceInfoDeserializer(item["notebookInfo"]),
@@ -28762,13 +24509,7 @@ export function _workspacePropertiesDeserializer(item: any) {
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArrayDeserializer(item["sharedPrivateLinkResources"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     storageAccount: item["storageAccount"],
-    storageAccounts: !item["storageAccounts"]
-      ? item["storageAccounts"]
-      : item["storageAccounts"].map((p: any) => {
-          return p;
-        }),
     storageHnsEnabled: item["storageHnsEnabled"],
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     tenantId: item["tenantId"],
@@ -28784,12 +24525,10 @@ export function _workspaceUpdateParametersPropertiesSerializer(
   item: WorkspaceUpdateParameters,
 ): any {
   return {
-    allowRoleAssignmentOnRG: item["allowRoleAssignmentOnRG"],
     applicationInsights: item["applicationInsights"],
     containerRegistry: item["containerRegistry"],
     description: item["description"],
     enableDataIsolation: item["enableDataIsolation"],
-    enableSoftwareBillOfMaterials: item["enableSoftwareBillOfMaterials"],
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionUpdatePropertiesSerializer(item["encryption"]),
@@ -28798,17 +24537,9 @@ export function _workspaceUpdateParametersPropertiesSerializer(
       : featureStoreSettingsSerializer(item["featureStoreSettings"]),
     friendlyName: item["friendlyName"],
     imageBuildCompute: item["imageBuildCompute"],
-    ipAllowlist: !item["ipAllowlist"]
-      ? item["ipAllowlist"]
-      : item["ipAllowlist"].map((p: any) => {
-          return p;
-        }),
     managedNetwork: !item["managedNetwork"]
       ? item["managedNetwork"]
       : managedNetworkSettingsSerializer(item["managedNetwork"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkAclsSerializer(item["networkAcls"]),
     primaryUserAssignedIdentity: item["primaryUserAssignedIdentity"],
     publicNetworkAccess: item["publicNetworkAccess"],
     serverlessComputeSettings: !item["serverlessComputeSettings"]
@@ -28817,7 +24548,6 @@ export function _workspaceUpdateParametersPropertiesSerializer(
     serviceManagedResourcesSettings: !item["serviceManagedResourcesSettings"]
       ? item["serviceManagedResourcesSettings"]
       : serviceManagedResourcesSettingsSerializer(item["serviceManagedResourcesSettings"]),
-    softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     v1LegacyMode: item["v1LegacyMode"],
   };

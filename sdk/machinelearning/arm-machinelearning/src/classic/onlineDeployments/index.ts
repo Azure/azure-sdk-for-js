@@ -21,11 +21,11 @@ import type {
   OnlineDeploymentsGetOptionalParams,
 } from "../../api/onlineDeployments/options.js";
 import type {
-  PartialMinimalTrackedResourceWithSku,
-  SkuResource,
   OnlineDeployment,
+  PartialMinimalTrackedResourceWithSku,
   DeploymentLogsRequest,
   DeploymentLogs,
+  SkuResource,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
