@@ -130,7 +130,7 @@ export async function fetchLayout(
   try {
     do {
       const layout = await blobContext.getLayout({ ...options, ifMatch, marker });
-      ifMatch ??= layout.etag;
+      ifMatch = layout.etag ?? ifMatch;
       segments.push(...toBlobLayoutSegments(layout));
       marker = layout.nextMarker || undefined;
     } while (marker);

@@ -13,6 +13,7 @@ import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
 import { addStorageCompatResponse } from "../../src/generated/static-helpers/storageCompatResponse.js";
 import type { BlobLayoutSegment } from "../../src/utils/BlobLayoutSegment.js";
 import {
+  decodeLayoutContinuationToken,
   fetchLayout,
   getLayoutEndpoint,
   toBlobLayoutCacheValue,
@@ -373,6 +374,19 @@ describe("BlobClient.getLayout", () => {
     assert.isUndefined(calls[0].ifMatch);
     assert.equal(calls[1].marker, "marker-1");
     assert.equal(calls[1].ifMatch, "etag-page-1");
+  });
+
+  it("locks pages after the first to page one's exact ETag even under a wildcard", async () => {
+    const { client, calls } = clientWithLayoutPages([pageOne(), pageTwo()]);
+
+    const pages: BlobGetLayoutResponseModel[] = [];
+    for await (const page of client.getLayout({ conditions: { ifMatch: "*" } })) {
+      pages.push(page);
+    }
+
+    assert.equal(calls[0].ifMatch, "*");
+    assert.equal(calls[1].ifMatch, "etag-page-1");
+    assert.equal(decodeLayoutContinuationToken(pages[0].continuationToken!).etag, "etag-page-1");
   });
 
   it("holds the range identical across continuations", async () => {

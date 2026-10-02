@@ -2418,8 +2418,9 @@ export class BlobClient extends StorageClient {
         const response = await this.getLayoutSegment(marker, ifMatch, options);
         // The service requires every continuation to be locked to the version the first page
         // described, so a blob rewritten mid-enumeration cannot yield a stitched-together layout.
-        // The token carries that ETag so that resuming from the token alone keeps the lock.
-        ifMatch ??= response.etag;
+        // The lock is the page's exact ETag, even over a caller's wildcard, and the token carries
+        // it so that resuming from the token alone keeps the lock.
+        ifMatch = response.etag ?? ifMatch;
         marker = response.continuationToken;
         response.continuationToken = marker
           ? encodeLayoutContinuationToken({ marker, etag: ifMatch })
