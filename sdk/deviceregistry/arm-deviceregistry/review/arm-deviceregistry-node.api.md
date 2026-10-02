@@ -6,18 +6,20 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public
-export interface ActivateBringYourOwnRootRequest {
+export interface ActivateCertificateAuthorityRequest {
     certificateChain: string;
 }
 
@@ -226,6 +228,15 @@ export interface AssetUpdateProperties {
 }
 
 // @public
+export interface AsyncOperationStatusGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AsyncOperationStatusOperations {
+    get: (location: string, operationId: string, options?: AsyncOperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
+}
+
+// @public
 export interface Authentication {
     method: AuthenticationMethod;
     usernamePasswordCredentials?: UsernamePasswordCredentials;
@@ -271,49 +282,156 @@ export interface BillingContainersOperations {
 }
 
 // @public
-export interface BringYourOwnRoot {
-    readonly certificateSigningRequest?: string;
-    enabled: boolean;
-    readonly issuingCertificateThumbprint?: string;
-    readonly status?: BringYourOwnRootStatus;
-}
-
-// @public
-export type BringYourOwnRootStatus = string;
-
-// @public
-export interface BringYourOwnRootUpdate {
-}
-
-// @public
 export interface BrokerStateStoreDestinationConfiguration {
     key: string;
 }
 
 // @public
-export interface CertificateAuthorityConfiguration {
-    bringYourOwnRoot?: BringYourOwnRoot;
-    keyType: SupportedKeyType;
+export interface CertificateAuthoritiesActivateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateAuthoritiesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateAuthoritiesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateAuthoritiesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CertificateAuthoritiesListByNamespaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CertificateAuthoritiesOperations {
+    activate: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, body: ActivateCertificateAuthorityRequest, options?: CertificateAuthoritiesActivateOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, resource: CertificateAuthority, options?: CertificateAuthoritiesCreateOrReplaceOptionalParams) => PollerLike<OperationState<CertificateAuthority>, CertificateAuthority>;
+    delete: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, options?: CertificateAuthoritiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, options?: CertificateAuthoritiesGetOptionalParams) => Promise<CertificateAuthority>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: CertificateAuthoritiesListByNamespaceOptionalParams) => PagedAsyncIterableIterator<CertificateAuthority>;
+    revokeAndRotate: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, options?: CertificateAuthoritiesRevokeAndRotateOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, properties: CertificateAuthorityUpdate, options?: CertificateAuthoritiesUpdateOptionalParams) => PollerLike<OperationState<CertificateAuthority>, CertificateAuthority>;
+}
+
+// @public
+export interface CertificateAuthoritiesRevokeAndRotateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateAuthoritiesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateAuthority extends TrackedResource {
+    properties?: CertificateAuthorityPropertiesUnion;
+}
+
+// @public
+export interface CertificateAuthorityIssuer {
+    issuerType: CertificateAuthorityIssuerType;
+}
+
+// @public
+export type CertificateAuthorityIssuerType = string;
+
+// @public
+export type CertificateAuthorityIssuerUnion = MicrosoftCertificateAuthorityIssuer | ExternalCertificateAuthorityIssuer | CertificateAuthorityIssuer;
+
+// @public
+export type CertificateAuthorityKeyType = string;
+
+// @public
+export interface CertificateAuthorityProperties {
+    certificateAuthorityType: CertificateAuthorityType;
+    keyType: CertificateAuthorityKeyType;
+    readonly provisioningState?: ProvisioningState;
     readonly subject?: string;
+    readonly uuid?: string;
     readonly validityNotAfter?: Date;
     readonly validityNotBefore?: Date;
 }
 
 // @public
-export interface CertificateAuthorityConfigurationUpdate {
-    bringYourOwnRoot?: BringYourOwnRootUpdate;
+export type CertificateAuthorityPropertiesUnion = RootCertificateAuthorityProperties | IntermediateCertificateAuthorityProperties | CertificateAuthorityProperties;
+
+// @public
+export type CertificateAuthorityStatus = string;
+
+// @public
+export type CertificateAuthorityType = string;
+
+// @public
+export interface CertificateAuthorityUpdate {
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface CertificateConfiguration {
-    certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
-    leafCertificateConfiguration: LeafCertificateConfiguration;
+export interface CertificatePoliciesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificateConfigurationUpdate {
-    certificateAuthorityConfiguration?: CertificateAuthorityConfigurationUpdate;
-    leafCertificateConfiguration: LeafCertificateConfigurationUpdate;
+export interface CertificatePoliciesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificatePoliciesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CertificatePoliciesListByCertificateAuthorityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CertificatePoliciesOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, certificatePolicyName: string, resource: CertificatePolicy, options?: CertificatePoliciesCreateOrReplaceOptionalParams) => PollerLike<OperationState<CertificatePolicy>, CertificatePolicy>;
+    delete: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, certificatePolicyName: string, options?: CertificatePoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, certificatePolicyName: string, options?: CertificatePoliciesGetOptionalParams) => Promise<CertificatePolicy>;
+    listByCertificateAuthority: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, options?: CertificatePoliciesListByCertificateAuthorityOptionalParams) => PagedAsyncIterableIterator<CertificatePolicy>;
+    update: (resourceGroupName: string, namespaceName: string, certificateAuthorityName: string, certificatePolicyName: string, properties: CertificatePolicyUpdate, options?: CertificatePoliciesUpdateOptionalParams) => PollerLike<OperationState<CertificatePolicy>, CertificatePolicy>;
+}
+
+// @public
+export interface CertificatePoliciesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificatePolicy extends TrackedResource {
+    properties?: CertificatePolicyProperties;
+}
+
+// @public
+export interface CertificatePolicyConfiguration {
+    validityPeriodInDays: number;
+}
+
+// @public
+export interface CertificatePolicyProperties {
+    certificate?: CertificatePolicyConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly uuid?: string;
+}
+
+// @public
+export interface CertificatePolicyUpdate {
+    properties?: CertificatePolicyUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CertificatePolicyUpdateProperties {
+    certificate?: OptionalPropertiesCertificatePolicyConfiguration;
 }
 
 // @public
@@ -323,59 +441,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface Credential extends TrackedResource {
-    properties?: CredentialProperties;
-}
-
-// @public
-export interface CredentialProperties {
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface CredentialsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CredentialsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CredentialsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CredentialsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CredentialsOperations {
-    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: Credential, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
-    delete: (resourceGroupName: string, namespaceName: string, options?: CredentialsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, namespaceName: string, options?: CredentialsGetOptionalParams) => Promise<Credential>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: CredentialsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Credential>;
-    synchronize: (resourceGroupName: string, namespaceName: string, options?: CredentialsSynchronizeOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, namespaceName: string, properties: CredentialUpdate, options?: CredentialsUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
-}
-
-// @public
-export interface CredentialsSynchronizeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CredentialsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CredentialUpdate {
-    tags?: Record<string, string>;
-}
 
 // @public
 export interface DataPoint extends DataPointBase {
@@ -430,16 +495,6 @@ export interface DatasetStorageDestination extends DatasetDestination {
 }
 
 // @public
-export interface DeviceCredentialPolicy {
-    resourceId?: string;
-}
-
-// @public
-export interface DeviceCredentialsRevokeRequest {
-    disable?: boolean;
-}
-
-// @public
 export interface DeviceMessagingEndpoint {
     address: string;
     endpointType?: string;
@@ -456,8 +511,10 @@ export class DeviceRegistryManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: DeviceRegistryManagementClientOptionalParams);
     readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
     readonly assets: AssetsOperations;
+    readonly asyncOperationStatus: AsyncOperationStatusOperations;
     readonly billingContainers: BillingContainersOperations;
-    readonly credentials: CredentialsOperations;
+    readonly certificateAuthorities: CertificateAuthoritiesOperations;
+    readonly certificatePolicies: CertificatePoliciesOperations;
     readonly namespaceAssets: NamespaceAssetsOperations;
     readonly namespaceDevices: NamespaceDevicesOperations;
     readonly namespaceDiscoveredAssets: NamespaceDiscoveredAssetsOperations;
@@ -466,7 +523,7 @@ export class DeviceRegistryManagementClient {
     readonly operations: OperationsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
-    readonly policies: PoliciesOperations;
+    readonly registryDevices: RegistryDevicesOperations;
     readonly schemaRegistries: SchemaRegistriesOperations;
     readonly schemas: SchemasOperations;
     readonly schemaVersions: SchemaVersionsOperations;
@@ -487,6 +544,7 @@ export interface DeviceStatus {
 // @public
 export interface DeviceStatusEndpoint {
     readonly error?: StatusError;
+    readonly healthState?: HealthState;
 }
 
 // @public
@@ -590,7 +648,27 @@ export interface ExtendedLocation {
 }
 
 // @public
+export interface ExternalCertificateAuthorityIssuer extends CertificateAuthorityIssuer {
+    readonly certificateSigningRequest?: string;
+    issuerType: "External";
+    readonly status?: CertificateAuthorityStatus;
+    readonly thumbprint?: string;
+}
+
+// @public
 export type Format = string;
+
+// @public
+export interface HealthState {
+    readonly lastTransitionTime?: string;
+    readonly lastUpdateTime?: string;
+    readonly message?: string;
+    readonly reasonCode?: string;
+    readonly status?: HealthStatus;
+}
+
+// @public
+export type HealthStatus = string;
 
 // @public
 export interface HostAuthentication {
@@ -598,6 +676,15 @@ export interface HostAuthentication {
     usernamePasswordCredentials?: UsernamePasswordCredentials;
     x509Credentials?: X509CertificateCredentials;
 }
+
+// @public
+export interface InboundCallerIdentity {
+    type: InboundCallerIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type InboundCallerIdentityType = string;
 
 // @public
 export interface InboundEndpoints {
@@ -608,6 +695,14 @@ export interface InboundEndpoints {
     trustSettings?: TrustSettings;
     version?: string;
 }
+
+// @public
+export interface IntermediateCertificateAuthorityProperties extends CertificateAuthorityProperties {
+    certificateAuthorityType: "ICA";
+    issuer: CertificateAuthorityIssuerUnion;
+}
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -622,10 +717,27 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
-export enum KnownBringYourOwnRootStatus {
+export enum KnownCertificateAuthorityIssuerType {
+    External = "External",
+    Microsoft = "Microsoft"
+}
+
+// @public
+export enum KnownCertificateAuthorityKeyType {
+    ECC = "ECC"
+}
+
+// @public
+export enum KnownCertificateAuthorityStatus {
     Active = "Active",
     ActiveButPendingRenewal = "ActiveButPendingRenewal",
     PendingActivation = "PendingActivation"
+}
+
+// @public
+export enum KnownCertificateAuthorityType {
+    ICA = "ICA",
+    Root = "Root"
 }
 
 // @public
@@ -667,7 +779,30 @@ export enum KnownEventObservabilityMode {
 // @public
 export enum KnownFormat {
     Delta10 = "Delta/1.0",
+    JsonLD11 = "JsonLD/1.1",
     JsonSchemaDraft7 = "JsonSchema/draft-07"
+}
+
+// @public
+export enum KnownHealthStatus {
+    Available = "Available",
+    Degraded = "Degraded",
+    Unavailable = "Unavailable",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownInboundCallerIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -675,6 +810,12 @@ export enum KnownManagementActionType {
     Call = "Call",
     Read = "Read",
     Write = "Write"
+}
+
+// @public
+export enum KnownMessagingEndpointAvailability {
+    Available = "Available",
+    Disabled = "Disabled"
 }
 
 // @public
@@ -691,10 +832,28 @@ export enum KnownNamespaceDiscoveredManagementActionType {
 }
 
 // @public
+export enum KnownNamespaceLinkingStateValue {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOutboundIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownProvisioningEndpointType {
+    DPS = "Microsoft.Devices/provisioningServices"
 }
 
 // @public
@@ -707,8 +866,16 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRegistryDeviceEnablementState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSchemaType {
-    MessageSchema = "MessageSchema"
+    MessageSchema = "MessageSchema",
+    ThingDescription = "ThingDescription",
+    ThingModel = "ThingModel"
 }
 
 // @public
@@ -723,17 +890,6 @@ export enum KnownStreamDestinationTarget {
 }
 
 // @public
-export enum KnownSupportedKeyType {
-    ECC = "ECC"
-}
-
-// @public
-export enum KnownSystemAssignedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned"
-}
-
-// @public
 export enum KnownTopicRetainType {
     Keep = "Keep",
     Never = "Never"
@@ -741,23 +897,26 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V20231101Preview = "2023-11-01-preview",
-    V20240901Preview = "2024-09-01-preview",
     V20241101 = "2024-11-01",
-    V20250701Preview = "2025-07-01-preview",
     V20251001 = "2025-10-01",
-    V20251101Preview = "2025-11-01-preview",
-    V20260301Preview = "2026-03-01-preview"
+    V20260401 = "2026-04-01",
+    V20261101 = "2026-11-01"
 }
 
 // @public
-export interface LeafCertificateConfiguration {
-    validityPeriodInDays: number;
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
-export interface LeafCertificateConfigurationUpdate {
-    validityPeriodInDays: number;
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface Management {
+    endpoints?: Record<string, ManagementEndpoint>;
 }
 
 // @public
@@ -773,6 +932,14 @@ export interface ManagementAction {
 
 // @public
 export type ManagementActionType = string;
+
+// @public
+export interface ManagementEndpoint {
+    address: string;
+    endpointType: string;
+    resourceId: string;
+    scopeId: string;
+}
 
 // @public
 export interface ManagementGroup {
@@ -799,15 +966,35 @@ export interface Messaging {
 
 // @public
 export interface MessagingEndpoint {
-    address: string;
+    address?: string;
+    readonly deviceAddress?: string;
     endpointType?: string;
+    inboundCallerIdentity?: InboundCallerIdentity;
+    readonly linkingError?: NamespaceLinkingError;
+    readonly linkingState?: NamespaceLinkingStateValue;
+    provisioning?: MessagingEndpointProvisioning;
     resourceId?: string;
+}
+
+// @public
+export type MessagingEndpointAvailability = string;
+
+// @public
+export interface MessagingEndpointProvisioning {
+    allocationWeight?: number;
+    availability?: MessagingEndpointAvailability;
 }
 
 // @public
 export interface MessagingEndpoints {
     inbound?: Record<string, InboundEndpoints>;
     outbound?: OutboundEndpoints;
+}
+
+// @public
+export interface MicrosoftCertificateAuthorityIssuer extends CertificateAuthorityIssuer {
+    certificateAuthorityResourceId: string;
+    issuerType: "Microsoft";
 }
 
 // @public
@@ -823,7 +1010,7 @@ export type MqttDestinationQos = string;
 
 // @public
 export interface Namespace extends TrackedResource {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: NamespaceProperties;
 }
 
@@ -831,6 +1018,13 @@ export interface Namespace extends TrackedResource {
 export interface NamespaceAsset extends TrackedResource {
     extendedLocation: ExtendedLocation;
     properties?: NamespaceAssetProperties;
+}
+
+// @public
+export interface NamespaceAssetExecuteActionRequest {
+    managementActionName: string;
+    managementGroupName: string;
+    payload?: Record<string, any>;
 }
 
 // @public
@@ -880,19 +1074,25 @@ export interface NamespaceAssetsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface NamespaceAssetsExecuteActionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface NamespaceAssetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespaceAssetsListByResourceGroupOptionalParams extends OperationOptions {
+export interface NamespaceAssetsListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface NamespaceAssetsOperations {
     createOrReplace: (resourceGroupName: string, namespaceName: string, assetName: string, resource: NamespaceAsset, options?: NamespaceAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
     delete: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    executeAction: (resourceGroupName: string, namespaceName: string, assetName: string, body: NamespaceAssetExecuteActionRequest, options?: NamespaceAssetsExecuteActionOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsGetOptionalParams) => Promise<NamespaceAsset>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceAsset>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: NamespaceAssetsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<NamespaceAsset>;
     update: (resourceGroupName: string, namespaceName: string, assetName: string, properties: NamespaceAssetUpdate, options?: NamespaceAssetsUpdateOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
 }
 
@@ -901,6 +1101,7 @@ export interface NamespaceAssetStatus {
     readonly config?: StatusConfig;
     readonly datasets?: NamespaceAssetStatusDataset[];
     readonly eventGroups?: NamespaceAssetStatusEventGroup[];
+    readonly healthState?: HealthState;
     readonly managementGroups?: NamespaceAssetStatusManagementGroup[];
     readonly streams?: NamespaceAssetStatusStream[];
 }
@@ -1022,7 +1223,6 @@ export interface NamespaceDeviceProperties {
     model?: string;
     operatingSystem?: string;
     operatingSystemVersion?: string;
-    policy?: DeviceCredentialPolicy;
     readonly provisioningState?: ProvisioningState;
     readonly status?: DeviceStatus;
     readonly uuid?: string;
@@ -1044,7 +1244,7 @@ export interface NamespaceDevicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespaceDevicesListByResourceGroupOptionalParams extends OperationOptions {
+export interface NamespaceDevicesListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1052,14 +1252,8 @@ export interface NamespaceDevicesOperations {
     createOrReplace: (resourceGroupName: string, namespaceName: string, deviceName: string, resource: NamespaceDevice, options?: NamespaceDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
     delete: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesGetOptionalParams) => Promise<NamespaceDevice>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDevice>;
-    revoke: (resourceGroupName: string, namespaceName: string, deviceName: string, body: DeviceCredentialsRevokeRequest, options?: NamespaceDevicesRevokeOptionalParams) => PollerLike<OperationState<void>, void>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: NamespaceDevicesListByNamespaceOptionalParams) => PagedAsyncIterableIterator<NamespaceDevice>;
     update: (resourceGroupName: string, namespaceName: string, deviceName: string, properties: NamespaceDeviceUpdate, options?: NamespaceDevicesUpdateOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
-}
-
-// @public
-export interface NamespaceDevicesRevokeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1079,7 +1273,6 @@ export interface NamespaceDeviceUpdateProperties {
     enabled?: boolean;
     endpoints?: MessagingEndpoints;
     operatingSystemVersion?: string;
-    policy?: DeviceCredentialPolicy;
 }
 
 // @public
@@ -1135,7 +1328,7 @@ export interface NamespaceDiscoveredAssetsGetOptionalParams extends OperationOpt
 }
 
 // @public
-export interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {
+export interface NamespaceDiscoveredAssetsListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1143,7 +1336,7 @@ export interface NamespaceDiscoveredAssetsOperations {
     createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, resource: NamespaceDiscoveredAsset, options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
     delete: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsGetOptionalParams) => Promise<NamespaceDiscoveredAsset>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredAssetsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
     update: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, properties: NamespaceDiscoveredAssetUpdate, options?: NamespaceDiscoveredAssetsUpdateOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
 }
 
@@ -1243,7 +1436,7 @@ export interface NamespaceDiscoveredDevicesGetOptionalParams extends OperationOp
 }
 
 // @public
-export interface NamespaceDiscoveredDevicesListByResourceGroupOptionalParams extends OperationOptions {
+export interface NamespaceDiscoveredDevicesListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1251,7 +1444,7 @@ export interface NamespaceDiscoveredDevicesOperations {
     createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, resource: NamespaceDiscoveredDevice, options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
     delete: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesGetOptionalParams) => Promise<NamespaceDiscoveredDevice>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredDevicesListByNamespaceOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
     update: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, properties: NamespaceDiscoveredDeviceUpdate, options?: NamespaceDiscoveredDevicesUpdateOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
 }
 
@@ -1352,6 +1545,15 @@ export interface NamespaceEventGroup {
 }
 
 // @public
+export interface NamespaceLinkingError {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export type NamespaceLinkingStateValue = string;
+
+// @public
 export interface NamespaceMessageSchemaReference {
     readonly schemaName: string;
     readonly schemaRegistryNamespace: string;
@@ -1366,9 +1568,17 @@ export interface NamespaceMigrateRequest {
 
 // @public
 export interface NamespaceProperties {
+    management?: Management;
     messaging?: Messaging;
+    outboundIdentity?: OutboundIdentity;
+    provisioning?: NamespaceProvisioning;
     readonly provisioningState?: ProvisioningState;
     readonly uuid?: string;
+}
+
+// @public
+export interface NamespaceProvisioning {
+    endpoints?: Record<string, ProvisioningEndpoint>;
 }
 
 // @public
@@ -1424,14 +1634,17 @@ export interface NamespacesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface NamespaceUpdate {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: NamespaceUpdateProperties;
     tags?: Record<string, string>;
 }
 
 // @public
 export interface NamespaceUpdateProperties {
+    management?: Management;
     messaging?: Messaging;
+    outboundIdentity?: OutboundIdentity;
+    provisioning?: NamespaceProvisioning;
 }
 
 // @public
@@ -1483,6 +1696,11 @@ export interface OperationStatusResult {
 }
 
 // @public
+export interface OptionalPropertiesCertificatePolicyConfiguration {
+    validityPeriodInDays?: number;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -1490,6 +1708,15 @@ export interface OutboundEndpoints {
     assigned: Record<string, DeviceMessagingEndpoint>;
     unassigned?: Record<string, DeviceMessagingEndpoint>;
 }
+
+// @public
+export interface OutboundIdentity {
+    type: OutboundIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type OutboundIdentityType = string;
 
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
@@ -1504,76 +1731,90 @@ export interface PageSettings {
 }
 
 // @public
-export interface PoliciesActivateBringYourOwnRootOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+export interface ProvisioningEndpoint {
+    endpointType: ProvisioningEndpointType;
+    inboundCallerIdentity: InboundCallerIdentity;
+    readonly linkingError?: NamespaceLinkingError;
+    readonly linkingState?: NamespaceLinkingStateValue;
+    resourceId: string;
 }
 
 // @public
-export interface PoliciesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PoliciesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PoliciesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PoliciesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PoliciesOperations {
-    activateBringYourOwnRoot: (resourceGroupName: string, namespaceName: string, policyName: string, body: ActivateBringYourOwnRootRequest, options?: PoliciesActivateBringYourOwnRootOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (resourceGroupName: string, namespaceName: string, policyName: string, resource: Policy, options?: PoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
-    delete: (resourceGroupName: string, namespaceName: string, policyName: string, options?: PoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, namespaceName: string, policyName: string, options?: PoliciesGetOptionalParams) => Promise<Policy>;
-    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: PoliciesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Policy>;
-    revokeIssuer: (resourceGroupName: string, namespaceName: string, policyName: string, options?: PoliciesRevokeIssuerOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, namespaceName: string, policyName: string, properties: PolicyUpdate, options?: PoliciesUpdateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
-}
-
-// @public
-export interface PoliciesRevokeIssuerOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PoliciesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface Policy extends ProxyResource {
-    properties?: PolicyProperties;
-}
-
-// @public
-export interface PolicyProperties {
-    certificate?: CertificateConfiguration;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface PolicyUpdate {
-    properties?: PolicyUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface PolicyUpdateProperties {
-    certificate?: CertificateConfigurationUpdate;
-}
+export type ProvisioningEndpointType = string;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface RegistryDevice extends TrackedResource {
+    readonly etag?: string;
+    properties?: RegistryDeviceProperties;
+}
+
+// @public
+export type RegistryDeviceEnablementState = string;
+
+// @public
+export interface RegistryDeviceProperties {
+    enablementState: RegistryDeviceEnablementState;
+    externalDeviceId?: string;
+    hardwareRevision?: string;
+    manufacturer?: string;
+    model?: string;
+    readonly provisioningState?: ProvisioningState;
+    softwareRevision?: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface RegistryDevicesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryDevicesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryDevicesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RegistryDevicesListByNamespaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RegistryDevicesOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, registryDeviceName: string, resource: RegistryDevice, options?: RegistryDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<RegistryDevice>, RegistryDevice>;
+    delete: (resourceGroupName: string, namespaceName: string, registryDeviceName: string, options?: RegistryDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, registryDeviceName: string, options?: RegistryDevicesGetOptionalParams) => Promise<RegistryDevice>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: RegistryDevicesListByNamespaceOptionalParams) => PagedAsyncIterableIterator<RegistryDevice>;
+    update: (resourceGroupName: string, namespaceName: string, registryDeviceName: string, properties: RegistryDeviceUpdate, options?: RegistryDevicesUpdateOptionalParams) => PollerLike<OperationState<RegistryDevice>, RegistryDevice>;
+}
+
+// @public
+export interface RegistryDevicesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryDeviceUpdate {
+    properties?: RegistryDeviceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface RegistryDeviceUpdateProperties {
+    enablementState?: RegistryDeviceEnablementState;
+    hardwareRevision?: string;
+    manufacturer?: string;
+    model?: string;
+    softwareRevision?: string;
 }
 
 // @public
@@ -1584,6 +1825,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -1592,6 +1835,11 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface RootCertificateAuthorityProperties extends CertificateAuthorityProperties {
+    certificateAuthorityType: "Root";
 }
 
 // @public
@@ -1649,7 +1897,7 @@ export interface SchemaRegistriesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface SchemaRegistry extends TrackedResource {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: SchemaRegistryProperties;
 }
 
@@ -1658,6 +1906,7 @@ export interface SchemaRegistryProperties {
     description?: string;
     displayName?: string;
     namespace: string;
+    outboundIdentity?: OutboundIdentity;
     readonly provisioningState?: ProvisioningState;
     storageAccountContainerUrl: string;
     readonly uuid?: string;
@@ -1665,7 +1914,7 @@ export interface SchemaRegistryProperties {
 
 // @public
 export interface SchemaRegistryUpdate {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: SchemaRegistryUpdateProperties;
     tags?: Record<string, string>;
 }
@@ -1674,6 +1923,7 @@ export interface SchemaRegistryUpdate {
 export interface SchemaRegistryUpdateProperties {
     description?: string;
     displayName?: string;
+    outboundIdentity?: OutboundIdentity;
 }
 
 // @public
@@ -1789,19 +2039,6 @@ export interface StreamStorageDestination extends StreamDestination {
 }
 
 // @public
-export type SupportedKeyType = string;
-
-// @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1829,6 +2066,12 @@ export interface TrackedResource extends Resource {
 // @public
 export interface TrustSettings {
     trustList?: string;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

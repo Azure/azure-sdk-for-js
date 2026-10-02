@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type {
-  PollerLike,
+  OperationResponse,
   OperationState,
+  PollerLike,
   ResourceLocationConfig,
   RunningOperation,
-  OperationResponse,
 } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 
@@ -140,11 +140,9 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
 function addApiVersionToUrl(url: string, apiVersion: string): string {
   // The base URL is only used for parsing and won't appear in the returned URL
   const urlObj = new URL(url, "https://microsoft.com");
-  if (!urlObj.searchParams.has("api-version")) {
+  if (!urlObj.searchParams.get("api-version")) {
     // Append one if there is no apiVersion
-    return `${url}${
-      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
-    }api-version=${apiVersion}`;
+    return `${url}${urlObj.search ? "&" : "?"}api-version=${apiVersion}`;
   }
   return url;
 }
