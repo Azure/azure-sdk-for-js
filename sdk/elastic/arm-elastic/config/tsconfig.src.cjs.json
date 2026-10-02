@@ -1,4 +1,36 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/elasticVersions/index.ts",
+    "../src/api/openAI/index.ts",
+    "../src/api/organizations/index.ts",
+    "../src/api/trafficFilters/index.ts",
+    "../src/api/detachTrafficFilter/index.ts",
+    "../src/api/detachAndDeleteTrafficFilter/index.ts",
+    "../src/api/associateTrafficFilter/index.ts",
+    "../src/api/createAndAssociatePLFilter/index.ts",
+    "../src/api/createAndAssociateIPFilter/index.ts",
+    "../src/api/listAssociatedTrafficFilters/index.ts",
+    "../src/api/allTrafficFilters/index.ts",
+    "../src/api/monitor/index.ts",
+    "../src/api/upgradableVersions/index.ts",
+    "../src/api/vMCollection/index.ts",
+    "../src/api/vMIngestion/index.ts",
+    "../src/api/vMHost/index.ts",
+    "../src/api/connectedPartnerResources/index.ts",
+    "../src/api/billingInfo/index.ts",
+    "../src/api/externalUser/index.ts",
+    "../src/api/deploymentInfo/index.ts",
+    "../src/api/monitoredResources/index.ts",
+    "../src/api/monitors/index.ts",
+    "../src/api/tagRules/index.ts",
+    "../src/api/monitoredSubscriptions/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

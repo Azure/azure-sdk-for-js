@@ -35,7 +35,7 @@ export function _getElasticToAzureSubscriptionMappingSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getElasticOrganizationToAzureSubscriptionMapping{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function _getApiKeySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +135,7 @@ export function _resubscribeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,6 +177,6 @@ export function resubscribe(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resubscribeSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-06-01",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
 }

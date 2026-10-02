@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetch detailed information about Elastic cloud deployments corresponding to the Elastic monitor resource.
  *
  * @summary fetch detailed information about Elastic cloud deployments corresponding to the Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/DeploymentInfo_List.json
+ * x-ms-original-file: 2026-03-15-preview/DeploymentInfo_List.json
  */
 async function deploymentInfoList(): Promise<void> {
   const credential = new DefaultAzureCredential();

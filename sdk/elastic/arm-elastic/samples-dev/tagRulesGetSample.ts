@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get detailed information about a tag rule set for a given Elastic monitor resource.
  *
  * @summary get detailed information about a tag rule set for a given Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/TagRules_Get.json
+ * x-ms-original-file: 2026-03-15-preview/TagRules_Get.json
  */
 async function tagRulesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

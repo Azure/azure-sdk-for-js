@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get detailed properties of a specific Elastic monitor resource, helping you manage observability and performance.
  *
  * @summary get detailed properties of a specific Elastic monitor resource, helping you manage observability and performance.
- * x-ms-original-file: 2025-06-01/Monitors_Get.json
+ * x-ms-original-file: 2026-03-15-preview/Monitors_Get.json
  */
 async function monitorsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

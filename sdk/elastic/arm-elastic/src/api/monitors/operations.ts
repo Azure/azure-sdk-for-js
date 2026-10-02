@@ -38,7 +38,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/monitors{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    },
   );
 }
 
@@ -90,7 +94,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +133,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    },
   );
 }
 
@@ -140,12 +148,13 @@ export function _$deleteSend(
   options: MonitorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}{?api%2Dversion,softDelete}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      softDelete: options?.softDelete,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +189,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-06-01",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -196,7 +205,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +249,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-06-01",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
 }
 
@@ -256,7 +265,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +307,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-06-01",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
 }
 
@@ -314,7 +323,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
