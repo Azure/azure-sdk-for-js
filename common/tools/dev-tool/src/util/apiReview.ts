@@ -11,6 +11,11 @@ import semver from "semver";
 import ts from "typescript";
 import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "./pnpm.ts";
 
+// generateApiReview runs in three steps:
+// 1. buildReview reads the package's built declaration files into a Review (the API surface).
+// 2. layoutReview turns the Review into a format-neutral document (Block[]).
+// 3. renderMarkdown prints the document. Only this step knows the output format.
+
 type ExportConditions = Record<string, { types: string }>;
 
 interface Review {
@@ -26,8 +31,20 @@ interface Review {
 
 interface ConditionDiff {
   condition: string;
-  exports: { path: string; items: string[] }[];
+  // One list of diff lines per changed declaration.
+  exports: { path: string; items: DiffLine[][] }[];
 }
+
+interface DiffLine {
+  change: "same" | "added" | "removed" | "elided";
+  text: string;
+}
+
+/**
+ * A declaration's TypeScript text. A group nests its children between an `open` and a `close`
+ * line, such as a module object: `export declare namespace fn {` ... `}`.
+ */
+type Code = string | { open: string; children: Code[]; close: string };
 
 interface NamedImports {
   module: string;
@@ -36,14 +53,14 @@ interface NamedImports {
 
 interface Declaration {
   name: string;
-  text: string;
+  code: Code;
 }
 
 interface ExportSection {
   path: string;
   declarations: Declaration[];
   reExports: NamedImports[];
-  differsFromRoot: string[];
+  differsFromRoot: Code[];
   alsoExportedFrom: { path: string; names: string[] }[];
 }
 
@@ -104,7 +121,7 @@ export async function generateApiReview(packageRoot: string): Promise<{
 }> {
   const review = await buildReview(packageRoot);
   return {
-    apiMd: renderApiMd(review),
+    apiMd: renderMarkdown(layoutReview(review)),
     metadata: {
       apiMdSha256: hashApiMd(review),
       packageVersion: review.version,
@@ -125,7 +142,9 @@ function hashApiMd(review: Review): string {
     //   -> [{ name: "tslib", hashed: "2", type: "runtime" }]
     dependencies: review.dependencies.map(({ name, hashed, type }) => ({ name, hashed, type })),
   };
-  return createHash("sha256").update(renderApiMd(hashInput)).digest("hex");
+  return createHash("sha256")
+    .update(renderMarkdown(layoutReview(hashInput)))
+    .digest("hex");
 }
 
 /**
@@ -258,11 +277,13 @@ function compareConditions(
 /**
  * Diffs two views of an export section by declaration name, sorted by name.
  */
-// ESM [{ name: "A", text: a }, { name: "B", text: b }] vs browser [{ name: "B", text: b2 }, { name: "C", text: c }]
-//   -> ["-a", diffItem(b, b2), "+c"]
-function diffItems(esm: Declaration[], other: Declaration[]): string[] {
-  const esmByName = new Map(esm.map((declaration) => [declaration.name, declaration.text]));
-  const otherByName = new Map(other.map((declaration) => [declaration.name, declaration.text]));
+// ESM [{ name: "A", code: a }, { name: "B", code: b }] vs browser [{ name: "B", code: b2 }, { name: "C", code: c }]
+//   -> [lines("removed", a), diffItem(b, b2), lines("added", c)]
+function diffItems(esm: Declaration[], other: Declaration[]): DiffLine[][] {
+  const textByName = (declarations: Declaration[]): Map<string, string> =>
+    new Map(declarations.map((declaration) => [declaration.name, codeText(declaration.code)]));
+  const esmByName = textByName(esm);
+  const otherByName = textByName(other);
   const names = [...new Set([...esmByName.keys(), ...otherByName.keys()])].sort((a, b) =>
     a.localeCompare(b, "en"),
   );
@@ -273,77 +294,113 @@ function diffItems(esm: Declaration[], other: Declaration[]): string[] {
       return [];
     }
     if (after === undefined) {
-      return [prefixLines("-", before!)];
+      return [lines("removed", before!)];
     }
     if (before === undefined) {
-      return [prefixLines("+", after)];
+      return [lines("added", after)];
     }
     return [diffItem(before, after)];
   });
 }
 
-function prefixLines(prefix: string, text: string): string {
-  return text
-    .split("\n")
-    .map((line) => `${prefix}${line}`)
-    .join("\n");
+function lines(change: DiffLine["change"], text: string): DiffLine[] {
+  return text.split("\n").map((line) => ({ change, text: line }));
 }
 
 /**
- * Renders a unified diff of one declaration that always keeps its first line (the header) and
- * marks omitted lines with `@@`.
+ * Diffs one declaration, always keeping its first line (the header) and marking omitted lines as
+ * elided.
  */
-function diffItem(before: string, after: string): string {
+function diffItem(before: string, after: string): DiffLine[] {
   const { hunks } = structuredPatch("", "", `${before}\n`, `${after}\n`, "", "", { context: 2 });
   const beforeLines = before.split("\n");
-  const lines: string[] = [];
+  const elided: DiffLine = { change: "elided", text: "" };
+  const result: DiffLine[] = [];
   let shownThrough = 0;
   if (hunks[0].oldStart > 1) {
-    lines.push(` ${beforeLines[0]}`);
+    result.push({ change: "same", text: beforeLines[0] });
     shownThrough = 1;
   }
   for (const hunk of hunks) {
     if (hunk.oldStart > shownThrough + 1) {
-      lines.push("@@");
+      result.push(elided);
     }
-    lines.push(...hunk.lines);
+    // structuredPatch prefixes each line with " ", "-" or "+".
+    result.push(
+      ...hunk.lines.map((line): DiffLine => ({
+        change: line[0] === "+" ? "added" : line[0] === "-" ? "removed" : "same",
+        text: line.slice(1),
+      })),
+    );
     shownThrough = hunk.oldStart + hunk.oldLines - 1;
   }
   if (shownThrough < beforeLines.length) {
-    lines.push("@@");
+    result.push(elided);
   }
-  return lines.join("\n");
+  return result;
 }
+
+// Layout: turns a Review into a format-neutral document. This is the last step that knows about
+// API reviews. Phase 2 (renderMarkdown) only knows the document model.
 
 /**
- * Renders api.md as a list of blocks (headings, paragraphs, tables, code blocks) separated by
- * blank lines. Section renderers return no blocks when there's nothing to show.
+ * A format-neutral document block. A renderer prints these without knowing about TypeScript or
+ * API reviews, so a different renderer (HTML, for example) could replace renderMarkdown.
  */
-function renderApiMd(review: Review): string {
-  const blocks = [
-    `# API review: ${code(review.name)}`,
-    ...renderEntryPoints(review),
-    ...renderDependencies(review),
-    ...renderReferences(review),
-    ...review.exportSections.flatMap((section, _, [root]) =>
-      renderExportSection(section, root.path),
-    ),
-    ...renderRuntimeDifferences(review),
-  ];
-  return `${blocks.join("\n\n")}\n`;
+type Block =
+  | { kind: "heading"; level: number; content: Inline[] }
+  | { kind: "paragraph"; content: Inline[] }
+  | { kind: "table"; headers: string[]; rows: Inline[][][] }
+  | { kind: "list"; items: Inline[][] }
+  // Code chunks are separated by a blank line.
+  | { kind: "code"; language: string; chunks: Code[] }
+  // One list of lines per changed item; items are separated by a blank line.
+  | { kind: "diff"; items: DiffLine[][] };
+
+type Inline = { kind: "text"; text: string } | { kind: "code"; text: string };
+
+const plain = (text: string): Inline => ({ kind: "text", text });
+const inlineCode = (text: string): Inline => ({ kind: "code", text });
+const heading = (level: number, ...content: Inline[]): Block => ({
+  kind: "heading",
+  level,
+  content,
+});
+const paragraph = (...content: Inline[]): Block => ({ kind: "paragraph", content });
+
+// ([inlineCode("a"), inlineCode("b")], ", ") -> [inlineCode("a"), plain(", "), inlineCode("b")]
+function joinInline(parts: Inline[], separator: string): Inline[] {
+  return parts.flatMap((part, index) => (index ? [plain(separator), part] : [part]));
 }
 
-function renderEntryPoints(review: Review): string[] {
+function layoutReview(review: Review): Block[] {
   return [
-    "## Entry points",
-    table(
-      ["Export path", "Conditions"],
-      review.entryPoints.map((entry) => [code(entry.path), entry.conditions.map(code).join(", ")]),
+    heading(1, plain("API review: "), inlineCode(review.name)),
+    ...layoutEntryPoints(review),
+    ...layoutDependencies(review),
+    ...layoutReferences(review),
+    ...review.exportSections.flatMap((section, _, [root]) =>
+      layoutExportSection(section, root.path),
     ),
+    ...layoutRuntimeDifferences(review),
   ];
 }
 
-function renderDependencies(review: Review): string[] {
+function layoutEntryPoints(review: Review): Block[] {
+  return [
+    heading(2, plain("Entry points")),
+    {
+      kind: "table",
+      headers: ["Export path", "Conditions"],
+      rows: review.entryPoints.map((entry) => [
+        [inlineCode(entry.path)],
+        joinInline(entry.conditions.map(inlineCode), ", "),
+      ]),
+    },
+  ];
+}
+
+function layoutDependencies(review: Review): Block[] {
   if (!review.dependencies.length) {
     return [];
   }
@@ -351,62 +408,96 @@ function renderDependencies(review: Review): string[] {
     review.dependencies.some((dependency) => dependency[field] !== undefined),
   );
   return [
-    "## Dependencies",
-    "Only Hashed version is part of the review hash.",
-    table(
-      columns.map(([, header]) => header),
-      review.dependencies.map((dependency) =>
-        columns.map(([field]) =>
-          field === "type" ? dependency.type : code(dependency[field] ?? ""),
-        ),
+    heading(2, plain("Dependencies")),
+    paragraph(plain("Only Hashed version is part of the review hash.")),
+    {
+      kind: "table",
+      headers: columns.map(([, header]) => header),
+      rows: review.dependencies.map((dependency) =>
+        columns.map(([field]) => [
+          field === "type" ? plain(dependency.type) : inlineCode(dependency[field] ?? ""),
+        ]),
       ),
-    ),
+    },
   ];
 }
 
-function renderReferences(review: Review): string[] {
+function layoutReferences(review: Review): Block[] {
   if (!review.references.length) {
     return [];
   }
   return [
-    "## References",
-    codeBlock(
-      "ts",
-      review.references.map((imports) => formatNamedImports("import", imports)).join("\n"),
-    ),
+    heading(2, plain("References")),
+    {
+      kind: "code",
+      language: "ts",
+      chunks: [
+        review.references.map((imports) => formatNamedImports("import", imports)).join("\n"),
+      ],
+    },
   ];
 }
 
-function renderRuntimeDifferences(review: Review): string[] {
-  const blocks: string[] = [];
+function layoutExportSection(section: ExportSection, rootPath: string): Block[] {
+  const blocks = [heading(2, plain("Export "), inlineCode(section.path))];
+  if (section.declarations.length || section.reExports.length) {
+    if (section.path !== rootPath) {
+      blocks.push(heading(3, plain("Not exported from "), inlineCode(rootPath)));
+    }
+    const reExports = section.reExports
+      .map((reExport) => formatNamedImports("export", reExport))
+      .join("\n");
+    blocks.push({
+      kind: "code",
+      language: "ts",
+      chunks: [
+        ...section.declarations.map((declaration) => declaration.code),
+        ...(reExports ? [reExports] : []),
+      ],
+    });
+  }
+  if (section.differsFromRoot.length) {
+    blocks.push(
+      heading(3, plain("Differs from "), inlineCode(rootPath)),
+      paragraph(
+        plain("Same name as an Export "),
+        inlineCode(rootPath),
+        plain(" export, but a different declaration."),
+      ),
+      { kind: "code", language: "ts", chunks: section.differsFromRoot },
+    );
+  }
+  for (const earlier of section.alsoExportedFrom) {
+    blocks.push(
+      heading(3, plain("Also exported from "), inlineCode(earlier.path)),
+      paragraph(plain("Definitions are shown under Export "), inlineCode(earlier.path), plain(".")),
+      { kind: "list", items: earlier.names.map((name) => [inlineCode(name)]) },
+    );
+  }
+  return blocks;
+}
+
+function layoutRuntimeDifferences(review: Review): Block[] {
+  const blocks: Block[] = [];
   if (review.identicalConditions.length) {
-    blocks.push(`Identical to the ESM view: ${review.identicalConditions.map(code).join(", ")}.`);
+    blocks.push(
+      paragraph(
+        plain("Identical to the ESM view: "),
+        ...joinInline(review.identicalConditions.map(inlineCode), ", "),
+        plain("."),
+      ),
+    );
   }
   for (const { condition, exports } of review.conditionDiffs) {
-    blocks.push(`### ${code(condition)}`);
+    blocks.push(heading(3, inlineCode(condition)));
     for (const changed of exports) {
-      blocks.push(
-        `#### Export ${code(changed.path)}`,
-        codeBlock("diff", changed.items.join("\n\n")),
-      );
+      blocks.push(heading(4, plain("Export "), inlineCode(changed.path)), {
+        kind: "diff",
+        items: changed.items,
+      });
     }
   }
-  return blocks.length ? ["## Runtime differences", ...blocks] : [];
-}
-
-function code(text: string): string {
-  return `\`${text}\``;
-}
-
-function codeBlock(language: string, body: string): string {
-  return `\`\`\`${language}\n${body}\n\`\`\``;
-}
-
-// (["A", "B"], [["1", "2"]]) -> "| A | B |\n| --- | --- |\n| 1 | 2 |"
-function table(headers: string[], rows: string[][]): string {
-  return [headers, headers.map(() => "---"), ...rows]
-    .map((cells) => `| ${cells.join(" | ")} |`)
-    .join("\n");
+  return blocks.length ? [heading(2, plain("Runtime differences")), ...blocks] : [];
 }
 
 // ("import", { module: "m", names: ["A"] })      -> 'import { A } from "m";'
@@ -419,33 +510,65 @@ function formatNamedImports(keyword: "import" | "export", { module, names }: Nam
   return `${keyword} ${list} from "${module}";`;
 }
 
-function renderExportSection(section: ExportSection, rootPath: string): string[] {
-  const blocks = [`## Export ${code(section.path)}`];
-  if (section.declarations.length || section.reExports.length) {
-    if (section.path !== rootPath) {
-      blocks.push(`### Not exported from ${code(rootPath)}`);
-    }
-    const body = [
-      section.declarations.map((declaration) => declaration.text).join("\n\n"),
-      section.reExports.map((reExport) => formatNamedImports("export", reExport)).join("\n"),
-    ];
-    blocks.push(codeBlock("ts", body.filter(Boolean).join("\n\n")));
+// "text" -> "text"
+// { open: "ns {", children: ["a", "b"], close: "}" } -> "ns {\n    a\n\n    b\n}"
+// The plain-text form of code, used both to diff declarations and to render code blocks.
+function codeText(code: Code): string {
+  if (typeof code === "string") {
+    return code;
   }
-  if (section.differsFromRoot.length) {
-    blocks.push(
-      `### Differs from ${code(rootPath)}`,
-      `Same name as an Export ${code(rootPath)} export, but a different declaration.`,
-      codeBlock("ts", section.differsFromRoot.join("\n\n")),
-    );
+  // Indent every non-empty line (blank lines between children stay empty).
+  const body = code.children
+    .map(codeText)
+    .join("\n\n")
+    .replace(/^(?=.)/gm, "    ");
+  return `${code.open}\n${body}\n${code.close}`;
+}
+
+// Phase 2: prints the document as Markdown, blocks separated by a blank line.
+
+function renderMarkdown(blocks: Block[]): string {
+  return `${blocks.map(renderBlock).join("\n\n")}\n`;
+}
+
+function renderBlock(block: Block): string {
+  switch (block.kind) {
+    case "heading":
+      return `${"#".repeat(block.level)} ${renderInline(block.content)}`;
+    case "paragraph":
+      return renderInline(block.content);
+    case "table":
+      return [
+        block.headers,
+        block.headers.map(() => "---"),
+        ...block.rows.map((row) => row.map(renderInline)),
+      ]
+        .map((cells) => `| ${cells.join(" | ")} |`)
+        .join("\n");
+    case "list":
+      return block.items.map((item) => `- ${renderInline(item)}`).join("\n");
+    case "code":
+      return fence(block.language, block.chunks.map(codeText).join("\n\n"));
+    case "diff":
+      return fence(
+        "diff",
+        block.items.map((item) => item.map(renderDiffLine).join("\n")).join("\n\n"),
+      );
   }
-  for (const earlier of section.alsoExportedFrom) {
-    blocks.push(
-      `### Also exported from ${code(earlier.path)}`,
-      `Definitions are shown under Export ${code(earlier.path)}.`,
-      earlier.names.map((name) => `- ${code(name)}`).join("\n"),
-    );
-  }
-  return blocks;
+}
+
+function renderInline(content: Inline[]): string {
+  return content.map((part) => (part.kind === "code" ? `\`${part.text}\`` : part.text)).join("");
+}
+
+const diffPrefixes = { same: " ", added: "+", removed: "-" };
+
+function renderDiffLine({ change, text }: DiffLine): string {
+  return change === "elided" ? "@@" : `${diffPrefixes[change]}${text}`;
+}
+
+function fence(language: string, body: string): string {
+  return `\`\`\`${language}\n${body}\n\`\`\``;
 }
 
 const compilerHost = createLibCachingHost({ skipLibCheck: true });
@@ -587,18 +710,17 @@ function buildExportSections(
   };
   expose(exportsByFile.flat());
 
-  // Prints a module object as `export declare namespace <name> { <its exports> }`.
-  const printModuleObject = (name: string, moduleSymbol: ts.Symbol): string => {
-    const members = exportsOf(moduleSymbol).map((member) => {
+  // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
+  const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
+    open: `export declare namespace ${name} {`,
+    children: exportsOf(moduleSymbol).map((member) => {
       const target = resolveAlias(member);
       return isModuleObject(target)
         ? printModuleObject(member.name, target)
         : printDeclarations(target, member.name, printer, referenceNames).join("\n\n");
-    });
-    // Indent every non-empty line (blank lines between members stay empty).
-    const body = members.join("\n\n").replace(/^(?=.)/gm, "    ");
-    return `export declare namespace ${name} {\n${body}\n}`;
-  };
+    }),
+    close: "}",
+  });
 
   const referenceNames: ReferenceNames = {
     rewritten: (node) => {
@@ -631,7 +753,7 @@ function buildExportSections(
 
     const declarations: Declaration[] = [];
     const reExports: { module: string; name: string }[] = [];
-    const differsFromRoot: string[] = [];
+    const differsFromRoot: Code[] = [];
     const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
       if (isRoot) {
@@ -650,12 +772,12 @@ function buildExportSections(
         continue;
       }
       const printed = isModuleObject(symbol)
-        ? [printModuleObject(exportedSymbol.name, symbol)]
-        : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames);
+        ? printModuleObject(exportedSymbol.name, symbol)
+        : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames).join("\n\n");
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
-        differsFromRoot.push(...printed);
+        differsFromRoot.push(printed);
       } else {
-        declarations.push({ name: exportedSymbol.name, text: printed.join("\n\n") });
+        declarations.push({ name: exportedSymbol.name, code: printed });
       }
     }
     return {
