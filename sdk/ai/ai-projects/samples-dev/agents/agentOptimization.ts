@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample estimates optimization costs for an existing agent and inspects
- * candidates from its optimization jobs without submitting or promoting changes.
+ * This sample estimates optimization costs, creates an optimization job for an
+ * existing agent, waits for it to complete, and inspects its candidates.
  *
- * @summary Estimate agent optimization costs and inspect optimization candidates.
+ * @summary Create an agent optimization job and inspect its candidates.
  * @azsdk-weight 50
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, type AgentOptimizationEstimateInputs } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -20,8 +20,7 @@ const agentName = process.env["FOUNDRY_AGENT_NAME"] || "<agent name>";
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  console.log("Estimating optimization costs without submitting a job...");
-  const estimate = await project.agents.estimateOptimizationJob({
+  const inputs: AgentOptimizationEstimateInputs = {
     target_configuration: { type: "foundry_agent", name: agentName },
     optimization_model_configuration: { model: deploymentName },
     optimization_configuration: {
@@ -40,21 +39,41 @@ export async function main(): Promise<void> {
         },
       },
     },
-  });
+  };
+
+  console.log("Estimating optimization costs without submitting a job...");
+  const estimate = await project.agents.estimateOptimizationJob(inputs);
   console.log("Estimated calls:", estimate.call_counts);
   console.log("Estimated cost:", estimate.cost);
 
-  console.log("Listing existing optimization jobs for the agent...");
-  for await (const job of project.agents.listOptimizationJobs({ agentName })) {
-    const details = await project.agents.getOptimizationJob(job.id);
-    console.log(`Job ${details.id}: ${details.status}`);
-    for await (const candidate of project.agents.listOptimizationCandidates(job.id, {
-      expand: ["mutations"],
-    })) {
-      const detail = await project.agents.getOptimizationCandidate(job.id, candidate.candidate_id);
-      console.log(`Candidate ${detail.candidate_id}: ${detail.status}`, detail.output);
-    }
+  console.log("Creating an optimization job...");
+  const poller = project.agents.createOptimizationJob({
+    display_name: `sample-agent-optimization-${Date.now()}`,
+    ...inputs,
+  });
+  await poller.submitted();
+
+  const jobId = poller.operationState?.jobId;
+  if (!jobId) {
+    throw new Error("The service did not return an optimization job id.");
   }
+  console.log(`Created optimization job (id: ${jobId})`);
+
+  const result = await poller.pollUntilDone();
+  console.log("Optimization result:", result);
+
+  const completedJob = await project.agents.getOptimizationJob(jobId);
+  console.log(`Optimization job ${completedJob.id}: ${completedJob.status}`);
+
+  for await (const candidate of project.agents.listOptimizationCandidates(jobId, {
+    expand: ["mutations"],
+  })) {
+    const detail = await project.agents.getOptimizationCandidate(jobId, candidate.candidate_id);
+    console.log(`Candidate ${detail.candidate_id}: ${detail.status}`, detail.output);
+  }
+
+  await project.agents.deleteOptimizationJob(jobId);
+  console.log("Optimization job deleted");
 }
 
 main().catch((err) => {
