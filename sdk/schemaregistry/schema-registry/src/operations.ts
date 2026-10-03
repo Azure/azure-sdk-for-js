@@ -12,7 +12,7 @@ import type {
 } from "./models.js";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions.js";
 import type { SchemaRegistryClient } from "./clientDefinitions.js";
-import { createRestError } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export async function registerSchema(
   context: SchemaRegistryClient,
@@ -23,9 +23,9 @@ export async function registerSchema(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
+      ...operationOptionsToRequestParameters(options ?? {}),
       contentType: buildContentType(format),
       body: prepareSchemaContent(schemaContent),
-      ...options,
     });
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -47,9 +47,9 @@ export async function getSchemaProperties(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName, schemaName)
     .post({
+      ...operationOptionsToRequestParameters(options ?? {}),
       contentType: buildContentType(format),
       body: schemaContent,
-      ...options,
     });
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -63,7 +63,9 @@ export async function getSchemaById(
   schemaId: string,
   options?: GetSchemaOptions,
 ): Promise<Schema> {
-  const response = await context.path("/$schemaGroups/$schemas/{id}", schemaId).get({ ...options });
+  const response = await context
+    .path("/$schemaGroups/$schemas/{id}", schemaId)
+    .get(operationOptionsToRequestParameters(options ?? {}));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
@@ -86,7 +88,7 @@ export async function getSchemaByVersion(
       name,
       version,
     )
-    .get({ ...options });
+    .get(operationOptionsToRequestParameters(options ?? {}));
 
   if (isUnexpected(response)) {
     throw createRestError(response);
