@@ -28,10 +28,14 @@ Then `cd sdk/ai/ai-projects/`. All subsequent commands run from this directory
 unless a SKILL.md says otherwise. Confirm the package working tree is clean:
 
 ```bash
-git status -- .
+pwsh -NoProfile -File ./.github/skills/regenerate-from-typespec/scripts/assert-clean-tree.ps1
 ```
 
-If it is dirty, **STOP** and surface the diff.
+The build's API extraction writes `review/ai-projects-browser.api.diff.md` and
+`review/ai-projects-react-native.api.diff.md`. They are build output, not user
+changes, so do not stop because of them: the script deletes untracked copies
+and restores tracked copies before checking. If it reports any other change,
+**STOP** and surface the diff.
 
 ## Skill execution order
 
@@ -47,12 +51,15 @@ Pass the resolved commit SHA explicitly:
 
 ```powershell
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT_PS_LITERAL}}
-npm run generate:client
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly
 ```
 
-The third call must run whether `npm run generate:client` succeeded or
-failed — wrap in `try/finally` if executing programmatically.
+Use `generate-client.ps1`, not `npm run generate:client`: it rewrites internal
+Azure Artifacts tarball URLs in the temporary emitter lockfile to the public npm
+registry, which the cloud agent firewall allows. The third call must run whether
+generation succeeded or failed — wrap in `try/finally` if executing
+programmatically.
 
 ### 2. apply-post-emitter-edits
 

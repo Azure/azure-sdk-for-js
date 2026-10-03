@@ -295,6 +295,34 @@ single session. If the target agent is disabled, the WebSocket handshake fails w
 and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
 function tools, and PCM audio streaming.
 
+Pass `query` to `connect()` to add query parameters to that connection's WebSocket upgrade URL.
+The following parameter names are illustrative; use names supported by your service or gateway:
+
+```ts snippet:ReadmeSampleVoiceAgentQuery
+const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+  agentSessionId: "session-123",
+  store: false,
+  query: {
+    custom_key: "custom value",
+    custom_flag: true,
+  },
+});
+await connection.close();
+```
+
+Values can be strings, finite numbers, or booleans and are URL-encoded automatically. A value
+overrides matching endpoint query parameters; `undefined` removes a matching parameter. The SDK
+snapshots these values when `connect()` is called and does not reuse them for later connections.
+Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
+
+SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
+`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
+`foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
+`structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
+these names or unsupported values rejects `connect()` with `TypeError` before authentication.
+Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
+variables; custom query parameters do not automatically become prompt inputs.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:
