@@ -18,6 +18,7 @@
 
 ### Features Added
 
+- Add per-connection `query` parameters to `project.beta.voiceAgents.realtime.connect`, with automatic URL encoding, endpoint query overrides and removal, and validation of SDK-reserved names. [#40138](https://github.com/Azure/azure-sdk-for-js/pull/40138)
 - Add `project.agents.estimateOptimizationJob`, `listOptimizationCandidates`, `getOptimizationCandidate`, and `promoteOptimizationCandidate` for estimating optimization costs and inspecting or promoting generated candidates. Support agent and prompt optimization configurations, typed mutations, and target-completion or conversation-simulation evaluation sets. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add scenario-specific evaluation, supervised fine-tuning, and reinforcement fine-tuning data-generation output configurations under `project.datasets`, including fine-tuning filenames, write modes, and merge-file identifiers. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
@@ -26,6 +27,7 @@
 
 ### Bugs Fixed
 
+- Send voice-agent structured inputs using the service-defined `structured_input` query parameter in browsers and React Native, and snapshot structured inputs before authentication so caller mutations cannot change the handshake. [#40138](https://github.com/Azure/azure-sdk-for-js/pull/40138)
 - Follow `last_id` / `has_more` cursors and forward caller request options and preview headers when listing data-generation jobs through `project.datasets`. [#40147](https://github.com/Azure/azure-sdk-for-js/issues/40147)
 - Follow `last_id` / `has_more` cursors and forward caller headers when listing optimization jobs. Preserve caller polling headers and the queued job identity after the GA promotion without injecting the retired preview header. [#40126](https://github.com/Azure/azure-sdk-for-js/issues/40126)
 - Fix evaluator generation-job listing (now `project.evaluators.listGenerationJobs`) to read the customized `data` response and follow `last_id` / `has_more` cursors. [#40096](https://github.com/Azure/azure-sdk-for-js/issues/40096)

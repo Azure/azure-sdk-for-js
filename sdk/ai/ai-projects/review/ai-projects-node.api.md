@@ -7034,6 +7034,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
     agentVersionOverride?: string;
     connectionTimeoutInMs?: number;
     onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
+    query?: Readonly<Record<string, string | number | boolean | undefined>>;
     store?: boolean;
     structuredInputs?: Record<string, unknown>;
     transport?: VoiceAgentTransport;
