@@ -75,6 +75,15 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
   hand-maintained implementations are not replaced wholesale.
+- A newly emitted top-level operation group is wired into the protected
+  `aiProjectClient.ts` narrowly: the emitted property, its classic type and
+  factory imports, and a constructor initializer bound to the maintained
+  `_azureScopeClient` context that the plain GA groups use. Nothing else in the
+  client changes. A group whose emitted initializer is not the plain
+  `factory(this._client)` form, a new group that collides with a maintained
+  client member not already wired this way, an emitted change to an existing
+  group's wiring, or a removed group that the client still wires requires
+  review.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API.
 

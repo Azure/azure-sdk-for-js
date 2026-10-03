@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { clientFile, wiredOperationGroup, wiredOperationGroupInitializer } from "./client.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1085,7 +1086,7 @@ function memberIdentity(node) {
   return `${node.kind}:${name}${ts.isMethodDeclaration(node) && !node.body ? `:${nodeKey(node)}` : ""}`;
 }
 
-function additiveProtected(before, after, baseGenerated, generated, renames) {
+function additiveProtected(before, after, baseGenerated, generated, renames, client = false) {
   if (nodeKey(before, renames) === nodeKey(after, renames)) return true;
   if (before.kind !== after.kind) return false;
   if (ts.isClassDeclaration(before) || ts.isInterfaceDeclaration(before)) {
@@ -1103,6 +1104,16 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
       if (!ts.isConstructorDeclaration(member) || !ts.isConstructorDeclaration(next)) return false;
       const oldStatements = member.body?.statements ?? [];
       const nextStatements = next.body?.statements ?? [];
+      // Only statements the emitter newly added are generated-backed wiring;
+      // re-emitting a baseline statement could replace maintained behavior.
+      const baselineStatements = new Set();
+      if (baseGenerated)
+        walk(baseGenerated, (candidate) => {
+          if (ts.isStatement(candidate)) baselineStatements.add(nodeKey(candidate, renames));
+        });
+      const baselineMembers = new Set(
+        baseGenerated ? classInitializers({ node: baseGenerated }).keys() : [],
+      );
       let index = 0;
       for (const statement of nextStatements) {
         if (
@@ -1114,10 +1125,24 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
           let generatedAddition = false;
           if (generated)
             walk(generated, (candidate) => {
-              if (
-                ts.isStatement(candidate) &&
-                nodeKey(candidate, renames) === nodeKey(statement, renames)
-              )
+              if (!ts.isStatement(candidate) || baselineStatements.has(nodeKey(candidate, renames)))
+                return;
+              const wired =
+                client && ts.isExpressionStatement(candidate)
+                  ? wiredOperationGroup(candidate.getText())
+                  : undefined;
+              // The maintained client has no emitted `_client` context: a plain
+              // operation-group initializer is accepted only in its maintained
+              // form, and only for a newly emitted member.
+              if (wired !== undefined) {
+                if (
+                  !baselineMembers.has(assignedMember(candidate)) &&
+                  canonicalize(renameText(wired, renames)) === nodeKey(statement, renames)
+                )
+                  generatedAddition = true;
+                return;
+              }
+              if (nodeKey(candidate, renames) === nodeKey(statement, renames))
                 generatedAddition = true;
             });
           if (!generatedAddition) return false;
@@ -1152,6 +1177,21 @@ function isProtectedFile(file) {
   return (
     protectedFiles.has(file) || file.startsWith("static-helpers/") || file.startsWith("tracing/")
   );
+}
+
+/** The member a `this.<member> = ...` statement assigns. */
+function assignedMember(statement) {
+  const expression = ts.isExpressionStatement(statement) ? unwrap(statement.expression) : undefined;
+  if (
+    !expression ||
+    !ts.isBinaryExpression(expression) ||
+    expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken
+  )
+    return undefined;
+  const left = unwrap(expression.left);
+  return ts.isPropertyAccessExpression(left) && left.expression.kind === ts.SyntaxKind.ThisKeyword
+    ? left.name.text
+    : undefined;
 }
 
 function classInitializers(entry) {
@@ -1221,18 +1261,44 @@ function checkProtectedAdditions(trees, renames, report) {
         report,
       );
       const initializers = classInitializers(output);
+      const previousInitializers = classInitializers(base);
       for (const [member, initializer] of classInitializers(incoming)) {
-        if (previousMembers.has(member)) continue;
+        if (previousMembers.has(member)) {
+          // Maintained client wiring cannot silently keep a stale initialization.
+          const previous = previousInitializers.get(member);
+          if (
+            file === clientFile &&
+            (!previous ||
+              nodeKey(unwrap(previous), renames) !== nodeKey(unwrap(initializer), renames))
+          )
+            report(
+              file,
+              name,
+              "The emitter changed the initialization of an existing protected member; review the maintained wiring.",
+              member,
+            );
+          continue;
+        }
         const expected = unwrap(initializer);
         const actual = unwrap(initializers.get(member));
+        // A plain emitted operation group must use the reviewed client
+        // context; calling the same factory some other way is not proof.
+        const wired =
+          file === clientFile
+            ? wiredOperationGroupInitializer(`this.${member} = ${initializer.getText()};`)
+            : undefined;
         const matchesFactory =
           actual &&
-          ts.isCallExpression(expected) &&
-          ts.isCallExpression(actual) &&
-          nodeKey(expected.expression, renames) === nodeKey(actual.expression, renames);
+          (wired !== undefined
+            ? canonicalize(`const guardValue = ${renameText(wired, renames)};`) ===
+              nodeKey(actual, renames)
+            : ts.isCallExpression(expected) &&
+              ts.isCallExpression(actual) &&
+              nodeKey(expected.expression, renames) === nodeKey(actual.expression, renames));
         if (
           !actual ||
-          (!matchesFactory && nodeKey(expected, renames) !== nodeKey(actual, renames))
+          (!matchesFactory &&
+            (wired !== undefined || nodeKey(expected, renames) !== nodeKey(actual, renames)))
         ) {
           report(
             file,
@@ -1260,7 +1326,17 @@ function checkProtected(trees, renames, report) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
-      if (!next || !additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames)) {
+      if (
+        !next ||
+        !additiveProtected(
+          entry.node,
+          next.node,
+          base?.node,
+          incoming?.node,
+          renames,
+          file === clientFile,
+        )
+      ) {
         report(
           file,
           entry.name,

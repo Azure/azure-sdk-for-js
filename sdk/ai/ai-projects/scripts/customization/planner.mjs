@@ -11,6 +11,7 @@ import {
   relocatedMemberDiagnostics,
   simpleFactoryProblem,
 } from "./classic.mjs";
+import { clientFile, wireOperationGroups } from "./client.mjs";
 import { reconcileModels } from "./models.mjs";
 import { classicFromOperations, planOperations } from "./operations.mjs";
 import {
@@ -315,6 +316,10 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           declaration: "<file>",
           message: "New protected file requires an explicit customization policy",
         });
+      } else if (file === clientFile && baseText !== undefined && incomingText !== baseText) {
+        const wired = wireOperationGroups({ file, baseText, customText, incomingText });
+        diagnostics.push(...wired.diagnostics);
+        source.set(file, wired.text);
       }
       continue;
     }
