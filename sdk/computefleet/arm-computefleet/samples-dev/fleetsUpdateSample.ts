@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-06-01-preview/Fleets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Fleets_Update_MaximumSet_Gen.json
  */
 async function fleetsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -629,7 +629,6 @@ async function fleetsUpdateMaximumSetGen(): Promise<void> {
       },
       mode: "Managed",
       capacityType: "VM",
-      zoneAllocationPolicy: { distributionStrategy: "BestEffortSingleZone" },
     },
     plan: {
       name: "jwgrcrnrtfoxn",

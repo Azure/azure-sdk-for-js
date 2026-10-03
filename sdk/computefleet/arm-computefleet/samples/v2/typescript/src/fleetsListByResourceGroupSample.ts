@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzureFleetClient } = require("@azure/arm-computefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzureFleetClient } from "@azure/arm-computefleet";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list Fleet resources by resource group
  *
  * @summary list Fleet resources by resource group
- * x-ms-original-file: 2026-06-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Fleets_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function fleetsListByResourceGroupMaximumSetGen() {
+async function fleetsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function fleetsListByResourceGroupMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fleetsListByResourceGroupMaximumSetGen();
 }
 
