@@ -3234,7 +3234,6 @@ export interface EvaluatorsGetVersionOptionalParams extends OperationOptions {
 export interface EvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
-    category?: EvaluatorCategory;
     limit?: number;
     order?: PageOrder;
 }

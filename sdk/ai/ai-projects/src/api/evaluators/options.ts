@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EvaluatorType, PageOrder, EvaluatorCategory } from "../../models/models.js";
+import type { EvaluatorType, PageOrder } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -34,8 +34,6 @@ export interface EvaluatorsListGenerationJobsOptionalParams extends OperationOpt
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-  /** Filter evaluator generation jobs by category. */
-  category?: EvaluatorCategory;
 }
 
 /** Optional parameters. */
