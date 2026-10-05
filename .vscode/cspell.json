@@ -226,6 +226,20 @@
       "words": [
         "Jsons"
       ]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/package.json",
+      "words": [
+        "pbjs",
+        "pbts"
+      ]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/src/generated/**",
+      "words": [
+        "ldelim",
+        "oneofs"
+      ]
     }
   ]
 }
