@@ -23,6 +23,23 @@ function Test-IsPreReleaseVersion {
   }
 }
 
+function Get-SortedDependencyVersions {
+  param (
+    [string[]]$Versions
+  )
+
+  $Versions | Sort-Object -Unique | ForEach-Object {
+    $semanticVersion = $null
+    $parsed = [System.Management.Automation.SemanticVersion]::TryParse(
+      ($_ -replace '^[vV]', ''), [ref]$semanticVersion)
+    [PSCustomObject]@{
+      Version = $_
+      Parsed = $parsed
+      SemanticVersion = $semanticVersion
+    }
+  } | Sort-Object Parsed, SemanticVersion, Version | ForEach-Object { $_.Version }
+}
+
 function Get-ExternalDependencyUpdates {
   param (
     [Parameter(Mandatory = $true)]
@@ -68,10 +85,12 @@ function Get-ExternalDependencyUpdates {
 
   foreach ($pkgName in ($packages.Keys | Sort-Object)) {
     $package = $packages[$pkgName]
+    # Non-semver strings sort first; prefer the highest parseable stable target.
+    $newVersions = @(Get-SortedDependencyVersions $package.NewVersions)
     [PSCustomObject]@{
       Name = $pkgName
-      OldVersion = ($package.OldVersions | Sort-Object -Unique) -join ", "
-      NewVersion = ($package.NewVersions | Sort-Object -Unique) -join ", "
+      OldVersion = (Get-SortedDependencyVersions $package.OldVersions) -join ", "
+      NewVersion = $newVersions[-1]
       IsDeprecated = $false
     }
   }

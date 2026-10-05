@@ -139,4 +139,28 @@ Describe "Get-ExternalDependencyUpdates" {
     $second = '{"pkg@1.0.0":{"wanted":"1.0.0","latest":"3.0.0"},"pkg@2.0.0":{"wanted":"2.0.0","latest":"3.0.0"}}' | ConvertFrom-Json
     (Get-ExternalDependencyUpdates $first).OldVersion | Should -Be (Get-ExternalDependencyUpdates $second).OldVersion
   }
+
+  It "sorts versions semantically and selects a single highest stable target" {
+    $updates = @'
+{
+  "pkg@6.0.10": { "wanted": "6.0.10", "latest": "7.0.2" },
+  "pkg@6.0.2 (dev)": { "wanted": "6.0.2", "latest": "7.0.10" },
+  "pkg@5.10.0": { "wanted": "5.10.0", "latest": "7.0.2" },
+  "pkg@6.0.3": { "wanted": "6.0.3", "latest": "8.0.0-beta.1" }
+}
+'@ | ConvertFrom-Json
+    $package = Get-ExternalDependencyUpdates $updates
+    $package.OldVersion | Should -Be "5.10.0, 6.0.2, 6.0.10"
+    $package.NewVersion | Should -Be "7.0.10"
+  }
+
+  It "sorts unparseable strings deterministically without hiding semantic versions" {
+    $versions = @(Get-SortedDependencyVersions @("6.0.10", "unknown-z", "6.0.2", "unknown-a", "6.0.2"))
+    ($versions -join ", ") | Should -Be "unknown-a, unknown-z, 6.0.2, 6.0.10"
+  }
+
+  It "falls back to string ordering when no version can be parsed" {
+    $versions = @(Get-SortedDependencyVersions @("unknown-z", "unknown-a"))
+    ($versions -join ", ") | Should -Be "unknown-a, unknown-z"
+  }
 }

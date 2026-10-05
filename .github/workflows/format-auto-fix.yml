@@ -100,7 +100,7 @@ jobs:
 
       - name: Setup pnpm
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6.1.0
         with:
           version: ${{ steps.pnpm-version.outputs.version }}
 
