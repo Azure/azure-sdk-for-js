@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   XmlPropertyMetadata,
   XmlPropertyDeserializeMetadata,
@@ -10,13 +15,8 @@ import {
   deserializeXmlObject,
   XmlSerializedObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * The error response.
  *
@@ -515,6 +515,16 @@ export interface FilesAndDirectoriesListSegment {
   directoryItems: DirectoryItem[];
   /** The file items. */
   fileItems: FileItem[];
+  /** The symbolic link items. */
+  symLinkItems?: SymLinkItem[];
+  /** The block device items. */
+  blockDeviceItems?: BlockDeviceItem[];
+  /** The character device items. */
+  charDeviceItems?: CharDeviceItem[];
+  /** The FIFO items. */
+  fifoItems?: FifoItem[];
+  /** The socket items. */
+  socketItems?: SocketItem[];
 }
 
 export function filesAndDirectoriesListSegmentDeserializer(
@@ -523,6 +533,21 @@ export function filesAndDirectoriesListSegmentDeserializer(
   return {
     directoryItems: directoryItemArrayDeserializer(item["directoryItems"]),
     fileItems: fileItemArrayDeserializer(item["fileItems"]),
+    symLinkItems: !item["symLinkItems"]
+      ? item["symLinkItems"]
+      : symLinkItemArrayDeserializer(item["symLinkItems"]),
+    blockDeviceItems: !item["blockDeviceItems"]
+      ? item["blockDeviceItems"]
+      : blockDeviceItemArrayDeserializer(item["blockDeviceItems"]),
+    charDeviceItems: !item["charDeviceItems"]
+      ? item["charDeviceItems"]
+      : charDeviceItemArrayDeserializer(item["charDeviceItems"]),
+    fifoItems: !item["fifoItems"]
+      ? item["fifoItems"]
+      : fifoItemArrayDeserializer(item["fifoItems"]),
+    socketItems: !item["socketItems"]
+      ? item["socketItems"]
+      : socketItemArrayDeserializer(item["socketItems"]),
   };
 }
 
@@ -541,6 +566,36 @@ export function filesAndDirectoriesListSegmentXmlDeserializer(
       xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
       type: "array",
       deserializer: fileItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "symLinkItems",
+      xmlOptions: { name: "SymLink", unwrapped: true, itemsName: "SymLink" },
+      type: "array",
+      deserializer: symLinkItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "blockDeviceItems",
+      xmlOptions: { name: "BlockDevice", unwrapped: true, itemsName: "BlockDevice" },
+      type: "array",
+      deserializer: blockDeviceItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "charDeviceItems",
+      xmlOptions: { name: "CharDevice", unwrapped: true, itemsName: "CharDevice" },
+      type: "array",
+      deserializer: charDeviceItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fifoItems",
+      xmlOptions: { name: "Fifo", unwrapped: true, itemsName: "Fifo" },
+      type: "array",
+      deserializer: fifoItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "socketItems",
+      xmlOptions: { name: "Socket", unwrapped: true, itemsName: "Socket" },
+      type: "array",
+      deserializer: socketItemXmlObjectDeserializer,
     },
   ];
   return deserializeFromXml<FilesAndDirectoriesListSegment>(
@@ -566,6 +621,36 @@ export function filesAndDirectoriesListSegmentXmlObjectDeserializer(
       type: "array",
       deserializer: fileItemXmlObjectDeserializer,
     },
+    {
+      propertyName: "symLinkItems",
+      xmlOptions: { name: "SymLink", unwrapped: true, itemsName: "SymLink" },
+      type: "array",
+      deserializer: symLinkItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "blockDeviceItems",
+      xmlOptions: { name: "BlockDevice", unwrapped: true, itemsName: "BlockDevice" },
+      type: "array",
+      deserializer: blockDeviceItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "charDeviceItems",
+      xmlOptions: { name: "CharDevice", unwrapped: true, itemsName: "CharDevice" },
+      type: "array",
+      deserializer: charDeviceItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fifoItems",
+      xmlOptions: { name: "Fifo", unwrapped: true, itemsName: "Fifo" },
+      type: "array",
+      deserializer: fifoItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "socketItems",
+      xmlOptions: { name: "Socket", unwrapped: true, itemsName: "Socket" },
+      type: "array",
+      deserializer: socketItemXmlObjectDeserializer,
+    },
   ];
   return deserializeXmlObject<FilesAndDirectoriesListSegment>(xmlObject, properties);
 }
@@ -588,6 +673,8 @@ export interface DirectoryItem {
   attributes?: string;
   /** The permission key. */
   permissionKey?: string;
+  /** The link count of the directory. */
+  linkCount?: number;
 }
 
 export function directoryItemDeserializer(item: any): DirectoryItem {
@@ -599,6 +686,7 @@ export function directoryItemDeserializer(item: any): DirectoryItem {
       : filePropertyDeserializer(item["properties"]),
     attributes: item["attributes"],
     permissionKey: item["permissionKey"],
+    linkCount: item["linkCount"],
   };
 }
 
@@ -633,6 +721,12 @@ export function directoryItemXmlDeserializer(xmlString: string): DirectoryItem {
       xmlOptions: { name: "PermissionKey" },
       type: "primitive",
       primitiveSubtype: "string",
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
     },
   ];
   return deserializeFromXml<DirectoryItem>(xmlString, properties, "Directory");
@@ -672,6 +766,12 @@ export function directoryItemXmlObjectDeserializer(
       type: "primitive",
       primitiveSubtype: "string",
     },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
   ];
   return deserializeXmlObject<DirectoryItem>(xmlObject, properties);
 }
@@ -697,6 +797,12 @@ export interface FileProperty {
   lastModified?: Date;
   /** The ETag of the file. */
   etag?: string;
+  /** NFS only. The owner user identifier (UID) of the file. */
+  owner?: string;
+  /** NFS only. The owner group identifier (GID) of the file. */
+  group?: string;
+  /** NFS only. The mode of the file. */
+  fileMode?: string;
 }
 
 export function filePropertyDeserializer(item: any): FileProperty {
@@ -710,6 +816,9 @@ export function filePropertyDeserializer(item: any): FileProperty {
     changeTime: !item["changeTime"] ? item["changeTime"] : new Date(item["changeTime"]),
     lastModified: !item["lastModified"] ? item["lastModified"] : new Date(item["lastModified"]),
     etag: item["etag"],
+    owner: item["owner"],
+    group: item["group"],
+    fileMode: item["fileMode"],
   };
 }
 
@@ -754,6 +863,24 @@ export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
     {
       propertyName: "etag",
       xmlOptions: { name: "Etag" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "owner",
+      xmlOptions: { name: "Uid" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "group",
+      xmlOptions: { name: "Gid" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "fileMode",
+      xmlOptions: { name: "Mode" },
       type: "primitive",
       primitiveSubtype: "string",
     },
@@ -807,6 +934,24 @@ export function filePropertyXmlObjectDeserializer(
       type: "primitive",
       primitiveSubtype: "string",
     },
+    {
+      propertyName: "owner",
+      xmlOptions: { name: "Uid" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "group",
+      xmlOptions: { name: "Gid" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "fileMode",
+      xmlOptions: { name: "Mode" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
   ];
   return deserializeXmlObject<FileProperty>(xmlObject, properties);
 }
@@ -829,6 +974,8 @@ export interface FileItem {
   attributes?: string;
   /** The permission key. */
   permissionKey?: string;
+  /** The link count of the file. */
+  linkCount?: number;
 }
 
 export function fileItemDeserializer(item: any): FileItem {
@@ -838,6 +985,7 @@ export function fileItemDeserializer(item: any): FileItem {
     properties: filePropertyDeserializer(item["properties"]),
     attributes: item["attributes"],
     permissionKey: item["permissionKey"],
+    linkCount: item["linkCount"],
   };
 }
 
@@ -872,6 +1020,12 @@ export function fileItemXmlDeserializer(xmlString: string): FileItem {
       xmlOptions: { name: "PermissionKey" },
       type: "primitive",
       primitiveSubtype: "string",
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
     },
   ];
   return deserializeFromXml<FileItem>(xmlString, properties, "File");
@@ -909,8 +1063,528 @@ export function fileItemXmlObjectDeserializer(xmlObject: Record<string, unknown>
       type: "primitive",
       primitiveSubtype: "string",
     },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
   ];
   return deserializeXmlObject<FileItem>(xmlObject, properties);
+}
+
+export function symLinkItemArrayDeserializer(result: Array<SymLinkItem>): any[] {
+  return result.map((item) => {
+    return symLinkItemDeserializer(item);
+  });
+}
+
+/** A listed symbolic link item. */
+export interface SymLinkItem {
+  /** The symbolic link name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The link count of the symbolic link. */
+  linkCount?: number;
+  /** The path to the original file, the symbolic link is pointing to. */
+  linkText?: string;
+}
+
+export function symLinkItemDeserializer(item: any): SymLinkItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    linkCount: item["linkCount"],
+    linkText: item["linkText"],
+  };
+}
+
+export function symLinkItemXmlDeserializer(xmlString: string): SymLinkItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "linkText",
+      xmlOptions: { name: "LinkText" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<SymLinkItem>(xmlString, properties, "SymLink");
+}
+
+export function symLinkItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): SymLinkItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "linkText",
+      xmlOptions: { name: "LinkText" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<SymLinkItem>(xmlObject, properties);
+}
+
+export function blockDeviceItemArrayDeserializer(result: Array<BlockDeviceItem>): any[] {
+  return result.map((item) => {
+    return blockDeviceItemDeserializer(item);
+  });
+}
+
+/** A listed block device item. */
+export interface BlockDeviceItem {
+  /** The block device name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The link count of the block device. */
+  linkCount?: number;
+  /** The major device number of the block device. */
+  deviceMajor?: number;
+  /** The minor device number of the block device. */
+  deviceMinor?: number;
+}
+
+export function blockDeviceItemDeserializer(item: any): BlockDeviceItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    linkCount: item["linkCount"],
+    deviceMajor: item["deviceMajor"],
+    deviceMinor: item["deviceMinor"],
+  };
+}
+
+export function blockDeviceItemXmlDeserializer(xmlString: string): BlockDeviceItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMajor",
+      xmlOptions: { name: "DeviceMajor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMinor",
+      xmlOptions: { name: "DeviceMinor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<BlockDeviceItem>(xmlString, properties, "BlockDevice");
+}
+
+export function blockDeviceItemXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): BlockDeviceItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMajor",
+      xmlOptions: { name: "DeviceMajor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMinor",
+      xmlOptions: { name: "DeviceMinor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<BlockDeviceItem>(xmlObject, properties);
+}
+
+export function charDeviceItemArrayDeserializer(result: Array<CharDeviceItem>): any[] {
+  return result.map((item) => {
+    return charDeviceItemDeserializer(item);
+  });
+}
+
+/** A listed character device item. */
+export interface CharDeviceItem {
+  /** The character device name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The link count of the character device. */
+  linkCount?: number;
+  /** The major device number of the character device. */
+  deviceMajor?: number;
+  /** The minor device number of the character device. */
+  deviceMinor?: number;
+}
+
+export function charDeviceItemDeserializer(item: any): CharDeviceItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    linkCount: item["linkCount"],
+    deviceMajor: item["deviceMajor"],
+    deviceMinor: item["deviceMinor"],
+  };
+}
+
+export function charDeviceItemXmlDeserializer(xmlString: string): CharDeviceItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMajor",
+      xmlOptions: { name: "DeviceMajor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMinor",
+      xmlOptions: { name: "DeviceMinor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<CharDeviceItem>(xmlString, properties, "CharDevice");
+}
+
+export function charDeviceItemXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): CharDeviceItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMajor",
+      xmlOptions: { name: "DeviceMajor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "deviceMinor",
+      xmlOptions: { name: "DeviceMinor" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<CharDeviceItem>(xmlObject, properties);
+}
+
+export function fifoItemArrayDeserializer(result: Array<FifoItem>): any[] {
+  return result.map((item) => {
+    return fifoItemDeserializer(item);
+  });
+}
+
+/** A listed FIFO item. */
+export interface FifoItem {
+  /** The FIFO name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The link count of the FIFO. */
+  linkCount?: number;
+}
+
+export function fifoItemDeserializer(item: any): FifoItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    linkCount: item["linkCount"],
+  };
+}
+
+export function fifoItemXmlDeserializer(xmlString: string): FifoItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<FifoItem>(xmlString, properties, "Fifo");
+}
+
+export function fifoItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): FifoItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<FifoItem>(xmlObject, properties);
+}
+
+export function socketItemArrayDeserializer(result: Array<SocketItem>): any[] {
+  return result.map((item) => {
+    return socketItemDeserializer(item);
+  });
+}
+
+/** A listed socket item. */
+export interface SocketItem {
+  /** The socket name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The link count of the socket. */
+  linkCount?: number;
+}
+
+export function socketItemDeserializer(item: any): SocketItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    linkCount: item["linkCount"],
+  };
+}
+
+export function socketItemXmlDeserializer(xmlString: string): SocketItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<SocketItem>(xmlString, properties, "Socket");
+}
+
+export function socketItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): SocketItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "linkCount",
+      xmlOptions: { name: "LinkCount" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<SocketItem>(xmlObject, properties);
 }
 
 /** An enumeration of handles. */
@@ -1946,7 +2620,7 @@ export function shareSmbSettingsEncryptionInTransitXmlObjectDeserializer(
   return deserializeXmlObject<ShareSmbSettingsEncryptionInTransit>(xmlObject, properties);
 }
 
-/** Settings for SMB protocol. */
+/** Settings for NFS protocol. */
 export interface ShareNfsSettings {
   /** Enable or disable encryption in transit. */
   encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
@@ -2871,13 +3545,16 @@ export function sharePropertiesInternalXmlObjectDeserializer(
 
 /** The current lease status of the share. */
 export type LeaseStatusType = "locked" | "unlocked";
+
 /** Lease state of the share. */
 export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+
 /**
  * When a share is leased, specifies whether the lease is of infinite or fixed
  * duration.
  */
 export type LeaseDurationType = "infinite" | "fixed";
+
 /** The root squash setting for the share. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 
@@ -3332,22 +4009,39 @@ export enum KnownNfsFileType {
  * **SymLink**: SymLink
  */
 export type NfsFileType = string;
+
 /** The type of file information to include in the listing. */
-export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
+export type ListFilesIncludeType =
+  | "Timestamps"
+  | "Etag"
+  | "Attributes"
+  | "PermissionKey"
+  | "Permissions"
+  | "LinkCount"
+  | "NfsAttributes"
+  | "All";
+
 /** The copy status. */
 export type CopyStatus = "pending" | "success" | "aborted" | "failed";
+
 /** Specify one of the following options: - Update: Writes the bytes specified by the request body into the specified range. - Clear: Clears the specified range and releases the space used in storage for that range. */
 export type FileRangeWriteType = "update" | "clear";
+
 /** The file last written mode. */
 export type FileLastWrittenMode = "Now" | "Preserve";
+
 /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
 export type FileRangeWriteFromUrlType = "update";
+
 /** The permission copy mode type. */
 export type PermissionCopyModeType = "source" | "override";
+
 /** The mode copy mode. */
 export type ModeCopyMode = "source" | "override";
+
 /** The owner copy mode. */
 export type OwnerCopyMode = "source" | "override";
+
 /** The type of share information to include in the listing. */
 export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 
@@ -3374,6 +4068,7 @@ export enum KnownShareAccessTier {
  * **Premium**: Premium
  */
 export type ShareAccessTier = string;
+
 /** The delete snapshots option type. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
@@ -3383,6 +4078,10 @@ export enum KnownVersions {
   V20260606 = "2026-06-06",
   /** API Version 2026-10-06 */
   V20261006 = "2026-10-06",
+  /** API Version 2026-12-06 */
+  V20261206 = "2026-12-06",
+  /** API Version 2027-03-07 */
+  V20270307 = "2027-03-07",
 }
 
 export type FileDownloadResponse = {

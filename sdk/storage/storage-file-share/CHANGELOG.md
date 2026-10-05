@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Added support for service version 2027-03-07.
+- Added `includePermissions`, `includeLinkCount`, `includeNfsAttributes` and `includeAll` to `DirectoryListFilesAndDirectoriesOptions`; the first three apply only to NFS shares. Items returned by `ShareDirectoryClient.listFilesAndDirectories()` now have `fileType`. On NFS shares, items can also have `linkCount`, `linkText`, `deviceMajor` and `deviceMinor`, and their `properties` can have `owner`, `group` and `fileMode`.
+- `ShareDirectoryClient.listFilesAndDirectories()` lists the symbolic links, block devices, character devices, FIFOs and sockets of NFS shares as file items. Their `fileType` gives the entry type (such as `SymLink`) when `includeExtendedInfo` or another `include*` option is set; otherwise it is `Regular`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

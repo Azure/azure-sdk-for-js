@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Storage.File": "2026-10-06"
+    "Storage.File": "2027-03-07"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.File",
     "CrossLanguageDefinitionId": {
@@ -13,6 +13,11 @@
       "@azure/storage-file-share!DirectoryItem:interface": "Storage.File.DirectoryItem",
       "@azure/storage-file-share!FileProperty:interface": "Storage.File.FileProperty",
       "@azure/storage-file-share!FileItem:interface": "Storage.File.FileItem",
+      "@azure/storage-file-share!SymLinkItem:interface": "Storage.File.SymLinkItem",
+      "@azure/storage-file-share!BlockDeviceItem:interface": "Storage.File.BlockDeviceItem",
+      "@azure/storage-file-share!CharDeviceItem:interface": "Storage.File.CharDeviceItem",
+      "@azure/storage-file-share!FifoItem:interface": "Storage.File.FifoItem",
+      "@azure/storage-file-share!SocketItem:interface": "Storage.File.SocketItem",
       "@azure/storage-file-share!ListHandlesResponse:interface": "Storage.File.ListHandlesResponse",
       "@azure/storage-file-share!HandleItem:interface": "Storage.File.HandleItem",
       "@azure/storage-file-share!ShareFileRangeList:interface": "Storage.File.ShareFileRangeList",

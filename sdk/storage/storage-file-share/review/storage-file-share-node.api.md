@@ -21,6 +21,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -298,6 +299,8 @@ export interface DirectoryItem {
     attributes?: string;
     // (undocumented)
     fileId?: string;
+    fileType?: NfsFileType;
+    linkCount?: number;
     // (undocumented)
     name: string;
     // (undocumented)
@@ -308,13 +311,17 @@ export interface DirectoryItem {
 // @public
 export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeAll?: boolean;
     // (undocumented)
     includeAttributes?: boolean;
     // (undocumented)
     includeEtag?: boolean;
     includeExtendedInfo?: boolean;
+    includeLinkCount?: boolean;
+    includeNfsAttributes?: boolean;
     // (undocumented)
     includePermissionKey?: boolean;
+    includePermissions?: boolean;
     // (undocumented)
     includeTimestamps?: boolean;
     prefix?: string;
@@ -814,8 +821,13 @@ export interface FileHttpHeaders {
 export interface FileItem {
     // (undocumented)
     attributes?: string;
+    deviceMajor?: number;
+    deviceMinor?: number;
     // (undocumented)
     fileId?: string;
+    fileType?: NfsFileType;
+    linkCount?: number;
+    linkText?: string;
     // (undocumented)
     name: string;
     // (undocumented)
@@ -922,12 +934,15 @@ export interface FileProperty {
     creationTime?: Date;
     // (undocumented)
     etag?: string;
+    fileMode?: NfsFileMode;
+    group?: string;
     // (undocumented)
     lastAccessTime?: Date;
     // (undocumented)
     lastModified?: Date;
     // (undocumented)
     lastWriteTime?: Date;
+    owner?: string;
 }
 
 // @public
