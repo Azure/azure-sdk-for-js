@@ -24,8 +24,9 @@ if (-not (Test-Path 'tsp-location.yaml')) {
   throw 'Expected tsp-location.yaml in the current directory. Run update-tsp-commit.ps1 first, from sdk/ai/ai-projects/.'
 }
 
-if (-not (Get-Command tsp-client -ErrorAction SilentlyContinue)) {
-  throw 'tsp-client is not on PATH. From the repository root run `npm --prefix eng/common/tsp-client ci` and add eng/common/tsp-client/node_modules/.bin to PATH.'
+$tspClientPrefix = (Resolve-Path (Join-Path (Get-Location) '../../../eng/common/tsp-client')).Path
+if (-not (Test-Path (Join-Path $tspClientPrefix 'node_modules/@azure-tools/typespec-client-generator-cli/package.json'))) {
+  throw 'The pinned tsp-client is not installed. From the repository root run `npm --prefix eng/common/tsp-client ci`.'
 }
 
 function Invoke-Checked {
@@ -36,7 +37,7 @@ function Invoke-Checked {
   }
 }
 
-Invoke-Checked 'tsp-client sync' { tsp-client sync -d }
+Invoke-Checked 'tsp-client sync' { npm --prefix $tspClientPrefix exec -- tsp-client sync -d }
 
 $lockPath = Join-Path 'TempTypeSpecFiles' 'package-lock.json'
 if (Test-Path $lockPath) {
@@ -62,5 +63,5 @@ if (Test-Path $lockPath) {
   Write-Host "No $lockPath found; tsp-client will run npm install without a lockfile."
 }
 
-Invoke-Checked 'tsp-client generate' { tsp-client generate -d }
+Invoke-Checked 'tsp-client generate' { npm --prefix $tspClientPrefix exec -- tsp-client generate -d }
 Invoke-Checked 'npm run customize' { npm run customize }

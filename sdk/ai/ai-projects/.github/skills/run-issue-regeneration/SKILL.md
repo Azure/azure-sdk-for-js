@@ -24,10 +24,13 @@ From the repository root:
 
 ```bash
 npm --prefix eng/common/tsp-client ci
-export PATH="$PWD/eng/common/tsp-client/node_modules/.bin:$PATH"
 pnpm install --filter @azure/ai-projects...
 pnpm turbo build --filter=@azure/ai-projects... --token 1
 ```
+
+The pinned `tsp-client` CLI is installed in the separate npm project and the
+generation script invokes it through `npm --prefix ... exec`; it does not need
+to be added to `PATH`.
 
 Then change to `sdk/ai/ai-projects/` and run the clean-tree preflight:
 

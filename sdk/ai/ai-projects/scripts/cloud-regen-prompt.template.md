@@ -13,9 +13,11 @@ Inputs (substituted by `start-cloud-regen.ps1` before dispatch):
 
 ## Setup
 
-From the repo root, install dependencies and build the package:
+From the repo root, install the pinned `tsp-client` tool from its separate npm
+project, then install dependencies and build the package:
 
 ```bash
+npm --prefix eng/common/tsp-client ci
 pnpm install --filter "@azure/ai-projects..."
 pnpm turbo build --filter="@azure/ai-projects..." --token 1
 ```
