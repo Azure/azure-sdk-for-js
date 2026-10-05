@@ -2707,8 +2707,6 @@ export interface DatasetsListGenerationJobsOptionalParams extends OperationOptio
     foundryFeatures?: "DataGenerationJobs=V1Preview";
     limit?: number;
     order?: PageOrder;
-    scenario?: DataGenerationJobScenario;
-    type?: DataGenerationJobType[];
 }
 
 // @public
