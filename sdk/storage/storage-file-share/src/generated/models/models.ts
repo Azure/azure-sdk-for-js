@@ -3396,6 +3396,10 @@ export enum KnownVersions {
   V20260606 = "2026-06-06",
   /** API Version 2026-10-06 */
   V20261006 = "2026-10-06",
+  /** API Version 2026-12-06 */
+  V20261206 = "2026-12-06",
+  /** API Version 2027-03-07 */
+  V20270307 = "2027-03-07",
 }
 
 export type FileDownloadResponse = {

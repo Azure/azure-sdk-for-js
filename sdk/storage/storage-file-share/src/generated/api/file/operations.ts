@@ -74,7 +74,7 @@ export function _createHardLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -281,7 +281,7 @@ export function _getSymbolicLinkSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -417,7 +417,7 @@ export function _createSymbolicLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -624,7 +624,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -862,7 +862,7 @@ export function _forceCloseHandlesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1008,7 +1008,7 @@ export function _listHandlesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1144,7 +1144,7 @@ export function _abortCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1266,7 +1266,7 @@ export function _startCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1454,7 +1454,7 @@ export function _listAllRangesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1607,7 +1607,7 @@ export function _getRangeListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1762,7 +1762,7 @@ export function _uploadRangeFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1981,7 +1981,7 @@ export function _uploadRangeSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2172,7 +2172,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2323,7 +2323,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2471,7 +2471,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2608,7 +2608,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2756,7 +2756,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2899,7 +2899,7 @@ export function _setHttpHeadersSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3174,7 +3174,7 @@ export function _deleteFileSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3303,7 +3303,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3658,7 +3658,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -4053,7 +4053,7 @@ export function _createSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
