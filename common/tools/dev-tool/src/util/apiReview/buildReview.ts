@@ -53,8 +53,8 @@ async function resolveSpecifier(
   specifier: string,
 ): Promise<string> {
   if (specifier.startsWith("catalog:")) {
-    await loadPnpmWorkspaceCatalogs();
-    return resolveCatalogVersion(name, specifier);
+    const catalogs = await loadPnpmWorkspaceCatalogs(packageRoot);
+    return resolveCatalogVersion(name, specifier, catalogs);
   }
   if (specifier === "workspace:^") {
     const installed = path.join(packageRoot, "node_modules", name, "package.json");
@@ -351,6 +351,24 @@ function buildExportSections(
   const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
     symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
 
+  const isTypeOnlyExport = (symbol: ts.Symbol): boolean => {
+    let current: ts.Symbol | undefined = symbol;
+    while (current && current.flags & ts.SymbolFlags.Alias) {
+      const declaration = current.declarations?.[0];
+      if (
+        declaration &&
+        ((ts.isExportSpecifier(declaration) &&
+          (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)) ||
+          (ts.isImportSpecifier(declaration) &&
+            (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)))
+      ) {
+        return true;
+      }
+      current = checker.getImmediateAliasedSymbol(current);
+    }
+    return false;
+  };
+
   const exportsOf = (moduleSymbol: ts.Symbol): ts.Symbol[] =>
     checker.getExportsOfModule(moduleSymbol).sort((a, b) => a.name.localeCompare(b.name, "en"));
 
@@ -432,14 +450,28 @@ function buildExportSections(
         continue;
       }
       shownUnder.set(symbol, exportPath);
+      const typeOnly = isTypeOnlyExport(exportedSymbol);
       const reExport = externalImport(program, exportedSymbol);
       if (reExport) {
-        reExports.push(reExport);
+        const exportedName =
+          reExport.importedName === reExport.exportedName
+            ? reExport.importedName
+            : `${reExport.importedName} as ${reExport.exportedName}`;
+        reExports.push({
+          module: reExport.module,
+          name: typeOnly ? `type ${exportedName}` : exportedName,
+        });
         continue;
       }
-      const printed = isModuleObject(symbol)
+      let printed = isModuleObject(symbol)
         ? printModuleObject(exportedSymbol.name, symbol)
         : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames).join("\n\n");
+      if (typeOnly && symbol.flags & ts.SymbolFlags.Value) {
+        printed =
+          typeof printed === "string"
+            ? `// type-only export\n${printed}`
+            : { ...printed, open: `// type-only export\n${printed.open}` };
+      }
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push(printed);
       } else {
@@ -477,14 +509,15 @@ function buildExportSections(
 }
 
 /**
- * Returns the external module and exported name for an alias created by a package-local
- * `import { X } from "dep"` or `export { X } from "dep"`, following local re-export hops.
+ * Returns the external module, the name exported by that module, and the public name exposed by
+ * this package for an alias created by `import { X }` or `export { X }`, following local hops.
  */
 function externalImport(
   program: ts.Program,
   symbol: ts.Symbol,
-): { module: string; name: string } | undefined {
+): { module: string; importedName: string; exportedName: string } | undefined {
   const checker = program.getTypeChecker();
+  const exportedName = symbol.name;
   let current: ts.Symbol | undefined = symbol;
   while (current && current.flags & ts.SymbolFlags.Alias) {
     const declaration = current.declarations?.[0];
@@ -498,7 +531,8 @@ function externalImport(
         : declaration.parent.parent.moduleSpecifier;
       return {
         module: (moduleSpecifier as ts.StringLiteral).text,
-        name: (declaration.propertyName ?? declaration.name).text,
+        importedName: (declaration.propertyName ?? declaration.name).text,
+        exportedName,
       };
     }
     current = next;
@@ -523,7 +557,8 @@ function resolveReference(
   const checker = program.getTypeChecker();
   if (ts.isIdentifier(node)) {
     const symbol = checker.getSymbolAtLocation(node);
-    return symbol && externalImport(program, symbol);
+    const external = symbol && externalImport(program, symbol);
+    return external && { module: external.module, name: external.importedName };
   }
   if (ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)) {
     const left = ts.isQualifiedName(node) ? node.left : node.expression;

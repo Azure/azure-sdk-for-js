@@ -5,8 +5,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { MockInstance } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import ts from "typescript";
 import { parse } from "yaml";
 import generateApiReviewCommand from "../src/commands/run/generate-api-review.ts";
@@ -338,32 +337,19 @@ describe("generateApiReview", () => {
     });
 
     describe("catalogs", () => {
-      let workspaceRoot: string;
-      let cwd: MockInstance<typeof process.cwd>;
-
-      beforeAll(() => {
-        workspaceRoot = fixture({
-          "pnpm-workspace.yaml": [
-            "catalog:",
-            "  tslib: ^2.8.1",
-            "catalogs:",
-            "  testing:",
-            "    vitest: ^3.2.0",
-          ].join("\n"),
-        });
-      });
-
-      // util/pnpm.ts finds the workspace from the current directory.
-      beforeEach(() => {
-        cwd = vi.spyOn(process, "cwd").mockReturnValue(workspaceRoot);
-      });
-
-      afterEach(() => {
-        cwd.mockRestore();
-      });
+      const workspaceManifest = [
+        "catalog:",
+        "  tslib: ^2.8.1",
+        "catalogs:",
+        "  testing:",
+        "    vitest: ^3.2.0",
+      ].join("\n");
 
       it("resolves catalog: specifiers from the workspace catalog", async () => {
-        const root = fixture(index, { dependencies: { tslib: "catalog:" } });
+        const root = fixture(
+          { ...index, "pnpm-workspace.yaml": workspaceManifest },
+          { dependencies: { tslib: "catalog:" } },
+        );
 
         const { apiMd } = await generateApiReview(root);
 
@@ -371,7 +357,10 @@ describe("generateApiReview", () => {
       });
 
       it("resolves named catalogs", async () => {
-        const root = fixture(index, { dependencies: { vitest: "catalog:testing" } });
+        const root = fixture(
+          { ...index, "pnpm-workspace.yaml": workspaceManifest },
+          { dependencies: { vitest: "catalog:testing" } },
+        );
 
         const { apiMd } = await generateApiReview(root);
 
@@ -379,7 +368,10 @@ describe("generateApiReview", () => {
       });
 
       it("fails closed when a catalog entry is missing", async () => {
-        const root = fixture(index, { dependencies: { "@azure/core-util": "catalog:" } });
+        const root = fixture(
+          { ...index, "pnpm-workspace.yaml": workspaceManifest },
+          { dependencies: { "@azure/core-util": "catalog:" } },
+        );
 
         await expect(generateApiReview(root)).rejects.toThrow(
           "Unexpected input when resolving from catalog. (alias: @azure/core-util bareSpecifier: catalog:)",
@@ -562,6 +554,35 @@ describe("generateApiReview", () => {
 
       expect(apiMd).toContain("export default class PlaywrightReporter {");
       expect(apiMd).not.toContain("class default");
+    });
+
+    it("marks a value-bearing declaration that is exported only as a type", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": 'export type { KnownApiVersions } from "./models.js";',
+        "dist/esm/models.d.ts": ["export enum KnownApiVersions {", '    v1 = "v1"', "}"].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        ["// type-only export", "export enum KnownApiVersions {", '    v1 = "v1"', "}"].join("\n"),
+      );
+    });
+
+    it("preserves type-only external re-exports", async () => {
+      const root = fixture({
+        "node_modules/@types/node/package.json": JSON.stringify({
+          name: "@types/node",
+          types: "./index.d.ts",
+        }),
+        "node_modules/@types/node/index.d.ts":
+          'declare module "node:stream" {\n    export class Readable {\n    }\n}',
+        "dist/esm/index.d.ts": 'export type { Readable } from "node:stream";',
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('export { type Readable } from "node:stream";');
     });
   });
 
@@ -939,6 +960,25 @@ describe("generateApiReview", () => {
         ].join("\n"),
       );
       expect(apiMd).not.toContain("interface PageSettings");
+    });
+
+    it("preserves the public name of an aliased external re-export", async () => {
+      const root = fixture(
+        {
+          ...dependency(
+            "@azure/storage-blob",
+            "export interface BlobServiceProperties {\n    logging?: boolean;\n}",
+          ),
+          "dist/esm/index.d.ts":
+            'export { type BlobServiceProperties as DataLakeServiceProperties } from "@azure/storage-blob";',
+        },
+        { dependencies: { "@azure/storage-blob": "^12.31.0" } },
+      );
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("BlobServiceProperties as DataLakeServiceProperties");
+      expect(apiMd).not.toContain('export { BlobServiceProperties } from "@azure/storage-blob";');
     });
 
     it("uses an external type's exported name, not a local import alias", async () => {
@@ -1491,6 +1531,51 @@ describe("generate-api-review command", () => {
 
     expect(succeeded).toBe(true);
     expect(readReview(root)).toEqual(await generateApiReview(root));
+  });
+
+  it("resolves catalog dependencies from each --package-root workspace, independently of cwd", async () => {
+    const workspaceA = fixture(
+      {
+        ...index,
+        "pnpm-workspace.yaml": "catalog:\n  '@example/catalog-dep': ^1.2.0\n",
+      },
+      { dependencies: { "@example/catalog-dep": "catalog:" } },
+    );
+    const workspaceB = fixture(
+      {
+        ...index,
+        "pnpm-workspace.yaml": "catalog:\n  '@example/catalog-dep': ^2.3.0\n",
+      },
+      { dependencies: { "@example/catalog-dep": "catalog:" } },
+    );
+    const unrelatedDirectory = fixture(index);
+    const cwd = vi.spyOn(process, "cwd").mockReturnValue(unrelatedDirectory);
+
+    try {
+      const succeededA = await generateApiReviewCommand(
+        "--package-root",
+        workspaceA,
+        "--output-dir",
+        path.join(workspaceA, "out"),
+      );
+      const succeededB = await generateApiReviewCommand(
+        "--package-root",
+        workspaceB,
+        "--output-dir",
+        path.join(workspaceB, "out"),
+      );
+
+      expect(succeededA).toBe(true);
+      expect(succeededB).toBe(true);
+      expect(readReview(path.join(workspaceA, "out")).apiMd).toContain(
+        "| `@example/catalog-dep` | `catalog:` | `^1.2.0` | `1` | runtime |",
+      );
+      expect(readReview(path.join(workspaceB, "out")).apiMd).toContain(
+        "| `@example/catalog-dep` | `catalog:` | `^2.3.0` | `2` | runtime |",
+      );
+    } finally {
+      cwd.mockRestore();
+    }
   });
 
   it("writes nothing and fails when generation throws", async () => {
