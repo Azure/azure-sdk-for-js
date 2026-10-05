@@ -31,5 +31,5 @@
   "engines": {
     "node": ">=22.13"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.8.1"
 }
