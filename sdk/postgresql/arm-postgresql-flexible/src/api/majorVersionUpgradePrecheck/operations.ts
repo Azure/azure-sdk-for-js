@@ -33,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
     },
   );
 }
@@ -95,7 +95,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       precheckValidationId: precheckValidationId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

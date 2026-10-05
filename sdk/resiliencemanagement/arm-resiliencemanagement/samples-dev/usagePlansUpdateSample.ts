@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a UsagePlan
  *
  * @summary update a UsagePlan
- * x-ms-original-file: 2026-04-01-preview/UsagePlans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UsagePlans_Update_MaximumSet_Gen.json
  */
 async function usagePlansUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

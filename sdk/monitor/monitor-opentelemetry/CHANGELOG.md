@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Disabled integrations no longer collect telemetry after shutdown and reinitialization. Instrumentation hooks are reused when re-enabled, and the Azure SDK bridge follows its instrumentation's lifecycle without replacing customer-installed instrumenters during cleanup. [#39936](https://github.com/Azure/azure-sdk-for-js/issues/39936)
 - Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration, buffered telemetry, or pending metric data. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
 
 ### Other Changes

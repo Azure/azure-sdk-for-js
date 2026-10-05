@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get an AppLink.
+ * This sample demonstrates how to get the details of an Azure Kubernetes Application Network.
  *
- * @summary get an AppLink.
- * x-ms-original-file: 2025-08-01-preview/AppLinks_Get.json
+ * @summary get the details of an Azure Kubernetes Application Network.
+ * x-ms-original-file: 2026-08-01-preview/AppLinks_Get.json
  */
 async function appLinksGet() {
   const credential = new DefaultAzureCredential();

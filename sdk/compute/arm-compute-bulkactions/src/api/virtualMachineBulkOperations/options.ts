@@ -4,6 +4,15 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams extends OperationOptions {
+  /** The number of minutes before the current time to include when listing bulk action errors. */
+  lookbackInMinutes?: number;
+}
+
+/** Optional parameters. */
 export interface VirtualMachineBulkOperationsBulkReimageOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
