@@ -505,7 +505,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Create a Blob container. @see https://learn.microsoft.com/rest/api/storageservices/create-container
+   * Create a Blob container.
    *
    * When a container is deleted, a container with the same name can't be created
    * for at least 30 seconds. The container might not be available for more than
@@ -516,6 +516,8 @@ export class BlobServiceClient extends StorageClient {
    * may continue to succeed for up to 30 seconds after the delete request is
    * accepted. After this period, all operations on the container and its blobs
    * fail with status code 404 (Not Found).
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.

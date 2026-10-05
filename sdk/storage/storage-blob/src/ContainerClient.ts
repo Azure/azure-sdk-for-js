@@ -936,6 +936,9 @@ export class ContainerClient extends StorageClient {
    * may continue to succeed for up to 30 seconds after the delete request is
    * accepted. After this period, all operations on the container and its blobs
    * fail with status code 404 (Not Found).
+   *
+   * If a container with the same name is still being deleted, this method throws
+   * the 409 (Conflict) error instead of returning `succeeded: false`.
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *

@@ -234,6 +234,9 @@ export class DataLakeFileSystemClient extends StorageClient {
    * is accepted. After this period, all operations on the file system and its paths
    * fail with status code 404 (Not Found).
    *
+   * If a file system with the same name is still being deleted, this method throws
+   * the 409 (Conflict) error instead of returning `succeeded: false`.
+   *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param options -
