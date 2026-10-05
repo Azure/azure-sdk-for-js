@@ -2,7 +2,7 @@
   "apiVersions": {
     "Storage.File": "2026-10-06"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.File",
     "CrossLanguageDefinitionId": {

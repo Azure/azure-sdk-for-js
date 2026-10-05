@@ -58,7 +58,7 @@ type StorageCompatResult<TBody, THeaders> = TBody extends undefined | void | nul
  * @param rawResponse - The raw FullOperationResponse from the HTTP pipeline.
  * @param parsedBody - The deserialized response body.
  * @param parsedHeaders - The deserialized response headers.
- * @returns The parsedBody augmented with a `_response` property.
+ * @returns A flattened copy of the body and headers augmented with a `_response` property.
  */
 export function addStorageCompatResponse<TBody, THeaders = Record<string, unknown>>(
   rawResponse: FullOperationResponse,
@@ -66,9 +66,7 @@ export function addStorageCompatResponse<TBody, THeaders = Record<string, unknow
   parsedHeaders: THeaders,
 ): StorageCompatResult<TBody, THeaders> {
   const base =
-    parsedBody !== undefined && parsedBody !== null
-      ? Object.assign({}, parsedBody)
-      : ({} as TBody);
+    parsedBody !== undefined && parsedBody !== null ? Object.assign({}, parsedBody) : ({} as TBody);
   return Object.assign(base as any, parsedHeaders, {
     _response: {
       rawResponse,

@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `enableChangeFeed` and `changeFeedRetentionInDays` to `ShareCreateOptions` and `ShareSetPropertiesOptions`, and `enableChangeFeed`, `changeFeedRetentionInDays` and `changeFeedBlobContainerName` to the response of `ShareClient.getProperties()`, to configure and check change feed on a share.
+
 ### Breaking Changes
 
 ### Bugs Fixed
