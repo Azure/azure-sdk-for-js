@@ -99,10 +99,10 @@ export async function buildReview(packageRoot: string): Promise<Review> {
     exportEntries.some(([, conditions]) => condition in conditions),
   );
   const { identicalConditions, conditionDiffs } = compareConditions(
-    sections,
+    { references, sections },
     presentConditions.map((condition) => ({
       condition,
-      sections: buildExportSections(packageRoot, condition, exportFiles(condition)).sections,
+      ...buildExportSections(packageRoot, condition, exportFiles(condition)),
     })),
   );
 
@@ -148,19 +148,31 @@ export async function buildReview(packageRoot: string): Promise<Review> {
  * Compares each condition's view with the ESM view, item by item.
  */
 function compareConditions(
-  esmSections: ExportSection[],
-  views: { condition: string; sections: ExportSection[] }[],
+  esm: { references: NamedImports[]; sections: ExportSection[] },
+  views: { condition: string; references: NamedImports[]; sections: ExportSection[] }[],
 ): { identicalConditions: string[]; conditionDiffs: ConditionDiff[] } {
   const identicalConditions: string[] = [];
   const conditionDiffs: ConditionDiff[] = [];
-  for (const { condition, sections } of views) {
-    if (isDeepStrictEqual(sections, esmSections)) {
+  for (const { condition, references, sections } of views) {
+    if (isDeepStrictEqual({ references, sections }, esm)) {
       identicalConditions.push(condition);
       continue;
     }
     conditionDiffs.push({
       condition,
-      exports: esmSections
+      // ESM [{ module: "node", names: ["Foo"] }] vs browser [{ module: "browser", names: ["Foo"] }]
+      //   -> [{ change: "removed", reference: ...node }, { change: "added", reference: ...browser }]
+      references: [
+        ...esm.references
+          .filter((reference) => !references.some((other) => isDeepStrictEqual(reference, other)))
+          .map((reference) => ({ change: "removed" as const, reference })),
+        ...references
+          .filter(
+            (reference) => !esm.references.some((other) => isDeepStrictEqual(reference, other)),
+          )
+          .map((reference) => ({ change: "added" as const, reference })),
+      ],
+      exports: esm.sections
         .map((esmSection, index) => ({
           path: esmSection.path,
           items: diffItems(esmSection.declarations, sections[index].declarations),

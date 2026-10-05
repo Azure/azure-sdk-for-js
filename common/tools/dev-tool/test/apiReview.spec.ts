@@ -1165,6 +1165,56 @@ describe("generateApiReview", () => {
     };
     const accessToken = "export interface AccessToken {\n    token: string;\n}";
 
+    function referenceFixture(browserModule: string): string {
+      const esm = [
+        'import type { Foo } from "@example/node";',
+        "export declare function use(foo: Foo): void;",
+      ].join("\n");
+      return fixture(
+        {
+          ...dependency("@example/node", "export interface Foo { value: string; }"),
+          ...dependency("@example/browser", "export interface Foo { value: string; }"),
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/package.json": JSON.stringify({ type: "commonjs" }),
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": [
+            `import type { Foo } from "${browserModule}";`,
+            "export declare function use(foo: Foo): void;",
+          ].join("\n"),
+        },
+        {
+          exports: coreAuthExports,
+          dependencies: { "@example/node": "1.0.0", "@example/browser": "1.0.0" },
+        },
+      );
+    }
+
+    it("shows condition-specific external reference changes even when declarations match", async () => {
+      const { apiMd } = await generateApiReview(referenceFixture("@example/browser"));
+
+      expect(apiMd).toContain(
+        [
+          "### `browser`",
+          "",
+          "#### References",
+          "",
+          "```diff",
+          '-import { Foo } from "@example/node";',
+          '+import { Foo } from "@example/browser";',
+          "```",
+        ].join("\n"),
+      );
+      expect(apiMd).toContain("Identical to the ESM view: `require`.");
+      expect(apiMd).not.toContain("#### Export `.`");
+    });
+
+    it("changes the hash when only the browser reference source changes", async () => {
+      const before = await generateApiReview(referenceFixture("@example/node"));
+      const after = await generateApiReview(referenceFixture("@example/browser"));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
     it("lists conditions whose declarations match the ESM view as identical", async () => {
       const root = fixture(
         {

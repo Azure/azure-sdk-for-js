@@ -144,8 +144,20 @@ function layoutRuntimeDifferences(review: Review): Block[] {
       ),
     );
   }
-  for (const { condition, exports } of review.conditionDiffs) {
+  for (const { condition, references, exports } of review.conditionDiffs) {
     blocks.push(heading(3, inlineCode(condition)));
+    if (references.length) {
+      blocks.push(heading(4, plain("References")), {
+        kind: "diff",
+        items: [
+          references.flatMap(({ change, reference }) =>
+            formatNamedImports("import", reference)
+              .split("\n")
+              .map((text) => ({ change, text })),
+          ),
+        ],
+      });
+    }
     for (const changed of exports) {
       blocks.push(heading(4, plain("Export "), inlineCode(changed.path)), {
         kind: "diff",
