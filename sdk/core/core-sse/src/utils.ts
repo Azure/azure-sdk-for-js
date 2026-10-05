@@ -118,7 +118,7 @@ async function* readStream(
       yield value;
     }
   } finally {
-    await cancel();
+    await cancel().catch(() => undefined);
   }
 }
 

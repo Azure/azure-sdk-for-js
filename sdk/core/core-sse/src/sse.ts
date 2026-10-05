@@ -71,7 +71,7 @@ async function* stopAtTerminalEvent(
   for await (const event of iterable) {
     const terminal = isTerminalEvent(event);
     if (terminal) {
-      await cancel();
+      await cancel().catch(() => undefined);
     }
     yield event;
     if (terminal) {
