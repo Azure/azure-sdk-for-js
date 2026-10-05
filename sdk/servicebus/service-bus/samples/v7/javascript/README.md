@@ -19,7 +19,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
 | [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
-| [deleteMessages.js][deletemessages]                                                       | Demonstrates deleting messages from a queue.                                                                                                                   |
 | [session.js][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.js][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
 | [useProxy.js][useproxy]                                                                   | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
@@ -78,7 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesStreaming.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/browseMessages.js
-[deletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/deleteMessages.js
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/session.js
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/scheduledMessages.js
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js

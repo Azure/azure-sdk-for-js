@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computefleet/arm-computefleet)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computefleet)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computefleet)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computefleet/arm-computefleet/samples)
 
 ## Getting started

@@ -12,6 +12,7 @@ import {
   _$deleteDeserialize as _$deleteDeserializeAdministratorsMicrosoftEntra,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAdministratorsMicrosoftEntra,
 } from "./api/administratorsMicrosoftEntra/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeDbAgents } from "./api/dbAgents/operations.js";
 import {
   _applyNowDeserialize,
   _rescheduleDeserialize,
@@ -135,6 +136,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeAdministratorsMicrosoftEntra,
       expectedStatuses: ["202", "200", "201"],
     },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/dbAgents/Default":
+    { deserializer: _createOrUpdateDeserializeDbAgents, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/applyNow":
     { deserializer: _applyNowDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/reschedule":

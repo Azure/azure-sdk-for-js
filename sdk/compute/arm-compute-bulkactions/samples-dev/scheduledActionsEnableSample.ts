@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables the specified scheduled action so new occurrences run.
  *
  * @summary enables the specified scheduled action so new occurrences run.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Enable_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Enable_BasicSuccess.json
  */
-async function enableAScheduledAction(): Promise<void> {
+async function enableARecurringScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.enable("rgcompute", "myScheduledAction");
+  await client.scheduledActions.enable("example-rg", "weekday-start");
 }
 
 async function main(): Promise<void> {
-  await enableAScheduledAction();
+  await enableARecurringScheduledAction();
 }
 
 main().catch(console.error);
