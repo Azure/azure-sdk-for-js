@@ -453,7 +453,9 @@ describe("AIProjectClient realtime", () => {
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
-    assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
+    assert.equal(url.searchParams.get("structured_input"), '{"customer":"Ada"}');
+    expect(connectOptions.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+    expect(connectOptions.headers).not.toHaveProperty("h-x-ms-voice-structured-inputs");
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);
@@ -465,6 +467,37 @@ describe("AIProjectClient realtime", () => {
     await connection.close();
     assert.equal((await connection.closed).code, 1000);
     assert.equal(connection.state, KnownVoiceAgentConnectionState.Disconnected);
+  });
+
+  it.each([
+    undefined,
+    {},
+    {
+      customer: "Ada & Bob + C=1/#?% \u4f60\u597d",
+      count: 3,
+      enabled: true,
+      tags: ["one", "two"],
+      settings: { language: "en-US", literal: "%7B" },
+      optional: null,
+    },
+  ])("uses only the shared structured_input query parameter: %j", async (structuredInputs) => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+      structuredInputs,
+    });
+    const connectOptions = factory.transport.connectOptions;
+    assert.ok(connectOptions);
+    const url = new URL(connectOptions.url);
+
+    expect(url.searchParams.getAll("structured_input")).toEqual(
+      structuredInputs === undefined ? [] : [JSON.stringify(structuredInputs)],
+    );
+    expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
+    expect(url.searchParams.has("x-ms-voice-structured-inputs")).toBe(false);
+    expect(connectOptions.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+    expect(connectOptions.headers).not.toHaveProperty("h-x-ms-voice-structured-inputs");
+
+    await connection.close();
   });
 
   it("sends text, audio, session settings, and tool outputs", async () => {

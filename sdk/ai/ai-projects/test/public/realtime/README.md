@@ -18,9 +18,19 @@ never make a network request.
   request).
 - **node/webSocketTransport.spec.ts**: the Node `ws`-backed transport implementation.
 
+On every transport, connect-time `structuredInputs` are JSON-serialized into the `structured_input`
+query parameter using standard URL encoding. No structured-input header is sent. The parameter is
+omitted when `structuredInputs` is undefined; an empty object is sent as `{}`. Query parameters may
+appear in URL logs, so do not put secrets in structured inputs.
+
 ### Live Tests (voiceAgentRealtimeLive.spec.ts)
 
 These tests run only in live mode and exercise real-time WebSocket streaming end-to-end.
+They also verify that a `{{agent_name}}` instruction template uses its defined default (`Ada`) and
+that connect-time `structuredInputs` override it (`Grace`), as echoed in `session.updated`.
+The override test requires the service gateway to forward the standard URL-encoded JSON without
+encoding it again. A gateway that double-encodes the query causes the test to fail; the client does
+not fall back to the obsolete header.
 
 - **Test Mode**: Live/Integration tests only (`describe.runIf(isLiveMode())`)
 - **Uses**: Real WebSocket connections to the voice agent realtime endpoint
