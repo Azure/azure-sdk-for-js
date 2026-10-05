@@ -231,8 +231,8 @@ importers:
         specifier: 'catalog:'
         version: 3.8.0
       builtin-modules:
-        specifier: ^3.1.0
-        version: 3.3.0
+        specifier: ^5.4.0
+        version: 5.4.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -38920,9 +38920,9 @@ packages:
   buffer@6.0.3:
     resolution: {integrity: sha1-Ks5XhFnMj74qcKqo9S7mO2p0xsY=}
 
-  builtin-modules@3.3.0:
-    resolution: {integrity: sha1-yuYoEriYAellYzbkYiPgMDhr57Y=}
-    engines: {node: '>=6'}
+  builtin-modules@5.4.0:
+    resolution: {integrity: sha512-JCWSCdun+4Ovd9BhM/Vtlmwb7oD6Wl4YiPRXXwhAuwlPhW1un/MKgXn7GZoFm53ginnoNzus69V8JWx0K393jg==}
+    engines: {node: '>=18.20'}
 
   bundle-name@4.1.1:
     resolution: {integrity: sha512-DdH81/zPLVS11EUgWq3tEu/xn+EzljlMYooDNdzWEnFha3R3NBMpMV1UqYIpjYHV/SgpFKMIX1Oh7o06SjM/oA==}
@@ -46269,7 +46269,7 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  builtin-modules@3.3.0: {}
+  builtin-modules@5.4.0: {}
 
   bundle-name@4.1.1:
     dependencies:

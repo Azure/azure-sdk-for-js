@@ -77,7 +77,7 @@
     "@types/unzipper": "~0.10.11",
     "@vitest/coverage-istanbul": "catalog:testing",
     "autorest": "catalog:",
-    "builtin-modules": "^3.1.0",
+    "builtin-modules": "^5.4.0",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
