@@ -9,16 +9,12 @@
 - Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. [#40053](https://github.com/Azure/azure-sdk-for-js/pull/40053).
 - Added support for mapping the `session.id` attribute on spans, span events, and logs to the Azure Monitor session context. [#40101](https://github.com/Azure/azure-sdk-for-js/pull/40101)
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fixed database dependency mapping for the stable OpenTelemetry attributes `db.system.name`, `db.namespace`, `db.query.text`, and `db.operation.name` without duplicating mapped attributes in custom properties, while retaining legacy attribute support, existing database type classification, and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
 - Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
 - Fixed persisted telemetry replay failing when stored envelope timestamps were deserialized as strings instead of `Date` objects. [#40103](https://github.com/Azure/azure-sdk-for-js/pull/40103)
 - Modified logic for message body on Microsoft.ApplicationInsights.MessageData to include default message for messages with empty body. [#40162](https://github.com/Azure/azure-sdk-for-js/pull/40162)
-
-### Other Changes
 
 ## 1.0.0-beta.45 (2026-09-04)
 
