@@ -46,6 +46,9 @@ export async function main(): Promise<void> {
 
   console.log("Listing existing optimization jobs for the agent...");
   for await (const job of project.agents.listOptimizationJobs({ agentName })) {
+    if (!job.id) {
+      continue;
+    }
     const details = await project.agents.getOptimizationJob(job.id);
     console.log(`Job ${details.id}: ${details.status}`);
     for await (const candidate of project.agents.listOptimizationCandidates(job.id, {

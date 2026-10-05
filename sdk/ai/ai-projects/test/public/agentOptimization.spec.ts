@@ -19,9 +19,12 @@ const job: AgentOptimizationJob = {
   optimization_model_configuration: { model: "optimization-model" },
 };
 const wireJob = { ...job, created_at: 1, updated_at: 1 };
+// `id` is optional on `AgentOptimizationJob` to match sibling job models, but this fixture
+// always provides one; narrow it once so call sites don't need repeated assertions.
+const jobId = job.id as string;
 const candidate = {
   candidate_id: "candidate-1",
-  job_id: job.id,
+  job_id: jobId,
   name: "Candidate",
   status: "completed",
   started_at: 1,
@@ -80,7 +83,7 @@ describe("agent optimization integration", () => {
       requestOptions: { headers: { "x-custom": "preserved", "x-count": 2 } },
     });
     await poller.submitted();
-    expect(poller.operationState?.jobId).toBe(job.id);
+    expect(poller.operationState?.jobId).toBe(jobId);
     expect(await poller.pollUntilDone()).toEqual(result);
     expect(JSON.parse(requests[0].body as string)).toEqual({
       optimization_configuration: configuration,
@@ -97,7 +100,7 @@ describe("agent optimization integration", () => {
 
   it("paginates full job resources and forwards continuation headers", async () => {
     const { client, requests } = createClient(
-      { body: { data: [wireJob], last_id: job.id, has_more: true } },
+      { body: { data: [wireJob], last_id: jobId, has_more: true } },
       { body: { data: [{ ...wireJob, id: "job-2" }], has_more: false } },
     );
     const jobs = [];
@@ -107,9 +110,9 @@ describe("agent optimization integration", () => {
     })) {
       jobs.push(item);
     }
-    expect(jobs.map((item) => item.id)).toEqual([job.id, "job-2"]);
+    expect(jobs.map((item) => item.id)).toEqual([jobId, "job-2"]);
     expect(jobs[0].created_at).toEqual(new Date(1000));
-    expect(new URL(requests[1].url).searchParams.get("after")).toBe(job.id);
+    expect(new URL(requests[1].url).searchParams.get("after")).toBe(jobId);
     expect(new URL(requests[1].url).searchParams.get("agent_name")).toBe("agent");
     expect(requests[1].headers.get("x-custom")).toBe("preserved");
   });
@@ -136,10 +139,10 @@ describe("agent optimization integration", () => {
 
   it("gets and promotes candidates through the GA routes", async () => {
     const { client, requests } = createClient({ body: candidate }, { body: candidate });
-    expect((await client.agents.getOptimizationCandidate(job.id, "candidate/1")).candidate_id).toBe(
+    expect((await client.agents.getOptimizationCandidate(jobId, "candidate/1")).candidate_id).toBe(
       candidate.candidate_id,
     );
-    await client.agents.promoteOptimizationCandidate(job.id, "candidate/1");
+    await client.agents.promoteOptimizationCandidate(jobId, "candidate/1");
     expect(new URL(requests[0].url).pathname).toContain("/candidates/candidate%2F1");
     expect(new URL(requests[1].url).pathname).toContain("/candidates/candidate%2F1:promote");
     expect(requests[1].method).toBe("POST");
@@ -152,11 +155,11 @@ describe("agent optimization integration", () => {
       { body: { ...wireJob, status: "cancelled" } },
       { status: 204 },
     );
-    expect((await client.agents.getOptimizationJob(job.id)).id).toBe(job.id);
-    expect((await client.agents.cancelOptimizationJob(job.id)).status).toBe("cancelled");
-    await client.agents.deleteOptimizationJob(job.id);
+    expect((await client.agents.getOptimizationJob(jobId)).id).toBe(jobId);
+    expect((await client.agents.cancelOptimizationJob(jobId)).status).toBe("cancelled");
+    await client.agents.deleteOptimizationJob(jobId);
     expect(requests.map((request) => request.method)).toEqual(["GET", "POST", "DELETE"]);
-    expect(new URL(requests[1].url).pathname).toContain(`${job.id}:cancel`);
+    expect(new URL(requests[1].url).pathname).toContain(`${jobId}:cancel`);
   });
 
   it("preserves service error details", async () => {
@@ -166,7 +169,7 @@ describe("agent optimization integration", () => {
         error: { code: "not_found", message: "Candidate not found.", param: "candidate_id" },
       },
     });
-    await expect(client.agents.getOptimizationCandidate(job.id, "missing")).rejects.toMatchObject({
+    await expect(client.agents.getOptimizationCandidate(jobId, "missing")).rejects.toMatchObject({
       statusCode: 404,
       details: { error: { code: "not_found", param: "candidate_id" } },
     });
@@ -175,7 +178,7 @@ describe("agent optimization integration", () => {
   it("forwards cancellation to the HTTP transport", async () => {
     const { client, requests } = createClient({ body: candidate });
     const controller = new AbortController();
-    await client.agents.getOptimizationCandidate(job.id, candidate.candidate_id, {
+    await client.agents.getOptimizationCandidate(jobId, candidate.candidate_id, {
       abortSignal: controller.signal,
     });
     expect(requests[0].abortSignal).toBe(controller.signal);
