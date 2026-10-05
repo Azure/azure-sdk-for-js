@@ -318,7 +318,7 @@ Do not put secrets in query parameters, because URLs can appear in server or pro
 SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
 `store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
 `foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
-`structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
+`structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
 these names or unsupported values rejects `connect()` with `TypeError` before authentication.
 Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
 variables; custom query parameters do not automatically become prompt inputs.
