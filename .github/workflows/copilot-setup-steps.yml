@@ -31,7 +31,7 @@ jobs:
           node-version: "24"
 
       - name: Install Pnpm
-        run: npm install -g pnpm
+        run: npm install -g --allow-scripts=pnpm pnpm
 
       - name: Install library dependencies
         run: pnpm install

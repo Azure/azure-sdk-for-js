@@ -37,7 +37,7 @@ jobs:
       - name: Install pnpm
         run: |
           PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
-          npm install -g "pnpm@${PNPM_VERSION}"
+          npm install -g --allow-scripts=pnpm "pnpm@${PNPM_VERSION}"
 
       # The repo root .npmrc points at the Azure DevOps feed mirror of npmjs, but this
       # GitHub-hosted runner has no ADO service identity to authenticate with. The feed only
