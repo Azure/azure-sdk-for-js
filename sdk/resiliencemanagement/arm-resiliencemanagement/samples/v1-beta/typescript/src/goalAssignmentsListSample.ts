@@ -5,10 +5,10 @@ import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list GoalAssignment resources by tenant
+ * This sample demonstrates how to lists goal assignments in a service group.
  *
- * @summary list GoalAssignment resources by tenant
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_List_MaximumSet_Gen.json
+ * @summary lists goal assignments in a service group.
+ * x-ms-original-file: 2026-10-31-preview/GoalAssignments_List_MaximumSet_Gen.json
  */
 async function goalAssignmentsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,10 +25,10 @@ async function goalAssignmentsListMaximumSet(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to list GoalAssignment resources by tenant
+ * This sample demonstrates how to lists goal assignments in a service group.
  *
- * @summary list GoalAssignment resources by tenant
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_List_MinimumSet_Gen.json
+ * @summary lists goal assignments in a service group.
+ * x-ms-original-file: 2026-10-31-preview/GoalAssignments_List_MinimumSet_Gen.json
  */
 async function goalAssignmentsListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

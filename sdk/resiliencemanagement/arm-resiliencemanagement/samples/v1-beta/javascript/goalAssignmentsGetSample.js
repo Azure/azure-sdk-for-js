@@ -5,10 +5,10 @@ const { AzureResilienceManagementClient } = require("@azure/arm-resiliencemanage
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get a GoalAssignment
+ * This sample demonstrates how to gets a goal assignment.
  *
- * @summary get a GoalAssignment
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_Get_MaximumSet_Gen.json
+ * @summary gets a goal assignment.
+ * x-ms-original-file: 2026-10-31-preview/GoalAssignments_Get_MaximumSet_Gen.json
  */
 async function goalAssignmentsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

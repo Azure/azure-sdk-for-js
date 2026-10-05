@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DrillResource
  *
  * @summary get a DrillResource
- * x-ms-original-file: 2026-08-31-preview/DrillResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-31-preview/DrillResources_Get_MaximumSet_Gen.json
  */
 async function drillResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,8 +21,26 @@ async function drillResourcesGetMaximumSet(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to get a DrillResource
+ *
+ * @summary get a DrillResource
+ * x-ms-original-file: 2026-10-31-preview/DrillResources_Get_Regional.json
+ */
+async function drillResourcesGetRegional(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureResilienceManagementClient(credential);
+  const result = await client.drillResources.get(
+    "sampleServiceGroupName",
+    "regionalDrill",
+    "b6378181-9dc0-4a43-8e09-97a8b08aabaa",
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await drillResourcesGetMaximumSet();
+  await drillResourcesGetRegional();
 }
 
 main().catch(console.error);

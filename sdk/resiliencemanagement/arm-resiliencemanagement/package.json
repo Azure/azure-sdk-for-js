@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-resiliencemanagement",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A generated SDK for AzureResilienceManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -228,20 +228,6 @@
       "require": {
         "types": "./dist/commonjs/api/goalResources/index.d.ts",
         "default": "./dist/commonjs/api/goalResources/index.js"
-      }
-    },
-    "./api/goalTemplates": {
-      "browser": {
-        "types": "./dist/browser/api/goalTemplates/index.d.ts",
-        "default": "./dist/browser/api/goalTemplates/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/goalTemplates/index.d.ts",
-        "default": "./dist/esm/api/goalTemplates/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/goalTemplates/index.d.ts",
-        "default": "./dist/commonjs/api/goalTemplates/index.js"
       }
     },
     "./api/goalAssignments": {

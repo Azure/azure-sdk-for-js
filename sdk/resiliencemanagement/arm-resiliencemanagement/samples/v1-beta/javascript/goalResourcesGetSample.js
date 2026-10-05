@@ -5,10 +5,10 @@ const { AzureResilienceManagementClient } = require("@azure/arm-resiliencemanage
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-08-31-preview/GoalResources_Get_Complete_Example.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-31-preview/GoalResources_Get_Complete_Example.json
  */
 async function goalResourcesGetCompleteExample() {
   const credential = new DefaultAzureCredential();
@@ -22,10 +22,10 @@ async function goalResourcesGetCompleteExample() {
 }
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-08-31-preview/GoalResources_Get_MaximumSet_Gen.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-31-preview/GoalResources_Get_MaximumSet_Gen.json
  */
 async function goalResourcesGetMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -35,10 +35,10 @@ async function goalResourcesGetMaximumSet() {
 }
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-08-31-preview/GoalResources_Get_MinimumSet_Gen.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-31-preview/GoalResources_Get_MinimumSet_Gen.json
  */
 async function goalResourcesGetMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -43,7 +43,7 @@ export function _listSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalAssignments{?api%2Dversion,%24skipToken,%24top}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -73,7 +73,7 @@ export async function _listDeserialize(
   return _goalAssignmentListResultDeserializer(result.body);
 }
 
-/** List GoalAssignment resources by tenant */
+/** Lists goal assignments in a service group. */
 export function list(
   context: Client,
   serviceGroupName: string,
@@ -87,7 +87,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-31-preview",
+      apiVersion: context.apiVersion ?? "2026-10-31-preview",
     },
   );
 }
@@ -104,7 +104,7 @@ export function _recommendCapacitySend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,7 +132,7 @@ export async function _recommendCapacityDeserialize(result: PathUncheckedRespons
   return;
 }
 
-/** Recommends capacity improvements for resources under the goal assignments scope. Returns AI-powered capacity assessments and recommendations. */
+/** Recommends capacity improvements for resources under the goal assignment's scope. Returns AI-powered capacity assessments and recommendations. */
 export function recommendCapacity(
   context: Client,
   serviceGroupName: string,
@@ -146,7 +146,7 @@ export function recommendCapacity(
     getInitialResponse: () =>
       _recommendCapacitySend(context, serviceGroupName, goalAssignmentName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -161,7 +161,7 @@ export function _$deleteSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +184,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a GoalAssignment */
+/** Deletes a goal assignment. */
 export function $delete(
   context: Client,
   serviceGroupName: string,
@@ -196,7 +196,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, serviceGroupName, goalAssignmentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -211,7 +211,7 @@ export function _refreshGoalResourcesSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,7 +252,7 @@ export function refreshGoalResources(
     getInitialResponse: () =>
       _refreshGoalResourcesSend(context, serviceGroupName, goalAssignmentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -268,7 +268,7 @@ export function _updateGoalResourcesSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +298,7 @@ export async function _updateGoalResourcesDeserialize(
   return;
 }
 
-/** Action to exclude a resource from goal assignment. */
+/** Updates goal resources under a goal assignment. */
 export function updateGoalResources(
   context: Client,
   serviceGroupName: string,
@@ -312,7 +312,7 @@ export function updateGoalResources(
     getInitialResponse: () =>
       _updateGoalResourcesSend(context, serviceGroupName, goalAssignmentName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -328,7 +328,7 @@ export function _updateSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,7 +356,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Update a GoalAssignment */
+/** Updates a goal assignment. */
 export function update(
   context: Client,
   serviceGroupName: string,
@@ -370,7 +370,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, serviceGroupName, goalAssignmentName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -386,7 +386,7 @@ export function _createOrUpdateSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -414,7 +414,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   return;
 }
 
-/** Create a GoalAssignment */
+/** Creates or updates a goal assignment. */
 export function createOrUpdate(
   context: Client,
   serviceGroupName: string,
@@ -428,7 +428,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, serviceGroupName, goalAssignmentName, resource, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -443,7 +443,7 @@ export function _getSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -469,7 +469,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Go
   return goalAssignmentDeserializer(result.body);
 }
 
-/** Get a GoalAssignment */
+/** Gets a goal assignment. */
 export async function get(
   context: Client,
   serviceGroupName: string,

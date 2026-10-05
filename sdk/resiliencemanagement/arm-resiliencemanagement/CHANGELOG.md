@@ -1,5 +1,209 @@
 # Release History
 
+## 1.0.0-beta.3 (2026-10-05)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation DrillRunsOperations.beginGenerateReport
+  - Added operation DrillRunsOperations.beginGenerateReportAndWait
+  - Added operation DrillRunsOperations.beginListReportDownloadUrl
+  - Added operation DrillRunsOperations.beginListReportDownloadUrlAndWait
+  - Added operation DrillRunsOperations.generateReport
+  - Added operation DrillRunsOperations.listReportDownloadUrl
+  - Added Interface DrillReportSummary
+  - Added Interface DrillRunReprotectRequest
+  - Added Interface DrillRunsGenerateReportOptionalParams
+  - Added Interface DrillRunsListReportDownloadUrlOptionalParams
+  - Added Interface GoalAssignmentPropertiesOfDrill
+  - Added Interface HealthModelMonitoringProperties
+  - Added Interface ListReportDownloadUrlRequest
+  - Added Interface ListReportDownloadUrlResponse
+  - Added Interface RegionalDrillResourceProperties
+  - Added Interface RegionalObjectives
+  - Added Interface ReportStageStatus
+  - Added Interface ResiliencyProperties
+  - Added Interface ResourceAzureTemplateProtectionSetting
+  - Added Interface ResourceCosmosDBProtectionSetting
+  - Added Interface ResourceCrossZoneVmRecoveryProtectionSetting
+  - Added Interface ResourceFeasibilityReview
+  - Added Interface ResourceNetAppFilesProtectionSetting
+  - Added Interface ResourceServiceBusProtectionSetting
+  - Added Interface ResourceStorageAccountProtectionSetting
+  - Added Interface SkuDetails
+  - Added Interface SliAttentionStatus
+  - Added Interface SliMonitoringProperties
+  - Added Interface SliSelection
+  - Added Interface UnifiedResilienceItemBillingInfo
+  - Added Interface UnifiedResilienceItemGoalRequirement
+  - Added Interface UnifiedResilienceItemRegionalResiliencyPosture
+  - Added Interface UnifiedResilienceItemResiliencyPosture
+  - Added Interface UnifiedResilienceItemZonalResiliencyPosture
+  - Added Interface UserConfirmationItem
+  - Added Interface ZonalDrillResourceProperties
+  - Interface AttentionReason has a new optional parameter discoveryRuleExists
+  - Interface AttentionReason has a new optional parameter drillRbacOnGoalAssignment
+  - Interface AttentionReason has a new optional parameter drillRbacOnHealthModel
+  - Interface AttentionReason has a new optional parameter drillRbacOnSli
+  - Interface AttentionReason has a new optional parameter goalAssignment
+  - Interface AttentionReason has a new optional parameter healthModelAssociatedWithServiceGroup
+  - Interface AttentionReason has a new optional parameter healthModelExists
+  - Interface AttentionReason has a new optional parameter monitoringSourceNotConfigured
+  - Interface AttentionReason has a new optional parameter rbacNeededForDrillOnGoalAssignment
+  - Interface AttentionReason has a new optional parameter rbacNeededForDrillOnHealthModel
+  - Interface AttentionReason has a new optional parameter recoveryPlan
+  - Interface AttentionReason has a new optional parameter sliAttentionStatuses
+  - Interface DrillProperties has a new optional parameter goalAssignmentProperties
+  - Interface DrillProperties has a new optional parameter healthModelMonitoringProperties
+  - Interface DrillProperties has a new optional parameter sliMonitoringProperties
+  - Interface DrillResourceProperties has a new optional parameter faultEligibility
+  - Interface DrillResourceProperties has a new optional parameter faultIneligibleReason
+  - Interface DrillRunProperties has a new optional parameter recoveryTimeObjective
+  - Interface DrillRunProperties has a new optional parameter report
+  - Interface DrillRunsFailOverOptionalParams has a new optional parameter body
+  - Interface DrillRunsReprotectOptionalParams has a new optional parameter body
+  - Interface DrillUpdateProperties has a new optional parameter goalAssignmentProperties
+  - Interface DrillUpdateProperties has a new optional parameter healthModelMonitoringProperties
+  - Interface DrillUpdateProperties has a new optional parameter sliMonitoringProperties
+  - Interface GoalAssignmentProperties has a new optional parameter regionalObjectives
+  - Interface GoalAssignmentProperties has a new optional parameter requireRegionalResiliency
+  - Interface GoalResourceProperties has a new optional parameter regionalResiliency
+  - Interface GoalResourceProperties has a new optional parameter zonalResiliency
+  - Interface GoalsData has a new optional parameter regionalResiliency
+  - Interface GoalsData has a new optional parameter zonalResiliency
+  - Interface LastRunProperties has a new optional parameter lastRunRecoveryTimeActual
+  - Interface OperationQualificationDetails has a new optional parameter resourceFeasibilityReviews
+  - Interface RecoveryResourceProperties has a new optional parameter inclusionDisabledReasons
+  - Interface RegionalDrillProperties has a new optional parameter goalAssignmentProperties
+  - Interface RegionalDrillProperties has a new optional parameter healthModelMonitoringProperties
+  - Interface RegionalDrillProperties has a new optional parameter sliMonitoringProperties
+  - Interface ResourceProtectionSolutionSettings has a new optional parameter replicationMode
+  - Interface UnifiedResilienceItemProperties has a new optional parameter billingInfo
+  - Interface ValidateForExecutionProperties has a new optional parameter operationName
+  - Interface ZonalDrillProperties has a new optional parameter goalAssignmentProperties
+  - Interface ZonalDrillProperties has a new optional parameter healthModelMonitoringProperties
+  - Interface ZonalDrillProperties has a new optional parameter sliMonitoringProperties
+  - Added Type Alias DrillReportFinalizationState
+  - Added Type Alias DrillReportFormat
+  - Added Type Alias DrillReportGenerationStatus
+  - Added Type Alias DrillResourcePropertiesUnion
+  - Added Type Alias DrillRunTasks
+  - Added Type Alias FaultEligibility
+  - Added Type Alias FaultIneligibleReason
+  - Added Type Alias RegionalResiliencyStatus
+  - Added Type Alias ReplicationMode
+  - Added Type Alias ResourceFeasibilityReviewStatus
+  - Added Type Alias ResourceFeasibilityReviewType
+  - Added Type Alias ResourceInclusionDisabledReason
+  - Added Type Alias SliType
+  - Added Type Alias SliTypeMatchState
+  - Added Enum KnownDrillReportFinalizationState
+  - Added Enum KnownDrillReportFormat
+  - Added Enum KnownDrillReportGenerationStatus
+  - Added Enum KnownDrillRunTasks
+  - Added Enum KnownFaultEligibility
+  - Added Enum KnownFaultIneligibleReason
+  - Added Enum KnownRegionalResiliencyStatus
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownResourceFeasibilityReviewStatus
+  - Added Enum KnownResourceFeasibilityReviewType
+  - Added Enum KnownResourceInclusionDisabledReason
+  - Added Enum KnownSliType
+  - Added Enum KnownSliTypeMatchState
+  - Enum KnownProvisioningState has a new value NeedsAttention
+  - Enum KnownResourceProtectionSolutionType has a new value AzureCosmosDB
+  - Enum KnownResourceProtectionSolutionType has a new value AzureNetAppFiles
+  - Enum KnownResourceProtectionSolutionType has a new value AzureServiceBus
+  - Enum KnownResourceProtectionSolutionType has a new value AzureStorageAccount
+  - Enum KnownResourceProtectionSolutionType has a new value AzureTemplate
+  - Enum KnownVersions has a new value V20260601Preview
+  - Enum KnownVersions has a new value V20260831Preview
+  - Enum KnownVersions has a new value V20260930Preview
+  - Enum KnownVersions has a new value V20261001
+  - Enum KnownVersions has a new value V20261031Preview
+
+### Breaking Changes
+  - Removed operation group GoalTemplatesOperations
+  - Operation DrillRunsOperations.beginFailOver has a new signature
+  - Operation DrillRunsOperations.beginFailOverAndWait has a new signature
+  - Operation DrillRunsOperations.failOver has a new signature
+  - Operation DrillsOperations.beginValidateForExecution has a new signature
+  - Operation DrillsOperations.beginValidateForExecutionAndWait has a new signature
+  - Operation DrillsOperations.validateForExecution has a new signature
+  - Operation GoalAssignmentsOperations.beginCreateOrUpdate has a new signature
+  - Operation GoalAssignmentsOperations.beginCreateOrUpdateAndWait has a new signature
+  - Operation GoalAssignmentsOperations.beginUpdate has a new signature
+  - Operation GoalAssignmentsOperations.beginUpdateAndWait has a new signature
+  - Operation GoalAssignmentsOperations.beginUpdateGoalResources has a new signature
+  - Operation GoalAssignmentsOperations.beginUpdateGoalResourcesAndWait has a new signature
+  - Operation GoalAssignmentsOperations.createOrUpdate has a new signature
+  - Operation GoalAssignmentsOperations.get has a new signature
+  - Operation GoalAssignmentsOperations.list has a new signature
+  - Operation GoalAssignmentsOperations.update has a new signature
+  - Operation GoalAssignmentsOperations.updateGoalResources has a new signature
+  - Operation GoalResourcesOperations.get has a new signature
+  - Operation GoalResourcesOperations.list has a new signature
+  - Operation UnifiedResilienceItemsOperations.get has a new signature
+  - Operation UnifiedResilienceItemsOperations.list has a new signature
+  - Class AzureResilienceManagementClient no longer has parameter goalTemplates
+  - Removed Interface GoalTemplate
+  - Removed Interface GoalTemplateProperties
+  - Removed Interface GoalTemplatesCreateOrUpdateOptionalParams
+  - Removed Interface GoalTemplatesDeleteOptionalParams
+  - Removed Interface GoalTemplatesGetOptionalParams
+  - Removed Interface GoalTemplatesListOptionalParams
+  - Removed Interface GoalTemplatesUpdateOptionalParams
+  - Removed Interface ManagedOnBehalfOfConfiguration
+  - Removed Interface MoboBrokerResource
+  - Removed Interface RecommendationsData
+  - Removed Interface RecommendationsHighAvailabilityData
+  - Removed Interface ServiceGroupMembership
+  - Removed Interface UserConfirmationForHighAvailabilityItem
+  - Interface DrillResourceProperties has a new required parameter drillType
+  - Interface GoalAssignmentProperties has a new required parameter requireZonalResiliency
+  - Interface UnifiedResilienceItemProperties has a new required parameter resiliencyPosture
+  - Interface DrillProperties no longer has parameter managedOnBehalfOfConfiguration
+  - Interface DrillResourceProperties no longer has parameter activePhysicalZones
+  - Interface DrillResourceProperties no longer has parameter advisorHaRecommendationId
+  - Interface DrillResourceProperties no longer has parameter haStatus
+  - Interface DrillResourceProperties no longer has parameter recoveryPhysicalZones
+  - Interface GoalAssignmentProperties no longer has parameter goalAssignmentType
+  - Interface GoalAssignmentProperties no longer has parameter goalTemplateId
+  - Interface GoalResourceProperties no longer has parameter disasterRecoveryAttestationStatus
+  - Interface GoalResourceProperties no longer has parameter disasterRecoveryGoalParticipation
+  - Interface GoalResourceProperties no longer has parameter exclusionReasonForDisasterRecoveryGoals
+  - Interface GoalResourceProperties no longer has parameter exclusionReasonForHighAvailabilityGoals
+  - Interface GoalResourceProperties no longer has parameter highAvailabilityAttestationStatus
+  - Interface GoalResourceProperties no longer has parameter highAvailabilityGoalParticipation
+  - Interface GoalResourceProperties no longer has parameter serviceGroupMemberships
+  - Interface GoalResourceProperties no longer has parameter userConfirmationForHighAvailability
+  - Interface GoalsData no longer has parameter regionalRecoveryPointEstimatedInMinutes
+  - Interface GoalsData no longer has parameter regionalRecoveryPointObjectiveInMinutes
+  - Interface GoalsData no longer has parameter regionalRecoveryPointObjectiveStatus
+  - Interface GoalsData no longer has parameter regionalRecoveryTimeActualInMinutes
+  - Interface GoalsData no longer has parameter regionalRecoveryTimeObjectiveInMinutes
+  - Interface GoalsData no longer has parameter regionalRecoveryTimeObjectiveStatus
+  - Interface GoalsData no longer has parameter requireDisasterRecovery
+  - Interface GoalsData no longer has parameter requireHighAvailability
+  - Interface GoalsData no longer has parameter templateId
+  - Interface RegionalDrillProperties no longer has parameter managedOnBehalfOfConfiguration
+  - Interface ServiceLevelResource no longer has parameter serviceLevelObjectiveResourceId
+  - Interface UnifiedResilienceItemProperties no longer has parameter recommendations
+  - Interface ZonalDrillProperties no longer has parameter managedOnBehalfOfConfiguration
+  - Parameter sourceLocations of interface ValidateForExecutionProperties is now optional
+  - Removed Type Alias GoalAssignmentType
+  - Removed Type Alias GoalType
+  - Removed Type Alias MembershipType
+  - Removed Type Alias RequirementSelected
+  - Removed Type Alias ResilienceHealthStatus
+  - Removed Type Alias UnifiedResilienceItemRequirementSelected
+  - Removed Enum KnownGoalAssignmentType
+  - Removed Enum KnownGoalType
+  - Removed Enum KnownMembershipType
+  - Removed Enum KnownRequirementSelected
+  - Removed Enum KnownResilienceHealthStatus
+  - Removed Enum KnownUnifiedResilienceItemRequirementSelected
+  - Enum KnownUsagePlanType no longer has value Basic
+
 ## 1.0.0-beta.2 (2026-09-23)
 Compared with version 1.0.0-beta.1
 

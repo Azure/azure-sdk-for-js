@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DrillResource resources by Drill
  *
  * @summary list DrillResource resources by Drill
- * x-ms-original-file: 2026-08-31-preview/DrillResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-31-preview/DrillResources_List_MaximumSet_Gen.json
  */
 async function drillResourcesListMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,8 +24,26 @@ async function drillResourcesListMaximumSet() {
   console.log(resArray);
 }
 
+/**
+ * This sample demonstrates how to list DrillResource resources by Drill
+ *
+ * @summary list DrillResource resources by Drill
+ * x-ms-original-file: 2026-10-31-preview/DrillResources_List_Regional.json
+ */
+async function drillResourcesListRegional() {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureResilienceManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.drillResources.list("sampleServiceGroupName", "regionalDrill")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
 async function main() {
   await drillResourcesListMaximumSet();
+  await drillResourcesListRegional();
 }
 
 main().catch(console.error);
