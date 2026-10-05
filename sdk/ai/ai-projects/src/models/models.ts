@@ -14264,11 +14264,11 @@ export function _agentsPagedResultDataGenerationJobDeserializer(
 /** Agent optimization job resource — a long-running job that produces candidate changes to a Foundry agent configuration. */
 export interface AgentOptimizationJob {
   /** Server-assigned unique identifier. */
-  readonly id: string;
+  readonly id?: string;
   /** Result produced on success. */
   readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
-  readonly status: JobStatus;
+  readonly status?: JobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ErrorModel;
   /** Human-readable label. Omitted when no label is needed; it has no uniqueness, routing, or idempotency semantics. */
@@ -14280,11 +14280,11 @@ export interface AgentOptimizationJob {
   /** Type-specific optimization configuration. */
   optimization_configuration: AgentOptimizationConfigurationBaseUnion;
   /** Duration for which the job has been running, in milliseconds. */
-  readonly run_duration_ms: number;
+  readonly run_duration_ms?: number;
   /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
+  readonly created_at?: Date;
   /** The timestamp when the job was last updated, represented in Unix time. */
-  readonly updated_at: Date;
+  readonly updated_at?: Date;
   /** Non-fatal warnings emitted during optimization. Omitted when no warnings were produced. */
   readonly warnings?: string[];
 }
@@ -14323,8 +14323,14 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
       item["optimization_configuration"],
     ),
     run_duration_ms: item["run_duration_ms"],
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
+    created_at:
+      item["created_at"] === undefined || item["created_at"] === null
+        ? item["created_at"]
+        : new Date(item["created_at"] * 1000),
+    updated_at:
+      item["updated_at"] === undefined || item["updated_at"] === null
+        ? item["updated_at"]
+        : new Date(item["updated_at"] * 1000),
     warnings: !item["warnings"]
       ? item["warnings"]
       : item["warnings"].map((p: any) => {

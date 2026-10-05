@@ -573,17 +573,17 @@ export interface AgentOptimizationInstructionsMutation extends AgentOptimization
 
 // @public
 export interface AgentOptimizationJob {
-    readonly created_at: Date;
+    readonly created_at?: Date;
     display_name?: string;
     readonly error?: ErrorModel;
-    readonly id: string;
+    readonly id?: string;
     optimization_configuration: AgentOptimizationConfigurationBaseUnion;
     optimization_model_configuration: AgentOptimizationModelConfiguration;
     readonly result?: AgentOptimizationJobResult;
-    readonly run_duration_ms: number;
-    readonly status: JobStatus;
+    readonly run_duration_ms?: number;
+    readonly status?: JobStatus;
     target_configuration?: AgentOptimizationTargetConfigurationUnion;
-    readonly updated_at: Date;
+    readonly updated_at?: Date;
     readonly warnings?: string[];
 }
 
