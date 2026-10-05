@@ -19,3 +19,19 @@ it("cancels a live Node response even before its terminal event is read", async 
   assert.equal((await reader.read()).value?.data, "[DONE]");
   assert.isTrue((await reader.read()).done);
 });
+
+it("cancels an unread Azure Search response.completed event", async () => {
+  const body = new PassThrough();
+  body.write('event: response.completed\ndata: {"statusCode":200,"response":{}}\n\n');
+  const stream = createSseStream(body, {
+    isTerminalEvent: (event) => event.event === "response.completed" || event.event === "error",
+  });
+
+  await vi.waitFor(() => assert.isTrue(body.destroyed));
+  const reader = stream.getReader();
+  const { value } = await reader.read();
+  assert.isDefined(value);
+  assert.equal(value?.event, "response.completed");
+  assert.deepEqual(JSON.parse(value.data), { statusCode: 200, response: {} });
+  assert.isTrue((await reader.read()).done);
+});

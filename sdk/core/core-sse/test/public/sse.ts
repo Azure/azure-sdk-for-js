@@ -54,6 +54,55 @@ export function buildSseTests(
       assert.deepEqual(events, ["[DONE]", "next"]);
     });
 
+    it.each([
+      {
+        terminalEvent: "response.completed",
+        terminalData: { statusCode: 200, response: { response: [] } },
+      },
+      {
+        terminalEvent: "error",
+        terminalData: { error: { code: "Failed", message: "Retrieval failed" } },
+      },
+    ])(
+      "handles Azure Search $terminalEvent as a terminal event",
+      async ({ terminalEvent, terminalData }) => {
+        const startedData = {
+          requestId: "request-1",
+          knowledgeBaseName: "base",
+          outputMode: "extractiveData",
+          reasoningEffort: { kind: "auto" },
+        };
+        const bytes = encoder.encode(
+          [
+            ": keep-alive\r\n",
+            `event: retrieval.started\r\ndata: ${JSON.stringify(startedData)}\r\n\r\n`,
+            `event: ${terminalEvent}\r\ndata: ${JSON.stringify(terminalData)}\r\n\r\n`,
+            'event: retrieval.started\r\ndata: {"requestId":"ignored"}\r\n\r\n',
+          ].join(""),
+        );
+        const stream = createStream(
+          (write) => {
+            for (let index = 0; index < bytes.length; index += 2) {
+              write(bytes.subarray(index, index + 2));
+            }
+          },
+          {
+            isTerminalEvent: (event) =>
+              event.event === "response.completed" || event.event === "error",
+          },
+        );
+
+        const events = [];
+        for await (const event of stream) {
+          events.push({ event: event.event, data: JSON.parse(event.data) });
+        }
+        assert.deepEqual(events, [
+          { event: "retrieval.started", data: startedData },
+          { event: terminalEvent, data: terminalData },
+        ]);
+      },
+    );
+
     matrix([[0, 1, 2, 10000]], async function (count: number) {
       matrix([[1, 3, 10]], async function (chunkLen: number) {
         it(`handles ${count} events chunked into chunks of length ${chunkLen}`, async () => {
