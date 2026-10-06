@@ -6,7 +6,7 @@
 
 - Added support for service version 2027-03-07.
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
-- Added data locality support to `downloadToBuffer`: when the service hints at it, blocks are read from the endpoints that hold them. Set `layoutAwareRouting` to opt out. Node.js only.
+- Added data locality support to `downloadToBuffer`: when the service hints at it, blocks are read from the endpoints that hold them. Set `layoutAwareRouting` to `"disabled"` to opt out. Node.js only.
 - Added `BlobClient.getLayout`, which pages through the blob's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
 - Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call.
 - Added `downloadHint` to the blob download response.

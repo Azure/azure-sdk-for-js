@@ -172,6 +172,21 @@ describe("fetchLayout", () => {
     assert.equal(calls[0].range, "bytes=0-99");
   });
 
+  it("pins every continuation to page one's ETag, whatever later pages report", async () => {
+    const { context, calls } = layoutContext([
+      { etag: "etag-a", nextMarker: "marker-1" },
+      { etag: "etag-b", nextMarker: "marker-2" },
+      { etag: "etag-c", nextMarker: "" },
+    ]);
+
+    await fetchLayout(context, { ifMatch: "*" });
+
+    assert.deepEqual(
+      calls.map((call) => call.ifMatch),
+      ["*", "etag-a", "etag-a"],
+    );
+  });
+
   it.each([400, 500, 503])("falls back silently on %i", async (statusCode) => {
     const { context } = layoutContext([new RestError("no layout", { statusCode })]);
 
@@ -385,6 +400,27 @@ describe("BlobClient.getLayout", () => {
     assert.equal(calls[0].ifMatch, "*");
     assert.equal(calls[1].ifMatch, "etag-page-1");
     assert.equal(decodeLayoutContinuationToken(pages[0].continuationToken!).etag, "etag-page-1");
+  });
+
+  it("pins every continuation and token to page one's ETag, whatever later pages report", async () => {
+    const page = (nextMarker: string, etag: string): unknown =>
+      layoutPage({ nextMarker }, { etag });
+    const { client, calls } = clientWithLayoutPages([
+      page("marker-1", "etag-a"),
+      page("marker-2", "etag-b"),
+      page("", "etag-c"),
+    ]);
+
+    const pages: BlobGetLayoutResponseModel[] = [];
+    for await (const item of client.getLayout()) {
+      pages.push(item);
+    }
+
+    assert.deepEqual(
+      calls.map((call) => call.ifMatch),
+      [undefined, "etag-a", "etag-a"],
+    );
+    assert.equal(decodeLayoutContinuationToken(pages[1].continuationToken!).etag, "etag-a");
   });
 
   it("holds the range identical across continuations", async () => {

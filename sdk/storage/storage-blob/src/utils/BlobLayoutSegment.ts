@@ -124,13 +124,17 @@ export async function fetchLayout(
   options: Omit<BlobGetLayoutOptionalParams, "marker"> = {},
 ): Promise<BlobLayoutSegment[] | undefined> {
   const segments: BlobLayoutSegment[] = [];
-  let ifMatch = options.ifMatch;
+  let etag: string | undefined;
   let marker: string | undefined;
 
   try {
     do {
-      const layout = await blobContext.getLayout({ ...options, ifMatch, marker });
-      ifMatch = layout.etag ?? ifMatch;
+      const layout = await blobContext.getLayout({
+        ...options,
+        ifMatch: etag ?? options.ifMatch,
+        marker,
+      });
+      etag ??= layout.etag;
       segments.push(...toBlobLayoutSegments(layout));
       marker = layout.nextMarker || undefined;
     } while (marker);

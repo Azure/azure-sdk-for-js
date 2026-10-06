@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import type * as CoreUtil from "@azure/core-util";
 import type {
   HttpClient,
@@ -125,6 +125,35 @@ describe("storageDataLocalityPolicy", () => {
 
     assert.isUndefined(sent.layoutHeader);
   });
+
+  // Retries resend this same request object, so a failed attempt must not leave it routed.
+  it.each([undefined, "custom.host"])(
+    "restores the request after an attempt throws, with original Host %o",
+    async (originalHost) => {
+      const endpoint = "https://blob.stamp.store.core.windows.net:443/";
+      const headers = createHttpHeaders({ [LAYOUT_ENDPOINT_HEADER]: endpoint });
+      if (originalHost) {
+        headers.set("Host", originalHost);
+      }
+      const request = createPipelineRequest({ url: BLOB_URL, headers });
+      let sent: Sent | undefined;
+      const next: SendRequest = async (attempt) => {
+        sent = snapshot(attempt);
+        throw new Error("connection reset");
+      };
+
+      await expect(storageDataLocalityPolicy().sendRequest(request, next)).rejects.toThrow(
+        "connection reset",
+      );
+
+      assert.equal(new URL(sent!.url).host, "blob.stamp.store.core.windows.net");
+      assert.deepEqual(snapshot(request), {
+        url: BLOB_URL,
+        host: originalHost,
+        layoutHeader: endpoint,
+      });
+    },
+  );
 
   // Only a certificate checked against the account name keeps credentials from other hosts.
   it.each([

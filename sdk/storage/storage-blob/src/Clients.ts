@@ -2344,18 +2344,18 @@ export class BlobClient extends StorageClient {
       ? decodeLayoutContinuationToken(continuationToken)
       : undefined;
     let marker = resumed?.marker;
-    let ifMatch = resumed?.etag ?? options.conditions?.ifMatch;
+    let etag = resumed?.etag;
     if (!!continuationToken || continuationToken === undefined) {
       do {
-        const response = await this.getLayoutSegment(marker, ifMatch, options);
+        const response = await this.getLayoutSegment(marker, etag, options);
         // The service requires every continuation to be locked to the version the first page
         // described, so a blob rewritten mid-enumeration cannot yield a stitched-together layout.
-        // The lock is the page's exact ETag, even over a caller's wildcard, and the token carries
-        // it so that resuming from the token alone keeps the lock.
-        ifMatch = response.etag ?? ifMatch;
+        // The lock is the first page's exact ETag, even over a caller's wildcard, and the token
+        // carries it so that resuming from the token alone keeps the lock.
+        etag ??= response.etag;
         marker = response.continuationToken;
         response.continuationToken = marker
-          ? encodeLayoutContinuationToken({ marker, etag: ifMatch })
+          ? encodeLayoutContinuationToken({ marker, etag })
           : undefined;
         // The public type describes the raw body as the page itself, token included.
         const body = response._response.parsedBody as
