@@ -912,12 +912,10 @@ describe("generateApiReview", () => {
           "export interface ClientOptions { endpoint?: string; }",
         ),
         ...dependency("openai", "export interface ClientOptions { apiKey?: string; }"),
-        "dist/esm/index.d.ts": [
-          'import type { ClientOptions as AzureOptions } from "@azure-rest/core-client";',
-          'import type { ClientOptions as OpenAIOptions } from "openai";',
-          `export interface ProjectOptions extends ${swapped ? "OpenAIOptions" : "AzureOptions"} {}`,
-          `export interface AgentOptions extends ${swapped ? "AzureOptions" : "OpenAIOptions"} {}`,
-        ].join("\n"),
+        "dist/esm/index.d.ts": `import type { ClientOptions as AzureOptions } from "@azure-rest/core-client";
+import type { ClientOptions as OpenAIOptions } from "openai";
+export interface ProjectOptions extends ${swapped ? "OpenAIOptions" : "AzureOptions"} {}
+export interface AgentOptions extends ${swapped ? "AzureOptions" : "OpenAIOptions"} {}`,
       });
     }
 
@@ -945,12 +943,10 @@ describe("generateApiReview", () => {
           type: "module",
           types: "./index.d.ts",
         }),
-        "dist/esm/index.d.ts": [
-          'import OpenAI from "openai";',
-          "export declare class AIProjectClient {",
-          "    getOpenAIClient(): OpenAI;",
-          "}",
-        ].join("\n"),
+        "dist/esm/index.d.ts": `import OpenAI from "openai";
+export declare class AIProjectClient {
+    getOpenAIClient(): OpenAI;
+}`,
       });
 
       const { apiMd } = await generateApiReview(root);
@@ -963,19 +959,15 @@ describe("generateApiReview", () => {
       const root = fixture({
         ...dependency(
           "express-serve-static-core",
-          [
-            "declare namespace express {",
-            "    interface RequestHandler { (request: string): void; }",
-            "}",
-            "export = express;",
-          ].join("\n"),
+          `declare namespace express {
+    interface RequestHandler { (request: string): void; }
+}
+export = express;`,
         ),
-        "dist/esm/index.d.ts": [
-          'import type express from "express-serve-static-core";',
-          "export declare class WebPubSubEventHandler {",
-          "    getMiddleware(): express.RequestHandler;",
-          "}",
-        ].join("\n"),
+        "dist/esm/index.d.ts": `import type express from "express-serve-static-core";
+export declare class WebPubSubEventHandler {
+    getMiddleware(): express.RequestHandler;
+}`,
       });
 
       const { apiMd } = await generateApiReview(root);
@@ -993,12 +985,10 @@ describe("generateApiReview", () => {
           types: "./index.d.ts",
         }),
         "node_modules/openai/client.d.ts": "export class OpenAI { apiKey: string; }",
-        "dist/esm/index.d.ts": [
-          'import OpenAI from "openai";',
-          "export declare class AIProjectClient {",
-          "    getOpenAIClient(): OpenAI;",
-          "}",
-        ].join("\n"),
+        "dist/esm/index.d.ts": `import OpenAI from "openai";
+export declare class AIProjectClient {
+    getOpenAIClient(): OpenAI;
+}`,
       });
 
       const { apiMd } = await generateApiReview(root);
@@ -1323,10 +1313,8 @@ describe("generateApiReview", () => {
         {
           ...dependency(
             "@azure/core-rest-pipeline",
-            [
-              "export declare class RestError { code: string; }",
-              "export declare function isRestError(error: unknown): error is RestError;",
-            ].join("\n"),
+            `export declare class RestError { code: string; }
+export declare function isRestError(error: unknown): error is RestError;`,
           ),
           "dist/esm/index.d.ts": esm,
           "dist/commonjs/package.json": JSON.stringify({ type: "commonjs" }),
