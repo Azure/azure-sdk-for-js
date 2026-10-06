@@ -116,7 +116,6 @@ import type {
   BlobQueryResponseInternal,
   BlobQueryHeaders,
   BlockBlobGetBlockListHeaders,
-  DownloadHint,
   BlockBlobGetBlockListResponseInternal,
   PageBlobGetPageRangesResponseInternal,
   PageBlobGetPageRangesHeaders,
@@ -225,15 +224,11 @@ import {
   totalSizeFromContentRange,
   toTags,
 } from "./utils/utils.common.js";
-import { AutoRefreshingCache } from "./utils/AutoRefreshingCache.js";
-import type { BlobLayoutCacheValue } from "./utils/BlobLayoutSegment.js";
 import {
   decodeLayoutContinuationToken,
   encodeLayoutContinuationToken,
-  fetchLayout,
-  getLayoutEndpoint,
-  toBlobLayoutCacheValue,
 } from "./utils/BlobLayoutSegment.js";
+import { BlobLayoutRouter } from "./utils/BlobLayoutRouter.js";
 import {
   fsCreateReadStream,
   fsStat,
@@ -2243,7 +2238,7 @@ export class BlobClient extends StorageClient {
         // The layout describes only what is left to read, and is pinned to the version the first
         // chunk came from so the rest of the transfer cannot be stitched across a rewrite.
         const remaining = count - firstChunkLength;
-        const layoutCache = this.createLayoutCache({
+        const router = BlobLayoutRouter.forDownload(this.blobContext, {
           routing: options.layoutAwareRouting ?? "auto",
           downloadHint: firstChunk?.downloadHint,
           etag: firstChunk?.etag,
@@ -2254,7 +2249,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         });
         // The first chunk's exact ETag replaces the caller's If-Match, which may be a wildcard.
-        const chunkConditions = layoutCache
+        const chunkConditions = router
           ? { ...options.conditions, ifMatch: firstChunk?.etag }
           : options.conditions;
 
@@ -2266,11 +2261,10 @@ export class BlobClient extends StorageClient {
             if (off + blockSize < chunkEnd) {
               chunkEnd = off + blockSize;
             }
-            const layout = await layoutCache?.get(options.abortSignal);
             const response = await this.download(off, chunkEnd - off, {
               ...chunkOptions,
               conditions: chunkConditions,
-              layoutEndpoint: layout?.segments && getLayoutEndpoint(off, layout.segments),
+              layoutEndpoint: await router?.endpointFor(off, options.abortSignal),
             });
             const stream = response.readableStreamBody!;
             await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -2287,68 +2281,6 @@ export class BlobClient extends StorageClient {
         return buffer;
       },
     );
-  }
-
-  /**
-   * Builds the layout cache for one download, or returns undefined when this download will not
-   * route its chunks.
-   *
-   * Routing is attempted only when the caller allows it, the service hinted that the blob is
-   * spread across endpoints, and there is more than the first chunk left to read. Node-only,
-   * because routing depends on setting the `Host` header, which browsers forbid.
-   */
-  private createLayoutCache(options: {
-    routing: LayoutAwareRouting;
-    downloadHint?: DownloadHint;
-    etag?: string;
-    offset: number;
-    count: number;
-    customerProvidedKey?: CpkInfo;
-    abortSignal?: AbortSignalLike;
-    tracingOptions?: CommonOptions["tracingOptions"];
-  }): AutoRefreshingCache<BlobLayoutCacheValue> | undefined {
-    // `auto` resolves to enabled today; the third state exists so the default can move later
-    // without reinterpreting what an explicit choice meant.
-    if (
-      options.routing === "disabled" ||
-      options.downloadHint?.toLowerCase() !== "layout" ||
-      options.count <= 0 ||
-      !isNodeLike
-    ) {
-      return undefined;
-    }
-
-    const range = rangeToString({ offset: options.offset, count: options.count });
-    return new AutoRefreshingCache<BlobLayoutCacheValue>(async (timeoutSignal) => {
-      // This cache serves one download, so cancelling it cancels the layout request too.
-      const controller = new AbortController();
-      const abort = (): void => controller.abort();
-      const signals = [timeoutSignal, options.abortSignal];
-      for (const signal of signals) {
-        if (signal?.aborted) {
-          abort();
-        }
-        signal?.addEventListener("abort", abort, { once: true });
-      }
-      try {
-        return toBlobLayoutCacheValue(
-          await fetchLayout(this.blobContext, {
-            abortSignal: controller.signal,
-            range,
-            ifMatch: options.etag,
-            encryptionKey: options.customerProvidedKey?.encryptionKey,
-            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-            encryptionAlgorithm: options.customerProvidedKey
-              ?.encryptionAlgorithm as EncryptionAlgorithmType,
-            tracingOptions: options.tracingOptions,
-          }),
-        );
-      } finally {
-        for (const signal of signals) {
-          signal?.removeEventListener("abort", abort);
-        }
-      }
-    });
   }
 
   /**

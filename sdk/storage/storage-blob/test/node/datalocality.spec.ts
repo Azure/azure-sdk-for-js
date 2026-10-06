@@ -19,6 +19,7 @@ import {
   toBlobLayoutCacheValue,
   toBlobLayoutSegments,
 } from "../../src/utils/BlobLayoutSegment.js";
+import { BlobLayoutRouter } from "../../src/utils/BlobLayoutRouter.js";
 import type {
   BlobDownloadOptionalParams,
   BlobGetLayoutOptionalParams,
@@ -215,11 +216,7 @@ describe("toBlobLayoutCacheValue", () => {
   });
 });
 
-describe("layout routing gate", () => {
-  const client = new BlobClient(
-    "https://myaccount.blob.core.windows.net/container/blob.txt",
-    new AnonymousCredential(),
-  );
+describe("BlobLayoutRouter", () => {
   const routable = {
     routing: "auto",
     downloadHint: "layout",
@@ -227,10 +224,15 @@ describe("layout routing gate", () => {
     offset: 4194304,
     count: 4194304,
   };
-  const gate = (overrides: Record<string, unknown>): unknown =>
-    (client as any).createLayoutCache({ ...routable, ...overrides });
+  const router = (
+    context: BlobOperations,
+    overrides: Record<string, unknown> = {},
+  ): BlobLayoutRouter | undefined =>
+    BlobLayoutRouter.forDownload(context, { ...routable, ...overrides } as any);
+  const gate = (overrides: Record<string, unknown>): BlobLayoutRouter | undefined =>
+    router(layoutContext([]).context, overrides);
 
-  it("builds a cache when the caller allows it and the service hinted layout", () => {
+  it("routes when the caller allows it and the service hinted layout", () => {
     assert.isDefined(gate({}));
     assert.isDefined(gate({ routing: "enabled" }));
   });
@@ -252,14 +254,14 @@ describe("layout routing gate", () => {
   });
 
   it("fetches the layout with the caller's customer-provided key", async () => {
-    const { client: cpkClient, calls } = clientWithLayoutPages([{ nextMarker: "" }]);
+    const { context, calls } = layoutContext([{ nextMarker: "" }]);
     const customerProvidedKey = {
       encryptionKey: "key",
       encryptionKeySha256: "key-sha256",
       encryptionAlgorithm: "AES256",
     };
 
-    await (cpkClient as any).createLayoutCache({ ...routable, customerProvidedKey }).get();
+    await router(context, { customerProvidedKey })!.endpointFor(routable.offset);
 
     assert.equal(calls[0].encryptionKey, "key");
     assert.equal(calls[0].encryptionKeySha256, "key-sha256");
@@ -268,27 +270,23 @@ describe("layout routing gate", () => {
 
   it("cancels the layout request when the download is cancelled", async () => {
     const calls: BlobGetLayoutOptionalParams[] = [];
-    const cancellable = new BlobClient(
-      "https://myaccount.blob.core.windows.net/container/blob.txt",
-      new AnonymousCredential(),
-    );
-    (cancellable as any).blobContext = {
+    const context = {
       getLayout: (layoutOptions: BlobGetLayoutOptionalParams) => {
         calls.push(layoutOptions);
         return new Promise((_resolve, reject) => {
           layoutOptions.abortSignal?.addEventListener("abort", () => reject(new Error("aborted")));
         });
       },
-    };
+    } as unknown as BlobOperations;
     const download = new AbortController();
-    const layout = (cancellable as any)
-      .createLayoutCache({ ...routable, abortSignal: download.signal })
-      .get();
+    const endpoint = router(context, { abortSignal: download.signal })!.endpointFor(
+      routable.offset,
+    );
 
     download.abort();
 
     assert.isTrue(calls[0].abortSignal?.aborted);
-    await expect(layout).rejects.toThrow("aborted");
+    await expect(endpoint).rejects.toThrow("aborted");
   });
 });
 
