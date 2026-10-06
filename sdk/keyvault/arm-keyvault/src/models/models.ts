@@ -2042,7 +2042,7 @@ export interface ManagedHsmSku {
   /** SKU Family of the managed HSM Pool */
   family: ManagedHsmSkuFamily;
   /** SKU of the managed HSM Pool */
-  name: ManagedHsmSkuNameV2;
+  name: ManagedHsmSkuName;
 }
 
 export function managedHsmSkuSerializer(item: ManagedHsmSku): any {
@@ -2075,7 +2075,7 @@ export enum KnownManagedHsmSkuFamily {
 export type ManagedHsmSkuFamily = string;
 
 /** SKU of the managed HSM Pool */
-export enum KnownManagedHsmSkuNameV2 {
+export enum KnownManagedHsmSkuName {
   /** Standard_B1 SKU */
   StandardB1 = "Standard_B1",
   /** Custom_B32 SKU */
@@ -2100,7 +2100,7 @@ export enum KnownManagedHsmSkuNameV2 {
 
 /**
  * SKU of the managed HSM Pool \
- * {@link KnownManagedHsmSkuNameV2} can be used interchangeably with ManagedHsmSkuNameV2,
+ * {@link KnownManagedHsmSkuName} can be used interchangeably with ManagedHsmSkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard_B1**: Standard_B1 SKU \
@@ -2114,7 +2114,7 @@ export enum KnownManagedHsmSkuNameV2 {
  * **Standard_B15v2**: Standard_B15v2 SKU \
  * **Standard_B20v2**: Standard_B20v2 SKU
  */
-export type ManagedHsmSkuNameV2 = string;
+export type ManagedHsmSkuName = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {

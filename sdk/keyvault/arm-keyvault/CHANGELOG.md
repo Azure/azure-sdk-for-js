@@ -1,10 +1,9 @@
 # Release History
 
-## 6.0.0 (2026-10-01)
+## 6.0.0 (2026-10-06)
 
 ### Features Added
-  - Added Type Alias ManagedHsmSkuNameV2
-  - Added Enum KnownManagedHsmSkuNameV2
+  - Added Enum KnownManagedHsmSkuName
   - Enum KnownJsonWebKeyType has a new value OctHSM
   - Enum KnownVersions has a new value V20260515
 
@@ -26,8 +25,7 @@
   - Operation MhsmPrivateEndpointConnectionsOperations.put has a new signature
   - Operation MhsmPrivateLinkResourcesOperations.listByMhsmResource has a new signature
   - Operation PrivateEndpointConnectionsOperations.get has a new signature
-  - Type of parameter name of interface ManagedHsmSku is changed from ManagedHsmSkuName to ManagedHsmSkuNameV2
-  - Removed Type Alias ManagedHsmSkuName
+  - Type alias "ManagedHsmSkuName" has been changed
 
 ## 5.0.0 (2026-03-17)
 

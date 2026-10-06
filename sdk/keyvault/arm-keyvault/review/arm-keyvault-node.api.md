@@ -409,7 +409,7 @@ export enum KnownManagedHsmSkuFamily {
 }
 
 // @public
-export enum KnownManagedHsmSkuNameV2 {
+export enum KnownManagedHsmSkuName {
     CustomB32 = "Custom_B32",
     CustomB6 = "Custom_B6",
     CustomC10 = "Custom_C10",
@@ -717,14 +717,14 @@ export interface ManagedHsmsGetOptionalParams extends OperationOptions {
 // @public
 export interface ManagedHsmSku {
     family: ManagedHsmSkuFamily;
-    name: ManagedHsmSkuNameV2;
+    name: ManagedHsmSkuName;
 }
 
 // @public
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuNameV2 = string;
+export type ManagedHsmSkuName = string;
 
 // @public
 export interface ManagedHsmsListByResourceGroupOptionalParams extends OperationOptions {
