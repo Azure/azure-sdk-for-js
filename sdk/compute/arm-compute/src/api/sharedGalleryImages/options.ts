@@ -9,5 +9,6 @@ export interface SharedGalleryImagesListOptionalParams extends OperationOptions 
   /** The query parameter to decide what shared galleries to fetch when doing listing operations. */
   sharedTo?: SharedToValues;
 }
+
 /** Optional parameters. */
 export interface SharedGalleryImagesGetOptionalParams extends OperationOptions {}

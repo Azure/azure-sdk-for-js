@@ -81,6 +81,7 @@ export async function _listPrivateEndpointConnectionsDeserialize(
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
+
 /** List information about private endpoint connections under a disk access resource */
 export function listPrivateEndpointConnections(
   context: Client,
@@ -135,6 +136,7 @@ export async function _deleteAPrivateEndpointConnectionDeserialize(
 
   return;
 }
+
 /** Deletes a private endpoint connection under a disk access resource. */
 export function deleteAPrivateEndpointConnection(
   context: Client,
@@ -208,6 +210,7 @@ export async function _updateAPrivateEndpointConnectionDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection. */
 export function updateAPrivateEndpointConnection(
   context: Client,
@@ -280,6 +283,7 @@ export async function _getAPrivateEndpointConnectionDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Gets information about a private endpoint connection under a disk access resource. */
 export async function getAPrivateEndpointConnection(
   context: Client,
@@ -337,6 +341,7 @@ export async function _getPrivateLinkResourcesDeserialize(
 
   return privateLinkResourceListResultDeserializer(result.body);
 }
+
 /** Gets the private link resources possible under disk access resource */
 export async function getPrivateLinkResources(
   context: Client,
@@ -386,6 +391,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _diskAccessListDeserializer(result.body);
 }
+
 /** Lists all the disk access resources under a subscription. */
 export function list(
   context: Client,
@@ -437,6 +443,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _diskAccessListDeserializer(result.body);
 }
+
 /** Lists all the disk access resources under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -486,6 +493,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a disk access resource. */
 export function $delete(
   context: Client,
@@ -542,6 +550,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return diskAccessDeserializer(result.body);
 }
+
 /** Updates (patches) a disk access resource. */
 export function update(
   context: Client,
@@ -602,6 +611,7 @@ export async function _createOrUpdateDeserialize(
 
   return diskAccessDeserializer(result.body);
 }
+
 /** Creates or updates a disk access resource */
 export function createOrUpdate(
   context: Client,
@@ -657,6 +667,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskAccessDeserializer(result.body);
 }
+
 /** Gets information about a disk access resource. */
 export async function get(
   context: Client,
