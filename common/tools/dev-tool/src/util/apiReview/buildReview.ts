@@ -3,7 +3,6 @@
 
 // Step 1: reads a package's built declaration files and package.json into a Review.
 
-import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
@@ -79,7 +78,7 @@ function compatibleVersion(specifier: string): string {
 }
 
 export async function buildReview(packageRoot: string): Promise<Review> {
-  const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
+  const packageJson = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
   const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
     .filter(([exportPath]) => exportPath !== "./package.json")
     .sort(([a], [b]) => a.localeCompare(b, "en"));
