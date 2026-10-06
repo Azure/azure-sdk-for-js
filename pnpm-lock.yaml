@@ -1892,9 +1892,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
-      nock:
-        specifier: catalog:testing
-        version: 13.5.6(supports-color@8.1.1)
       playwright:
         specifier: catalog:testing
         version: 1.63.0
