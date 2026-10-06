@@ -20,6 +20,8 @@ import type { DeploymentsOperations } from "./classic/deployments/index.js";
 import { _getDeploymentsOperations } from "./classic/deployments/index.js";
 import type { EvaluationRulesOperations } from "./classic/evaluationRules/index.js";
 import { _getEvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import type { EvaluatorsOperations } from "./classic/evaluators/index.js";
+import { _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
@@ -70,6 +72,7 @@ function resolveRealtimeOptions(
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
  * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
+ * @property {EvaluatorsOperations} evaluators - The operation groups for evaluators
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
  * - Memory Stores
  * - Evaluators
@@ -120,6 +123,7 @@ export class AIProjectClient {
     });
 
     this.toolboxes = _getToolboxesOperations(this._cognitiveScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
@@ -137,6 +141,8 @@ export class AIProjectClient {
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

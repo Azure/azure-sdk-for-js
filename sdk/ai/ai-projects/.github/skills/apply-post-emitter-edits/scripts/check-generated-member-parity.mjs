@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
@@ -23,6 +23,203 @@ const symbolRenames = {
 };
 
 const preservedSourceFiles = ["index.ts", "models/index.ts", "models/models.ts"];
+
+// Verified upstream promotion in azure-rest-api-specs#46314. Do not infer
+// promotions from a missing export or permit arbitrary Beta* removals.
+const optimizationPromotions = [
+  ["DeleteOptimizationJob", "deleteOptimizationJob"],
+  ["CancelOptimizationJob", "cancelOptimizationJob"],
+  ["ListOptimizationJobs", "listOptimizationJobs"],
+  ["GetOptimizationJob", "getOptimizationJob"],
+  ["CreateOptimizationJob", "createOptimizationJob"],
+];
+
+// Verified dataset promotion in TypeSpec commit b877f34c27ff72652f31f271505fa505d5787edc.
+const generationPromotions = [
+  ["DeleteGenerationJob", "deleteGenerationJob"],
+  ["CancelGenerationJob", "cancelGenerationJob"],
+  ["CreateGenerationJob", "createGenerationJob"],
+  ["ListGenerationJobs", "listGenerationJobs"],
+  ["GetGenerationJob", "getGenerationJob"],
+];
+
+// Verified partial evaluator promotion in azure-rest-api-specs#46830.
+// Upload options remain beta; the generation and CRUD/list options move to root.
+const evaluatorPromotions = [
+  ...generationPromotions,
+  ["UpdateVersion", "updateVersion"],
+  ["CreateVersion", "createVersion"],
+  ["DeleteVersion", "deleteVersion"],
+  ["GetVersion", "getVersion"],
+  ["List", "list"],
+  ["ListVersions", "listVersions"],
+];
+
+function identifiers(node) {
+  const names = new Set();
+  function visit(child) {
+    if (ts.isIdentifier(child)) names.add(child.text);
+    ts.forEachChild(child, visit);
+  }
+  visit(node);
+  return names;
+}
+
+export function findPromotedOptionRemovals({ previousGenerated, currentGenerated, currentSource }) {
+  const parse = (files, file) => parseSource(files.get(file) ?? "", file);
+
+  // Conservatively follow declaration and import-alias dependencies, including
+  // shared options outside beta/. Same-named declarations are unioned, never
+  // discarded: ambiguity must preserve an export rather than allow its removal.
+  const dependencies = new Map();
+  const usedByBeta = new Set();
+  for (const [file, text] of currentSource) {
+    const source = parseSource(text, file);
+    for (const statement of source.statements) {
+      if (ts.isImportDeclaration(statement)) {
+        const bindings = statement.importClause?.namedBindings;
+        if (bindings && ts.isNamedImports(bindings)) {
+          for (const binding of bindings.elements) {
+            const refs = dependencies.get(binding.name.text) ?? new Set();
+            refs.add((binding.propertyName ?? binding.name).text);
+            dependencies.set(binding.name.text, refs);
+          }
+        }
+        continue;
+      }
+      if (ts.isExportDeclaration(statement)) {
+        if (statement.exportClause && ts.isNamedExports(statement.exportClause)) {
+          for (const binding of statement.exportClause.elements) {
+            const refs = dependencies.get(binding.name.text) ?? new Set();
+            refs.add((binding.propertyName ?? binding.name).text);
+            dependencies.set(binding.name.text, refs);
+          }
+        }
+        continue;
+      }
+      const refs = identifiers(statement);
+      if (statement.name && ts.isIdentifier(statement.name)) {
+        const existing = dependencies.get(statement.name.text) ?? new Set();
+        dependencies.set(statement.name.text, new Set([...existing, ...refs]));
+      }
+      if (ts.isVariableStatement(statement)) {
+        for (const declaration of statement.declarationList.declarations) {
+          for (const name of identifiers(declaration.name)) {
+            const existing = dependencies.get(name) ?? new Set();
+            dependencies.set(name, new Set([...existing, ...identifiers(declaration)]));
+          }
+        }
+      }
+      if (/^(api|classic)\/beta\/(?:.*\/)?(operations|index)\.ts$/.test(file)) {
+        for (const name of refs) usedByBeta.add(name);
+      }
+    }
+  }
+  const pending = [...usedByBeta];
+  for (let index = 0; index < pending.length; index++) {
+    for (const name of dependencies.get(pending[index]) ?? []) {
+      if (!usedByBeta.has(name)) {
+        usedByBeta.add(name);
+        pending.push(name);
+      }
+    }
+  }
+
+  function operationUses(files, file, operation, option) {
+    const source = parse(files, file);
+    for (const statement of source.statements) {
+      if (ts.isFunctionDeclaration(statement) && statement.name?.text === operation) {
+        return statement.parameters.some(
+          (parameter) => parameter.type && identifiers(parameter.type).has(option),
+        );
+      }
+      if (ts.isInterfaceDeclaration(statement)) {
+        for (const member of statement.members) {
+          if (
+            member.name &&
+            propertyName(member.name) === operation &&
+            identifiers(member).has(option)
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  const allowed = new Set();
+  for (const [group, prefix, promotions] of [
+    ["agents", "Agents", optimizationPromotions],
+    ["datasets", "Datasets", generationPromotions],
+    ["evaluators", "Evaluators", evaluatorPromotions],
+  ]) {
+    const betaOptionsFile = `api/beta/${group}/options.ts`;
+    const optionsFile = `api/${group}/options.ts`;
+    const previousOptions = collectExportedNames(parse(previousGenerated, betaOptionsFile));
+    const currentOptions = collectExportedNames(parse(currentGenerated, betaOptionsFile));
+    const gaOptions = collectExportedNames(parse(currentGenerated, optionsFile));
+    const sourceOptions = collectExportedNames(parse(currentSource, optionsFile));
+    for (const [suffix, operation] of promotions) {
+      const beta = `Beta${prefix}${suffix}OptionalParams`;
+      const ga = `${prefix}${suffix}OptionalParams`;
+      if (
+        !previousOptions.has(beta) ||
+        currentOptions.has(beta) ||
+        !gaOptions.has(ga) ||
+        !sourceOptions.has(ga) ||
+        usedByBeta.has(beta)
+      )
+        continue;
+      const promoted = [`api/${group}/operations.ts`, `classic/${group}/index.ts`].every((file) => {
+        const betaFile = file.replace(`/${group}/`, `/beta/${group}/`);
+        return (
+          operationUses(previousGenerated, betaFile, operation, beta) &&
+          !operationUses(previousGenerated, file, operation, ga) &&
+          !operationUses(currentGenerated, betaFile, operation, beta) &&
+          operationUses(currentGenerated, file, operation, ga) &&
+          operationUses(currentSource, file, operation, ga)
+        );
+      });
+      if (promoted) allowed.add(beta);
+    }
+  }
+
+  // Only this verified, entirely promoted group may disappear. Extra members or
+  // inherited operations must not be silently removed with the generation jobs.
+  const betaGroup = "BetaDatasetsOperations";
+  const betaGroupFile = "classic/beta/datasets/index.ts";
+  const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
+    (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
+  );
+  if (
+    previousGroups.length === 1 &&
+    collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
+    !previousGroups[0].heritageClauses?.length &&
+    previousGroups[0].members.length === generationPromotions.length &&
+    previousGroups[0].members.every(
+      (member) =>
+        member.name &&
+        generationPromotions.some(([, operation]) => propertyName(member.name) === operation),
+    ) &&
+    generationPromotions.every(([suffix]) => allowed.has(`BetaDatasets${suffix}OptionalParams`)) &&
+    !usedByBeta.has(betaGroup) &&
+    [currentGenerated, currentSource].every((files) => {
+      const betaSource = parse(files, betaGroupFile);
+      const gaMembers = collectInterfaces(parse(files, "classic/datasets/index.ts")).get(
+        "DatasetsOperations",
+      );
+      return (
+        !collectExportedNames(betaSource).has(betaGroup) &&
+        !collectInterfaces(betaSource).has(betaGroup) &&
+        generationPromotions.every(([, operation]) => gaMembers?.has(operation))
+      );
+    })
+  ) {
+    allowed.add(betaGroup);
+  }
+  return allowed;
+}
 
 function propertyName(name) {
   if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
@@ -385,6 +582,31 @@ function changedGeneratedFiles(repoRoot, packageRelative, options) {
     .map((file) => file.slice(prefix.length));
 }
 
+function readTree(repoRoot, packageRelative, directory, ref) {
+  const root = path.join(packageRoot, directory);
+  const files = ref
+    ? runGit(repoRoot, [
+        "ls-tree",
+        "-r",
+        "--name-only",
+        ref,
+        "--",
+        `${packageRelative}/${directory}`,
+      ])
+        .trim()
+        .split(/\r?\n/)
+        .map((file) => file.slice(`${packageRelative}/${directory}/`.length))
+    : readdirSync(root, { recursive: true }).map(String);
+  return new Map(
+    files
+      .filter((file) => /\.[cm]?ts$/.test(file))
+      .map((file) => [
+        file.replaceAll("\\", "/"),
+        readVersion(repoRoot, packageRelative, directory, file, ref) ?? "",
+      ]),
+  );
+}
+
 function main() {
   const options = parseArguments(process.argv.slice(2));
   const repoRoot = runGit(packageRoot, ["rev-parse", "--show-toplevel"]).trim();
@@ -467,12 +689,19 @@ function main() {
     );
   }
   const missingNames = new Set(allMissingPreservedExports.map((item) => item.name));
+  const promotedOptionRemovals = findPromotedOptionRemovals({
+    previousGenerated: readTree(repoRoot, packageRelative, "generated", options.baseRef),
+    currentGenerated: readTree(repoRoot, packageRelative, "generated", options.generatedRef),
+    currentSource: readTree(repoRoot, packageRelative, "src", options.sourceRef),
+  });
   const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
     (name) => !missingNames.has(name),
   );
   const missingPreservedExports = allMissingPreservedExports.filter(
     (item) =>
-      !allowedModelRemovals.has(item.name) && !options.allowedSourceRemovals.has(item.name),
+      !allowedModelRemovals.has(item.name) &&
+      !promotedOptionRemovals.has(item.name) &&
+      !options.allowedSourceRemovals.has(item.name),
   );
 
   const currentIndex = readVersion(repoRoot, packageRelative, "src", "index.ts", options.sourceRef);
@@ -523,6 +752,7 @@ function main() {
     `Customization parity passed for ${generatedFiles.length} changed generated file(s); ` +
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
       `${allowedModelRemovals.size} generated-backed and ` +
+      `${promotedOptionRemovals.size} verified promotion removal(s), and ` +
       `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }
