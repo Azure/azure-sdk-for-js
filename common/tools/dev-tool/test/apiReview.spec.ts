@@ -1317,6 +1317,54 @@ describe("generateApiReview", () => {
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
 
+    function reExportFixture(browserName: string): string {
+      const esm = 'export { RestError, isRestError } from "@azure/core-rest-pipeline";';
+      return fixture(
+        {
+          ...dependency(
+            "@azure/core-rest-pipeline",
+            [
+              "export declare class RestError { code: string; }",
+              "export declare function isRestError(error: unknown): error is RestError;",
+            ].join("\n"),
+          ),
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/package.json": JSON.stringify({ type: "commonjs" }),
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": `export { ${browserName} } from "@azure/core-rest-pipeline";`,
+        },
+        { exports: coreAuthExports },
+      );
+    }
+
+    it("shows condition-specific external re-export changes", async () => {
+      const { apiMd } = await generateApiReview(reExportFixture("RestError"));
+
+      expect(apiMd).toContain(
+        [
+          "### `browser`",
+          "",
+          "#### Export `.`",
+          "",
+          "```diff",
+          "-export {",
+          "-    isRestError,",
+          "-    RestError,",
+          '-} from "@azure/core-rest-pipeline";',
+          '+export { RestError } from "@azure/core-rest-pipeline";',
+          "```",
+        ].join("\n"),
+      );
+      expect(apiMd).toContain("Identical to the ESM view: `require`.");
+    });
+
+    it("changes the hash between different re-export-only browser surfaces", async () => {
+      const before = await generateApiReview(reExportFixture("RestError"));
+      const after = await generateApiReview(reExportFixture("isRestError"));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
     it("lists conditions whose declarations match the ESM view as identical", async () => {
       const root = fixture(
         {

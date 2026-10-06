@@ -159,9 +159,19 @@ function layoutRuntimeDifferences(review: Review): Block[] {
       });
     }
     for (const changed of exports) {
+      const items = [...changed.items];
+      if (changed.reExports.length) {
+        items.push(
+          changed.reExports.flatMap(({ change, reference }) =>
+            formatNamedImports("export", reference)
+              .split("\n")
+              .map((text) => ({ change, text })),
+          ),
+        );
+      }
       blocks.push(heading(4, plain("Export "), inlineCode(changed.path)), {
         kind: "diff",
-        items: changed.items,
+        items,
       });
     }
   }

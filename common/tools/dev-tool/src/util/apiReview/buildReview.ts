@@ -176,8 +176,22 @@ function compareConditions(
         .map((esmSection, index) => ({
           path: esmSection.path,
           items: diffItems(esmSection.declarations, sections[index].declarations),
+          reExports: [
+            ...esmSection.reExports
+              .filter(
+                (reference) =>
+                  !sections[index].reExports.some((other) => isDeepStrictEqual(reference, other)),
+              )
+              .map((reference) => ({ change: "removed" as const, reference })),
+            ...sections[index].reExports
+              .filter(
+                (reference) =>
+                  !esmSection.reExports.some((other) => isDeepStrictEqual(reference, other)),
+              )
+              .map((reference) => ({ change: "added" as const, reference })),
+          ],
         }))
-        .filter((changed) => changed.items.length),
+        .filter((changed) => changed.items.length || changed.reExports.length),
     });
   }
   return { identicalConditions, conditionDiffs };
