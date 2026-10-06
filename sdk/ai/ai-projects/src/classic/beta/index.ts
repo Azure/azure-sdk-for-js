@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
+import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
 import { _getBetaAgentsOperations } from "./agents/index.js";
-import type { BetaDatasetsOperations } from "./datasets/index.js";
-import { _getBetaDatasetsOperations } from "./datasets/index.js";
 import type { BetaSkillsOperations } from "./skills/index.js";
 import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
@@ -24,11 +25,12 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
+import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
+import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing data generation jobs. */
-  datasets: BetaDatasetsOperations;
   /** Operations for managing skills. */
   skills: BetaSkillsOperations;
   /** Operations for managing schedules. */
@@ -49,12 +51,19 @@ export interface BetaOperations {
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
+  /** Operations for managing Agent Insights monitors. */
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  /** Operations for managing voice agent conversations and telephony. */
+  voiceAgents: BetaVoiceAgentsOperations;
 }
 
-export function _getBetaOperations(context: AIProjectContext): BetaOperations {
+export function _getBetaOperations(
+  context: AIProjectContext,
+  credential: TokenCredential,
+  endpoint: string,
+  realtimeOptions?: VoiceAgentRealtimeClientOptions,
+): BetaOperations {
   return {
-    /** Operations for managing data generation jobs. */
-    datasets: _getBetaDatasetsOperations(context),
     /** Operations for managing skills. */
     skills: _getBetaSkillsOperations(context),
     /** Operations for managing schedules. */
@@ -75,5 +84,9 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
+    /** Operations for managing Agent Insights monitors. */
+    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    /** Operations for managing voice agent conversations and telephony. */
+    voiceAgents: _getBetaVoiceAgentsOperations(context, credential, endpoint, realtimeOptions),
   };
 }

@@ -5,14 +5,14 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list ScheduledAction resources by subscription ID
+ * This sample demonstrates how to lists scheduled actions in the specified subscription.
  *
- * @summary list ScheduledAction resources by subscription ID
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_ListBySubscription_MaximumSet_Gen.json
+ * @summary lists scheduled actions in the specified subscription.
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_ListBySubscription_PagedSuccess.json
  */
-async function scheduledActionsListBySubscriptionMaximumSet() {
+async function listAPageOfRecurringScheduledActionsInASubscription() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.scheduledActions.listBySubscription()) {
@@ -23,7 +23,7 @@ async function scheduledActionsListBySubscriptionMaximumSet() {
 }
 
 async function main() {
-  await scheduledActionsListBySubscriptionMaximumSet();
+  await listAPageOfRecurringScheduledActionsInASubscription();
 }
 
 main().catch(console.error);

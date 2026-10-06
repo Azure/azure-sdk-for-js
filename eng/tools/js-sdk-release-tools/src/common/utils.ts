@@ -529,6 +529,11 @@ export async function cleanUpPackageDirectory(
         `[${packageType}] Skipping cleanup in ${runMode} mode - emitter handles cleanup for: ${packageDirectory}`,
       );
       return;
+    } else if (fs.existsSync(path.join(packageDirectory, "generated"))) {
+      logger.info(
+        `[${packageType}] Skipping cleanup in ${runMode} mode to preserve merge-based customizations for: ${packageDirectory}`,
+      );
+      return;
     } else {
       // In SpecPullRequest and Batch modes, clean up everything
       logger.info(

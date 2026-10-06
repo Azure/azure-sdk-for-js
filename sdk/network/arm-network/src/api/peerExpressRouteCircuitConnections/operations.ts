@@ -3,10 +3,10 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { PeerExpressRouteCircuitConnection } from "../../models/microsoft/network/models.js";
-import { peerExpressRouteCircuitConnectionDeserializer } from "../../models/microsoft/network/models.js";
 import type { _PeerExpressRouteCircuitConnectionListResult } from "../../models/models.js";
 import { _peerExpressRouteCircuitConnectionListResultDeserializer } from "../../models/models.js";
+import type { PeerExpressRouteCircuitConnection } from "../../models/network/models.js";
+import { peerExpressRouteCircuitConnectionDeserializer } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -31,7 +31,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       peeringName: peeringName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,7 @@ export function list(
     () => _listSend(context, resourceGroupName, circuitName, peeringName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -92,7 +92,7 @@ export function _getSend(
       circuitName: circuitName,
       peeringName: peeringName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

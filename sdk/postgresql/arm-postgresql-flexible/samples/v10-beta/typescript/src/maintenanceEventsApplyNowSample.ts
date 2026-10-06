@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to applies the maintenance event immediately.
  *
  * @summary applies the maintenance event immediately.
- * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsApplyNow.json
+ * x-ms-original-file: 2026-07-01-preview/MaintenanceEventsApplyNow.json
  */
 async function applyMaintenanceImmediatelyForAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

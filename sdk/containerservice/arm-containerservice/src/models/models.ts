@@ -2225,6 +2225,8 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFips?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2298,6 +2300,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeResourceGroupProfile",
       "enableRbac",
       "supportPlan",
+      "enableFips",
       "networkProfile",
       "aadProfile",
       "autoUpgradeProfile",
@@ -2408,6 +2411,8 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFips?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2494,6 +2499,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -2605,6 +2611,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),
@@ -4779,6 +4786,8 @@ export interface ManagedClusterSecurityProfile {
   defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
+  /** Encryption at rest of Kubernetes resource objects. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption */
+  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
   /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
@@ -4795,6 +4804,11 @@ export function managedClusterSecurityProfileSerializer(item: ManagedClusterSecu
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsSerializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileSerializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentitySerializer(item["workloadIdentity"]),
@@ -4819,6 +4833,11 @@ export function managedClusterSecurityProfileDeserializer(
     azureKeyVaultKms: !item["azureKeyVaultKms"]
       ? item["azureKeyVaultKms"]
       : azureKeyVaultKmsDeserializer(item["azureKeyVaultKms"]),
+    kubernetesResourceObjectEncryptionProfile: !item["kubernetesResourceObjectEncryptionProfile"]
+      ? item["kubernetesResourceObjectEncryptionProfile"]
+      : kubernetesResourceObjectEncryptionProfileDeserializer(
+          item["kubernetesResourceObjectEncryptionProfile"],
+        ),
     workloadIdentity: !item["workloadIdentity"]
       ? item["workloadIdentity"]
       : managedClusterSecurityProfileWorkloadIdentityDeserializer(item["workloadIdentity"]),
@@ -4983,7 +5002,7 @@ export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeser
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
   keyId?: string;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
@@ -5026,6 +5045,41 @@ export enum KnownKeyVaultNetworkAccessTypes {
  * **Private**: Key vault disables public access and enables private link.
  */
 export type KeyVaultNetworkAccessTypes = string;
+
+/** Encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export interface KubernetesResourceObjectEncryptionProfile {
+  /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  infrastructureEncryption?: InfrastructureEncryption;
+}
+
+export function kubernetesResourceObjectEncryptionProfileSerializer(
+  item: KubernetesResourceObjectEncryptionProfile,
+): any {
+  return { infrastructureEncryption: item["infrastructureEncryption"] };
+}
+
+export function kubernetesResourceObjectEncryptionProfileDeserializer(
+  item: any,
+): KubernetesResourceObjectEncryptionProfile {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+  };
+}
+
+/** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export enum KnownInfrastructureEncryption {
+  /** Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  Enabled = "Enabled",
+}
+
+/**
+ * Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
+ */
+export type InfrastructureEncryption = string;
 
 /** Workload identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
@@ -8901,6 +8955,8 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -9150,6 +9206,7 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileSerializer(item["networkProfile"]),
@@ -9261,6 +9318,7 @@ export function _managedClusterPropertiesDeserializer(item: any) {
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : containerServiceNetworkProfileDeserializer(item["networkProfile"]),

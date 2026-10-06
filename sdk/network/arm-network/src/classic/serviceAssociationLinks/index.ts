@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/serviceAssociationLinks/operations.js";
 import type { ServiceAssociationLinksListOptionalParams } from "../../api/serviceAssociationLinks/options.js";
-import type { ServiceAssociationLinksListResult } from "../../models/microsoft/network/models.js";
+import type { ServiceAssociationLinksListResult } from "../../models/network/models.js";
 
 /** Interface representing a ServiceAssociationLinks operations. */
 export interface ServiceAssociationLinksOperations {

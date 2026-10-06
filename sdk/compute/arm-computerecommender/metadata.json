@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Compute": "2026-05-05-preview"
+    "Microsoft.Compute": "2026-09-05-preview"
   },
-  "emitterVersion": "0.55.2",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Compute",
     "CrossLanguageDefinitionId": {
@@ -27,6 +27,7 @@
       "@azure/arm-computerecommender!SkuMixPlacementResponse:interface": "Microsoft.Compute.SkuMixPlacementResponse",
       "@azure/arm-computerecommender!SkuMixPlacementDeploymentChoice:interface": "Microsoft.Compute.SkuMixPlacementDeploymentChoice",
       "@azure/arm-computerecommender!SkuMixPlacementItem:interface": "Microsoft.Compute.SkuMixPlacementItem",
+      "@azure/arm-computerecommender!SkuMixPlacementCapacityLimit:interface": "Microsoft.Compute.SkuMixPlacementCapacityLimit",
       "@azure/arm-computerecommender!ComputeDiagnosticBase:interface": "Microsoft.Compute.ComputeDiagnosticBase",
       "@azure/arm-computerecommender!DiagnosticProperties:interface": "Microsoft.Compute.DiagnosticProperties",
       "@azure/arm-computerecommender!SpotPlacementScoresInput:interface": "Microsoft.Compute.SpotPlacementScoresInput",
@@ -42,6 +43,7 @@
       "@azure/arm-computerecommender!KnownSkuMixPlacementOSType:enum": "Microsoft.Compute.SkuMixPlacementOSType",
       "@azure/arm-computerecommender!KnownSkuMixPlacementZonalDistributionStrategy:enum": "Microsoft.Compute.SkuMixPlacementZonalDistributionStrategy",
       "@azure/arm-computerecommender!KnownSkuMixPlacementPartialFulfillmentReason:enum": "Microsoft.Compute.SkuMixPlacementPartialFulfillmentReason",
+      "@azure/arm-computerecommender!KnownSkuMixPlacementCapacityLimitReason:enum": "Microsoft.Compute.SkuMixPlacementCapacityLimitReason",
       "@azure/arm-computerecommender!KnownVersions:enum": "Microsoft.Compute.Versions",
       "@azure/arm-computerecommender!SpotPlacementScoresOperations#post:member": "Microsoft.Compute.ComputeDiagnosticBases.post",
       "@azure/arm-computerecommender!SpotPlacementScoresOperations#get:member": "Microsoft.Compute.ComputeDiagnosticBases.get",

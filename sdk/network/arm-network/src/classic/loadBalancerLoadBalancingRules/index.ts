@@ -9,7 +9,7 @@ import type {
   LoadBalancerLoadBalancingRulesGetOptionalParams,
 } from "../../api/loadBalancerLoadBalancingRules/options.js";
 import type { LoadBalancingRule } from "../../models/common/models.js";
-import type { LoadBalancerHealthPerRule } from "../../models/microsoft/network/models.js";
+import type { LoadBalancerHealthPerRule } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

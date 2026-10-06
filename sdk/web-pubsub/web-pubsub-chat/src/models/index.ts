@@ -8,6 +8,7 @@ export type {
   MessageContent,
   ChatRole,
   ChatRoleInput,
+  ChatPermission,
   ChatRoom,
   ChatRoomInput,
   ChatRoomMember,
@@ -20,4 +21,4 @@ export type {
   HumanChatUserInput,
   HumanChatUser,
 } from "./models.js";
-export { KnownVersions } from "./models.js";
+export { KnownChatPermission, KnownVersions } from "./models.js";

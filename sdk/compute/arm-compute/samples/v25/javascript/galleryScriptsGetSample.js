@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a gallery script definition.
  *
  * @summary retrieves information about a gallery script definition.
- * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScript_Get.json
+ * x-ms-original-file: 2026-03-03/galleryScriptExamples/GalleryScript_Get.json
  */
 async function getAGalleryScript() {
   const credential = new DefaultAzureCredential();

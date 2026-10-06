@@ -3,14 +3,14 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { TagsObject, BastionHost } from "../../models/microsoft/network/models.js";
-import {
-  tagsObjectSerializer,
-  bastionHostSerializer,
-  bastionHostDeserializer,
-} from "../../models/microsoft/network/models.js";
 import type { _BastionHostListResult } from "../../models/models.js";
 import { _bastionHostListResultDeserializer } from "../../models/models.js";
+import type { BastionHost, BastionHostUpdate } from "../../models/network/models.js";
+import {
+  bastionHostSerializer,
+  bastionHostDeserializer,
+  bastionHostUpdateSerializer,
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -19,7 +19,7 @@ import type {
   BastionHostsListOptionalParams,
   BastionHostsListByResourceGroupOptionalParams,
   BastionHostsDeleteOptionalParams,
-  BastionHostsUpdateTagsOptionalParams,
+  BastionHostsUpdateOptionalParams,
   BastionHostsCreateOrUpdateOptionalParams,
   BastionHostsGetOptionalParams,
 } from "./options.js";
@@ -35,7 +35,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -87,7 +87,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +126,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -142,7 +142,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,16 +177,16 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, bastionHostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _updateTagsSend(
+export function _updateSend(
   context: Client,
   resourceGroupName: string,
   bastionHostName: string,
-  parameters: TagsObject,
-  options: BastionHostsUpdateTagsOptionalParams = { requestOptions: {} },
+  parameters: BastionHostUpdate,
+  options: BastionHostsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}{?api%2Dversion}",
@@ -194,7 +194,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,11 +204,11 @@ export function _updateTagsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: tagsObjectSerializer(parameters),
+    body: bastionHostUpdateSerializer(parameters),
   });
 }
 
-export async function _updateTagsDeserialize(result: PathUncheckedResponse): Promise<BastionHost> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<BastionHost> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -222,21 +222,21 @@ export async function _updateTagsDeserialize(result: PathUncheckedResponse): Pro
   return bastionHostDeserializer(result.body);
 }
 
-/** Updates Tags for BastionHost resource */
-export function updateTags(
+/** Updates Tags or identity for BastionHost resource */
+export function update(
   context: Client,
   resourceGroupName: string,
   bastionHostName: string,
-  parameters: TagsObject,
-  options: BastionHostsUpdateTagsOptionalParams = { requestOptions: {} },
+  parameters: BastionHostUpdate,
+  options: BastionHostsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BastionHost>, BastionHost> {
-  return getLongRunningPoller(context, _updateTagsDeserialize, ["200", "202", "201"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateTagsSend(context, resourceGroupName, bastionHostName, parameters, options),
+      _updateSend(context, resourceGroupName, bastionHostName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<BastionHost>, BastionHost>;
 }
 
@@ -253,7 +253,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +297,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, bastionHostName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<BastionHost>, BastionHost>;
 }
 
@@ -313,7 +313,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

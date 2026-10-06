@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates vault security config.
  *
  * @summary updates vault security config.
- * x-ms-original-file: 2026-07-01/Common/BackupResourceVaultConfigs_Patch.json
+ * x-ms-original-file: 2026-08-01/Common/BackupResourceVaultConfigs_Patch.json
  */
 async function updateVaultSecurityConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();

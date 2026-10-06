@@ -5,19 +5,19 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to bulkListOperationErrors: List bulk operation errors for a resource group
+ * This sample demonstrates how to list recent errors for operations in a resource group.
  *
- * @summary bulkListOperationErrors: List bulk operation errors for a resource group
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MaximumSet_Gen.json
+ * @summary list recent errors for operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_BasicSuccess.json
  */
-async function virtualMachineBulkOperationsBulkListOperationErrorsExample() {
+async function _01ListRecentFailedOperationErrors() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualMachineBulkOperations.bulkListOperationErrors(
-    "rgBulkactions",
-    "useast2euap",
+    "example-rg",
+    "eastus",
   )) {
     resArray.push(item);
   }
@@ -26,19 +26,41 @@ async function virtualMachineBulkOperationsBulkListOperationErrorsExample() {
 }
 
 /**
- * This sample demonstrates how to bulkListOperationErrors: List bulk operation errors for a resource group
+ * This sample demonstrates how to list recent errors for operations in a resource group.
  *
- * @summary bulkListOperationErrors: List bulk operation errors for a resource group
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MinimumSet_Gen.json
+ * @summary list recent errors for operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_InvalidLookbackWindowError.json
  */
-async function virtualMachineBulkOperationsBulkListOperationErrorsMinimumSetGen() {
+async function _03ResponseWithAnInvalidLookbackWindowError() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualMachineBulkOperations.bulkListOperationErrors(
-    "rgBulkactions",
-    "useast2euap",
+    "example-rg",
+    "eastus",
+    { lookbackInMinutes: 0 },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list recent errors for operations in a resource group.
+ *
+ * @summary list recent errors for operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_PaginatedSuccess.json
+ */
+async function _02ListFailedOperationErrorsWithPaginatedResponse() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.virtualMachineBulkOperations.bulkListOperationErrors(
+    "example-rg",
+    "eastus",
   )) {
     resArray.push(item);
   }
@@ -47,8 +69,9 @@ async function virtualMachineBulkOperationsBulkListOperationErrorsMinimumSetGen(
 }
 
 async function main() {
-  await virtualMachineBulkOperationsBulkListOperationErrorsExample();
-  await virtualMachineBulkOperationsBulkListOperationErrorsMinimumSetGen();
+  await _01ListRecentFailedOperationErrors();
+  await _03ResponseWithAnInvalidLookbackWindowError();
+  await _02ListFailedOperationErrorsWithPaginatedResponse();
 }
 
 main().catch(console.error);

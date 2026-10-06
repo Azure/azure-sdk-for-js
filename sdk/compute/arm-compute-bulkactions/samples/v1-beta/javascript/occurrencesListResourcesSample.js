@@ -5,20 +5,42 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list resources attached to Scheduled Actions for the given occurrence
+ * This sample demonstrates how to lists resources for the specified occurrence.
  *
- * @summary list resources attached to Scheduled Actions for the given occurrence
- * x-ms-original-file: 2026-07-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
+ * @summary lists resources for the specified occurrence.
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_BasicSuccess.json
  */
-async function occurrencesListResourcesMaximumSet() {
+async function _01ListResourcesInARecurringScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.occurrences.listResources(
-    "rgcompute",
-    "myScheduledAction",
-    "CB26D7CB-3E27-465F-99C8-EAF7A4118245",
+    "example-rg",
+    "weekday-start",
+    "77777777-7777-7777-7777-777777777777",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists resources for the specified occurrence.
+ *
+ * @summary lists resources for the specified occurrence.
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_PagedSuccess.json
+ */
+async function _02ListAPageOfResourcesInARecurringScheduledActionOccurrence() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.occurrences.listResources(
+    "example-rg",
+    "weekday-start",
+    "88888888-8888-8888-8888-888888888888",
   )) {
     resArray.push(item);
   }
@@ -27,7 +49,8 @@ async function occurrencesListResourcesMaximumSet() {
 }
 
 async function main() {
-  await occurrencesListResourcesMaximumSet();
+  await _01ListResourcesInARecurringScheduledActionOccurrence();
+  await _02ListAPageOfResourcesInARecurringScheduledActionOccurrence();
 }
 
 main().catch(console.error);

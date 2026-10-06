@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.AzureFleet": "2026-06-01-preview"
+    "Microsoft.AzureFleet": "2026-08-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AzureFleet",
     "CrossLanguageDefinitionId": {
@@ -81,8 +81,6 @@
       "@azure/arm-computefleet!SecurityPostureReference:interface": "Microsoft.AzureFleet.SecurityPostureReference",
       "@azure/arm-computefleet!ComputeProfile:interface": "Microsoft.AzureFleet.ComputeProfile",
       "@azure/arm-computefleet!AdditionalCapabilities:interface": "Microsoft.AzureFleet.AdditionalCapabilities",
-      "@azure/arm-computefleet!ZoneAllocationPolicy:interface": "Microsoft.AzureFleet.ZoneAllocationPolicy",
-      "@azure/arm-computefleet!ZonePreference:interface": "Microsoft.AzureFleet.ZonePreference",
       "@azure/arm-computefleet!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
       "@azure/arm-computefleet!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-computefleet!Plan:interface": "Azure.ResourceManager.CommonTypes.Plan",
@@ -143,7 +141,6 @@
       "@azure/arm-computefleet!KnownMode:enum": "Microsoft.AzureFleet.Mode",
       "@azure/arm-computefleet!KnownFleetMode:enum": "Microsoft.AzureFleet.FleetMode",
       "@azure/arm-computefleet!KnownCapacityType:enum": "Microsoft.AzureFleet.CapacityType",
-      "@azure/arm-computefleet!KnownZoneDistributionStrategy:enum": "Microsoft.AzureFleet.ZoneDistributionStrategy",
       "@azure/arm-computefleet!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-computefleet!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-computefleet!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",

@@ -7,6 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -32,6 +33,17 @@ export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
+}
+
+// @public
+export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<RetrieveStreamResponse>;
+
+// @public
+export interface RetrieveStreamOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

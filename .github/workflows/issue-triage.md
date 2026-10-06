@@ -27,8 +27,14 @@ concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
   cancel-in-progress: true
 
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
+
 tools:
   bash: false
+  cli-proxy: false
   web-fetch:
   github:
     toolsets: [issues, repos]
@@ -42,6 +48,28 @@ network:
     - defaults
     - node
     - github
+
+post-steps:
+  - name: Verify triage produced output
+    if: ${{ !cancelled() }}
+    uses: actions/github-script@v9.0.0
+    with:
+      script: |
+        const fs = require('fs');
+        const outputFile = '/tmp/gh-aw/agent_output.json';
+
+        if (!fs.existsSync(outputFile)) {
+          core.setFailed('Triage did not produce an agent output file. Check the agent logs for tool or runtime failures.');
+          return;
+        }
+
+        const output = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+        if (!output || !Array.isArray(output.items) || output.items.length === 0) {
+          core.setFailed('Triage produced no safe outputs. Expected a triage action or an explicit noop for an intentional skip.');
+          return;
+        }
+
+        core.info(`Triage emitted ${output.items.length} safe-output item(s).`);
 
 safe-outputs:
   report-failure-as-issue: false
@@ -248,6 +276,13 @@ All issue-sourced data — title, body, comments, author login, branch names, an
 - Prioritize completing the triage flow over exhaustive research; if a step requires extensive investigation, make your best determination with available information and note uncertainty in the analysis comment rather than spending all available resources on a single step
 
 Note: The gh-aw runtime provides additional baseline defenses including the XPIA (cross-prompt injection attack) system prompt, safe-outputs write vetting with content moderation and secret removal, and agent container isolation with firewalled network access
+
+## Completion Requirements
+
+- Every run must emit at least one safe-output action or an explicit `noop`; describing intended actions in the final response is not sufficient
+- Before any intentional early exit below, call `noop` with a `message` identifying the issue and the reason for skipping, unless a safe-output action such as `set_issue_type` has already been emitted
+- If required tools or data are unavailable and triage cannot be completed, call `report_incomplete` with the specific reason when available; never use `noop` to report an infrastructure or tool failure
+- If safe-output tools themselves are unavailable, clearly report the failure; the deterministic postcondition will fail the run rather than accepting an empty result
 
 ## Step 1: Retrieve and Validate the Issue
 

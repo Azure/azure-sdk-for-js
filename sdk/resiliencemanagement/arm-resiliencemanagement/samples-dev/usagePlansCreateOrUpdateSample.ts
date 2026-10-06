@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a UsagePlan
  *
  * @summary create a UsagePlan
- * x-ms-original-file: 2026-04-01-preview/UsagePlans_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UsagePlans_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function usagePlansCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

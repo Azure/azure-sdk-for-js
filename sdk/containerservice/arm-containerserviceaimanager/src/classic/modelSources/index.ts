@@ -44,6 +44,7 @@ export interface ModelSourcesOperations {
     options?: ModelSourcesGetOptionalParams,
   ) => Promise<ModelSource>;
 }
+
 function _getModelSources(context: ContainerServiceContext) {
   return {
     list: (
@@ -73,6 +74,7 @@ function _getModelSources(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, aiManagerName, modelSourceName, options),
   };
 }
+
 export function _getModelSourcesOperations(
   context: ContainerServiceContext,
 ): ModelSourcesOperations {

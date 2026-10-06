@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import type { SecurityInsightsContext as Client } from "../index.js";
-import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import type { AnalyticsRuleRunTrigger } from "../../models/models.js";
 import {
-  alertRuleUnionDeserializer,
   errorResponseDeserializer,
   analyticsRuleRunTriggerSerializer,
 } from "../../models/models.js";
@@ -30,7 +29,7 @@ export function _triggerRuleRunSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       ruleId: ruleId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,9 +42,7 @@ export function _triggerRuleRunSend(
   });
 }
 
-export async function _triggerRuleRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AlertRuleUnion> {
+export async function _triggerRuleRunDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -56,7 +53,7 @@ export async function _triggerRuleRunDeserialize(
     throw error;
   }
 
-  return alertRuleUnionDeserializer(result.body);
+  return;
 }
 
 /** triggers analytics rule run */
@@ -67,7 +64,7 @@ export function triggerRuleRun(
   ruleId: string,
   analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
   options: AlertRuleTriggerRuleRunOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _triggerRuleRunDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -81,6 +78,6 @@ export function triggerRuleRun(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-01-preview",
-  }) as PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>;
+    apiVersion: context.apiVersion ?? "2025-10-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
 }

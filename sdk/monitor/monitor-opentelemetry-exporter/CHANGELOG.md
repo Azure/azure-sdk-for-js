@@ -1,17 +1,36 @@
 # Release History
 
-## 1.0.0-beta.45 (Unreleased)
+## 1.0.0-beta.46 (2026-10-05)
 
 ### Features Added
 
-### Breaking Changes
+- Added OneSettings `FEATURE_LOCAL_STORAGE` control of offline telemetry storage and replay, preserving local opt-outs and queued files. [#40086](https://github.com/Azure/azure-sdk-for-js/pull/40086).
+
+- Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. [#40053](https://github.com/Azure/azure-sdk-for-js/pull/40053).
+- Added support for mapping the `session.id` attribute on spans, span events, and logs to the Azure Monitor session context. [#40101](https://github.com/Azure/azure-sdk-for-js/pull/40101)
 
 ### Bugs Fixed
 
+- Fixed database dependency mapping for the stable OpenTelemetry attributes `db.system.name`, `db.namespace`, `db.query.text`, and `db.operation.name` without duplicating mapped attributes in custom properties, while retaining legacy attribute support, existing database type classification, and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
+- Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
+- Fixed persisted telemetry replay failing when stored envelope timestamps were deserialized as strings instead of `Date` objects. [#40103](https://github.com/Azure/azure-sdk-for-js/pull/40103)
+- Modified logic for message body on Microsoft.ApplicationInsights.MessageData to include default message for messages with empty body. [#40162](https://github.com/Azure/azure-sdk-for-js/pull/40162)
+
+## 1.0.0-beta.45 (2026-09-04)
+
+### Features Added
+
+- Added support for exporting finite numeric entries from the `microsoft.custom_measurements` span and log attribute as Breeze measurements. [Telemetry Collection Spec #887](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/887)
+- Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
+
+### Bugs Fixed
+
+- Removed `microsoft.availability.testTimestamp` support so availability telemetry uses the OpenTelemetry log record timestamp. [#39818](https://github.com/Azure/azure-sdk-for-js/pull/39818)
 - Fixed global-to-regional ingestion redirects across trusted same-cloud Azure Monitor host suffixes and updated internal Statsbeat routing so EU SDK statistics use the EU Statsbeat destination. [#39622](https://github.com/Azure/azure-sdk-for-js/pull/39622)
 
 ### Other Changes
 
+- Wired the OneSettings `FEATURE_SDK_STATS` setting to dynamically stop and restart process-wide internal Network and Long Interval Statsbeat. [#39807](https://github.com/Azure/azure-sdk-for-js/pull/39807)
 - Enabled process-wide OneSettings polling from exporter initialization and populated the standalone exporter profile for future feature targeting. Feature callbacks remain disabled. [#39764](https://github.com/Azure/azure-sdk-for-js/pull/39764)
 - Refactored internal Network and Long Interval Statsbeat lifecycle management behind a process-global manager. [#39693](https://github.com/Azure/azure-sdk-for-js/pull/39693)
 - Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)

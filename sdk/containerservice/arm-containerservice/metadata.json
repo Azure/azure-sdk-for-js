@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-06-01"
+    "Microsoft.ContainerService": "2026-07-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -97,6 +97,7 @@
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGating:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGating",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGatingIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGatingIdentity",
       "@azure/arm-containerservice!AzureKeyVaultKms:interface": "Microsoft.ContainerService.AzureKeyVaultKms",
+      "@azure/arm-containerservice!KubernetesResourceObjectEncryptionProfile:interface": "Microsoft.ContainerService.KubernetesResourceObjectEncryptionProfile",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileWorkloadIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileWorkloadIdentity",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileImageCleaner:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileImageCleaner",
       "@azure/arm-containerservice!ManagedClusterStorageProfile:interface": "Microsoft.ContainerService.ManagedClusterStorageProfile",
@@ -266,6 +267,7 @@
       "@azure/arm-containerservice!KnownNodeOSUpgradeChannel:enum": "Microsoft.ContainerService.NodeOSUpgradeChannel",
       "@azure/arm-containerservice!KnownExpander:enum": "Microsoft.ContainerService.Expander",
       "@azure/arm-containerservice!KnownKeyVaultNetworkAccessTypes:enum": "Microsoft.ContainerService.KeyVaultNetworkAccessTypes",
+      "@azure/arm-containerservice!KnownInfrastructureEncryption:enum": "Microsoft.ContainerService.InfrastructureEncryption",
       "@azure/arm-containerservice!KnownGatewayAPIIstioEnabled:enum": "Microsoft.ContainerService.GatewayAPIIstioEnabled",
       "@azure/arm-containerservice!KnownNginxIngressControllerType:enum": "Microsoft.ContainerService.NginxIngressControllerType",
       "@azure/arm-containerservice!KnownManagedGatewayType:enum": "Microsoft.ContainerService.ManagedGatewayType",

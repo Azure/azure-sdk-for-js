@@ -55,7 +55,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: SearchManagementContext) {
   return {
     reconcile: (
@@ -101,7 +100,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: SearchManagementCon
     ) => get(context, resourceGroupName, searchServiceName, nspConfigName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: SearchManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

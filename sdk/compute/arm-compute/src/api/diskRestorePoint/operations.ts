@@ -67,6 +67,7 @@ export async function _revokeAccessDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Revokes access to a diskRestorePoint. */
 export function revokeAccess(
   context: Client,
@@ -137,6 +138,7 @@ export async function _grantAccessDeserialize(result: PathUncheckedResponse): Pr
 
   return accessUriDeserializer(result.body);
 }
+
 /** Grants access to a diskRestorePoint. */
 export function grantAccess(
   context: Client,
@@ -206,6 +208,7 @@ export async function _listByRestorePointDeserialize(
 
   return _diskRestorePointListDeserializer(result.body);
 }
+
 /** Lists diskRestorePoints under a vmRestorePoint. */
 export function listByRestorePoint(
   context: Client,
@@ -271,6 +274,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskRestorePointDeserializer(result.body);
 }
+
 /** Get disk restorePoint resource */
 export async function get(
   context: Client,

@@ -3,12 +3,12 @@
 
 /**
  * This sample demonstrates how to create, inspect, list, cancel, and delete data
- * generation jobs using the beta datasets API.
+ * generation jobs using the datasets API.
  *
  * Data generation jobs are currently a preview feature. In the JS SDK, you access these
- * operations via `project.beta.datasets`.
+ * operations via `project.datasets`.
  *
- * @summary Demonstrates data generation job operations using the beta datasets API.
+ * @summary Demonstrates data generation job operations using the datasets API.
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
@@ -23,25 +23,27 @@ export async function main(): Promise<void> {
 
   console.log("Creating data generation job...");
   const jobName = `sample-data-generation-job-${Date.now()}`;
-  const generationPoller = project.beta.datasets.createGenerationJob({
-    inputs: {
-      name: jobName,
-      scenario: "supervised_finetuning",
-      sources: [
-        {
-          type: "prompt",
-          prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
-          description: "Prompt source for generating sample supervised fine-tuning data.",
-        },
-      ],
-      options: {
-        type: "simple_qna",
-        max_samples: 15,
-        model_options: {
-          model: deploymentName,
-        },
-        question_types: ["short_answer"],
+  const generationPoller = project.datasets.createGenerationJob({
+    name: jobName,
+    scenario: "supervised_finetuning_preview",
+    sources: [
+      {
+        type: "prompt",
+        prompt: "Generate short question-and-answer pairs about Azure AI Foundry projects.",
+        description: "Prompt source for generating sample supervised fine-tuning data.",
       },
+    ],
+    generation_configuration: {
+      type: "simple_qna",
+      max_samples: 15,
+      model_options: {
+        model: deploymentName,
+      },
+      question_types: ["short_answer"],
+    },
+    output_configuration: {
+      name: `${jobName}.jsonl`,
+      write_mode: "overwrite",
     },
   });
 
@@ -57,17 +59,17 @@ export async function main(): Promise<void> {
   console.log(`Created data generation job (id: ${jobId})`);
 
   console.log("Listing data generation jobs...");
-  for await (const job of project.beta.datasets.listGenerationJobs({
+  for await (const job of project.datasets.listGenerationJobs({
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
   }
 
-  const fetchedJob = await project.beta.datasets.getGenerationJob(jobId);
+  const fetchedJob = await project.datasets.getGenerationJob(jobId);
   console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
 
   if (fetchedJob.status === "queued" || fetchedJob.status === "in_progress") {
-    const cancelledJob = await project.beta.datasets.cancelGenerationJob(jobId);
+    const cancelledJob = await project.datasets.cancelGenerationJob(jobId);
     console.log(
       `Cancelled data generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
     );
@@ -79,10 +81,10 @@ export async function main(): Promise<void> {
     );
   }
 
-  await project.beta.datasets.deleteGenerationJob(jobId);
+  await project.datasets.deleteGenerationJob(jobId);
   console.log("Data generation job deleted");
 }
 
 main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+  console.error("Sample failed: ", err);
 });

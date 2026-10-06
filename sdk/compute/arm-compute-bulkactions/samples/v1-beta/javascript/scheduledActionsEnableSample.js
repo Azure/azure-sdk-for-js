@@ -5,20 +5,20 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to enable a previously disabled scheduled action so its future occurrences run.
+ * This sample demonstrates how to enables the specified scheduled action so new occurrences run.
  *
- * @summary enable a previously disabled scheduled action so its future occurrences run.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Enable_MaximumSet_Gen.json
+ * @summary enables the specified scheduled action so new occurrences run.
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Enable_BasicSuccess.json
  */
-async function scheduledActionsEnableMaximumSet() {
+async function enableARecurringScheduledAction() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.enable("rgcompute", "myScheduledAction");
+  await client.scheduledActions.enable("example-rg", "weekday-start");
 }
 
 async function main() {
-  await scheduledActionsEnableMaximumSet();
+  await enableARecurringScheduledAction();
 }
 
 main().catch(console.error);

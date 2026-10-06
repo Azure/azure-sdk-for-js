@@ -617,6 +617,9 @@ export interface IdentityBindingsOperations {
 }
 
 // @public
+export type InfrastructureEncryption = string;
+
+// @public
 export type IpFamily = string;
 
 // @public
@@ -816,6 +819,11 @@ export enum KnownIdentityBindingProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownInfrastructureEncryption {
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1180,7 +1188,8 @@ export enum KnownVersions {
     V20260301 = "2026-03-01",
     V20260401 = "2026-04-01",
     V20260501 = "2026-05-01",
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -1222,6 +1231,11 @@ export type KubeletDiskType = string;
 // @public
 export interface KubernetesPatchVersion {
     upgrades?: string[];
+}
+
+// @public
+export interface KubernetesResourceObjectEncryptionProfile {
+    infrastructureEncryption?: InfrastructureEncryption;
 }
 
 // @public
@@ -1402,6 +1416,7 @@ export interface ManagedCluster extends TrackedResource {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1830,6 +1845,7 @@ export interface ManagedClusterProperties {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -1913,6 +1929,7 @@ export interface ManagedClusterSecurityProfile {
     customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+    kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 

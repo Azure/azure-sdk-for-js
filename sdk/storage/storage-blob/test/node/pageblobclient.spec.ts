@@ -197,7 +197,7 @@ describe("PageBlobClient Node.js only", () => {
         case "pending":
           await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();
-          await waitForCopy(++retries);
+          await waitForCopy(retries + 1);
           return;
         case "failed":
           throw new Error("Copy failed.");

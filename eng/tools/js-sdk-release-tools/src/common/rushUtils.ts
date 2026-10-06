@@ -106,6 +106,8 @@ export async function buildPackage(
   let buildStatus = `succeeded`;
   await installDependencies();
 
+  await customizeCodes(packageDirectory);
+
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
     await lintFix(packageDirectory);
   }
@@ -114,7 +116,6 @@ export async function buildPackage(
   const modularSDKType = getModularSDKType(packageDirectory);
   let errorAsWarning = false;
   if (modularSDKType === ModularSDKType.DataPlane) {
-    await customizeCodes(packageDirectory);
     errorAsWarning = true;
   }
   try {

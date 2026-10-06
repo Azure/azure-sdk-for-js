@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/daprComponentResiliencyPolicies/operations.js";
-import {
+import type {
   DaprComponentResiliencyPoliciesListOptionalParams,
   DaprComponentResiliencyPoliciesDeleteOptionalParams,
   DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams,
   DaprComponentResiliencyPoliciesGetOptionalParams,
 } from "../../api/daprComponentResiliencyPolicies/options.js";
-import { DaprComponentResiliencyPolicy } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DaprComponentResiliencyPolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DaprComponentResiliencyPolicies operations. */
 export interface DaprComponentResiliencyPoliciesOperations {
-  /** Get the resiliency policies for a Dapr component. */
+  /** Lists the resiliency policies configured for a Dapr component. */
   list: (
     resourceGroupName: string,
     environmentName: string,
@@ -43,7 +43,7 @@ export interface DaprComponentResiliencyPoliciesOperations {
     daprComponentResiliencyPolicyEnvelope: DaprComponentResiliencyPolicy,
     options?: DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<DaprComponentResiliencyPolicy>;
-  /** Get a Dapr component resiliency policy. */
+  /** Gets the details of a resiliency policy for a Dapr component. */
   get: (
     resourceGroupName: string,
     environmentName: string,

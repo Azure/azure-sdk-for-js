@@ -143,20 +143,18 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!fileEndpoint) {
       // FileEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -164,7 +162,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }

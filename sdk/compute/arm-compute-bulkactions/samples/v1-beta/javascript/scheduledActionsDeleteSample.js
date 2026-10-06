@@ -5,20 +5,20 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to delete a ScheduledAction
+ * This sample demonstrates how to deletes the specified scheduled action.
  *
- * @summary delete a ScheduledAction
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Delete_MaximumSet_Gen.json
+ * @summary deletes the specified scheduled action.
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Delete_BasicSuccess.json
  */
-async function scheduledActionsDeleteMaximumSet() {
+async function deleteARecurringScheduledAction() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.delete("rgcompute", "myScheduledAction");
+  await client.scheduledActions.delete("example-rg", "weekday-start");
 }
 
 async function main() {
-  await scheduledActionsDeleteMaximumSet();
+  await deleteARecurringScheduledAction();
 }
 
 main().catch(console.error);
