@@ -4,7 +4,6 @@
 BeforeAll {
   Import-Module powershell-yaml -ErrorAction Stop
   $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-  $baseline = '9fb069e68304834d8ac98ce8b412af0f6fd8bdf0'
   $entryPath = 'sdk/template/ci.yml'
   $clientPath = 'eng/pipelines/templates/stages/archetype-sdk-client.yml'
   $releasePath = 'eng/pipelines/templates/stages/archetype-js-release.yml'
@@ -13,13 +12,8 @@ BeforeAll {
   $variableGuard = '${{ if and(eq(parameters.ServiceDirectory, ''template''), eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
   $expression = '$[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs[''resolve.AutoReleaseSdkPullRequestUrl''] ]'
 
-  function Read-Pipeline([string] $Path, [switch] $Original) {
-    if ($Original) {
-      $raw = (git -C $repoRoot show "${baseline}:$Path") -join "`n"
-      if ($LASTEXITCODE -ne 0) { throw "Cannot read baseline $Path" }
-    } else {
-      $raw = [IO.File]::ReadAllText((Join-Path $repoRoot $Path))
-    }
+  function Read-Pipeline([string] $Path) {
+    $raw = [IO.File]::ReadAllText((Join-Path $repoRoot $Path))
     return ConvertFrom-Yaml $raw -Ordered
   }
 
@@ -39,7 +33,9 @@ BeforeAll {
   }
 
   function Get-ReleaseRelay($Pipeline) {
-    return @(Find-Nodes $Pipeline 'template' 'archetype-js-release.yml@self')[0]
+    $nodes = @(Find-Nodes $Pipeline 'template' 'archetype-js-release.yml@self')
+    $nodes.Count | Should -Be 1
+    return $nodes[0]
   }
 
   # Evaluate only the new pilot guards, not Azure's full template language.
@@ -97,8 +93,10 @@ Describe 'Template completion correlation' {
     $stages.Count | Should -Be 1
     $mapping = @($stages[0].variables | Where-Object { $_.Contains($variableGuard) })
     $mapping.Count | Should -Be 1
+    @($mapping[0][$variableGuard]).Count | Should -Be 1
     $mapping[0][$variableGuard][0].name | Should -BeExactly 'AutoReleaseSdkPullRequestUrl'
     $mapping[0][$variableGuard][0].value | Should -BeExactly $expression
+    @(Find-Nodes $release 'name' 'AutoReleaseSdkPullRequestUrl').Count | Should -Be 1
     $correlation = Get-Correlation $release 'template' 'IndividualCI' 'refs/heads/main'
     $correlation.SdkPullRequest | Should -BeExactly '$(AutoReleaseSdkPullRequestUrl)'
     $completion = Get-Completion $release
@@ -124,49 +122,143 @@ Describe 'Template completion correlation' {
     @{ Service = 'not-specified'; Reason = 'IndividualCI' }
   ) {
     (Get-Correlation $release $Service $Reason 'refs/heads/main').Count | Should -Be 0
-    $actual = (Get-Completion $release).parameters
-    $original = (Get-Completion (Read-Pipeline $releasePath -Original)).parameters
-    $withoutPilot = [ordered]@{}
-    foreach ($key in $actual.Keys) {
-      if ($key -ne $templateGuard) { $withoutPilot[$key] = $actual[$key] }
-    }
-    ($withoutPilot | ConvertTo-Json -Depth 100 -Compress) | Should -BeExactly ($original | ConvertTo-Json -Depth 100 -Compress)
+    $parameters = (Get-Completion $release).parameters
+    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('ConfigFileDir', 'PackageArtifactName', $templateGuard) | Sort-Object) -join '|')
+    $parameters.ConfigFileDir | Should -BeExactly '$(Pipeline.Workspace)/packages/PackageInfo'
+    $parameters.PackageArtifactName | Should -BeExactly '${{ artifact.name }}'
+    $pilot = $parameters[$templateGuard]
+    (@($pilot.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('ReleasePlanId', $autoGuard) | Sort-Object) -join '|')
+    (@($pilot[$autoGuard].Keys) -join '|') | Should -BeExactly 'SdkPullRequest'
+    $pilot.ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
+    $pilot[$autoGuard].SdkPullRequest | Should -BeExactly '$(AutoReleaseSdkPullRequestUrl)'
   }
 
   It 'keeps completion inside UpdatePackageVersion after publication and APIView' {
-    $job = @(Find-Nodes $release 'job' 'UpdatePackageVersion')[0]
+    $stages = @(Find-Nodes $release 'stage' 'Release_${{artifact.safename}}')
+    $guards = @($stages[0].jobs | Where-Object { $_.Contains('${{ if ne(artifact.skipUpdatePackageVersion, ''true'') }}') })
+    $guards.Count | Should -Be 1
+    $jobs = @(Find-Nodes $guards[0]['${{ if ne(artifact.skipUpdatePackageVersion, ''true'') }}'] 'job' 'UpdatePackageVersion')
+    $jobs.Count | Should -Be 1
+    @(Find-Nodes $release 'job' 'UpdatePackageVersion').Count | Should -Be 1
+    $job = $jobs[0]
     $job.dependsOn | Should -BeExactly 'PublishPackage_${{ replace(artifact.name, ''-'', ''_'') }}_To_DevFeed'
     $job.condition | Should -BeExactly "and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))"
+    @(Find-Nodes $job 'template' '/eng/common/pipelines/templates/steps/mark-release-completion.yml').Count | Should -Be 1
     $job.steps[-1].template | Should -BeExactly '/eng/common/pipelines/templates/steps/mark-release-completion.yml'
     $job.steps[-2].template | Should -BeExactly '/eng/common/pipelines/templates/steps/create-apireview.yml'
+    $job.steps[-2].parameters.MarkPackageAsShipped | Should -BeTrue
+    $job.steps[-2].parameters.PackageName | Should -BeExactly '${{ artifact.name }}'
+    $job.steps[-2].parameters.ArtifactName | Should -BeExactly '${{ parameters.ArtifactName }}'
+    $job.steps[-2].parameters.ConfigFileDir | Should -BeExactly '$(Pipeline.Workspace)/packages/PackageInfo'
   }
 
-  It 'preserves the complete parsed baseline except the explicitly added correlation nodes' {
-    $entryCopy = Read-Pipeline $entryPath
-    $entryCopy.parameters = @($entryCopy.parameters | Where-Object name -NE ReleasePlanId)
-    $entryCopy.extends.parameters.Remove('ReleasePlanId')
-    $clientCopy = Read-Pipeline $clientPath
-    $clientCopy.parameters = @($clientCopy.parameters | Where-Object name -NE ReleasePlanId)
-    (Get-ReleaseRelay $clientCopy).parameters[$templateGuard].Remove('ReleasePlanId')
-    $releaseCopy = Read-Pipeline $releasePath
-    $releaseCopy.parameters.Remove('ReleasePlanId')
-    $stage = @(Find-Nodes $releaseCopy 'stage' 'Release_${{artifact.safename}}')[0]
-    $stage.variables = @($stage.variables | Where-Object { -not $_.Contains($variableGuard) })
-    (Get-Completion $releaseCopy).parameters.Remove($templateGuard)
-    foreach ($pair in @(
-      @{ Path = $entryPath; Actual = $entryCopy },
-      @{ Path = $clientPath; Actual = $clientCopy },
-      @{ Path = $releasePath; Actual = $releaseCopy }
-    )) {
-      ($pair.Actual | ConvertTo-Json -Depth 100 -Compress) | Should -BeExactly ((Read-Pipeline $pair.Path -Original) | ConvertTo-Json -Depth 100 -Compress)
+  # Assert checked-in safety contracts directly: shallow CI needs no historical objects.
+  It 'keeps template artifacts and CI triggers unchanged without publish overrides' {
+    $entry.extends.template | Should -BeExactly '../../eng/pipelines/templates/stages/archetype-sdk-client.yml'
+    (@($entry.extends.parameters.Keys | Sort-Object) -join '|') | Should -BeExactly 'Artifacts|oneESTemplateTag|ReleasePlanId|ServiceDirectory'
+    $entry.extends.parameters.ServiceDirectory | Should -BeExactly 'template'
+    $entry.extends.parameters.oneESTemplateTag | Should -BeExactly '${{ parameters.oneESTemplateTag }}'
+    $artifacts = @($entry.extends.parameters.Artifacts)
+    $artifacts.Count | Should -Be 2
+    $artifacts[0].name | Should -BeExactly 'azure-template'
+    $artifacts[0].safeName | Should -BeExactly 'azuretemplate'
+    (@($artifacts[0].Keys | Sort-Object) -join '|') | Should -BeExactly 'name|safeName|triggeringPaths'
+    @($artifacts[0].triggeringPaths) -join '|' | Should -BeExactly '/sdk/test-utils/|/sdk/identity/|/.config/|/.devcontainer/|/.github/|/.scripts/|/common/|/eng/'
+    $artifacts[1].name | Should -BeExactly 'azure-template-dpg'
+    $artifacts[1].safeName | Should -BeExactly 'azuretemplatedpg'
+    (@($artifacts[1].Keys | Sort-Object) -join '|') | Should -BeExactly 'name|safeName'
+    @($entry.trigger.branches.include) -join '|' | Should -BeExactly 'main|release/*|hotfix/*'
+    @($entry.pr.branches.include) -join '|' | Should -BeExactly 'main|feature/*|release/*|hotfix/*'
+    foreach ($trigger in @($entry.trigger, $entry.pr)) {
+      @($trigger.paths.include) -join '|' | Should -BeExactly 'sdk/template/|eng/common/'
     }
   }
 
-  It 'does not modify shared engineering files or any SDK package content' {
-    $paths = @(git -C $repoRoot diff --name-only $baseline)
-    if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect pilot scope' }
-    $allowed = @($entryPath, $clientPath, $releasePath, 'eng/scripts/tests/Release-CompletionCorrelation.tests.ps1')
-    @($paths | Where-Object { $_ -notin $allowed }).Count | Should -Be 0
-    @(git -C $repoRoot diff --name-only $baseline -- eng/common).Count | Should -Be 0
+  It 'keeps client release eligibility, build dependency and template-only test settings' {
+    $gate = '${{if and(not(and(eq(parameters.SkipPrValidation, true), eq(variables[''Build.Reason''], ''Manual''))), ne(variables[''Build.Reason''], ''PullRequest''), eq(variables[''System.TeamProject''], ''internal''), eq(parameters.IncludeRelease,true))}}'
+    $guarded = @($client.extends.parameters.stages | Where-Object { $_.Contains($gate) })
+    $guarded.Count | Should -Be 1
+    @(Find-Nodes $guarded[0][$gate] 'template' 'archetype-js-release.yml@self').Count | Should -Be 1
+    $parameters = (Get-ReleaseRelay $client).parameters
+    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('DependsOn', 'ServiceDirectory', 'TestProxy', 'Artifacts', 'TargetDocRepoOwner', 'TargetDocRepoName', $templateGuard) | Sort-Object) -join '|')
+    $parameters.DependsOn | Should -BeExactly 'Build'
+    foreach ($name in @('ServiceDirectory', 'TestProxy', 'Artifacts', 'TargetDocRepoOwner', 'TargetDocRepoName')) {
+      $parameters[$name] | Should -BeExactly ('${{ parameters.' + $name + ' }}')
+    }
+    (@($parameters[$templateGuard].Keys | Sort-Object) -join '|') | Should -BeExactly 'ReleasePlanId|TestPipeline'
+    $parameters[$templateGuard].TestPipeline | Should -BeTrue
+    foreach ($name in @('IncludeRelease', 'TestProxy')) {
+      $parameter = @($client.parameters | Where-Object name -EQ $name)
+      $parameter.Count | Should -Be 1
+      $parameter[0].type | Should -BeExactly 'boolean'
+      $parameter[0].default | Should -BeTrue
+    }
+    $skip = @($client.parameters | Where-Object name -EQ SkipPrValidation)[0]
+    $skip.type | Should -BeExactly 'boolean'
+    $skip.default | Should -BeFalse
+    $build = @(Find-Nodes $client 'stage' 'Build')
+    $build.Count | Should -Be 1
+    $build[0].condition | Should -BeExactly 'not(and(eq(${{ parameters.SkipPrValidation }}, true), eq(variables[''Build.Reason''], ''Manual'')))'
+  }
+
+  It 'keeps release gates, artifact eligibility, environments and publication dependencies' {
+    $gate = '${{ if and(eq(variables[''System.TeamProject''], ''internal''), or(in(variables[''Build.Reason''], ''Manual'', ''''), and(eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')))) }}'
+    $guarded = @($release.stages | Where-Object { $_.Contains($gate) })
+    $guarded.Count | Should -Be 1
+    @($release.stages).Count | Should -Be 2
+    $eligible = $guarded[0][$gate]
+    @($eligible).Count | Should -Be 2
+    $prepare = $eligible[0][$autoGuard]
+    @($prepare).Count | Should -Be 1
+    $prepare[0].template | Should -BeExactly '/eng/common/pipelines/templates/stages/archetype-auto-release-prepare.yml'
+    @($prepare[0].parameters.DependsOn) -join '|' | Should -BeExactly '${{ parameters.DependsOn }}'
+    $prepare[0].parameters.Artifacts | Should -BeExactly '${{ parameters.Artifacts }}'
+    $safe = 'and(succeeded(),ne(variables[''SetDevVersion''],''true''),ne(variables[''Skip.Release''],''true''),ne(variables[''Build.Repository.Name''],''Azure/azure-sdk-for-js-pr''))'
+    ($prepare[0].parameters.Condition -replace '\s', '') | Should -BeExactly $safe
+    $loop = $eligible[1]['${{ each artifact in parameters.Artifacts }}']
+    @($loop).Count | Should -Be 1
+    $stage = $loop[0]
+    $stage.stage | Should -BeExactly 'Release_${{artifact.safename}}'
+    $manual = $stage['${{ if in(variables[''Build.Reason''], ''Manual'', '''') }}']
+    $manual.dependsOn | Should -BeExactly '${{parameters.DependsOn}}'
+    ($manual.condition -replace '\s', '') | Should -BeExactly $safe
+    @($stage['${{ else }}'].dependsOn) -join '|' | Should -BeExactly '${{parameters.DependsOn}}|AutoReleasePrepare'
+    ($stage['${{ else }}'].condition -replace '\s', '') | Should -BeExactly 'and(succeeded(),eq(dependencies.AutoReleasePrepare.outputs[''ResolveAutoReleasePackages.resolve.ReleaseArtifact_${{artifact.safename}}''],''true''),ne(variables[''SetDevVersion''],''true''),ne(variables[''Skip.Release''],''true''),ne(variables[''Build.Repository.Name''],''Azure/azure-sdk-for-js-pr''))'
+    $release.parameters.TestPipeline | Should -BeFalse
+    $release.parameters.ArtifactName | Should -BeExactly 'packages'
+    $release.parameters.DependsOn | Should -BeExactly 'Build'
+    $tags = @(Find-Nodes $stage 'job' 'TagRepository')
+    $tags.Count | Should -Be 1
+    $tags[0].condition | Should -BeExactly 'ne(variables[''Skip.TagRepository''], ''true'')'
+    $tagStep = @(Find-Nodes $tags[0] 'template' '/eng/common/pipelines/templates/steps/create-tags-and-git-release.yml')[0]
+    $tagStep.parameters.ArtifactLocation | Should -BeExactly '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}'
+    $tagStep.parameters.PackageRepository | Should -BeExactly 'Npm'
+    $tagStep.parameters.ReleaseSha | Should -BeExactly '$(Build.SourceVersion)'
+    $publishGuard = @($stage.jobs | Where-Object { $_.Contains('${{ if ne(artifact.skipPublishPackage, ''true'') }}') })
+    $publishGuard.Count | Should -Be 1
+    $publishes = @(Find-Nodes $publishGuard[0]['${{ if ne(artifact.skipPublishPackage, ''true'') }}'] 'template' '/eng/common/pipelines/templates/jobs/npm-publish.yml')
+    $publishes.Count | Should -Be 2
+    @(Find-Nodes $stage 'template' '/eng/common/pipelines/templates/jobs/npm-publish.yml').Count | Should -Be 2
+    $publishes[0].parameters.DeploymentName | Should -BeExactly 'PublishPackage_${{ replace(artifact.name, ''-'', ''_'') }}'
+    $publishes[0].parameters.Contains('Registry') | Should -BeFalse
+    $publishes[1].parameters.DeploymentName | Should -BeExactly 'PublishPackage_${{ replace(artifact.name, ''-'', ''_'') }}_To_DevFeed'
+    $publishes[1].parameters.Registry | Should -BeExactly '$(PublicDevOpsRegistry)'
+    foreach ($publish in $publishes) {
+      $publish.parameters.DependsOn | Should -BeExactly 'TagRepository'
+      $publish.parameters.ArtifactName | Should -BeExactly '${{ parameters.ArtifactName }}'
+      $publish.parameters.ArtifactSubPath | Should -BeExactly '${{ artifact.name }}'
+      $publish.parameters.Contains('Environment') | Should -BeFalse
+      $publish.parameters[$autoGuard].Environment | Should -BeExactly 'none'
+      $publish.parameters['${{ else }}'].Environment | Should -BeExactly 'package-publish'
+    }
+    $integration = @(Find-Nodes $release 'stage' 'Integration')
+    $integration.Count | Should -Be 1
+    $integration[0].dependsOn | Should -BeExactly '${{ parameters.DependsOn }}'
+    $integration[0].condition | Should -BeExactly 'and(succeeded(), or(eq(variables[''SetDevVersion''], ''true''), and(eq(variables[''Build.Reason''],''Schedule''), eq(variables[''System.TeamProject''], ''internal''))))'
+    $devPublish = @(Find-Nodes $integration[0] 'template' '/eng/common/pipelines/templates/jobs/npm-publish.yml')[0].parameters
+    $devPublish.Tag | Should -BeExactly 'dev'
+    $devPublish.ArtifactName | Should -BeExactly '${{ parameters.ArtifactName }}-dev-publish'
+    $devPublish.Environment | Should -BeExactly 'none'
+    $devPublish.FailOnMissingPackages | Should -BeFalse
   }
 }
