@@ -68,6 +68,15 @@ describe("http/operation.ts", () => {
       });
       assert.isNaN(result!);
     });
+
+    it("returns NaN for a non-HTTP date accepted by Date.parse", () => {
+      assert.isAbove(Date.parse("2099-01-01"), Date.now());
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "2099-01-01" } }),
+        flatResponse: {},
+      });
+      assert.isNaN(result!);
+    });
   });
 
   describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {

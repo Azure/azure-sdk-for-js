@@ -176,6 +176,14 @@ function toOperationStatus(statusCode: number): OperationStatus {
   }
 }
 
+const shortWeekday = String.raw`(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)`;
+const longWeekday = String.raw`(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)`;
+const month = String.raw`(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)`;
+const timeOfDay = String.raw`\d{2}:\d{2}:\d{2}`;
+const httpDatePattern = new RegExp(
+  String.raw`^(?:${shortWeekday}, \d{2} ${month} \d{4} ${timeOfDay} GMT|${longWeekday}, \d{2}-${month}-\d{2} ${timeOfDay} GMT|${shortWeekday} ${month} (?:\d{2}| \d) ${timeOfDay} \d{4})$`,
+);
+
 /**
  * Parses the `Retry-After` header into a polling interval in milliseconds.
  *
@@ -195,6 +203,9 @@ export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): numbe
   // Retry-After header value is either in HTTP date format, or in seconds
   if (/^[0-9]+$/.test(retryAfter)) {
     return Number(retryAfter) * 1000;
+  }
+  if (!httpDatePattern.test(retryAfter)) {
+    return Number.NaN;
   }
   return calculatePollingIntervalFromDate(new Date(retryAfter));
 }

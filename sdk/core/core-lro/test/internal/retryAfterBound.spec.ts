@@ -204,6 +204,17 @@ describe("poller bounds oversized polling intervals", () => {
     assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
   });
 
+  it("restores the configured interval when a non-HTTP date follows a valid Retry-After", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", "2099-01-01"],
+    });
+
+    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
+  });
+
   it("restores the configured interval when a past-dated Retry-After follows a valid one", async () => {
     const configuredIntervalInMs = 5000;
 
@@ -226,5 +237,14 @@ describe("poller bounds oversized polling intervals", () => {
     // An absent header means the server expressed no opinion, so the delay that
     // it last asked for stays in effect.
     assert.deepEqual(delayCalls, [10_000, 10_000]);
+  });
+
+  it("honors a zero-second Retry-After following a non-zero server delay", async () => {
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: 5000,
+      retryAfters: ["10", "0"],
+    });
+
+    assert.deepEqual(delayCalls, [10_000, 0]);
   });
 });

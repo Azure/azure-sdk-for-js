@@ -1,14 +1,12 @@
 # Release History
 
-## 3.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.4.2 (Unreleased)
 
 ### Bugs Fixed
 
-- Bound polling intervals to the range supported by the platform timer. Previously an oversized interval — whether from a server `Retry-After` header (numeric seconds or a distant HTTP date) or a caller-supplied `intervalInMs` — overflowed `setTimeout` and, on Node.js, was scheduled for `1` millisecond, causing a near-continuous polling loop. A `Retry-After` header that is present but cannot be honored (malformed, non-positive, or a date that is not in the future) now falls back to the configured interval instead of leaving a delay from an earlier response in effect. [#39793](https://github.com/Azure/azure-sdk-for-js/issues/39793)
+- Bound polling intervals to the range supported by the platform timer. Previously an oversized interval — whether from a server `Retry-After` header (numeric seconds or a distant HTTP date) or a caller-supplied `intervalInMs` — overflowed `setTimeout` and, on Node.js, was scheduled for `1` millisecond, causing a near-continuous polling loop. A `Retry-After` header that is present but cannot be honored (malformed, negative, or a date that is not in the future) now falls back to the configured interval instead of leaving a delay from an earlier response in effect. [#39793](https://github.com/Azure/azure-sdk-for-js/issues/39793)
+
+## 3.4.1 (2026-09-03)
 
 ### Other Changes
 
