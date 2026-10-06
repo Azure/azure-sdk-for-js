@@ -406,6 +406,68 @@ function buildExportSections(
   };
   expose(exportsByFile.flat());
 
+  const collectReferences = (node: ts.Node): void => {
+    if (isPrivateMember(node)) {
+      return;
+    }
+    const reference = resolveReference(program, node);
+    if (reference?.module) {
+      references.set(
+        reference.module,
+        (references.get(reference.module) ?? new Set()).add(reference.name),
+      );
+    }
+    if (reference) {
+      if (ts.isImportTypeNode(node)) {
+        node.typeArguments?.forEach(collectReferences);
+      }
+      return;
+    }
+    ts.forEachChild(node, collectReferences);
+  };
+  for (const symbol of exposed) {
+    if (isExternal(program, symbol) || isModuleObject(symbol)) {
+      continue;
+    }
+    for (const declaration of symbol.declarations ?? []) {
+      collectReferences(
+        ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration,
+      );
+    }
+  }
+
+  const usedNames = new Set(
+    exportsByFile
+      .flat()
+      .filter((symbol) => !isExternal(program, resolveAlias(symbol)))
+      .map((symbol) => symbol.name),
+  );
+  const importedNames = new Set([...references.values()].flatMap((names) => [...names]));
+  const aliases = new Map<string, Map<string, string>>();
+  // { "azure": ["ClientOptions"], "openai": ["ClientOptions"] }
+  //   -> imports ["ClientOptions", "ClientOptions as ClientOptions_2"], with matching usage names.
+  const namedReferences = [...references]
+    .sort(([a], [b]) => a.localeCompare(b, "en"))
+    .map(([module, names]) => {
+      const moduleAliases = new Map<string, string>();
+      aliases.set(module, moduleAliases);
+      return {
+        module,
+        names: [...names]
+          .sort((a, b) => a.localeCompare(b, "en"))
+          .map((name) => {
+            let alias = name;
+            let suffix = 2;
+            while (usedNames.has(alias) || (alias !== name && importedNames.has(alias))) {
+              alias = `${name}_${suffix++}`;
+            }
+            usedNames.add(alias);
+            moduleAliases.set(name, alias);
+            return alias === name ? name : `${name} as ${alias}`;
+          }),
+      };
+    });
+
   // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
   const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
     open: `export declare namespace ${name} {`,
@@ -422,10 +484,7 @@ function buildExportSections(
     rewritten: (node) => {
       const reference = resolveReference(program, node);
       if (reference?.module) {
-        references.set(
-          reference.module,
-          (references.get(reference.module) ?? new Set()).add(reference.name),
-        );
+        return aliases.get(reference.module)!.get(reference.name)!;
       }
       return reference?.name;
     },
@@ -508,14 +567,7 @@ function buildExportSections(
   });
 
   return {
-    // Map { "b" => Set { "Z" }, "a" => Set { "Y", "X" } }
-    //   -> [{ module: "a", names: ["X", "Y"] }, { module: "b", names: ["Z"] }]
-    references: [...references]
-      .map(([module, names]) => ({
-        module,
-        names: [...names].sort((a, b) => a.localeCompare(b, "en")),
-      }))
-      .sort((a, b) => a.module.localeCompare(b.module, "en")),
+    references: namedReferences,
     sections,
   };
 }

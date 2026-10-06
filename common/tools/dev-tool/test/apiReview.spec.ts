@@ -905,6 +905,38 @@ describe("generateApiReview", () => {
   });
 
   describe("references", () => {
+    function clientOptionsFixture(swapped: boolean = false): string {
+      return fixture({
+        ...dependency(
+          "@azure-rest/core-client",
+          "export interface ClientOptions { endpoint?: string; }",
+        ),
+        ...dependency("openai", "export interface ClientOptions { apiKey?: string; }"),
+        "dist/esm/index.d.ts": [
+          'import type { ClientOptions as AzureOptions } from "@azure-rest/core-client";',
+          'import type { ClientOptions as OpenAIOptions } from "openai";',
+          `export interface ProjectOptions extends ${swapped ? "OpenAIOptions" : "AzureOptions"} {}`,
+          `export interface AgentOptions extends ${swapped ? "AzureOptions" : "OpenAIOptions"} {}`,
+        ].join("\n"),
+      });
+    }
+
+    it("preserves distinct names for external types with the same exported name", async () => {
+      const { apiMd } = await generateApiReview(clientOptionsFixture());
+
+      expect(apiMd).toContain('import { ClientOptions } from "@azure-rest/core-client";');
+      expect(apiMd).toContain('import { ClientOptions as ClientOptions_2 } from "openai";');
+      expect(apiMd).toContain("export interface ProjectOptions extends ClientOptions {");
+      expect(apiMd).toContain("export interface AgentOptions extends ClientOptions_2 {");
+    });
+
+    it("changes the hash when colliding external types swap public usages", async () => {
+      const before = await generateApiReview(clientOptionsFixture());
+      const after = await generateApiReview(clientOptionsFixture(true));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
     it("collects external types used in signatures into a References import block", async () => {
       const root = fixture(
         {
