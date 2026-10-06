@@ -13,6 +13,7 @@ import { parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+import type { AccessTokenGetter } from "./tokenCycler.js";
 import { createTokenCycler } from "./tokenCycler.js";
 import { logger } from "./logger.js";
 
@@ -40,6 +41,7 @@ type ChallengeState =
       status: "complete";
       scopes: string[];
       tenantId?: string;
+      getAccessToken: AccessTokenGetter;
     };
 
 /**
@@ -55,14 +57,31 @@ export interface KeyVaultAuthenticationPolicyOptions {
 }
 
 function verifyChallengeResource(scope: string, request: PipelineRequest): void {
+  const invalidScopeMessage = "The challenge contains an invalid scope.";
+  // Check the original authority before URL parsing normalizes ambiguous input.
+  const authority = /^https:\/\/([^/?#]+)/i.exec(scope)?.[1];
+  if (
+    !authority ||
+    authority.includes("@") ||
+    authority.includes("%") ||
+    Array.from(scope).some(
+      (character) => character <= " " || character === "\u007f" || character === "\\",
+    )
+  ) {
+    throw new Error(invalidScopeMessage);
+  }
+
   let scopeAsUrl: URL;
   try {
     scopeAsUrl = new URL(scope);
-  } catch (e) {
-    throw new Error(`The challenge contains invalid scope '${scope}'`, { cause: e });
+  } catch {
+    throw new Error(invalidScopeMessage);
   }
 
   const requestUrl = new URL(request.url);
+  if (requestUrl.protocol !== "https:") {
+    throw new Error("The request URL must use HTTPS.");
+  }
 
   if (!requestUrl.hostname.endsWith(`.${scopeAsUrl.hostname}`)) {
     throw new Error(
@@ -95,7 +114,6 @@ export function keyVaultAuthenticationPolicy(
 ): PipelinePolicy {
   const { disableChallengeResourceVerification } = options;
   let challengeState: ChallengeState = { status: "none" };
-  const getAccessToken = createTokenCycler(credential);
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
     return {
@@ -107,9 +125,33 @@ export function keyVaultAuthenticationPolicy(
     };
   }
 
-  async function authorizeRequest(request: PipelineRequest): Promise<void> {
-    const requestOptions: GetTokenOptions = requestToOptions(request);
+  async function authorizeRequestWithChallenge(
+    request: PipelineRequest,
+    state: Extract<ChallengeState, { status: "complete" }>,
+    claims?: string,
+  ): Promise<void> {
+    if (!disableChallengeResourceVerification) {
+      for (const scope of state.scopes) {
+        verifyChallengeResource(scope, request);
+      }
+    }
 
+    const token = await state.getAccessToken(state.scopes, {
+      ...requestToOptions(request),
+      enableCae: true,
+      tenantId: state.tenantId,
+      claims,
+    });
+
+    if (!disableChallengeResourceVerification) {
+      for (const scope of state.scopes) {
+        verifyChallengeResource(scope, request);
+      }
+    }
+    request.headers.set("Authorization", `Bearer ${token.token}`);
+  }
+
+  async function authorizeRequest(request: PipelineRequest): Promise<void> {
     switch (challengeState.status) {
       case "none":
         challengeState = {
@@ -121,14 +163,7 @@ export function keyVaultAuthenticationPolicy(
       case "started":
         break; // Retry, we should not overwrite the original body
       case "complete": {
-        const token = await getAccessToken(challengeState.scopes, {
-          ...requestOptions,
-          enableCae: true,
-          tenantId: challengeState.tenantId,
-        });
-        if (token) {
-          request.headers.set("authorization", `Bearer ${token.token}`);
-        }
+        await authorizeRequestWithChallenge(request, challengeState);
         break;
       }
     }
@@ -151,8 +186,6 @@ export function keyVaultAuthenticationPolicy(
       request.body = challengeState.originalBody;
     }
 
-    const getTokenOptions = requestToOptions(request);
-
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
       logger.warning(
@@ -171,28 +204,15 @@ export function keyVaultAuthenticationPolicy(
       return response;
     }
 
-    if (!disableChallengeResourceVerification) {
-      verifyChallengeResource(scope, request);
-    }
-
-    const accessToken = await getAccessToken([scope], {
-      ...getTokenOptions,
-      enableCae: true,
-      tenantId: parsedChallenge.tenantId,
-    });
-
-    if (!accessToken) {
-      // No access token provided, treat as no-op
-      return response;
-    }
-
-    request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-
-    challengeState = {
+    const state: ChallengeState = {
       status: "complete",
       scopes: [scope],
       tenantId: parsedChallenge.tenantId,
+      // A newly accepted challenge must not reuse another challenge's cached token.
+      getAccessToken: createTokenCycler(credential),
     };
+    await authorizeRequestWithChallenge(request, state);
+    challengeState = state;
 
     // We have a token now, so try send the request again
     return next(request);
@@ -213,8 +233,6 @@ export function keyVaultAuthenticationPolicy(
       return response;
     }
 
-    const getTokenOptions = requestToOptions(request);
-
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
       return response;
@@ -228,14 +246,7 @@ export function keyVaultAuthenticationPolicy(
 
     const claims = uint8ArrayToString(stringToUint8Array(base64EncodedClaims, "base64"), "utf-8");
 
-    const accessToken = await getAccessToken(challengeState.scopes, {
-      ...getTokenOptions,
-      enableCae: true,
-      tenantId: challengeState.tenantId,
-      claims,
-    });
-
-    request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+    await authorizeRequestWithChallenge(request, challengeState, claims);
 
     return next(request);
   }

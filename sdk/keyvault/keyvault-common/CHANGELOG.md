@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Improved authentication challenge validation and cached token handling.
+
 ### Other Changes
 
 ## 2.1.0 (2026-04-09)
