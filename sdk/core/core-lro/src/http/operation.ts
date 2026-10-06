@@ -179,10 +179,18 @@ function toOperationStatus(statusCode: number): OperationStatus {
 const shortWeekday = String.raw`(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)`;
 const longWeekday = String.raw`(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)`;
 const month = String.raw`(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)`;
-const timeOfDay = String.raw`\d{2}:\d{2}:\d{2}`;
-const httpDatePattern = new RegExp(
-  String.raw`^(?:${shortWeekday}, \d{2} ${month} \d{4} ${timeOfDay} GMT|${longWeekday}, \d{2}-${month}-\d{2} ${timeOfDay} GMT|${shortWeekday} ${month} (?:\d{2}| \d) ${timeOfDay} \d{4})$`,
+const imfFixdatePattern = new RegExp(
+  String.raw`^(${shortWeekday}), (\d{2}) (${month}) (\d{4}) (\d{2}):(\d{2}):(\d{2}) GMT$`,
 );
+const rfc850DatePattern = new RegExp(
+  String.raw`^(${longWeekday}), (\d{2})-(${month})-(\d{2}) (\d{2}):(\d{2}):(\d{2}) GMT$`,
+);
+const asctimeDatePattern = new RegExp(
+  String.raw`^(${shortWeekday}) (${month}) (\d{2}| \d) (\d{2}):(\d{2}):(\d{2}) (\d{4})$`,
+);
+const shortWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const longWeekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /**
  * Parses the `Retry-After` header into a polling interval in milliseconds.
@@ -192,9 +200,10 @@ const httpDatePattern = new RegExp(
  * present but cannot be honored — malformed, negative, non-finite after
  * conversion, or a date that is not in the future — `NaN` is returned so the
  * poller falls back to the caller's configured interval instead of reusing a
- * delay from an earlier response. Zero is a valid delay. The raw converted
- * value is returned without any timer bound; the poller is responsible for
- * bounding it before scheduling.
+ * delay from an earlier response. Zero is a valid delay-seconds value, but
+ * the poller falls back to the configured interval rather than scheduling
+ * repeated zero-delay polls. The raw converted value is returned without any
+ * timer bound; the poller is responsible for bounding it before scheduling.
  */
 export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
@@ -205,10 +214,11 @@ export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): numbe
   if (/^[0-9]+$/.test(retryAfter)) {
     return Number(retryAfter) * 1000;
   }
-  if (!httpDatePattern.test(retryAfter)) {
+  const retryAfterDate = new Date(retryAfter);
+  if (!isValidHttpDate(retryAfter, retryAfterDate)) {
     return Number.NaN;
   }
-  return calculatePollingIntervalFromDate(new Date(retryAfter));
+  return calculatePollingIntervalFromDate(retryAfterDate);
 }
 
 export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
@@ -226,6 +236,59 @@ export function getErrorFromResponse<T>(response: OperationResponse<T>): LroErro
     return;
   }
   return error as LroError;
+}
+
+function isValidHttpDate(value: string, date: Date): boolean {
+  let match: RegExpExecArray | null;
+  let weekday: string;
+  let day: number;
+  let monthIndex: number;
+  let year: number;
+  let yearIsTwoDigits = false;
+  let hours: number;
+  let minutes: number;
+  let seconds: number;
+
+  if ((match = imfFixdatePattern.exec(value))) {
+    weekday = match[1];
+    day = Number(match[2]);
+    monthIndex = months.indexOf(match[3]);
+    year = Number(match[4]);
+    hours = Number(match[5]);
+    minutes = Number(match[6]);
+    seconds = Number(match[7]);
+  } else if ((match = rfc850DatePattern.exec(value))) {
+    weekday = shortWeekdays[longWeekdays.indexOf(match[1])];
+    day = Number(match[2]);
+    monthIndex = months.indexOf(match[3]);
+    year = Number(match[4]);
+    yearIsTwoDigits = true;
+    hours = Number(match[5]);
+    minutes = Number(match[6]);
+    seconds = Number(match[7]);
+  } else if ((match = asctimeDatePattern.exec(value))) {
+    weekday = match[1];
+    monthIndex = months.indexOf(match[2]);
+    day = Number(match[3].trim());
+    hours = Number(match[4]);
+    minutes = Number(match[5]);
+    seconds = Number(match[6]);
+    year = Number(match[7]);
+  } else {
+    return false;
+  }
+
+  return (
+    Number.isFinite(date.getTime()) &&
+    monthIndex >= 0 &&
+    date.getUTCDate() === day &&
+    date.getUTCMonth() === monthIndex &&
+    (yearIsTwoDigits ? date.getUTCFullYear() % 100 === year : date.getUTCFullYear() === year) &&
+    date.getUTCHours() === hours &&
+    date.getUTCMinutes() === minutes &&
+    date.getUTCSeconds() === seconds &&
+    date.getUTCDay() === shortWeekdays.indexOf(weekday)
+  );
 }
 
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number {

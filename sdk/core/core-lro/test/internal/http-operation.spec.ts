@@ -77,6 +77,16 @@ describe("http/operation.ts", () => {
       });
       assert.isNaN(result!);
     });
+
+    it("returns NaN for an impossible HTTP date accepted by Date.parse", () => {
+      const retryAfter = "Sun, 31 Feb 2099 08:49:37 GMT";
+      assert.isAbove(Date.parse(retryAfter), Date.now());
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": retryAfter } }),
+        flatResponse: {},
+      });
+      assert.isNaN(result!);
+    });
   });
 
   describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {

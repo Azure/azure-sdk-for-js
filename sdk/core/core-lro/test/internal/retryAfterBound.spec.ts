@@ -215,6 +215,17 @@ describe("poller bounds oversized polling intervals", () => {
     assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
   });
 
+  it("restores the configured interval when an impossible HTTP date follows a valid Retry-After", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", "Sun, 31 Feb 2099 08:49:37 GMT"],
+    });
+
+    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
+  });
+
   it("restores the configured interval when a past-dated Retry-After follows a valid one", async () => {
     const configuredIntervalInMs = 5000;
 
@@ -239,12 +250,12 @@ describe("poller bounds oversized polling intervals", () => {
     assert.deepEqual(delayCalls, [10_000, 10_000]);
   });
 
-  it("honors a zero-second Retry-After following a non-zero server delay", async () => {
+  it("falls back to the configured interval for zero-second Retry-After", async () => {
     await runPollerWithRetryAfterSequence({
       intervalInMs: 5000,
       retryAfters: ["10", "0"],
     });
 
-    assert.deepEqual(delayCalls, [10_000, 0]);
+    assert.deepEqual(delayCalls, [10_000, 5000]);
   });
 });
