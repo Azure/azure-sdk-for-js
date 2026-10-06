@@ -937,6 +937,76 @@ describe("generateApiReview", () => {
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
 
+    it("records a default-imported class used in a public signature", async () => {
+      const root = fixture({
+        ...dependency("openai", "export default class OpenAI { apiKey: string; }"),
+        "node_modules/openai/package.json": JSON.stringify({
+          name: "openai",
+          type: "module",
+          types: "./index.d.ts",
+        }),
+        "dist/esm/index.d.ts": [
+          'import OpenAI from "openai";',
+          "export declare class AIProjectClient {",
+          "    getOpenAIClient(): OpenAI;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as OpenAI } from "openai";');
+      expect(apiMd).toContain("getOpenAIClient(): OpenAI;");
+    });
+
+    it("records a default-imported namespace used in a qualified public type", async () => {
+      const root = fixture({
+        ...dependency(
+          "express-serve-static-core",
+          [
+            "declare namespace express {",
+            "    interface RequestHandler { (request: string): void; }",
+            "}",
+            "export = express;",
+          ].join("\n"),
+        ),
+        "dist/esm/index.d.ts": [
+          'import type express from "express-serve-static-core";',
+          "export declare class WebPubSubEventHandler {",
+          "    getMiddleware(): express.RequestHandler;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as express } from "express-serve-static-core";');
+      expect(apiMd).toContain("getMiddleware(): express.RequestHandler;");
+    });
+
+    it("resolves a default import through a dependency barrel to its declared class name", async () => {
+      const root = fixture({
+        ...dependency("openai", 'export { OpenAI as default } from "./client.js";'),
+        "node_modules/openai/package.json": JSON.stringify({
+          name: "openai",
+          type: "module",
+          types: "./index.d.ts",
+        }),
+        "node_modules/openai/client.d.ts": "export class OpenAI { apiKey: string; }",
+        "dist/esm/index.d.ts": [
+          'import OpenAI from "openai";',
+          "export declare class AIProjectClient {",
+          "    getOpenAIClient(): OpenAI;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as OpenAI } from "openai";');
+      expect(apiMd).toContain("getOpenAIClient(): OpenAI;");
+    });
+
     it("collects external types used in signatures into a References import block", async () => {
       const root = fixture(
         {

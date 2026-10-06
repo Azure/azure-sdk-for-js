@@ -358,7 +358,7 @@ function buildExportSections(
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
   const rootNames = new Set<string>();
-  const references = new Map<string, Set<string>>();
+  const references = new Map<string, Map<string, string>>();
 
   const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
     symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
@@ -414,7 +414,10 @@ function buildExportSections(
     if (reference?.module) {
       references.set(
         reference.module,
-        (references.get(reference.module) ?? new Set()).add(reference.name),
+        (references.get(reference.module) ?? new Map()).set(
+          reference.name,
+          reference.preferredName ?? reference.name,
+        ),
       );
     }
     if (reference) {
@@ -442,7 +445,7 @@ function buildExportSections(
       .filter((symbol) => !isExternal(program, resolveAlias(symbol)))
       .map((symbol) => symbol.name),
   );
-  const importedNames = new Set([...references.values()].flatMap((names) => [...names]));
+  const importedNames = new Set([...references.values()].flatMap((names) => [...names.values()]));
   const aliases = new Map<string, Map<string, string>>();
   // { "azure": ["ClientOptions"], "openai": ["ClientOptions"] }
   //   -> imports ["ClientOptions", "ClientOptions as ClientOptions_2"], with matching usage names.
@@ -454,12 +457,12 @@ function buildExportSections(
       return {
         module,
         names: [...names]
-          .sort((a, b) => a.localeCompare(b, "en"))
-          .map((name) => {
-            let alias = name;
+          .sort(([a], [b]) => a.localeCompare(b, "en"))
+          .map(([name, preferredName]) => {
+            let alias = preferredName;
             let suffix = 2;
-            while (usedNames.has(alias) || (alias !== name && importedNames.has(alias))) {
-              alias = `${name}_${suffix++}`;
+            while (usedNames.has(alias) || (alias !== preferredName && importedNames.has(alias))) {
+              alias = `${preferredName}_${suffix++}`;
             }
             usedNames.add(alias);
             moduleAliases.set(name, alias);
@@ -574,29 +577,50 @@ function buildExportSections(
 
 /**
  * Returns the external module, the name exported by that module, and the public name exposed by
- * this package for an alias created by `import { X }` or `export { X }`, following local hops.
+ * this package for named or default imports/re-exports, following local hops.
  */
 function externalImport(
   program: ts.Program,
   symbol: ts.Symbol,
-): { module: string; importedName: string; exportedName: string } | undefined {
+):
+  | { module: string; importedName: string; exportedName: string; preferredName?: string }
+  | undefined {
   const checker = program.getTypeChecker();
   const exportedName = symbol.name;
   let current: ts.Symbol | undefined = symbol;
   while (current && current.flags & ts.SymbolFlags.Alias) {
     const declaration = current.declarations?.[0];
     const next = checker.getImmediateAliasedSymbol(current);
-    if (!declaration || !(ts.isImportSpecifier(declaration) || ts.isExportSpecifier(declaration))) {
+    if (
+      !declaration ||
+      !(
+        ts.isImportSpecifier(declaration) ||
+        ts.isExportSpecifier(declaration) ||
+        ts.isImportClause(declaration)
+      )
+    ) {
       return undefined;
     }
     if (isExternal(program, next)) {
-      const moduleSpecifier = ts.isImportSpecifier(declaration)
-        ? declaration.parent.parent.parent.moduleSpecifier
-        : declaration.parent.parent.moduleSpecifier;
+      const moduleSpecifier = ts.isImportClause(declaration)
+        ? declaration.parent.moduleSpecifier
+        : ts.isImportSpecifier(declaration)
+          ? declaration.parent.parent.parent.moduleSpecifier
+          : declaration.parent.parent.moduleSpecifier;
+      const declaredName = ts.getNameOfDeclaration(
+        checker.getAliasedSymbol(current).declarations?.[0],
+      );
       return {
         module: (moduleSpecifier as ts.StringLiteral).text,
-        importedName: (declaration.propertyName ?? declaration.name).text,
+        importedName: ts.isImportClause(declaration)
+          ? "default"
+          : (declaration.propertyName ?? declaration.name).text,
         exportedName,
+        preferredName: ts.isImportClause(declaration)
+          ? declaredName && ts.isIdentifier(declaredName)
+            ? declaredName.text
+            : exportedName
+          : undefined,
       };
     }
     current = next;
@@ -612,17 +636,23 @@ function isExternal(program: ts.Program, symbol: ts.Symbol | undefined): boolean
 /**
  * Resolves how a type reference prints: its exported name, plus the module it comes from when
  * the reference is external. Handles `X` (from `import { X }`), `ns.X` (from `import * as ns`),
- * and `import("m").X`.
+ * default imports, and `import("m").X`.
  */
 function resolveReference(
   program: ts.Program,
   node: ts.Node,
-): { name: string; module?: string } | undefined {
+): { name: string; module?: string; preferredName?: string } | undefined {
   const checker = program.getTypeChecker();
   if (ts.isIdentifier(node)) {
     const symbol = checker.getSymbolAtLocation(node);
     const external = symbol && externalImport(program, symbol);
-    return external && { module: external.module, name: external.importedName };
+    return (
+      external && {
+        module: external.module,
+        name: external.importedName,
+        preferredName: external.preferredName,
+      }
+    );
   }
   if (ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)) {
     const left = ts.isQualifiedName(node) ? node.left : node.expression;
