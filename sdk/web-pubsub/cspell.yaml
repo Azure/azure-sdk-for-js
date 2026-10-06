@@ -3,4 +3,8 @@
 import:
   - ../../.vscode/cspell.json
 words:
+  - ldelim
+  - oneofs
+  - pbjs
+  - pbts
   - protobuf
