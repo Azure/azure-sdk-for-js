@@ -1715,7 +1715,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         if (!options.singleUploadThreshold) {
-          options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
+          options.singleUploadThreshold = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
         }
         if (
           options.singleUploadThreshold < 1 ||

@@ -8,6 +8,8 @@
 
 ### Breaking Changes
 
+- `DataLakeFileClient.upload` and `uploadFile` now default `singleUploadThreshold` to 8MB instead of 100MB; set it to `100 * 1024 * 1024` to restore the previous behavior. Data between 8MB and 100MB is now appended in parallel chunks of `chunkSize` (8MB by default) instead of a single append, so more requests are sent and `onProgress` is called once per chunk.
+
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storagedatalake`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
