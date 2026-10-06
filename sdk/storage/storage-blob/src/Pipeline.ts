@@ -33,6 +33,7 @@ import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { storageSessionAuthenticationPolicy } from "./policies/StorageSessionAuthenticationPolicy.js";
+import { storageExpectContinuePolicy } from "./policies/StorageExpectContinuePolicy.js";
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-common";
 import {
@@ -224,6 +225,55 @@ export function resolveSessionMode(mode: SessionMode | undefined): Exclude<Sessi
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Determines when requests with a body are sent with the `Expect: 100-continue` header. Only
+ * requests whose body is non-empty and at least
+ * {@link Request100ContinueOptions.contentLengthThreshold} bytes long, or of unknown length,
+ * qualify.
+ *
+ * - `auto`: for {@link Request100ContinueOptions.autoIntervalInMs} after the latest response with
+ *   status 429, 500 or 503 to any request on the same pipeline. Clients created from one another,
+ *   for example with `getContainerClient()`, share a pipeline.
+ * - `always`: on every qualifying request.
+ * - `never`: never.
+ */
+export type Request100ContinueMode = "auto" | "always" | "never";
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Options for sending the `Expect: 100-continue` header on requests with a body, such as uploads.
+ * The header lets the service reject a request, for example while it is throttling, before it reads
+ * the body. Whether the body waits for the service's `100 Continue` response depends on the HTTP
+ * client.
+ *
+ * Setting the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true`
+ * (case-insensitive) or `1` stops the header from being sent, whatever these options say. The
+ * variable is read once per pipeline, when the first client on that pipeline is created.
+ *
+ * These options are exported from the browser and React Native entry points for type
+ * compatibility, but they have no effect there: the header is only sent in Node.js.
+ */
+export interface Request100ContinueOptions {
+  /**
+   * When to send the header. Defaults to `auto`, or to `never` when `httpClient` is set, because
+   * some HTTP clients, such as ones built on `fetch`, reject the `Expect` header.
+   */
+  mode?: Request100ContinueMode;
+  /**
+   * Requests whose body is empty or smaller than this many bytes are sent without the header. A
+   * body of unknown length counts as large. Defaults to 0.
+   */
+  contentLengthThreshold?: number;
+  /**
+   * In `auto` mode, how long, in milliseconds, the header is sent after a response with status
+   * 429, 500 or 503. Defaults to 60000 (one minute).
+   */
+  autoIntervalInMs?: number;
+}
+
+/**
  * Options interface for the {@link newPipeline} function.
  */
 export interface StoragePipelineOptions {
@@ -258,6 +308,14 @@ export interface StoragePipelineOptions {
    * Configures session token authentication for blob operations.
    */
   sessionOptions?: SessionOptions;
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures when requests with a body are sent with the `Expect: 100-continue` header. By
+   * default the header is only sent for a minute after the service responds with status 429, 500
+   * or 503, and never when `httpClient` is set.
+   */
+  request100ContinueOptions?: Request100ContinueOptions;
 }
 
 /**
@@ -339,6 +397,14 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRedirectRangeHeaderPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(
+      storageExpectContinuePolicy(
+        restOptions.request100ContinueOptions,
+        // Fetch-based HTTP clients reject the Expect header, so it's opt-in with a custom client.
+        v1Client ? "never" : "auto",
+      ),
+      { afterPhase: "Retry" },
+    );
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);

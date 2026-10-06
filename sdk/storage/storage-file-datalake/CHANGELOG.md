@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
+- As in `@azure/storage-blob`, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as appends, for one minute after the service responds with status 429, 500 or 503. Set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
 
 ### Breaking Changes
 

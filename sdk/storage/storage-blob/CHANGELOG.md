@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
+- Added `request100ContinueOptions` to the client options. By default, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as uploads, for one minute after the service responds with status 429, 500 or 503. Set `request100ContinueOptions.mode` to `"auto"`, `"always"` or `"never"` to choose when the header is sent, or set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
 
 ### Breaking Changes
 
