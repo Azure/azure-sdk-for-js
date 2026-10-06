@@ -287,6 +287,35 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("interface RestorePollerOptions");
     });
 
+    it("uses a local type's public export name in method signatures", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": `export type {
+    AddPolicyOptions as AddPipelineOptions,
+    Pipeline,
+    PipelinePolicy,
+} from "./pipeline.js";`,
+        "dist/esm/pipeline.d.ts": `export interface AddPolicyOptions {
+    afterPolicies?: string[];
+}
+export interface PipelinePolicy {
+    name: string;
+}
+export interface Pipeline {
+    addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
+}`,
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        "export interface AddPipelineOptions {\n    afterPolicies?: string[];\n}",
+      );
+      expect(apiMd).toContain(
+        "addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;",
+      );
+      expect(apiMd).not.toContain("AddPolicyOptions");
+    });
+
     it("resolves re-exports through several hops", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * from "./models/index.js";',

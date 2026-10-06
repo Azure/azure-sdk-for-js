@@ -405,6 +405,16 @@ function buildExportSections(
     exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!),
   );
 
+  // A local symbol keeps the public name used by its first export path.
+  // AddPolicyOptions -> AddPipelineOptions, both at the declaration and its usages.
+  const localNames = new Map<ts.Symbol, string>();
+  for (const exported of exportsByFile.flat()) {
+    const symbol = resolveAlias(exported);
+    if (exported.name !== "default" && !isExternal(program, symbol) && !localNames.has(symbol)) {
+      localNames.set(symbol, exported.name);
+    }
+  }
+
   // Everything reachable through an export path, including members of exported module objects.
   const exposed = new Set<ts.Symbol>();
   const expose = (symbols: ts.Symbol[]): void => {
@@ -502,7 +512,13 @@ function buildExportSections(
       if (reference?.module) {
         return aliases.get(reference.module)!.get(reference.name)!;
       }
-      return reference?.name;
+      const localReference = ts.isImportTypeNode(node)
+        ? node.qualifier
+        : ts.isIdentifier(node) || ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)
+          ? node
+          : undefined;
+      const symbol = localReference && checker.getSymbolAtLocation(localReference);
+      return (symbol && localNames.get(resolveAlias(symbol))) ?? reference?.name;
     },
     forgotten: (identifier) => {
       const symbol = checker.getSymbolAtLocation(identifier);
