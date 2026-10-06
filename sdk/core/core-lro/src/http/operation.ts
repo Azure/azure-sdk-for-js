@@ -189,11 +189,12 @@ const httpDatePattern = new RegExp(
  *
  * Returns `undefined` only when the header is absent, which means the server
  * expressed no opinion about the next polling interval. When the header is
- * present but cannot be honored — malformed, non-positive, or a date that is
- * not in the future — `NaN` is returned so the poller falls back to the
- * caller's configured interval instead of reusing a delay from an earlier
- * response. The raw converted value is returned without any timer bound; the
- * poller is responsible for bounding it before scheduling.
+ * present but cannot be honored — malformed, negative, non-finite after
+ * conversion, or a date that is not in the future — `NaN` is returned so the
+ * poller falls back to the caller's configured interval instead of reusing a
+ * delay from an earlier response. Zero is a valid delay. The raw converted
+ * value is returned without any timer bound; the poller is responsible for
+ * bounding it before scheduling.
  */
 export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
