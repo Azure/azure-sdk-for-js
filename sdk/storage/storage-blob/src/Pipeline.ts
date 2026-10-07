@@ -48,6 +48,7 @@ import {
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRedirectRangeHeaderPolicy,
+  storageDataLocalityPolicy,
 } from "@azure/storage-common";
 
 import {
@@ -437,6 +438,9 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         { phase: "Sign" },
       );
     }
+    // After signing: the host swap must not be visible to any policy that signs or builds the
+    // request for the account's own authority.
+    corePipeline.addPolicy(storageDataLocalityPolicy(), { afterPhase: "Sign" });
     (pipeline as any)._corePipeline = corePipeline;
   }
   return {

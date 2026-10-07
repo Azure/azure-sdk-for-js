@@ -8,6 +8,7 @@ import type {
   BlobDownloadHeaders,
   BlobType,
   CopyStatusType,
+  DownloadHint,
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
@@ -525,6 +526,16 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
 
   public get structuredBodyType(): string | undefined {
     return this.originalResponse.structuredBodyType;
+  }
+
+  /**
+   * The service's recommendation for how to read the remainder of the blob. When set to `layout`,
+   * Get Blob Layout can be used to read each range from the endpoint that serves it.
+   *
+   * @readonly
+   */
+  public get downloadHint(): DownloadHint | undefined {
+    return this.originalResponse.downloadHint;
   }
 
   /**

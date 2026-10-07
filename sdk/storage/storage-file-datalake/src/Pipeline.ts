@@ -55,6 +55,7 @@ import { StorageBrowserPolicyFactory } from "@azure/storage-common";
 import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
 import { storageRetryPolicy } from "@azure/storage-common";
 import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
+import { storageDataLocalityPolicy } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,
@@ -237,6 +238,9 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         { phase: "Sign" },
       );
     }
+    // `readToBuffer` delegates to a BlockBlobClient built on this pipeline, so the routing header
+    // that download sets has to be consumed here too rather than reaching the wire.
+    corePipeline.addPolicy(storageDataLocalityPolicy(), { afterPhase: "Sign" });
     (pipeline as any)._corePipeline = corePipeline;
   }
   return {
