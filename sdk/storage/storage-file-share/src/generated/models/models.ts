@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   XmlPropertyMetadata,
   XmlPropertyDeserializeMetadata,
@@ -10,13 +15,8 @@ import {
   deserializeXmlObject,
   XmlSerializedObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * The error response.
  *
@@ -1334,6 +1334,87 @@ export function shareFileRangeListSegmentXmlDeserializer(
   return deserializeFromXml<ShareFileRangeListSegment>(xmlString, properties, "Ranges");
 }
 
+/** The list of hard links for a file. */
+export interface HardLinkList {
+  /** The hard links. */
+  hardLinks: HardLink[];
+}
+
+export function hardLinkListDeserializer(item: any): HardLinkList {
+  return {
+    hardLinks: hardLinkArrayDeserializer(item["hardLinks"]),
+  };
+}
+
+export function hardLinkListXmlDeserializer(xmlString: string): HardLinkList {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "hardLinks",
+      xmlOptions: { name: "HardLink", unwrapped: true, itemsName: "HardLink" },
+      type: "array",
+      deserializer: hardLinkXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<HardLinkList>(xmlString, properties, "HardLinks");
+}
+
+export function hardLinkArrayDeserializer(result: Array<HardLink>): any[] {
+  return result.map((item) => {
+    return hardLinkDeserializer(item);
+  });
+}
+
+/** A hard link to a file. */
+export interface HardLink {
+  /** The name of the hard link. */
+  fileName: StringEncoded;
+  /** The fileId of the parent directory of the hard link. */
+  parentId: string;
+}
+
+export function hardLinkDeserializer(item: any): HardLink {
+  return {
+    fileName: stringEncodedDeserializer(item["fileName"]),
+    parentId: item["parentId"],
+  };
+}
+
+export function hardLinkXmlDeserializer(xmlString: string): HardLink {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "fileName",
+      xmlOptions: { name: "FileName" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<HardLink>(xmlString, properties, "HardLink");
+}
+
+export function hardLinkXmlObjectDeserializer(xmlObject: Record<string, unknown>): HardLink {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "fileName",
+      xmlOptions: { name: "FileName" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<HardLink>(xmlObject, properties);
+}
+
 /** Storage service properties. */
 export interface FileServiceProperties {
   /** A summary of request statistics grouped by API in hourly aggregates for files. */
@@ -1946,7 +2027,7 @@ export function shareSmbSettingsEncryptionInTransitXmlObjectDeserializer(
   return deserializeXmlObject<ShareSmbSettingsEncryptionInTransit>(xmlObject, properties);
 }
 
-/** Settings for SMB protocol. */
+/** Settings for NFS protocol. */
 export interface ShareNfsSettings {
   /** Enable or disable encryption in transit. */
   encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
@@ -2871,13 +2952,16 @@ export function sharePropertiesInternalXmlObjectDeserializer(
 
 /** The current lease status of the share. */
 export type LeaseStatusType = "locked" | "unlocked";
+
 /** Lease state of the share. */
 export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+
 /**
  * When a share is leased, specifies whether the lease is of infinite or fixed
  * duration.
  */
 export type LeaseDurationType = "infinite" | "fixed";
+
 /** The root squash setting for the share. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 
@@ -3332,22 +3416,31 @@ export enum KnownNfsFileType {
  * **SymLink**: SymLink
  */
 export type NfsFileType = string;
+
 /** The type of file information to include in the listing. */
 export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
+
 /** The copy status. */
 export type CopyStatus = "pending" | "success" | "aborted" | "failed";
+
 /** Specify one of the following options: - Update: Writes the bytes specified by the request body into the specified range. - Clear: Clears the specified range and releases the space used in storage for that range. */
 export type FileRangeWriteType = "update" | "clear";
+
 /** The file last written mode. */
 export type FileLastWrittenMode = "Now" | "Preserve";
+
 /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
 export type FileRangeWriteFromUrlType = "update";
+
 /** The permission copy mode type. */
 export type PermissionCopyModeType = "source" | "override";
+
 /** The mode copy mode. */
 export type ModeCopyMode = "source" | "override";
+
 /** The owner copy mode. */
 export type OwnerCopyMode = "source" | "override";
+
 /** The type of share information to include in the listing. */
 export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 
@@ -3374,6 +3467,7 @@ export enum KnownShareAccessTier {
  * **Premium**: Premium
  */
 export type ShareAccessTier = string;
+
 /** The delete snapshots option type. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
@@ -3383,6 +3477,10 @@ export enum KnownVersions {
   V20260606 = "2026-06-06",
   /** API Version 2026-10-06 */
   V20261006 = "2026-10-06",
+  /** API Version 2026-12-06 */
+  V20261206 = "2026-12-06",
+  /** API Version 2027-03-07 */
+  V20270307 = "2027-03-07",
 }
 
 export type FileDownloadResponse = {

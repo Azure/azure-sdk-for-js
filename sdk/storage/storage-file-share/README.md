@@ -126,6 +126,7 @@ The following components and their corresponding client libraries make up the Az
 - [Create a new share and a directory](#create-a-new-share-and-a-directory)
 - [Create an azure file then upload to it](#create-an-azure-file-then-upload-to-it)
 - [List files and directories under a directory](#list-files-and-directories-under-a-directory)
+- [Get a file's properties and hard links by its file ID](#get-a-files-properties-and-hard-links-by-its-file-id)
 - [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs)
 - [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers)
 
@@ -430,6 +431,43 @@ while (!done) {
 ```
 
 For a complete sample on iterating please see [samples/v12/typescript/src/listFilesAndDirectories.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/v12/typescript/src/listFilesAndDirectories.ts).
+
+### Get a file's properties and hard links by its file ID
+
+A file or directory can be addressed by its file ID, the `fileId` returned by operations such as
+`getProperties()`, instead of its path. Use `ShareClient.getShareFileClient()` or
+`ShareClient.getShareDirectoryClient()` to create such a client. A file client supports `getProperties()`,
+`getFileLinks()` (which returns the file's properties and its hard links) and `withShareSnapshot()`; a directory
+client supports only `getProperties()`. Their other methods throw an error, and `getFileLinks()` throws on a client
+that addresses the file by its path.
+
+```ts snippet:ReadmeSampleGetFileByFileId
+import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new StorageSharedKeyCredential(account, accountKey);
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net`,
+  credential,
+);
+
+const shareName = "<share name>";
+const fileId = "<file id>";
+const fileClient = serviceClient.getShareClient(shareName).getShareFileClient(fileId);
+
+const properties = await fileClient.getProperties();
+// The file name is returned percent-encoded
+const name = properties.fileName && decodeURIComponent(properties.fileName);
+console.log(`File ${name} has ${properties.contentLength} bytes`);
+
+// Each link has the name of the file and the file ID of the directory that contains it
+const { links } = await fileClient.getFileLinks();
+for (const link of links) {
+  console.log(`Link: ${link.name} in directory ${link.parentId}`);
+}
+```
 
 ### Download a file and convert it to a string (Node.js)
 

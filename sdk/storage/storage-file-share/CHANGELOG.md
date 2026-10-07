@@ -4,6 +4,12 @@
 
 ### Features Added
 
+- Added support for service version 2027-03-07.
+- Added `ShareClient.getShareFileClient()` and `ShareClient.getShareDirectoryClient()`, which create clients that address a file or directory by its file ID. The `ShareFileClient` and `ShareDirectoryClient` constructors also accept a URL with a `fileid` query parameter. A client that addresses its resource by file ID supports only `getProperties()` and, for files, `getFileLinks()` and `withShareSnapshot()`; its other methods throw an error.
+- Added `fileId` to `ShareFileClient` and `ShareDirectoryClient`: the file ID the client addresses its resource by, or `undefined` when the client addresses it by path.
+- Added `ShareFileClient.getFileLinks()`, which returns the hard links of a file along with the file's properties. It's supported only on a client that addresses the file by its file ID.
+- Added `fileName` to the responses of `ShareFileClient.getProperties()` and `ShareDirectoryClient.getProperties()`. It is returned only when the client addresses the resource by file ID.
+
 ### Breaking Changes
 
 ### Bugs Fixed
