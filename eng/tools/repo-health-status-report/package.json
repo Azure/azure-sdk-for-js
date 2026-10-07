@@ -1,0 +1,33 @@
+{
+  "name": "repo-health-status-report",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Script to generate a report of the health status of this repository.",
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build": "npm run format && npm run lint && npm run typecheck && npm run test",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"",
+    "typecheck": "tsc",
+    "run-tool": "tsx src/index.ts",
+    "lint": "eslint src test",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@azure/identity": "catalog:internal",
+    "dotenv": "catalog:testing",
+    "octokit": "^5.0.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "eslint": "catalog:",
+    "globals": "^17.11.0",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing",
+    "tsx": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
+}
