@@ -303,27 +303,30 @@ export class Recorder {
         // occur with SDKs that have not migrated to asset sync yet.
         // TODO: remove once everyone has migrated to asset sync
         if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
-          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
-          if (
-            errorMessage.includes("The provided assets") &&
-            errorMessage.includes("does not exist")
-          ) {
-            logger.info(
-              "[Recorder#start] start request failed, trying again without assets.json specified",
-            );
+          const errorHeader = rsp.headers.get("x-request-known-exception-error");
+          if (errorHeader) {
+            const errorMessage = decodeBase64(errorHeader);
+            if (
+              errorMessage.includes("The provided assets") &&
+              errorMessage.includes("does not exist")
+            ) {
+              logger.info(
+                "[Recorder#start] start request failed, trying again without assets.json specified",
+              );
 
-            const retryRequest = createRecordingRequest(
-              startUri,
-              this.sessionFile,
-              this.recordingId,
-              "POST",
-              undefined,
-            );
+              const retryRequest = createRecordingRequest(
+                startUri,
+                this.sessionFile,
+                this.recordingId,
+                "POST",
+                undefined,
+              );
 
-            rsp = await this.httpClient.sendRequest({
-              ...retryRequest,
-              allowInsecureConnection: true,
-            });
+              rsp = await this.httpClient.sendRequest({
+                ...retryRequest,
+                allowInsecureConnection: true,
+              });
+            }
           }
         }
 

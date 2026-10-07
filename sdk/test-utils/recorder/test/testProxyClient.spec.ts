@@ -199,7 +199,7 @@ describe("TestProxyClient functions", () => {
         },
         {
           name: "response body when the known exception header is missing",
-          status: 500,
+          status: 400,
           headers: { "x-request-known-exception": "true" },
           bodyAsText: "The proxy could not start playback.",
           details: "The proxy could not start playback.",

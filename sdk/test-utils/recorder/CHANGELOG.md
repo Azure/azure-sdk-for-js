@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Include the HTTP status and test proxy error details in recorder start failures.
+- Include the HTTP status and test proxy error details in recorder start failures. [#40234](https://github.com/Azure/azure-sdk-for-js/pull/40234)
 
 ### Other Changes
 
