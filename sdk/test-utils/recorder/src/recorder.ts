@@ -329,12 +329,16 @@ export class Recorder {
 
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
-          const mismatchHeader = rsp.headers.get("x-request-mismatch-error");
-          if (mismatchHeader) {
-            throw new RecorderError(decodeBase64(mismatchHeader));
-          } else {
-            throw new RecorderError("Start request failed.");
-          }
+          const errorHeader =
+            rsp.headers.get("x-request-mismatch-error") ||
+            (rsp.headers.get("x-request-known-exception") === "true"
+              ? rsp.headers.get("x-request-known-exception-error")
+              : undefined);
+          const details = errorHeader ? decodeBase64(errorHeader) : rsp.bodyAsText;
+          throw new RecorderError(
+            `Start request failed with status ${rsp.status}.${details ? ` ${details}` : ""}`,
+            rsp.status,
+          );
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {

@@ -9,6 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { Recorder } from "../src/index.js";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
+import { encodeBase64 } from "../src/utils/encoding.js";
 import { paths } from "../src/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
 import { describe, it, beforeEach, afterEach, expect, type TestContext } from "vitest";
@@ -154,8 +155,125 @@ describe("TestProxyClient functions", () => {
         } catch (error: unknown) {
           expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
-          expect((error as RecorderError).message).to.equal("Start request failed.");
+          expect((error as RecorderError).message).to.equal(
+            "Start request failed with status 404.",
+          );
+          expect((error as RecorderError).statusCode).to.equal(404);
         }
+      });
+
+      const startFailureCases: {
+        name: string;
+        status: number;
+        headers: Record<string, string>;
+        bodyAsText: string;
+        details: string;
+      }[] = [
+        {
+          name: "decoded mismatch error",
+          status: 400,
+          headers: {
+            "x-request-mismatch-error": encodeBase64("The recording could not be matched."),
+            "x-request-known-exception": "true",
+            "x-request-known-exception-error": encodeBase64("Another proxy error."),
+          },
+          bodyAsText: "Response body.",
+          details: "The recording could not be matched.",
+        },
+        {
+          name: "decoded known exception",
+          status: 400,
+          headers: {
+            "x-request-known-exception": "true",
+            "x-request-known-exception-error": encodeBase64("The recording file does not exist."),
+          },
+          bodyAsText: "Response body.",
+          details: "The recording file does not exist.",
+        },
+        {
+          name: "response body",
+          status: 500,
+          headers: {},
+          bodyAsText: "The test proxy encountered an unexpected error.",
+          details: "The test proxy encountered an unexpected error.",
+        },
+        {
+          name: "response body when the known exception header is missing",
+          status: 500,
+          headers: { "x-request-known-exception": "true" },
+          bodyAsText: "The proxy could not start playback.",
+          details: "The proxy could not start playback.",
+        },
+        {
+          name: "status when the response body is empty",
+          status: 500,
+          headers: {},
+          bodyAsText: "",
+          details: "",
+        },
+      ];
+      startFailureCases.forEach(({ name, status, headers, bodyAsText, details }) => {
+        it(`${testMode} mode: start failure includes ${name}`, async function () {
+          env.TEST_MODE = testMode;
+          clientHttpClient.sendRequest = async (request) => ({
+            request,
+            status: request.url.endsWith(paths.start) ? status : 200,
+            headers: createHttpHeaders(headers),
+            bodyAsText,
+          });
+
+          await expect(client.start({ envSetupForPlayback: {} })).rejects.toMatchObject({
+            name: "RecorderError",
+            statusCode: status,
+            message: `Start request failed with status ${status}.${details ? ` ${details}` : ""}`,
+          });
+        });
+      });
+
+      [200, 503].forEach((retryStatus) => {
+        it(`${testMode} mode: handles status ${retryStatus} after retrying without assets.json`, async function () {
+          env.TEST_MODE = testMode;
+          let startRequests = 0;
+          clientHttpClient.sendRequest = async (request) => {
+            if (!request.url.endsWith(paths.start)) {
+              return { request, status: 200, headers: createHttpHeaders() };
+            }
+            startRequests++;
+            if (startRequests === 1) {
+              return {
+                request,
+                status: 400,
+                headers: createHttpHeaders({
+                  "x-request-known-exception": "true",
+                  "x-request-known-exception-error": encodeBase64(
+                    "The provided assets file does not exist.",
+                  ),
+                }),
+              };
+            }
+            expect(JSON.parse(request.body as string)).not.to.have.property(
+              "x-recording-assets-file",
+            );
+            return {
+              request,
+              status: retryStatus,
+              headers: createHttpHeaders({ "x-recording-id": "retry-recording-id" }),
+              bodyAsText: retryStatus === 200 ? "{}" : "The test proxy is unavailable.",
+            };
+          };
+
+          if (retryStatus === 200) {
+            await client.start({ envSetupForPlayback: {} });
+            expect(client.recordingId).to.equal("retry-recording-id");
+          } else {
+            await expect(client.start({ envSetupForPlayback: {} })).rejects.toMatchObject({
+              name: "RecorderError",
+              statusCode: 503,
+              message: "Start request failed with status 503. The test proxy is unavailable.",
+            });
+          }
+          expect(startRequests).to.equal(2);
+        });
       });
 
       it("throws if not received a recording id upon 200 status code", async function () {
