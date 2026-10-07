@@ -424,7 +424,7 @@ export function roleAssignmentDeserializer(item: any): RoleAssignment {
   };
 }
 
-/** Supported Commvault role names */
+/** Supported Commvault role names. Extensible enum — additional roles may be added in future versions without a breaking change. */
 export enum KnownRoleName {
   /** Backup Administrator - full access to all resources */
   BackupAdmin = "BackupAdmin",
@@ -439,7 +439,7 @@ export enum KnownRoleName {
 }
 
 /**
- * Supported Commvault role names \
+ * Supported Commvault role names. Extensible enum — additional roles may be added in future versions without a breaking change. \
  * {@link KnownRoleName} can be used interchangeably with RoleName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -2490,6 +2490,6 @@ export enum KnownVersions {
   V7Preview = "2026-07-01-preview",
   /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview */
   V8Preview = "2026-07-03-preview",
-  /** The 2026-08-01-preview API version, using LiftrBase.Versions.v3_preview. */
+  /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v3_preview */
   V9Preview = "2026-08-01-preview",
 }
