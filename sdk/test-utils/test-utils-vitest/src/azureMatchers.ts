@@ -50,7 +50,7 @@ export async function toSupportTracing<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface AzureMatchers<R> extends Record<string, any> {
+interface AzureMatchers<R = any> extends Record<string, any> {
   toSupportTracing<
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (options: Options) => Promise<unknown>,
@@ -67,8 +67,6 @@ declare module "vitest" {
     R extends void | Promise<void> = void,
     T = unknown,
   > extends AzureMatchers<R> {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
-  interface AsymmetricMatchersContaining extends AzureMatchers<any> {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
-  interface ExpectStatic extends AzureMatchers<any> {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface AsymmetricMatchersContaining extends AzureMatchers {}
 }

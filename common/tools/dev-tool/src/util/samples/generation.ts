@@ -21,7 +21,6 @@ import {
   OutputKind,
 } from "./info.ts";
 import { processSources } from "./processor.ts";
-import devToolPackageJson from "../../../package.json" with { type: "json" };
 import instantiateSampleReadme from "../../templates/sampleReadme.md.ts";
 import { resolveModule } from "./transforms.ts";
 import type { Config } from "../resolveTsConfig.ts";
@@ -277,7 +276,7 @@ export async function makeSampleGenerationInfo(
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
                 "cross-env": "latest",
                 rimraf: "latest",
-                typescript: devToolPackageJson.dependencies.typescript,
+                typescript: resolveDependencyVersion("typescript", "catalog:"),
               },
             }
           : {
