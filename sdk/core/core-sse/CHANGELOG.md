@@ -17,6 +17,7 @@
   still aborting immediately when Web stream cancellation is asynchronous. Destroy
   canceled Node.js response streams rather than half-closing their sockets to
   prevent unhandled abort errors after early iteration exits or terminal events.
+  [#40238](https://github.com/Azure/azure-sdk-for-js/pull/40238)
 - Process colonless SSE fields, including empty `id` resets. Preserve committed
   IDs on subsequent `createSseStream` events without an `id` field; those events
   previously reported an empty `id`. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
