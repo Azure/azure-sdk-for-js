@@ -287,6 +287,35 @@ describe("generateApiReview", () => {
       expect(apiMd).not.toContain("interface RestorePollerOptions");
     });
 
+    it("uses a local type's public export name in method signatures", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": `export type {
+    AddPolicyOptions as AddPipelineOptions,
+    Pipeline,
+    PipelinePolicy,
+} from "./pipeline.js";`,
+        "dist/esm/pipeline.d.ts": `export interface AddPolicyOptions {
+    afterPolicies?: string[];
+}
+export interface PipelinePolicy {
+    name: string;
+}
+export interface Pipeline {
+    addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
+}`,
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        "export interface AddPipelineOptions {\n    afterPolicies?: string[];\n}",
+      );
+      expect(apiMd).toContain(
+        "addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;",
+      );
+      expect(apiMd).not.toContain("AddPolicyOptions");
+    });
+
     it("resolves re-exports through several hops", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * from "./models/index.js";',
@@ -905,6 +934,98 @@ describe("generateApiReview", () => {
   });
 
   describe("references", () => {
+    function clientOptionsFixture(swapped: boolean = false): string {
+      return fixture({
+        ...dependency(
+          "@azure-rest/core-client",
+          "export interface ClientOptions { endpoint?: string; }",
+        ),
+        ...dependency("openai", "export interface ClientOptions { apiKey?: string; }"),
+        "dist/esm/index.d.ts": `import type { ClientOptions as AzureOptions } from "@azure-rest/core-client";
+import type { ClientOptions as OpenAIOptions } from "openai";
+export interface ProjectOptions extends ${swapped ? "OpenAIOptions" : "AzureOptions"} {}
+export interface AgentOptions extends ${swapped ? "AzureOptions" : "OpenAIOptions"} {}`,
+      });
+    }
+
+    it("preserves distinct names for external types with the same exported name", async () => {
+      const { apiMd } = await generateApiReview(clientOptionsFixture());
+
+      expect(apiMd).toContain('import { ClientOptions } from "@azure-rest/core-client";');
+      expect(apiMd).toContain('import { ClientOptions as ClientOptions_2 } from "openai";');
+      expect(apiMd).toContain("export interface ProjectOptions extends ClientOptions {");
+      expect(apiMd).toContain("export interface AgentOptions extends ClientOptions_2 {");
+    });
+
+    it("changes the hash when colliding external types swap public usages", async () => {
+      const before = await generateApiReview(clientOptionsFixture());
+      const after = await generateApiReview(clientOptionsFixture(true));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
+    it("records a default-imported class used in a public signature", async () => {
+      const root = fixture({
+        ...dependency("openai", "export default class OpenAI { apiKey: string; }"),
+        "node_modules/openai/package.json": JSON.stringify({
+          name: "openai",
+          type: "module",
+          types: "./index.d.ts",
+        }),
+        "dist/esm/index.d.ts": `import OpenAI from "openai";
+export declare class AIProjectClient {
+    getOpenAIClient(): OpenAI;
+}`,
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as OpenAI } from "openai";');
+      expect(apiMd).toContain("getOpenAIClient(): OpenAI;");
+    });
+
+    it("records a default-imported namespace used in a qualified public type", async () => {
+      const root = fixture({
+        ...dependency(
+          "express-serve-static-core",
+          `declare namespace express {
+    interface RequestHandler { (request: string): void; }
+}
+export = express;`,
+        ),
+        "dist/esm/index.d.ts": `import type express from "express-serve-static-core";
+export declare class WebPubSubEventHandler {
+    getMiddleware(): express.RequestHandler;
+}`,
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as express } from "express-serve-static-core";');
+      expect(apiMd).toContain("getMiddleware(): express.RequestHandler;");
+    });
+
+    it("resolves a default import through a dependency barrel to its declared class name", async () => {
+      const root = fixture({
+        ...dependency("openai", 'export { OpenAI as default } from "./client.js";'),
+        "node_modules/openai/package.json": JSON.stringify({
+          name: "openai",
+          type: "module",
+          types: "./index.d.ts",
+        }),
+        "node_modules/openai/client.d.ts": "export class OpenAI { apiKey: string; }",
+        "dist/esm/index.d.ts": `import OpenAI from "openai";
+export declare class AIProjectClient {
+    getOpenAIClient(): OpenAI;
+}`,
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { default as OpenAI } from "openai";');
+      expect(apiMd).toContain("getOpenAIClient(): OpenAI;");
+    });
+
     it("collects external types used in signatures into a References import block", async () => {
       const root = fixture(
         {
@@ -1211,6 +1332,52 @@ describe("generateApiReview", () => {
     it("changes the hash when only the browser reference source changes", async () => {
       const before = await generateApiReview(referenceFixture("@example/node"));
       const after = await generateApiReview(referenceFixture("@example/browser"));
+
+      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+    });
+
+    function reExportFixture(browserName: string): string {
+      const esm = 'export { RestError, isRestError } from "@azure/core-rest-pipeline";';
+      return fixture(
+        {
+          ...dependency(
+            "@azure/core-rest-pipeline",
+            `export declare class RestError { code: string; }
+export declare function isRestError(error: unknown): error is RestError;`,
+          ),
+          "dist/esm/index.d.ts": esm,
+          "dist/commonjs/package.json": JSON.stringify({ type: "commonjs" }),
+          "dist/commonjs/index.d.ts": esm,
+          "dist/browser/index.d.ts": `export { ${browserName} } from "@azure/core-rest-pipeline";`,
+        },
+        { exports: coreAuthExports },
+      );
+    }
+
+    it("shows condition-specific external re-export changes", async () => {
+      const { apiMd } = await generateApiReview(reExportFixture("RestError"));
+
+      expect(apiMd).toContain(
+        [
+          "### `browser`",
+          "",
+          "#### Export `.`",
+          "",
+          "```diff",
+          "-export {",
+          "-    isRestError,",
+          "-    RestError,",
+          '-} from "@azure/core-rest-pipeline";',
+          '+export { RestError } from "@azure/core-rest-pipeline";',
+          "```",
+        ].join("\n"),
+      );
+      expect(apiMd).toContain("Identical to the ESM view: `require`.");
+    });
+
+    it("changes the hash between different re-export-only browser surfaces", async () => {
+      const before = await generateApiReview(reExportFixture("RestError"));
+      const after = await generateApiReview(reExportFixture("isRestError"));
 
       expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
     });
