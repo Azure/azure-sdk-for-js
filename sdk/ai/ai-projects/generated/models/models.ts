@@ -885,9 +885,8 @@ export type TelemetryTransportProtocol = "Http" | "Grpc";
 /** Session defaults applied to sessions created for a hosted agent version. */
 export interface SessionConfiguration {
   /**
-   * The idle duration, in seconds, before a session's sandbox is suspended. Optional — when
-   * unset, the server default of 900 seconds is used. Must be between 120 and 3600 seconds
-   * (inclusive).
+   * The idle duration, in seconds, before a session's sandbox is suspended. When omitted,
+   * the server defaults to 900 seconds. Must be between 120 and 14400 seconds (4 hours).
    */
   idle_timeout_seconds?: number;
 }
