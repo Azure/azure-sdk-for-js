@@ -19,7 +19,11 @@ export interface ConditionDiff {
   condition: string;
   references: { change: "added" | "removed"; reference: NamedImports }[];
   // One list of diff lines per changed declaration.
-  exports: { path: string; items: DiffLine[][] }[];
+  exports: {
+    path: string;
+    items: DiffLine[][];
+    reExports: { change: "added" | "removed"; reference: NamedImports }[];
+  }[];
 }
 
 export interface DiffLine {

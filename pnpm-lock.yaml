@@ -1892,9 +1892,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
-      nock:
-        specifier: catalog:testing
-        version: 14.0.17
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -33537,7 +33534,7 @@ importers:
   sdk/tables/data-tables:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.9.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
