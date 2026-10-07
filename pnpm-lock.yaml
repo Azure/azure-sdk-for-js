@@ -15663,8 +15663,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0(supports-color@8.1.1)
       '@rollup/plugin-node-resolve':
-        specifier: ^15.0.0
-        version: 15.3.1(rollup@4.63.5)
+        specifier: ^16.0.0
+        version: 16.0.3(rollup@4.63.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.4
@@ -38002,8 +38002,8 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha1-4/zuCT+7XOdl4a0Ij/TeKIn2+b4=}
 
-  '@rollup/plugin-node-resolve@15.3.1':
-    resolution: {integrity: sha1-ZgCJU8JSS+eGqjGdSeMvISgpang=}
+  '@rollup/plugin-node-resolve@16.0.3':
+    resolution: {integrity: sha1-CYjm8suxMxaw9echP3V7ye1Eko8=}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.78.0||^3.0.0||^4.0.0
@@ -45221,7 +45221,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@rollup/plugin-node-resolve@15.3.1(rollup@4.63.5)':
+  '@rollup/plugin-node-resolve@16.0.3(rollup@4.63.5)':
     dependencies:
       '@rollup/pluginutils': 5.4.0(rollup@4.63.5)
       '@types/resolve': 1.20.2
