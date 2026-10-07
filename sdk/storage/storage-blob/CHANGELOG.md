@@ -13,6 +13,12 @@
 
 ### Breaking Changes
 
+- `BlockBlobClient.uploadData`, `uploadFile` and `uploadBrowserData` now default `maxSingleShotSize` to 4MB instead of 256MB; set it to `256 * 1024 * 1024` to restore the previous behavior. Data larger than 4MB is now staged in parallel blocks of `blockSize` (4MB by default) with `stageBlock` and committed with `commitBlockList`, instead of being sent in a single `upload` call. For data between 4MB and 256MB this means: [#40215](https://github.com/Azure/azure-sdk-for-js/pull/40215)
+  - More requests are sent, and `onProgress` is called once per block.
+  - The service doesn't compute a Content-MD5 property for the blob, so `getProperties`, `download` and blob listings return no `contentMD5` unless `blobHTTPHeaders.blobContentMD5` is set.
+  - The response comes from `commitBlockList`: it has no `contentMD5` or `structuredBodyType`, and its `xMsContentCrc64` covers the block list rather than the data.
+  - Blob created events report the `PutBlockList` operation instead of `PutBlob`.
+
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
