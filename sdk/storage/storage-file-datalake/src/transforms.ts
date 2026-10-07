@@ -6,10 +6,12 @@ import type {
   ContainerItem,
   CpkInfo as BlobCpkInfo,
   PublicAccessType as ContainerPublicAccessType,
+  BlobGetLayoutResponseModel,
 } from "@azure/storage-blob";
 import type { AclFailedEntry, CpkInfo } from "./generated-classic-models.js";
 import type {
   AccessControlChangeError,
+  FileGetLayoutResponse,
   FileSystemItem,
   Metadata,
   PathAccessControlItem,
@@ -451,4 +453,26 @@ export function toBlobCpkInfo(input?: CpkInfo): BlobCpkInfo | undefined {
         encryptionAlgorithm: "AES256",
       }
     : undefined;
+}
+
+/**
+ * Renames the one blob-flavoured property on a Get Blob Layout page.
+ *
+ * Rewritten in place rather than copied: `_response` is non-enumerable, so spreading would drop it.
+ */
+export function toFileGetLayoutResponse(
+  response: BlobGetLayoutResponseModel,
+): FileGetLayoutResponse {
+  const result = response as BlobGetLayoutResponseModel & { fileContentLength?: number };
+  result.fileContentLength = response.blobContentLength;
+  delete (result as { blobContentLength?: number }).blobContentLength;
+
+  const parsedHeaders = result._response.parsedHeaders as {
+    blobContentLength?: number;
+    fileContentLength?: number;
+  };
+  parsedHeaders.fileContentLength = parsedHeaders.blobContentLength;
+  delete parsedHeaders.blobContentLength;
+
+  return result as unknown as FileGetLayoutResponse;
 }

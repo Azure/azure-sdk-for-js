@@ -3,6 +3,7 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
@@ -35,6 +36,8 @@ import type {
   FileFlushOptions,
   FileFlushResponse,
   FileGenerateSasUrlOptions,
+  FileGetLayoutOptions,
+  FileGetLayoutResponse,
   FileParallelUploadOptions,
   FileQueryOptions,
   FileReadOptions,
@@ -91,6 +94,7 @@ import {
   toAcl,
   toAclString,
   toBlobCpkInfo,
+  toFileGetLayoutResponse,
   toPermissions,
   toPermissionsString,
   toProperties,
@@ -2015,6 +2019,85 @@ export class DataLakeFileClient extends DataLakePathClient {
         return response;
       },
     );
+  }
+
+  /**
+   * Returns an AsyncIterableIterator over the pages of the file's layout.
+   *
+   * Paging, including the ETag lock the service requires across continuations, is owned by the
+   * underlying blob pager; this only renames the one blob-flavoured property on each page.
+   */
+  private async *listLayoutSegments(
+    continuationToken?: string,
+    options: FileGetLayoutOptions = {},
+    maxPageSize?: number,
+  ): AsyncIterableIterator<FileGetLayoutResponse> {
+    const pages = this.blockBlobClientInternal
+      .getLayout({
+        abortSignal: options.abortSignal,
+        range: options.range,
+        conditions: options.conditions,
+        customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
+        tracingOptions: options.tracingOptions,
+      })
+      .byPage({ continuationToken, maxPageSize });
+
+    for await (const page of pages) {
+      yield toFileGetLayoutResponse(page);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator of the file's layout: which byte ranges of the file are
+   * served by which endpoints.
+   *
+   * Reach for this only to orchestrate reads yourself. {@link DataLakeFileClient.readToBuffer}
+   * already fetches, caches and applies the layout on its own.
+   *
+   * Each item is one page of the layout. A range's `endpointIndex` indexes the `endpoints` of the
+   * page it arrived on and must not be resolved against another page's endpoints, which is why
+   * pages are surfaced whole rather than flattened into a single list of ranges.
+   *
+   * ```ts snippet:DataLakeFileClientGetLayout
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+   * const fileClient = fileSystemClient.getFileClient("<file name>");
+   *
+   * for await (const page of fileClient.getLayout()) {
+   *   const endpoints = page.endpoints?.endpoint ?? [];
+   *   for (const range of page.ranges?.range ?? []) {
+   *     const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+   *     console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param options - Options to the Get Layout operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public getLayout(
+    options: FileGetLayoutOptions = {},
+  ): PagedAsyncIterableIterator<FileGetLayoutResponse, FileGetLayoutResponse> {
+    const iter = this.listLayoutSegments(undefined, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => {
+        return this.listLayoutSegments(settings.continuationToken, options, settings.maxPageSize);
+      },
+    };
   }
 
   /**

@@ -435,6 +435,56 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleLayoutAwareRouting", async () => {
+    const account = "<account>";
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    // @ts-preserve-whitespace
+    // Routing is off by default. Opt in to read chunks from the endpoints that hold them.
+    const downloaded = await fileClient.readToBuffer(0, undefined, {
+      layoutAwareRouting: "enabled",
+    });
+    console.log(`Downloaded ${downloaded.length} bytes`);
+    // @ts-preserve-whitespace
+    // To route reads yourself, read each range of the layout from the endpoint that serves it.
+    for await (const page of fileClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        const response = await fileClient.read(range.start, range.end - range.start + 1, {
+          layoutEndpoint: endpoint?.value,
+        });
+        if (response.readableStreamBody) {
+          const bytes = await buffer(response.readableStreamBody);
+          console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
+        }
+      }
+    }
+  });
+
+  it("DataLakeFileClientGetLayout", async () => {
+    const account = "<account>";
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    // @ts-preserve-whitespace
+    for await (const page of fileClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
+      }
+    }
+  });
+
   it("ReadmeSampleQueryFile_Node", async () => {
     const account = "<account>";
     const sas = "<sas token>";

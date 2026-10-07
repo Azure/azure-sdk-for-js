@@ -31517,7 +31517,7 @@ importers:
         specifier: 12.35.0-beta.1
         version: link:../storage-blob
       '@azure/storage-common':
-        specifier: ^12.5.1
+        specifier: ^12.6.0
         version: link:../storage-common
       events:
         specifier: ^3.3.0
