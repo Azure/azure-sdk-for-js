@@ -902,7 +902,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a {@link ShareFileClient} that addresses a file by its file ID instead of its path.
+   * Creates a {@link ShareFileClient} that addresses a file in an SMB file share by its file ID instead of its path.
    * Only {@link ShareFileClient.getProperties}, {@link ShareFileClient.getFileLinks} and
    * {@link ShareFileClient.withShareSnapshot} are supported on it; its other methods throw an error
    * without sending a request.
@@ -920,8 +920,8 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a {@link ShareDirectoryClient} that addresses a directory by its file ID instead of its path.
-   * Only {@link ShareDirectoryClient.getProperties} is supported on it; its other methods throw an error
+   * Creates a {@link ShareDirectoryClient} that addresses a directory in an SMB file share by its file ID instead of
+   * its path. Only {@link ShareDirectoryClient.getProperties} is supported on it; its other methods throw an error
    * without sending a request.
    *
    * @param fileId - The file ID of the directory, such as the `fileId` returned by {@link ShareDirectoryClient.getProperties}.
@@ -4826,7 +4826,8 @@ export class ShareFileClient extends StorageClient {
    * and system properties for the file. It does not return the content of the file.
    *
    * Only supported when the client addresses the file by its file ID, such as a client created with
-   * {@link ShareClient.getShareFileClient}. Otherwise it throws an error before sending a request.
+   * {@link ShareClient.getShareFileClient}; otherwise it throws an error before sending a request. Addressing by
+   * file ID is supported only on SMB file shares.
    *
    * @param options - Options to File Get File Links operation.
    * @returns Response data for the File Get File Links operation.

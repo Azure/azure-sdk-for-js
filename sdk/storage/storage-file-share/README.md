@@ -434,7 +434,7 @@ For a complete sample on iterating please see [samples/v12/typescript/src/listFi
 
 ### Get a file's properties and hard links by its file ID
 
-A file or directory can be addressed by its file ID, the `fileId` returned by operations such as
+A file or directory in an SMB file share can be addressed by its file ID, the `fileId` returned by operations such as
 `getProperties()`, instead of its path. Use `ShareClient.getShareFileClient()` or
 `ShareClient.getShareDirectoryClient()` to create such a client. A file client supports `getProperties()`,
 `getFileLinks()` (which returns the file's properties and its hard links) and `withShareSnapshot()`; a directory
