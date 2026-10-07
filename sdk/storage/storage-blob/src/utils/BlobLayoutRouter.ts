@@ -31,6 +31,16 @@ export interface BlobLayoutRouterOptions {
 }
 
 /**
+ * Resolves `auto`, which leaves routing off today. Keeping it a separate state lets the default
+ * change later without reinterpreting an explicit choice.
+ */
+export function resolveLayoutAwareRouting(
+  routing: LayoutAwareRouting | undefined,
+): Exclude<LayoutAwareRouting, "auto"> {
+  return routing === undefined || routing === "auto" ? "disabled" : routing;
+}
+
+/**
  * Sends the blocks of one download to the endpoints that hold them. The layout is fetched on first
  * use and cached for the rest of the download.
  */
@@ -39,17 +49,15 @@ export class BlobLayoutRouter {
 
   /**
    * Returns a router for one download, or undefined when every block should be read from the
-   * account endpoint: the caller opted out, the service sent no layout hint, nothing is left to
-   * read, or the platform cannot set the `Host` header that routing depends on.
+   * account endpoint: the caller did not opt in, the service sent no layout hint, nothing is left
+   * to read, or the platform cannot set the `Host` header that routing depends on.
    */
   static forDownload(
     blobContext: BlobOperations,
     options: BlobLayoutRouterOptions & { routing: LayoutAwareRouting; downloadHint?: DownloadHint },
   ): BlobLayoutRouter | undefined {
-    // `auto` resolves to enabled today; the third state exists so the default can move later
-    // without reinterpreting what an explicit choice meant.
     if (
-      options.routing === "disabled" ||
+      resolveLayoutAwareRouting(options.routing) !== "enabled" ||
       options.downloadHint?.toLowerCase() !== "layout" ||
       options.count <= 0 ||
       !isNodeLike

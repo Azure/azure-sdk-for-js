@@ -228,7 +228,7 @@ import {
   decodeLayoutContinuationToken,
   encodeLayoutContinuationToken,
 } from "./utils/BlobLayoutSegment.js";
-import { BlobLayoutRouter } from "./utils/BlobLayoutRouter.js";
+import { BlobLayoutRouter, resolveLayoutAwareRouting } from "./utils/BlobLayoutRouter.js";
 import {
   fsCreateReadStream,
   fsStat,
@@ -279,8 +279,8 @@ export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLRespon
  * Whether a download may route its range requests to the endpoints that physically hold them, as
  * reported by Get Blob Layout.
  *
- * `auto` leaves the choice to the SDK, which today resolves to `enabled`. Prefer it unless you
- * need routing pinned on or off regardless of what later versions decide.
+ * `auto` leaves the choice to the SDK, which today resolves to `disabled` and may change in a later
+ * version. Set `enabled` to opt in.
  */
 export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
 
@@ -867,8 +867,8 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
    * Whether the blocks of this download may be read from the endpoints that physically hold
-   * them. Defaults to `auto`. Routing is only ever an optimization: the bytes returned are the
-   * same either way.
+   * them. Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
+   * Routing is only ever an optimization: the bytes returned are the same either way.
    */
   layoutAwareRouting?: LayoutAwareRouting;
 }
@@ -2160,12 +2160,23 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         };
 
-        // Take the blob's size from the first chunk's Content-Range instead of a separate Get
-        // Blob Properties: the round trip is saved outright, and a blob that fits inside one
-        // block is fully downloaded by that same request.
+        const routed = resolveLayoutAwareRouting(options.layoutAwareRouting) === "enabled";
         let firstChunk: BlobDownloadResponseParsed | undefined;
         try {
-          if (!count) {
+          if (!count && !routed) {
+            const response = await this.getProperties({
+              ...options,
+              tracingOptions: updatedOptions.tracingOptions,
+            });
+            count = response.contentLength! - offset;
+            if (count < 0) {
+              throw new RangeError(
+                `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`,
+              );
+            }
+          } else if (!count) {
+            // Routing needs the first chunk's download hint anyway, so its Content-Range gives the
+            // blob's size and saves the Get Blob Properties round trip.
             let blobSize: number | undefined;
             try {
               firstChunk = await this.download(offset, blockSize, chunkOptions);
@@ -2221,7 +2232,7 @@ export class BlobClient extends StorageClient {
         }
 
         // The first block is read alone only when its download hint can still turn on routing.
-        if (!firstChunk && count > 0 && options.layoutAwareRouting !== "disabled") {
+        if (!firstChunk && count > 0 && routed) {
           firstChunk = await this.download(offset, Math.min(blockSize, count), chunkOptions);
         }
 

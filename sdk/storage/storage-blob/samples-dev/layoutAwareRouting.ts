@@ -31,9 +31,11 @@ async function main(): Promise<void> {
   const blobClient = containerClient.getBlockBlobClient(`newblob${new Date().getTime()}`);
   await blobClient.upload(content, Buffer.byteLength(content));
 
-  // downloadToBuffer routes by layout on its own whenever the service hints that it should.
-  // Pass `layoutAwareRouting: "disabled"` to read every block from the account endpoint instead.
-  const downloaded = await blobClient.downloadToBuffer();
+  // Routing is off by default. Once enabled, downloadToBuffer reads by layout whenever the service
+  // hints that it should.
+  const downloaded = await blobClient.downloadToBuffer(0, undefined, {
+    layoutAwareRouting: "enabled",
+  });
   console.log(`Downloaded: ${downloaded.toString()}`);
 
   // To route reads yourself, read each range of the layout from the endpoint that serves it.

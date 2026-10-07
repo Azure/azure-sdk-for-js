@@ -1746,7 +1746,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * them, as reported by Get Blob Layout. A performance optimization only: the bytes returned are
    * the same either way.
    *
-   * Defaults to `auto`, which leaves the choice to the SDK.
+   * Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
    */
   layoutAwareRouting?: LayoutAwareRouting;
 }

@@ -437,9 +437,9 @@ describe("snippets", () => {
     const containerClient = blobServiceClient.getContainerClient("<container name>");
     const blobClient = containerClient.getBlobClient("<blob name>");
     // @ts-preserve-whitespace
-    // Routing needs no code. To read every block from the account endpoint instead, opt out.
+    // Routing is off by default. Opt in to read blocks from the endpoints that hold them.
     const downloaded = await blobClient.downloadToBuffer(0, undefined, {
-      layoutAwareRouting: "disabled",
+      layoutAwareRouting: "enabled",
     });
     console.log(`Downloaded ${downloaded.length} bytes`);
     // @ts-preserve-whitespace

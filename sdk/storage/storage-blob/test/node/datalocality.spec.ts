@@ -227,7 +227,9 @@ describe("BlobClient.getLayout", () => {
   });
 });
 
-describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
+describe("BlobClient.downloadToBuffer with routing, at or past the end of a blob", () => {
+  const routed = { layoutAwareRouting: "enabled" } as const;
+
   /** A client whose reads get the service's 416 for a range past the end of a `size`-byte blob. */
   function clientPastEnd(size: number): BlobClient {
     const client = new BlobClient(
@@ -248,18 +250,18 @@ describe("BlobClient.downloadToBuffer at or past the end of a blob", () => {
   }
 
   it("returns an empty buffer for an empty blob", async () => {
-    assert.lengthOf(await clientPastEnd(0).downloadToBuffer(), 0);
+    assert.lengthOf(await clientPastEnd(0).downloadToBuffer(0, 0, routed), 0);
   });
 
   it("returns an empty buffer from the end of a blob and rejects an offset past it", async () => {
-    assert.lengthOf(await clientPastEnd(3).downloadToBuffer(3), 0);
-    await expect(clientPastEnd(3).downloadToBuffer(5)).rejects.toThrow(
+    assert.lengthOf(await clientPastEnd(3).downloadToBuffer(3, 0, routed), 0);
+    await expect(clientPastEnd(3).downloadToBuffer(5, 0, routed)).rejects.toThrow(
       "offset 5 shouldn't be larger than blob size 3",
     );
   });
 });
 
-describe("BlobClient.downloadToBuffer with an unknown count", () => {
+describe("BlobClient.downloadToBuffer with routing and an unknown count", () => {
   it.each([
     ["the buffer is too small", "bytes 0-3/8", "The buffer's size should be equal to or larger"],
     ["the size is not reported", undefined, "Unable to determine the blob size"],
@@ -271,12 +273,14 @@ describe("BlobClient.downloadToBuffer with an unknown count", () => {
     const body = Readable.from([Buffer.alloc(4)]);
     (client as any).download = async () => ({ contentRange, readableStreamBody: body });
 
-    await expect(client.downloadToBuffer(Buffer.alloc(2))).rejects.toThrow(message);
+    await expect(
+      client.downloadToBuffer(Buffer.alloc(2), 0, 0, { layoutAwareRouting: "enabled" }),
+    ).rejects.toThrow(message);
     assert.isTrue(body.destroyed);
   });
 });
 
-describe("BlobClient.downloadToBuffer with routing disabled", () => {
+describe("BlobClient.downloadToBuffer by default", () => {
   it("starts every block at once when the count is known", async () => {
     const client = new BlobClient(
       "https://myaccount.blob.core.windows.net/container/blob.txt",
@@ -288,16 +292,42 @@ describe("BlobClient.downloadToBuffer with routing disabled", () => {
         pending.push(() => resolve({ readableStreamBody: Readable.from([Buffer.alloc(count)]) })),
       );
 
-    const downloaded = client.downloadToBuffer(0, 8, {
-      blockSize: 4,
-      concurrency: 2,
-      layoutAwareRouting: "disabled",
-    });
+    const downloaded = client.downloadToBuffer(0, 8, { blockSize: 4, concurrency: 2 });
     await new Promise((resolve) => setImmediate(resolve));
 
     assert.lengthOf(pending, 2, "no block should wait for the first one");
     pending.forEach((release) => release());
     assert.lengthOf(await downloaded, 8);
+  });
+
+  it("takes the size from Get Blob Properties and never fetches a layout", async () => {
+    const client = new BlobClient(
+      "https://myaccount.blob.core.windows.net/container/blob.txt",
+      new AnonymousCredential(),
+    );
+    const calls: string[] = [];
+    (client as any).getProperties = async () => {
+      calls.push("getProperties");
+      return { contentLength: 8 };
+    };
+    (client as any).download = async (offset: number, count: number) => {
+      calls.push(`download ${offset}`);
+      return {
+        etag: "etag-1",
+        downloadHint: "layout",
+        readableStreamBody: Readable.from([Buffer.alloc(count)]),
+      };
+    };
+    (client as any).blobContext = {
+      getLayout: async () => {
+        throw new Error("Get Blob Layout must not be called");
+      },
+    };
+
+    const downloaded = await client.downloadToBuffer(0, 0, { blockSize: 4 });
+
+    assert.lengthOf(downloaded, 8);
+    assert.deepEqual(calls, ["getProperties", "download 0", "download 4"]);
   });
 });
 
@@ -336,7 +366,11 @@ describe("BlobClient.downloadToBuffer with routing", () => {
       };
     };
 
-    await client.downloadToBuffer(0, 8, { blockSize: 4, conditions: { ifMatch: "*" } });
+    await client.downloadToBuffer(0, 8, {
+      blockSize: 4,
+      conditions: { ifMatch: "*" },
+      layoutAwareRouting: "enabled",
+    });
 
     assert.deepEqual(reads, [
       { ifMatch: "*", layoutEndpoint: undefined },
@@ -524,7 +558,10 @@ describe("Data locality Node.js only", () => {
     spy.sent.length = 0;
 
     const count = 4 * blockSize;
-    const downloaded = await large.downloadToBuffer(0, count, { blockSize });
+    const downloaded = await large.downloadToBuffer(0, count, {
+      blockSize,
+      layoutAwareRouting: "enabled",
+    });
 
     assert.isTrue(
       downloaded.equals(block.subarray(0, count)),

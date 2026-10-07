@@ -8,7 +8,7 @@ import { layoutContext } from "./layoutTestUtils.js";
 
 describe("BlobLayoutRouter", () => {
   const routable = {
-    routing: "auto",
+    routing: "enabled",
     downloadHint: "layout",
     etag: "etag-1",
     offset: 4194304,
@@ -22,13 +22,14 @@ describe("BlobLayoutRouter", () => {
   const gate = (overrides: Record<string, unknown>): BlobLayoutRouter | undefined =>
     router(layoutContext([]).context, overrides);
 
-  it("routes when the caller allows it and the service hinted layout", () => {
+  it("routes when the caller opted in and the service hinted layout", () => {
     assert.isDefined(gate({}));
-    assert.isDefined(gate({ routing: "enabled" }));
   });
 
-  it("does not route when the caller opted out", () => {
-    assert.isUndefined(gate({ routing: "disabled" }));
+  it("does not route unless the caller opted in", () => {
+    for (const routing of [undefined, "auto", "disabled"]) {
+      assert.isUndefined(gate({ routing }), String(routing));
+    }
   });
 
   it("does not route without the service hint", () => {

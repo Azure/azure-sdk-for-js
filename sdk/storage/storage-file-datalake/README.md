@@ -510,7 +510,7 @@ if (downloadResponse.readableStreamBody) {
 
 ### Read files from the endpoints that store them (Node.js)
 
-File reads use the layout-aware routing provided by `@azure/storage-blob`. When the first chunk that `readToBuffer` reads comes back with a hint that the file has a layout, the remaining chunks are read directly from the storage endpoints that hold them, rather than having the account endpoint relay them. This is on by default and needs no code; set `layoutAwareRouting` to `"disabled"` to opt out.
+File reads can use the layout-aware routing provided by `@azure/storage-blob`. When the first chunk that `readToBuffer` reads comes back with a hint that the file has a layout, the remaining chunks can be read directly from the storage endpoints that hold them, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 To route your own reads, `getLayout` returns the file's layout and `read` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
@@ -528,9 +528,9 @@ const datalakeServiceClient = new DataLakeServiceClient(
 const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
 const fileClient = fileSystemClient.getFileClient("<file name>");
 
-// Routing needs no code. To read every chunk from the account endpoint instead, opt out.
+// Routing is off by default. Opt in to read chunks from the endpoints that hold them.
 const downloaded = await fileClient.readToBuffer(0, undefined, {
-  layoutAwareRouting: "disabled",
+  layoutAwareRouting: "enabled",
 });
 console.log(`Downloaded ${downloaded.length} bytes`);
 

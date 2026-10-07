@@ -507,7 +507,7 @@ If your endpoint URL is not in the standard `https://<account>.blob.core.windows
 
 ### Read blobs from the endpoints that store them (Node.js)
 
-The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client fetches the layout and reads the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is on by default and needs no code; the requests stay authenticated as, and addressed to, your account. Set `layoutAwareRouting` to `"disabled"` to opt out.
+The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client can fetch the layout and read the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in. The requests stay authenticated as, and addressed to, your account.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 To route your own reads, `getLayout` returns the layout and `download` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
@@ -525,9 +525,9 @@ const blobServiceClient = new BlobServiceClient(
 const containerClient = blobServiceClient.getContainerClient("<container name>");
 const blobClient = containerClient.getBlobClient("<blob name>");
 
-// Routing needs no code. To read every block from the account endpoint instead, opt out.
+// Routing is off by default. Opt in to read blocks from the endpoints that hold them.
 const downloaded = await blobClient.downloadToBuffer(0, undefined, {
-  layoutAwareRouting: "disabled",
+  layoutAwareRouting: "enabled",
 });
 console.log(`Downloaded ${downloaded.length} bytes`);
 

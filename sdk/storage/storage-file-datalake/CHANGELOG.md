@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
-- `readToBuffer` now uses the data locality routing added in `@azure/storage-blob`, reading chunks from the endpoints that hold them. Node.js only. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"disabled"` to opt out.
+- Added opt-in data locality support to `readToBuffer`, using the routing added in `@azure/storage-blob`. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"enabled"` to read chunks from the endpoints that hold them; disabled by default and Node.js only.
 - Added `DataLakeFileClient.getLayout`, which pages through the file's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
 - Added `layoutEndpoint` to `FileReadOptions`, to route a single `read` call.
 

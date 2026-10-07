@@ -444,9 +444,9 @@ describe("snippets", () => {
     const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
     const fileClient = fileSystemClient.getFileClient("<file name>");
     // @ts-preserve-whitespace
-    // Routing needs no code. To read every chunk from the account endpoint instead, opt out.
+    // Routing is off by default. Opt in to read chunks from the endpoints that hold them.
     const downloaded = await fileClient.readToBuffer(0, undefined, {
-      layoutAwareRouting: "disabled",
+      layoutAwareRouting: "enabled",
     });
     console.log(`Downloaded ${downloaded.length} bytes`);
     // @ts-preserve-whitespace
