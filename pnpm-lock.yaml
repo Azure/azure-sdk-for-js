@@ -88,8 +88,8 @@ catalogs:
       specifier: ^16.6.1
       version: 16.6.1
     nock:
-      specifier: ^13.5.6
-      version: 13.5.6
+      specifier: ^14.0.17
+      version: 14.0.17
     playwright:
       specifier: ^1.60.0
       version: 1.63.0
@@ -5380,7 +5380,7 @@ importers:
         version: 3.0.5
       nock:
         specifier: catalog:testing
-        version: 13.5.6(supports-color@8.1.1)
+        version: 14.0.17
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -9937,7 +9937,7 @@ importers:
         version: 10.11.0(supports-color@8.1.1)
       nock:
         specifier: catalog:testing
-        version: 13.5.6(supports-color@8.1.1)
+        version: 14.0.17
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -22786,7 +22786,7 @@ importers:
         version: 10.11.0(supports-color@8.1.1)
       nock:
         specifier: catalog:testing
-        version: 13.5.6(supports-color@8.1.1)
+        version: 14.0.17
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -37261,6 +37261,10 @@ packages:
       '@cfworker/json-schema':
         optional: true
 
+  '@mswjs/interceptors@0.41.9':
+    resolution: {integrity: sha1-nZC71g0d3DDby7gnqbsuRwSTUw0=}
+    engines: {node: '>=18'}
+
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     resolution: {integrity: sha1-5X1DBpZgeGYgOAlPs465FG3Drqk=}
     engines: {node: ^22.20 || ^24.12 || >=25}
@@ -37282,6 +37286,15 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha1-6Vc36LtnRt3t9pxVaVNJTxlv5po=}
     engines: {node: '>= 8'}
+
+  '@open-draft/deferred-promise@2.2.0':
+    resolution: {integrity: sha1-SoItEPbw4xa+TWe01PjJoSSwc70=}
+
+  '@open-draft/logger@0.3.0':
+    resolution: {integrity: sha1-KzqxJCs2CqCtsouF9dfaHBM6CVQ=}
+
+  '@open-draft/until@2.1.0':
+    resolution: {integrity: sha1-Cs8y9HCvLOr0fwlc3s1A1oZm79o=}
 
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
@@ -40265,6 +40278,9 @@ packages:
     resolution: {integrity: sha1-ztkDoCespjgbd3pXQwadc3akl0c=}
     engines: {node: '>= 0.4'}
 
+  is-node-process@1.2.0:
+    resolution: {integrity: sha1-6gKhuQ3bOTShmupBTojt734R0TQ=}
+
   is-number-object@1.1.1:
     resolution: {integrity: sha1-FEsh6VobwUggXcwoFKkTTsQbJUE=}
     engines: {node: '>= 0.4'}
@@ -40984,9 +41000,9 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha1-tKr7k+OustgXTKU88WOrfXMIMF8=}
 
-  nock@13.5.6:
-    resolution: {integrity: sha1-Xmk+wjALv2A7Ydrm3wIlZz5sSZc=}
-    engines: {node: '>= 10.13'}
+  nock@14.0.17:
+    resolution: {integrity: sha1-NW0LqMyP9IGUq/k8f1afEPB7Bec=}
+    engines: {node: '>=18.20.0 <20 || >=20.12.1'}
 
   node-abi@3.96.0:
     resolution: {integrity: sha1-iwOLxsypfWzsLpqv24G5ANof+A0=}
@@ -41133,6 +41149,9 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha1-fqHBpdkddk+yghOciP4R4YKjpzQ=}
     engines: {node: '>= 0.8.0'}
+
+  outvariant@1.4.3:
+    resolution: {integrity: sha1-Ihwb/Ak+j+xwdUl+d5n9v0PRSHM=}
 
   own-keys@1.0.2:
     resolution: {integrity: sha1-MUSOwfeB7LFEf29qoNZTQiKvWd4=}
@@ -41440,7 +41459,7 @@ packages:
     resolution: {integrity: sha1-IS1b/hMYMGpCD2QCuOJv85ZHqEk=}
 
   protobufjs-cli@2.7.0:
-    resolution: {integrity: sha1-a436upnr7rfn/xP6QIqiINKY6S0=}
+    resolution: {integrity: sha512-wjrZPibf/U73dDJMh9jCqjyeDH7t6+OMD16vKp/Z1CY7yyVE/pX5a9EvCq89p3ADHo+KyaLknA5lxyaaM252KA==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     peerDependencies:
@@ -41451,7 +41470,7 @@ packages:
     engines: {node: '>=12.0.0'}
 
   protobufjs@8.8.0:
-    resolution: {integrity: sha1-ftBx2UtnVfY8yZNuzYLk3qx89iQ=}
+    resolution: {integrity: sha512-N3xhQ5yyBx3vQq4gubBfASzYhJGNzeDbjqBpu61g7UVylsN/qyffU96TKWD3GbbLOKF82VGNRNvv1+BFgE31Eg==}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.8:
@@ -41966,6 +41985,9 @@ packages:
 
   stream@0.0.3:
     resolution: {integrity: sha1-Pzk0qQClYc4+K5/70oGc6tMmmdk=}
+
+  strict-event-emitter@0.5.1:
+    resolution: {integrity: sha1-FgLs6BxRV0yjnGgV4J8aPoVQvZM=}
 
   string-argv@0.3.2:
     resolution: {integrity: sha1-K20O8ktlYnTZV9VOCku/YVPcArY=}
@@ -44376,6 +44398,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@mswjs/interceptors@0.41.9':
+    dependencies:
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/logger': 0.3.0
+      '@open-draft/until': 2.1.0
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      strict-event-emitter: 0.5.1
+
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
@@ -44392,6 +44423,15 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.3
+
+  '@open-draft/deferred-promise@2.2.0': {}
+
+  '@open-draft/logger@0.3.0':
+    dependencies:
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+
+  '@open-draft/until@2.1.0': {}
 
   '@opentelemetry/api-logs@0.211.0':
     dependencies:
@@ -47751,6 +47791,8 @@ snapshots:
 
   is-negative-zero@2.0.3: {}
 
+  is-node-process@1.2.0: {}
+
   is-number-object@1.1.1:
     dependencies:
       call-bound: 1.0.4
@@ -48588,13 +48630,11 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  nock@13.5.6(supports-color@8.1.1):
+  nock@14.0.17:
     dependencies:
-      debug: 4.4.3(supports-color@8.1.1)
+      '@mswjs/interceptors': 0.41.9
       json-stringify-safe: 5.0.1
       propagate: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   node-abi@3.96.0:
     dependencies:
@@ -48753,6 +48793,8 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
+
+  outvariant@1.4.3: {}
 
   own-keys@1.0.2:
     dependencies:
@@ -49699,6 +49741,8 @@ snapshots:
   stream@0.0.3:
     dependencies:
       component-emitter: 2.0.0
+
+  strict-event-emitter@0.5.1: {}
 
   string-argv@0.3.2: {}
 
