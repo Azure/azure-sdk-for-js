@@ -5,17 +5,36 @@ import type { ContainerServiceClient } from "./containerServiceClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/alertConfigurations/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMeshMemberships,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMeshMemberships,
+} from "./api/meshMemberships/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeJwtAuthenticators,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeJwtAuthenticators,
+} from "./api/jwtAuthenticators/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeIdentityBindings,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeIdentityBindings,
 } from "./api/identityBindings/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeLoadBalancers } from "./api/loadBalancers/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeTrustedAccessRoleBindings,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeTrustedAccessRoleBindings,
 } from "./api/trustedAccessRoleBindings/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections } from "./api/privateEndpointConnections/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeMachines } from "./api/machines/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeManagedNamespaces,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedNamespaces,
 } from "./api/managedNamespaces/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeMaintenanceWindows,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMaintenanceWindows,
+} from "./api/maintenanceWindows/operations.js";
+import {
+  _rebalanceLoadBalancersDeserialize,
   _runCommandDeserialize,
   _startDeserialize,
   _stopDeserialize,
@@ -29,8 +48,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedClusters,
 } from "./api/managedClusters/operations.js";
 import {
+  _updateDeserialize,
   _upgradeNodeImageVersionDeserialize,
   _deleteMachinesDeserialize,
+  _completeUpgradeDeserialize,
   _abortLatestOperationDeserialize as _abortLatestOperationDeserializeAgentPools,
   _$deleteDeserialize as _$deleteDeserializeAgentPools,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAgentPools,
@@ -105,10 +126,33 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    { deserializer: _$deleteDeserializeMeshMemberships, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    {
+      deserializer: _createOrUpdateDeserializeMeshMemberships,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":
+    { deserializer: _$deleteDeserializeJwtAuthenticators, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":
+    {
+      deserializer: _createOrUpdateDeserializeJwtAuthenticators,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}":
+    { deserializer: _$deleteDeserializeIdentityBindings, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}":
+    {
+      deserializer: _createOrUpdateDeserializeIdentityBindings,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}":
+    { deserializer: _$deleteDeserializeLoadBalancers, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}":
     {
       deserializer: _$deleteDeserializeTrustedAccessRoleBindings,
@@ -124,12 +168,29 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
       expectedStatuses: ["200", "204", "202"],
     },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}":
+    { deserializer: _createOrUpdateDeserializeMachines, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}":
     { deserializer: _$deleteDeserializeManagedNamespaces, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}":
     {
       deserializer: _createOrUpdateDeserializeManagedNamespaces,
       expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/maintenanceWindows/{maintenanceWindowName}":
+    {
+      deserializer: _$deleteDeserializeMaintenanceWindows,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/maintenanceWindows/{maintenanceWindowName}":
+    {
+      deserializer: _createOrUpdateDeserializeMaintenanceWindows,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers":
+    {
+      deserializer: _rebalanceLoadBalancersDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand":
     { deserializer: _runCommandDeserialize, expectedStatuses: ["200", "202", "201"] },
@@ -168,10 +229,14 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeManagedClusters,
       expectedStatuses: ["200", "201", "202"],
     },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion":
     { deserializer: _upgradeNodeImageVersionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines":
     { deserializer: _deleteMachinesDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/completeUpgrade":
+    { deserializer: _completeUpgradeDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/abort":
     {
       deserializer: _abortLatestOperationDeserializeAgentPools,
