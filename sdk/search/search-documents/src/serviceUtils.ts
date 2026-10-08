@@ -12,7 +12,6 @@ import type {
 } from "./models/azure/search/documents/index.js";
 import type {
   SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
-  SearchIndexerKnowledgeStoreParameters as GeneratedKnowledgeStoreParameters,
   BM25Similarity,
   ClassicSimilarity,
   CognitiveServicesAccountUnion,
@@ -34,7 +33,6 @@ import type {
   IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
   IndexedSqlKnowledgeSource as GeneratedIndexedSqlKnowledgeSource,
   FileKnowledgeSource as GeneratedFileKnowledgeSource,
-  McpServerKnowledgeSource as GeneratedMcpServerKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
@@ -102,7 +100,6 @@ import type {
   IndexedSharePointKnowledgeSourceParameters,
   IndexedSqlKnowledgeSource,
   FileKnowledgeSourceParameters,
-  McpServerKnowledgeSource,
   KnowledgeSourceVectorizer,
   LexicalAnalyzer,
   LexicalTokenizer,
@@ -120,7 +117,6 @@ import type {
   SearchIndexerDataSourceType,
   SearchIndexerIndexProjection,
   SearchIndexerKnowledgeStore,
-  SearchIndexerKnowledgeStoreParameters,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -144,7 +140,7 @@ import type {
   KnowledgeSourceVectorizerUnion as GeneratedKnowledgeSourceVectorizer,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-08-01-preview";
+export const defaultServiceVersion = "2026-10-01";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -338,7 +334,6 @@ export function convertFieldsToPublic(fields?: GeneratedSearchField[]): SearchFi
 
       const result: SimpleField = {
         ...restField,
-        hasSensitivityLabel: field.sensitivityLabelId,
         type,
         hidden,
         synonymMapNames,
@@ -374,7 +369,6 @@ export function convertFieldsToGenerated(
         indexAnalyzerName: field.indexAnalyzerName,
         synonymMapNames: field.synonymMapNames,
         normalizerName: field.normalizerName,
-        sensitivityLabelId: field.hasSensitivityLabel,
       };
     }
   });
@@ -430,7 +424,6 @@ function convertEncryptionKeyToPublic(
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
     identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity),
-    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -450,7 +443,6 @@ function convertEncryptionKeyToGenerated(
     keyVersion: encryptionKey.keyVersion,
     vaultUri: encryptionKey.vaultUrl,
     identity: encryptionKey.identity,
-    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -932,20 +924,6 @@ function convertKnowledgeStoreToPublic(
   return {
     ...knowledgeStore,
     identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
-    parameters: convertKnowledgeStoreParametersToPublic(knowledgeStore.parameters),
-  };
-}
-
-function convertKnowledgeStoreParametersToPublic(
-  parameters?: GeneratedKnowledgeStoreParameters,
-): SearchIndexerKnowledgeStoreParameters | undefined {
-  if (!parameters) {
-    return undefined;
-  }
-  const { additionalProperties, synthesizeGeneratedKeyName } = parameters;
-  return {
-    ...(additionalProperties ?? {}),
-    synthesizeGeneratedKeyName,
   };
 }
 
@@ -1020,7 +998,6 @@ export function convertKnowledgeSourceToPublic(
             indexedOneLakeParameters.ingestionParameters,
           ),
           targetPath: indexedOneLakeParameters.targetPath,
-          queryHints: indexedOneLakeParameters.queryHints,
           createdResources: indexedOneLakeParameters.createdResources?.additionalProperties,
         },
       };
@@ -1068,29 +1045,6 @@ export function convertKnowledgeSourceToPublic(
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
-    case "remoteSharePoint":
-    case "workIQ":
-    case "fabricDataAgent":
-    case "fabricOntology": {
-      const { encryptionKey } = knowledgeSource;
-      return {
-        ...knowledgeSource,
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-        etag: knowledgeSource.eTag,
-      } as KnowledgeSource;
-    }
-    case "mcpServer": {
-      const { encryptionKey, mcpServerParameters } =
-        knowledgeSource as GeneratedMcpServerKnowledgeSource;
-      const { serverURL, ...parameters } = mcpServerParameters;
-      return {
-        ...knowledgeSource,
-        kind: "mcpServer",
-        etag: knowledgeSource.eTag,
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-        mcpServerParameters: { ...parameters, serverUrl: serverURL },
-      } as McpServerKnowledgeSource;
-    }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);
       return undefined;
@@ -1105,16 +1059,6 @@ export function convertKnowledgeSourceToGenerated(
     return undefined;
   }
   const { encryptionKey, etag } = knowledgeSource;
-  if (knowledgeSource.kind === "mcpServer") {
-    const mcpKnowledgeSource = knowledgeSource as McpServerKnowledgeSource;
-    const { serverUrl, ...parameters } = mcpKnowledgeSource.mcpServerParameters;
-    return {
-      ...mcpKnowledgeSource,
-      eTag: etag,
-      encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
-      mcpServerParameters: { ...parameters, serverURL: serverUrl },
-    } as GeneratedKnowledgeSource;
-  }
   return {
     ...knowledgeSource,
     eTag: etag,
@@ -1154,7 +1098,6 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
     folderPath: params.folderPath,
     isAdlsGen2: params.isAdlsGen2,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1167,7 +1110,6 @@ function convertIndexedSharePointParametersToPublic(
     containerName: params.containerName,
     query: params.query,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1182,7 +1124,6 @@ function convertIndexedSqlParametersToPublic(
     contentColumns: params.contentColumns,
     embeddingColumns: params.embeddingColumns,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1192,7 +1133,6 @@ function convertFileKnowledgeSourceParametersToPublic(
 ): FileKnowledgeSourceParameters {
   return {
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }

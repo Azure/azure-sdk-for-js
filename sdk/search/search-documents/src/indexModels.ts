@@ -5,18 +5,15 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
-  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
-  QueryResultDocumentRerankerInput,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  SemanticFieldState,
   SemanticSearchResultsType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
@@ -274,11 +271,6 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
    * The text to be vectorized to perform a vector search query.
    */
   text: string;
-  /**
-   * Can be configured to let a generative model rewrite the query before sending it to be
-   * vectorized.
-   */
-  queryRewrites?: QueryRewrites;
 }
 
 /**
@@ -427,10 +419,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-  /**
-   * The query parameters to configure hybrid search behaviors.
-   */
-  hybridSearch?: HybridSearch;
   /**
    * Enables a debugging tool that can be used to further explore your search results.
    */
@@ -937,62 +925,14 @@ export type SuggestNarrowedModel<
             never;
 
 /**
- * Description of fields that were sent to the semantic enrichment process, as well as how they were
- * used
- */
-export interface QueryResultDocumentSemanticField {
-  /**
-   * The name of the field that was sent to the semantic enrichment process
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
-}
-
-/**
  * Contains debugging information that can be used to further explore your search results.
  */
 export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
   /**
    * Contains debugging information specific to vector and hybrid search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
-}
-
-/**
- * Debug options for semantic search queries.
- */
-export interface SemanticDebugInfo {
-  /**
-   * The title field that was sent to the semantic enrichment process, as well as how it was used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly titleField?: QueryResultDocumentSemanticField;
-  /**
-   * The content fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**
@@ -1072,11 +1012,6 @@ export interface SemanticSearchOptions {
    */
   captions?: QueryCaption;
   /**
-   * When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will
-   * produce 10 (default) rewrites to help increase the recall of the request. Defaults to `none`.
-   */
-  queryRewrites?: QueryRewrites;
-  /**
    * Allows setting a separate search query that will be solely used for semantic reranking,
    * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
    * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
@@ -1090,25 +1025,6 @@ export interface SemanticSearchOptions {
    * Enables a debugging tool that can be used to further explore your search results.
    */
   debugMode?: QueryDebugMode;
-}
-
-/**
- * Defines options for query rewrites.
- */
-export type QueryRewrites = GenerativeQueryRewrites;
-
-/**
- * Generate alternative query terms to increase the recall of a search request.
- */
-export interface GenerativeQueryRewrites {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  rewritesType: "generative";
-  /**
-   * The number of query rewrites to generate. Defaults to 10.
-   */
-  count?: number;
 }
 
 /**
