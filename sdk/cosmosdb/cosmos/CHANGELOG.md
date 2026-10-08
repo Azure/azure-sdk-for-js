@@ -1,12 +1,10 @@
 # Release History
 
-## 4.10.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
+
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
 
 ### Other Changes
 

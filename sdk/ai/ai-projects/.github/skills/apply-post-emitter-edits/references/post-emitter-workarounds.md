@@ -4,9 +4,9 @@
 > source is [`scripts/post-emitter-workarounds.md`](../../../../scripts/post-emitter-workarounds.md);
 > prefer it if it has been updated.
 
-Merge guidelines for newly emitted code from the `./incoming` directory:
+Integration guidelines for newly emitted code in `generated/` and customized code in `src/`:
 
-- The following files **must not be deleted or changed** by the emitter merge:
+- The following hand-maintained files are protected from broad emitter rewrites or deletion:
 
   ```
   src/aiProjectClient.ts
@@ -25,7 +25,8 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
   src/static-helpers/**
   ```
 
-- **IMPORTANT**: If any change or deletion has occurred in the files listed above, the merge has failed and **all operations should be aborted**.
+- Narrowly scoped changes to protected files are permitted when necessary to integrate verified upstream APIs (for example, wiring a new operation group into the customized client and its exports). Start from the clean pre-regeneration customization baseline, preserve existing authentication scopes, tracing, user-agent construction, paging options/headers, error shapes, and other custom behavior, and reject unrelated emitter rewrites. Audit every intentional protected-file delta against upstream evidence and validate it with focused regression tests, build, API extraction, lint, and formatting. Stop for unresolved drift or validation failures, not merely because a protected path changed.
+- When resuming after emitter output has already been committed, use the recorded clean pre-regeneration ref rather than `HEAD` for all generated/source/API comparisons and restoration decisions. Pass `--base-ref <clean-ref>` to both the member-parity guard and the model-removal synchronizer. Never reset history or discard preserved output just to recover an uncommitted workflow.
 
 - In `src/models/models.ts`, additions-only is the default. **NOTE**: `dev-tool customization apply` does NOT automatically copy newly emitted models from `generated/models/models.ts` into `src/models/models.ts`, so propagate additions manually. When upstream intent and the generated baseline diff establish that models were removed, start from the clean customized source and run `.github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs --write`; never replace the file with its generated counterpart.
 
@@ -37,7 +38,10 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
 
 - `foundryFeatures` must **not** be a positional parameter for any method, internal or external facing. Instead, instantiate it locally to a default value before sending it over the wire. **However**, `foundryFeatures` IS allowed as a property on `*Options` / `*OptionalParams` interfaces (i.e. as a member of the options bag, e.g. `foundryFeatures?: "Skills=V1Preview"`). Only positional parameters are forbidden. Any changes making `foundryFeatures` a method parameter must be reverted to the local-const pattern.
 
-- **No changes to the `list` operation in `BetaEvaluatorsOperations` are permitted.** The emitter wants to create a `listLatestVersions` method instead of `list`, but that is not allowed. Revert the rename.
+- Preserve arbitrary JSON Schema properties in `RealtimeFunctionToolParameters`: expose a `Record<string, unknown>` and serialize its contents, not the emitter's empty object. A voice function tool must retain its `type`, `properties`, and `required` schema entries on the wire.
+- New voice/telephony list operations must use the customized cursor paging helper with `last_id` / `has_more` and forward operation options and headers on continuation requests. Outbound campaign LROs use the existing `pollHeaders` option to preserve preview and custom headers; their terminal `TelephonyOperationResource` already includes the resource id, so no new identity wrapper is needed.
+
+- **Preserve the evaluator `list` name, never `listLatestVersions`.** After the verified promotion in azure-rest-api-specs#46830, it belongs to root `EvaluatorsOperations`; `BetaEvaluatorsOperations` retains only uploads. Require generated-baseline promotion evidence and retain upload options while removing unused promoted beta options. Root evaluator wiring must use the same cognitive auth context previously supplied to beta.
 
 - **Known customization-layer renames** (custom name on the right; if the spec-side name appears in `src/` after a regen, it's a propagation false positive — add a private alias instead of copying):
 
@@ -61,7 +65,7 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
 
 - **Identity-bearing LROs must preserve the created resource id.** The emitter resolves these operations to terminal result payloads that omit the id needed by paired get, cancel, and delete operations:
 
-  - Beta optimization, data-generation, and evaluator-generation operations return `JobPoller<T>` and expose `operationState.jobId` through `getJobPoller`.
+  - Optimization, data-generation, and evaluator-generation operations return `JobPoller<T>` and expose `operationState.jobId` through `getJobPoller`, including after promotion out of beta.
   - `src/api/beta/agentInsightMonitors/operations.ts#createRun` returns `RunPoller<AgentInsightRunResult>` and exposes `operationState.runId` through `getRunPoller`.
 
   Mirror each customized return type in its corresponding `src/classic/` operations interface and re-export `JobOperationState` / `JobPoller` and `RunOperationState` / `RunPoller` from `src/index.ts`. The internal helpers share a delegating `PollerLike` wrapper so the id is present through `operationState`, `poll()`, `onProgress()`, serialization, and resume.

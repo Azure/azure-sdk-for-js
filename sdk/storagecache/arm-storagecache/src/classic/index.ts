@@ -10,6 +10,7 @@ export type { CachesOperations } from "./caches/index.js";
 export type { ExpansionJobsOperations } from "./expansionJobs/index.js";
 export type { ImportJobsOperations } from "./importJobs/index.js";
 export type { OperationsOperations } from "./operations/index.js";
+export type { RebalanceJobsOperations } from "./rebalanceJobs/index.js";
 export type { SkusOperations } from "./skus/index.js";
 export type { StorageTargetOperationsOperations } from "./storageTargetOperations/index.js";
 export type { StorageTargetsOperations } from "./storageTargets/index.js";

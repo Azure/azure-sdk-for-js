@@ -100,7 +100,10 @@ export type SenderResult = {
 export interface PersistentStorage {
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
+  /** Restore an already-dequeued batch even if remote storage is paused. */
+  restore(value: unknown[]): Promise<boolean>;
   cleanExpiredFiles(): Promise<void>;
+  shutdown(): void;
 }
 
 /**
@@ -190,6 +193,7 @@ export enum experimentalOpenTelemetryValues {
   SYNTHETIC_TYPE = "user_agent.synthetic.type",
   ATTR_ENDUSER_PSEUDO_ID = "enduser.pseudo.id",
   ATTR_ENDUSER_ID = "enduser.id",
+  ATTR_SESSION_ID = "session.id",
 }
 
 /**
@@ -221,6 +225,7 @@ export const httpSemanticValues = [
   ATTR_EXCEPTION_STACKTRACE,
   experimentalOpenTelemetryValues.ATTR_ENDUSER_ID,
   experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID,
+  experimentalOpenTelemetryValues.ATTR_SESSION_ID,
   experimentalOpenTelemetryValues.SYNTHETIC_TYPE,
 ];
 

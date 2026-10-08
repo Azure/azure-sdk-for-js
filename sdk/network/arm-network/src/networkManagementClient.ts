@@ -56,6 +56,8 @@ import type { ApplicationGatewaysOperations } from "./classic/applicationGateway
 import { _getApplicationGatewaysOperations } from "./classic/applicationGateways/index.js";
 import type { ApplicationSecurityGroupsOperations } from "./classic/applicationSecurityGroups/index.js";
 import { _getApplicationSecurityGroupsOperations } from "./classic/applicationSecurityGroups/index.js";
+import type { AuthenticationPoliciesOperations } from "./classic/authenticationPolicies/index.js";
+import { _getAuthenticationPoliciesOperations } from "./classic/authenticationPolicies/index.js";
 import type { AvailableDelegationsOperations } from "./classic/availableDelegations/index.js";
 import { _getAvailableDelegationsOperations } from "./classic/availableDelegations/index.js";
 import type { AvailableEndpointServicesOperations } from "./classic/availableEndpointServices/index.js";
@@ -388,7 +390,7 @@ import type {
   VirtualWanVpnProfileParameters,
   VpnProfileResponse,
   DnsNameAvailabilityResult,
-} from "./models/microsoft/network/models.js";
+} from "./models/network/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
@@ -649,6 +651,7 @@ export class NetworkManagementClient {
     this.networkInterfaces = _getNetworkInterfacesOperations(this._client);
     this.bastionHosts = _getBastionHostsOperations(this._client);
     this.azureFirewalls = _getAzureFirewallsOperations(this._client);
+    this.authenticationPolicies = _getAuthenticationPoliciesOperations(this._client);
     this.applicationSecurityGroups = _getApplicationSecurityGroupsOperations(this._client);
     this.applicationGatewayPrivateEndpointConnections =
       _getApplicationGatewayPrivateEndpointConnectionsOperations(this._client);
@@ -1310,6 +1313,8 @@ export class NetworkManagementClient {
   public readonly bastionHosts: BastionHostsOperations;
   /** The operation groups for azureFirewalls */
   public readonly azureFirewalls: AzureFirewallsOperations;
+  /** The operation groups for authenticationPolicies */
+  public readonly authenticationPolicies: AuthenticationPoliciesOperations;
   /** The operation groups for applicationSecurityGroups */
   public readonly applicationSecurityGroups: ApplicationSecurityGroupsOperations;
   /** The operation groups for applicationGatewayPrivateEndpointConnections */

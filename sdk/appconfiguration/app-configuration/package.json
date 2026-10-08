@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -93,7 +93,6 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "nock": "catalog:testing",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "react-native": "catalog:testing",

@@ -42,13 +42,11 @@ stages:
               CheckLinkGuidance: $true
               Condition: succeededOrFailed()
 
-          - script: 'npm ci'
-            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/eng-package-utils'
-            displayName: 'Install eng-package-utils dependencies'
+          - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
-          - script: 'npm ci'
-            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-            displayName: 'Install analyze-deps dependencies'
+          - script: 'pnpm install'
+            workingDirectory: '$(Build.SourcesDirectory)'
+            displayName: 'Install repository dependencies'
 
           - script: |
               node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"

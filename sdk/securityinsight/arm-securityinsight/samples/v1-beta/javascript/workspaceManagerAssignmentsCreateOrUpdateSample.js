@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a workspace manager assignment.
  *
  * @summary creates or updates a workspace manager assignment.
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/CreateOrUpdateWorkspaceManagerAssignment.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/CreateOrUpdateWorkspaceManagerAssignment.json
  */
 async function createsOrUpdatesAWorkspaceManagerAssignment() {
   const credential = new DefaultAzureCredential();

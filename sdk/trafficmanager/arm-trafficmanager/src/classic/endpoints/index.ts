@@ -20,7 +20,7 @@ export interface EndpointsOperations {
     endpointType: EndpointType,
     endpointName: string,
     options?: EndpointsDeleteOptionalParams,
-  ) => Promise<DeleteOperationResult>;
+  ) => Promise<DeleteOperationResult | void>;
   /** Update a Traffic Manager endpoint. */
   update: (
     resourceGroupName: string,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates a new query key for the specified search service. You can create up to 50 query keys per service.
  *
  * @summary generates a new query key for the specified search service. You can create up to 50 query keys per service.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateQueryKey.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCreateQueryKey.json
  */
 async function searchCreateQueryKey() {
   const credential = new DefaultAzureCredential();

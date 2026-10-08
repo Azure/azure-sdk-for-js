@@ -3,6 +3,8 @@
 
 import { diag } from "@opentelemetry/api";
 import {
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
+  ENV_MICROSOFT_OPENTELEMETRY_VERSION,
   ONE_SETTINGS_BACKOFF_BASE_MS,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
@@ -76,10 +78,21 @@ export class ConfigurationManager {
    * constructor, since only the first call has any effect.
    *
    * @param profile - Running SDK attributes contributed by the caller. Existing profile fields
-   * remain unchanged.
+   * remain unchanged. When a supported distro version environment variable is present, its
+   * component and version take precedence over the caller's values.
    */
   public initialize(profile: Partial<ConfigurationProfileValues> = {}): void {
-    ConfigurationProfile.getInstance().fill(profile);
+    const microsoftDistroVersion = process.env[ENV_MICROSOFT_OPENTELEMETRY_VERSION];
+    const azureMonitorDistroVersion = process.env[ENV_AZURE_MONITOR_DISTRO_VERSION];
+    const distroProfile: Partial<ConfigurationProfileValues> = microsoftDistroVersion
+      ? { component: "mot", version: microsoftDistroVersion }
+      : azureMonitorDistroVersion
+        ? { component: "dst", version: azureMonitorDistroVersion }
+        : {};
+    ConfigurationProfile.getInstance().fill({
+      ...profile,
+      ...distroProfile,
+    });
     if (this.worker) {
       return;
     }
@@ -101,14 +114,24 @@ export class ConfigurationManager {
   /**
    * Register a callback to be invoked whenever OneSettings reports a configuration change.
    * If settings are already cached, they are replayed immediately to the new callback.
+   * @returns A function that unregisters this subscription.
    */
-  public registerCallback(callback: ConfigurationChangeCallback): void {
-    this.callbacks.push(callback);
+  public registerCallback(callback: ConfigurationChangeCallback): () => void {
+    // Wrap each registration so it can be unregistered independently, even for the same callback.
+    const subscription: ConfigurationChangeCallback = (settings) => callback(settings);
+    this.callbacks.push(subscription);
     if (Object.keys(this.state.settings).length > 0) {
       // A callback may register after the last configuration change, so replay the cache now rather
       // than leaving the consumer stale until another change occurs (which may never happen).
-      this.invokeCallback(callback, this.state.settings);
+      this.invokeCallback(subscription, this.state.settings);
     }
+    // Return a cleanup function that unregisters this callback subscription.
+    return () => {
+      const index = this.callbacks.indexOf(subscription);
+      if (index !== -1) {
+        this.callbacks.splice(index, 1);
+      }
+    };
   }
 
   /**

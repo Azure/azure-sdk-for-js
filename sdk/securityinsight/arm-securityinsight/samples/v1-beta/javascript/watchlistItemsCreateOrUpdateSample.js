@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a watchlist item.
  *
  * @summary create or update a watchlist item.
- * x-ms-original-file: 2025-07-01-preview/watchlists/CreateWatchlistItem.json
+ * x-ms-original-file: 2025-10-01-preview/watchlists/CreateWatchlistItem.json
  */
 async function createOrUpdateAWatchlistItem() {
   const credential = new DefaultAzureCredential();

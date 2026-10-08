@@ -38,7 +38,7 @@ export function _reconcileSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       nspConfigName: nspConfigName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _reconcileDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
-
 /** Reconcile network security perimeter configuration for SQL Resource Provider */
 export function reconcile(
   context: Client,
@@ -83,7 +82,7 @@ export function reconcile(
     getInitialResponse: () =>
       _reconcileSend(context, resourceGroupName, serverName, nspConfigName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
@@ -104,7 +103,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _listByServerDeserialize(
 
   return _networkSecurityPerimeterConfigurationListResultDeserializer(result.body);
 }
-
 /** Gets a list of NSP configurations for a server. */
 export function listByServer(
   context: Client,
@@ -146,7 +144,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -164,7 +166,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       nspConfigName: nspConfigName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +193,6 @@ export async function _getDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
-
 /** Gets a network security perimeter configuration. */
 export async function get(
   context: Client,

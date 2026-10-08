@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an incident comment.
  *
  * @summary gets an incident comment.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentComments/IncidentComments_Get.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentComments/IncidentComments_Get.json
  */
 async function incidentCommentsGet() {
   const credential = new DefaultAzureCredential();

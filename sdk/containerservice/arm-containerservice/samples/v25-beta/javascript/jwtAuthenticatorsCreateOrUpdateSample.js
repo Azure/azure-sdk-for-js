@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
  *
  * @summary creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
- * x-ms-original-file: 2026-06-02-preview/JWTAuthenticators_Create_Or_Update.json
+ * x-ms-original-file: 2026-07-02-preview/JWTAuthenticators_Create_Or_Update.json
  */
 async function createOrUpdateJWTAuthenticator() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function createOrUpdateJWTAuthenticator() {
  * This sample demonstrates how to creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
  *
  * @summary creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
- * x-ms-original-file: 2026-06-02-preview/JWTAuthenticators_Create_Or_Update_CustomCABundle.json
+ * x-ms-original-file: 2026-07-02-preview/JWTAuthenticators_Create_Or_Update_CustomCABundle.json
  */
 async function createOrUpdateJWTAuthenticatorWithCustomCABundle() {
   const credential = new DefaultAzureCredential();

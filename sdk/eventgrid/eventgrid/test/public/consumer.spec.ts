@@ -40,8 +40,7 @@ describe("EventGridDeserializer", () => {
       assert.deepStrictEqual(events[1], testData.customTestEvent2.eventGridSchema.expected);
     });
 
-    it("fails when a required property is missing", () => {
-      const o = { ...testData.customTestEvent1.eventGridSchema.expected };
+    it("fails when a required property is missing", async () => {
       for (const property of [
         "eventType",
         "eventTime",
@@ -50,19 +49,20 @@ describe("EventGridDeserializer", () => {
         "data",
         "dataVersion",
       ]) {
+        const o = { ...testData.customTestEvent1.eventGridSchema.expected };
         delete o[property];
 
-        expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
+        await expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
           /missing required property/,
         );
       }
     });
 
-    it("fails when metadata version is wrong", () => {
+    it("fails when metadata version is wrong", async () => {
       const o = { ...testData.customTestEvent1.eventGridSchema.expected };
       o.metadataVersion = "2";
 
-      expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
+      await expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
         /event is not in the Event Grid schema/,
       );
     });
@@ -100,22 +100,22 @@ describe("EventGridDeserializer", () => {
       assert.deepStrictEqual(events[1], testData.customTestEvent2.cloudEventSchema.expected);
     });
 
-    it("fails when a required property is missing", () => {
-      const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
+    it("fails when a required property is missing", async () => {
       for (const property of ["type", "source", "id", "specversion"]) {
+        const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
         delete o[property];
 
-        expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
+        await expect(() => consumer.deserializeCloudEvents(JSON.stringify(o))).rejects.toThrow(
           /missing required property/,
         );
       }
     });
 
-    it("fails when spec version is wrong", () => {
+    it("fails when spec version is wrong", async () => {
       const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
       o.specversion = "2.0";
 
-      expect(() => consumer.deserializeCloudEvents(JSON.stringify(o))).rejects.toThrow(
+      await expect(() => consumer.deserializeCloudEvents(JSON.stringify(o))).rejects.toThrow(
         /event is not in the Cloud Event 1.0 schema/,
       );
     });

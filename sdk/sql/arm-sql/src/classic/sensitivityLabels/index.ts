@@ -115,7 +115,6 @@ export interface SensitivityLabelsOperations {
     options?: SensitivityLabelsListCurrentByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<SensitivityLabel>;
 }
-
 function _getSensitivityLabels(context: SqlManagementContext) {
   return {
     enableRecommendation: (
@@ -244,7 +243,6 @@ function _getSensitivityLabels(context: SqlManagementContext) {
     ) => listCurrentByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getSensitivityLabelsOperations(
   context: SqlManagementContext,
 ): SensitivityLabelsOperations {

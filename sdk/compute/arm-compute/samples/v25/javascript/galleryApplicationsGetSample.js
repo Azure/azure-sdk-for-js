@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a gallery Application Definition.
  *
  * @summary retrieves information about a gallery Application Definition.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplication_Get.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplication_Get.json
  */
 async function getAGalleryApplication() {
   const credential = new DefaultAzureCredential();

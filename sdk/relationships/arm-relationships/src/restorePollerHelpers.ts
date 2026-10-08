@@ -7,6 +7,10 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/serviceGroupMemberRelationships/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeDependencyOfRelationshipsByServiceGroup,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDependencyOfRelationshipsByServiceGroup,
+} from "./api/dependencyOfRelationshipsByServiceGroup/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeDependencyOfRelationships,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDependencyOfRelationships,
 } from "./api/dependencyOfRelationships/operations.js";
@@ -88,6 +92,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _createOrUpdateDeserialize,
     expectedStatuses: ["200", "201", "202"],
   },
+  "DELETE /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Relationships/dependencyOf/{name}":
+    {
+      deserializer: _$deleteDeserializeDependencyOfRelationshipsByServiceGroup,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Relationships/dependencyOf/{name}":
+    {
+      deserializer: _createOrUpdateDeserializeDependencyOfRelationshipsByServiceGroup,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}": {
     deserializer: _$deleteDeserializeDependencyOfRelationships,
     expectedStatuses: ["202", "204", "200"],

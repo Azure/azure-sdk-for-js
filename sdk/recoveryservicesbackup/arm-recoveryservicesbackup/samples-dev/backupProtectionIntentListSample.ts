@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides a pageable list of all intents that are present within a vault.
  *
  * @summary provides a pageable list of all intents that are present within a vault.
- * x-ms-original-file: 2026-07-01/AzureWorkload/BackupProtectionIntent_List.json
+ * x-ms-original-file: 2026-08-01/AzureWorkload/BackupProtectionIntent_List.json
  */
 async function listProtectionIntentWithBackupManagementTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

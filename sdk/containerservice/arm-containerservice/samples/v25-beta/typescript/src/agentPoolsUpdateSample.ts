@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information.
  *
  * @summary updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information.
- * x-ms-original-file: 2026-06-02-preview/AgentPoolsUpdate_Scale.json
+ * x-ms-original-file: 2026-07-02-preview/AgentPoolsUpdate_Scale.json
  */
 async function updateAgentPoolScaleVmss(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateAgentPoolScaleVmss(): Promise<void> {
  * This sample demonstrates how to updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information.
  *
  * @summary updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information.
- * x-ms-original-file: 2026-06-02-preview/AgentPoolsUpdate_ScaleVMs.json
+ * x-ms-original-file: 2026-07-02-preview/AgentPoolsUpdate_ScaleVMs.json
  */
 async function updateAgentPoolScaleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();

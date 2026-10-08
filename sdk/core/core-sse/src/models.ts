@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { NodeIncomingMessage, NodeJSReadableStream } from "#platform/types";
+
 /**
  * Represents a message sent in an event stream
  * https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
@@ -22,5 +25,152 @@ export interface EventMessage {
 export type EventMessageStream = ReadableStream<EventMessage> &
   AsyncDisposable &
   AsyncIterable<EventMessage>;
+
+/**
+ * A stream containing the bytes of an SSE response body.
+ */
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
+
+/**
+ * Options for parsing a single SSE response body.
+ */
+export interface SseStreamOptions {
+  /**
+   * Identifies a service-defined terminal event. The response body is canceled
+   * immediately; the matching event remains available before the stream closes.
+   */
+  isTerminalEvent?: (event: EventMessage) => boolean;
+}
+
+/**
+ * Context supplied when establishing an SSE connection.
+ */
+export interface SseConnectOptions {
+  /**
+   * A signal that aborts this connection attempt.
+   */
+  abortSignal: AbortSignalLike;
+
+  /**
+   * The last event ID to send with the request.
+   *
+   * This is omitted from the initial request unless explicitly configured and
+   * omitted from reconnect requests when the last event ID is empty.
+   */
+  lastEventId?: string;
+}
+
+/**
+ * The minimum response shape needed by a reconnecting SSE stream.
+ */
+export interface SseConnectResponse {
+  /**
+   * The response body, when the response is accepted as an SSE connection.
+   */
+  body?: SseStream;
+}
+
+/**
+ * An HTTP response that can use the default SSE response validator.
+ */
+export interface SseHttpResponse extends SseConnectResponse {
+  /**
+   * The HTTP status code, as a number or string.
+   */
+  status: number | string;
+
+  /**
+   * Response headers, as a name-value record or a Headers-like object.
+   */
+  headers: Record<string, string | undefined> | { get(name: string): string | null };
+}
+
+/**
+ * Establishes an SSE connection.
+ */
+export type SseConnect<TResponse extends SseConnectResponse> = (
+  options: SseConnectOptions,
+) => Promise<TResponse>;
+
+/**
+ * The result of validating an SSE connection response.
+ */
+export type SseResponseValidationResult = "accept" | "stop";
+
+/**
+ * Validates an SSE connection response.
+ *
+ * Resolve to `"accept"` to consume the response body or `"stop"` to end the
+ * stream without reconnecting. Reject to fail the stream.
+ */
+export type SseResponseValidator<TResponse extends SseConnectResponse> = (
+  response: TResponse,
+) => Promise<SseResponseValidationResult>;
+
+/**
+ * Options for creating a reconnecting SSE stream.
+ */
+export interface ReconnectingSseStreamOptions<TResponse extends SseConnectResponse> {
+  /**
+   * Validates every response before its body is consumed. Required when the
+   * connection response does not include HTTP status and headers.
+   */
+  validateResponse: SseResponseValidator<TResponse>;
+
+  /**
+   * A signal used to abort connection attempts, active response bodies, and
+   * pending reconnection delays.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Identifies a service-defined terminal event. The response body is canceled
+   * immediately, the matching event is yielded, and the stream closes without reconnecting.
+   */
+  isTerminalEvent?: (event: EventMessage) => boolean;
+
+  /**
+   * The event ID to send with the initial request.
+   *
+   * Events without an explicit ID inherit this value until the service sets
+   * or clears the event ID.
+   */
+  lastEventId?: string;
+
+  /**
+   * The initial delay, in non-negative safe integer milliseconds, before reconnecting.
+   * Defaults to 3000.
+   *
+   * A valid `retry:` field received from the service replaces this value for
+   * subsequent reconnections.
+   */
+  retryDelayInMs?: number;
+
+  /**
+   * The maximum total number of reconnection requests. By default,
+   * reconnection is unlimited.
+   */
+  maxRetries?: number;
+}
+
+/**
+ * An error thrown when an SSE stream reaches its configured reconnection limit.
+ */
+export class SseRetryError extends Error {
+  /**
+   * The last transport error, when reconnection followed a transport failure.
+   */
+  override readonly cause?: unknown;
+
+  /**
+   * Creates an error indicating that an SSE stream exhausted its reconnection attempts.
+   * @param cause - The last transport error, if one occurred.
+   */
+  constructor(cause?: unknown) {
+    super("The SSE stream exhausted its reconnection attempts.");
+    this.name = "SseRetryError";
+    this.cause = cause;
+  }
+}
 
 export type { NodeIncomingMessage, NodeJSReadableStream } from "#platform/types";

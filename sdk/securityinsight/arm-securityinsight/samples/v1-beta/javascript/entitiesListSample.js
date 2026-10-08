@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all entities.
  *
  * @summary gets all entities.
- * x-ms-original-file: 2025-07-01-preview/entities/GetEntities.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetEntities.json
  */
 async function getAllEntities() {
   const credential = new DefaultAzureCredential();

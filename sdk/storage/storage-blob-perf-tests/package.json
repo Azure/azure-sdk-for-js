@@ -50,7 +50,7 @@
     "@azure-tools/test-perf": "workspace:^",
     "@azure/core-rest-pipeline": "^1.19.1",
     "@azure/storage-blob": "^12.27.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:testing",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

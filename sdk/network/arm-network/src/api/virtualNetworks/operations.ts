@@ -8,6 +8,8 @@ import {
   virtualNetworkSerializer,
   virtualNetworkDeserializer,
 } from "../../models/common/models.js";
+import type { _VirtualNetworkListResult } from "../../models/models.js";
+import { _virtualNetworkListResultDeserializer } from "../../models/models.js";
 import type {
   TagsObject,
   PublicIpDdosProtectionStatusResult,
@@ -16,16 +18,14 @@ import type {
   VirtualNetworkUsage,
   _VirtualNetworkDdosProtectionStatusResult,
   MoveIpConfigurationsRequest,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
   tagsObjectSerializer,
   ipAddressAvailabilityResultDeserializer,
   _virtualNetworkListUsageResultDeserializer,
   _virtualNetworkDdosProtectionStatusResultDeserializer,
   moveIpConfigurationsRequestSerializer,
-} from "../../models/microsoft/network/models.js";
-import type { _VirtualNetworkListResult } from "../../models/models.js";
-import { _virtualNetworkListResultDeserializer } from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -59,7 +59,7 @@ export function _moveIpConfigurationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +102,7 @@ export function moveIpConfigurations(
     getInitialResponse: () =>
       _moveIpConfigurationsSend(context, resourceGroupName, virtualNetworkName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -118,7 +118,7 @@ export function _listDdosProtectionStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       top: options?.top,
       skipToken: options?.skipToken,
     },
@@ -165,7 +165,7 @@ export function listDdosProtectionStatus(
       getInitialResponse: () =>
         _listDdosProtectionStatusSend(context, resourceGroupName, virtualNetworkName, options),
       resourceLocationConfig: "location",
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -174,7 +174,7 @@ export function listDdosProtectionStatus(
     async () => await initialPagingPoller,
     _listDdosProtectionStatusDeserialize,
     ["200", "202", "201"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -190,7 +190,7 @@ export function _listUsageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +230,7 @@ export function listUsage(
     () => _listUsageSend(context, resourceGroupName, virtualNetworkName, options),
     _listUsageDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -247,7 +247,7 @@ export function _checkIPAddressAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       ipAddress: ipAddress,
     },
     {
@@ -302,7 +302,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -340,7 +340,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -354,7 +354,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,7 +393,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -409,7 +409,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,7 +444,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, virtualNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -461,7 +461,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -522,7 +522,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -566,7 +566,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, virtualNetworkName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<VirtualNetwork>, VirtualNetwork>;
 }
 
@@ -582,7 +582,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       "%24expand": options?.expand,
     },
     {

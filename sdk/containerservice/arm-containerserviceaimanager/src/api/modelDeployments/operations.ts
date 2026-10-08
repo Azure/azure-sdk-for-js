@@ -37,7 +37,7 @@ export function _listByAIManagerNamespaceSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,6 +64,7 @@ export async function _listByAIManagerNamespaceDeserialize(
 
   return _modelDeploymentListResultDeserializer(result.body);
 }
+
 /** List ModelDeployment resources by AIManagerNamespace */
 export function listByAIManagerNamespace(
   context: Client,
@@ -87,7 +88,7 @@ export function listByAIManagerNamespace(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -108,7 +109,7 @@ export function _$deleteSend(
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
       modelDeploymentName: modelDeploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,6 +137,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ModelDeployment */
 export function $delete(
   context: Client,
@@ -158,7 +160,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -179,7 +181,7 @@ export function _createOrUpdateSend(
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
       modelDeploymentName: modelDeploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,6 +215,7 @@ export async function _createOrUpdateDeserialize(
 
   return modelDeploymentDeserializer(result.body);
 }
+
 /** Create or update a `ModelDeployment`. This is a full-replace operation: any optional property omitted from the request body is reset to its default value, or cleared if it has no default. To safely modify a subset of fields, perform a GET, modify the returned resource, and PUT it back using the returned ETag via the `If-Match` header to avoid concurrent overwrites. */
 export function createOrUpdate(
   context: Client,
@@ -237,7 +240,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<ModelDeployment>, ModelDeployment>;
 }
 
@@ -257,7 +260,7 @@ export function _getSend(
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
       modelDeploymentName: modelDeploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,6 +285,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 
   return modelDeploymentDeserializer(result.body);
 }
+
 /** Get a ModelDeployment */
 export async function get(
   context: Client,

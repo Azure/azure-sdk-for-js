@@ -9,6 +9,8 @@ import type { AIManagersOperations } from "./classic/aiManagers/index.js";
 import { _getAIManagersOperations } from "./classic/aiManagers/index.js";
 import type { AIModelsOperations } from "./classic/aiModels/index.js";
 import { _getAIModelsOperations } from "./classic/aiModels/index.js";
+import type { CustomAIModelsOperations } from "./classic/customAIModels/index.js";
+import { _getCustomAIModelsOperations } from "./classic/customAIModels/index.js";
 import type { ModelDeploymentsOperations } from "./classic/modelDeployments/index.js";
 import { _getModelDeploymentsOperations } from "./classic/modelDeployments/index.js";
 import type { ModelSourcesOperations } from "./classic/modelSources/index.js";
@@ -33,6 +35,7 @@ export class ContainerServiceClient {
   ) {
     this._client = createContainerService(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.customAIModels = _getCustomAIModelsOperations(this._client);
     this.modelDeployments = _getModelDeploymentsOperations(this._client);
     this.modelSources = _getModelSourcesOperations(this._client);
     this.aiModels = _getAIModelsOperations(this._client);
@@ -41,6 +44,8 @@ export class ContainerServiceClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for customAIModels */
+  public readonly customAIModels: CustomAIModelsOperations;
   /** The operation groups for modelDeployments */
   public readonly modelDeployments: ModelDeploymentsOperations;
   /** The operation groups for modelSources */

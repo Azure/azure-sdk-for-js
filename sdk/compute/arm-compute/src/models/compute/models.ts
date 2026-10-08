@@ -1023,8 +1023,10 @@ export function additionalUnattendContentDeserializer(item: any): AdditionalUnat
 
 /** Type of PassNames */
 export type PassNames = "OobeSystem";
+
 /** The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup. */
 export type ComponentNames = "Microsoft-Windows-Shell-Setup";
+
 /** Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. */
 export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 
@@ -13674,6 +13676,7 @@ export function rollingUpgradeRunningStatusDeserializer(item: any): RollingUpgra
 /** Code indicating the current status of the upgrade. */
 export type RollingUpgradeStatusCode =
   "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
+
 /** The last action performed on the rolling upgrade. */
 export type RollingUpgradeActionType = "Start" | "Cancel";
 
@@ -14810,6 +14813,7 @@ export enum KnownExpandTypesForGetVMScaleSets {
 
 /** Type of ExpandTypesForGetVMScaleSets */
 export type ExpandTypesForGetVMScaleSets = string;
+
 /** Type of InstanceViewTypes */
 export type InstanceViewTypes = "instanceView" | "userData" | "resiliencyView";
 
