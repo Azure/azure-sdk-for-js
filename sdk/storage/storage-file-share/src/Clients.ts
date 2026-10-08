@@ -1683,6 +1683,27 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
    * If true, the Content-Length property will be up-to-date, FileId will be returned in response.
    */
   includeExtendedInfo?: boolean;
+  /**
+   * Optional. Specifies that the owner, group and file mode should be included in the response.
+   * Only applies to NFS shares; the service rejects it for SMB shares.
+   */
+  includePermissions?: boolean;
+  /**
+   * Optional. Specifies that the number of hard links should be included in the response.
+   * Only applies to NFS shares; the service rejects it for SMB shares.
+   */
+  includeLinkCount?: boolean;
+  /**
+   * Optional. Specifies that NFS attributes, such as the link text of symbolic links, should be
+   * included in the response. Only applies to NFS shares; the service rejects it for SMB shares.
+   */
+  includeNfsAttributes?: boolean;
+  /**
+   * Optional. Specifies that all the properties that apply to the share's protocol, SMB or NFS,
+   * should be included in the response. When true, the other include options are ignored,
+   * except `includeExtendedInfo`.
+   */
+  includeAll?: boolean;
 }
 
 /**
@@ -2648,17 +2669,31 @@ export class ShareDirectoryClient extends StorageClient {
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
     const include: ListFilesIncludeType[] = [];
-    if (options.includeTimestamps) {
-      include.push("Timestamps");
-    }
-    if (options.includeEtag) {
-      include.push("Etag");
-    }
-    if (options.includeAttributes) {
-      include.push("Attributes");
-    }
-    if (options.includePermissionKey) {
-      include.push("PermissionKey");
+    if (options.includeAll) {
+      // "All" is sent alone: some of the other values apply only to SMB or only to NFS shares.
+      include.push("All");
+    } else {
+      if (options.includeTimestamps) {
+        include.push("Timestamps");
+      }
+      if (options.includeEtag) {
+        include.push("Etag");
+      }
+      if (options.includeAttributes) {
+        include.push("Attributes");
+      }
+      if (options.includePermissionKey) {
+        include.push("PermissionKey");
+      }
+      if (options.includePermissions) {
+        include.push("Permissions");
+      }
+      if (options.includeLinkCount) {
+        include.push("LinkCount");
+      }
+      if (options.includeNfsAttributes) {
+        include.push("NfsAttributes");
+      }
     }
     if (options.prefix === "") {
       options.prefix = undefined;

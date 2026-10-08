@@ -14,7 +14,6 @@ import type {
   FileGetRangeListHeaders,
   FileGetSymbolicLinkHeaders,
   FileListHandlesHeaders,
-  FileProperty,
   FileRenameHeaders,
   FileServiceProperties,
   FileSetMetadataHeaders,
@@ -24,6 +23,7 @@ import type {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
+  NfsFileType,
   ServiceGetPropertiesHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreateHeaders,
@@ -47,6 +47,7 @@ import type {
   FileDownloadResponse,
   FilePosixProperties,
   FileSetHttpHeadersHeaders,
+  NfsFileMode,
 } from "./models.js";
 import type { WithResponse } from "./utils/utils.common.js";
 
@@ -604,7 +605,6 @@ export type {
   FileDeleteHeaders,
   FileGetSymbolicLinkHeaders,
   FilePermissionFormat,
-  FileProperty,
   FileListHandlesHeaders,
   FileRenameHeaders,
   CorsRule,
@@ -674,6 +674,24 @@ export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQ
  */
 export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
 
+/** File properties. */
+export interface FileProperty {
+  /** Content length of the file. This value may not be up-to-date since an SMB client may have modified the file locally. The value of Content-Length may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, call Get File Properties. Not returned for directories, block devices, character devices, FIFOs and sockets. For symbolic links, the length of the link text. */
+  contentLength: number;
+  creationTime?: Date;
+  lastAccessTime?: Date;
+  lastWriteTime?: Date;
+  changeTime?: Date;
+  lastModified?: Date;
+  etag?: string;
+  /** NFS only. The owner user identifier (UID). Returned when `includePermissions` or `includeAll` is set. */
+  owner?: string;
+  /** NFS only. The owning group identifier (GID). Returned when `includePermissions` or `includeAll` is set. */
+  group?: string;
+  /** NFS only. The mode permissions. Returned when `includePermissions` or `includeAll` is set. */
+  fileMode?: NfsFileMode;
+}
+
 /** A listed file item. */
 export interface FileItem {
   name: string;
@@ -682,6 +700,20 @@ export interface FileItem {
   properties: FileProperty;
   attributes?: string;
   permissionKey?: string;
+  /** NFS only. The number of hard links to the entry. Returned when `includeLinkCount` or `includeAll` is set. */
+  linkCount?: number;
+  /**
+   * The type of the entry: `Regular`, `SymLink`, `BlockDevice`, `CharacterDevice`, `Fifo` or `Socket`.
+   * Intended to be used only for NFS shares. The service only tells these types apart when
+   * `includeExtendedInfo` or another `include*` option is set; otherwise every file is listed as `Regular`.
+   */
+  fileType?: NfsFileType;
+  /** NFS only. The path that the symbolic link points to. Returned when `includeNfsAttributes` or `includeAll` is set. */
+  linkText?: string;
+  /** NFS only. The major device number. Only set for block devices and character devices. */
+  deviceMajor?: number;
+  /** NFS only. The minor device number. Only set for block devices and character devices. */
+  deviceMinor?: number;
 }
 
 /** A listed directory item. */
@@ -692,6 +724,10 @@ export interface DirectoryItem {
   properties?: FileProperty;
   attributes?: string;
   permissionKey?: string;
+  /** NFS only. The number of hard links to the directory. Returned when `includeLinkCount` or `includeAll` is set. */
+  linkCount?: number;
+  /** The type of the entry, always `Directory`. Intended to be used only for NFS shares. */
+  fileType?: NfsFileType;
 }
 
 /** Abstract for entries that can be listed from Directory. */
