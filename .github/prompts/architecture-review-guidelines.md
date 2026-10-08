@@ -235,7 +235,7 @@ by `@azure/eslint-plugin-azure-sdk`. Flag missing or incorrect:
 - `keywords`, `sideEffects: false`
 - `engines.node` (minimum supported Node version)
 - `sdk-type` (kebab-case) — valid values: `client`, `mgmt`,
-  `perf-test`, `utility`
+  `provisioning`, `perf-test`, `utility`
 - `types` pointing to `.d.ts` bundle
 - `main` pointing to CJS entry
 - `files` array (must include dist, types, README, LICENSE, CHANGELOG)

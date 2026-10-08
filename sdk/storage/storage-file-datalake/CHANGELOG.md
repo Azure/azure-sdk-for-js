@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
+- Added opt-in data locality support to `readToBuffer`, using the routing added in `@azure/storage-blob`. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"enabled"` to read chunks from the endpoints that hold them; disabled by default and Node.js only.
+- Added `DataLakeFileClient.getLayout`, which pages through the file's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
+- Added `layoutEndpoint` to `FileReadOptions`, to route a single `read` call.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -13,6 +18,7 @@
 ### Other Changes
 
 - Migrated to TypeSpec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+- Added a note to the create and delete methods of `DataLakeFileSystemClient` about what happens after a file system is deleted: a file system with the same name can't be created for at least 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
 
 ## 12.31.0 (2026-06-24)
 

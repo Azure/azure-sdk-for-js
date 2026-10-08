@@ -9,6 +9,10 @@ permissions:
   issues: read
   pull-requests: read
   copilot-requests: write
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
 # DataOps + planner-worker pattern. A deterministic step enumerates the docs
 # (zero AI tokens); each doc is then verified by an isolated `model: small`
 # `doc-checker` sub-agent that returns only compact findings. The orchestrator

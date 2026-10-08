@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified occurrence.
  *
  * @summary gets the specified occurrence.
- * x-ms-original-file: 2026-08-06-preview/Occurrences_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/Occurrences_Get_MaximumSet_Gen.json
  */
 async function getAScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();

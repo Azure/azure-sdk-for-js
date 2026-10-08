@@ -13,5 +13,6 @@ export type {
   ChatUserUnion,
   ChatUserKind,
   HumanChatUser,
+  GenerateClientTokenResponse,
 } from "./models.js";
 export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models.js";

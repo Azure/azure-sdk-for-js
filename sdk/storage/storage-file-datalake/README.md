@@ -473,6 +473,83 @@ if (downloadResponse.contentAsBlob) {
 }
 ```
 
+### Authenticate file reads with a session token (Node.js)
+
+When you authenticate with a `TokenCredential`, you can opt in to the session token authentication provided by `@azure/storage-blob`. Sessions are disabled by default; set `sessionOptions.mode` to `"enabled"` to opt in.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+A session only signs eligible blob download requests, so within Data Lake this affects file reads: `read`, `readToBuffer`, and `readToFile`. Every other operation continues to use a bearer token, including the file system calls that are served by the blob endpoint rather than by DFS.
+
+In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
+
+```ts snippet:ReadmeSampleSessionAuthentication
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+
+// Session token authentication is only available in the Node.js runtime. In browsers and
+// React Native these options are ignored and requests keep using a bearer token.
+const datalakeServiceClient = new DataLakeServiceClient(
+  `https://${account}.dfs.core.windows.net`,
+  new DefaultAzureCredential(),
+  { sessionOptions: { mode: "enabled" } },
+);
+
+// A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+// Every other Data Lake operation uses a bearer token.
+const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+const fileClient = fileSystemClient.getFileClient("<file name>");
+const downloadResponse = await fileClient.read();
+if (downloadResponse.readableStreamBody) {
+  const downloaded = await buffer(downloadResponse.readableStreamBody);
+  console.log("Downloaded file content:", downloaded.toString());
+}
+```
+
+### Read files from the endpoints that store them (Node.js)
+
+File reads can use the layout-aware routing provided by `@azure/storage-blob`. When the first chunk that `readToBuffer` reads comes back with a hint that the file has a layout, the remaining chunks can be read directly from the storage endpoints that hold them, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+To route your own reads, `getLayout` returns the file's layout and `read` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
+
+```ts snippet:ReadmeSampleLayoutAwareRouting
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+const datalakeServiceClient = new DataLakeServiceClient(
+  `https://${account}.dfs.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+const fileClient = fileSystemClient.getFileClient("<file name>");
+
+// Routing is off by default. Opt in to read chunks from the endpoints that hold them.
+const downloaded = await fileClient.readToBuffer(0, undefined, {
+  layoutAwareRouting: "enabled",
+});
+console.log(`Downloaded ${downloaded.length} bytes`);
+
+// To route reads yourself, read each range of the layout from the endpoint that serves it.
+for await (const page of fileClient.getLayout()) {
+  const endpoints = page.endpoints?.endpoint ?? [];
+  for (const range of page.ranges?.range ?? []) {
+    const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+    const response = await fileClient.read(range.start, range.end - range.start + 1, {
+      layoutEndpoint: endpoint?.value,
+    });
+    if (response.readableStreamBody) {
+      const bytes = await buffer(response.readableStreamBody);
+      console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
+    }
+  }
+}
+```
+
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:

@@ -406,6 +406,59 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleSessionAuthentication", async () => {
+    const account = "<account>";
+    // @ts-preserve-whitespace
+    // Session token authentication is only available in the Node.js runtime. In browsers and
+    // React Native these options are ignored and requests keep using a bearer token.
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+      { sessionOptions: { mode: "enabled" } },
+    );
+    // @ts-preserve-whitespace
+    // Only the download below is signed with a container-scoped session token. Container and
+    // service operations continue to use a bearer token.
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    const downloadBlockBlobResponse = await blobClient.download();
+    if (downloadBlockBlobResponse.readableStreamBody) {
+      const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+      console.log(`Downloaded blob content: ${downloaded.toString()}`);
+    }
+  });
+
+  it("ReadmeSampleLayoutAwareRouting", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    // @ts-preserve-whitespace
+    // Routing is off by default. Opt in to read blocks from the endpoints that hold them.
+    const downloaded = await blobClient.downloadToBuffer(0, undefined, {
+      layoutAwareRouting: "enabled",
+    });
+    console.log(`Downloaded ${downloaded.length} bytes`);
+    // @ts-preserve-whitespace
+    // To route reads yourself, read each range of the layout from the endpoint that serves it.
+    for await (const page of blobClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        const response = await blobClient.download(range.start, range.end - range.start + 1, {
+          layoutEndpoint: endpoint?.value,
+        });
+        if (response.readableStreamBody) {
+          const bytes = await buffer(response.readableStreamBody);
+          console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
+        }
+      }
+    }
+  });
+
   it("ReadmeSampleDownloadBlob_Browser", async () => {
     const account = "<account>";
     const blobServiceClient = new BlobServiceClient(
@@ -859,6 +912,25 @@ describe("snippets", () => {
     if (response.pageRange) {
       for (const pageRange of response.pageRange) {
         console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+      }
+    }
+  });
+
+  it("ClientsGetBlobLayout", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    // @ts-preserve-whitespace
+    for await (const page of blobClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
       }
     }
   });

@@ -55,9 +55,12 @@ function readSignature(authorization?: string, xMsDate?: string): Signed {
   };
 }
 
-async function signWithV2(headers: Record<string, string>): Promise<Signed> {
+async function signWithV2(
+  headers: Record<string, string>,
+  url: string = BLOB_URL,
+): Promise<Signed> {
   const request = createPipelineRequest({
-    url: BLOB_URL,
+    url,
     method: "GET",
     headers: createHttpHeaders(headers),
   });
@@ -72,9 +75,12 @@ async function signWithV2(headers: Record<string, string>): Promise<Signed> {
   return readSignature(request.headers.get("authorization"), request.headers.get("x-ms-date"));
 }
 
-async function signWithV1(headers: Record<string, string>): Promise<Signed> {
+async function signWithV1(
+  headers: Record<string, string>,
+  url: string = BLOB_URL,
+): Promise<Signed> {
   const request = {
-    url: BLOB_URL,
+    url,
     method: "GET",
     headers: toHttpHeadersLike(createHttpHeaders(headers)),
   } as WebResourceLike;
@@ -88,12 +94,17 @@ async function signWithV1(headers: Record<string, string>): Promise<Signed> {
   return readSignature(request.headers.get("authorization"), request.headers.get("x-ms-date"));
 }
 
-function expectedSignature(headers: Record<string, string>, xMsDate: string): string {
+function expectedSignature(
+  headers: Record<string, string>,
+  xMsDate: string,
+  canonicalizedQuery: string = "",
+): string {
   const stringToSign =
     ["GET", ...FIELD_ORDER.map((field) => headers[field] ?? "")].join("\n") +
     "\n" +
     `x-ms-date:${xMsDate}\n` +
-    `/${ACCOUNT}${PATH}`;
+    `/${ACCOUNT}${PATH}` +
+    canonicalizedQuery;
 
   return createHmac("sha256", ACCOUNT_KEY).update(stringToSign, "utf8").digest("base64");
 }
@@ -141,6 +152,20 @@ for (const { name, sign } of signers) {
       const { signature, xMsDate } = await sign(headers);
 
       assert.strictEqual(signature, expectedSignature(headers, xMsDate));
+    });
+
+    it("canonicalizes a caller-supplied Date and awkward query shapes identically", async () => {
+      // Both signers share one builder, so this covers the whole class: x-ms-date is always
+      // sent (empty Date slot), and repeated, "="-bearing and empty parameters all survive.
+      const { signature, xMsDate } = await sign(
+        { date: "Tue, 02 Jan 2026 00:00:00 GMT" },
+        `${BLOB_URL}?foo=z&foo=a&marker=abc==&empty=&comp=list`,
+      );
+
+      assert.strictEqual(
+        signature,
+        expectedSignature({}, xMsDate, "\ncomp:list\nempty:\nfoo:a,z\nmarker:abc=="),
+      );
     });
   });
 }

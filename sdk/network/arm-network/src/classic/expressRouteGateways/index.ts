@@ -31,6 +31,10 @@ import type {
   ExpressRouteGatewaysGetOptionalParams,
 } from "../../api/expressRouteGateways/options.js";
 import type {
+  ExpressRouteGatewaysStopSiteFailoverTestResponse,
+  ExpressRouteGatewaysStartSiteFailoverTestResponse,
+} from "../../models/models.js";
+import type {
   TagsObject,
   GatewayResiliencyInformation,
   GatewayRouteSetsInformation,
@@ -39,11 +43,7 @@ import type {
   ExpressRouteFailoverStopApiParameters,
   ExpressRouteGateway,
   ExpressRouteGatewayList,
-} from "../../models/microsoft/network/models.js";
-import type {
-  ExpressRouteGatewaysStopSiteFailoverTestResponse,
-  ExpressRouteGatewaysStartSiteFailoverTestResponse,
-} from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

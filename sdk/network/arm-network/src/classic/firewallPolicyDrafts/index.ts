@@ -8,7 +8,7 @@ import type {
   FirewallPolicyDraftsCreateOrUpdateOptionalParams,
   FirewallPolicyDraftsGetOptionalParams,
 } from "../../api/firewallPolicyDrafts/options.js";
-import type { FirewallPolicyDraft } from "../../models/microsoft/network/models.js";
+import type { FirewallPolicyDraft } from "../../models/network/models.js";
 
 /** Interface representing a FirewallPolicyDrafts operations. */
 export interface FirewallPolicyDraftsOperations {

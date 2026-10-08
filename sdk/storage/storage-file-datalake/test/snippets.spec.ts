@@ -413,6 +413,78 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleSessionAuthentication", async () => {
+    const account = "<account>";
+    // @ts-preserve-whitespace
+    // Session token authentication is only available in the Node.js runtime. In browsers and
+    // React Native these options are ignored and requests keep using a bearer token.
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+      { sessionOptions: { mode: "enabled" } },
+    );
+    // @ts-preserve-whitespace
+    // A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+    // Every other Data Lake operation uses a bearer token.
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    const downloadResponse = await fileClient.read();
+    if (downloadResponse.readableStreamBody) {
+      const downloaded = await buffer(downloadResponse.readableStreamBody);
+      console.log("Downloaded file content:", downloaded.toString());
+    }
+  });
+
+  it("ReadmeSampleLayoutAwareRouting", async () => {
+    const account = "<account>";
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    // @ts-preserve-whitespace
+    // Routing is off by default. Opt in to read chunks from the endpoints that hold them.
+    const downloaded = await fileClient.readToBuffer(0, undefined, {
+      layoutAwareRouting: "enabled",
+    });
+    console.log(`Downloaded ${downloaded.length} bytes`);
+    // @ts-preserve-whitespace
+    // To route reads yourself, read each range of the layout from the endpoint that serves it.
+    for await (const page of fileClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        const response = await fileClient.read(range.start, range.end - range.start + 1, {
+          layoutEndpoint: endpoint?.value,
+        });
+        if (response.readableStreamBody) {
+          const bytes = await buffer(response.readableStreamBody);
+          console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
+        }
+      }
+    }
+  });
+
+  it("DataLakeFileClientGetLayout", async () => {
+    const account = "<account>";
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    // @ts-preserve-whitespace
+    for await (const page of fileClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+        console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
+      }
+    }
+  });
+
   it("ReadmeSampleQueryFile_Node", async () => {
     const account = "<account>";
     const sas = "<sas token>";

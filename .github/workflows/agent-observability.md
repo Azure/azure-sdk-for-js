@@ -29,6 +29,10 @@ permissions:
   pull-requests: read
   issues: read
   copilot-requests: write
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
 # DataOps: collect every metric in a deterministic, authenticated shell
 # step (GH_TOKEN → 5000 req/hr, runs outside the agent sandbox). The
 # agent never makes API calls; it only reads /tmp/gh-aw/agent/*.json.

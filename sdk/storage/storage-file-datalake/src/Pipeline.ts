@@ -55,6 +55,7 @@ import { StorageBrowserPolicyFactory } from "@azure/storage-common";
 import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
 import { storageRetryPolicy } from "@azure/storage-common";
 import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
+import { storageDataLocalityPolicy } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,
@@ -62,6 +63,7 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
+import type { SessionMode, SessionOptions } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -78,6 +80,8 @@ export {
   type ServiceClientOptions,
   type PipelineOptions,
   type PipelineLike,
+  type SessionMode,
+  type SessionOptions,
   Pipeline,
   isPipelineLike,
 };
@@ -111,6 +115,13 @@ export interface StoragePipelineOptions {
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string;
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures session token authentication. Sessions apply only to requests that reach the blob
+   * endpoint, so within Data Lake this affects file reads and nothing else.
+   */
+  sessionOptions?: SessionOptions;
 }
 
 /**
@@ -227,6 +238,9 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         { phase: "Sign" },
       );
     }
+    // `readToBuffer` delegates to a BlockBlobClient built on this pipeline, so the routing header
+    // that download sets has to be consumed here too rather than reaching the wire.
+    corePipeline.addPolicy(storageDataLocalityPolicy(), { afterPhase: "Sign" });
     (pipeline as any)._corePipeline = corePipeline;
   }
   return {

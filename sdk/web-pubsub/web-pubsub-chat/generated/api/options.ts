@@ -4,6 +4,16 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface GenerateClientTokenOptionalParams extends OperationOptions {
+  /** User identifier for the client connection. */
+  userId?: string;
+  /** Roles granted to the client connection. */
+  role?: string[];
+  /** Lifetime of the generated token, in minutes. */
+  minutesToExpire?: number;
+}
+
+/** Optional parameters. */
 export interface DeleteUserOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;

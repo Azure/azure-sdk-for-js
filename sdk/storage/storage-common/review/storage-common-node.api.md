@@ -9,6 +9,7 @@ import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
 import { Readable } from 'node:stream';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RequestPolicy } from '@azure/core-http-compat';
@@ -52,6 +53,9 @@ export class BufferScheduler {
 }
 
 // @public
+export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
+
+// @public
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
@@ -78,6 +82,9 @@ export function getCachedDefaultHttpClient(): HttpClient;
 export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
+export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
+
+// @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
 // @public
@@ -87,6 +94,9 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+// @public
+export function prepareSharedKeyHeaders(request: PipelineRequest): void;
 
 export { Readable }
 
@@ -120,6 +130,12 @@ export class StorageCRC64Calculator {
     final(body: Uint8Array, length: number): Uint8Array;
     static init(): Promise<void>;
 }
+
+// @public
+export function storageDataLocalityPolicy(): PipelinePolicy;
+
+// @public
+export const storageDataLocalityPolicyName = "storageDataLocalityPolicy";
 
 // @public
 export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;

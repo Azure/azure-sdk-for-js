@@ -14,7 +14,7 @@ import type {
   SecurityAdminConfigurationsCreateOrUpdateOptionalParams,
   SecurityAdminConfigurationsGetOptionalParams,
 } from "../../api/securityAdminConfigurations/options.js";
-import type { SecurityAdminConfiguration } from "../../models/microsoft/network/models.js";
+import type { SecurityAdminConfiguration } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
