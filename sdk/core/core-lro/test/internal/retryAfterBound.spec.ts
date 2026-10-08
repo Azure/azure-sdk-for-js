@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import type * as coreUtil from "@azure/core-util";
 
 // Capture every interval that the poller schedules with `delay` and resolve
@@ -111,6 +111,10 @@ describe("poller bounds oversized polling intervals", () => {
     delayCalls.length = 0;
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("bounds an oversized server-provided Retry-After value", async () => {
     // Converted to milliseconds this is 999999999000, which Node.js would clamp
     // to a 1 ms timer if it were scheduled without bounding.
@@ -139,10 +143,19 @@ describe("poller bounds oversized polling intervals", () => {
     assert.deepEqual(delayCalls, [MAX_POLLING_INTERVAL_IN_MS]);
   });
 
-  it("uses the default for a non-finite caller-provided interval", async () => {
-    await runPoller({ intervalInMs: Infinity });
+  it.each([Infinity, Number.NaN, -1])(
+    "uses the default for an invalid caller interval: %s",
+    async (intervalInMs) => {
+      await runPoller({ intervalInMs });
 
-    assert.deepEqual(delayCalls, [POLL_INTERVAL_IN_MS]);
+      assert.deepEqual(delayCalls, [POLL_INTERVAL_IN_MS]);
+    },
+  );
+
+  it("preserves a zero caller interval", async () => {
+    await runPoller({ intervalInMs: 0 });
+
+    assert.deepEqual(delayCalls, [0]);
   });
 
   it("uses the configured interval for a negative server-provided interval", async () => {
@@ -204,27 +217,19 @@ describe("poller bounds oversized polling intervals", () => {
     assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
   });
 
-  it("restores the configured interval when a non-HTTP date follows a valid Retry-After", async () => {
-    const configuredIntervalInMs = 5000;
+  it.each(["Wed Oct  7 13:00:00 2026", "2026-10-07T13:00:00Z"])(
+    "updates the server delay using native date parsing: %s",
+    async (retryAfter) => {
+      vi.spyOn(Date, "now").mockReturnValue(Date.UTC(2026, 9, 7, 12));
 
-    await runPollerWithRetryAfterSequence({
-      intervalInMs: configuredIntervalInMs,
-      retryAfters: ["10", "2099-01-01"],
-    });
+      await runPollerWithRetryAfterSequence({
+        intervalInMs: 5000,
+        retryAfters: ["10", retryAfter],
+      });
 
-    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
-  });
-
-  it("restores the configured interval when an impossible HTTP date follows a valid Retry-After", async () => {
-    const configuredIntervalInMs = 5000;
-
-    await runPollerWithRetryAfterSequence({
-      intervalInMs: configuredIntervalInMs,
-      retryAfters: ["10", "Sun, 31 Feb 2099 08:49:37 GMT"],
-    });
-
-    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
-  });
+      assert.deepEqual(delayCalls, [10_000, 3_600_000]);
+    },
+  );
 
   it("restores the configured interval when a past-dated Retry-After follows a valid one", async () => {
     const configuredIntervalInMs = 5000;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import {
   inferLroMode,
   parseRetryAfter,
@@ -68,28 +68,56 @@ describe("http/operation.ts", () => {
       });
       assert.isNaN(result!);
     });
+  });
 
-    it("returns NaN for a non-HTTP date accepted by Date.parse", () => {
-      assert.isAbove(Date.parse("2099-01-01"), Date.now());
-      const result = parseRetryAfter({
-        rawResponse: makeRawResponse({ headers: { "retry-after": "2099-01-01" } }),
-        flatResponse: {},
-      });
-      assert.isNaN(result!);
+  describe("parseRetryAfter (dates)", () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      vi.setSystemTime(new Date("2026-10-07T12:00:00Z"));
     });
 
-    it("returns NaN for an impossible HTTP date accepted by Date.parse", () => {
-      const retryAfter = "Sun, 31 Feb 2099 08:49:37 GMT";
-      assert.isAbove(Date.parse(retryAfter), Date.now());
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.useRealTimers();
+    });
+
+    it.each([
+      "Wed, 07 Oct 2026 13:00:00 GMT",
+      "Wednesday, 07-Oct-26 13:00:00 GMT",
+      "Wed Oct  7 13:00:00 2026",
+    ])("parses a future UTC HTTP date: %s", (retryAfter) => {
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": retryAfter } }),
         flatResponse: {},
       });
-      assert.isNaN(result!);
+      assert.equal(result, 3_600_000);
     });
-  });
 
-  describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {
+    it("interprets asctime dates as GMT even on a non-UTC host", () => {
+      const retryAfter = "Wed Oct  7 13:00:00 2026";
+      const parseDate = Date.parse;
+      vi.spyOn(Date, "parse").mockImplementation((value) =>
+        // Simulate the local UTC-7 interpretation of a timezone-less date.
+        value === retryAfter ? Date.UTC(2026, 9, 7, 20) : parseDate(value),
+      );
+
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": retryAfter } }),
+        flatResponse: {},
+      });
+      assert.equal(result, 3_600_000);
+    });
+
+    it("preserves native parsing of other date formats", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({
+          headers: { "retry-after": "2026-10-07T13:00:00Z" },
+        }),
+        flatResponse: {},
+      });
+      assert.equal(result, 3_600_000);
+    });
+
     it("returns NaN when retry-after date is in the past", () => {
       const pastDate = new Date(Date.now() - 100000).toUTCString();
       const result = parseRetryAfter({
