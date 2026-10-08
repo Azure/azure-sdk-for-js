@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Upgraded the `http-proxy-agent` dependency to version `9.1.0`. [Issue #37669](https://github.com/Azure/azure-sdk-for-js/issues/37669)
+
 ## 0.3.9 (2026-09-03)
 
 ### Bugs Fixed
