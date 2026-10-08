@@ -12,9 +12,17 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  ResponseWithBody,
   NodeJSReadableStream,
   BlobTags,
   Tags,
+  BlobGetLayoutHeaders,
+  BlobLayout,
+  BlobLayoutEndpoint,
+  BlobLayoutEndpoints,
+  BlobLayoutRange,
+  BlobLayoutRanges,
+  LayoutAwareRouting,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -71,6 +79,7 @@ export {
   type Lease,
   type LeaseOperationOptions,
   type LeaseOperationResponse,
+  type LayoutAwareRouting,
 } from "@azure/storage-blob";
 
 export type {
@@ -1355,6 +1364,80 @@ export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 /** DataLakeFileClient option and response related models **/
 /** *********************************************************/
 
+/**
+ * A byte range of a file.
+ */
+export interface FileRange {
+  /**
+   * StartByte, larger than or equal 0.
+   */
+  offset: number;
+  /**
+   * Optional. Count of bytes, larger than 0.
+   * If not provided, will return bytes from offset to the end.
+   */
+  count?: number;
+}
+
+/** A byte range of a file, and the endpoint that serves it. */
+export type FileLayoutRange = BlobLayoutRange;
+
+/** The ranges that make up a file. */
+export type FileLayoutRanges = BlobLayoutRanges;
+
+/** An endpoint that serves one or more ranges of a file. */
+export type FileLayoutEndpoint = BlobLayoutEndpoint;
+
+/** The endpoints that serve the ranges of a file. */
+export type FileLayoutEndpoints = BlobLayoutEndpoints;
+
+/** One page of a file's layout. */
+export type FileLayout = BlobLayout;
+
+/**
+ * Options to configure {@link DataLakeFileClient.getLayout}.
+ */
+export interface FileGetLayoutOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * If provided, returns the layout of only this range of the file. Defaults to the whole file.
+   */
+  range?: FileRange;
+  /**
+   * Conditions to meet when getting the file's layout.
+   */
+  conditions?: DataLakeRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
+}
+
+/** Defines headers for the {@link DataLakeFileClient.getLayout} operation. */
+export interface FileGetLayoutHeaders extends Omit<BlobGetLayoutHeaders, "blobContentLength"> {
+  /** The size of the file in bytes. */
+  fileContentLength?: number;
+}
+
+/**
+ * Contains response data for the {@link DataLakeFileClient.getLayout} operation. A 204 response has
+ * no body.
+ */
+export type FileGetLayoutResponse = FileGetLayoutHeaders &
+  FileLayout &
+  ResponseWithBody<FileGetLayoutHeaders, FileLayout | undefined>;
+
+/**
+ * Option interface for Data Lake file - read operations
+ *
+ * See:
+ * - {@link DataLakeFileClient.read}
+ * - {@link DataLakeFileClient.readToFile}
+ */
 export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   rangeGetContentMD5?: boolean;
@@ -1370,6 +1453,16 @@ export interface FileReadOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * The endpoint to read this range from, as reported by {@link DataLakeFileClient.getLayout}. A
+   * one-shot read never fetches or caches a layout of its own, so supplying one here is the only
+   * way to route it. The account endpoint is read instead when the endpoint cannot be parsed or
+   * the client's URL is not `https://` with a host name. An endpoint that cannot be reached fails
+   * the read.
+   */
+  layoutEndpoint?: string;
 }
 
 export interface FileReadHeaders {
@@ -1646,6 +1739,16 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * Whether the parallel range requests this read issues are routed to the endpoints that hold
+   * them, as reported by Get Blob Layout. A performance optimization only: the bytes returned are
+   * the same either way.
+   *
+   * Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
+   */
+  layoutAwareRouting?: LayoutAwareRouting;
 }
 
 /**

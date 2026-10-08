@@ -278,6 +278,19 @@ export interface ShareCreateOptions extends CommonOptions {
 
   /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
   shareProvisionedBandwidthMibps?: number;
+
+  /**
+   * Optional. Specifies whether change feed is enabled on the share. If not specified, change feed
+   * is not enabled.
+   */
+  enableChangeFeed?: boolean;
+
+  /**
+   * Optional. Specifies the number of days that the share's change feed records are retained.
+   * Valid values are between 1 and 365. Requires `enableChangeFeed` to be true. If change feed is
+   * enabled without this value, the default is 7 days.
+   */
+  changeFeedRetentionInDays?: number;
 }
 
 /**
@@ -453,6 +466,20 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula.
    */
   shareProvisionedBandwidthMibps?: number;
+
+  /**
+   * Optional. Specifies whether change feed is enabled on the share. If not specified, the share's
+   * current setting is unchanged.
+   */
+  enableChangeFeed?: boolean;
+
+  /**
+   * Optional. Specifies the number of days that the share's change feed records are retained.
+   * Valid values are between 1 and 365. Once change feed is enabled on the share, this value can be
+   * updated on its own. If not specified, the share keeps its current retention, which defaults to
+   * 7 days.
+   */
+  changeFeedRetentionInDays?: number;
 }
 
 /**

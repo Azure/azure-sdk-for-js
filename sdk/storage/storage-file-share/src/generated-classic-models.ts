@@ -472,6 +472,12 @@ export interface ShareGetPropertiesHeaders {
   paidBurstingMaxIops?: number;
   /** Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340 MiB/sec. */
   paidBurstingMaxBandwidthMibps?: number;
+  /** Specifies whether change feed is enabled on the share. */
+  enableChangeFeed?: boolean;
+  /** The number of days that the share's change feed records are retained. */
+  changeFeedRetentionInDays?: number;
+  /** The name of the blob container where the change feed records of the share are stored. */
+  changeFeedBlobContainerName?: string;
   /** Return the calculated burst IOPS of the share. */
   includedBurstIops?: number;
   /** Returned the calculated maximum burst credits. This is not the current burst credit level, but the maximum burst credits the share can have. */

@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added support for service version 2027-03-07.
+- Added `enableChangeFeed` and `changeFeedRetentionInDays` to `ShareCreateOptions` and `ShareSetPropertiesOptions`, and `enableChangeFeed`, `changeFeedRetentionInDays` and `changeFeedBlobContainerName` to the response of `ShareClient.getProperties()`, to configure and check change feed on a share.
 - Added `creationTime` to the response of `ShareClient.getProperties()` and to the share properties returned by `ShareServiceClient.listShares()`.
 
 ### Breaking Changes

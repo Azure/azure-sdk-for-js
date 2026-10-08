@@ -15,6 +15,7 @@ import { delay } from "@azure-tools/test-recorder";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
   Pipeline,
   PipelinePolicy,
@@ -994,5 +995,90 @@ describe("ShareClient Premium", () => {
 
     assert.deepStrictEqual(getRes.accessTier, accessTier);
     await newShareClient.delete();
+  });
+});
+
+describe("ShareClient - change feed properties", () => {
+  let shareClient: ShareClient;
+  let requests: PipelineRequest[];
+
+  // Stands in for the service: records each request and answers with the given response.
+  function respondWith(status: number, headers: Record<string, string> = {}): void {
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
+    pipeline.addPolicy(
+      {
+        name: "fakeServicePolicy",
+        async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+          requests.push(request);
+          return { request, status, headers: createHttpHeaders(headers) };
+        },
+      },
+      { afterPhase: "Sign" },
+    );
+  }
+
+  beforeEach(() => {
+    shareClient = new ShareClient("https://account.file.core.windows.net/share");
+    requests = [];
+  });
+
+  it("create sends the change feed headers", async () => {
+    respondWith(201);
+    await shareClient.create({ enableChangeFeed: true, changeFeedRetentionInDays: 3 });
+
+    assert.equal(requests[0].headers.get("x-ms-file-enable-change-feed"), "true");
+    assert.equal(requests[0].headers.get("x-ms-file-change-feed-retention-in-days"), "3");
+  });
+
+  it("create without change feed options sends no change feed headers", async () => {
+    respondWith(201);
+    await shareClient.create();
+
+    assert.isFalse(requests[0].headers.has("x-ms-file-enable-change-feed"));
+    assert.isFalse(requests[0].headers.has("x-ms-file-change-feed-retention-in-days"));
+  });
+
+  it("setProperties sends only the change feed headers that are set", async () => {
+    respondWith(200);
+    await shareClient.setProperties({ changeFeedRetentionInDays: 30 });
+    await shareClient.setProperties({ enableChangeFeed: false });
+    await shareClient.setProperties({ quotaInGB: 10 });
+
+    assert.isFalse(requests[0].headers.has("x-ms-file-enable-change-feed"));
+    assert.equal(requests[0].headers.get("x-ms-file-change-feed-retention-in-days"), "30");
+    assert.equal(requests[1].headers.get("x-ms-file-enable-change-feed"), "false");
+    assert.isFalse(requests[1].headers.has("x-ms-file-change-feed-retention-in-days"));
+    assert.isFalse(requests[2].headers.has("x-ms-file-enable-change-feed"));
+    assert.isFalse(requests[2].headers.has("x-ms-file-change-feed-retention-in-days"));
+  });
+
+  it("getProperties returns the change feed properties", async () => {
+    const containerName = "$fileschangefeed-6f1c2d3e-4a5b-4c6d-8e7f-9a0b1c2d3e4f";
+    respondWith(200, {
+      "x-ms-file-enable-change-feed": "True",
+      "x-ms-file-change-feed-retention-in-days": "30",
+      "x-ms-file-blob-container-for-xfiles-change-feed": containerName,
+    });
+    const result = await shareClient.getProperties();
+
+    assert.isTrue(result.enableChangeFeed);
+    assert.strictEqual(result.changeFeedRetentionInDays, 30);
+    assert.equal(result.changeFeedBlobContainerName, containerName);
+  });
+
+  it("getProperties returns enableChangeFeed false when the service returns False", async () => {
+    respondWith(200, { "x-ms-file-enable-change-feed": "False" });
+    const result = await shareClient.getProperties();
+
+    assert.isFalse(result.enableChangeFeed);
+  });
+
+  it("getProperties leaves the change feed properties undefined when they are not returned", async () => {
+    respondWith(200);
+    const result = await shareClient.getProperties();
+
+    assert.isUndefined(result.enableChangeFeed);
+    assert.isUndefined(result.changeFeedRetentionInDays);
+    assert.isUndefined(result.changeFeedBlobContainerName);
   });
 });

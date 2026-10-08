@@ -871,6 +871,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
@@ -916,6 +926,19 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
+   *
+   * If a container with the same name is still being deleted, this method throws
+   * the 409 (Conflict) error instead of returning `succeeded: false`.
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
@@ -1092,6 +1115,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion. The container and any blobs
    * contained within it are later deleted during garbage collection.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
@@ -1120,6 +1153,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion if it exists. The container and any blobs
    * contained within it are later deleted during garbage collection.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.

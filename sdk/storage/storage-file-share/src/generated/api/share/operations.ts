@@ -820,6 +820,12 @@ export function _setPropertiesSend(
         ...(options?.enableSmbDirectoryLease !== undefined
           ? { "x-ms-enable-smb-directory-lease": options?.enableSmbDirectoryLease }
           : {}),
+        ...(options?.enableChangeFeed !== undefined
+          ? { "x-ms-file-enable-change-feed": options?.enableChangeFeed }
+          : {}),
+        ...(options?.changeFeedRetentionInDays !== undefined
+          ? { "x-ms-file-change-feed-retention-in-days": options?.changeFeedRetentionInDays }
+          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -2341,6 +2347,9 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   enableSmbDirectoryLease?: boolean;
   creationTime?: Date;
+  enableChangeFeed?: boolean;
+  changeFeedRetentionInDays?: number;
+  changeFeedBlobContainerName?: string;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -2471,6 +2480,21 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-share-creation-time"] === null
         ? result.headers["x-ms-share-creation-time"]
         : new Date(result.headers["x-ms-share-creation-time"]),
+    enableChangeFeed:
+      result.headers["x-ms-file-enable-change-feed"] === undefined ||
+      result.headers["x-ms-file-enable-change-feed"] === null
+        ? result.headers["x-ms-file-enable-change-feed"]
+        : result.headers["x-ms-file-enable-change-feed"].trim().toLowerCase() === "true",
+    changeFeedRetentionInDays:
+      result.headers["x-ms-file-change-feed-retention-in-days"] === undefined ||
+      result.headers["x-ms-file-change-feed-retention-in-days"] === null
+        ? result.headers["x-ms-file-change-feed-retention-in-days"]
+        : Number(result.headers["x-ms-file-change-feed-retention-in-days"]),
+    changeFeedBlobContainerName:
+      result.headers["x-ms-file-blob-container-for-xfiles-change-feed"] === undefined ||
+      result.headers["x-ms-file-blob-container-for-xfiles-change-feed"] === null
+        ? result.headers["x-ms-file-blob-container-for-xfiles-change-feed"]
+        : result.headers["x-ms-file-blob-container-for-xfiles-change-feed"],
     version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -2537,6 +2561,9 @@ export async function getProperties(
     nextAllowedProvisionedBandwidthDowngradeTime?: Date;
     enableSmbDirectoryLease?: boolean;
     creationTime?: Date;
+    enableChangeFeed?: boolean;
+    changeFeedRetentionInDays?: number;
+    changeFeedBlobContainerName?: string;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -2570,6 +2597,9 @@ export async function getProperties(
       nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       enableSmbDirectoryLease?: boolean;
       creationTime?: Date;
+      enableChangeFeed?: boolean;
+      changeFeedRetentionInDays?: number;
+      changeFeedBlobContainerName?: string;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -2644,6 +2674,12 @@ export function _createSend(
           : {}),
         ...(options?.enableSmbDirectoryLease !== undefined
           ? { "x-ms-enable-smb-directory-lease": options?.enableSmbDirectoryLease }
+          : {}),
+        ...(options?.enableChangeFeed !== undefined
+          ? { "x-ms-file-enable-change-feed": options?.enableChangeFeed }
+          : {}),
+        ...(options?.changeFeedRetentionInDays !== undefined
+          ? { "x-ms-file-change-feed-retention-in-days": options?.changeFeedRetentionInDays }
           : {}),
         ...options.requestOptions?.headers,
       },
