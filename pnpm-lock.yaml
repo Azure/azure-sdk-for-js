@@ -85,8 +85,8 @@ catalogs:
       specifier: ^3.0.1
       version: 3.0.1
     dotenv:
-      specifier: ^16.6.1
-      version: 16.6.1
+      specifier: ^18.0.5
+      version: 18.0.5
     nock:
       specifier: ^14.0.17
       version: 14.0.17
@@ -164,8 +164,8 @@ importers:
         specifier: ^8.0.2
         version: 8.0.4
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       express:
         specifier: catalog:internal
         version: 5.2.1(supports-color@8.1.1)
@@ -423,8 +423,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1
       dotenv:
-        specifier: ^16.5.0
-        version: 16.6.1
+        specifier: ^18.0.5
+        version: 18.0.5
       fastify:
         specifier: ^5.3.2
         version: 5.12.5
@@ -707,7 +707,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -786,7 +786,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -865,7 +865,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1038,7 +1038,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1147,7 +1147,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1277,7 +1277,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1362,7 +1362,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1435,7 +1435,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1508,7 +1508,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1648,7 +1648,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1718,7 +1718,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1794,7 +1794,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -1888,7 +1888,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -1920,8 +1920,8 @@ importers:
         specifier: 1.8.0
         version: 1.8.0(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2013,7 +2013,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2092,7 +2092,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2165,7 +2165,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2244,7 +2244,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2323,7 +2323,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2399,7 +2399,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -2472,7 +2472,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2551,7 +2551,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2624,7 +2624,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2706,7 +2706,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2791,7 +2791,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -2861,7 +2861,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -2925,7 +2925,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -2998,7 +2998,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3077,7 +3077,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3284,7 +3284,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3363,7 +3363,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3439,7 +3439,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -3518,7 +3518,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3615,7 +3615,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3706,7 +3706,7 @@ importers:
         version: 5.0.3(vitest@5.0.3)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3791,7 +3791,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3870,7 +3870,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -3949,7 +3949,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4028,7 +4028,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4101,7 +4101,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4180,7 +4180,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4259,7 +4259,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4402,7 +4402,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4481,7 +4481,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4566,7 +4566,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4663,7 +4663,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4701,8 +4701,8 @@ importers:
         specifier: ^4.5.0
         version: 4.13.3(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -4791,7 +4791,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4864,7 +4864,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -4934,7 +4934,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -5007,7 +5007,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5095,7 +5095,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5198,7 +5198,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5292,7 +5292,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5462,7 +5462,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5550,7 +5550,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5632,7 +5632,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5726,7 +5726,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5820,7 +5820,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -5914,7 +5914,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6002,7 +6002,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6096,7 +6096,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6184,7 +6184,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6278,7 +6278,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6369,7 +6369,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6451,7 +6451,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6530,7 +6530,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6609,7 +6609,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6685,7 +6685,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -6761,7 +6761,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6834,7 +6834,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6913,7 +6913,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -6992,7 +6992,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7071,7 +7071,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7150,7 +7150,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7229,7 +7229,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7308,7 +7308,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7378,7 +7378,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7454,7 +7454,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7533,7 +7533,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7609,7 +7609,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -7682,7 +7682,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7761,7 +7761,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7840,7 +7840,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -7919,7 +7919,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8001,7 +8001,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8030,8 +8030,8 @@ importers:
         specifier: ^1.1.0
         version: link:../container-registry
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8120,7 +8120,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8199,7 +8199,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8278,7 +8278,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8357,7 +8357,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8436,7 +8436,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8515,7 +8515,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8600,7 +8600,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -8688,7 +8688,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -9326,8 +9326,8 @@ importers:
         specifier: link:../core-rest-pipeline
         version: link:../core-rest-pipeline
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9422,7 +9422,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -9648,7 +9648,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -9837,7 +9837,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -9931,7 +9931,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10016,7 +10016,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10095,7 +10095,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10241,7 +10241,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10320,7 +10320,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10393,7 +10393,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10472,7 +10472,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10551,7 +10551,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10627,7 +10627,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -10700,7 +10700,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10843,7 +10843,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -10922,7 +10922,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11068,7 +11068,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11147,7 +11147,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11223,7 +11223,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -11296,7 +11296,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11375,7 +11375,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11445,7 +11445,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -11518,7 +11518,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11594,7 +11594,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11670,7 +11670,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11749,7 +11749,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11828,7 +11828,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11907,7 +11907,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -11983,7 +11983,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -12056,7 +12056,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12138,7 +12138,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12220,7 +12220,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12430,7 +12430,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -12509,7 +12509,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12588,7 +12588,7 @@ importers:
         version: 5.0.3(vitest@5.0.3)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -12664,7 +12664,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12743,7 +12743,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12822,7 +12822,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -12898,7 +12898,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -12971,7 +12971,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13050,7 +13050,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13129,7 +13129,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13211,7 +13211,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13290,7 +13290,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13369,7 +13369,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13448,7 +13448,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13518,7 +13518,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13600,7 +13600,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13679,7 +13679,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13758,7 +13758,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13831,7 +13831,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13904,7 +13904,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -13983,7 +13983,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14062,7 +14062,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14141,7 +14141,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14211,7 +14211,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14293,7 +14293,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14372,7 +14372,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14457,7 +14457,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14489,8 +14489,8 @@ importers:
         specifier: ^5.11.0
         version: link:../eventgrid
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14643,7 +14643,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14719,7 +14719,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -14837,7 +14837,7 @@ importers:
         version: 4.4.3(supports-color@8.1.1)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -14884,8 +14884,8 @@ importers:
         specifier: ^6.0.0-beta.1
         version: link:../event-hubs
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       moment:
         specifier: ^2.30.1
         version: 2.31.0
@@ -14995,7 +14995,7 @@ importers:
         version: 4.4.3(supports-color@8.1.1)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15089,7 +15089,7 @@ importers:
         version: 4.4.3(supports-color@8.1.1)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15147,7 +15147,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15226,7 +15226,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15305,7 +15305,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15381,7 +15381,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15524,7 +15524,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15594,7 +15594,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -15679,7 +15679,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15720,8 +15720,8 @@ importers:
         specifier: ^4.8.0
         version: 4.13.3(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15810,7 +15810,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -15886,7 +15886,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -15953,7 +15953,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16032,7 +16032,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16111,7 +16111,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16190,7 +16190,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16269,7 +16269,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16348,7 +16348,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16427,7 +16427,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16506,7 +16506,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16588,7 +16588,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16667,7 +16667,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16746,7 +16746,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16822,7 +16822,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -16895,7 +16895,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -16971,7 +16971,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -17062,7 +17062,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17214,7 +17214,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17246,8 +17246,8 @@ importers:
         specifier: ^1.2.0
         version: link:../identity-cache-persistence
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17324,7 +17324,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17403,7 +17403,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17482,7 +17482,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17558,7 +17558,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -17625,7 +17625,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17844,7 +17844,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17923,7 +17923,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -17999,7 +17999,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -18072,7 +18072,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18151,7 +18151,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18227,7 +18227,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -18312,7 +18312,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18403,7 +18403,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18438,8 +18438,8 @@ importers:
         specifier: ^4.9.0
         version: 4.10.3(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18604,7 +18604,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18636,8 +18636,8 @@ importers:
         specifier: ^4.9.0
         version: 4.10.0(@azure/core-client@sdk+core+core-client)(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18735,7 +18735,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -18770,8 +18770,8 @@ importers:
         specifier: ^4.9.0
         version: link:../keyvault-secrets
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18900,7 +18900,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -18973,7 +18973,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19046,7 +19046,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19125,7 +19125,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19204,7 +19204,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19283,7 +19283,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19362,7 +19362,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19438,7 +19438,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -19508,7 +19508,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -19581,7 +19581,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -19721,7 +19721,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -19849,7 +19849,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20053,7 +20053,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -20123,7 +20123,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -20257,7 +20257,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20522,7 +20522,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -20589,7 +20589,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20665,7 +20665,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -20738,7 +20738,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20817,7 +20817,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20896,7 +20896,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -20966,7 +20966,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -21039,7 +21039,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21185,7 +21185,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21267,7 +21267,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21352,7 +21352,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21437,7 +21437,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21522,7 +21522,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21665,7 +21665,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -21735,7 +21735,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -21799,7 +21799,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -21869,7 +21869,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -21939,7 +21939,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -22012,7 +22012,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22091,7 +22091,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22170,7 +22170,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22240,7 +22240,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -22307,7 +22307,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22386,7 +22386,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22474,7 +22474,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22509,8 +22509,8 @@ importers:
         specifier: ^1.1.0
         version: link:../monitor-ingestion
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22677,7 +22677,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22780,7 +22780,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -22821,8 +22821,8 @@ importers:
         specifier: ^0.220.0
         version: 0.220.0(@opentelemetry/api@1.9.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22929,7 +22929,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23020,7 +23020,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23096,7 +23096,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23242,7 +23242,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23321,7 +23321,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23400,7 +23400,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23479,7 +23479,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23555,7 +23555,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -23628,7 +23628,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23707,7 +23707,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23786,7 +23786,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23865,7 +23865,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -23944,7 +23944,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24023,7 +24023,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24102,7 +24102,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24251,7 +24251,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24318,7 +24318,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24397,7 +24397,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24485,7 +24485,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24631,7 +24631,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24707,7 +24707,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -24780,7 +24780,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24853,7 +24853,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -24932,7 +24932,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25011,7 +25011,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25090,7 +25090,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25169,7 +25169,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25242,7 +25242,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25312,7 +25312,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -25385,7 +25385,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25455,7 +25455,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -25522,7 +25522,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25668,7 +25668,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25732,7 +25732,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25808,7 +25808,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -25948,7 +25948,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26021,7 +26021,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26100,7 +26100,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26179,7 +26179,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26258,7 +26258,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26331,7 +26331,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26410,7 +26410,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26489,7 +26489,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26568,7 +26568,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26638,7 +26638,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26714,7 +26714,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26793,7 +26793,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26875,7 +26875,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -26951,7 +26951,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27030,7 +27030,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -27100,7 +27100,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -27176,7 +27176,7 @@ importers:
         version: 5.0.3(vitest@5.0.3)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27258,7 +27258,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27337,7 +27337,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27416,7 +27416,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27495,7 +27495,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27574,7 +27574,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27656,7 +27656,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27735,7 +27735,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27814,7 +27814,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27893,7 +27893,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -27972,7 +27972,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28051,7 +28051,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28130,7 +28130,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28203,7 +28203,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28276,7 +28276,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28352,7 +28352,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -28419,7 +28419,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28498,7 +28498,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28574,7 +28574,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -28641,7 +28641,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28720,7 +28720,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28799,7 +28799,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28875,7 +28875,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -28963,7 +28963,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29007,8 +29007,8 @@ importers:
         specifier: ^1.1.0
         version: link:../schema-registry-avro
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -29100,7 +29100,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29179,7 +29179,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -29252,7 +29252,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29331,7 +29331,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29372,8 +29372,8 @@ importers:
         specifier: 12.1.0
         version: 12.1.0(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -29462,7 +29462,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29538,7 +29538,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -29611,7 +29611,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29690,7 +29690,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29763,7 +29763,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -29833,7 +29833,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -29906,7 +29906,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30045,7 +30045,7 @@ importers:
         version: 4.4.3(supports-color@8.1.1)
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30086,8 +30086,8 @@ importers:
         specifier: ^7.9.5
         version: link:../service-bus
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -30179,7 +30179,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30261,7 +30261,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30340,7 +30340,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30410,7 +30410,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -30483,7 +30483,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30559,7 +30559,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -30632,7 +30632,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30711,7 +30711,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30790,7 +30790,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -30866,7 +30866,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -30936,7 +30936,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -31009,7 +31009,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31088,7 +31088,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31167,7 +31167,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31246,7 +31246,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31322,7 +31322,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -31425,7 +31425,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31519,7 +31519,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31554,8 +31554,8 @@ importers:
         specifier: ^12.27.0
         version: 12.31.0(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -31741,7 +31741,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31773,8 +31773,8 @@ importers:
         specifier: ^12.26.0
         version: 12.31.0(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -31887,7 +31887,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -31919,8 +31919,8 @@ importers:
         specifier: ^12.27.0
         version: 12.33.0(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -31988,7 +31988,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32085,7 +32085,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32170,7 +32170,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32249,7 +32249,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32328,7 +32328,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32398,7 +32398,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -32483,7 +32483,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32562,7 +32562,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32772,7 +32772,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -32845,7 +32845,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -32915,7 +32915,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -32988,7 +32988,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33064,7 +33064,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -33131,7 +33131,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33207,7 +33207,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33289,7 +33289,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33365,7 +33365,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33508,7 +33508,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33599,7 +33599,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33631,8 +33631,8 @@ importers:
         specifier: ^13.3.0
         version: link:../data-tables
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -33721,7 +33721,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33794,7 +33794,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33829,8 +33829,8 @@ importers:
         specifier: workspace:^
         version: link:../template
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -33913,7 +33913,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -33986,7 +33986,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34065,7 +34065,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34400,7 +34400,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34435,8 +34435,8 @@ importers:
         specifier: ^4.8.0
         version: 4.13.3(supports-color@8.1.1)
       dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
+        specifier: catalog:testing
+        version: 18.0.5
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -34522,7 +34522,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -34589,7 +34589,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34662,7 +34662,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34747,7 +34747,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34820,7 +34820,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34902,7 +34902,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -34975,7 +34975,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35118,7 +35118,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -35203,7 +35203,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35285,7 +35285,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -35358,7 +35358,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35446,7 +35446,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35534,7 +35534,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35610,7 +35610,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35683,7 +35683,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35753,7 +35753,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35838,7 +35838,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -35914,7 +35914,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -35987,7 +35987,7 @@ importers:
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 16.6.1
+        version: 18.0.5
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
@@ -39374,9 +39374,10 @@ packages:
     resolution: {integrity: sha1-XNAfwQFiG0LEzX9dGmYkNxbT850=}
     engines: {node: '>=0.10.0'}
 
-  dotenv@16.6.1:
-    resolution: {integrity: sha1-dz8OaVJ6gxXHKF1e5zxEWdIKgCA=}
+  dotenv@18.0.5:
+    resolution: {integrity: sha512-aBrGvt6KhjxbEnatqMWOMidftwsrCiCvqh1yNIGB9QyF0J+VcWkKDMsvYOEm7ZS82oiV+BT1sTOtIlAmUlTpwQ==}
     engines: {node: '>=12'}
+    hasBin: true
 
   dottie@2.0.7:
     resolution: {integrity: sha1-/RtGWhIRs11WYOlbabttW1gJs8Q=}
@@ -42145,10 +42146,6 @@ packages:
   tinyglobby@0.2.17:
     resolution: {integrity: sha1-ViqabJ6ys7Ej05cZ+a9btE/NdjE=}
     engines: {node: '>=12.0.0'}
-
-  tinyrainbow@3.1.1:
-    resolution: {integrity: sha1-wBaDh9PY1wtrPCwJNt5f7nOM6iA=}
-    engines: {node: '>=14.0.0'}
 
   tinyrainbow@3.2.0:
     resolution: {integrity: sha512-LgO3D9yZJjApUiuUfl9iFAwrtaX4+lok3wJIqttGoKCHlWUqHqbQpnxCf82L8FjgKsh4iGo78hqJwgL8F6To2A==}
@@ -45822,7 +45819,7 @@ snapshots:
       '@vitest/browser': 5.0.3(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.3)
       '@vitest/mocker': 5.0.3(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       playwright: 1.63.0
-      tinyrainbow: 3.1.1
+      tinyrainbow: 3.2.0
       vitest: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-istanbul@5.0.3)(@vitest/ui@5.0.3)(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
     transitivePeerDependencies:
       - bufferutil
@@ -45839,7 +45836,7 @@ snapshots:
       magic-string: 1.4.2
       pngjs: 7.0.0
       sirv: 3.0.2
-      tinyrainbow: 3.1.1
+      tinyrainbow: 3.2.0
       vitest: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-istanbul@5.0.3)(@vitest/ui@5.0.3)(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       ws: 8.22.0
     transitivePeerDependencies:
@@ -46734,7 +46731,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dotenv@16.6.1: {}
+  dotenv@18.0.5: {}
 
   dottie@2.0.7: {}
 
@@ -49908,8 +49905,6 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
-
-  tinyrainbow@3.1.1: {}
 
   tinyrainbow@3.2.0: {}
 

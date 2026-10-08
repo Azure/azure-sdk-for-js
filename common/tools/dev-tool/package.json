@@ -53,7 +53,7 @@
     "@pnpm/catalogs.types": "^1100.0.0",
     "@pnpm/workspace.read-manifest": "^1000.3.1",
     "diff": "^8.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:testing",
     "express": "catalog:internal",
     "memfs": "^4.14.1",
     "minimist": "^1.2.8",

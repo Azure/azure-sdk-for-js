@@ -56,7 +56,7 @@ catalogs:
     chai-as-promised: ^8.0.2
     chai-exclude: ^3.0.1
     '@types/react': ^19.2.14
-    dotenv: ^16.6.1
+    dotenv: ^18.0.5
     nock: ^14.0.17
     playwright: ^1.60.0
     react-native: ^0.84.1
