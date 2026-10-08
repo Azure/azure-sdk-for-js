@@ -21,6 +21,7 @@
 ### Other Changes
 
 - Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+- Added a note to the create and delete methods of `ContainerClient` and `BlobServiceClient` about what happens after a container is deleted: a container with the same name can't be created for at least 30 seconds, and blob operations may keep succeeding for up to 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
 
 ## 12.34.0 (2026-09-24)
 

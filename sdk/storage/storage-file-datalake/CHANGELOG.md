@@ -18,6 +18,7 @@
 ### Other Changes
 
 - Migrated to TypeSpec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+- Added a note to the create and delete methods of `DataLakeFileSystemClient` about what happens after a file system is deleted: a file system with the same name can't be created for at least 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
 
 ## 12.31.0 (2026-06-24)
 
