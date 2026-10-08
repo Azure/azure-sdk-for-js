@@ -84,6 +84,7 @@ export type {
   AzureIaaSVMProtectedItemExtendedInfo,
   ExtendedProperties,
   DiskExclusionProperties,
+  ExistingBasicVMProtection,
   AzureIaaSComputeVMProtectedItem,
   AzureSqlProtectedItem,
   ProtectedItemState,
@@ -98,6 +99,9 @@ export type {
   AzureVmWorkloadSAPHanaDatabaseProtectedItem,
   AzureVmWorkloadSAPHanaDBInstanceProtectedItem,
   AzureVmWorkloadSQLDatabaseProtectedItem,
+  ProtectionLevel,
+  AzureVmWorkloadSQLInstanceProtectedItem,
+  InstanceProtectionReadiness,
   DPMProtectedItem,
   DPMProtectedItemExtendedInfo,
   GenericProtectedItem,
@@ -143,6 +147,11 @@ export type {
   AzureWorkloadSQLRecoveryPointExtendedInfo,
   SQLDataDirectory,
   SQLDataDirectoryType,
+  DatabaseInRP,
+  SnapshotRecoveryPointInfo,
+  FilesystemInfo,
+  StorageSpaceInfo,
+  DiskInfo,
   GenericRecoveryPoint,
   IaasVMRecoveryPoint,
   KeyAndSecretDetails,
@@ -200,6 +209,8 @@ export type {
   AzureVmWorkloadSAPHanaSystemWorkloadItem,
   AzureVmWorkloadSQLDatabaseWorkloadItem,
   AzureVmWorkloadSQLInstanceWorkloadItem,
+  GetRPExtendedInfoRequestResource,
+  GetRPExtendedInfoRequest,
   RestoreRequestResource,
   RestoreRequest,
   RestoreRequestUnion,
@@ -256,6 +267,7 @@ export type {
   ProtectionPolicy,
   ProtectionPolicyUnion,
   AzureVmWorkloadProtectionPolicy,
+  VMWorkloadPolicyType,
   Settings,
   SubProtectionPolicy,
   PolicyType,
@@ -376,6 +388,7 @@ export type {
   ValidateIaasVMRestoreOperationRequest,
   ValidateRestoreOperationRequest,
   ValidateRestoreOperationRequestUnion,
+  ValidateAzureWorkloadRestoreOperationRequest,
   ValidateOperationsResponse,
   ProtectableContainerResource,
   ProtectableContainer,
@@ -433,6 +446,7 @@ export type {
 export {
   KnownDataMoveLevel,
   KnownOperationStatusValues,
+  KnownRecoveryPointTierType,
   KnownStorageType,
   KnownStorageTypeState,
   KnownDedupState,
@@ -451,9 +465,12 @@ export {
   KnownProtectionState,
   KnownResourceHealthStatus,
   KnownHealthStatus,
+  KnownExistingBasicVMProtection,
   KnownProtectedItemState,
   KnownLastBackupStatus,
   KnownProtectedItemHealthStatus,
+  KnownProtectionLevel,
+  KnownInstanceProtectionReadiness,
   KnownBackupType,
   KnownSourceScanAction,
   KnownThreatStatus,
@@ -474,6 +491,7 @@ export {
   KnownOverwriteOptions,
   KnownRecoveryMode,
   KnownRehydrationPriority,
+  KnownVMWorkloadPolicyType,
   KnownPolicyType,
   KnownScheduleRunType,
   KnownRetentionDurationType,
@@ -567,6 +585,7 @@ export type {
 } from "./api/protectedItems/index.js";
 export type { ProtectionContainerOperationResultsGetOptionalParams } from "./api/protectionContainerOperationResults/index.js";
 export type { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "./api/protectionContainerRefreshOperationResults/index.js";
+export type { ProtectionContainerRefreshOperationStatusesGetOptionalParams } from "./api/protectionContainerRefreshOperationStatuses/index.js";
 export type {
   ProtectionContainersRefreshOptionalParams,
   ProtectionContainersInquireOptionalParams,
@@ -588,6 +607,8 @@ export type {
 export type { ProtectionPolicyOperationResultsGetOptionalParams } from "./api/protectionPolicyOperationResults/index.js";
 export type { ProtectionPolicyOperationStatusesGetOptionalParams } from "./api/protectionPolicyOperationStatuses/index.js";
 export type {
+  RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
@@ -644,6 +665,7 @@ export type {
   ProtectedItemsOperations,
   ProtectionContainerOperationResultsOperations,
   ProtectionContainerRefreshOperationResultsOperations,
+  ProtectionContainerRefreshOperationStatusesOperations,
   ProtectionContainersOperations,
   ProtectionIntentOperationsOperations,
   ProtectionPoliciesOperations,

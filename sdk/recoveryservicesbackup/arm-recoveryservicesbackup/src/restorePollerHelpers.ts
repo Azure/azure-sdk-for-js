@@ -15,6 +15,10 @@ import { _postDeserialize } from "./api/fetchTieringCost/operations.js";
 import { _triggerDeserialize } from "./api/validateOperation/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeProtectionPolicies } from "./api/protectionPolicies/operations.js";
 import { _triggerDeserialize as _triggerDeserializeRestores } from "./api/restores/operations.js";
+import {
+  _getRPExtendedInfoOperationResultDeserialize,
+  _getRPExtendedInfoDeserialize,
+} from "./api/recoveryPoints/operations.js";
 import { _registerDeserialize } from "./api/protectionContainers/operations.js";
 import { _executeDeserialize } from "./api/configureSourceScan/operations.js";
 import { _createOrUpdateDeserialize } from "./api/protectedItems/operations.js";
@@ -109,6 +113,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore":
     { deserializer: _triggerDeserializeRestores, expectedStatuses: ["202", "200", "201"] },
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfoOperationResult/{operationId}":
+    {
+      deserializer: _getRPExtendedInfoOperationResultDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfo":
+    { deserializer: _getRPExtendedInfoDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}":
     { deserializer: _registerDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/configureSourceScan":
