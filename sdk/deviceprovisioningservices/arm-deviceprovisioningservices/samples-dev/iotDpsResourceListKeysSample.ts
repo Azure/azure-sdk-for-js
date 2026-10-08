@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the primary and secondary keys for a provisioning service.
  *
  * @summary list the primary and secondary keys for a provisioning service.
- * x-ms-original-file: 2026-08-31/DPSListKeys.json
+ * x-ms-original-file: 2026-11-01/DPSListKeys.json
  */
 async function dpsListKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
