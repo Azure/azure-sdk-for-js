@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added opt-in `Expect: 100-continue` negotiation to the built-in Node HTTP/1 transport, including lazy uploads, a fixed 1,000 ms fallback, readable early final responses, and one-shot stream replay protection. HTTP 417 returns normally without automatic recovery. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+
 ### Breaking Changes
 
 ### Bugs Fixed

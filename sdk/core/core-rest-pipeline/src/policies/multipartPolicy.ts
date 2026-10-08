@@ -11,7 +11,9 @@ import type {
   PipelineRequest as TspPipelineRequest,
   SendRequest as TspSendRequest,
 } from "@typespec/ts-http-runtime";
-import { getRawContent, hasRawContent } from "../util/file.js";
+import { getRawContent, getRawStreamFactory, hasRawContent } from "../util/file.js";
+import { isNodeLike } from "@azure/core-util";
+import type { BodyPart } from "../interfaces.js";
 
 /**
  * Name of multipart policy
@@ -30,7 +32,9 @@ export function multipartPolicy(): PipelinePolicy {
       if (request.multipartBody) {
         for (const part of request.multipartBody.parts) {
           if (hasRawContent(part.body)) {
-            part.body = getRawContent(part.body);
+            // Both stream types are supported by concat; the public type splits the factory union.
+            part.body = ((isNodeLike ? getRawStreamFactory(part.body) : undefined) ??
+              getRawContent(part.body)) as BodyPart["body"];
           }
         }
       }

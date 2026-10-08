@@ -14,7 +14,12 @@ import type {
   AddPolicyOptions,
   Client,
 } from "../src/index.js";
-import { AbortError } from "../src/index.js";
+import {
+  AbortError,
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../src/index.js";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -26,6 +31,19 @@ interface Routes {
 }
 
 describe("snippets", () => {
+  it("ReadmeSampleExpectContinue", () => {
+    async function upload(body: Uint8Array): Promise<void> {
+      const request = createPipelineRequest({
+        url: "https://example.com/upload",
+        method: "POST",
+        headers: createHttpHeaders({ Expect: "100-continue" }),
+        body,
+        timeout: 5000,
+      });
+      const response = await createDefaultHttpClient().sendRequest(request);
+      console.log(response.status);
+    }
+  });
   it("ReadmeSampleSendRequest", () => {
     type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });

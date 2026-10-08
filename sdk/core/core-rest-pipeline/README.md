@@ -161,6 +161,17 @@ After all other constraints have been satisfied, policies are applied in the ord
 
 ## Examples
 
+### Node upload negotiation
+
+The default Node HTTP/1 transport supports explicit `Expect: 100-continue`
+headers. See the runtime's [negotiation contract](../ts-http-runtime/README.md#opt-in-node-upload-negotiation)
+for the fixed fallback, stream ownership, replay, and normal HTTP 417 handling.
+In Node, `createFileFromStream` factories remain lazy through multipart/FormData
+serialization and keep their declared size for Content-Length calculation.
+Return a fresh stream for each invocation when retries are possible. Legacy
+`AbortSignalLike` cancellation remains connected until a returned Node response
+stream completes. Browser and React Native behavior is unchanged.
+
 Examples can be found in the `samples` folder.
 
 ## Next steps
