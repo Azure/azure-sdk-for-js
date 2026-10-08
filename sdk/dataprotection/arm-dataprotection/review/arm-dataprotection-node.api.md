@@ -1203,7 +1203,7 @@ export interface ImmediateCopyOption extends CopyOption {
 
 // @public
 export interface ImmutabilityConfiguration {
-    durationInDays?: number;
+    durationInDays?: number | null;
     type?: ImmutabilityType;
 }
 
@@ -1907,7 +1907,7 @@ export interface RecoveryPointDataStoreDetails {
 
 // @public
 export interface RecoveryPointImmutabilityProperties {
-    expiryTime?: Date;
+    expiryTime?: Date | null;
     isImmutable: boolean;
 }
 

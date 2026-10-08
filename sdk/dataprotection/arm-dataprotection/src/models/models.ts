@@ -3242,7 +3242,7 @@ export interface ImmutabilityConfiguration {
    * Duration in days for time-based immutability.
    * Required when type is TimeBased. Must be null when type is AsPerPolicy.
    */
-  durationInDays?: number;
+  durationInDays?: number | null;
 }
 
 export function immutabilityConfigurationSerializer(item: ImmutabilityConfiguration): any {
@@ -5597,7 +5597,7 @@ export interface RecoveryPointImmutabilityProperties {
    * UTC time when the recovery point's immutability window expires.
    * Null for AsPerPolicy vaults.
    */
-  expiryTime?: Date;
+  expiryTime?: Date | null;
 }
 
 export function recoveryPointImmutabilityPropertiesDeserializer(
