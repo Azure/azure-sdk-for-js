@@ -323,6 +323,61 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 /**
+ * Options to configure messages deletion.
+ */
+export interface DeleteMessagesOptions extends OperationOptionsBase {
+  /**
+   * Only messages enqueued before this time can be deleted. For example, a value of 10:00 deletes
+   * eligible messages enqueued before 10:00 and leaves messages enqueued at or after 10:00.
+   * The time when the operation starts is used when omitted.
+   */
+  beforeEnqueueTime?: Date;
+}
+
+/**
+ * Options to configure deletion of all messages in an entity.
+ */
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+  /**
+   * Only messages enqueued before this time can be deleted. The value is kept unchanged while purge
+   * sends multiple requests. When omitted, purge records its start time and leaves messages enqueued
+   * after it started.
+   */
+  beforeEnqueueTime?: Date;
+  /**
+   * The maximum number of messages requested in each batch-delete call. Defaults to 500.
+   * The service limit is 500 for Basic and Standard and 4,000 for Premium.
+   */
+  maxMessagesPerBatch?: number;
+}
+
+/**
+ * The result of a `deleteMessages` operation.
+ *
+ * Returned as an object (rather than a bare count) so the result can grow
+ * additional fields in a future release without a breaking change.
+ */
+export interface DeleteMessagesResult {
+  /**
+   * The number of messages that were deleted.
+   */
+  deletedCount: number;
+}
+
+/**
+ * The result of a `purgeMessages` operation.
+ *
+ * Returned as an object (rather than a bare count) so the result can grow
+ * additional fields in a future release without a breaking change.
+ */
+export interface PurgeMessagesResult {
+  /**
+   * The total number of messages that were deleted.
+   */
+  deletedCount: number;
+}
+
+/**
  * Options to configure the `listMessageSessions` method on the `ServiceBusClient`.
  */
 export interface ListMessageSessionsOptions extends OperationOptionsBase {

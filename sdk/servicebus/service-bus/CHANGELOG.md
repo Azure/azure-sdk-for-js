@@ -1,5 +1,17 @@
 # Release History
 
+## 7.11.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Reintroduced the preview `deleteMessages()` and `purgeMessages()` receiver methods. Batch deletion returns the service's actual deleted count, and purge processes eligible messages up to a fixed enqueue-time cutoff. [#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.10.0 (2026-10-06)
 
 ### Features Added
