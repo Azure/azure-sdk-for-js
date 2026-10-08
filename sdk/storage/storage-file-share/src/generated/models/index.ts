@@ -17,6 +17,8 @@ export type {
   FileRange,
   ClearRange,
   ShareFileRangeListSegment,
+  HardLinkList,
+  HardLink,
   FileServiceProperties,
   Metrics,
   RetentionPolicy,

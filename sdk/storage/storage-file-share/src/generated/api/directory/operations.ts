@@ -53,7 +53,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -288,7 +288,7 @@ export function _forceCloseHandlesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -435,7 +435,7 @@ export function _listHandlesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -579,7 +579,7 @@ export function _listFilesAndDirectoriesSegmentSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -714,7 +714,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -856,7 +856,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1080,7 +1080,7 @@ export async function setProperties(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
-export function _$deleteSend(
+export function _deleteDirectorySend(
   context: Client,
   options: DirectoryDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -1098,7 +1098,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1113,14 +1113,17 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteDirectoryDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
       error.details = errorXmlDeserializer(result.body);
     }
-    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._deleteDirectoryDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -1132,7 +1135,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+export function _deleteDirectoryDeserializeHeaders(result: PathUncheckedResponse): {
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -1150,7 +1153,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _deleteDirectoryDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
   xMsCopySourceErrorCode?: string;
   xMsCopySourceStatusCode?: number;
@@ -1174,12 +1177,7 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
 }
 
 /** Removes the specified empty directory. Note that the directory must be empty before it can be deleted. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteDirectory(
   context: Client,
   options: DirectoryDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
@@ -1194,9 +1192,12 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, { ...options, onResponse: _storageCompat.onResponse });
-  await _$deleteDeserialize(result);
-  const parsedHeaders = _$deleteDeserializeHeaders(result);
+  const result = await _deleteDirectorySend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  await _deleteDirectoryDeserialize(result);
+  const parsedHeaders = _deleteDirectoryDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
@@ -1219,7 +1220,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1266,6 +1267,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
+  fileName?: string;
   serverEncrypted?: boolean;
   fileMode?: string;
   owner?: string;
@@ -1313,6 +1315,10 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
+    fileName:
+      result.headers["x-ms-file-name"] === undefined || result.headers["x-ms-file-name"] === null
+        ? result.headers["x-ms-file-name"]
+        : result.headers["x-ms-file-name"],
     serverEncrypted:
       result.headers["x-ms-server-encrypted"] === undefined ||
       result.headers["x-ms-server-encrypted"] === null
@@ -1380,6 +1386,7 @@ export async function getProperties(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
+    fileName?: string;
     serverEncrypted?: boolean;
     fileMode?: string;
     owner?: string;
@@ -1401,6 +1408,7 @@ export async function getProperties(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       serverEncrypted?: boolean;
       fileMode?: string;
       owner?: string;
@@ -1441,7 +1449,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-10-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),

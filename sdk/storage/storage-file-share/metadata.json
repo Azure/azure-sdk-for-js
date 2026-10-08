@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Storage.File": "2026-10-06"
+    "Storage.File": "2027-03-07"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.File",
     "CrossLanguageDefinitionId": {
@@ -19,6 +19,8 @@
       "@azure/storage-file-share!FileRange:interface": "Storage.File.FileRange",
       "@azure/storage-file-share!ClearRange:interface": "Storage.File.ClearRange",
       "@azure/storage-file-share!ShareFileRangeListSegment:interface": "Storage.File.ShareFileRangeListSegment",
+      "@azure/storage-file-share!HardLinkList:interface": "Storage.File.HardLinkList",
+      "@azure/storage-file-share!HardLink:interface": "Storage.File.HardLink",
       "@azure/storage-file-share!FileServiceProperties:interface": "Storage.File.StorageServiceProperties",
       "@azure/storage-file-share!Metrics:interface": "Storage.File.Metrics",
       "@azure/storage-file-share!RetentionPolicy:interface": "Storage.File.RetentionPolicy",
@@ -82,6 +84,7 @@
       "@azure/storage-file-share!ServiceOperations#listSharesSegment:member": "Storage.File.Service.listSharesSegment",
       "@azure/storage-file-share!ServiceOperations#getProperties:member": "Storage.File.Service.getProperties",
       "@azure/storage-file-share!ServiceOperations#setProperties:member": "Storage.File.Service.setProperties",
+      "@azure/storage-file-share!FileOperations#getHardLinks:member": "Storage.File.File.getHardLinks",
       "@azure/storage-file-share!FileOperations#createHardLink:member": "Storage.File.File.createHardLink",
       "@azure/storage-file-share!FileOperations#getSymbolicLink:member": "Storage.File.File.getSymbolicLink",
       "@azure/storage-file-share!FileOperations#createSymbolicLink:member": "Storage.File.File.createSymbolicLink",

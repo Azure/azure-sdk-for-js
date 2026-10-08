@@ -18,6 +18,8 @@ export type {
   FileRange,
   ClearRange,
   ShareFileRangeListSegment,
+  HardLinkList,
+  HardLink,
   FileServiceProperties,
   Metrics,
   RetentionPolicy,
@@ -80,6 +82,7 @@ export type {
   DirectoryCreateOptionalParams,
 } from "./api/directory/index.js";
 export type {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,

@@ -21,6 +21,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -272,6 +273,7 @@ export interface DirectoryGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileName?: string;
     fileParentId?: string;
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
@@ -707,6 +709,20 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 // @public
+export type FileGetFileLinksHeaders = FileGetPropertiesHeaders;
+
+// @public
+export interface FileGetFileLinksOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export type FileGetFileLinksResponse = WithResponse<FileGetFileLinksHeaders & {
+    links: FileLink[];
+}, FileGetFileLinksHeaders, FileLink[]>;
+
+// @public
 export interface FileGetPropertiesHeaders {
     cacheControl?: string;
     contentDisposition?: string;
@@ -729,6 +745,7 @@ export interface FileGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileName?: string;
     fileParentId?: string;
     filePermissionKey?: string;
     fileType?: string;
@@ -825,6 +842,12 @@ export interface FileItem {
 
 // @public
 export type FileLastWrittenMode = "Now" | "Preserve";
+
+// @public
+export interface FileLink {
+    name: string;
+    parentId: string;
+}
 
 // @public
 export interface FileListHandlesHeaders {
@@ -1620,6 +1643,8 @@ export class ShareClient extends StorageClient {
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
+    getShareDirectoryClient(fileId: string): ShareDirectoryClient;
+    getShareFileClient(fileId: string): ShareFileClient;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
     get name(): string;
@@ -1768,6 +1793,7 @@ export class ShareDirectoryClient extends StorageClient {
     deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteIfExistsResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     exists(options?: DirectoryExistsOptions): Promise<boolean>;
+    get fileId(): string | undefined;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
@@ -1812,12 +1838,14 @@ export class ShareFileClient extends StorageClient {
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     exists(options?: FileExistsOptions): Promise<boolean>;
+    get fileId(): string | undefined;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     generateSasStringToSign(options: FileGenerateSasUrlOptions): string;
     generateSasUrl(options: FileGenerateSasUrlOptions): string;
     generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    getFileLinks(options?: FileGetFileLinksOptions): Promise<FileGetFileLinksResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     // @deprecated
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;

@@ -299,6 +299,56 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 }
 
 /**
+ * Get the file ID of a URL that addresses a file or directory by its file ID.
+ *
+ * @param url - Source URL string
+ * @returns The value of the `fileid` query parameter (name matched case-insensitively), or undefined when it's missing or empty.
+ */
+export function getFileIdFromURL(url: string): string | undefined {
+  for (const [name, value] of new URL(url).searchParams) {
+    if (value && name.toLowerCase() === URLConstants.Parameters.FILE_ID) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Build the URL that addresses a file or directory by its file ID from the URL of its share.
+ *
+ * @param shareUrl - URL of the share, which may carry a SAS or a share snapshot
+ * @param fileId - File ID of the file or directory
+ * @returns The share URL, without a trailing slash, with the `fileid` query parameter set
+ */
+export function setFileIdOnShareURL(shareUrl: string, fileId: string): string {
+  if (!fileId || !fileId.trim()) {
+    throw new RangeError("fileId must be a non-empty string.");
+  }
+  const urlParsed = new URL(shareUrl);
+  const path = urlParsed.pathname;
+  let end = path.length;
+  while (end > 0 && path[end - 1] === "/") {
+    end--;
+  }
+  urlParsed.pathname = path.slice(0, end);
+  return setURLParameter(urlParsed.toString(), URLConstants.Parameters.FILE_ID, fileId);
+}
+
+/**
+ * Throw when a client that addresses its resource by file ID is asked for a member that only works with paths.
+ *
+ * @param fileId - File ID of the client, undefined when the client addresses its resource by path
+ * @param memberName - Name of the member being called
+ */
+export function assertNotFileIdAddressed(fileId: string | undefined, memberName: string): void {
+  if (fileId) {
+    throw new Error(
+      `${memberName} is not supported when the client addresses the resource by file ID.`,
+    );
+  }
+}
+
+/**
  * Set URL host.
  *
  * @param url - Source URL string
