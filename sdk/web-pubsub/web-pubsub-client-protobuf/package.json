@@ -70,7 +70,7 @@
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "cpy-cli": "^6.0.0",
+    "cpy-cli": "^7.0.0",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
