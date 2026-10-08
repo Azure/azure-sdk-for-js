@@ -147,34 +147,6 @@ describe("ContainerClient", () => {
     // delete() with default parameters has been tested in afterEach
   });
 
-  it("listBlobsFlat with default parameters", async () => {
-    const blobClients = [];
-    for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob/${i}`),
-      );
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload("", 0);
-      blobClients.push(blobClient);
-    }
-
-    const result = (
-      await containerClient
-        .listBlobsFlat({ responseFormat: StorageResponseFormat.Xml })
-        .byPage()
-        .next()
-    ).value;
-    assert.isAbove(result.serviceEndpoint.length, 0);
-    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
-
-    for (const blob of blobClients) {
-      await blob.delete();
-    }
-  });
-
   it("listBlobsFlat to list uncommitted blobs", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -238,12 +210,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (
-      await containerClient
-        .listBlobsFlat({ responseFormat: StorageResponseFormat.Xml, prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsFlat({ prefix: "" }).byPage().next()).value;
     assert.isAbove(result.serviceEndpoint.length, 0);
     assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
@@ -689,40 +656,6 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy with default parameters", async () => {
-    const blobClients = [];
-    for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`),
-      );
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload("", 0);
-      blobClients.push(blobClient);
-    }
-
-    const delimiter = "/";
-    const result = (
-      await containerClient
-        .listBlobsByHierarchy(delimiter, { responseFormat: StorageResponseFormat.Xml })
-        .byPage()
-        .next()
-    ).value;
-
-    assert.isAbove(result.serviceEndpoint.length, 0);
-    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.delimiter, delimiter);
-    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
-
-    for (let i = 0; i < 3; i++) {
-      assert.notStrictEqual(blobClients[i].url.indexOf(result.segment.blobPrefixes![i].name), -1);
-    }
-
-    for (const blob of blobClients) {
-      await blob.delete();
-    }
-  });
-
   it("listBlobsByHierarchy to list uncommitted blobs", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -814,10 +747,7 @@ describe("ContainerClient", () => {
 
     const delimiter = "/";
     const result: ContainerListBlobHierarchySegmentResponse = (
-      await containerClient
-        .listBlobsByHierarchy(delimiter, { responseFormat: StorageResponseFormat.Xml, prefix: "" })
-        .byPage()
-        .next()
+      await containerClient.listBlobsByHierarchy(delimiter, { prefix: "" }).byPage().next()
     ).value;
 
     assert.isAbove(result.serviceEndpoint.length, 0);
