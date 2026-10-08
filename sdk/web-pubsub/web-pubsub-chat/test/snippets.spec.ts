@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// <ChatJavaScript_Imports>
 import {
   AzureKeyCredential,
   BuiltInChatRoles,
@@ -9,6 +10,7 @@ import {
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
+// </ChatJavaScript_Imports>
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
