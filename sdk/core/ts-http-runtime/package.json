@@ -241,7 +241,7 @@
   },
   "dependencies": {
     "http-proxy-agent": "^9.1.0",
-    "https-proxy-agent": "^7.0.0",
+    "https-proxy-agent": "^9.1.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
