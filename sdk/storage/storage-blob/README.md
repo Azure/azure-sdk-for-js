@@ -380,7 +380,7 @@ For a complete sample on iterating blobs please see [samples/v12/typescript/src/
 
 ### List blobs using the Apache Arrow response format
 
-Request the listing as Apache Arrow with `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
+`listBlobsFlat` and `listBlobsByHierarchy` use the Apache Arrow response format by default; set `responseFormat` to choose it explicitly, or set it to `StorageResponseFormat.Xml` to request XML. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
 
 ```ts snippet:ReadmeSampleListBlobs_ApacheArrow
 import { BlobServiceClient, StorageResponseFormat } from "@azure/storage-blob";
