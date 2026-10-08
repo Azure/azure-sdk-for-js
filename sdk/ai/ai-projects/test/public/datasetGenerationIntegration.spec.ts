@@ -5,10 +5,19 @@ import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, expect, it } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
-import type { DataGenerationJobInputsUnion } from "../../src/index.js";
+import type {
+  EvaluationDataGenerationJobInputs,
+  ReinforcementFineTuningDataGenerationJobInputs,
+  SupervisedFineTuningDataGenerationJobInputs,
+} from "../../src/index.js";
 
 const endpoint = "https://example.com/api/projects/test-project";
-const evaluationInputs: DataGenerationJobInputsUnion = {
+type ScenarioInputs =
+  | EvaluationDataGenerationJobInputs
+  | SupervisedFineTuningDataGenerationJobInputs
+  | ReinforcementFineTuningDataGenerationJobInputs;
+
+const evaluationInputs: EvaluationDataGenerationJobInputs = {
   name: "test-generation",
   scenario: "evaluation",
   sources: [{ type: "prompt", prompt: "Generate question-and-answer pairs." }],
@@ -22,7 +31,7 @@ const evaluationInputs: DataGenerationJobInputsUnion = {
 
 function createFineTuningInputs(
   scenario: "supervised_finetuning_preview" | "reinforcement_finetuning_preview",
-): DataGenerationJobInputsUnion {
+): SupervisedFineTuningDataGenerationJobInputs | ReinforcementFineTuningDataGenerationJobInputs {
   return {
     name: "test-generation",
     scenario,
@@ -135,7 +144,7 @@ describe("dataset generation promotion", () => {
   ] as const)(
     "routes %s get, cancel and delete through datasets with the existing preview header",
     async (scenario) => {
-      const scenarioInputs =
+      const scenarioInputs: ScenarioInputs =
         scenario === "evaluation" ? evaluationInputs : createFineTuningInputs(scenario);
       const { client, requests } = createClient(
         { body: { ...scenarioInputs, id: "job-1", type: "data_generation", status: "queued" } },

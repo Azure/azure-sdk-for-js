@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "../src/index.js";
+import type { DatasetDataGenerationJobOutput } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, expect, it } from "vitest";
 
@@ -34,8 +35,10 @@ describe("dataset generation jobs", () => {
       const page = await project.datasets.listGenerationJobs({ limit: 5 }).byPage().next();
       expect(page.done).toBe(false);
       const result = await poller.pollUntilDone();
-      const dataset = result.outputs?.find((output) => output.type === "dataset");
-      if (dataset?.type === "dataset") {
+      const dataset = result.outputs?.find(
+        (output): output is DatasetDataGenerationJobOutput => output.type === "dataset",
+      );
+      if (dataset) {
         datasetName = dataset.name;
         datasetVersion = dataset.version;
       }
