@@ -8,18 +8,34 @@ import { AIProjectClient } from "../../src/index.js";
 import type { DataGenerationJobInputsUnion } from "../../src/index.js";
 
 const endpoint = "https://example.com/api/projects/test-project";
-const inputs: DataGenerationJobInputsUnion = {
+const evaluationInputs: DataGenerationJobInputsUnion = {
   name: "test-generation",
-  scenario: "supervised_finetuning_preview",
+  scenario: "evaluation",
   sources: [{ type: "prompt", prompt: "Generate question-and-answer pairs." }],
   generation_configuration: {
     type: "simple_qna",
     max_samples: 2,
     model_options: { model: "test-model" },
-    question_types: ["short_answer"],
   },
-  output_configuration: { name: "test.jsonl", write_mode: "overwrite" },
+  output_configuration: { name: "test-dataset", write_mode: "overwrite" },
 };
+
+function createFineTuningInputs(
+  scenario: "supervised_finetuning_preview" | "reinforcement_finetuning_preview",
+): DataGenerationJobInputsUnion {
+  return {
+    name: "test-generation",
+    scenario,
+    sources: [{ type: "file", id: "file-1" }],
+    generation_configuration: {
+      type: "simple_qna",
+      max_samples: 2,
+      model_options: { model: "test-model" },
+      question_types: ["short_answer"],
+    },
+    output_configuration: { name: "test.jsonl", write_mode: "overwrite" },
+  };
+}
 
 interface MockResponse {
   status?: number;
@@ -71,10 +87,16 @@ describe("dataset generation promotion", () => {
     expect(client.beta).not.toHaveProperty("datasets");
   });
 
-  it.each(["supervised_finetuning_preview", "reinforcement_finetuning_preview"] as const)(
+  it.each([
+    ["evaluation", evaluationInputs],
+    ["supervised_finetuning_preview", createFineTuningInputs("supervised_finetuning_preview")],
+    [
+      "reinforcement_finetuning_preview",
+      createFineTuningInputs("reinforcement_finetuning_preview"),
+    ],
+  ] as const)(
     "preserves %s body serialization, job identity and polling headers",
-    async (scenario) => {
-      const scenarioInputs = { ...inputs, scenario };
+    async (_, scenarioInputs) => {
       const result = { generated_samples: 2 };
       const { client, requests } = createClient(
         {
@@ -106,10 +128,15 @@ describe("dataset generation promotion", () => {
     },
   );
 
-  it.each(["supervised_finetuning_preview", "reinforcement_finetuning_preview"] as const)(
+  it.each([
+    "evaluation",
+    "supervised_finetuning_preview",
+    "reinforcement_finetuning_preview",
+  ] as const)(
     "routes %s get, cancel and delete through datasets with the existing preview header",
     async (scenario) => {
-      const scenarioInputs = { ...inputs, scenario };
+      const scenarioInputs =
+        scenario === "evaluation" ? evaluationInputs : createFineTuningInputs(scenario);
       const { client, requests } = createClient(
         { body: { ...scenarioInputs, id: "job-1", type: "data_generation", status: "queued" } },
         { body: { ...scenarioInputs, id: "job-1", type: "data_generation", status: "cancelled" } },
@@ -152,8 +179,20 @@ describe("dataset generation promotion", () => {
 
   it("follows cursor pages and forwards caller options and preview headers", async () => {
     const { client, requests } = createClient(
-      { body: { data: [{ ...inputs, id: "job-1" }], last_id: "job-1", has_more: true } },
-      { body: { data: [{ ...inputs, id: "job-2" }], last_id: "job-2", has_more: false } },
+      {
+        body: {
+          data: [{ ...evaluationInputs, id: "job-1" }],
+          last_id: "job-1",
+          has_more: true,
+        },
+      },
+      {
+        body: {
+          data: [{ ...evaluationInputs, id: "job-2" }],
+          last_id: "job-2",
+          has_more: false,
+        },
+      },
     );
     const abortController = new AbortController();
     const jobs = [];
@@ -182,8 +221,20 @@ describe("dataset generation promotion", () => {
 
   it("preserves converted legacy and modern headers on every generation job page", async () => {
     const { client, requests } = createClient(
-      { body: { data: [{ ...inputs, id: "job-1" }], last_id: "job-1", has_more: true } },
-      { body: { data: [{ ...inputs, id: "job-2" }], last_id: "job-2", has_more: false } },
+      {
+        body: {
+          data: [{ ...evaluationInputs, id: "job-1" }],
+          last_id: "job-1",
+          has_more: true,
+        },
+      },
+      {
+        body: {
+          data: [{ ...evaluationInputs, id: "job-2" }],
+          last_id: "job-2",
+          has_more: false,
+        },
+      },
     );
     // core-client retains customHeaders for compatibility even though it is not in the public type.
     const options = {
