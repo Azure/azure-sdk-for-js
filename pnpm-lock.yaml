@@ -35676,8 +35676,8 @@ importers:
         specifier: catalog:testing
         version: 5.0.3(vitest@5.0.3)
       cpy-cli:
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -38003,7 +38003,7 @@ packages:
     resolution: {integrity: sha1-4/zuCT+7XOdl4a0Ij/TeKIn2+b4=}
 
   '@rollup/plugin-node-resolve@16.0.3':
-    resolution: {integrity: sha1-CYjm8suxMxaw9echP3V7ye1Eko8=}
+    resolution: {integrity: sha512-lUYM3UBGuM93CnMPG1YocWu7X802BrNF3jW2zny5gQyLQgRFJhV1Sq0Zi74+dh/6NBx1DxFC4b4GXg9wUCG5Qg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.78.0||^3.0.0||^4.0.0
@@ -39185,13 +39185,13 @@ packages:
     resolution: {integrity: sha1-/13Wm9leVHUDgg0pq6T4+vjf7JY=}
     engines: {node: '>= 0.10'}
 
-  cpy-cli@6.0.0:
-    resolution: {integrity: sha1-oDAjes0l9vVV6cd2t4ZYw/ZGSRg=}
+  cpy-cli@7.0.0:
+    resolution: {integrity: sha1-LEikdyw2BZnizT41oh6B/G8mpIM=}
     engines: {node: '>=20'}
     hasBin: true
 
-  cpy@12.1.0:
-    resolution: {integrity: sha1-6OrfqdSwbVSad8hR9FtVoGUpyOg=}
+  cpy@13.2.3:
+    resolution: {integrity: sha1-LXs9WGuvvcJ7DQ5X6HqOy+NGj/I=}
     engines: {node: '>=20'}
 
   cross-env@10.1.0:
@@ -39982,8 +39982,8 @@ packages:
     resolution: {integrity: sha1-R4LDTLdd1oM1EzXFgpzDQg5gayI=}
     engines: {node: '>=8'}
 
-  globby@15.0.0:
-    resolution: {integrity: sha1-Xezo1sOLNPIfcQBWu8QQOs7BJfk=}
+  globby@16.2.4:
+    resolution: {integrity: sha1-IQjY6VKEM2a28d+cxfbns6wkYwo=}
     engines: {node: '>=20'}
 
   globrex@0.1.2:
@@ -40290,6 +40290,10 @@ packages:
   is-number@7.0.0:
     resolution: {integrity: sha1-dTU0W4lnNNX4DE0GxQlVUnoU8Ss=}
     engines: {node: '>=0.12.0'}
+
+  is-path-inside@4.0.0:
+    resolution: {integrity: sha1-gFrrYsR8GxL8P9E7+z7R50MAcds=}
+    engines: {node: '>=12'}
 
   is-plain-obj@1.1.0:
     resolution: {integrity: sha1-caUMhCnfync8kqOQpKA7OfzVHT4=}
@@ -40791,9 +40795,9 @@ packages:
     resolution: {integrity: sha1-vlKh2HtfVphgKw8yh17llAkEqn8=}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  meow@13.2.0:
-    resolution: {integrity: sha1-a31j+RP5hAY7PMJhtuiADEzTR08=}
-    engines: {node: '>=18'}
+  meow@14.1.0:
+    resolution: {integrity: sha1-PNLRatU0gpqxL8tQEPwv24n6zTE=}
+    engines: {node: '>=20'}
 
   merge-descriptors@2.0.0:
     resolution: {integrity: sha1-6pIvZgY1oiSe5WXgRJ+VHmtgOAg=}
@@ -41279,10 +41283,6 @@ packages:
     resolution: {integrity: sha1-hO0BwKe6OAr+CdkKjBgNzZ0DBDs=}
     engines: {node: '>=8'}
 
-  path-type@6.0.0:
-    resolution: {integrity: sha1-Lxu2eRqRzpkZTK7eXWxZIO2B61E=}
-    engines: {node: '>=18'}
-
   pathe@2.0.3:
     resolution: {integrity: sha1-PsvsVUIWhbcKnahyss/z4cvtFxY=}
 
@@ -41410,7 +41410,7 @@ packages:
     engines: {node: '>= 0.8.0'}
 
   prettier-plugin-packagejson@3.0.2:
-    resolution: {integrity: sha1-K4MEDu2yde+IjVrVROfVEBncEgA=}
+    resolution: {integrity: sha512-kmoj3hEynXwoHDo8ZhmWAIjRBoQWCDUVackiWfSDWdgD0rS3LGB61T9zoVbume/cotYdCoadUh4sqViAmXvpBQ==}
     peerDependencies:
       prettier: ^3
     peerDependenciesMeta:
@@ -42326,9 +42326,9 @@ packages:
     resolution: {integrity: sha1-271bVLow8ofiqNWiSdpsDO82lFk=}
     engines: {node: '>=4'}
 
-  unicorn-magic@0.3.0:
-    resolution: {integrity: sha1-Tv1FyFpp4N1XbSVTL7+iKqXIoQQ=}
-    engines: {node: '>=18'}
+  unicorn-magic@0.4.1:
+    resolution: {integrity: sha512-lzlXPoVB0Uy/FvTaUgX39RbixYiSKoc3JSoSf01+0c2B6FR3qdYIPN7Qjo/AV7n6sqLCk0509cT3LRj1oSZ1+A==}
+    engines: {node: '>=20'}
 
   unique-string@2.0.0:
     resolution: {integrity: sha1-OcZFH4GvsnSd4rIz4/fF6IQ72J0=}
@@ -46511,15 +46511,16 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cpy-cli@6.0.0:
+  cpy-cli@7.0.0:
     dependencies:
-      cpy: 12.1.0
-      meow: 13.2.0
+      cpy: 13.2.3
+      globby: 16.2.4
+      meow: 14.1.0
 
-  cpy@12.1.0:
+  cpy@13.2.3:
     dependencies:
       copy-file: 11.1.0
-      globby: 15.0.0
+      globby: 16.2.4
       junk: 4.0.1
       micromatch: 4.0.8
       p-filter: 4.1.0
@@ -47516,14 +47517,15 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
-  globby@15.0.0:
+  globby@16.2.4:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       fast-glob: 3.3.3
       ignore: 7.0.11
-      path-type: 6.0.0
+      is-path-inside: 4.0.0
+      micromatch: 4.0.8
       slash: 5.1.0
-      unicorn-magic: 0.3.0
+      unicorn-magic: 0.4.1
 
   globrex@0.1.2: {}
 
@@ -47794,6 +47796,8 @@ snapshots:
       has-tostringtag: 1.0.2
 
   is-number@7.0.0: {}
+
+  is-path-inside@4.0.0: {}
 
   is-plain-obj@1.1.0: {}
 
@@ -48317,7 +48321,7 @@ snapshots:
       type-fest: 1.4.0
       yargs-parser: 20.2.9
 
-  meow@13.2.0: {}
+  meow@14.1.0: {}
 
   merge-descriptors@2.0.0: {}
 
@@ -48886,8 +48890,6 @@ snapshots:
   path-to-regexp@8.4.2: {}
 
   path-type@4.0.0: {}
-
-  path-type@6.0.0: {}
 
   pathe@2.0.3: {}
 
@@ -50074,7 +50076,7 @@ snapshots:
 
   unicode-emoji-modifier-base@1.0.0: {}
 
-  unicorn-magic@0.3.0: {}
+  unicorn-magic@0.4.1: {}
 
   unique-string@2.0.0:
     dependencies:
