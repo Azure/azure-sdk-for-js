@@ -1721,9 +1721,6 @@ sdk/compute/arm-computeworkloadmanager/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/privatetrafficmanager/arm-privatetrafficmanager/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt %mgmt-review-needed
-sdk/privatetrafficmanager/arm-privatetrafficmanager/ @qiaozha @MaryGao @JialinHuang803
-
 ###########
 # Config
 ###########
