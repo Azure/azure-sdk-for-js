@@ -8,6 +8,7 @@
 - Added opt-in data locality support to `readToBuffer`, using the routing added in `@azure/storage-blob`. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"enabled"` to read chunks from the endpoints that hold them; disabled by default and Node.js only.
 - Added `DataLakeFileClient.getLayout`, which pages through the file's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
 - Added `layoutEndpoint` to `FileReadOptions`, to route a single `read` call.
+- As in `@azure/storage-blob`, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as appends, for one minute after the service responds with status 429, 500 or 503. Set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
 
 ### Breaking Changes
 

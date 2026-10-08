@@ -3002,6 +3002,16 @@ export { Range_2 as Range }
 export type RehydratePriority = "High" | "Standard";
 
 // @public
+export type Request100ContinueMode = "auto" | "always" | "never";
+
+// @public
+export interface Request100ContinueOptions {
+    autoIntervalInMs?: number;
+    contentLengthThreshold?: number;
+    mode?: Request100ContinueMode;
+}
+
+// @public
 export type RequestHeaders = Record<string, string>;
 
 export { RequestPolicy as IHttpClient }
@@ -3363,6 +3373,7 @@ export interface StoragePipelineOptions {
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
+    request100ContinueOptions?: Request100ContinueOptions;
     retryOptions?: StorageRetryOptions;
     sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;
