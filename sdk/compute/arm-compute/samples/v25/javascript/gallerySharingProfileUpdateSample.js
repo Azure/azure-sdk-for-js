@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update sharing profile of a gallery.
  *
  * @summary update sharing profile of a gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_AddToSharingProfile.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_AddToSharingProfile.json
  */
 async function addSharingIdToTheSharingProfileOfAGallery() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
  * This sample demonstrates how to update sharing profile of a gallery.
  *
  * @summary update sharing profile of a gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_EnableCommunityGallery.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_EnableCommunityGallery.json
  */
 async function shareAGalleryToCommunity() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function shareAGalleryToCommunity() {
  * This sample demonstrates how to update sharing profile of a gallery.
  *
  * @summary update sharing profile of a gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_ResetSharingProfile.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_ResetSharingProfile.json
  */
 async function resetSharingProfileOfAGallery() {
   const credential = new DefaultAzureCredential();

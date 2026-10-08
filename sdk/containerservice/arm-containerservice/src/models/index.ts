@@ -16,6 +16,7 @@ export type {
   UpgradeStrategy,
   AgentPoolUpgradeSettings,
   UndrainableNodeBehavior,
+  UpgradeGateSettings,
   AgentPoolBlueGreenUpgradeSettings,
   PowerState,
   Code,

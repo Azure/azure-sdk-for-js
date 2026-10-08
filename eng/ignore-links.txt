@@ -139,8 +139,14 @@ https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=a
 https://www.npmjs.com/package/@azure/arm-compute-bulkactions
 https://learn.microsoft.com/javascript/api/@azure/arm-containerserviceaimanager?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-containerserviceaimanager
+https://learn.microsoft.com/javascript/api/@azure/arm-platformvalidation?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-platformvalidation
 https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshifthcp?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-redhatopenshifthcp
 https://aka.ms/aks/concurrent-node-operations
 https://learn.microsoft.com/javascript/api/@azure/iot-device-registry-software-update?view=azure-node-preview
 https://www.npmjs.com/package/@azure/iot-device-registry-software-update
+https://learn.microsoft.com/javascript/api/@azure/arm-computeworkloadmanager?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-computeworkloadmanager
+https://learn.microsoft.com/javascript/api/@azure/arm-secretsstoreextension?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-secretsstoreextension

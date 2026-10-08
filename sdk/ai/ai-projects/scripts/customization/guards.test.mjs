@@ -43,6 +43,165 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
+  const upstream =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const legacy = upstream.replace(";", ' | "task_generation";');
+  assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  for (const output of [
+    legacy,
+    upstream.replace('"traces" | ', ""),
+    upstream.replace(";", ' | "unexpected";'),
+  ]) {
+    has(
+      validate(modelFixture(upstream, legacy, upstream, output)),
+      "DataGenerationJobType",
+      undefined,
+      "must adopt upstream values",
+    );
+  }
+  const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
+  has(
+    validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),
+    "OtherKind",
+    undefined,
+    "Lost custom-only union",
+  );
+});
+
+test("only the legacy task model and converters may retire with the approved configuration migration", () => {
+  const discriminator =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const base = `${discriminator}
+export interface DataGenerationJobOptions { type: DataGenerationJobType; }`;
+  const customized = `${base}
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions { type: "task_generation"; }
+export function taskGenerationDataGenerationJobOptionsSerializer(item: TaskGenerationDataGenerationJobOptions): any { return item; }
+export function taskGenerationDataGenerationJobOptionsDeserializer(item: any): TaskGenerationDataGenerationJobOptions { return item; }
+`;
+  const incoming = `${discriminator}
+export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }`;
+  const files = modelFixture(base, customized, incoming, incoming);
+  files.baseSource.set(
+    "index.ts",
+    `${scaffold}export type { TaskGenerationDataGenerationJobOptions } from "./models/models.js";`,
+  );
+  files.source.set("index.ts", scaffold);
+  assert.deepEqual(validate(files), []);
+  for (const generated of [base, discriminator]) {
+    const rejected = validate({ ...files, generated: tree({ "models/models.ts": generated }) });
+    has(rejected, "TaskGenerationDataGenerationJobOptions", undefined, "Lost maintained");
+  }
+  files.baseSource.set("models/models.ts", customized + "export interface Unrelated {}");
+  has(validate(files), "Unrelated", undefined, "Lost maintained");
+});
+
+function evaluatorPromotionFixture() {
+  const beta = "classic/beta/evaluators/index.ts";
+  const root = "classic/evaluators/index.ts";
+  const upload = "pendingUpload(): void; getCredentials(): void;";
+  const previous = `export interface BetaEvaluatorsOperations { list(): void; ${upload} }`;
+  const remaining = `export interface BetaEvaluatorsOperations { ${upload} }`;
+  const promoted = "export interface EvaluatorsOperations { list(): void; }";
+  return {
+    baseGenerated: tree({ [beta]: previous }),
+    baseSource: tree({ [beta]: previous }),
+    generated: tree({ [beta]: remaining, [root]: promoted }),
+    source: tree({ [beta]: remaining, [root]: promoted }),
+  };
+}
+
+test("allows verified evaluator list promotion while retaining beta upload operations", () => {
+  assert.deepEqual(validate(evaluatorPromotionFixture()), []);
+});
+
+test("accepts subsequent no-op regenerations after evaluator list promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.baseGenerated = new Map(files.generated);
+  files.baseSource = new Map(files.source);
+  assert.deepEqual(validate(files), []);
+});
+
+test("does not waive a missing beta list without generated promotion evidence", () => {
+  const files = evaluatorPromotionFixture();
+  files.generated.delete("classic/evaluators/index.ts");
+  has(validate(files), "BetaEvaluatorsOperations", "list");
+});
+
+for (const replacement of ["", "listLatestVersions(): void;"]) {
+  test(`rejects a promoted root list replaced with ${replacement || "nothing"}`, () => {
+    const files = evaluatorPromotionFixture();
+    files.source.set(
+      "classic/evaluators/index.ts",
+      `export interface EvaluatorsOperations { ${replacement} }`,
+    );
+    has(validate(files), "EvaluatorsOperations", "list");
+  });
+}
+
+test("preserves beta upload members during evaluator promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.source.set(
+    "classic/beta/evaluators/index.ts",
+    "export interface BetaEvaluatorsOperations { getCredentials(): void; }",
+  );
+  assert.notDeepEqual(validate(files), []);
+});
+
+function promotedClientFixture() {
+  const files = evaluatorPromotionFixture();
+  const base = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._client); }
+  }`;
+  const customized = `export class AIProjectClient {
+    constructor() {
+      this._cognitiveScopeClient = createAIProject("endpoint", credential, { scopes: ["cognitive"] });
+      this._azureScopeClient = createAIProject("endpoint", credential, { scopes: ["azure"] });
+      this.beta = _getBetaOperations(this._cognitiveScopeClient, credential, endpoint);
+      this.telemetry = customTelemetry();
+    }
+  }`;
+  const add = (text, context) =>
+    text
+      .replace("constructor()", "public readonly evaluators: EvaluatorsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        `this.evaluators = _getEvaluatorsOperations(${context}); this.beta =`,
+      );
+  files.baseGenerated.set("aiProjectClient.ts", base);
+  files.baseSource.set("aiProjectClient.ts", customized);
+  files.generated.set("aiProjectClient.ts", add(base, "this._client"));
+  files.source.set("aiProjectClient.ts", add(customized, "this._cognitiveScopeClient"));
+  return files;
+}
+
+test("allows only evaluator wiring that retains the former beta auth context", () => {
+  const files = promotedClientFixture();
+  assert.deepEqual(validate(files), []);
+  files.source.set(
+    "aiProjectClient.ts",
+    files.source
+      .get("aiProjectClient.ts")
+      .replace(
+        "_getEvaluatorsOperations(this._cognitiveScopeClient)",
+        "_getEvaluatorsOperations(this._azureScopeClient)",
+      ),
+  );
+  has(validate(files), "AIProjectClient", undefined, "Protected");
+});
+
+test("still rejects missing evaluator initialization and unrelated constructor rewrites", () => {
+  for (const edit of [
+    (text) =>
+      text.replace("this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);", ""),
+    (text) => text.replace("this.telemetry = customTelemetry();", ""),
+  ]) {
+    const files = promotedClientFixture();
+    files.source.set("aiProjectClient.ts", edit(files.source.get("aiProjectClient.ts")));
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
 test("reports unresolved markers, parse errors, duplicate declarations and members", () => {
   const diagnostics = validate({
     source: tree({
@@ -935,4 +1094,29 @@ test("follows a simple forwarding converter alias for wire-member parity", () =>
   const output = custom.replace("id: item.id", "id: item.id, preview: item.preview");
   assert.deepEqual(validate(modelFixture(base, custom, incoming, output)), []);
   has(validate(modelFixture(base, custom, incoming, custom)), "widgetSerializer", "preview");
+});
+
+test("custom-only aliases of emitted models follow the emitted shape but keep their target", () => {
+  const base = "export interface Widget { id: string; legacy?: string; }";
+  const customized = `${base}\nexport type OldWidget = Widget;`;
+  const incoming = "export interface Widget { id: string; current?: string; }";
+  assert.deepEqual(
+    validate(
+      modelFixture(base, customized, incoming, `${incoming}\nexport type OldWidget = Widget;`),
+    ),
+    [],
+  );
+  has(
+    validate(
+      modelFixture(
+        base,
+        customized,
+        incoming,
+        `${incoming}\nexport interface Gadget { id: string; }\nexport type OldWidget = Gadget;`,
+      ),
+    ),
+    "OldWidget",
+    undefined,
+    "target of a maintained custom-only alias",
+  );
 });

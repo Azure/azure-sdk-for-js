@@ -50,7 +50,7 @@
     "@azure-tools/test-perf": "workspace:^",
     "@azure/identity": "^4.8.0",
     "@azure/monitor-ingestion": "^1.1.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:testing",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

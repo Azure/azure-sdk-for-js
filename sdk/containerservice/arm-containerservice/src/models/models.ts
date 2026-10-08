@@ -816,6 +816,8 @@ export interface AgentPoolUpgradeSettings {
   nodeSoakDurationInMinutes?: number;
   /** Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes. */
   undrainableNodeBehavior?: UndrainableNodeBehavior;
+  /** Settings for upgrade gating on upgrades of this agent pool. Health signals are `HealthSignal` custom resources published by monitoring components running in the cluster. When the cluster-level `enabled` is unset or `false`, this agent pool can opt in independently. When the cluster-level `enabled` is `true`, gating is inherited and setting this agent pool's `enabled` to `false` is rejected; an omitted value on a newly created agent pool is defaulted to `true`. */
+  upgradeGateSettings?: UpgradeGateSettings;
 }
 
 export function agentPoolUpgradeSettingsSerializer(item: AgentPoolUpgradeSettings): any {
@@ -826,6 +828,9 @@ export function agentPoolUpgradeSettingsSerializer(item: AgentPoolUpgradeSetting
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsSerializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -837,6 +842,9 @@ export function agentPoolUpgradeSettingsDeserializer(item: any): AgentPoolUpgrad
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsDeserializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -857,6 +865,22 @@ export enum KnownUndrainableNodeBehavior {
  * **Schedule**: AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes.
  */
 export type UndrainableNodeBehavior = string;
+
+/** Settings for health-aware upgrade gating. */
+export interface UpgradeGateSettings {
+  /** Whether upgrade gating is enabled. Defaults to `false` when unset, except on a newly created agent pool in a cluster where upgrade gating is enabled, which defaults to `true`. When `true`, upgrade-gated health checks are enabled for upgrades in the corresponding scope. Setting this to `true` at the cluster scope enables gating for the entire cluster, including all agent pool upgrades. When the cluster scope is unset or `false`, an agent pool can opt in independently by setting this to `true`. When the cluster scope is `true`, an agent pool cannot set this to `false`. Force upgrade (`overrideSettings.forceUpgrade`) overrides the gate: while the override window is active, the upgrade skips health signal validation and proceeds. */
+  enabled?: boolean;
+}
+
+export function upgradeGateSettingsSerializer(item: UpgradeGateSettings): any {
+  return { enabled: item["enabled"] };
+}
+
+export function upgradeGateSettingsDeserializer(item: any): UpgradeGateSettings {
+  return {
+    enabled: item["enabled"],
+  };
+}
 
 /** Settings for blue-green upgrade on an agentpool */
 export interface AgentPoolBlueGreenUpgradeSettings {
@@ -1814,6 +1838,8 @@ export interface NvidiaGPUProfile {
   driverMode?: NvidiaDriverMode;
   /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
   migStrategy?: MigStrategy;
+  /** The ordered list of MIG (Multi-Instance GPU) partition profiles to assign to each supported NVIDIA GPU. When `migStrategy` is `Single`, exactly one profile must be specified. When `migStrategy` is `Mixed`, one or more profiles may be specified and the combination is validated against the supported MIG geometry for the agent pool's GPU VM size. The same value may appear more than once to request multiple partitions of that size. This field is mutually exclusive with the top-level `gpuInstanceProfile` property. For more information, see https://aka.ms/aks/managed-gpu. */
+  migProfiles?: GPUInstanceProfile[];
 }
 
 export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
@@ -1821,6 +1847,11 @@ export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
     managementMode: item["managementMode"],
     driverMode: item["driverMode"],
     migStrategy: item["migStrategy"],
+    migProfiles: !item["migProfiles"]
+      ? item["migProfiles"]
+      : item["migProfiles"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1829,6 +1860,11 @@ export function nvidiaGPUProfileDeserializer(item: any): NvidiaGPUProfile {
     managementMode: item["managementMode"],
     driverMode: item["driverMode"],
     migStrategy: item["migStrategy"],
+    migProfiles: !item["migProfiles"]
+      ? item["migProfiles"]
+      : item["migProfiles"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1870,11 +1906,11 @@ export type NvidiaDriverMode = string;
 
 /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
 export enum KnownMigStrategy {
-  /** Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. */
+  /** No MIG partitioning is applied; the GPU is exposed as a single unified whole-device instance. Specifying this value removes any previously active MIG strategy. */
   None = "None",
-  /** Set the MIG strategy for managed MIG as single. */
+  /** All MIG partitions on every GPU in the pool are the same size (`nvidia.com/mig.strategy: single`). The uniform partition size is controlled by `nvidia.migProfiles` (exactly one element required). */
   Single = "Single",
-  /** Set the MIG strategy for managed MIG as mixed. */
+  /** Each GPU in the pool can host heterogeneous partitions of different sizes simultaneously (`nvidia.com/mig.strategy: mixed`). The exact partition mix per GPU is declared via `nvidia.migProfiles`. */
   Mixed = "Mixed",
 }
 
@@ -1883,9 +1919,9 @@ export enum KnownMigStrategy {
  * {@link KnownMigStrategy} can be used interchangeably with MigStrategy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. \
- * **Single**: Set the MIG strategy for managed MIG as single. \
- * **Mixed**: Set the MIG strategy for managed MIG as mixed.
+ * **None**: No MIG partitioning is applied; the GPU is exposed as a single unified whole-device instance. Specifying this value removes any previously active MIG strategy. \
+ * **Single**: All MIG partitions on every GPU in the pool are the same size (`nvidia.com\/mig.strategy: single`). The uniform partition size is controlled by `nvidia.migProfiles` (exactly one element required). \
+ * **Mixed**: Each GPU in the pool can host heterogeneous partitions of different sizes simultaneously (`nvidia.com\/mig.strategy: mixed`). The exact partition mix per GPU is declared via `nvidia.migProfiles`.
  */
 export type MigStrategy = string;
 
@@ -3097,7 +3133,7 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
   enableFips?: boolean;
   /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
   enableNodeHardening?: boolean;
@@ -3301,7 +3337,7 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
   enableFips?: boolean;
   /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
   enableNodeHardening?: boolean;
@@ -5650,6 +5686,8 @@ export type NodeOSUpgradeChannel = string;
 export interface ClusterUpgradeSettings {
   /** Settings for overrides. */
   overrideSettings?: UpgradeOverrideSettings;
+  /** Settings for upgrade gating on upgrades in this managed cluster. Health signals are `HealthSignal` custom resources published by monitoring components running in the cluster. Setting `enabled` to `true` here is a cluster-wide opt-in that applies to all agent pool upgrades in this cluster; an agent pool cannot opt out of it. */
+  upgradeGateSettings?: UpgradeGateSettings;
 }
 
 export function clusterUpgradeSettingsSerializer(item: ClusterUpgradeSettings): any {
@@ -5657,6 +5695,9 @@ export function clusterUpgradeSettingsSerializer(item: ClusterUpgradeSettings): 
     overrideSettings: !item["overrideSettings"]
       ? item["overrideSettings"]
       : upgradeOverrideSettingsSerializer(item["overrideSettings"]),
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsSerializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -5665,6 +5706,9 @@ export function clusterUpgradeSettingsDeserializer(item: any): ClusterUpgradeSet
     overrideSettings: !item["overrideSettings"]
       ? item["overrideSettings"]
       : upgradeOverrideSettingsDeserializer(item["overrideSettings"]),
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsDeserializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -6240,7 +6284,7 @@ export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeser
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
   keyId?: string;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
@@ -6308,8 +6352,6 @@ export function kubernetesResourceObjectEncryptionProfileDeserializer(
 export enum KnownInfrastructureEncryption {
   /** Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
   Enabled = "Enabled",
-  /** Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
-  Disabled = "Disabled",
 }
 
 /**
@@ -6317,8 +6359,7 @@ export enum KnownInfrastructureEncryption {
  * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption. \
- * **Disabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
+ * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
  */
 export type InfrastructureEncryption = string;
 
@@ -11302,6 +11343,8 @@ export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[
 export interface IdentityBinding extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: IdentityBindingProperties;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
 }
@@ -11311,6 +11354,7 @@ export function identityBindingSerializer(item: IdentityBinding): any {
     properties: !item["properties"]
       ? item["properties"]
       : identityBindingPropertiesSerializer(item["properties"]),
+    managedBy: item["managedBy"],
   };
 }
 
@@ -11325,6 +11369,7 @@ export function identityBindingDeserializer(item: any): IdentityBinding {
     properties: !item["properties"]
       ? item["properties"]
       : identityBindingPropertiesDeserializer(item["properties"]),
+    managedBy: item["managedBy"],
     eTag: item["eTag"],
   };
 }
@@ -12773,8 +12818,10 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
-  /** The 2026-06-02-preview API version. */
-  V20260602Preview = "2026-06-02-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-07-02-preview API version. */
+  V20260702Preview = "2026-07-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {

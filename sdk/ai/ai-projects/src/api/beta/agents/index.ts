@@ -1,19 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  deleteOptimizationJob,
-  cancelOptimizationJob,
-  listOptimizationJobs,
-  getOptimizationJob,
-  createOptimizationJob,
-  createFromPrompt,
-} from "./operations.js";
-export type {
-  BetaAgentsDeleteOptimizationJobOptionalParams,
-  BetaAgentsCancelOptimizationJobOptionalParams,
-  BetaAgentsListOptimizationJobsOptionalParams,
-  BetaAgentsGetOptimizationJobOptionalParams,
-  BetaAgentsCreateOptimizationJobOptionalParams,
-  BetaAgentsCreateFromPromptOptionalParams,
-} from "./options.js";
+export { createFromPrompt } from "./operations.js";
+export type { BetaAgentsCreateFromPromptOptionalParams } from "./options.js";
