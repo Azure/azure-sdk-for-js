@@ -32,6 +32,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { Field, Map_, Struct, Table, Utf8, tableToIPC, vectorFromArray } from "apache-arrow";
 import { Readable } from "node:stream";
 
 describe("ContainerClient Node.js only", () => {
@@ -301,10 +302,11 @@ describe("ContainerClient Node.js only", () => {
 
 describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () => {
   // Exercise the Arrow list operations' XML fallback (used for non-Arrow accounts) by
-  // short-circuiting the pipeline with a synthetic application/xml response.
-  function containerClientReturningXml(
-    xml: string,
+  // short-circuiting the pipeline with a synthetic response (application/xml by default).
+  function containerClientReturning(
+    body: string | Uint8Array,
     onRequest?: (request: PipelineRequest) => void,
+    contentType = "application/xml",
   ): ContainerClient {
     const account = "fakeaccount";
     const credential = new StorageSharedKeyCredential(
@@ -322,9 +324,9 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
         return {
           request,
           status: 200,
-          headers: createHttpHeaders({ "content-type": "application/xml" }),
+          headers: createHttpHeaders({ "content-type": contentType }),
           readableStreamBody: Readable.from([
-            Buffer.from(xml, "utf-8"),
+            typeof body === "string" ? Buffer.from(body, "utf-8") : Buffer.from(body),
           ]) as unknown as NodeJS.ReadableStream,
         };
       },
@@ -349,7 +351,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     `</Blobs><NextMarker /></EnumerationResults>`;
 
   it("listBlobsFlat parses and projects an XML fallback page", async () => {
-    const client = containerClientReturningXml(flatXml);
+    const client = containerClientReturning(flatXml);
     const items: BlobItem[] = [];
     for await (const item of client.listBlobsFlat({
       responseFormat: StorageResponseFormat.Arrow,
@@ -366,7 +368,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
   });
 
   it("listBlobsFlat XML fallback preserves the decoded response body text", async () => {
-    const client = containerClientReturningXml(flatXml);
+    const client = containerClientReturning(flatXml);
     for await (const page of client
       .listBlobsFlat({ responseFormat: StorageResponseFormat.Arrow })
       .byPage()) {
@@ -376,7 +378,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
 
   it("listBlobsFlat requests Apache Arrow by default", async () => {
     let accept: string | undefined;
-    const client = containerClientReturningXml(flatXml, (request) => {
+    const client = containerClientReturning(flatXml, (request) => {
       accept = request.headers.get("accept");
     });
     const names: string[] = [];
@@ -385,6 +387,56 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     }
     assert.deepEqual(names, ["blobA", "blobB"]);
     assert.isTrue(accept?.startsWith(ApacheArrowContentType), `Accept header: ${accept}`);
+  });
+
+  const expectedOrProperties = [
+    { policyId: "policy1", rules: [{ ruleId: "rule1", replicationStatus: "complete" }] },
+  ];
+
+  it("listBlobsFlat XML fallback page keeps _response and object replication properties", async () => {
+    const client = containerClientReturning(
+      flatXml.replace(
+        "</Properties></Blob>",
+        "</Properties><OrMetadata><or-policy1_rule1>complete</or-policy1_rule1></OrMetadata></Blob>",
+      ),
+    );
+    const page = (await client.listBlobsFlat().byPage().next()).value;
+    assert.equal(page._response.status, 200);
+    assert.notProperty(page, "readableStreamBody");
+    assert.notProperty(page._response, "readableStreamBody");
+    assert.deepEqual(
+      page.segment.blobItems[0].objectReplicationSourceProperties,
+      expectedOrProperties,
+    );
+  });
+
+  it("listBlobsFlat Apache Arrow page keeps _response and object replication properties", async () => {
+    const orMetadataType = new Map_(
+      new Field(
+        "entries",
+        new Struct<{ key: Utf8; value: Utf8 }>([
+          new Field("key", new Utf8(), false),
+          new Field("value", new Utf8(), true),
+        ]),
+        false,
+      ),
+    );
+    const arrowBody = tableToIPC(
+      new Table({
+        Name: vectorFromArray(["blobA"], new Utf8()),
+        OrMetadata: vectorFromArray([new Map([["or-policy1_rule1", "complete"]])], orMetadataType),
+      }),
+      "stream",
+    );
+    const client = containerClientReturning(arrowBody, undefined, ApacheArrowContentType);
+    const page = (await client.listBlobsFlat().byPage().next()).value;
+    assert.equal(page._response.status, 200);
+    assert.notProperty(page, "readableStreamBody");
+    assert.notProperty(page._response, "readableStreamBody");
+    assert.deepEqual(
+      page.segment.blobItems[0].objectReplicationSourceProperties,
+      expectedOrProperties,
+    );
   });
 
   const hierarchyXml =
@@ -399,7 +451,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     `</Blobs><NextMarker /></EnumerationResults>`;
 
   it("listBlobsByHierarchy parses and projects an XML fallback page with prefixes", async () => {
-    const client = containerClientReturningXml(hierarchyXml);
+    const client = containerClientReturning(hierarchyXml);
     const blobs: string[] = [];
     const prefixes: string[] = [];
     for await (const item of client.listBlobsByHierarchy("/", {
@@ -417,7 +469,7 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
 
   it("listBlobsByHierarchy requests Apache Arrow by default", async () => {
     let accept: string | undefined;
-    const client = containerClientReturningXml(hierarchyXml, (request) => {
+    const client = containerClientReturning(hierarchyXml, (request) => {
       accept = request.headers.get("accept");
     });
     const names: string[] = [];

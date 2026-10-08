@@ -1461,6 +1461,8 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
         .next()
     ).value;
 
+    assert.equal(response._response.status, 200);
+    assert.equal(response._response.headers.get("content-type"), response.contentType);
     assert.isAbove(response.serviceEndpoint.length, 0);
     assert.notStrictEqual(containerClient.url.indexOf(response.containerName), -1);
     assert.strictEqual(response.segment.blobItems.length, 1);
@@ -1745,6 +1747,8 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
       .listBlobsByHierarchy("/", { responseFormat: StorageResponseFormat.Arrow })
       .byPage({ maxPageSize: 2 })) {
       pages++;
+      assert.equal(page._response.status, 200);
+      assert.equal(page._response.headers.get("content-type"), page.contentType);
       assert.strictEqual(page.delimiter, "/");
       for (const prefix of page.segment.blobPrefixes ?? []) {
         prefixes.push(prefix.name);
