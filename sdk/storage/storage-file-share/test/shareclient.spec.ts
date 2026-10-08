@@ -74,6 +74,11 @@ describe("ShareClient", () => {
     assert.isDefined(result.date);
   });
 
+  it("getProperties returns creationTime", async () => {
+    const result = await shareClient.getProperties();
+    assert.instanceOf(result.creationTime, Date);
+  });
+
   it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
   });

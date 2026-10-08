@@ -466,6 +466,7 @@ export interface ShareOperations {
       nextAllowedProvisionedIopsDowngradeTime?: Date;
       nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       enableSmbDirectoryLease?: boolean;
+      creationTime?: Date;
       enableChangeFeed?: boolean;
       changeFeedRetentionInDays?: number;
       changeFeedBlobContainerName?: string;
@@ -501,6 +502,7 @@ export interface ShareOperations {
         nextAllowedProvisionedIopsDowngradeTime?: Date;
         nextAllowedProvisionedBandwidthDowngradeTime?: Date;
         enableSmbDirectoryLease?: boolean;
+        creationTime?: Date;
         enableChangeFeed?: boolean;
         changeFeedRetentionInDays?: number;
         changeFeedBlobContainerName?: string;

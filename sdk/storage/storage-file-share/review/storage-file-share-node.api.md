@@ -1921,6 +1921,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     changeFeedBlobContainerName?: string;
     changeFeedRetentionInDays?: number;
+    creationTime?: Date;
     date?: Date;
     enableChangeFeed?: boolean;
     enabledProtocols?: string;
@@ -2073,6 +2074,7 @@ export interface SharePropertiesInternal {
     accessTierChangeTime?: Date;
     // (undocumented)
     accessTierTransitionState?: string;
+    creationTime?: Date;
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)

@@ -2346,6 +2346,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   nextAllowedProvisionedIopsDowngradeTime?: Date;
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   enableSmbDirectoryLease?: boolean;
+  creationTime?: Date;
   enableChangeFeed?: boolean;
   changeFeedRetentionInDays?: number;
   changeFeedBlobContainerName?: string;
@@ -2474,6 +2475,11 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-enable-smb-directory-lease"] === null
         ? result.headers["x-ms-enable-smb-directory-lease"]
         : result.headers["x-ms-enable-smb-directory-lease"].trim().toLowerCase() === "true",
+    creationTime:
+      result.headers["x-ms-share-creation-time"] === undefined ||
+      result.headers["x-ms-share-creation-time"] === null
+        ? result.headers["x-ms-share-creation-time"]
+        : new Date(result.headers["x-ms-share-creation-time"]),
     enableChangeFeed:
       result.headers["x-ms-file-enable-change-feed"] === undefined ||
       result.headers["x-ms-file-enable-change-feed"] === null
@@ -2554,6 +2560,7 @@ export async function getProperties(
     nextAllowedProvisionedIopsDowngradeTime?: Date;
     nextAllowedProvisionedBandwidthDowngradeTime?: Date;
     enableSmbDirectoryLease?: boolean;
+    creationTime?: Date;
     enableChangeFeed?: boolean;
     changeFeedRetentionInDays?: number;
     changeFeedBlobContainerName?: string;
@@ -2589,6 +2596,7 @@ export async function getProperties(
       nextAllowedProvisionedIopsDowngradeTime?: Date;
       nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       enableSmbDirectoryLease?: boolean;
+      creationTime?: Date;
       enableChangeFeed?: boolean;
       changeFeedRetentionInDays?: number;
       changeFeedBlobContainerName?: string;
