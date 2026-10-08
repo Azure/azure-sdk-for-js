@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkClient } from "@azure/arm-privatetrafficmanager";
+import { PrivateTrafficManagerManagementClient } from "@azure/arm-privatetrafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function topologyMapsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "10B6D88D-ADF4-4281-B3D0-B5A6702DEEDA";
-  const client = new NetworkClient(credential, subscriptionId);
+  const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.topologyMaps.listBySubscription()) {
     resArray.push(item);

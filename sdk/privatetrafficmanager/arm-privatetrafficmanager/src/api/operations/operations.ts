@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext as Client } from "../index.js";
+import type { PrivateTrafficManagerManagementContext as Client } from "../index.js";
 import type { _OperationListResult, Operation } from "../../models/models.js";
 import {
   _operationListResultDeserializer,

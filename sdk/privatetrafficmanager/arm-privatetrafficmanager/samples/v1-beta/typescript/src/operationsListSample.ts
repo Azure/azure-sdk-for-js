@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkClient } from "@azure/arm-privatetrafficmanager";
+import { PrivateTrafficManagerManagementClient } from "@azure/arm-privatetrafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function operationsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new NetworkClient(credential, subscriptionId);
+  const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
@@ -31,7 +31,7 @@ async function operationsListMaximumSet(): Promise<void> {
 async function operationsListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new NetworkClient(credential, subscriptionId);
+  const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { NetworkClient } from "./networkClient.js";
+export { PrivateTrafficManagerManagementClient } from "./privateTrafficManagerManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -82,7 +82,7 @@ export {
   KnownTrafficRoutingMethod,
   KnownVersions,
 } from "./models/index.js";
-export type { NetworkClientOptionalParams } from "./api/index.js";
+export type { PrivateTrafficManagerManagementClientOptionalParams } from "./api/index.js";
 export type {
   EndpointsListByParentOptionalParams,
   EndpointsDeleteOptionalParams,

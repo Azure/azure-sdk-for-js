@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkClient } from "../src/index.js";
+import { PrivateTrafficManagerManagementClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,7 +9,10 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new NetworkClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new PrivateTrafficManagerManagementClient(
+      new DefaultAzureCredential(),
+      subscriptionId,
+    );
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -18,7 +21,7 @@ describe("snippets", () => {
       clientId: "<YOUR_CLIENT_ID>",
     });
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new NetworkClient(credential, subscriptionId);
+    const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

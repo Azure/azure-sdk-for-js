@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import { listByParent, $delete, update, createOrUpdate, get } from "../../api/sites/operations.js";
 import type {
   SitesListByParentOptionalParams,
@@ -54,7 +54,7 @@ export interface SitesOperations {
   ) => Promise<Site>;
 }
 
-function _getSites(context: NetworkContext) {
+function _getSites(context: PrivateTrafficManagerManagementContext) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -90,7 +90,9 @@ function _getSites(context: NetworkContext) {
   };
 }
 
-export function _getSitesOperations(context: NetworkContext): SitesOperations {
+export function _getSitesOperations(
+  context: PrivateTrafficManagerManagementContext,
+): SitesOperations {
   return {
     ..._getSites(context),
   };

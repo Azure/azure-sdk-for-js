@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import {
   listByParent,
   $delete,
@@ -60,7 +60,7 @@ export interface ProfileProbingGatewaysOperations {
   ) => Promise<ProfileProbingGateway>;
 }
 
-function _getProfileProbingGateways(context: NetworkContext) {
+function _getProfileProbingGateways(context: PrivateTrafficManagerManagementContext) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -127,7 +127,7 @@ function _getProfileProbingGateways(context: NetworkContext) {
 }
 
 export function _getProfileProbingGatewaysOperations(
-  context: NetworkContext,
+  context: PrivateTrafficManagerManagementContext,
 ): ProfileProbingGatewaysOperations {
   return {
     ..._getProfileProbingGateways(context),

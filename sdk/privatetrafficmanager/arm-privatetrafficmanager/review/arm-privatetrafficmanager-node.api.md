@@ -288,25 +288,6 @@ export enum KnownVersions {
     V20260209Preview = "2026-02-09-preview"
 }
 
-// @public (undocumented)
-export class NetworkClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: NetworkClientOptionalParams);
-    readonly endpoints: EndpointsOperations;
-    readonly healthPolicies: HealthPoliciesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly profileProbingGateways: ProfileProbingGatewaysOperations;
-    readonly profiles: ProfilesOperations;
-    readonly sites: SitesOperations;
-    readonly topologyMaps: TopologyMapsOperations;
-}
-
-// @public
-export interface NetworkClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export interface Operation {
     readonly actionType?: ActionType;
@@ -346,6 +327,25 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+}
+
+// @public (undocumented)
+export class PrivateTrafficManagerManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PrivateTrafficManagerManagementClientOptionalParams);
+    readonly endpoints: EndpointsOperations;
+    readonly healthPolicies: HealthPoliciesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly profileProbingGateways: ProfileProbingGatewaysOperations;
+    readonly profiles: ProfilesOperations;
+    readonly sites: SitesOperations;
+    readonly topologyMaps: TopologyMapsOperations;
+}
+
+// @public
+export interface PrivateTrafficManagerManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -529,7 +529,7 @@ export interface Resource {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetworkClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PrivateTrafficManagerManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

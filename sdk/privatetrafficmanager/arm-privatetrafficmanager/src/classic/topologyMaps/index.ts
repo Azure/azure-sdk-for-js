@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -61,7 +61,7 @@ export interface TopologyMapsOperations {
   ) => Promise<TopologyMap>;
 }
 
-function _getTopologyMaps(context: NetworkContext) {
+function _getTopologyMaps(context: PrivateTrafficManagerManagementContext) {
   return {
     listBySubscription: (options?: TopologyMapsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -94,7 +94,9 @@ function _getTopologyMaps(context: NetworkContext) {
   };
 }
 
-export function _getTopologyMapsOperations(context: NetworkContext): TopologyMapsOperations {
+export function _getTopologyMapsOperations(
+  context: PrivateTrafficManagerManagementContext,
+): TopologyMapsOperations {
   return {
     ..._getTopologyMaps(context),
   };

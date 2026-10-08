@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext as Client } from "../index.js";
+import type { PrivateTrafficManagerManagementContext as Client } from "../index.js";
 import type { TopologyMap, TopologyMapPatch, _TopologyMapListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,

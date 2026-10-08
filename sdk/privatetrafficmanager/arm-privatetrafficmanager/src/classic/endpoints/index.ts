@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import {
   listByParent,
   $delete,
@@ -60,7 +60,7 @@ export interface EndpointsOperations {
   ) => Promise<Endpoint>;
 }
 
-function _getEndpoints(context: NetworkContext) {
+function _getEndpoints(context: PrivateTrafficManagerManagementContext) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -113,7 +113,9 @@ function _getEndpoints(context: NetworkContext) {
   };
 }
 
-export function _getEndpointsOperations(context: NetworkContext): EndpointsOperations {
+export function _getEndpointsOperations(
+  context: PrivateTrafficManagerManagementContext,
+): EndpointsOperations {
   return {
     ..._getEndpoints(context),
   };

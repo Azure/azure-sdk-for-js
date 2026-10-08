@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext, NetworkClientOptionalParams } from "./api/index.js";
-import { createNetwork } from "./api/index.js";
+import type {
+  PrivateTrafficManagerManagementContext,
+  PrivateTrafficManagerManagementClientOptionalParams,
+} from "./api/index.js";
+import { createPrivateTrafficManagerManagement } from "./api/index.js";
 import type { EndpointsOperations } from "./classic/endpoints/index.js";
 import { _getEndpointsOperations } from "./classic/endpoints/index.js";
 import type { HealthPoliciesOperations } from "./classic/healthPolicies/index.js";
@@ -20,10 +23,10 @@ import { _getTopologyMapsOperations } from "./classic/topologyMaps/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { NetworkClientOptionalParams } from "./api/networkContext.js";
+export type { PrivateTrafficManagerManagementClientOptionalParams } from "./api/privateTrafficManagerManagementContext.js";
 
-export class NetworkClient {
-  private _client: NetworkContext;
+export class PrivateTrafficManagerManagementClient {
+  private _client: PrivateTrafficManagerManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -31,9 +34,9 @@ export class NetworkClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: NetworkClientOptionalParams = {},
+    options: PrivateTrafficManagerManagementClientOptionalParams = {},
   ) {
-    this._client = createNetwork(credential, subscriptionId, options);
+    this._client = createPrivateTrafficManagerManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.topologyMaps = _getTopologyMapsOperations(this._client);
     this.sites = _getSitesOperations(this._client);

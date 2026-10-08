@@ -1,6 +1,6 @@
-# Azure Network client library for JavaScript
+# Azure PrivateTrafficManagerManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Network client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PrivateTrafficManagerManagement client.
 
 Microsoft.Network Resource Provider management API.
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-privatetrafficmanager` package
 
-Install the Azure Network client library for JavaScript with `npm`:
+Install the Azure PrivateTrafficManagerManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-privatetrafficmanager
 ```
 
-### Create and authenticate a `NetworkClient`
+### Create and authenticate a `PrivateTrafficManagerManagementClient`
 
-To create a client object to access the Azure Network API, you will need the `endpoint` of your Azure Network resource and a `credential`. The Azure Network client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure Network resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure PrivateTrafficManagerManagement API, you will need the `endpoint` of your Azure PrivateTrafficManagerManagement resource and a `credential`. The Azure PrivateTrafficManagerManagement client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure PrivateTrafficManagerManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,35 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure Network** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new Microsoft Entra application and grant access to Azure PrivateTrafficManagerManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { NetworkClient } from "@azure/arm-privatetrafficmanager";
+import { PrivateTrafficManagerManagementClient } from "@azure/arm-privatetrafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new NetworkClient(new DefaultAzureCredential(), subscriptionId);
+const client = new PrivateTrafficManagerManagementClient(
+  new DefaultAzureCredential(),
+  subscriptionId,
+);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { NetworkClient } from "@azure/arm-privatetrafficmanager";
+import { PrivateTrafficManagerManagementClient } from "@azure/arm-privatetrafficmanager";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new NetworkClient(credential, subscriptionId);
+const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +82,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### NetworkClient
+### PrivateTrafficManagerManagementClient
 
-`NetworkClient` is the primary interface for developers using the Azure Network client library. Explore the methods on this client object to understand the different features of the Azure Network service that you can access.
+`PrivateTrafficManagerManagementClient` is the primary interface for developers using the Azure PrivateTrafficManagerManagement client library. Explore the methods on this client object to understand the different features of the Azure PrivateTrafficManagerManagement service that you can access.
 
 ## Troubleshooting
 

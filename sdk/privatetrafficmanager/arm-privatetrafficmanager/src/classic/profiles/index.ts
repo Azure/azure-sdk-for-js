@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -64,7 +64,7 @@ export interface ProfilesOperations {
   ) => Promise<PrivateTrafficManagerProfile>;
 }
 
-function _getProfiles(context: NetworkContext) {
+function _getProfiles(context: PrivateTrafficManagerManagementContext) {
   return {
     listBySubscription: (options?: ProfilesListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -104,7 +104,9 @@ function _getProfiles(context: NetworkContext) {
   };
 }
 
-export function _getProfilesOperations(context: NetworkContext): ProfilesOperations {
+export function _getProfilesOperations(
+  context: PrivateTrafficManagerManagementContext,
+): ProfilesOperations {
   return {
     ..._getProfiles(context),
   };

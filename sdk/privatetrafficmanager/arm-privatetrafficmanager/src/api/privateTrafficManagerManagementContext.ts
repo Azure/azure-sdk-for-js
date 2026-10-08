@@ -11,7 +11,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Microsoft.Network Resource Provider management API. */
-export interface NetworkContext extends Client {
+export interface PrivateTrafficManagerManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -20,7 +20,7 @@ export interface NetworkContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface NetworkClientOptionalParams extends ClientOptions {
+export interface PrivateTrafficManagerManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,11 +29,11 @@ export interface NetworkClientOptionalParams extends ClientOptions {
 }
 
 /** Microsoft.Network Resource Provider management API. */
-export function createNetwork(
+export function createPrivateTrafficManagerManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: NetworkClientOptionalParams = {},
-): NetworkContext {
+  options: PrivateTrafficManagerManagementClientOptionalParams = {},
+): PrivateTrafficManagerManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -51,5 +51,5 @@ export function createNetwork(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as NetworkContext;
+  return { ...clientContext, apiVersion, subscriptionId } as PrivateTrafficManagerManagementContext;
 }

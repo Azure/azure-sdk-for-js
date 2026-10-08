@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import { listByParent, $delete, createOrUpdate, get } from "../../api/healthPolicies/operations.js";
 import type {
   HealthPoliciesListByParentOptionalParams,
@@ -45,7 +45,7 @@ export interface HealthPoliciesOperations {
   ) => Promise<HealthPolicyUnion>;
 }
 
-function _getHealthPolicies(context: NetworkContext) {
+function _getHealthPolicies(context: PrivateTrafficManagerManagementContext) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -90,7 +90,9 @@ function _getHealthPolicies(context: NetworkContext) {
   };
 }
 
-export function _getHealthPoliciesOperations(context: NetworkContext): HealthPoliciesOperations {
+export function _getHealthPoliciesOperations(
+  context: PrivateTrafficManagerManagementContext,
+): HealthPoliciesOperations {
   return {
     ..._getHealthPolicies(context),
   };

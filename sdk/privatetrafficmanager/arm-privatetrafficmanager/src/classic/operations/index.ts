@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkContext } from "../../api/networkContext.js";
+import type { PrivateTrafficManagerManagementContext } from "../../api/privateTrafficManagerManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,15 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: NetworkContext) {
+function _getOperations(context: PrivateTrafficManagerManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: NetworkContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: PrivateTrafficManagerManagementContext,
+): OperationsOperations {
   return {
     ..._getOperations(context),
   };

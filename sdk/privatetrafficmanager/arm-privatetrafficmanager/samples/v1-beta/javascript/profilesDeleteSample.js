@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { NetworkClient } = require("@azure/arm-privatetrafficmanager");
+const { PrivateTrafficManagerManagementClient } = require("@azure/arm-privatetrafficmanager");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function profilesDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "10B6D88D-ADF4-4281-B3D0-B5A6702DEEDA";
-  const client = new NetworkClient(credential, subscriptionId);
+  const client = new PrivateTrafficManagerManagementClient(credential, subscriptionId);
   await client.profiles.delete("rgprivateTrafficManager", "myProfile");
 }
 
