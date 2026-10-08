@@ -9,6 +9,10 @@
 - Added `creationTime` to the response of `ShareClient.getProperties()` and to the share properties returned by `ShareServiceClient.listShares()`.
 - Added `includePermissions`, `includeLinkCount`, `includeNfsAttributes` and `includeAll` to `DirectoryListFilesAndDirectoriesOptions`; the first three apply only to NFS shares. Items returned by `ShareDirectoryClient.listFilesAndDirectories()` now have `fileType`. On NFS shares, items can also have `linkCount`, `linkText`, `deviceMajor` and `deviceMinor`, and their `properties` can have `owner`, `group` and `fileMode`.
 - `ShareDirectoryClient.listFilesAndDirectories()` lists the symbolic links, block devices, character devices, FIFOs and sockets of NFS shares as file items. Their `fileType` gives the entry type (such as `SymLink`) when `includeExtendedInfo` or another `include*` option is set; otherwise it is `Regular`.
+- Added `ShareClient.getShareFileClient()` and `ShareClient.getShareDirectoryClient()`, which create clients that address a file or directory by its file ID (SMB file shares only). The `ShareFileClient` and `ShareDirectoryClient` constructors also accept a URL with a `fileid` query parameter. A client that addresses its resource by file ID supports only `getProperties()` and, for files, `getFileLinks()` and `withShareSnapshot()`; its other methods throw an error.
+- Added `fileId` to `ShareFileClient` and `ShareDirectoryClient`: the file ID the client addresses its resource by, or `undefined` when the client addresses it by path.
+- Added `ShareFileClient.getFileLinks()`, which returns the hard links of a file along with the file's properties. It's supported only on a client that addresses the file by its file ID.
+- Added `fileName` to the responses of `ShareFileClient.getProperties()` and `ShareDirectoryClient.getProperties()`. It is returned only when the client addresses the resource by file ID.
 
 ### Breaking Changes
 
