@@ -19,6 +19,8 @@ import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { Pipeline, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 expect.extend({ toSupportTracing });
 
@@ -2645,5 +2647,156 @@ describe("DirectoryClient - NFS", () => {
     assert.isDefined(getResp.fileId!);
     assert.isDefined(getResp.fileLastWriteOn!);
     assert.isDefined(getResp.fileParentId!);
+  });
+});
+
+describe("DirectoryClient - listFilesAndDirectories NFS entries", () => {
+  let dirClient: ShareDirectoryClient;
+  let requests: PipelineRequest[];
+
+  // Stands in for the service: records each request and answers with the given entries.
+  function respondWith(entries: string): void {
+    const bodyAsText =
+      `<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://account.file.core.windows.net/" ShareName="share" DirectoryPath="dir">` +
+      `<Entries>${entries}</Entries><NextMarker /></EnumerationResults>`;
+    const pipeline: Pipeline = (dirClient as any).storageClientContext.client.pipeline;
+    pipeline.addPolicy(
+      {
+        name: "fakeServicePolicy",
+        async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+          requests.push(request);
+          return {
+            request,
+            status: 200,
+            headers: createHttpHeaders({ "content-type": "application/xml" }),
+            bodyAsText,
+          };
+        },
+      },
+      { afterPhase: "Sign" },
+    );
+  }
+
+  function sentInclude(request: PipelineRequest): string | null {
+    return new URL(request.url).searchParams.get("include");
+  }
+
+  beforeEach(() => {
+    dirClient = new ShareDirectoryClient("https://account.file.core.windows.net/share/dir");
+    requests = [];
+  });
+
+  it("sends the NFS include values", async () => {
+    respondWith("");
+    await dirClient
+      .listFilesAndDirectories({
+        includeTimestamps: true,
+        includePermissions: true,
+        includeLinkCount: true,
+        includeNfsAttributes: true,
+      })
+      .next();
+    await dirClient.listFilesAndDirectories().next();
+
+    assert.equal(sentInclude(requests[0]), "Timestamps,Permissions,LinkCount,NfsAttributes");
+    assert.isNull(sentInclude(requests[1]));
+  });
+
+  it("includeAll sends only All", async () => {
+    respondWith("");
+    await dirClient
+      .listFilesAndDirectories({
+        includeAll: true,
+        includeTimestamps: true,
+        includePermissions: true,
+        includeExtendedInfo: true,
+      })
+      .next();
+
+    assert.equal(sentInclude(requests[0]), "All");
+    assert.equal(requests[0].headers.get("x-ms-file-extended-info"), "true");
+  });
+
+  it("lists every NFS entry kind as a file or directory item", async () => {
+    const nfsProperties = (mode: string): string =>
+      `<Etag>"0x8DEAF1480FD31EF"</Etag><Uid>1000</Uid><Gid>1001</Gid><Mode>${mode}</Mode>`;
+    respondWith(
+      `<BlockDevice><Name>block-device</Name><FileId>11</FileId><Properties>${nfsProperties("0640")}</Properties><LinkCount>1</LinkCount><DeviceMajor>8</DeviceMajor><DeviceMinor>0</DeviceMinor></BlockDevice>` +
+        `<CharDevice><Name>char-device</Name><FileId>12</FileId><Properties>${nfsProperties("0644")}</Properties><LinkCount>1</LinkCount><DeviceMajor>1</DeviceMajor><DeviceMinor>7</DeviceMinor></CharDevice>` +
+        `<Directory><Name>dir</Name><FileId>13</FileId><Properties>${nfsProperties("1777")}</Properties><LinkCount>2</LinkCount></Directory>` +
+        `<Fifo><Name>fifo</Name><FileId>14</FileId><Properties>${nfsProperties("0644")}</Properties><LinkCount>1</LinkCount></Fifo>` +
+        `<File><Name>file.txt</Name><FileId>15</FileId><Properties><Content-Length>80</Content-Length>${nfsProperties("0644")}</Properties><LinkCount>2</LinkCount></File>` +
+        `<Socket><Name>socket</Name><FileId>16</FileId><Properties>${nfsProperties("0755")}</Properties><LinkCount>1</LinkCount></Socket>` +
+        `<SymLink><Name Encoded="true">sym%20link</Name><FileId>17</FileId><Properties><Content-Length>23</Content-Length>${nfsProperties("0777")}</Properties><LinkCount>1</LinkCount><LinkText>/mnt/share/dir/file.txt</LinkText></SymLink>`,
+    );
+
+    const items = [];
+    for await (const item of dirClient.listFilesAndDirectories({ includeAll: true })) {
+      items.push(item);
+    }
+
+    assert.deepEqual(
+      items.map((item) => [
+        item.kind,
+        item.name,
+        item.fileType,
+        item.fileId,
+        item.linkCount,
+        item.properties?.owner,
+      ]),
+      [
+        ["file", "file.txt", "Regular", "15", 2, "1000"],
+        ["file", "sym link", "SymLink", "17", 1, "1000"],
+        ["file", "block-device", "BlockDevice", "11", 1, "1000"],
+        ["file", "char-device", "CharacterDevice", "12", 1, "1000"],
+        ["file", "fifo", "Fifo", "14", 1, "1000"],
+        ["file", "socket", "Socket", "16", 1, "1000"],
+        ["directory", "dir", "Directory", "13", 2, "1000"],
+      ],
+    );
+    const [file, symLink, blockDevice, charDevice, , socket, dir] = items as any[];
+    assert.strictEqual(file.properties.contentLength, 80);
+    assert.strictEqual(file.properties.group, "1001");
+    assert.deepEqual(file.properties.fileMode, {
+      owner: { read: true, write: true, execute: false },
+      group: { read: true, write: false, execute: false },
+      other: { read: true, write: false, execute: false },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: false,
+      stickyBit: false,
+    });
+    assert.equal(symLink.linkText, "/mnt/share/dir/file.txt");
+    assert.strictEqual(symLink.properties.contentLength, 23);
+    assert.strictEqual(blockDevice.deviceMajor, 8);
+    assert.strictEqual(blockDevice.deviceMinor, 0);
+    assert.isUndefined(blockDevice.properties.contentLength);
+    assert.strictEqual(charDevice.deviceMajor, 1);
+    assert.strictEqual(charDevice.deviceMinor, 7);
+    assert.isTrue(socket.properties.fileMode.owner.execute);
+    assert.isTrue(dir.properties.fileMode.stickyBit);
+
+    const page = (await dirClient.listFilesAndDirectories().byPage().next()).value;
+    assert.deepEqual(Object.keys(page.segment).sort(), ["directoryItems", "fileItems"]);
+    assert.lengthOf(page.segment.fileItems, 6);
+    assert.lengthOf(page.segment.directoryItems, 1);
+  });
+
+  it("sets the type of SMB entries and leaves the NFS properties unset", async () => {
+    respondWith(
+      `<File><Name>file.txt</Name><Properties><Content-Length>5</Content-Length></Properties></File>` +
+        `<Directory><Name>dir</Name><Properties /></Directory>`,
+    );
+
+    const page = (await dirClient.listFilesAndDirectories().byPage().next()).value;
+    const [file] = page.segment.fileItems;
+    const [dir] = page.segment.directoryItems;
+
+    assert.equal(file.fileType, "Regular");
+    assert.isUndefined(file.linkCount);
+    assert.isUndefined(file.properties.owner);
+    assert.isUndefined(file.properties.group);
+    assert.isUndefined(file.properties.fileMode);
+    assert.equal(dir.fileType, "Directory");
+    assert.isUndefined(dir.linkCount);
   });
 });
