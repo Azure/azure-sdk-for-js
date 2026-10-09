@@ -161,8 +161,8 @@ importers:
         specifier: ^1000.3.1
         version: 1000.3.1
       diff:
-        specifier: ^8.0.2
-        version: 8.0.4
+        specifier: ^9.0.0
+        version: 9.0.0
       dotenv:
         specifier: catalog:testing
         version: 18.0.5
@@ -39370,6 +39370,10 @@ packages:
     resolution: {integrity: sha1-T1uvMYi5skMRF7li6yC6Mw+t9pY=}
     engines: {node: '>=0.3.1'}
 
+  diff@9.0.0:
+    resolution: {integrity: sha1-KXwxzXwoDxPf4zV5HsIGO9SnOm8=}
+    engines: {node: '>=0.3.1'}
+
   dir-glob@3.0.1:
     resolution: {integrity: sha1-Vtv3PZkqSpO6FYT0U0Bj/S5BcX8=}
     engines: {node: '>=8'}
@@ -46741,6 +46745,8 @@ snapshots:
   detect-newline@4.0.1: {}
 
   diff@8.0.4: {}
+
+  diff@9.0.0: {}
 
   dir-glob@3.0.1:
     dependencies:
