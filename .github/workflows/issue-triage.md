@@ -4,6 +4,7 @@ description: |
   Analyzes issue content, evaluates whether the author is a customer,
   predicts labels, looks up owners from CODEOWNERS, and provides
   analysis notes including debugging strategies and resource links
+  Dispatches eligible customer issues for post-triage investigation
   Implements the initial issue triage rules for the Azure SDK repository
 
 on:
@@ -31,6 +32,8 @@ concurrency:
 engine:
   id: copilot
   version: "1.0.80"
+  # The pinned CLI uses chat/completions; auto may choose a responses-only model.
+  model: gpt-5.4
 
 tools:
   bash: false
@@ -38,6 +41,7 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
+    allowed-repos: ["${{ github.repository }}"]
     # Triage must read issues from all users, including external
     # customers with NONE author_association; without this, the
     # auto-applied "approved" policy filters them out via DIFC
@@ -48,6 +52,86 @@ network:
     - defaults
     - node
     - github
+
+jobs:
+  safe_outputs:
+    needs: [mention_owners]
+    if: >-
+      needs.agent.result == 'success' &&
+      (!contains(needs.agent.outputs.output_types, 'mention_owners') ||
+       needs.mention_owners.result == 'success')
+  investigation_handoff:
+    needs: [agent, detection, safe_outputs, mention_owners]
+    if: >-
+      !cancelled() && needs.agent.result == 'success' &&
+      contains(needs.agent.outputs.output_types, 'dispatch_workflow') &&
+      needs.detection.result == 'success' && needs.detection.outputs.detection_conclusion == 'success' &&
+      needs.safe_outputs.result == 'success' &&
+      needs.safe_outputs.outputs.process_safe_outputs_status == 'success' &&
+      (!contains(needs.agent.outputs.output_types, 'mention_owners') || needs.mention_owners.result == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: read
+      actions: write
+    steps:
+      - name: Checkout trusted continuation helper
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: eng/tools/issue-investigation
+          path: continuation-helper
+      - name: Setup native safe-output processor
+        uses: github/gh-aw-actions/setup@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
+        with:
+          destination: ${{ runner.temp }}/gh-aw/actions
+      - name: Download original triage requests
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: "{agent,agent-output-fallback}"
+          merge-multiple: true
+          path: ${{ runner.temp }}/continuation-requests
+      - name: Download applied triage receipts
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: safe-outputs-items
+          path: ${{ runner.temp }}/continuation-receipts
+      - name: Verify completed routing and dispatch investigation
+        id: continuation
+        uses: actions/github-script@v9.0.0
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+          OWNER_NOTIFICATION: ${{ needs.mention_owners.result }}
+          GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
+          GH_AW_WORKFLOW_ID: issue-triage
+          GH_AW_WORKFLOW_NAME: Agentic Triage
+          GH_AW_CALLER_WORKFLOW_ID: ${{ github.repository }}/issue-triage
+        with:
+          github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const path = require('node:path');
+            const actionsDirectory = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+            require(path.join(actionsDirectory, 'setup_globals.cjs'))
+              .setupGlobals(core, github, context, exec, io, getOctokit);
+            const { executeContinuation } = require('./continuation-helper/eng/tools/issue-investigation/continuation.cjs');
+            await executeContinuation({
+              github, context, core, mode: 'dispatch', number: process.env.ISSUE_NUMBER,
+              ownerNotification: process.env.OWNER_NOTIFICATION,
+              actionsDirectory,
+              requestsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-requests'),
+              receiptsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-receipts'),
+            });
+      - name: Confirm investigation dispatch was applied
+        if: >-
+          steps.continuation.outputs.continuation_requested == 'true' &&
+          (steps.continuation.outputs.status != 'success' || steps.continuation.outputs.items_applied != '1')
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            throw new Error('The native processor did not apply the investigation dispatch.');
+
 
 post-steps:
   - name: Verify triage produced output
@@ -79,6 +163,18 @@ safe-outputs:
   remove-labels:
     max: 7
     target: "*"
+  steps:
+    - name: Defer investigation dispatch until triage outputs succeed
+      uses: actions/github-script@v9.0.0
+      with:
+        script: |
+          const fs = require('node:fs');
+          const file = '/tmp/gh-aw/agent_output.json';
+          const output = JSON.parse(fs.readFileSync(file, 'utf8'));
+          if (!Array.isArray(output.items)) throw new Error('Invalid triage output.');
+          output.items = output.items.filter(item => item.type !== 'dispatch_workflow');
+          fs.writeFileSync(file, JSON.stringify(output));
+
   set-issue-type:
     allowed: [Bug, Feature, Task]
     max: 1
@@ -92,11 +188,15 @@ safe-outputs:
   close-issue:
     max: 1
     target: "*"
+  dispatch-workflow:
+    workflows: [issue-investigation]
+    max: 1
   noop:
     report-as-issue: false
   jobs:
     mention_owners:
       description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
+      if: needs.agent.result == 'success'
       runs-on: ubuntu-latest
       output: "Owner mention comment posted"
       permissions:
@@ -294,7 +394,7 @@ Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
 - For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
-Retrieve the issue using the `get_issue` tool
+Retrieve the issue using `issue_read` with `method: get`, the current repository owner/name, and the target issue number
 
 Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
 
@@ -328,7 +428,7 @@ If the author matches the bot allowlist, follow the bot branch in the Author Dec
 
 ### Author Association Check
 
-If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `get_issue` to classify the author
+If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `issue_read` to classify the author
 
 The `author_association` field indicates the author's relationship to the repository:
 - `OWNER`, `MEMBER`, `COLLABORATOR` → team member (Azure org member or direct repo collaborator)
@@ -395,8 +495,9 @@ Analyze the issue title and body to determine appropriate labels
 
 Labels classification is distinguished by color. Actively inspect label colors when examining repository labels and previous issues:
 
-- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Central-EngSys", "Mgmt-EngSys", or "Service"
-  - "Client" for issues with SDK client library code or behavior (packages under `sdk/` that are not management libraries)
+- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Provisioning", "Central-EngSys", "Mgmt-EngSys", or "Service"
+  - "Client" for issues with SDK client library code or behavior that are not management or provisioning libraries
+  - "Provisioning" for packages whose `package.json` declares `sdk-type: provisioning`, such as `@azure/provisioning-keyvault`
   - "Mgmt" for issues relevant to management-plane SDKs (packages starting with `@azure/arm-`)
   - "Mgmt-EngSys" for issues with management SDK tooling and generation (emitter, autorest)
   - "Central-EngSys" for non-service issues such as engineering systems, scripts, workflows, or pipelines in the `/eng` or `/common` folders
@@ -435,7 +536,7 @@ Other labels on the issue (routing labels, "question", "duplicate", etc.) are fi
 A prediction is confident — targeting 96% accuracy — when ALL of the following are true:
 - The issue clearly names or references a specific Azure SDK package, service, or `/sdk/` path
 - There is no ambiguity between multiple services; if multiple service labels are plausible and you cannot confidently narrow to exactly one, confidence is not met
-- The category (Client/Mgmt) is clearly implied by the issue content; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
+- The category (Client/Mgmt/Provisioning) is clearly implied by the issue content and package metadata; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
 - The predicted category label is not "Service"
 - The predicted category label is not "Central-EngSys"
 - The predicted category label is not "Mgmt-EngSys"
@@ -570,10 +671,13 @@ Note: There is no `%Client` catch-all entry in CODEOWNERS, so "Client" as a cate
 IF a matching ServiceLabel entry is found in CODEOWNERS:
 
     IF AzureSdkOwners are listed for the matched entry:
-        IF a single AzureSdkOwner:
-            - Assign them to the issue using the `assign_to_user` tool
-        ELSE (multiple AzureSdkOwners):
-            - Pick one AzureSdkOwner at random and assign them using the `assign_to_user` tool
+        - Separate individual usernames from org/team handles (handles containing `/`)
+        IF exactly one individual owner:
+            - Assign that individual using `assign_to_user`
+        ELSE IF multiple individual owners:
+            - Pick one individual owner at random and assign them using `assign_to_user`
+        ELSE (only team owners):
+            - Leave existing assignees unchanged; notify the team owners with `mention_owners` in Step 6
 
         - IF the issue has the "customer-reported" label: Add the "needs-team-attention" label
         - Record all AzureSdkOwners for Step 6
@@ -595,18 +699,20 @@ ELSE (no ServiceLabel entry matches any of the issue's predicted labels):
 
 Post a routing comment before the analysis comment. The comment type depends on who was identified in Step 5:
 
-- For **multiple AzureSdkOwners** or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
-- For a **single AzureSdkOwner**: use `add_comment` with just the routing message (no @mentions needed — the assignment already notifies them)
+- For **team AzureSdkOwners**, **multiple AzureSdkOwners**, or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
+- For a **single individual AzureSdkOwner with no team owners**: use `add_comment` with just the routing message (the assignment already notifies them)
 
 **When using `mention_owners`:** Pass owner names in the `owners` field WITHOUT the @ prefix; the `mention_owners` job prepends @ on the server side to avoid safe-outputs sanitization. Never include @ symbols in any `mention_owners` tool parameter
+
+GitHub issue assignees are individual accounts, not CODEOWNERS team handles. Do not pass `org/team` to `assign_to_user`; keep team ownership as a notification route. For example, the Key Vault SDK owner `Azure/azure-sdk-write-keyvault` is a team and must be notified rather than assigned.
 
 This comment should be concise: a brief routing message only; no analysis or debugging detail
 
 ```
-IF a single AzureSdkOwner was identified in Step 5:
+IF a single individual AzureSdkOwner and no team owners were identified in Step 5:
     - Use `add_comment` with body: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
 
-ELSE IF multiple AzureSdkOwners were identified in Step 5:
+ELSE IF team AzureSdkOwners or multiple AzureSdkOwners were identified in Step 5:
     - Use `mention_owners` with:
         message: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
         owners: "owner1, owner2"
@@ -682,3 +788,20 @@ Rules for the sections:
   - 🔎 Debugging / Reproduction Notes: include diagnostic observations and numbered investigation steps; note similar open issues found via `search_issues` if any
   - 🏷️ Label Confidence: explain category and service label selection; state confidence as High, Medium, or Low with justification; note other labels considered and why they were rejected
   - 👥 Owner Routing: show which CODEOWNERS `# ServiceLabel:` entry matched (with line number) and why; list AzureSdkOwners and ServiceOwners found; state what routing action was taken; briefly note other entries encountered during the bottom-to-top scan and why they were skipped
+
+## Step 8: Investigation Handoff
+
+After emitting the routing and analysis outputs, dispatch `issue-investigation` only when all of the following hold for this issue after the queued triage actions are applied:
+
+- The target is an open issue, not a pull request.
+- It has the `customer-reported` label.
+- It has exactly one service label with color `#e99695`.
+- It has exactly one category label with color `#ffeb77`.
+- It has none of `needs-triage`, `needs-team-triage`, `issue-addressed`, or `needs-author-feedback`.
+- Triage did not stop early or close the issue as a deprecated-package report.
+
+Consider both current labels and queued changes; safe outputs have not been applied yet. Do not require a `bug` label or a Bug issue type. Do not change the existing label prediction or ownership rules to make an issue eligible.
+
+If all conditions hold, request the `issue_investigation` safe-output tool with `issue_number` set to the issue number as a string. This is only a queued request: a trusted follow-up dispatches after the native triage outputs succeed, the applied analysis comment is verified, and current labels and ownership satisfy the handoff. The investigation independently validates the actual issue state before acting.
+
+If any condition fails, do not dispatch. Preserve the normal triage outcome and existing completion requirements.
