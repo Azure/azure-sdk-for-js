@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Result of the request to list Storage operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface _OperationListResult {
   /** List of Storage operations supported by the Storage resource provider. */
@@ -393,6 +393,7 @@ export enum KnownSkuFamily {
  * **A**
  */
 export type SkuFamily = string;
+
 /** SKU name to specify whether the key vault is a standard vault or a premium vault. */
 export type SkuName = "standard" | "premium";
 
@@ -651,6 +652,7 @@ export enum KnownStoragePermissions {
 
 /** Type of StoragePermissions */
 export type StoragePermissions = string;
+
 /** The vault's create mode to indicate whether the vault need to be recovered or not. */
 export type CreateMode = "recover" | "default";
 
@@ -881,8 +883,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -993,8 +995,8 @@ export type PrivateEndpointConnectionProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1020,8 +1022,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1936,8 +1938,8 @@ export interface MhsmPrivateEndpoint {
   readonly id?: string;
 }
 
-export function mhsmPrivateEndpointSerializer(item: MhsmPrivateEndpoint): any {
-  return item;
+export function mhsmPrivateEndpointSerializer(_item: MhsmPrivateEndpoint): any {
+  return {};
 }
 
 export function mhsmPrivateEndpointDeserializer(item: any): MhsmPrivateEndpoint {
@@ -2071,9 +2073,48 @@ export enum KnownManagedHsmSkuFamily {
  * **C**
  */
 export type ManagedHsmSkuFamily = string;
+
 /** SKU of the managed HSM Pool */
-export type ManagedHsmSkuName =
-  "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
+export enum KnownManagedHsmSkuName {
+  /** Standard_B1 SKU */
+  StandardB1 = "Standard_B1",
+  /** Custom_B32 SKU */
+  CustomB32 = "Custom_B32",
+  /** Custom_B6 SKU */
+  CustomB6 = "Custom_B6",
+  /** Custom_C42 SKU */
+  CustomC42 = "Custom_C42",
+  /** Custom_C10 SKU */
+  CustomC10 = "Custom_C10",
+  /** Standard_B1v2 SKU */
+  StandardB1V2 = "Standard_B1v2",
+  /** Standard_B5v2 SKU */
+  StandardB5V2 = "Standard_B5v2",
+  /** Standard_B10v2 SKU */
+  StandardB10V2 = "Standard_B10v2",
+  /** Standard_B15v2 SKU */
+  StandardB15V2 = "Standard_B15v2",
+  /** Standard_B20v2 SKU */
+  StandardB20V2 = "Standard_B20v2",
+}
+
+/**
+ * SKU of the managed HSM Pool \
+ * {@link KnownManagedHsmSkuName} can be used interchangeably with ManagedHsmSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_B1**: Standard_B1 SKU \
+ * **Custom_B32**: Custom_B32 SKU \
+ * **Custom_B6**: Custom_B6 SKU \
+ * **Custom_C42**: Custom_C42 SKU \
+ * **Custom_C10**: Custom_C10 SKU \
+ * **Standard_B1v2**: Standard_B1v2 SKU \
+ * **Standard_B5v2**: Standard_B5v2 SKU \
+ * **Standard_B10v2**: Standard_B10v2 SKU \
+ * **Standard_B15v2**: Standard_B15v2 SKU \
+ * **Standard_B20v2**: Standard_B20v2 SKU
+ */
+export type ManagedHsmSkuName = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -2139,8 +2180,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -2679,6 +2720,8 @@ export enum KnownJsonWebKeyType {
   RSA = "RSA",
   /** RSA-HSM */
   RSAHSM = "RSA-HSM",
+  /** oct-HSM */
+  OctHSM = "oct-HSM",
 }
 
 /**
@@ -2689,7 +2732,8 @@ export enum KnownJsonWebKeyType {
  * **EC** \
  * **EC-HSM** \
  * **RSA** \
- * **RSA-HSM**
+ * **RSA-HSM** \
+ * **oct-HSM**
  */
 export type JsonWebKeyType = string;
 
@@ -3551,6 +3595,8 @@ export enum KnownVersions {
   V20250501 = "2025-05-01",
   /** The 2026-02-01 API version. */
   V20260201 = "2026-02-01",
+  /** The 2026-05-15 API version. */
+  V20260515 = "2026-05-15",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {
