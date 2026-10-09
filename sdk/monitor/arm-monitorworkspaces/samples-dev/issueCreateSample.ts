@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new issue or updates an existing one
  *
  * @summary create a new issue or updates an existing one
- * x-ms-original-file: 2025-10-03/Issue_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_Create_MaximumSet_Gen.json
  */
 async function issueCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

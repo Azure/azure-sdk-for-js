@@ -1,47 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MonitorContext as Client } from "../index.js";
+import type {
   IssueResourceCreate,
-  issueResourceCreateSerializer,
   IssueResource,
-  issueResourceDeserializer,
   IssueResourceUpdate,
-  issueResourceUpdateSerializer,
   _IssueResourceListResult,
-  _issueResourceListResultDeserializer,
   InvestigationResult,
-  investigationResultSerializer,
-  investigationResultDeserializer,
   FetchInvestigationResultParameters,
-  fetchInvestigationResultParametersSerializer,
   ListParameter,
-  listParameterSerializer,
   PagedRelatedAlert,
-  pagedRelatedAlertDeserializer,
   RelatedAlertsCreate,
-  relatedAlertsCreateSerializer,
   RelatedAlerts,
-  relatedAlertsDeserializer,
   PagedRelatedResource,
-  pagedRelatedResourceDeserializer,
   RelatedResourcesCreate,
-  relatedResourcesCreateSerializer,
   RelatedResources,
-  relatedResourcesDeserializer,
   BackgroundVisualization,
-  backgroundVisualizationDeserializer,
   BackgroundVisualizationCreate,
-  backgroundVisualizationCreateSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  issueResourceCreateSerializer,
+  issueResourceDeserializer,
+  issueResourceUpdateSerializer,
+  _issueResourceListResultDeserializer,
+  investigationResultSerializer,
+  investigationResultDeserializer,
+  fetchInvestigationResultParametersSerializer,
+  listParameterSerializer,
+  pagedRelatedAlertDeserializer,
+  relatedAlertsCreateSerializer,
+  relatedAlertsDeserializer,
+  pagedRelatedResourceDeserializer,
+  relatedResourcesCreateSerializer,
+  relatedResourcesDeserializer,
+  backgroundVisualizationDeserializer,
+  backgroundVisualizationCreateSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   IssueSetBackgroundVisualizationOptionalParams,
   IssueFetchBackgroundVisualizationOptionalParams,
   IssueAddOrUpdateResourcesOptionalParams,
@@ -56,12 +56,8 @@ import {
   IssueUpdateOptionalParams,
   IssueCreateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _setBackgroundVisualizationSend(
   context: Client,
@@ -78,7 +74,7 @@ export function _setBackgroundVisualizationSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +93,9 @@ export async function _setBackgroundVisualizationDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -139,7 +137,7 @@ export function _fetchBackgroundVisualizationSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +155,9 @@ export async function _fetchBackgroundVisualizationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -198,7 +198,7 @@ export function _addOrUpdateResourcesSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +218,9 @@ export async function _addOrUpdateResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -261,7 +263,7 @@ export function _listResourcesSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,7 +283,9 @@ export async function _listResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -324,7 +328,7 @@ export function _addOrUpdateAlertsSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,7 +348,9 @@ export async function _addOrUpdateAlertsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -387,7 +393,7 @@ export function _listAlertsSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -407,7 +413,9 @@ export async function _listAlertsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -450,7 +458,7 @@ export function _fetchInvestigationResultSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -470,7 +478,9 @@ export async function _fetchInvestigationResultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -513,7 +523,7 @@ export function _addInvestigationResultSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -533,7 +543,9 @@ export async function _addInvestigationResultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -573,7 +585,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -591,7 +603,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -611,7 +625,11 @@ export function list(
     () => _listSend(context, resourceGroupName, azureMonitorWorkspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-03" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-03-preview",
+    },
   );
 }
 
@@ -629,7 +647,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -642,7 +660,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -682,7 +702,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -698,7 +718,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Is
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -739,7 +761,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -757,7 +779,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -800,7 +824,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
       issueName: issueName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
       related: options?.related,
     },
     {
@@ -819,7 +843,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

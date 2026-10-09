@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all alerts in the issue - this method uses pagination to return all alerts
  *
  * @summary list all alerts in the issue - this method uses pagination to return all alerts
- * x-ms-original-file: 2025-10-03/Issue_ListAlerts_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_ListAlerts_MaximumSet_Gen.json
  */
 async function issueListAlertsMaximumSet() {
   const credential = new DefaultAzureCredential();
