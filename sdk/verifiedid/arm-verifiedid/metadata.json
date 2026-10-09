@@ -1,0 +1,36 @@
+{
+  "apiVersions": {
+    "Microsoft.VerifiedId": "2024-01-26-preview"
+  },
+  "emitterVersion": "0.57.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.VerifiedId",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-verifiedid!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-verifiedid!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-verifiedid!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-verifiedid!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-verifiedid!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-verifiedid!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-verifiedid!Authority:interface": "Microsoft.VerifiedId.Authority",
+      "@azure/arm-verifiedid!AuthorityProperties:interface": "Microsoft.VerifiedId.AuthorityProperties",
+      "@azure/arm-verifiedid!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-verifiedid!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-verifiedid!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-verifiedid!AuthorityUpdate:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
+      "@azure/arm-verifiedid!AuthorityListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-verifiedid!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-verifiedid!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-verifiedid!KnownProvisioningState:enum": "Microsoft.VerifiedId.ProvisioningState",
+      "@azure/arm-verifiedid!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-verifiedid!KnownVersions:enum": "Microsoft.VerifiedId.Versions",
+      "@azure/arm-verifiedid!AuthoritiesOperations#listBySubscription:member": "Microsoft.VerifiedId.Authorities.listBySubscription",
+      "@azure/arm-verifiedid!AuthoritiesOperations#listByResourceGroup:member": "Microsoft.VerifiedId.Authorities.listByResourceGroup",
+      "@azure/arm-verifiedid!AuthoritiesOperations#delete:member": "Microsoft.VerifiedId.Authorities.delete",
+      "@azure/arm-verifiedid!AuthoritiesOperations#update:member": "Microsoft.VerifiedId.Authorities.update",
+      "@azure/arm-verifiedid!AuthoritiesOperations#createOrUpdate:member": "Microsoft.VerifiedId.Authorities.createOrUpdate",
+      "@azure/arm-verifiedid!AuthoritiesOperations#get:member": "Microsoft.VerifiedId.Authorities.get",
+      "@azure/arm-verifiedid!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
