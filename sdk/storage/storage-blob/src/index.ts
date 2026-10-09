@@ -70,6 +70,8 @@ export {
   type ServiceClientOptions,
   type SessionMode,
   type SessionOptions,
+  type Request100ContinueMode,
+  type Request100ContinueOptions,
 } from "./Pipeline.js";
 export {
   AnonymousCredential,
