@@ -39,11 +39,6 @@ export interface PartnerRegistrationsOperations {
     options?: PartnerRegistrationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PartnerRegistration>;
   /** Deletes a partner registration with the specified parameters. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     partnerRegistrationName: string,

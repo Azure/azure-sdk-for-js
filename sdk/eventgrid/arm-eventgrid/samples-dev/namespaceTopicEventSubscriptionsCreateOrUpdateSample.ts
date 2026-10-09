@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously creates or updates an event subscription of a namespace topic with the specified parameters. Existing event subscriptions will be updated with this API.
  *
  * @summary asynchronously creates or updates an event subscription of a namespace topic with the specified parameters. Existing event subscriptions will be updated with this API.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopicEventSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopicEventSubscriptions_CreateOrUpdate.json
  */
 async function namespaceTopicEventSubscriptionsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

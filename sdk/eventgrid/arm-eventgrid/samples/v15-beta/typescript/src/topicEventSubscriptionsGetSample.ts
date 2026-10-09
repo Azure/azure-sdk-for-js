@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of an event subscription of a topic.
  *
  * @summary get properties of an event subscription of a topic.
- * x-ms-original-file: 2025-07-15-preview/TopicEventSubscriptions_Get.json
+ * x-ms-original-file: 2026-06-15-preview/TopicEventSubscriptions_Get.json
  */
 async function topicEventSubscriptionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

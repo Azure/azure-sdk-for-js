@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all network security perimeter configurations associated with a topic or domain.
  *
  * @summary get all network security perimeter configurations associated with a topic or domain.
- * x-ms-original-file: 2025-07-15-preview/NetworkSecurityPerimeterConfigurations_List.json
+ * x-ms-original-file: 2026-06-15-preview/NetworkSecurityPerimeterConfigurations_List.json
  */
 async function networkSecurityPerimeterConfigurationsList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of an extension topic.
  *
  * @summary get the properties of an extension topic.
- * x-ms-original-file: 2025-07-15-preview/ExtensionTopics_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ExtensionTopics_Get.json
  */
 async function extensionTopicsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

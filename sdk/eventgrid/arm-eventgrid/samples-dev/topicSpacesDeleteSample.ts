@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an existing topic space.
  *
  * @summary delete an existing topic space.
- * x-ms-original-file: 2025-07-15-preview/TopicSpaces_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/TopicSpaces_Delete.json
  */
 async function topicSpacesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

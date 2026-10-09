@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get an event subscription.
  *
  * @summary get an event subscription.
- * x-ms-original-file: 2025-07-15-preview/SystemTopicEventSubscriptions_Get.json
+ * x-ms-original-file: 2026-06-15-preview/SystemTopicEventSubscriptions_Get.json
  */
 async function systemTopicEventSubscriptionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

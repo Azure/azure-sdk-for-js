@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the available operations supported by the Microsoft.EventGrid resource provider.
  *
  * @summary list the available operations supported by the Microsoft.EventGrid resource provider.
- * x-ms-original-file: 2025-07-15-preview/Operations_List.json
+ * x-ms-original-file: 2026-06-15-preview/Operations_List.json
  */
 async function operationsList() {
   const credential = new DefaultAzureCredential();

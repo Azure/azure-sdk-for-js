@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the partner configurations under an Azure subscription.
  *
  * @summary list all the partner configurations under an Azure subscription.
- * x-ms-original-file: 2025-07-15-preview/PartnerConfigurations_ListBySubscription.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerConfigurations_ListBySubscription.json
  */
 async function partnerConfigurationsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the two keys used to publish to a partner namespace.
  *
  * @summary list the two keys used to publish to a partner namespace.
- * x-ms-original-file: 2025-07-15-preview/PartnerNamespaces_ListSharedAccessKeys.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerNamespaces_ListSharedAccessKeys.json
  */
 async function partnerNamespacesListSharedAccessKeys() {
   const credential = new DefaultAzureCredential();

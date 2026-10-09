@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the domains under an Azure subscription.
  *
  * @summary list all the domains under an Azure subscription.
- * x-ms-original-file: 2025-07-15-preview/Domains_ListBySubscription.json
+ * x-ms-original-file: 2026-06-15-preview/Domains_ListBySubscription.json
  */
 async function domainsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
