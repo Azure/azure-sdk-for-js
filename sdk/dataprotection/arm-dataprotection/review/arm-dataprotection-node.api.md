@@ -81,6 +81,7 @@ export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoi
     readonly expiryTime?: Date;
     // (undocumented)
     friendlyName?: string;
+    readonly immutabilityProperties?: RecoveryPointImmutabilityProperties;
     // (undocumented)
     objectType: "AzureBackupDiscreteRecoveryPoint";
     // (undocumented)
@@ -286,7 +287,7 @@ export interface BackupDatasourceParameters {
 }
 
 // @public
-export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | GenericBackupDatasourceParameters | BackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | PostgreSqlFlexibleServerBackupDatasourceParameters | GenericBackupDatasourceParameters | BackupDatasourceParameters;
 
 // @public
 export interface BackupInstance {
@@ -486,6 +487,9 @@ export interface BackupSchedule {
     repeatingTimeIntervals: string[];
     timeZone?: string;
 }
+
+// @public
+export type BackupSolutionType = string;
 
 // @public
 export interface BackupVault {
@@ -1198,12 +1202,22 @@ export interface ImmediateCopyOption extends CopyOption {
 }
 
 // @public
+export interface ImmutabilityConfiguration {
+    durationInDays?: number;
+    type?: ImmutabilityType;
+}
+
+// @public
 export interface ImmutabilitySettings {
+    configuration?: ImmutabilityConfiguration;
     state?: ImmutabilityState;
 }
 
 // @public
 export type ImmutabilityState = string;
+
+// @public
+export type ImmutabilityType = string;
 
 // @public
 export type InfrastructureEncryptionState = string;
@@ -1302,6 +1316,12 @@ export enum KnownAKSVolumeTypes {
 export enum KnownAlertsState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownBackupSolutionType {
+    LogicalBackup = "LogicalBackup",
+    PhysicalBackup = "PhysicalBackup"
 }
 
 // @public
@@ -1425,6 +1445,12 @@ export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownImmutabilityType {
+    AsPerPolicy = "AsPerPolicy",
+    TimeBased = "TimeBased"
 }
 
 // @public
@@ -1602,7 +1628,8 @@ export enum KnownVersions {
     V20250701 = "2025-07-01",
     V20250901 = "2025-09-01",
     V20260301 = "2026-03-01",
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -1824,6 +1851,13 @@ export interface PolicyParameters {
 }
 
 // @public
+export interface PostgreSqlFlexibleServerBackupDatasourceParameters extends BackupDatasourceParameters {
+    backupSolutionType?: BackupSolutionType;
+    // (undocumented)
+    objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters";
+}
+
+// @public
 export interface ProtectionStatusDetails {
     errorDetails?: UserFacingError;
     status?: Status;
@@ -1869,6 +1903,12 @@ export interface RecoveryPointDataStoreDetails {
     type?: string;
     // (undocumented)
     visible?: boolean;
+}
+
+// @public
+export interface RecoveryPointImmutabilityProperties {
+    expiryTime?: Date;
+    isImmutable: boolean;
 }
 
 // @public

@@ -50,7 +50,7 @@
     "@azure-tools/test-perf": "workspace:^",
     "@azure/core-auth": "^1.10.0",
     "@azure/core-rest-pipeline": "^1.22.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:testing",
     "tslib": "^2.8.1",
     "undici": "^8.0.2"
   },

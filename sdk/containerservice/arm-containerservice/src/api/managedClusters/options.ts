@@ -20,7 +20,25 @@ export interface ManagedClustersListMeshRevisionProfilesOptionalParams extends O
 export interface ManagedClustersGetMeshRevisionProfileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface ManagedClustersListSafeguardsVersionsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersGetSafeguardsVersionsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersListGuardrailsVersionsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersGetGuardrailsVersionsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface ManagedClustersGetUpgradeProfileOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersRebalanceLoadBalancersOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
@@ -111,6 +129,8 @@ export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
+  /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
+  ignorePodDisruptionBudget?: boolean;
 }
 
 /** Optional parameters. */

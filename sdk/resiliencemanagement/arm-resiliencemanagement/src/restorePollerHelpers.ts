@@ -54,11 +54,6 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeRecoveryPlans,
 } from "./api/recoveryPlans/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeGoalTemplates,
-  _updateDeserialize as _updateDeserializeGoalTemplates,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeGoalTemplates,
-} from "./api/goalTemplates/operations.js";
-import {
   _recommendCapacityDeserialize,
   _$deleteDeserialize as _$deleteDeserializeGoalAssignments,
   _refreshGoalResourcesDeserialize,
@@ -232,15 +227,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}":
     {
       deserializer: _createOrUpdateDeserializeRecoveryPlans,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    { deserializer: _$deleteDeserializeGoalTemplates, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    { deserializer: _updateDeserializeGoalTemplates, expectedStatuses: ["200", "202", "201"] },
-  "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    {
-      deserializer: _createOrUpdateDeserializeGoalTemplates,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalAssignments/{goalAssignmentName}/recommendCapacity":

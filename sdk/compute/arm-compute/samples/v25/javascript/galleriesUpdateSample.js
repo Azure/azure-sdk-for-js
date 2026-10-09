@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Shared Image Gallery.
  *
  * @summary update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Update.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Update.json
  */
 async function updateASimpleGallery() {
   const credential = new DefaultAzureCredential();

@@ -97,6 +97,7 @@ export async function _runCommandDeserialize(
 
   return runCommandResultDeserializer(result.body);
 }
+
 /** Run command on a virtual machine in a VM scale set. */
 export function runCommand(
   context: Client,
@@ -152,6 +153,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Starts a virtual machine in a VM scale set. */
 export function start(
   context: Client,
@@ -214,6 +216,7 @@ export async function _retrieveBootDiagnosticsDataDeserialize(
 
   return retrieveBootDiagnosticsDataResultDeserializer(result.body);
 }
+
 /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
 export async function retrieveBootDiagnosticsData(
   context: Client,
@@ -270,6 +273,7 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Restarts a virtual machine in a VM scale set. */
 export function restart(
   context: Client,
@@ -324,6 +328,7 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
 export function redeploy(
   context: Client,
@@ -379,6 +384,7 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export function powerOff(
   context: Client,
@@ -433,6 +439,7 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
 
   return;
 }
+
 /** Performs maintenance on a virtual machine in a VM scale set. */
 export function performMaintenance(
   context: Client,
@@ -495,6 +502,7 @@ export async function _attachDetachDataDisksDeserialize(
 
   return storageProfileDeserializer(result.body);
 }
+
 /** Attach and detach data disks to/from a virtual machine in a VM scale set. */
 export function attachDetachDataDisks(
   context: Client,
@@ -557,6 +565,7 @@ export async function _simulateEvictionDeserialize(result: PathUncheckedResponse
 
   return;
 }
+
 /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
 export async function simulateEviction(
   context: Client,
@@ -611,6 +620,7 @@ export async function _reimageAllDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
 export function reimageAll(
   context: Client,
@@ -671,6 +681,7 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
 export function reimage(
   context: Client,
@@ -730,6 +741,7 @@ export async function _getInstanceViewDeserialize(
 
   return virtualMachineScaleSetVMInstanceViewDeserializer(result.body);
 }
+
 /** Gets the status of a virtual machine from a VM scale set. */
 export async function getInstanceView(
   context: Client,
@@ -784,6 +796,7 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
 export function deallocate(
   context: Client,
@@ -840,6 +853,7 @@ export async function _approveRollingUpgradeDeserialize(
 
   return;
 }
+
 /** Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance. */
 export function approveRollingUpgrade(
   context: Client,
@@ -900,6 +914,7 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetVMListResultDeserializer(result.body);
 }
+
 /** Gets a list of all virtual machines in a VM scale sets. */
 export function list(
   context: Client,
@@ -953,6 +968,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a virtual machine from a VM scale set. */
 export function $delete(
   context: Client,
@@ -1020,6 +1036,7 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetVMDeserializer(result.body);
 }
+
 /** Updates a virtual machine of a VM scale set. */
 export function update(
   context: Client,
@@ -1081,6 +1098,7 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetVMDeserializer(result.body);
 }
+
 /** Gets a virtual machine from a VM scale set. */
 export async function get(
   context: Client,

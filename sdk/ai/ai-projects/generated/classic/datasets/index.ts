@@ -3,6 +3,11 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  createGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
   getCredentials,
   pendingUpload,
   createOrUpdate,
@@ -12,6 +17,11 @@ import {
   listVersions,
 } from "../../api/datasets/operations.js";
 import {
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -25,11 +35,39 @@ import {
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
+  DataGenerationJobUnion,
+  DataGenerationJobResult,
+  DataGenerationJobInputsUnion,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
+  /** Removes the specified data generation job and its associated output. */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: DatasetsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels the specified data generation job if it is still in progress. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: DatasetsCancelGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
+  /** Submits a new data generation job for asynchronous execution. */
+  createGenerationJob: (
+    job: DataGenerationJobInputsUnion,
+    options?: DatasetsCreateGenerationJobOptionalParams,
+  ) => PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
+  /** Returns a list of data generation jobs. */
+  listGenerationJobs: (
+    options?: DatasetsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
+  /** Retrieves the specified data generation job and its current status. */
+  getGenerationJob: (
+    jobId: string,
+    options?: DatasetsGetGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
   /** Retrieves the SAS credential to access the storage account associated with a dataset version. */
   getCredentials: (
     name: string,
@@ -69,6 +107,18 @@ export interface DatasetsOperations {
 
 function _getDatasets(context: AIProjectContext) {
   return {
+    deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) =>
+      deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) =>
+      cancelGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      job: DataGenerationJobInputsUnion,
+      options?: DatasetsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, job, options),
+    listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
     getCredentials: (
       name: string,
       version: string,
