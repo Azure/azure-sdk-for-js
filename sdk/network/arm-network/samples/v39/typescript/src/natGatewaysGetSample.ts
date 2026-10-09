@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
  * @summary gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: 2026-01-01/NatGatewayGet.json
+ * x-ms-original-file: 2026-03-01/NatGatewayGet.json
  */
 async function getNatGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getNatGateway(): Promise<void> {
  * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
  * @summary gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: 2026-01-01/NatGatewayGetStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/NatGatewayGetStandardV2Sku.json
  */
 async function getNatGatewayWithStandardV2Sku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getNatGatewayWithStandardV2Sku(): Promise<void> {
  * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
  * @summary gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: 2026-01-01/NatGatewayWithNat64Get.json
+ * x-ms-original-file: 2026-03-01/NatGatewayWithNat64Get.json
  */
 async function getNatGatewayWithNat64(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getNatGatewayWithNat64(): Promise<void> {
  * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
  * @summary gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: 2026-01-01/NatGatewayWithServiceGatewayGet.json
+ * x-ms-original-file: 2026-03-01/NatGatewayWithServiceGatewayGet.json
  */
 async function getNatGatewayWithServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

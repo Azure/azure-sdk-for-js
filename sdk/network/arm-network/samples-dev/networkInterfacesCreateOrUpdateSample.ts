@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a network interface.
  *
  * @summary creates or updates a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceCreate.json
  */
 async function createNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function createNetworkInterface(): Promise<void> {
  * This sample demonstrates how to creates or updates a network interface.
  *
  * @summary creates or updates a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
 async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();

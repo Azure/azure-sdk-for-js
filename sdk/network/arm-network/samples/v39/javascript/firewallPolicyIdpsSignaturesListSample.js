@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned signatures is 1000.
  *
  * @summary retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned signatures is 1000.
- * x-ms-original-file: 2026-01-01/FirewallPolicyQuerySignatureOverrides.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyQuerySignatureOverrides.json
  */
 async function querySignatureOverrides() {
   const credential = new DefaultAzureCredential();

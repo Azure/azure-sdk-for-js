@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the network manager connectivity configuration in a specified network manager.
  *
  * @summary lists all the network manager connectivity configuration in a specified network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectivityConfigurationList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectivityConfigurationList.json
  */
 async function connectivityConfigurationsList() {
   const credential = new DefaultAzureCredential();

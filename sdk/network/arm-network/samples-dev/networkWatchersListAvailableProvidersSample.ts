@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to nOTE: This feature is currently in preview and still being tested for stability. Lists all available internet service providers for a specified Azure region.
  *
  * @summary nOTE: This feature is currently in preview and still being tested for stability. Lists all available internet service providers for a specified Azure region.
- * x-ms-original-file: 2026-01-01/NetworkWatcherAvailableProvidersListGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherAvailableProvidersListGet.json
  */
 async function getAvailableProvidersList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves a network manager security user configuration.
  *
  * @summary retrieves a network manager security user configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserConfigurationGet.json
  */
 async function getSecurityUserConfigurations() {
   const credential = new DefaultAzureCredential();

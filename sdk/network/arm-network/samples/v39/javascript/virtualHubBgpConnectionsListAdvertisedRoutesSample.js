@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
  *
  * @summary retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
- * x-ms-original-file: 2026-01-01/VirtualRouterPeerListAdvertisedRoute.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPeerListAdvertisedRoute.json
  */
 async function virtualRouterPeerListAdvertisedRoutes() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPut.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPut.json
  */
 async function createAzureFirewall() {
   const credential = new DefaultAzureCredential();
@@ -113,7 +113,7 @@ async function createAzureFirewall() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutInHub.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutInHub.json
  */
 async function createAzureFirewallInVirtualHub() {
   const credential = new DefaultAzureCredential();
@@ -140,7 +140,7 @@ async function createAzureFirewallInVirtualHub() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithAdditionalProperties.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAdditionalProperties.json
  */
 async function createAzureFirewallWithAdditionalProperties() {
   const credential = new DefaultAzureCredential();
@@ -245,7 +245,7 @@ async function createAzureFirewallWithAdditionalProperties() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithAfcConfiguration.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAfcConfiguration.json
  */
 async function createAzureFirewallWithAFCControlPlane() {
   const credential = new DefaultAzureCredential();
@@ -281,7 +281,7 @@ async function createAzureFirewallWithAFCControlPlane() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithAiSecurityAddOn.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAiSecurityAddOn.json
  */
 async function createAzureFirewallWithAISecurityAddOn() {
   const credential = new DefaultAzureCredential();
@@ -313,7 +313,7 @@ async function createAzureFirewallWithAISecurityAddOn() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithIpGroups.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithIpGroups.json
  */
 async function createAzureFirewallWithIpGroups() {
   const credential = new DefaultAzureCredential();
@@ -417,7 +417,7 @@ async function createAzureFirewallWithIpGroups() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithMgmtSubnet.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithMgmtSubnet.json
  */
 async function createAzureFirewallWithManagementSubnet() {
   const credential = new DefaultAzureCredential();
@@ -530,7 +530,7 @@ async function createAzureFirewallWithManagementSubnet() {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPutWithZones.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithZones.json
  */
 async function createAzureFirewallWithZones() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnGatewayStartPacketCapture.json
+ * x-ms-original-file: 2026-03-01/VpnGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnGatewayWithoutFilter() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function startPacketCaptureOnVpnGatewayWithoutFilter() {
  * This sample demonstrates how to starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: 2026-03-01/VpnGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnGatewayWithFilter() {
   const credential = new DefaultAzureCredential();

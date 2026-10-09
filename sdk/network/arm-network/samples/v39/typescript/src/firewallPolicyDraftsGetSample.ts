@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a draft Firewall Policy.
  *
  * @summary get a draft Firewall Policy.
- * x-ms-original-file: 2026-01-01/FirewallPolicyDraftGet.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyDraftGet.json
  */
 async function getFirewallPolicyDraft(): Promise<void> {
   const credential = new DefaultAzureCredential();

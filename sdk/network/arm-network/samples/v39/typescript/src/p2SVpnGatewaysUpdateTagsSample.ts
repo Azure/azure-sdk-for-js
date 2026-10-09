@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates virtual wan p2s vpn gateway tags.
  *
  * @summary updates virtual wan p2s vpn gateway tags.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayUpdateTags.json
  */
 async function p2SVpnGatewayUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

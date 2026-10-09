@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update ExpressRoutePort tags.
  *
  * @summary update ExpressRoutePort tags.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortUpdateTags.json
  */
 async function expressRoutePortUpdateTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

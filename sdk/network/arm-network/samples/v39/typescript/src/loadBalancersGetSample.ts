@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified load balancer.
  *
  * @summary gets the specified load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerGet.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerGet.json
  */
 async function getLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getLoadBalancer(): Promise<void> {
  * This sample demonstrates how to gets the specified load balancer.
  *
  * @summary gets the specified load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerGetInboundNatRulePortMapping.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerGetInboundNatRulePortMapping.json
  */
 async function getLoadBalancerWithInboundNATRulePortMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getLoadBalancerWithInboundNATRulePortMapping(): Promise<void> {
  * This sample demonstrates how to gets the specified load balancer.
  *
  * @summary gets the specified load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerGetReduced.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerGetReduced.json
  */
 async function getLoadBalancerReduced(): Promise<void> {
   const credential = new DefaultAzureCredential();

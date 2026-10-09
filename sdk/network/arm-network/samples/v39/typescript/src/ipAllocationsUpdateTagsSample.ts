@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a IpAllocation tags.
  *
  * @summary updates a IpAllocation tags.
- * x-ms-original-file: 2026-01-01/IpAllocationUpdateTags.json
+ * x-ms-original-file: 2026-03-01/IpAllocationUpdateTags.json
  */
 async function updateVirtualNetworkTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

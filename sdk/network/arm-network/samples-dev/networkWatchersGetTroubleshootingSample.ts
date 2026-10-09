@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initiate troubleshooting on a specified resource.
  *
  * @summary initiate troubleshooting on a specified resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherTroubleshootGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherTroubleshootGet.json
  */
 async function getTroubleshooting(): Promise<void> {
   const credential = new DefaultAzureCredential();

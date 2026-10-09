@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Bastion Host.
  *
  * @summary deletes the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostDelete.json
+ * x-ms-original-file: 2026-03-01/BastionHostDelete.json
  */
 async function deleteBastionHost(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteBastionHost(): Promise<void> {
  * This sample demonstrates how to deletes the specified Bastion Host.
  *
  * @summary deletes the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostDeveloperDelete.json
+ * x-ms-original-file: 2026-03-01/BastionHostDeveloperDelete.json
  */
 async function deleteDeveloperBastionHost(): Promise<void> {
   const credential = new DefaultAzureCredential();

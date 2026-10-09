@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified network security group.
  *
  * @summary gets the specified network security group.
- * x-ms-original-file: 2026-01-01/NetworkSecurityGroupGet.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityGroupGet.json
  */
 async function getNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

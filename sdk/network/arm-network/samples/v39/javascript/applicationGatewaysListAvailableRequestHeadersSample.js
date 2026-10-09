@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all available request headers.
  *
  * @summary lists all available request headers.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableRequestHeadersGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableRequestHeadersGet.json
  */
 async function getAvailableRequestHeaders() {
   const credential = new DefaultAzureCredential();

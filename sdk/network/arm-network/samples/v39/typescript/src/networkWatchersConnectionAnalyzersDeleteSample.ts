@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified connection analyzer.
  *
  * @summary deletes the specified connection analyzer.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionAnalyzerDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionAnalyzerDelete.json
  */
 async function deleteConnectionAnalyzer(): Promise<void> {
   const credential = new DefaultAzureCredential();

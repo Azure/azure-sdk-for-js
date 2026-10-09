@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified IpAllocation.
  *
  * @summary deletes the specified IpAllocation.
- * x-ms-original-file: 2026-01-01/IpAllocationDelete.json
+ * x-ms-original-file: 2026-03-01/IpAllocationDelete.json
  */
 async function deleteIpAllocation() {
   const credential = new DefaultAzureCredential();

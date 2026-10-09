@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all RouteFilterRules in a route filter.
  *
  * @summary gets all RouteFilterRules in a route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterRuleListByRouteFilter.json
+ * x-ms-original-file: 2026-03-01/RouteFilterRuleListByRouteFilter.json
  */
 async function routeFilterRuleListByRouteFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

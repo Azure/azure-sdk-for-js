@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all of the available subnet delegations for this resource group in this region.
  *
  * @summary gets all of the available subnet delegations for this resource group in this region.
- * x-ms-original-file: 2026-01-01/AvailableDelegationsResourceGroupGet.json
+ * x-ms-original-file: 2026-03-01/AvailableDelegationsResourceGroupGet.json
  */
 async function getAvailableDelegationsInTheResourceGroup() {
   const credential = new DefaultAzureCredential();

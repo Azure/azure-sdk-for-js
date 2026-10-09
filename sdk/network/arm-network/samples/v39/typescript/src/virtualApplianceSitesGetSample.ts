@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Virtual Appliance Site.
  *
  * @summary gets the specified Virtual Appliance Site.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSiteGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSiteGet.json
  */
 async function getNetworkVirtualApplianceSite(): Promise<void> {
   const credential = new DefaultAzureCredential();

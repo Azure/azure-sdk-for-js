@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a VirtualNetworkTap
  *
  * @summary delete a VirtualNetworkTap
- * x-ms-original-file: 2026-01-01/VirtualNetworkTapDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkTapDelete.json
  */
 async function deleteVirtualNetworkTapResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

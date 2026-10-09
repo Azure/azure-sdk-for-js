@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified ExpressRouteLag resource.
  *
  * @summary creates or updates the specified ExpressRouteLag resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagCreate.json
  */
 async function createExpressRouteLag() {
   const credential = new DefaultAzureCredential();

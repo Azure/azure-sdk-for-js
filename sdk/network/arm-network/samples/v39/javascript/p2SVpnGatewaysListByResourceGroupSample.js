@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the P2SVpnGateways in a resource group.
  *
  * @summary lists all the P2SVpnGateways in a resource group.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayListByResourceGroup.json
  */
 async function p2SVpnGatewayListByResourceGroup() {
   const credential = new DefaultAzureCredential();

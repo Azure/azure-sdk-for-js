@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified public IP address.
  *
  * @summary deletes the specified public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressDelete.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressDelete.json
  */
 async function deletePublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();

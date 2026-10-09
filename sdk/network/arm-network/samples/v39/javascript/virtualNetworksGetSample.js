@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGet.json
  */
 async function getVirtualNetwork() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getVirtualNetwork() {
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetWithServiceAssociationLink.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getVirtualNetworkWithServiceAssociationLinks() {
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetWithSubnetDelegation.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetWithSubnetDelegation.json
  */
 async function getVirtualNetworkWithADelegatedSubnet() {
   const credential = new DefaultAzureCredential();

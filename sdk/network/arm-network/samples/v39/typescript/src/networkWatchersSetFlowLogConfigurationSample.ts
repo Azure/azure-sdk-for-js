@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to configures flow log and traffic analytics (optional) on a specified resource.
  *
  * @summary configures flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogConfigure.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogConfigure.json
  */
 async function configureFlowLog(): Promise<void> {
   const credential = new DefaultAzureCredential();

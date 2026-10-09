@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the resiliency information for the ExpressRoute gateway.
  *
  * @summary retrieves the resiliency information for the ExpressRoute gateway.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayGetResiliencyInformation.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayGetResiliencyInformation.json
  */
 async function expressRouteGatewayGetResiliencyInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();

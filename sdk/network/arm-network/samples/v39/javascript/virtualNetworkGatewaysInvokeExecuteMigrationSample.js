@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to trigger execute migration for the virtual network gateway.
  *
  * @summary trigger execute migration for the virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayExecuteMigration.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayExecuteMigration.json
  */
 async function virtualNetworkGatewayExecuteMigration() {
   const credential = new DefaultAzureCredential();

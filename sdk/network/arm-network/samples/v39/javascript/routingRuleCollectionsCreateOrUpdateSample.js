@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a routing rule collection.
  *
  * @summary creates or updates a routing rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingRuleCollectionPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingRuleCollectionPut.json
  */
 async function createOrUpdateARoutingRuleCollection() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGet.json
  */
 async function getVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getVirtualNetwork(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetWithServiceAssociationLink.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getVirtualNetworkWithServiceAssociationLinks(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network by resource group.
  *
  * @summary gets the specified virtual network by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetWithSubnetDelegation.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetWithSubnetDelegation.json
  */
 async function getVirtualNetworkWithADelegatedSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate load balancer to IP Based
  *
  * @summary migrate load balancer to IP Based
- * x-ms-original-file: 2026-01-01/MigrateLoadBalancerToIPBased.json
+ * x-ms-original-file: 2026-03-01/MigrateLoadBalancerToIPBased.json
  */
 async function migrateLoadBalancerToIPBased(): Promise<void> {
   const credential = new DefaultAzureCredential();

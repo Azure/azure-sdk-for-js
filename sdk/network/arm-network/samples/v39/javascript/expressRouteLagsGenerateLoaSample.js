@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generate a letter of authorization for the requested ExpressRouteLag resource.
  *
  * @summary generate a letter of authorization for the requested ExpressRouteLag resource.
- * x-ms-original-file: 2026-01-01/GenerateExpressRouteLagsLOA.json
+ * x-ms-original-file: 2026-03-01/GenerateExpressRouteLagsLOA.json
  */
 async function generateExpressRouteLagLOA() {
   const credential = new DefaultAzureCredential();

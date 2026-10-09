@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Virtual Router Peerings in a Virtual Router resource.
  *
  * @summary lists all Virtual Router Peerings in a Virtual Router resource.
- * x-ms-original-file: 2026-01-01/VirtualRouterPeeringList.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPeeringList.json
  */
 async function listAllVirtualRouterPeeringsForAGivenVirtualRouter(): Promise<void> {
   const credential = new DefaultAzureCredential();

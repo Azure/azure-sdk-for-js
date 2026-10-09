@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets details about the specified ExpressRouteCrossConnection.
  *
  * @summary gets details about the specified ExpressRouteCrossConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionGet.json
  */
 async function getExpressRouteCrossConnection() {
   const credential = new DefaultAzureCredential();

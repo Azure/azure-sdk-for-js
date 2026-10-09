@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the inbound routes configured for the Virtual Hub on a particular connection.
  *
  * @summary gets the inbound routes configured for the Virtual Hub on a particular connection.
- * x-ms-original-file: 2026-01-01/GetInboundRoutes.json
+ * x-ms-original-file: 2026-03-01/GetInboundRoutes.json
  */
 async function inboundRoutesForTheVirtualHubOnAParticularConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

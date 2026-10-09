@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
  * @summary creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: 2026-01-01/InboundSecurityRulePut.json
+ * x-ms-original-file: 2026-03-01/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules() {
   const credential = new DefaultAzureCredential();

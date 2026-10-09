@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified NSP link resource.
  *
  * @summary gets the specified NSP link resource.
- * x-ms-original-file: 2026-01-01/NspLinkGet.json
+ * x-ms-original-file: 2026-03-01/NspLinkGet.json
  */
 async function nspLinksGet() {
   const credential = new DefaultAzureCredential();

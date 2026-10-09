@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a ExpressRoute gateway in a specified resource group.
  *
  * @summary creates or updates a ExpressRoute gateway in a specified resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayCreate.json
  */
 async function expressRouteGatewayCreate() {
   const credential = new DefaultAzureCredential();

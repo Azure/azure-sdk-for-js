@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified first party service tag.
  *
  * @summary gets the specified first party service tag.
- * x-ms-original-file: 2026-01-01/FirstPartyServiceTagGet.json
+ * x-ms-original-file: 2026-03-01/FirstPartyServiceTagGet.json
  */
 async function getFirstPartyServiceTag(): Promise<void> {
   const credential = new DefaultAzureCredential();

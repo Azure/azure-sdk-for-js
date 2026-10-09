@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
  *
  * @summary gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
- * x-ms-original-file: 2026-01-01/PerimeterAssociableResourcesList.json
+ * x-ms-original-file: 2026-03-01/PerimeterAssociableResourcesList.json
  */
 async function networkSecurityPerimeterAssociableResourceTypes(): Promise<void> {
   const credential = new DefaultAzureCredential();

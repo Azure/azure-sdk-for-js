@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all IpGroups in a subscription.
  *
  * @summary gets all IpGroups in a subscription.
- * x-ms-original-file: 2026-01-01/IpGroupsListBySubscription.json
+ * x-ms-original-file: 2026-03-01/IpGroupsListBySubscription.json
  */
 async function listIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

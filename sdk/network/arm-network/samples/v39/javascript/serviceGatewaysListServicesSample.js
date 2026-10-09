@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Services in service gateway.
  *
  * @summary get Services in service gateway.
- * x-ms-original-file: 2026-01-01/ServiceGatewayGetServicesResponse.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayGetServicesResponse.json
  */
 async function getServicesInServiceGateway() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified NSP access rule by name.
  *
  * @summary gets the specified NSP access rule by name.
- * x-ms-original-file: 2026-01-01/NspAccessRuleGet.json
+ * x-ms-original-file: 2026-03-01/NspAccessRuleGet.json
  */
 async function nspAccessRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

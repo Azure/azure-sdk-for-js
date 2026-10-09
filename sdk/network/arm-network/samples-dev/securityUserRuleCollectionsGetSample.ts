@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a network manager security user configuration rule collection.
  *
  * @summary gets a network manager security user configuration rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleCollectionGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleCollectionGet.json
  */
 async function getsSecurityUserRuleCollection(): Promise<void> {
   const credential = new DefaultAzureCredential();

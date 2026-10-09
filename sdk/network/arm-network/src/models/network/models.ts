@@ -99,7 +99,10 @@ import {
   addressSpaceSerializer,
   addressSpaceDeserializer,
 } from "../common/models.js";
-import type { SystemData } from "../models.js";
+import type {
+  SystemData,
+  ProxyResourceVirtualNetworkApplianceCapabilityProperties,
+} from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 import type { ConnectionAnalyzerEndpointType } from "./connectionAnalyzerEndpointTypes/models.js";
 
@@ -10313,6 +10316,8 @@ export interface DdosCustomPolicy extends Resource {
   readonly provisioningState?: CommonProvisioningState;
   /** The list of DDoS detection rules associated with the custom policy. */
   detectionRules?: DdosDetectionRule[];
+  /** The list of DDoS mitigation rules associated with the custom policy. */
+  mitigationRules?: DdosMitigationRule[];
   /** The list of frontend IP configurations associated with the custom policy. */
   frontEndIpConfiguration?: SubResource[];
   /** The list of public IP addresses associated with the custom policy. This list is read-only. */
@@ -10324,7 +10329,11 @@ export function ddosCustomPolicySerializer(item: DdosCustomPolicy): any {
     id: item["id"],
     location: item["location"],
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["detectionRules", "frontEndIpConfiguration"])
+    properties: areAllPropsUndefined(item, [
+      "detectionRules",
+      "mitigationRules",
+      "frontEndIpConfiguration",
+    ])
       ? undefined
       : _ddosCustomPolicyPropertiesSerializer(item),
   };
@@ -10354,6 +10363,8 @@ export interface DdosCustomPolicyPropertiesFormat {
   readonly provisioningState?: CommonProvisioningState;
   /** The list of DDoS detection rules associated with the custom policy. */
   detectionRules?: DdosDetectionRule[];
+  /** The list of DDoS mitigation rules associated with the custom policy. */
+  mitigationRules?: DdosMitigationRule[];
   /** The list of frontend IP configurations associated with the custom policy. */
   frontEndIpConfiguration?: SubResource[];
   /** The list of public IP addresses associated with the custom policy. This list is read-only. */
@@ -10367,6 +10378,9 @@ export function ddosCustomPolicyPropertiesFormatSerializer(
     detectionRules: !item["detectionRules"]
       ? item["detectionRules"]
       : ddosDetectionRuleArraySerializer(item["detectionRules"]),
+    mitigationRules: !item["mitigationRules"]
+      ? item["mitigationRules"]
+      : ddosMitigationRuleArraySerializer(item["mitigationRules"]),
     frontEndIpConfiguration: !item["frontEndIpConfiguration"]
       ? item["frontEndIpConfiguration"]
       : subResourceArraySerializer(item["frontEndIpConfiguration"]),
@@ -10382,6 +10396,9 @@ export function ddosCustomPolicyPropertiesFormatDeserializer(
     detectionRules: !item["detectionRules"]
       ? item["detectionRules"]
       : ddosDetectionRuleArrayDeserializer(item["detectionRules"]),
+    mitigationRules: !item["mitigationRules"]
+      ? item["mitigationRules"]
+      : ddosMitigationRuleArrayDeserializer(item["mitigationRules"]),
     frontEndIpConfiguration: !item["frontEndIpConfiguration"]
       ? item["frontEndIpConfiguration"]
       : subResourceArrayDeserializer(item["frontEndIpConfiguration"]),
@@ -10529,6 +10546,402 @@ export enum KnownDdosTrafficType {
  * **TcpSyn**: TcpSyn
  */
 export type DdosTrafficType = string;
+
+export function ddosMitigationRuleArraySerializer(result: Array<DdosMitigationRule>): any[] {
+  return result.map((item) => {
+    return ddosMitigationRuleSerializer(item);
+  });
+}
+
+export function ddosMitigationRuleArrayDeserializer(result: Array<DdosMitigationRule>): any[] {
+  return result.map((item) => {
+    return ddosMitigationRuleDeserializer(item);
+  });
+}
+
+/** A DDoS mitigation rule resource. */
+export interface DdosMitigationRule extends SubResource {
+  /** The name of the DDoS mitigation rule. */
+  name: string;
+  /** The resource ID of the DDoS mitigation rule. */
+  readonly id?: string;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  readonly etag?: string;
+  /** The resource type. */
+  readonly type?: string;
+  /** Properties of the DDoS mitigation rule. */
+  properties: DdosMitigationRulePropertiesFormat;
+}
+
+export function ddosMitigationRuleSerializer(item: DdosMitigationRule): any {
+  return {
+    name: item["name"],
+    properties: ddosMitigationRulePropertiesFormatSerializer(item["properties"]),
+  };
+}
+
+export function ddosMitigationRuleDeserializer(item: any): DdosMitigationRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    etag: item["etag"],
+    type: item["type"],
+    properties: ddosMitigationRulePropertiesFormatDeserializer(item["properties"]),
+  };
+}
+
+/** DDoS mitigation rule properties. The service validates that each rule specifies at least one applicable default mitigation or source policy override and that the default mitigations match the selected trafficScope. */
+export interface DdosMitigationRulePropertiesFormat {
+  /** The provisioning state of the DDoS mitigation rule. */
+  readonly provisioningState?: CommonProvisioningState;
+  /** The traffic protocol to which the mitigation rule applies. */
+  trafficScope: DdosMitigationTrafficScope;
+  /** The default TCP mitigations. This property is valid only when trafficScope is Tcp. */
+  tcpDefaultMitigations?: DdosTcpDefaultMitigations;
+  /** The default UDP mitigations. This property is valid only when trafficScope is Udp. */
+  udpDefaultMitigations?: DdosUdpDefaultMitigations;
+  /** Source-specific actions that override the default mitigations. A rule supports at most one Deny override and one Permit override. */
+  sourcePolicyOverrides?: DdosSourcePolicyOverride[];
+}
+
+export function ddosMitigationRulePropertiesFormatSerializer(
+  item: DdosMitigationRulePropertiesFormat,
+): any {
+  return {
+    trafficScope: item["trafficScope"],
+    tcpDefaultMitigations: !item["tcpDefaultMitigations"]
+      ? item["tcpDefaultMitigations"]
+      : ddosTcpDefaultMitigationsSerializer(item["tcpDefaultMitigations"]),
+    udpDefaultMitigations: !item["udpDefaultMitigations"]
+      ? item["udpDefaultMitigations"]
+      : ddosUdpDefaultMitigationsSerializer(item["udpDefaultMitigations"]),
+    sourcePolicyOverrides: !item["sourcePolicyOverrides"]
+      ? item["sourcePolicyOverrides"]
+      : ddosSourcePolicyOverrideArraySerializer(item["sourcePolicyOverrides"]),
+  };
+}
+
+export function ddosMitigationRulePropertiesFormatDeserializer(
+  item: any,
+): DdosMitigationRulePropertiesFormat {
+  return {
+    provisioningState: item["provisioningState"],
+    trafficScope: item["trafficScope"],
+    tcpDefaultMitigations: !item["tcpDefaultMitigations"]
+      ? item["tcpDefaultMitigations"]
+      : ddosTcpDefaultMitigationsDeserializer(item["tcpDefaultMitigations"]),
+    udpDefaultMitigations: !item["udpDefaultMitigations"]
+      ? item["udpDefaultMitigations"]
+      : ddosUdpDefaultMitigationsDeserializer(item["udpDefaultMitigations"]),
+    sourcePolicyOverrides: !item["sourcePolicyOverrides"]
+      ? item["sourcePolicyOverrides"]
+      : ddosSourcePolicyOverrideArrayDeserializer(item["sourcePolicyOverrides"]),
+  };
+}
+
+/** The traffic protocol to which a DDoS mitigation rule applies. */
+export enum KnownDdosMitigationTrafficScope {
+  /** TCP traffic. */
+  Tcp = "Tcp",
+  /** UDP traffic. */
+  Udp = "Udp",
+}
+
+/**
+ * The traffic protocol to which a DDoS mitigation rule applies. \
+ * {@link KnownDdosMitigationTrafficScope} can be used interchangeably with DdosMitigationTrafficScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp**: TCP traffic. \
+ * **Udp**: UDP traffic.
+ */
+export type DdosMitigationTrafficScope = string;
+
+/** Default mitigations for TCP traffic. */
+export interface DdosTcpDefaultMitigations {
+  /** The per-source TCP packet rate limit. */
+  perSourceRateLimiting?: DdosTcpPerSourceRateLimitPolicy;
+  /** The per-source rate limit for new TCP connection establishments. */
+  perSourceConnectionRateLimiting?: DdosTcpPerSourceConnectionRateLimitPolicy;
+}
+
+export function ddosTcpDefaultMitigationsSerializer(item: DdosTcpDefaultMitigations): any {
+  return {
+    perSourceRateLimiting: !item["perSourceRateLimiting"]
+      ? item["perSourceRateLimiting"]
+      : ddosTcpPerSourceRateLimitPolicySerializer(item["perSourceRateLimiting"]),
+    perSourceConnectionRateLimiting: !item["perSourceConnectionRateLimiting"]
+      ? item["perSourceConnectionRateLimiting"]
+      : ddosTcpPerSourceConnectionRateLimitPolicySerializer(
+          item["perSourceConnectionRateLimiting"],
+        ),
+  };
+}
+
+export function ddosTcpDefaultMitigationsDeserializer(item: any): DdosTcpDefaultMitigations {
+  return {
+    perSourceRateLimiting: !item["perSourceRateLimiting"]
+      ? item["perSourceRateLimiting"]
+      : ddosTcpPerSourceRateLimitPolicyDeserializer(item["perSourceRateLimiting"]),
+    perSourceConnectionRateLimiting: !item["perSourceConnectionRateLimiting"]
+      ? item["perSourceConnectionRateLimiting"]
+      : ddosTcpPerSourceConnectionRateLimitPolicyDeserializer(
+          item["perSourceConnectionRateLimiting"],
+        ),
+  };
+}
+
+/** A per-source TCP packet rate limit. */
+export interface DdosTcpPerSourceRateLimitPolicy {
+  /** The maximum number of TCP packets allowed per second from a source IP. */
+  packetsPerSecond: number;
+}
+
+export function ddosTcpPerSourceRateLimitPolicySerializer(
+  item: DdosTcpPerSourceRateLimitPolicy,
+): any {
+  return { packetsPerSecond: item["packetsPerSecond"] };
+}
+
+export function ddosTcpPerSourceRateLimitPolicyDeserializer(
+  item: any,
+): DdosTcpPerSourceRateLimitPolicy {
+  return {
+    packetsPerSecond: item["packetsPerSecond"],
+  };
+}
+
+/** A per-source TCP connection establishment rate limit. */
+export interface DdosTcpPerSourceConnectionRateLimitPolicy {
+  /** The maximum number of new TCP connections established per second from a source IP. */
+  connectionsPerSecond: number;
+}
+
+export function ddosTcpPerSourceConnectionRateLimitPolicySerializer(
+  item: DdosTcpPerSourceConnectionRateLimitPolicy,
+): any {
+  return { connectionsPerSecond: item["connectionsPerSecond"] };
+}
+
+export function ddosTcpPerSourceConnectionRateLimitPolicyDeserializer(
+  item: any,
+): DdosTcpPerSourceConnectionRateLimitPolicy {
+  return {
+    connectionsPerSecond: item["connectionsPerSecond"],
+  };
+}
+
+/** Default mitigations for UDP traffic. */
+export interface DdosUdpDefaultMitigations {
+  /** The per-source UDP packet rate limit. */
+  perSourceRateLimiting?: DdosUdpPerSourceRateLimitPolicy;
+}
+
+export function ddosUdpDefaultMitigationsSerializer(item: DdosUdpDefaultMitigations): any {
+  return {
+    perSourceRateLimiting: !item["perSourceRateLimiting"]
+      ? item["perSourceRateLimiting"]
+      : ddosUdpPerSourceRateLimitPolicySerializer(item["perSourceRateLimiting"]),
+  };
+}
+
+export function ddosUdpDefaultMitigationsDeserializer(item: any): DdosUdpDefaultMitigations {
+  return {
+    perSourceRateLimiting: !item["perSourceRateLimiting"]
+      ? item["perSourceRateLimiting"]
+      : ddosUdpPerSourceRateLimitPolicyDeserializer(item["perSourceRateLimiting"]),
+  };
+}
+
+/** A per-source UDP packet rate limit. */
+export interface DdosUdpPerSourceRateLimitPolicy {
+  /** The maximum number of UDP packets allowed per second from a source IP. */
+  packetsPerSecond: number;
+}
+
+export function ddosUdpPerSourceRateLimitPolicySerializer(
+  item: DdosUdpPerSourceRateLimitPolicy,
+): any {
+  return { packetsPerSecond: item["packetsPerSecond"] };
+}
+
+export function ddosUdpPerSourceRateLimitPolicyDeserializer(
+  item: any,
+): DdosUdpPerSourceRateLimitPolicy {
+  return {
+    packetsPerSecond: item["packetsPerSecond"],
+  };
+}
+
+export function ddosSourcePolicyOverrideArraySerializer(
+  result: Array<DdosSourcePolicyOverride>,
+): any[] {
+  return result.map((item) => {
+    return ddosSourcePolicyOverrideSerializer(item);
+  });
+}
+
+export function ddosSourcePolicyOverrideArrayDeserializer(
+  result: Array<DdosSourcePolicyOverride>,
+): any[] {
+  return result.map((item) => {
+    return ddosSourcePolicyOverrideDeserializer(item);
+  });
+}
+
+/** A source-specific action that overrides the default mitigations. */
+export interface DdosSourcePolicyOverride {
+  /** The action to apply to matching traffic. */
+  policyAction: DdosSourcePolicyAction;
+  /** The source conditions that select traffic for the action. */
+  conditions: DdosSourceMatchConditions;
+}
+
+export function ddosSourcePolicyOverrideSerializer(item: DdosSourcePolicyOverride): any {
+  return {
+    policyAction: ddosSourcePolicyActionSerializer(item["policyAction"]),
+    conditions: ddosSourceMatchConditionsSerializer(item["conditions"]),
+  };
+}
+
+export function ddosSourcePolicyOverrideDeserializer(item: any): DdosSourcePolicyOverride {
+  return {
+    policyAction: ddosSourcePolicyActionDeserializer(item["policyAction"]),
+    conditions: ddosSourceMatchConditionsDeserializer(item["conditions"]),
+  };
+}
+
+/** The action to apply to traffic matching a source policy override. */
+export interface DdosSourcePolicyAction {
+  /** The source policy action type. */
+  actionType: DdosSourcePolicyActionType;
+}
+
+export function ddosSourcePolicyActionSerializer(item: DdosSourcePolicyAction): any {
+  return { actionType: item["actionType"] };
+}
+
+export function ddosSourcePolicyActionDeserializer(item: any): DdosSourcePolicyAction {
+  return {
+    actionType: item["actionType"],
+  };
+}
+
+/** The action applied to traffic matching a source policy override. */
+export enum KnownDdosSourcePolicyActionType {
+  /** Deny traffic from matching sources. */
+  Deny = "Deny",
+  /** Permit traffic from matching sources. */
+  Permit = "Permit",
+}
+
+/**
+ * The action applied to traffic matching a source policy override. \
+ * {@link KnownDdosSourcePolicyActionType} can be used interchangeably with DdosSourcePolicyActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deny**: Deny traffic from matching sources. \
+ * **Permit**: Permit traffic from matching sources.
+ */
+export type DdosSourcePolicyActionType = string;
+
+/** Source conditions for a DDoS source policy override. A source matches when it matches any IP prefix or any geographic match. */
+export interface DdosSourceMatchConditions {
+  /** The IPv4 or IPv6 CIDR prefixes in `<address>/<prefix-length>` format. Entries are evaluated with OR semantics. */
+  ipPrefixes?: string[];
+  /** The geographic matches. Entries are evaluated with OR semantics. */
+  geoMatches?: DdosGeoMatch[];
+}
+
+export function ddosSourceMatchConditionsSerializer(item: DdosSourceMatchConditions): any {
+  return {
+    ipPrefixes: !item["ipPrefixes"]
+      ? item["ipPrefixes"]
+      : item["ipPrefixes"].map((p: any) => {
+          return p;
+        }),
+    geoMatches: !item["geoMatches"]
+      ? item["geoMatches"]
+      : ddosGeoMatchArraySerializer(item["geoMatches"]),
+  };
+}
+
+export function ddosSourceMatchConditionsDeserializer(item: any): DdosSourceMatchConditions {
+  return {
+    ipPrefixes: !item["ipPrefixes"]
+      ? item["ipPrefixes"]
+      : item["ipPrefixes"].map((p: any) => {
+          return p;
+        }),
+    geoMatches: !item["geoMatches"]
+      ? item["geoMatches"]
+      : ddosGeoMatchArrayDeserializer(item["geoMatches"]),
+  };
+}
+
+export function ddosGeoMatchArraySerializer(result: Array<DdosGeoMatch>): any[] {
+  return result.map((item) => {
+    return ddosGeoMatchSerializer(item);
+  });
+}
+
+export function ddosGeoMatchArrayDeserializer(result: Array<DdosGeoMatch>): any[] {
+  return result.map((item) => {
+    return ddosGeoMatchDeserializer(item);
+  });
+}
+
+/** A geographic source match. The service validates that at least one of continent or countryCode is specified. If both are specified, the service validates that the country belongs to the continent according to the service-defined mapping. For example, RU, TR, and KZ map to Asia, EG maps to Africa, and CY maps to Europe. */
+export interface DdosGeoMatch {
+  /** The continent to match. Country membership follows the service-defined mapping documented on DdosGeoMatch. */
+  continent?: DdosContinent;
+  /** The uppercase two-letter ISO 3166-1 alpha-2 code for the country or territory to match. */
+  countryCode?: string;
+}
+
+export function ddosGeoMatchSerializer(item: DdosGeoMatch): any {
+  return { continent: item["continent"], countryCode: item["countryCode"] };
+}
+
+export function ddosGeoMatchDeserializer(item: any): DdosGeoMatch {
+  return {
+    continent: item["continent"],
+    countryCode: item["countryCode"],
+  };
+}
+
+/** A continent used for DDoS geographic source matching. */
+export enum KnownDdosContinent {
+  /** Matches traffic originating from countries and territories in Africa. */
+  Africa = "Africa",
+  /** Matches traffic originating from Antarctica. */
+  Antarctica = "Antarctica",
+  /** Matches traffic originating from countries and territories in Asia. */
+  Asia = "Asia",
+  /** Matches traffic originating from countries and territories in Europe. */
+  Europe = "Europe",
+  /** Matches traffic originating from countries and territories in North America. */
+  NorthAmerica = "NorthAmerica",
+  /** Matches traffic originating from countries and territories in Oceania. */
+  Oceania = "Oceania",
+  /** Matches traffic originating from countries and territories in South America. */
+  SouthAmerica = "SouthAmerica",
+}
+
+/**
+ * A continent used for DDoS geographic source matching. \
+ * {@link KnownDdosContinent} can be used interchangeably with DdosContinent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Africa**: Matches traffic originating from countries and territories in Africa. \
+ * **Antarctica**: Matches traffic originating from Antarctica. \
+ * **Asia**: Matches traffic originating from countries and territories in Asia. \
+ * **Europe**: Matches traffic originating from countries and territories in Europe. \
+ * **NorthAmerica**: Matches traffic originating from countries and territories in North America. \
+ * **Oceania**: Matches traffic originating from countries and territories in Oceania. \
+ * **SouthAmerica**: Matches traffic originating from countries and territories in South America.
+ */
+export type DdosContinent = string;
 
 export function ddosCustomPolicyArraySerializer(result: Array<DdosCustomPolicy>): any[] {
   return result.map((item) => {
@@ -13755,6 +14168,8 @@ export interface ExpressRouteLagPropertiesFormat {
   links?: ExpressRouteLagLink[];
   /** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRouteLag resource. */
   readonly circuits?: SubResource[];
+  /** The set of authorizations of the ExpressRouteLag resource. */
+  authorizations?: ExpressRouteLagAuthorization[];
   /** The date and time when the ExpressRouteLag was allocated. */
   readonly allocationDate?: string;
   /** The provisioning state of the express route LAG resource. */
@@ -13779,6 +14194,9 @@ export function expressRouteLagPropertiesFormatSerializer(
     bandwidthInGbps: item["bandwidthInGbps"],
     encapsulation: item["encapsulation"],
     links: !item["links"] ? item["links"] : expressRouteLagLinkArraySerializer(item["links"]),
+    authorizations: !item["authorizations"]
+      ? item["authorizations"]
+      : expressRouteLagAuthorizationArraySerializer(item["authorizations"]),
     billingType: item["billingType"],
     numberOfPorts: item["numberOfPorts"],
     minimumActivePortsRequired: item["minimumActivePortsRequired"],
@@ -13798,6 +14216,9 @@ export function expressRouteLagPropertiesFormatDeserializer(
     etherType: item["etherType"],
     links: !item["links"] ? item["links"] : expressRouteLagLinkArrayDeserializer(item["links"]),
     circuits: !item["circuits"] ? item["circuits"] : subResourceArrayDeserializer(item["circuits"]),
+    authorizations: !item["authorizations"]
+      ? item["authorizations"]
+      : expressRouteLagAuthorizationArrayDeserializer(item["authorizations"]),
     allocationDate: item["allocationDate"],
     provisioningState: item["provisioningState"],
     resourceGuid: item["resourceGuid"],
@@ -14005,6 +14426,94 @@ export function expressRouteLagMemberPropertiesFormatDeserializer(
   };
 }
 
+export function expressRouteLagAuthorizationArraySerializer(
+  result: Array<ExpressRouteLagAuthorization>,
+): any[] {
+  return result.map((item) => {
+    return expressRouteLagAuthorizationSerializer(item);
+  });
+}
+
+export function expressRouteLagAuthorizationArrayDeserializer(
+  result: Array<ExpressRouteLagAuthorization>,
+): any[] {
+  return result.map((item) => {
+    return expressRouteLagAuthorizationDeserializer(item);
+  });
+}
+
+/** ExpressRouteLag Authorization resource definition. */
+export interface ExpressRouteLagAuthorization extends ProxyResourceWithReadOnlyID {
+  /** ExpressRouteLag authorization properties. */
+  properties?: ExpressRouteLagAuthorizationPropertiesFormat;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  readonly etag?: string;
+}
+
+export function expressRouteLagAuthorizationSerializer(item: ExpressRouteLagAuthorization): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : expressRouteLagAuthorizationPropertiesFormatSerializer(item["properties"]),
+  };
+}
+
+export function expressRouteLagAuthorizationDeserializer(item: any): ExpressRouteLagAuthorization {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : expressRouteLagAuthorizationPropertiesFormatDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** Properties of ExpressRouteLag Authorization. */
+export interface ExpressRouteLagAuthorizationPropertiesFormat {
+  /** The authorization use status. */
+  readonly authorizationUseStatus?: ExpressRouteLagAuthorizationUseStatus;
+  /** The reference to the ExpressRoute circuit resource using the authorization. */
+  readonly circuitResourceUri?: string;
+  /** The provisioning state of the authorization resource. */
+  readonly provisioningState?: CommonProvisioningState;
+}
+
+export function expressRouteLagAuthorizationPropertiesFormatSerializer(
+  _item: ExpressRouteLagAuthorizationPropertiesFormat,
+): any {
+  return {};
+}
+
+export function expressRouteLagAuthorizationPropertiesFormatDeserializer(
+  item: any,
+): ExpressRouteLagAuthorizationPropertiesFormat {
+  return {
+    authorizationUseStatus: item["authorizationUseStatus"],
+    circuitResourceUri: item["circuitResourceUri"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The authorization use status. */
+export enum KnownExpressRouteLagAuthorizationUseStatus {
+  /** The authorization is available and not currently associated with an ExpressRoute circuit. */
+  Available = "Available",
+  /** The authorization is currently in use by an ExpressRoute circuit. */
+  InUse = "InUse",
+}
+
+/**
+ * The authorization use status. \
+ * {@link KnownExpressRouteLagAuthorizationUseStatus} can be used interchangeably with ExpressRouteLagAuthorizationUseStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The authorization is available and not currently associated with an ExpressRoute circuit. \
+ * **InUse**: The authorization is currently in use by an ExpressRoute circuit.
+ */
+export type ExpressRouteLagAuthorizationUseStatus = string;
+
 /** The billing type of the ExpressRouteLag resource. */
 export enum KnownExpressRouteLagBillingType {
   /** Metered data transfer billing. */
@@ -14040,6 +14549,28 @@ export enum KnownExpressRouteLagLacpTimer {
  * **Slow**: Slow LACP timer (90 seconds).
  */
 export type ExpressRouteLagLacpTimer = string;
+
+/** Proxy resource representation. */
+export interface ProxyResourceWithReadOnlyID {
+  /** Resource ID. */
+  readonly id?: string;
+  /** Resource name. */
+  readonly name?: string;
+  /** Resource type. */
+  readonly type?: string;
+}
+
+export function proxyResourceWithReadOnlyIDSerializer(_item: ProxyResourceWithReadOnlyID): any {
+  return {};
+}
+
+export function proxyResourceWithReadOnlyIDDeserializer(item: any): ProxyResourceWithReadOnlyID {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+  };
+}
 
 /** Parameters for updating ExpressRouteLag tags or identity. */
 export interface ExpressRouteLagUpdateTagsOrIdentityRequest {
@@ -14152,6 +14683,23 @@ export function _expressRouteLagMemberListResultDeserializer(
 ): _ExpressRouteLagMemberListResult {
   return {
     value: expressRouteLagMemberArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** Paged collection of ExpressRouteLagAuthorization items */
+export interface _ExpressRouteLagAuthorizationListResult {
+  /** The ExpressRouteLagAuthorization items on this page */
+  value: ExpressRouteLagAuthorization[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _expressRouteLagAuthorizationListResultDeserializer(
+  item: any,
+): _ExpressRouteLagAuthorizationListResult {
+  return {
+    value: expressRouteLagAuthorizationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -33980,6 +34528,8 @@ export interface VirtualNetworkAppliance extends Resource {
   readonly etag?: string;
   /** Bandwidth of the VirtualNetworkAppliance resource in Gbps. */
   bandwidthInGbps?: number;
+  /** The reference to the capacity provider resource. */
+  capacityProvider?: SubResource;
   /** A list of IPConfigurations of the virtual network appliance. */
   readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
   /** Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4. */
@@ -33997,7 +34547,12 @@ export function virtualNetworkApplianceSerializer(item: VirtualNetworkAppliance)
     id: item["id"],
     location: item["location"],
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["bandwidthInGbps", "privateIPAddressVersion", "subnet"])
+    properties: areAllPropsUndefined(item, [
+      "bandwidthInGbps",
+      "capacityProvider",
+      "privateIPAddressVersion",
+      "subnet",
+    ])
       ? undefined
       : _virtualNetworkAppliancePropertiesSerializer(item),
   };
@@ -34023,6 +34578,8 @@ export function virtualNetworkApplianceDeserializer(item: any): VirtualNetworkAp
 export interface VirtualNetworkAppliancePropertiesFormat {
   /** Bandwidth of the VirtualNetworkAppliance resource in Gbps. */
   bandwidthInGbps?: number;
+  /** The reference to the capacity provider resource. */
+  capacityProvider?: SubResource;
   /** A list of IPConfigurations of the virtual network appliance. */
   readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
   /** Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4. */
@@ -34040,6 +34597,9 @@ export function virtualNetworkAppliancePropertiesFormatSerializer(
 ): any {
   return {
     bandwidthInGbps: item["bandwidthInGbps"],
+    capacityProvider: !item["capacityProvider"]
+      ? item["capacityProvider"]
+      : subResourceSerializer(item["capacityProvider"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
     subnet: !item["subnet"] ? item["subnet"] : subnetSerializer(item["subnet"]),
   };
@@ -34050,6 +34610,9 @@ export function virtualNetworkAppliancePropertiesFormatDeserializer(
 ): VirtualNetworkAppliancePropertiesFormat {
   return {
     bandwidthInGbps: item["bandwidthInGbps"],
+    capacityProvider: !item["capacityProvider"]
+      ? item["capacityProvider"]
+      : subResourceDeserializer(item["capacityProvider"]),
     ipConfigurations: !item["ipConfigurations"]
       ? item["ipConfigurations"]
       : virtualNetworkApplianceIpConfigurationArrayDeserializer(item["ipConfigurations"]),
@@ -34159,6 +34722,323 @@ export function virtualNetworkApplianceArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return virtualNetworkApplianceDeserializer(item);
+  });
+}
+
+/**
+ * A capability enabled on a virtual network appliance. The top-level `kind` discriminator selects the
+ * capability family; every kind shares the same `properties` schema (see
+ * VirtualNetworkApplianceCapabilityProperties). One capability of a given kind may exist per appliance.
+ */
+export interface VirtualNetworkApplianceCapability extends ProxyResourceVirtualNetworkApplianceCapabilityProperties {
+  /** The kind of capability (the top-level discriminator). */
+  /** The discriminator possible values: PLGatewayFastpath, PLGateway, PLIPForwarders, NAT64 */
+  kind: VirtualNetworkApplianceCapabilityKind;
+}
+
+export function virtualNetworkApplianceCapabilitySerializer(
+  item: VirtualNetworkApplianceCapability,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+    kind: item["kind"],
+  };
+}
+
+export function virtualNetworkApplianceCapabilityDeserializer(
+  item: any,
+): VirtualNetworkApplianceCapability {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    kind: item["kind"],
+  };
+}
+
+/** Alias for VirtualNetworkApplianceCapabilityUnion */
+export type VirtualNetworkApplianceCapabilityUnion =
+  | PLGatewayFastpathCapability
+  | PLGatewayCapability
+  | PlipForwardersCapability
+  | Nat64Capability
+  | VirtualNetworkApplianceCapability;
+
+export function virtualNetworkApplianceCapabilityUnionSerializer(
+  item: VirtualNetworkApplianceCapabilityUnion,
+): any {
+  switch (item.kind) {
+    case "PLGatewayFastpath":
+      return plGatewayFastpathCapabilitySerializer(item as PLGatewayFastpathCapability);
+
+    case "PLGateway":
+      return plGatewayCapabilitySerializer(item as PLGatewayCapability);
+
+    case "PLIPForwarders":
+      return plipForwardersCapabilitySerializer(item as PlipForwardersCapability);
+
+    case "NAT64":
+      return nat64CapabilitySerializer(item as Nat64Capability);
+
+    default:
+      return virtualNetworkApplianceCapabilitySerializer(item);
+  }
+}
+
+export function virtualNetworkApplianceCapabilityUnionDeserializer(
+  item: any,
+): VirtualNetworkApplianceCapabilityUnion {
+  switch (item["kind"]) {
+    case "PLGatewayFastpath":
+      return plGatewayFastpathCapabilityDeserializer(item as PLGatewayFastpathCapability);
+
+    case "PLGateway":
+      return plGatewayCapabilityDeserializer(item as PLGatewayCapability);
+
+    case "PLIPForwarders":
+      return plipForwardersCapabilityDeserializer(item as PlipForwardersCapability);
+
+    case "NAT64":
+      return nat64CapabilityDeserializer(item as Nat64Capability);
+
+    default:
+      return virtualNetworkApplianceCapabilityDeserializer(item);
+  }
+}
+
+/** The kinds of virtual network appliance capability. The value is the top-level `kind` discriminator. */
+export enum KnownVirtualNetworkApplianceCapabilityKind {
+  /** Private Link Gateway FastPath. */
+  PLGatewayFastpath = "PLGatewayFastpath",
+  /** Private Link Gateway (slow-path). */
+  PLGateway = "PLGateway",
+  /** Private Link IP-forwarders (NVA). */
+  PlipForwarders = "PLIPForwarders",
+  /** NAT64 (stateful IPv6-to-IPv4 translation). */
+  NAT64 = "NAT64",
+}
+
+/**
+ * The kinds of virtual network appliance capability. The value is the top-level `kind` discriminator. \
+ * {@link KnownVirtualNetworkApplianceCapabilityKind} can be used interchangeably with VirtualNetworkApplianceCapabilityKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PLGatewayFastpath**: Private Link Gateway FastPath. \
+ * **PLGateway**: Private Link Gateway (slow-path). \
+ * **PLIPForwarders**: Private Link IP-forwarders (NVA). \
+ * **NAT64**: NAT64 (stateful IPv6-to-IPv4 translation).
+ */
+export type VirtualNetworkApplianceCapabilityKind = string;
+
+/**
+ * The Private Link Gateway FastPath capability. Private Link fast-path programming on the appliance's gateway;
+ * supported on a dual-stack appliance.
+ */
+export interface PLGatewayFastpathCapability extends VirtualNetworkApplianceCapability {
+  /** The Private Link Gateway FastPath capability kind. */
+  kind: "PLGatewayFastpath";
+}
+
+export function plGatewayFastpathCapabilitySerializer(item: PLGatewayFastpathCapability): any {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function plGatewayFastpathCapabilityDeserializer(item: any): PLGatewayFastpathCapability {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/**
+ * The Private Link Gateway (slow-path) capability. Private Link programming offloaded to the appliance's gateway;
+ * IPv6 on a dual-stack appliance.
+ */
+export interface PLGatewayCapability extends VirtualNetworkApplianceCapability {
+  /** The Private Link Gateway (slow-path) capability kind. */
+  kind: "PLGateway";
+}
+
+export function plGatewayCapabilitySerializer(item: PLGatewayCapability): any {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function plGatewayCapabilityDeserializer(item: any): PLGatewayCapability {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/**
+ * The Private Link IP-forwarders (NVA) capability. Private Link programming offloaded to the appliance NVA;
+ * IPv6 on a dual-stack appliance.
+ */
+export interface PlipForwardersCapability extends VirtualNetworkApplianceCapability {
+  /** The Private Link IP-forwarders (NVA) capability kind. */
+  kind: "PLIPForwarders";
+}
+
+export function plipForwardersCapabilitySerializer(item: PlipForwardersCapability): any {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function plipForwardersCapabilityDeserializer(item: any): PlipForwardersCapability {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/**
+ * The NAT64 capability. Enables stateful NAT64 translation (IPv6-only workloads reaching IPv4
+ * destinations) on the appliance's floating NIC; supported on a dual-stack appliance. This kind is
+ * property-less: it carries no `ipVersion` (the parent appliance's dual-stack configuration is the
+ * precondition, service-validated) beyond the properties common to every capability.
+ */
+export interface Nat64Capability extends VirtualNetworkApplianceCapability {
+  /** The NAT64 capability kind. */
+  kind: "NAT64";
+}
+
+export function nat64CapabilitySerializer(item: Nat64Capability): any {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function nat64CapabilityDeserializer(item: any): Nat64Capability {
+  return {
+    kind: item["kind"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Properties common to every virtual network appliance capability, independent of kind. */
+export interface VirtualNetworkApplianceCapabilityProperties {
+  /** The Azure resource ID of the owning virtual network. System-derived and read-only. */
+  readonly linkedResourceId?: string;
+  /** The provisioning state of the capability resource. */
+  readonly provisioningState?: CommonProvisioningState;
+  /**
+   * The IP version the capability applies to. Private Link Gateway FastPath (`PLGatewayFastpath`)
+   * only accepts `DualStack`; Private Link Gateway (`PLGateway`) and Private Link IP-forwarders
+   * (`PLIPForwarders`) only accept `IPv6`. Not applicable to `NAT64`, which is property-less and must
+   * omit this value. The service validates the value against the resource's `kind` when the
+   * capability is created or updated.
+   */
+  ipVersion?: VirtualNetworkApplianceCapabilityIpVersion;
+}
+
+export function virtualNetworkApplianceCapabilityPropertiesSerializer(
+  item: VirtualNetworkApplianceCapabilityProperties,
+): any {
+  return { ipVersion: item["ipVersion"] };
+}
+
+export function virtualNetworkApplianceCapabilityPropertiesDeserializer(
+  item: any,
+): VirtualNetworkApplianceCapabilityProperties {
+  return {
+    linkedResourceId: item["linkedResourceId"],
+    provisioningState: item["provisioningState"],
+    ipVersion: item["ipVersion"],
+  };
+}
+
+/**
+ * The IP versions a virtual network appliance capability can apply to. See `ipVersion` on
+ * VirtualNetworkApplianceCapabilityProperties for the per-`kind` constraint.
+ */
+export enum KnownVirtualNetworkApplianceCapabilityIpVersion {
+  /** Single stack IPv6 only. */
+  IPv6 = "IPv6",
+  /** Dual stack (both IPv4 and IPv6). */
+  DualStack = "DualStack",
+}
+
+/**
+ * The IP versions a virtual network appliance capability can apply to. See `ipVersion` on
+ * VirtualNetworkApplianceCapabilityProperties for the per-`kind` constraint. \
+ * {@link KnownVirtualNetworkApplianceCapabilityIpVersion} can be used interchangeably with VirtualNetworkApplianceCapabilityIpVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv6**: Single stack IPv6 only. \
+ * **DualStack**: Dual stack (both IPv4 and IPv6).
+ */
+export type VirtualNetworkApplianceCapabilityIpVersion = string;
+
+export function virtualNetworkApplianceCapabilityUnionArraySerializer(
+  result: Array<VirtualNetworkApplianceCapabilityUnion>,
+): any[] {
+  return result.map((item) => {
+    return virtualNetworkApplianceCapabilityUnionSerializer(item);
+  });
+}
+
+export function virtualNetworkApplianceCapabilityUnionArrayDeserializer(
+  result: Array<VirtualNetworkApplianceCapabilityUnion>,
+): any[] {
+  return result.map((item) => {
+    return virtualNetworkApplianceCapabilityUnionDeserializer(item);
   });
 }
 
@@ -35546,28 +36426,6 @@ export function swapResourcePropertiesDeserializer(item: any): SwapResourcePrope
 
 /** Specifies slot info on a cloud service */
 export type SlotType = "Production" | "Staging";
-
-/** Proxy resource representation. */
-export interface ProxyResourceWithReadOnlyID {
-  /** Resource ID. */
-  readonly id?: string;
-  /** Resource name. */
-  readonly name?: string;
-  /** Resource type. */
-  readonly type?: string;
-}
-
-export function proxyResourceWithReadOnlyIDSerializer(_item: ProxyResourceWithReadOnlyID): any {
-  return {};
-}
-
-export function proxyResourceWithReadOnlyIDDeserializer(item: any): ProxyResourceWithReadOnlyID {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-  };
-}
 
 /** SwapResource List with single entry to represent slot type on the specified cloud service. */
 export interface SwapResourceListResult {
@@ -43000,6 +43858,9 @@ export function _ddosCustomPolicyPropertiesSerializer(item: DdosCustomPolicy): a
     detectionRules: !item["detectionRules"]
       ? item["detectionRules"]
       : ddosDetectionRuleArraySerializer(item["detectionRules"]),
+    mitigationRules: !item["mitigationRules"]
+      ? item["mitigationRules"]
+      : ddosMitigationRuleArraySerializer(item["mitigationRules"]),
     frontEndIpConfiguration: !item["frontEndIpConfiguration"]
       ? item["frontEndIpConfiguration"]
       : subResourceArraySerializer(item["frontEndIpConfiguration"]),
@@ -43013,6 +43874,9 @@ export function _ddosCustomPolicyPropertiesDeserializer(item: any) {
     detectionRules: !item["detectionRules"]
       ? item["detectionRules"]
       : ddosDetectionRuleArrayDeserializer(item["detectionRules"]),
+    mitigationRules: !item["mitigationRules"]
+      ? item["mitigationRules"]
+      : ddosMitigationRuleArrayDeserializer(item["mitigationRules"]),
     frontEndIpConfiguration: !item["frontEndIpConfiguration"]
       ? item["frontEndIpConfiguration"]
       : subResourceArrayDeserializer(item["frontEndIpConfiguration"]),
@@ -45681,6 +46545,9 @@ export function _virtualNetworkApplianceIpConfigurationPropertiesDeserializer(it
 export function _virtualNetworkAppliancePropertiesSerializer(item: VirtualNetworkAppliance): any {
   return {
     bandwidthInGbps: item["bandwidthInGbps"],
+    capacityProvider: !item["capacityProvider"]
+      ? item["capacityProvider"]
+      : subResourceSerializer(item["capacityProvider"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
     subnet: !item["subnet"] ? item["subnet"] : subnetSerializer(item["subnet"]),
   };
@@ -45689,6 +46556,9 @@ export function _virtualNetworkAppliancePropertiesSerializer(item: VirtualNetwor
 export function _virtualNetworkAppliancePropertiesDeserializer(item: any) {
   return {
     bandwidthInGbps: item["bandwidthInGbps"],
+    capacityProvider: !item["capacityProvider"]
+      ? item["capacityProvider"]
+      : subResourceDeserializer(item["capacityProvider"]),
     ipConfigurations: !item["ipConfigurations"]
       ? item["ipConfigurations"]
       : virtualNetworkApplianceIpConfigurationArrayDeserializer(item["ipConfigurations"]),

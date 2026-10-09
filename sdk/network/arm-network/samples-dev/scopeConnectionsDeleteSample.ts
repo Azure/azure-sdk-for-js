@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the pending scope connection created by this network manager.
  *
  * @summary delete the pending scope connection created by this network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerScopeConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerScopeConnectionDelete.json
  */
 async function deleteNetworkManagerScopeConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -38,6 +38,7 @@ export type { ExpressRouteConnectionsOperations } from "./expressRouteConnection
 export type { ExpressRouteCrossConnectionPeeringsOperations } from "./expressRouteCrossConnectionPeerings/index.js";
 export type { ExpressRouteCrossConnectionsOperations } from "./expressRouteCrossConnections/index.js";
 export type { ExpressRouteGatewaysOperations } from "./expressRouteGateways/index.js";
+export type { ExpressRouteLagAuthorizationsOperations } from "./expressRouteLagAuthorizations/index.js";
 export type { ExpressRouteLagsOperations } from "./expressRouteLags/index.js";
 export type { ExpressRouteLinksOperations } from "./expressRouteLinks/index.js";
 export type { ExpressRoutePortAuthorizationsOperations } from "./expressRoutePortAuthorizations/index.js";
@@ -147,6 +148,7 @@ export type { VirtualHubBgpConnectionsOperations } from "./virtualHubBgpConnecti
 export type { VirtualHubIpConfigurationOperations } from "./virtualHubIpConfiguration/index.js";
 export type { VirtualHubRouteTableV2SOperations } from "./virtualHubRouteTableV2S/index.js";
 export type { VirtualHubsOperations } from "./virtualHubs/index.js";
+export type { VirtualNetworkApplianceCapabilitiesOperations } from "./virtualNetworkApplianceCapabilities/index.js";
 export type { VirtualNetworkAppliancesOperations } from "./virtualNetworkAppliances/index.js";
 export type { VirtualNetworkGatewayConnectionsOperations } from "./virtualNetworkGatewayConnections/index.js";
 export type { VirtualNetworkGatewayNatRulesOperations } from "./virtualNetworkGatewayNatRules/index.js";

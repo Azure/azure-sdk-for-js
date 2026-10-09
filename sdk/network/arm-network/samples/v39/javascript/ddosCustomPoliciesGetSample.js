@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about the specified DDoS custom policy.
  *
  * @summary gets information about the specified DDoS custom policy.
- * x-ms-original-file: 2026-01-01/DdosCustomPolicyGet.json
+ * x-ms-original-file: 2026-03-01/DdosCustomPolicyGet.json
  */
 async function getDDoSCustomPolicy() {
   const credential = new DefaultAzureCredential();

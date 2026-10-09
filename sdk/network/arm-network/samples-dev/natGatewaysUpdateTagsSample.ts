@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates nat gateway tags.
  *
  * @summary updates nat gateway tags.
- * x-ms-original-file: 2026-01-01/NatGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NatGatewayUpdateTags.json
  */
 async function updateNatGatewayTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateNatGatewayTags(): Promise<void> {
  * This sample demonstrates how to updates nat gateway tags.
  *
  * @summary updates nat gateway tags.
- * x-ms-original-file: 2026-01-01/NatGatewayUpdateTagsStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/NatGatewayUpdateTagsStandardV2Sku.json
  */
 async function updateNatGatewayWithStandardV2SkuTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

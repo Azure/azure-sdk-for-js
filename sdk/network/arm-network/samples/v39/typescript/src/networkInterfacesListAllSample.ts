@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all network interfaces in a subscription.
  *
  * @summary gets all network interfaces in a subscription.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceListAll.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceListAll.json
  */
 async function listAllNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates interconnect group tags.
  *
  * @summary updates interconnect group tags.
- * x-ms-original-file: 2026-01-01/InterconnectGroupUpdateTags.json
+ * x-ms-original-file: 2026-03-01/InterconnectGroupUpdateTags.json
  */
 async function updateInterconnectGroupTags() {
   const credential = new DefaultAzureCredential();

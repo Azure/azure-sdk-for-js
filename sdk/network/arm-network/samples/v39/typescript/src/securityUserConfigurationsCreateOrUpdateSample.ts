@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a network manager security user configuration.
  *
  * @summary creates or updates a network manager security user configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserConfigurationPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserConfigurationPut.json
  */
 async function createNetworkManagerSecurityUserConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

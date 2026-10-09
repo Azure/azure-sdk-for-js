@@ -28,7 +28,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * For location-level partial updates, if no address is provided, the existing address will be deleted.
  *
  * For address-level partial updates, if no services are provided, the existing services will be considered for deletion.
- * x-ms-original-file: 2026-01-01/ServiceGatewayFullUpdateAddressLocationsRequest.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayFullUpdateAddressLocationsRequest.json
  */
 async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway() {
   const credential = new DefaultAzureCredential();
@@ -76,7 +76,7 @@ async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway
  * For location-level partial updates, if no address is provided, the existing address will be deleted.
  *
  * For address-level partial updates, if no services are provided, the existing services will be considered for deletion.
- * x-ms-original-file: 2026-01-01/ServiceGatewayPartialUpdateAddressLocationsRequest.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayPartialUpdateAddressLocationsRequest.json
  */
 async function partialUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway() {
   const credential = new DefaultAzureCredential();

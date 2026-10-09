@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of all RouteTables.
  *
  * @summary retrieves the details of all RouteTables.
- * x-ms-original-file: 2026-01-01/HubRouteTableList.json
+ * x-ms-original-file: 2026-03-01/HubRouteTableList.json
  */
 async function routeTableList(): Promise<void> {
   const credential = new DefaultAzureCredential();

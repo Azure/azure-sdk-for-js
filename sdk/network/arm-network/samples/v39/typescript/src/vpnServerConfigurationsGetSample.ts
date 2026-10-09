@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a VpnServerConfiguration.
  *
  * @summary retrieves the details of a VpnServerConfiguration.
- * x-ms-original-file: 2026-01-01/VpnServerConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/VpnServerConfigurationGet.json
  */
 async function vpnServerConfigurationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

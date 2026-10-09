@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets list of Reachability Analysis Runs.
  *
  * @summary gets list of Reachability Analysis Runs.
- * x-ms-original-file: 2026-01-01/ReachabilityAnalysisRunList.json
+ * x-ms-original-file: 2026-03-01/ReachabilityAnalysisRunList.json
  */
 async function reachabilityAnalysisRunList(): Promise<void> {
   const credential = new DefaultAzureCredential();

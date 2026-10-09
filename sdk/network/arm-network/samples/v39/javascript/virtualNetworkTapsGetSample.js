@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a VirtualNetworkTap
  *
  * @summary get a VirtualNetworkTap
- * x-ms-original-file: 2026-01-01/VirtualNetworkTapGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkTapGet.json
  */
 async function getVirtualNetworkTap() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified private endpoint by resource group.
  *
  * @summary gets the specified private endpoint by resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointGet.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointGet.json
  */
 async function getPrivateEndpoint() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getPrivateEndpoint() {
  * This sample demonstrates how to gets the specified private endpoint by resource group.
  *
  * @summary gets the specified private endpoint by resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointGetForManualApproval.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointGetForManualApproval.json
  */
 async function getPrivateEndpointWithManualApprovalConnection() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getPrivateEndpointWithManualApprovalConnection() {
  * This sample demonstrates how to gets the specified private endpoint by resource group.
  *
  * @summary gets the specified private endpoint by resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointGetWithASG.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointGetWithASG.json
  */
 async function getPrivateEndpointWithApplicationSecurityGroups() {
   const credential = new DefaultAzureCredential();

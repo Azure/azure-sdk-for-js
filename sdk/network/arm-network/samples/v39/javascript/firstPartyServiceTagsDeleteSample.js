@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified first party service tag.
  *
  * @summary deletes the specified first party service tag.
- * x-ms-original-file: 2026-01-01/FirstPartyServiceTagDelete.json
+ * x-ms-original-file: 2026-03-01/FirstPartyServiceTagDelete.json
  */
 async function deleteFirstPartyServiceTag() {
   const credential = new DefaultAzureCredential();

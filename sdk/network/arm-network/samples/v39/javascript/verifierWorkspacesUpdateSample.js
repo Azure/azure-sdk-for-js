@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates Verifier Workspace.
  *
  * @summary updates Verifier Workspace.
- * x-ms-original-file: 2026-01-01/VerifierWorkspacePatch.json
+ * x-ms-original-file: 2026-03-01/VerifierWorkspacePatch.json
  */
 async function verifierWorkspacePatch() {
   const credential = new DefaultAzureCredential();

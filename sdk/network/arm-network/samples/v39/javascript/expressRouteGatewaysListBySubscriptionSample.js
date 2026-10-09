@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists ExpressRoute gateways under a given subscription.
  *
  * @summary lists ExpressRoute gateways under a given subscription.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayListBySubscription.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayListBySubscription.json
  */
 async function expressRouteGatewayListBySubscription() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete specified pending connection created by this management group.
  *
  * @summary delete specified pending connection created by this management group.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectionManagementGroupDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectionManagementGroupDelete.json
  */
 async function deleteManagementGroupNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

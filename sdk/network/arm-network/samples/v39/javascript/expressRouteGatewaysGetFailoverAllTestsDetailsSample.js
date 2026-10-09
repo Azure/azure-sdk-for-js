@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of all the failover tests performed on the ExpressRoute gateway for different peering locations.
  *
  * @summary retrieves the details of all the failover tests performed on the ExpressRoute gateway for different peering locations.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayGetFailoverAllTestsDetails.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayGetFailoverAllTestsDetails.json
  */
 async function expressRouteGatewayGetFailoverAllTestsDetails() {
   const credential = new DefaultAzureCredential();

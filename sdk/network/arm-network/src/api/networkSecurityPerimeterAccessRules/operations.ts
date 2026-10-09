@@ -37,7 +37,7 @@ export function _reconcileSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -146,7 +146,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkSecurityPerimeterName, profileName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -166,7 +166,7 @@ export function _$deleteSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +226,7 @@ export function _createOrUpdateSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +294,7 @@ export function _getSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

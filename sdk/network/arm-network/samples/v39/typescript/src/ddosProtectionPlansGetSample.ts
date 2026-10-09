@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified DDoS protection plan.
  *
  * @summary gets information about the specified DDoS protection plan.
- * x-ms-original-file: 2026-01-01/DdosProtectionPlanGet.json
+ * x-ms-original-file: 2026-03-01/DdosProtectionPlanGet.json
  */
 async function getDDoSProtectionPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

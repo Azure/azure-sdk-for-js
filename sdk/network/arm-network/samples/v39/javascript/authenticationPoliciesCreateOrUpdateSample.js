@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an authentication policy with the specified name within a resource group.
  *
  * @summary creates or updates an authentication policy with the specified name within a resource group.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyCreateOrUpdate.json
  */
 async function createsOrUpdatesAUserSignInAuthenticationPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createsOrUpdatesAUserSignInAuthenticationPolicyWithinAResourceGro
  * This sample demonstrates how to creates or updates an authentication policy with the specified name within a resource group.
  *
  * @summary creates or updates an authentication policy with the specified name within a resource group.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyCreateOrUpdateJwtValidation.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyCreateOrUpdateJwtValidation.json
  */
 async function createsOrUpdatesAJWTValidationAuthenticationPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();

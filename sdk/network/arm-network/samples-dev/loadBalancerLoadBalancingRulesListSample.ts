@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the load balancing rules in a load balancer.
  *
  * @summary gets all the load balancing rules in a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerLoadBalancingRuleList.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerLoadBalancingRuleList.json
  */
 async function loadBalancerLoadBalancingRuleList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates tags of a Azure Firewall Policy resource.
  *
  * @summary updates tags of a Azure Firewall Policy resource.
- * x-ms-original-file: 2026-01-01/FirewallPolicyPatch.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyPatch.json
  */
 async function updateFirewallPolicyTags() {
   const credential = new DefaultAzureCredential();
