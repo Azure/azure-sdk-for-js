@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listByWorkspace } from "../../api/availableServiceTiers/operations.js";
-import { AvailableServiceTiersListByWorkspaceOptionalParams } from "../../api/availableServiceTiers/options.js";
-import { AvailableServiceTier } from "../../models/models.js";
+import type { AvailableServiceTiersListByWorkspaceOptionalParams } from "../../api/availableServiceTiers/options.js";
+import type { AvailableServiceTier } from "../../models/models.js";
 
 /** Interface representing a AvailableServiceTiers operations. */
 export interface AvailableServiceTiersOperations {
