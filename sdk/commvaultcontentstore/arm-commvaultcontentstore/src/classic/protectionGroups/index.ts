@@ -29,6 +29,7 @@ import type {
   RestoreProtectionItemResponse,
   BackupProtectionGroupRequest,
   BackupProtectionGroupResponse,
+  ProtectionGroupCreateOrUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -84,7 +85,7 @@ export interface ProtectionGroupsOperations {
     resourceGroupName: string,
     cloudAccountName: string,
     protectionGroupName: string,
-    resource: ProtectionGroup,
+    resource: ProtectionGroupCreateOrUpdate,
     options?: ProtectionGroupsCreateOrupdateOptionalParams,
   ) => PollerLike<OperationState<ProtectionGroup>, ProtectionGroup>;
   /** Get a ProtectionGroup */
@@ -150,7 +151,7 @@ function _getProtectionGroups(context: ContentStoreContext) {
       resourceGroupName: string,
       cloudAccountName: string,
       protectionGroupName: string,
-      resource: ProtectionGroup,
+      resource: ProtectionGroupCreateOrUpdate,
       options?: ProtectionGroupsCreateOrupdateOptionalParams,
     ) =>
       createOrupdate(

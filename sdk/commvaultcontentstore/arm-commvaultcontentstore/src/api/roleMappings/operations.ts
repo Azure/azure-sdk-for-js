@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 import type { ContentStoreContext as Client } from "../index.js";
-import type { RoleMapping, _RoleMappingListResult } from "../../models/models.js";
+import type {
+  RoleMapping,
+  _RoleMappingListResult,
+  RoleMappingCreateOrUpdate,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  roleMappingSerializer,
   roleMappingDeserializer,
   _roleMappingListResultDeserializer,
+  roleMappingCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -33,7 +37,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,11 +77,7 @@ export function list(
     () => _listSend(context, resourceGroupName, cloudAccountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
   );
 }
 
@@ -93,7 +93,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +131,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  resource: RoleMapping,
+  resource: RoleMappingCreateOrUpdate,
   options: RoleMappingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -140,7 +140,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +150,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: roleMappingSerializer(resource),
+    body: roleMappingCreateOrUpdateSerializer(resource),
   });
 }
 
@@ -175,7 +175,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  resource: RoleMapping,
+  resource: RoleMappingCreateOrUpdate,
   options: RoleMappingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<RoleMapping> {
   const result = await _createOrUpdateSend(
@@ -200,7 +200,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
