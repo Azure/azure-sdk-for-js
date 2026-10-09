@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers a sync group synchronization.
  *
  * @summary triggers a sync group synchronization.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupTriggerSync.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupTriggerSync.json
  */
 async function triggerASyncGroupSynchronization() {
   const credential = new DefaultAzureCredential();

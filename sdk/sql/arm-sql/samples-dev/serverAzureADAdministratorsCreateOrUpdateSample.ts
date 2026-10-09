@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an existing Azure Active Directory administrator.
  *
  * @summary creates or updates an existing Azure Active Directory administrator.
- * x-ms-original-file: 2025-08-01-preview/AdministratorCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/AdministratorCreateOrUpdate.json
  */
 async function createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator(): Promise<void> {
   const credential = new DefaultAzureCredential();

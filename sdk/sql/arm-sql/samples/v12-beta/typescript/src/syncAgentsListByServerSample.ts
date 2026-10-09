@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists sync agents in a server.
  *
  * @summary lists sync agents in a server.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentListByServer.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentListByServer.json
  */
 async function getSyncAgentsUnderAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

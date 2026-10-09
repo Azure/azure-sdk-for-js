@@ -99,6 +99,7 @@ export interface BackupShortTermRetentionPoliciesOperations {
     options?: BackupShortTermRetentionPoliciesGetOptionalParams,
   ) => Promise<BackupShortTermRetentionPolicy>;
 }
+
 function _getBackupShortTermRetentionPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -218,6 +219,7 @@ function _getBackupShortTermRetentionPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, policyName, options),
   };
 }
+
 export function _getBackupShortTermRetentionPoliciesOperations(
   context: SqlManagementContext,
 ): BackupShortTermRetentionPoliciesOperations {

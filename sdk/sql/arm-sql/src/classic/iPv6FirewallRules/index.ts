@@ -48,6 +48,7 @@ export interface IPv6FirewallRulesOperations {
     options?: IPv6FirewallRulesGetOptionalParams,
   ) => Promise<IPv6FirewallRule>;
 }
+
 function _getIPv6FirewallRules(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -77,6 +78,7 @@ function _getIPv6FirewallRules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, firewallRuleName, options),
   };
 }
+
 export function _getIPv6FirewallRulesOperations(
   context: SqlManagementContext,
 ): IPv6FirewallRulesOperations {

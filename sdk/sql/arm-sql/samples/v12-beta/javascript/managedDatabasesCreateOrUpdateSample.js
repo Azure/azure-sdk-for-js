@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateManagedDatabaseLedger.json
+ * x-ms-original-file: 2026-08-01-preview/CreateManagedDatabaseLedger.json
  */
 async function createsANewManagedDatabaseWithLedgerOn() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createsANewManagedDatabaseWithLedgerOn() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateCrossSubscriptionPointInTimeRestore.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateCrossSubscriptionPointInTimeRestore.json
  */
 async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateMax.json
  */
 async function createsANewManagedDatabaseWithMaximalProperties() {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function createsANewManagedDatabaseWithMaximalProperties() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateMin.json
  */
 async function createsANewManagedDatabaseWithMinimalProperties() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function createsANewManagedDatabaseWithMinimalProperties() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreatePointInTimeRestore.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreatePointInTimeRestore.json
  */
 async function createsANewManagedDatabaseUsingPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
@@ -117,7 +117,7 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateRecovery.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateRecovery.json
  */
 async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
   const credential = new DefaultAzureCredential();
@@ -141,7 +141,7 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateRestoreExternalBackup.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateRestoreExternalBackup.json
  */
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
   const credential = new DefaultAzureCredential();
@@ -168,7 +168,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateRestoreExternalBackupManagedIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateRestoreExternalBackupManagedIdentity.json
  */
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -195,7 +195,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCreateRestoreLtrBackup.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCreateRestoreLtrBackup.json
  */
 async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();

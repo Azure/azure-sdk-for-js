@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fails over from the current primary managed instance to this managed instance.
  *
  * @summary fails over from the current primary managed instance to this managed instance.
- * x-ms-original-file: 2025-08-01-preview/InstanceFailoverGroupFailover.json
+ * x-ms-original-file: 2026-08-01-preview/InstanceFailoverGroupFailover.json
  */
 async function plannedFailoverOfAFailoverGroup() {
   const credential = new DefaultAzureCredential();

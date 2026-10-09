@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all instance pool usage metrics
  *
  * @summary gets all instance pool usage metrics
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolUsage.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolUsage.json
  */
 async function listInstancePoolUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listInstancePoolUsages(): Promise<void> {
  * This sample demonstrates how to gets all instance pool usage metrics
  *
  * @summary gets all instance pool usage metrics
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolUsageExpanded.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolUsageExpanded.json
  */
 async function listInstancePoolUsagesExpandedWithChildren(): Promise<void> {
   const credential = new DefaultAzureCredential();

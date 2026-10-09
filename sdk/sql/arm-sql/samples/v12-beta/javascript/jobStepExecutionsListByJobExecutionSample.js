@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the step executions of a job execution.
  *
  * @summary lists the step executions of a job execution.
- * x-ms-original-file: 2025-08-01-preview/ListJobExecutionSteps.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobExecutionSteps.json
  */
 async function listJobStepExecutions() {
   const credential = new DefaultAzureCredential();

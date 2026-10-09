@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed instance administrator.
  *
  * @summary gets a managed instance administrator.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAdministratorGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAdministratorGet.json
  */
 async function getAdministratorOfManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

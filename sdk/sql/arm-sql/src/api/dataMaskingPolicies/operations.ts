@@ -32,7 +32,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       dataMaskingPolicyName: "Default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +61,7 @@ export async function _createOrUpdateDeserialize(
 
   return dataMaskingPolicyDeserializer(result.body);
 }
+
 /** Creates or updates a database data masking policy. */
 export async function createOrUpdate(
   context: Client,
@@ -96,7 +97,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       dataMaskingPolicyName: "Default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,6 +122,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return dataMaskingPolicyDeserializer(result.body);
 }
+
 /** Gets the database data masking policy. */
 export async function get(
   context: Client,

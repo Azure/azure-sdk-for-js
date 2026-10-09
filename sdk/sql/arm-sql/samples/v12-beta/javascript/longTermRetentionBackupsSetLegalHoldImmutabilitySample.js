@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to set legal hold immutability of an existing long term retention backup.
  *
  * @summary set legal hold immutability of an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/SetLegalHoldImmutabilityLongTermRetentionBackup.json
+ * x-ms-original-file: 2026-08-01-preview/SetLegalHoldImmutabilityLongTermRetentionBackup.json
  */
 async function setLegalHoldImmutabilityOfTheLongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();

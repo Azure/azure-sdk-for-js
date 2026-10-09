@@ -24,6 +24,7 @@ export interface TimeZonesOperations {
     options?: TimeZonesGetOptionalParams,
   ) => Promise<TimeZone>;
 }
+
 function _getTimeZones(context: SqlManagementContext) {
   return {
     listByLocation: (locationName: string, options?: TimeZonesListByLocationOptionalParams) =>
@@ -32,6 +33,7 @@ function _getTimeZones(context: SqlManagementContext) {
       get(context, locationName, timeZoneId, options),
   };
 }
+
 export function _getTimeZonesOperations(context: SqlManagementContext): TimeZonesOperations {
   return {
     ..._getTimeZones(context),

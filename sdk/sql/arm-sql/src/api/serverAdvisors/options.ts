@@ -8,7 +8,9 @@ export interface ServerAdvisorsListByServerOptionalParams extends OperationOptio
   /** The child resources to include in the response. */
   expand?: string;
 }
+
 /** Optional parameters. */
 export interface ServerAdvisorsUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface ServerAdvisorsGetOptionalParams extends OperationOptions {}

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update recommended sensitivity labels states of a given database using an operations batch.
  *
  * @summary update recommended sensitivity labels states of a given database using an operations batch.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSensitivityLabelsRecommendedUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSensitivityLabelsRecommendedUpdate.json
  */
 async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of managed instances in a resource group.
  *
  * @summary gets a list of managed instances in a resource group.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceListByResourceGroup.json
  */
 async function listManagedInstancesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listManagedInstancesByResourceGroup(): Promise<void> {
  * This sample demonstrates how to gets a list of managed instances in a resource group.
  *
  * @summary gets a list of managed instances in a resource group.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceListByResourceGroupWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceListByResourceGroupWithExpandEqualsAdministrators.json
  */
 async function listManagedInstancesByResourceGroupWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

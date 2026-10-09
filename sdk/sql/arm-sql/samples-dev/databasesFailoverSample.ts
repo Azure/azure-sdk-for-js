@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to failovers a database.
  *
  * @summary failovers a database.
- * x-ms-original-file: 2025-08-01-preview/FailoverDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/FailoverDatabase.json
  */
 async function failoverAnDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -92,6 +92,7 @@ export interface ManagedInstanceEncryptionProtectorsOperations {
     options?: ManagedInstanceEncryptionProtectorsGetOptionalParams,
   ) => Promise<ManagedInstanceEncryptionProtector>;
 }
+
 function _getManagedInstanceEncryptionProtectors(context: SqlManagementContext) {
   return {
     revalidate: (
@@ -193,6 +194,7 @@ function _getManagedInstanceEncryptionProtectors(context: SqlManagementContext) 
     ) => get(context, resourceGroupName, managedInstanceName, encryptionProtectorName, options),
   };
 }
+
 export function _getManagedInstanceEncryptionProtectorsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceEncryptionProtectorsOperations {

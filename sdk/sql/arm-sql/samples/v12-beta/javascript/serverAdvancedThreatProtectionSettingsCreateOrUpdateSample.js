@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Advanced Threat Protection state.
  *
  * @summary creates or updates an Advanced Threat Protection state.
- * x-ms-original-file: 2025-08-01-preview/ServerAdvancedThreatProtectionSettingsCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAdvancedThreatProtectionSettingsCreateMax.json
  */
 async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() 
  * This sample demonstrates how to creates or updates an Advanced Threat Protection state.
  *
  * @summary creates or updates an Advanced Threat Protection state.
- * x-ms-original-file: 2025-08-01-preview/ServerAdvancedThreatProtectionSettingsCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAdvancedThreatProtectionSettingsCreateMin.json
  */
 async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameters() {
   const credential = new DefaultAzureCredential();

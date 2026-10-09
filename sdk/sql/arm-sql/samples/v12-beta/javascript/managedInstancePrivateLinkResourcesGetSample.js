@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a private link resource for SQL server.
  *
  * @summary gets a private link resource for SQL server.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstancePrivateLinkResourcesGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstancePrivateLinkResourcesGet.json
  */
 async function getsAPrivateLinkResourceForSQL() {
   const credential = new DefaultAzureCredential();

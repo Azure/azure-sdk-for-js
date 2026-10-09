@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a sync agent.
  *
  * @summary deletes a sync agent.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentDelete.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentDelete.json
  */
 async function deleteASyncAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();

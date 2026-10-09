@@ -171,6 +171,7 @@ export interface DistributedAvailabilityGroupsOperations {
     options?: DistributedAvailabilityGroupsGetOptionalParams,
   ) => Promise<DistributedAvailabilityGroup>;
 }
+
 function _getDistributedAvailabilityGroups(context: SqlManagementContext) {
   return {
     setRole: (
@@ -432,6 +433,7 @@ function _getDistributedAvailabilityGroups(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getDistributedAvailabilityGroupsOperations(
   context: SqlManagementContext,
 ): DistributedAvailabilityGroupsOperations {

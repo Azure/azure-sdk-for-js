@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of database's security alert policies.
  *
  * @summary gets a list of database's security alert policies.
- * x-ms-original-file: 2025-08-01-preview/DatabaseSecurityAlertListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseSecurityAlertListByDatabase.json
  */
 async function getTheDatabaseThreatDetectionPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

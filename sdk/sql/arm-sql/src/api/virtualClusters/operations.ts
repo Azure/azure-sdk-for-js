@@ -45,7 +45,7 @@ export function _updateDnsServersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualClusterName: virtualClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,7 @@ export async function _updateDnsServersDeserialize(
 
   return updateVirtualClusterDnsServersOperationDeserializer(result.body);
 }
+
 /** Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster. */
 export function updateDnsServers(
   context: Client,
@@ -88,7 +89,7 @@ export function updateDnsServers(
     getInitialResponse: () =>
       _updateDnsServersSend(context, resourceGroupName, virtualClusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<UpdateVirtualClusterDnsServersOperation>,
     UpdateVirtualClusterDnsServersOperation
@@ -103,7 +104,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/virtualClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,6 +131,7 @@ export async function _listDeserialize(
 
   return _virtualClusterListResultDeserializer(result.body);
 }
+
 /** Gets a list of all virtualClusters in the subscription. */
 export function list(
   context: Client,
@@ -143,7 +145,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -158,7 +160,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,6 +187,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _virtualClusterListResultDeserializer(result.body);
 }
+
 /** Gets a list of virtual clusters in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -199,7 +202,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -216,7 +219,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualClusterName: virtualClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,6 +241,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a virtual cluster. */
 export function $delete(
   context: Client,
@@ -250,7 +254,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, virtualClusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -267,7 +271,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualClusterName: virtualClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,6 +298,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return virtualClusterDeserializer(result.body);
 }
+
 /** Updates an existing virtual cluster. */
 export function update(
   context: Client,
@@ -308,7 +313,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, virtualClusterName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
 }
 
@@ -325,7 +330,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualClusterName: virtualClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,6 +359,7 @@ export async function _createOrUpdateDeserialize(
 
   return virtualClusterDeserializer(result.body);
 }
+
 /** Creates virtual cluster. */
 export function createOrUpdate(
   context: Client,
@@ -368,7 +374,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, virtualClusterName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
 }
 
@@ -384,7 +390,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualClusterName: virtualClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,6 +415,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return virtualClusterDeserializer(result.body);
 }
+
 /** Gets a virtual cluster. */
 export async function get(
   context: Client,

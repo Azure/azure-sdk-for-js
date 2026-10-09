@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists extended auditing settings of a server.
  *
  * @summary lists extended auditing settings of a server.
- * x-ms-original-file: 2025-08-01-preview/ServerExtendedAuditingSettingsList.json
+ * x-ms-original-file: 2026-08-01-preview/ServerExtendedAuditingSettingsList.json
  */
 async function listExtendedAuditingSettingsOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

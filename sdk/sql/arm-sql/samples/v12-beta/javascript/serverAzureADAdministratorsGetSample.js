@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Azure Active Directory administrator.
  *
  * @summary gets a Azure Active Directory administrator.
- * x-ms-original-file: 2025-08-01-preview/AdministratorGet.json
+ * x-ms-original-file: 2026-08-01-preview/AdministratorGet.json
  */
 async function getsAAzureActiveDirectoryAdministrator() {
   const credential = new DefaultAzureCredential();

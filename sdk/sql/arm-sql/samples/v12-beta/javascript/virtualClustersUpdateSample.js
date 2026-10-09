@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing virtual cluster.
  *
  * @summary updates an existing virtual cluster.
- * x-ms-original-file: 2025-08-01-preview/VirtualClusterUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualClusterUpdate.json
  */
 async function updateVirtualClusterWithTags() {
   const credential = new DefaultAzureCredential();

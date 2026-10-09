@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a workload group
  *
  * @summary gets a workload group
- * x-ms-original-file: 2025-08-01-preview/GetWorkloadGroup.json
+ * x-ms-original-file: 2026-08-01-preview/GetWorkloadGroup.json
  */
 async function getsAWorkloadGroupForADataWarehouse(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed database.
  *
  * @summary gets a managed database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseGet.json
  */
 async function getsAManagedDatabase() {
   const credential = new DefaultAzureCredential();

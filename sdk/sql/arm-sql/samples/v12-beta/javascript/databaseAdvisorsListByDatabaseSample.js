@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of database advisors.
  *
  * @summary gets a list of database advisors.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAdvisorList.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAdvisorList.json
  */
 async function listOfDatabaseAdvisors() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listOfDatabaseAdvisors() {
  * This sample demonstrates how to gets a list of database advisors.
  *
  * @summary gets a list of database advisors.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRecommendedActionListExpand.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRecommendedActionListExpand.json
  */
 async function listOfDatabaseRecommendedActionsForAllAdvisors() {
   const credential = new DefaultAzureCredential();

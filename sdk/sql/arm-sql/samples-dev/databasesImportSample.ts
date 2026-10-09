@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ImportDatabase.json
  */
 async function importsToAnExistingEmptyDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function importsToAnExistingEmptyDatabase(): Promise<void> {
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportDatabaseWithManagedIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/ImportDatabaseWithManagedIdentity.json
  */
 async function importsToAnExistingEmptyDatabaseUsingManagedIdentityToCommunicateWithSQLServerAndStorageAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function importsToAnExistingEmptyDatabaseUsingManagedIdentityToCommunicate
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportDatabaseWithNetworkIsolation.json
+ * x-ms-original-file: 2026-08-01-preview/ImportDatabaseWithNetworkIsolation.json
  */
 async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSQLServerAndStorageAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

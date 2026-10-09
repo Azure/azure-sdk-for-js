@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a server trust certificate that was uploaded from SQL Server to SQL Managed Instance.
  *
  * @summary deletes a server trust certificate that was uploaded from SQL Server to SQL Managed Instance.
- * x-ms-original-file: 2025-08-01-preview/ServerTrustCertificatesDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ServerTrustCertificatesDelete.json
  */
 async function deleteServerTrustCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

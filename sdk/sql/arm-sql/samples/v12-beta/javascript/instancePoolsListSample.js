@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all instance pools in the subscription.
  *
  * @summary gets a list of all instance pools in the subscription.
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolsBySubscriptionId.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolsBySubscriptionId.json
  */
 async function listInstancePoolsInTheSubscription() {
   const credential = new DefaultAzureCredential();

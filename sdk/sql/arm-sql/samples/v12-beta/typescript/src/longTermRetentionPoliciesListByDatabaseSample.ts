@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a database's long term retention policy.
  *
  * @summary gets a database's long term retention policy.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionPolicyListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionPolicyListByDatabase.json
  */
 async function getTheLongTermRetentionPolicyForTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

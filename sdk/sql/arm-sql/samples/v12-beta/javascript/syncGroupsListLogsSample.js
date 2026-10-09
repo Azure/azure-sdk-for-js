@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a collection of sync group logs.
  *
  * @summary gets a collection of sync group logs.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupGetLog.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupGetLog.json
  */
 async function getSyncGroupLogs() {
   const credential = new DefaultAzureCredential();

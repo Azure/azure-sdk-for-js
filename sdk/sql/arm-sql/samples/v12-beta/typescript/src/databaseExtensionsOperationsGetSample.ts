@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a database extension. This will return resource not found as it is not supported.
  *
  * @summary gets a database extension. This will return resource not found as it is not supported.
- * x-ms-original-file: 2025-08-01-preview/GetDatabaseExtensions.json
+ * x-ms-original-file: 2026-08-01-preview/GetDatabaseExtensions.json
  */
 async function getDatabaseExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();

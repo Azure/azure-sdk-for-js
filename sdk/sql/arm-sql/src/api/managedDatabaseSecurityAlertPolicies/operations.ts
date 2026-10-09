@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByDatabaseDeserialize(
 
   return _managedDatabaseSecurityAlertPolicyListResultDeserializer(result.body);
 }
+
 /** Gets a list of managed database's security alert policies. */
 export function listByDatabase(
   context: Client,
@@ -86,7 +87,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -110,7 +111,7 @@ export function _createOrUpdateSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       securityAlertPolicyName: securityAlertPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,6 +140,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedDatabaseSecurityAlertPolicyDeserializer(result.body);
 }
+
 /** Creates or updates a database's security alert policy. */
 export async function createOrUpdate(
   context: Client,
@@ -179,7 +181,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       securityAlertPolicyName: securityAlertPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,6 +208,7 @@ export async function _getDeserialize(
 
   return managedDatabaseSecurityAlertPolicyDeserializer(result.body);
 }
+
 /** Gets a managed database's security alert policy. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets managed instance DTC settings.
  *
  * @summary gets managed instance DTC settings.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceDtcGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceDtcGet.json
  */
 async function getsManagedInstanceDTCSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

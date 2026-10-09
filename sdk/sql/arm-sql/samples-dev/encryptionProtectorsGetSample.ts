@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a server encryption protector.
  *
  * @summary gets a server encryption protector.
- * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorGet.json
+ * x-ms-original-file: 2026-08-01-preview/EncryptionProtectorGet.json
  */
 async function getTheEncryptionProtector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getTheEncryptionProtector(): Promise<void> {
  * This sample demonstrates how to gets a server encryption protector.
  *
  * @summary gets a server encryption protector.
- * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorGetWithVersionlessKey.json
+ * x-ms-original-file: 2026-08-01-preview/EncryptionProtectorGetWithVersionlessKey.json
  */
 async function getTheEncryptionProtectorWithVersionlessKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

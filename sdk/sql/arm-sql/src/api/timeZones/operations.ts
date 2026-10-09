@@ -28,7 +28,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _listByLocationDeserialize(
 
   return _timeZoneListResultDeserializer(result.body);
 }
+
 /** Gets a list of managed instance time zones by location. */
 export function listByLocation(
   context: Client,
@@ -69,7 +70,7 @@ export function listByLocation(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -86,7 +87,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       timeZoneId: timeZoneId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,6 +112,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ti
 
   return timeZoneDeserializer(result.body);
 }
+
 /** Gets a managed instance time zone. */
 export async function get(
   context: Client,

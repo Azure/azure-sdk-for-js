@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets managed database restore details.
  *
  * @summary gets managed database restore details.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseRestoreDetails.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseRestoreDetails.json
  */
 async function managedDatabaseRestoreDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

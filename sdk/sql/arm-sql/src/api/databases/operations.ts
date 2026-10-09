@@ -60,7 +60,7 @@ export function _listByElasticPoolSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,6 +87,7 @@ export async function _listByElasticPoolDeserialize(
 
   return _databaseListResultDeserializer(result.body);
 }
+
 /** Gets a list of databases in an elastic pool. */
 export function listByElasticPool(
   context: Client,
@@ -103,7 +104,7 @@ export function listByElasticPool(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -120,7 +121,7 @@ export function _listInaccessibleByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,6 +148,7 @@ export async function _listInaccessibleByServerDeserialize(
 
   return _databaseListResultDeserializer(result.body);
 }
+
 /** Gets a list of inaccessible databases in a logical server */
 export function listInaccessibleByServer(
   context: Client,
@@ -162,7 +164,7 @@ export function listInaccessibleByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -181,7 +183,7 @@ export function _upgradeDataWarehouseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,6 +207,7 @@ export async function _upgradeDataWarehouseDeserialize(
 
   return;
 }
+
 /** Upgrades a data warehouse. */
 export function upgradeDataWarehouse(
   context: Client,
@@ -219,7 +222,7 @@ export function upgradeDataWarehouse(
     getInitialResponse: () =>
       _upgradeDataWarehouseSend(context, resourceGroupName, serverName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -237,7 +240,7 @@ export function _resumeSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,6 +265,7 @@ export async function _resumeDeserialize(result: PathUncheckedResponse): Promise
 
   return databaseDeserializer(result.body);
 }
+
 /** Resumes a database. */
 export function resume(
   context: Client,
@@ -276,7 +280,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, serverName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -294,7 +298,7 @@ export function _pauseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,6 +323,7 @@ export async function _pauseDeserialize(result: PathUncheckedResponse): Promise<
 
   return databaseDeserializer(result.body);
 }
+
 /** Pauses a database. */
 export function pause(
   context: Client,
@@ -333,7 +338,7 @@ export function pause(
     getInitialResponse: () =>
       _pauseSend(context, resourceGroupName, serverName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -352,7 +357,7 @@ export function _renameSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,6 +383,7 @@ export async function _renameDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Renames a database. */
 export async function rename(
   context: Client,
@@ -413,7 +419,7 @@ export function _$importSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -442,6 +448,7 @@ export async function _$importDeserialize(
 
   return importExportOperationResultDeserializer(result.body);
 }
+
 /** Imports a bacpac into a new database. */
 export function $import(
   context: Client,
@@ -457,7 +464,7 @@ export function $import(
     getInitialResponse: () =>
       _$importSend(context, resourceGroupName, serverName, databaseName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 }
 
@@ -475,7 +482,7 @@ export function _failoverSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       replicaType: options?.replicaType,
     },
     {
@@ -498,6 +505,7 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Failovers a database. */
 export function failover(
   context: Client,
@@ -512,7 +520,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, serverName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -531,7 +539,7 @@ export function _$exportSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,6 +568,7 @@ export async function _$exportDeserialize(
 
   return importExportOperationResultDeserializer(result.body);
 }
+
 /** Exports a database. */
 export function $export(
   context: Client,
@@ -575,7 +584,7 @@ export function $export(
     getInitialResponse: () =>
       _$exportSend(context, resourceGroupName, serverName, databaseName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 }
 
@@ -591,7 +600,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
       "%24filter": options?.filter,
@@ -622,6 +631,7 @@ export async function _listByServerDeserialize(
 
   return _databaseListResultDeserializer(result.body);
 }
+
 /** Gets a list of databases. */
 export function listByServer(
   context: Client,
@@ -637,7 +647,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -656,7 +666,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -678,6 +688,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the database. */
 export function $delete(
   context: Client,
@@ -692,7 +703,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -711,7 +722,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,6 +749,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return databaseDeserializer(result.body);
 }
+
 /** Updates an existing database. */
 export function update(
   context: Client,
@@ -753,7 +765,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, databaseName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -772,7 +784,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -799,6 +811,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return databaseDeserializer(result.body);
 }
+
 /** Creates a new database or updates an existing database. */
 export function createOrUpdate(
   context: Client,
@@ -821,7 +834,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -839,7 +852,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
       "%24filter": options?.filter,
     },
@@ -866,6 +879,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return databaseDeserializer(result.body);
 }
+
 /** Gets a database. */
 export async function get(
   context: Client,

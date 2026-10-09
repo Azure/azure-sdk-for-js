@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all virtualClusters in the subscription.
  *
  * @summary gets a list of all virtualClusters in the subscription.
- * x-ms-original-file: 2025-08-01-preview/VirtualClusterList.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualClusterList.json
  */
 async function listVirtualClusters() {
   const credential = new DefaultAzureCredential();

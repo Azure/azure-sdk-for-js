@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a managed server DNS alias.
  *
  * @summary creates a managed server DNS alias.
- * x-ms-original-file: 2025-08-01-preview/ManagedServerDnsAliasCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedServerDnsAliasCreateOrUpdate.json
  */
 async function createManagedServerDNSAlias() {
   const credential = new DefaultAzureCredential();

@@ -39,7 +39,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +66,7 @@ export async function _listByServerDeserialize(
 
   return _administratorListResultDeserializer(result.body);
 }
+
 /** Gets a list of Azure Active Directory administrators in a server. */
 export function listByServer(
   context: Client,
@@ -81,7 +82,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -100,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the Azure Active Directory administrator with the given name. */
 export function $delete(
   context: Client,
@@ -136,7 +138,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, administratorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -155,7 +157,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,6 +186,7 @@ export async function _createOrUpdateDeserialize(
 
   return serverAzureADAdministratorDeserializer(result.body);
 }
+
 /** Creates or updates an existing Azure Active Directory administrator. */
 export function createOrUpdate(
   context: Client,
@@ -206,7 +209,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ServerAzureADAdministrator>, ServerAzureADAdministrator>;
 }
 
@@ -224,7 +227,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,6 +254,7 @@ export async function _getDeserialize(
 
   return serverAzureADAdministratorDeserializer(result.body);
 }
+
 /** Gets a Azure Active Directory administrator. */
 export async function get(
   context: Client,

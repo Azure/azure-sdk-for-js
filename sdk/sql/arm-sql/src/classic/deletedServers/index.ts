@@ -49,6 +49,7 @@ export interface DeletedServersOperations {
     options?: DeletedServersGetOptionalParams,
   ) => Promise<DeletedServer>;
 }
+
 function _getDeletedServers(context: SqlManagementContext) {
   return {
     list: (options?: DeletedServersListOptionalParams) => list(context, options),
@@ -82,6 +83,7 @@ function _getDeletedServers(context: SqlManagementContext) {
     ) => get(context, locationName, deletedServerName, options),
   };
 }
+
 export function _getDeletedServersOperations(
   context: SqlManagementContext,
 ): DeletedServersOperations {

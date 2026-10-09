@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the replication link.
  *
  * @summary deletes the replication link.
- * x-ms-original-file: 2025-08-01-preview/ReplicationLinkDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ReplicationLinkDelete.json
  */
 async function deleteReplicationLinkOnServer() {
   const credential = new DefaultAzureCredential();

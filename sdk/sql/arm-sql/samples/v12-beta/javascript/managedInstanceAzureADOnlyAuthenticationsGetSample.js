@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a specific Azure Active Directory only authentication property.
  *
  * @summary gets a specific Azure Active Directory only authentication property.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAzureADOnlyAuthGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAzureADOnlyAuthGet.json
  */
 async function getsAAzureActiveDirectoryOnlyAuthenticationProperty() {
   const credential = new DefaultAzureCredential();

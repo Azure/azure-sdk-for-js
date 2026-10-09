@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fails over from the current primary server to this server allowing data loss.
  *
  * @summary fails over from the current primary server to this server allowing data loss.
- * x-ms-original-file: 2025-08-01-preview/ReplicationLinkFailoverAllowDataLoss.json
+ * x-ms-original-file: 2026-08-01-preview/ReplicationLinkFailoverAllowDataLoss.json
  */
 async function forcedFailoverOfAReplicationLink() {
   const credential = new DefaultAzureCredential();

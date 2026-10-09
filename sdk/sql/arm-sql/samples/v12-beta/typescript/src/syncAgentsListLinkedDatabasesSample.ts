@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists databases linked to a sync agent.
  *
  * @summary lists databases linked to a sync agent.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentGetLinkedDatabases.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentGetLinkedDatabases.json
  */
 async function getSyncAgentLinkedDatabases(): Promise<void> {
   const credential = new DefaultAzureCredential();

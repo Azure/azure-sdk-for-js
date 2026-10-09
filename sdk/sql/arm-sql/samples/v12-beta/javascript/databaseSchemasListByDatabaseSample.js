@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list database schemas
  *
  * @summary list database schemas
- * x-ms-original-file: 2025-08-01-preview/DatabaseSchemaListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseSchemaListByDatabase.json
  */
 async function listDatabaseSchemas() {
   const credential = new DefaultAzureCredential();

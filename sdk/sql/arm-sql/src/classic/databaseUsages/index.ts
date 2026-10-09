@@ -17,6 +17,7 @@ export interface DatabaseUsagesOperations {
     options?: DatabaseUsagesListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseUsage>;
 }
+
 function _getDatabaseUsages(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -27,6 +28,7 @@ function _getDatabaseUsages(context: SqlManagementContext) {
     ) => listByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
+
 export function _getDatabaseUsagesOperations(
   context: SqlManagementContext,
 ): DatabaseUsagesOperations {

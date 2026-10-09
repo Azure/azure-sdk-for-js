@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a logical database's transparent data encryption.
  *
  * @summary gets a logical database's transparent data encryption.
- * x-ms-original-file: 2025-08-01-preview/TransparentDataEncryptionGet.json
+ * x-ms-original-file: 2026-08-01-preview/TransparentDataEncryptionGet.json
  */
 async function getADatabaseTransparentDataEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();

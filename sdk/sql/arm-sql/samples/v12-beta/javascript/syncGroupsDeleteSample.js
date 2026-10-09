@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a sync group.
  *
  * @summary deletes a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupDelete.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupDelete.json
  */
 async function deleteASyncGroup() {
   const credential = new DefaultAzureCredential();
