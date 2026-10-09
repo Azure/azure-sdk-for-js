@@ -181,6 +181,7 @@ export interface DiskAccessesOperations {
     options?: DiskAccessesGetOptionalParams,
   ) => Promise<DiskAccess>;
 }
+
 function _getDiskAccesses(context: ComputeManagementContext) {
   return {
     listPrivateEndpointConnections: (
@@ -385,6 +386,7 @@ function _getDiskAccesses(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, diskAccessName, options),
   };
 }
+
 export function _getDiskAccessesOperations(
   context: ComputeManagementContext,
 ): DiskAccessesOperations {

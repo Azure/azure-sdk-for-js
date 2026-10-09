@@ -9,6 +9,8 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeUsagePlans,
 } from "./api/usagePlans/operations.js";
 import {
+  _listReportDownloadUrlDeserialize,
+  _generateReportDeserialize,
   _markAsCompleteDeserialize,
   _resumeDeserialize,
   _addNotesDeserialize,
@@ -51,11 +53,6 @@ import {
   _updateDeserialize as _updateDeserializeRecoveryPlans,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeRecoveryPlans,
 } from "./api/recoveryPlans/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeGoalTemplates,
-  _updateDeserialize as _updateDeserializeGoalTemplates,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeGoalTemplates,
-} from "./api/goalTemplates/operations.js";
 import {
   _recommendCapacityDeserialize,
   _$deleteDeserialize as _$deleteDeserializeGoalAssignments,
@@ -144,6 +141,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureResilienceManagement/usagePlans/{usagePlanName}":
     { deserializer: _createOrUpdateDeserializeUsagePlans, expectedStatuses: ["200", "201", "202"] },
+  "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/listReportDownloadUrl":
+    { deserializer: _listReportDownloadUrlDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/generateReport":
+    { deserializer: _generateReportDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/markAsComplete":
     { deserializer: _markAsCompleteDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/resume":
@@ -226,15 +227,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}":
     {
       deserializer: _createOrUpdateDeserializeRecoveryPlans,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    { deserializer: _$deleteDeserializeGoalTemplates, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    { deserializer: _updateDeserializeGoalTemplates, expectedStatuses: ["200", "202", "201"] },
-  "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates/{goalTemplateName}":
-    {
-      deserializer: _createOrUpdateDeserializeGoalTemplates,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalAssignments/{goalAssignmentName}/recommendCapacity":

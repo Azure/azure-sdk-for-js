@@ -4,6 +4,7 @@
 /**
  * This sample demonstrates how to create and use prompt-based custom evaluators
  * with the AIProjectClient.
+ * Prompt definitions remain preview and require the Evaluations=V1Preview header.
  *
  * The OpenAI compatible Evals calls in this sample are made using the OpenAI client.
  * See https://platform.openai.com/docs/api-reference for more information.
@@ -66,11 +67,14 @@ const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deploym
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const previewOptions = {
+    requestOptions: { headers: { "foundry-features": "Evaluations=V1Preview" } },
+  };
   const openAIClient = project.getOpenAIClient();
 
   // Create a prompt-based custom evaluator
   console.log("Creating a single evaluator version - Prompt based (json style)");
-  const promptEvaluator = await project.beta.evaluators.createVersion(
+  const promptEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_prompt",
     {
       name: "my_custom_evaluator_prompt",
@@ -142,6 +146,7 @@ Ground Truth:
         },
       },
     },
+    previewOptions,
   );
   console.log(
     `Prompt evaluator created (name: ${promptEvaluator.name}, version: ${promptEvaluator.version})`,
@@ -277,7 +282,11 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.beta.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
+  await project.evaluators.deleteVersion(
+    promptEvaluator.name,
+    promptEvaluator.version ?? "",
+    previewOptions,
+  );
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

@@ -9,9 +9,11 @@ import {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
+  AgentOptimizationCandidateExpand,
 } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
@@ -195,6 +197,79 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
    * Max 1 MB after decode. When omitted, the platform default outline icon is used.
    */
   outlineIconBase64?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsPromoteOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationCandidatesOptionalParams extends OperationOptions {
+  /** Comma-separated list of expand keys. Pass `mutations` to populate mutation `value` fields; omit to receive mutation items containing only `type`. Additional expand keys may be added in future previews. */
+  expand?: AgentOptimizationCandidateExpand[];
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /** Sort order by the candidate `started_at` timestamp. */
+  order?: PageOrder;
+  /** Candidate-ID cursor identifying the last item from the previous page. */
+  after?: string;
+  /** Candidate-ID cursor identifying the first item from the following page. */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDeleteOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCancelOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationJobsOptionalParams extends OperationOptions {
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+  /** Filter to jobs in this lifecycle state. */
+  status?: JobStatus;
+  /** Filter to jobs targeting this agent name. */
+  agentName?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsEstimateOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCreateOptimizationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  operationId?: string;
 }
 
 /** Optional parameters. */

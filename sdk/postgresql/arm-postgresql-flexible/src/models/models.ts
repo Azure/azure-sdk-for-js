@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationList {
   /** The Operation items on this page */
@@ -1630,6 +1630,8 @@ export interface Server extends TrackedResource {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Cluster properties of a server. */
   cluster?: Cluster;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+  fipsMode?: FipsMode;
 }
 
 export function serverSerializer(item: Server): any {
@@ -1654,6 +1656,7 @@ export function serverSerializer(item: Server): any {
       "replica",
       "createMode",
       "cluster",
+      "fipsMode",
     ])
       ? undefined
       : _serverPropertiesSerializer(item),
@@ -1732,6 +1735,8 @@ export interface ServerProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Cluster properties of a server. */
   cluster?: Cluster;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+  fipsMode?: FipsMode;
 }
 
 export function serverPropertiesSerializer(item: ServerProperties): any {
@@ -1761,6 +1766,7 @@ export function serverPropertiesSerializer(item: ServerProperties): any {
     replica: !item["replica"] ? item["replica"] : replicaSerializer(item["replica"]),
     createMode: item["createMode"],
     cluster: !item["cluster"] ? item["cluster"] : clusterSerializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
@@ -1800,11 +1806,14 @@ export function serverPropertiesDeserializer(item: any): ServerProperties {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     cluster: !item["cluster"] ? item["cluster"] : clusterDeserializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
 /** Major version of PostgreSQL database engine. */
 export enum KnownPostgresMajorVersion {
+  /** PostgreSQL 19. */
+  PostgresMajorVersion19 = "19",
   /** PostgreSQL 18. */
   Eighteen = "18",
   /** PostgreSQL 17. */
@@ -1828,6 +1837,7 @@ export enum KnownPostgresMajorVersion {
  * {@link KnownPostgresMajorVersion} can be used interchangeably with PostgresMajorVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **19**: PostgreSQL 19. \
  * **18**: PostgreSQL 18. \
  * **17**: PostgreSQL 17. \
  * **16**: PostgreSQL 16. \
@@ -1887,6 +1897,10 @@ export interface Storage {
   storageSizeGB?: number;
   /** Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size. */
   autoGrow?: StorageAutoGrow;
+  /** Maximum allocated storage size to which storage autogrow may grow, in MB. This value is not a disk-utilization trigger threshold and must be at least the effective current or requested storage size. Storage conversion uses 1 GB = 1,024 MB. */
+  autoGrowMaxThresholdMb?: number;
+  /** Storage autogrow increment as a percentage of the current allocated storage size. This value is not an absolute size increment or a utilization threshold. */
+  autoGrowIncrementPercent?: number;
   /** Storage tier of a server. */
   tier?: AzureManagedDiskPerformanceTier;
   /** Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS. */
@@ -1901,6 +1915,8 @@ export function storageSerializer(item: Storage): any {
   return {
     storageSizeGB: item["storageSizeGB"],
     autoGrow: item["autoGrow"],
+    autoGrowMaxThresholdMb: item["autoGrowMaxThresholdMb"],
+    autoGrowIncrementPercent: item["autoGrowIncrementPercent"],
     tier: item["tier"],
     iops: item["iops"],
     throughput: item["throughput"],
@@ -1912,6 +1928,8 @@ export function storageDeserializer(item: any): Storage {
   return {
     storageSizeGB: item["storageSizeGB"],
     autoGrow: item["autoGrow"],
+    autoGrowMaxThresholdMb: item["autoGrowMaxThresholdMb"],
+    autoGrowIncrementPercent: item["autoGrowIncrementPercent"],
     tier: item["tier"],
     iops: item["iops"],
     throughput: item["throughput"],
@@ -2164,6 +2182,8 @@ export interface Backup {
   backupRetentionDays?: number;
   /** Indicates if the server is configured to create geographically redundant backups. */
   geoRedundantBackup?: GeographicallyRedundantBackup;
+  /** Indicates if the server is configured to create immutable backups. */
+  immutableBackup?: ImmutableBackup;
   /** Earliest restore point time (ISO8601 format) for a server. */
   readonly earliestRestoreDate?: Date;
 }
@@ -2172,6 +2192,7 @@ export function backupSerializer(item: Backup): any {
   return {
     backupRetentionDays: item["backupRetentionDays"],
     geoRedundantBackup: item["geoRedundantBackup"],
+    immutableBackup: item["immutableBackup"],
   };
 }
 
@@ -2179,6 +2200,7 @@ export function backupDeserializer(item: any): Backup {
   return {
     backupRetentionDays: item["backupRetentionDays"],
     geoRedundantBackup: item["geoRedundantBackup"],
+    immutableBackup: item["immutableBackup"],
     earliestRestoreDate: !item["earliestRestoreDate"]
       ? item["earliestRestoreDate"]
       : new Date(item["earliestRestoreDate"]),
@@ -2202,6 +2224,24 @@ export enum KnownGeographicallyRedundantBackup {
  * **Disabled**: Server is not configured to create geographically redundant backups.
  */
 export type GeographicallyRedundantBackup = string;
+
+/** Indicates if the server is configured to create immutable backups. */
+export enum KnownImmutableBackup {
+  /** Server is configured to create immutable backups. */
+  Enabled = "Enabled",
+  /** Server is not configured to create immutable backups. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates if the server is configured to create immutable backups. \
+ * {@link KnownImmutableBackup} can be used interchangeably with ImmutableBackup,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Server is configured to create immutable backups. \
+ * **Disabled**: Server is not configured to create immutable backups.
+ */
+export type ImmutableBackup = string;
 
 /** Network properties of a server. */
 export interface Network {
@@ -2715,6 +2755,24 @@ export function clusterDeserializer(item: any): Cluster {
   };
 }
 
+/** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. */
+export enum KnownFipsMode {
+  /** FIPS mode is enabled on the server. */
+  Enabled = "Enabled",
+  /** FIPS mode is disabled on the server. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. \
+ * {@link KnownFipsMode} can be used interchangeably with FipsMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: FIPS mode is enabled on the server. \
+ * **Disabled**: FIPS mode is disabled on the server.
+ */
+export type FipsMode = string;
+
 /** Compute information of a server. */
 export interface Sku {
   /** Name by which is known a given compute size assigned to a server. */
@@ -2860,6 +2918,8 @@ export interface ServerForPatch {
   availabilityZone?: string;
   /** Update mode of an existing server. */
   createMode?: CreateModeForPatch;
+  /** Identifier of the server to be used as the source of the new server. */
+  sourceServerResourceId?: string;
   /** Role of the server in a replication set. */
   replicationRole?: ReplicationRole;
   /** Read replica properties of a server. Required only in case that you want to promote a server. */
@@ -2868,6 +2928,8 @@ export interface ServerForPatch {
   network?: Network;
   /** Cluster properties of a server. */
   cluster?: Cluster;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified, the current value is preserved. */
+  fipsMode?: FipsMode;
 }
 
 export function serverForPatchSerializer(item: ServerForPatch): any {
@@ -2887,10 +2949,12 @@ export function serverForPatchSerializer(item: ServerForPatch): any {
       "dataEncryption",
       "availabilityZone",
       "createMode",
+      "sourceServerResourceId",
       "replicationRole",
       "replica",
       "network",
       "cluster",
+      "fipsMode",
     ])
       ? undefined
       : _serverForPatchPropertiesSerializer(item),
@@ -2934,6 +2998,8 @@ export interface ServerPropertiesForPatch {
   availabilityZone?: string;
   /** Update mode of an existing server. */
   createMode?: CreateModeForPatch;
+  /** Identifier of the server to be used as the source of the new server. */
+  sourceServerResourceId?: string;
   /** Role of the server in a replication set. */
   replicationRole?: ReplicationRole;
   /** Read replica properties of a server. Required only in case that you want to promote a server. */
@@ -2942,6 +3008,8 @@ export interface ServerPropertiesForPatch {
   network?: Network;
   /** Cluster properties of a server. */
   cluster?: Cluster;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified, the current value is preserved. */
+  fipsMode?: FipsMode;
 }
 
 export function serverPropertiesForPatchSerializer(item: ServerPropertiesForPatch): any {
@@ -2964,10 +3032,12 @@ export function serverPropertiesForPatchSerializer(item: ServerPropertiesForPatc
       : dataEncryptionSerializer(item["dataEncryption"]),
     availabilityZone: item["availabilityZone"],
     createMode: item["createMode"],
+    sourceServerResourceId: item["sourceServerResourceId"],
     replicationRole: item["replicationRole"],
     replica: !item["replica"] ? item["replica"] : replicaSerializer(item["replica"]),
     network: !item["network"] ? item["network"] : networkSerializer(item["network"]),
     cluster: !item["cluster"] ? item["cluster"] : clusterSerializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
@@ -2977,12 +3047,17 @@ export interface BackupForPatch {
   backupRetentionDays?: number;
   /** Indicates if the server is configured to create geographically redundant backups. */
   readonly geoRedundantBackup?: GeographicallyRedundantBackup;
+  /** Indicates if the server is configured to create immutable backups. */
+  immutableBackup?: ImmutableBackup;
   /** Earliest restore point time (ISO8601 format) for a server. */
   readonly earliestRestoreDate?: Date;
 }
 
 export function backupForPatchSerializer(item: BackupForPatch): any {
-  return { backupRetentionDays: item["backupRetentionDays"] };
+  return {
+    backupRetentionDays: item["backupRetentionDays"],
+    immutableBackup: item["immutableBackup"],
+  };
 }
 
 /** High availability properties of a server. */
@@ -4140,6 +4215,141 @@ export function majorVersionUpgradePrecheckResourceArrayDeserializer(
     return majorVersionUpgradePrecheckResourceDeserializer(item);
   });
 }
+
+/** The response of a DbAgent list operation. */
+export interface _DbAgentListResult {
+  /** The DbAgent items on this page */
+  value: DbAgent[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dbAgentListResultDeserializer(item: any): _DbAgentListResult {
+  return {
+    value: dbAgentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dbAgentArrayDeserializer(result: Array<DbAgent>): any[] {
+  return result.map((item) => {
+    return dbAgentDeserializer(item);
+  });
+}
+
+/** The database agent configuration for a PostgreSQL flexible server. */
+export interface DbAgent extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DbAgentProperties;
+}
+
+export function dbAgentDeserializer(item: any): DbAgent {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : dbAgentPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the database agent configuration. */
+export interface DbAgentProperties {
+  /** The state of the database agent. */
+  readonly state: DbAgentState;
+  /** The provisioning state of the database agent resource. */
+  readonly provisioningState?: DbAgentProvisioningState;
+  /** The time when the database agent configuration was last modified. */
+  readonly lastModifiedTime?: Date;
+}
+
+export function dbAgentPropertiesDeserializer(item: any): DbAgentProperties {
+  return {
+    state: item["state"],
+    provisioningState: item["provisioningState"],
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+  };
+}
+
+/** The state of the database agent. */
+export enum KnownDbAgentState {
+  /** The database agent is being enabled. */
+  Enabling = "Enabling",
+  /** The database agent is enabled. */
+  Enabled = "Enabled",
+  /** The database agent is being disabled. */
+  Disabling = "Disabling",
+  /** The database agent is disabled. */
+  Disabled = "Disabled",
+  /** The database agent lifecycle operation failed. */
+  Failed = "Failed",
+}
+
+/**
+ * The state of the database agent. \
+ * {@link KnownDbAgentState} can be used interchangeably with DbAgentState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabling**: The database agent is being enabled. \
+ * **Enabled**: The database agent is enabled. \
+ * **Disabling**: The database agent is being disabled. \
+ * **Disabled**: The database agent is disabled. \
+ * **Failed**: The database agent lifecycle operation failed.
+ */
+export type DbAgentState = string;
+
+/** The provisioning state of the database agent resource. */
+export enum KnownDbAgentProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The database agent lifecycle operation is in progress. */
+  InProgress = "InProgress",
+}
+
+/**
+ * The provisioning state of the database agent resource. \
+ * {@link KnownDbAgentProvisioningState} can be used interchangeably with DbAgentProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **InProgress**: The database agent lifecycle operation is in progress.
+ */
+export type DbAgentProvisioningState = string;
+
+/** A request to enable or disable the database agent. */
+export interface DbAgentForUpdate {
+  /** The requested database agent properties. */
+  properties: DbAgentForUpdateProperties;
+}
+
+export function dbAgentForUpdateSerializer(item: DbAgentForUpdate): any {
+  return { properties: dbAgentForUpdatePropertiesSerializer(item["properties"]) };
+}
+
+/** Writable properties of the database agent configuration. */
+export interface DbAgentForUpdateProperties {
+  /** The requested state of the database agent. */
+  state: DbAgentForUpdateState;
+}
+
+export function dbAgentForUpdatePropertiesSerializer(item: DbAgentForUpdateProperties): any {
+  return { state: item["state"] };
+}
+
+/** The database agent states accepted in a write request. */
+export type DbAgentForUpdateState = "Enabled" | "Disabled";
 
 /** Server administrator associated to a Microsoft Entra principal. */
 export interface AdministratorMicrosoftEntra extends ProxyResource {
@@ -5899,6 +6109,8 @@ export enum KnownVersions {
   V20260101 = "2026-01-01-preview",
   /** The 2026-04-01-preview API version. */
   V20260401 = "2026-04-01-preview",
+  /** The 2026-07-01-preview API version. */
+  V20260701 = "2026-07-01-preview",
 }
 
 export function _migrationPropertiesSerializer(item: Migration): any {
@@ -6093,6 +6305,7 @@ export function _serverPropertiesSerializer(item: Server): any {
     replica: !item["replica"] ? item["replica"] : replicaSerializer(item["replica"]),
     createMode: item["createMode"],
     cluster: !item["cluster"] ? item["cluster"] : clusterSerializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
@@ -6132,6 +6345,7 @@ export function _serverPropertiesDeserializer(item: any) {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     cluster: !item["cluster"] ? item["cluster"] : clusterDeserializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
@@ -6155,10 +6369,12 @@ export function _serverForPatchPropertiesSerializer(item: ServerForPatch): any {
       : dataEncryptionSerializer(item["dataEncryption"]),
     availabilityZone: item["availabilityZone"],
     createMode: item["createMode"],
+    sourceServerResourceId: item["sourceServerResourceId"],
     replicationRole: item["replicationRole"],
     replica: !item["replica"] ? item["replica"] : replicaSerializer(item["replica"]),
     network: !item["network"] ? item["network"] : networkSerializer(item["network"]),
     cluster: !item["cluster"] ? item["cluster"] : clusterSerializer(item["cluster"]),
+    fipsMode: item["fipsMode"],
   };
 }
 
