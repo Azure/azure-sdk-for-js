@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
-import {
-  TagsResource,
-  tagsResourceSerializer,
-} from "../../models/applicationInsightsCommonTypes/models.js";
-import {
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
+import { tagsResourceSerializer } from "../../models/applicationInsightsCommonTypes/models.js";
+import type {
   ApplicationInsightsComponent,
+  ComponentPurgeBody,
+  ComponentPurgeResponse,
+  ComponentPurgeStatusResponse,
+} from "../../models/components/models.js";
+import {
   applicationInsightsComponentSerializer,
   applicationInsightsComponentDeserializer,
   errorResponseComponentsDeserializer,
-  ComponentPurgeBody,
   componentPurgeBodySerializer,
-  ComponentPurgeResponse,
   componentPurgeResponseDeserializer,
-  ComponentPurgeStatusResponse,
   componentPurgeStatusResponseDeserializer,
 } from "../../models/components/models.js";
-import {
-  _ApplicationInsightsComponentListResult,
-  _applicationInsightsComponentListResultDeserializer,
-} from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { _ApplicationInsightsComponentListResult } from "../../models/models.js";
+import { _applicationInsightsComponentListResultDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ComponentsGetPurgeStatusOptionalParams,
   ComponentsPurgeOptionalParams,
   ComponentsListOptionalParams,
@@ -37,12 +33,8 @@ import {
   ComponentsCreateOrUpdateOptionalParams,
   ComponentsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getPurgeStatusSend(
   context: Client,
@@ -58,7 +50,7 @@ export function _getPurgeStatusSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       purgeId: purgeId,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +68,9 @@ export async function _getPurgeStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -115,7 +109,7 @@ export function _purgeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +129,9 @@ export async function _purgeDeserialize(
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -168,7 +164,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/components{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +182,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -204,7 +202,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2020-02-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-23-preview" },
   );
 }
 
@@ -218,7 +216,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +234,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -255,7 +255,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2020-02-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-23-preview" },
   );
 }
 
@@ -271,7 +271,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +284,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -316,7 +318,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,7 +338,9 @@ export async function _updateTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -375,7 +379,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,7 +399,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -433,7 +439,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": "2020-02-02",
+      "api%2Dversion": "2025-01-23-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -451,7 +457,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseComponentsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseComponentsDeserializer(result.body);
+    }
 
     throw error;
   }
