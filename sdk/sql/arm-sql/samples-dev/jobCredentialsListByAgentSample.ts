@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of jobs credentials.
  *
  * @summary gets a list of jobs credentials.
- * x-ms-original-file: 2025-08-01-preview/ListJobCredentialsByAgent.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobCredentialsByAgent.json
  */
 async function listCredentialsInAJobAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();

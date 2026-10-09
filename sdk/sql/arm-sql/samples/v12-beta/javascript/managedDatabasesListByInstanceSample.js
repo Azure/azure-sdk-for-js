@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of managed databases.
  *
  * @summary gets a list of managed databases.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseListByManagedInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseListByManagedInstance.json
  */
 async function listDatabasesByManagedInstances() {
   const credential = new DefaultAzureCredential();

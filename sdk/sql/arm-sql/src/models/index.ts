@@ -11,6 +11,7 @@ export type {
   BackupShortTermRetentionPolicy,
   BackupShortTermRetentionPolicyProperties,
   DiffBackupIntervalInHours,
+  ImmutabilityStatus,
   ShortTermRetentionPolicyName,
   ProxyResource,
   Resource,
@@ -622,6 +623,7 @@ export type {
 export {
   KnownOperationOrigin,
   KnownDiffBackupIntervalInHours,
+  KnownImmutabilityStatus,
   KnownShortTermRetentionPolicyName,
   KnownCreatedByType,
   KnownColumnDataType,

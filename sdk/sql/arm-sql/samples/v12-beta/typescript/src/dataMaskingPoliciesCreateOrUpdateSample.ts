@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a database data masking policy.
  *
  * @summary creates or updates a database data masking policy.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingPolicyCreateOrUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingPolicyCreateOrUpdateMax.json
  */
 async function createOrUpdateDataMaskingPolicyMax(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createOrUpdateDataMaskingPolicyMax(): Promise<void> {
  * This sample demonstrates how to creates or updates a database data masking policy.
  *
  * @summary creates or updates a database data masking policy.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingPolicyCreateOrUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingPolicyCreateOrUpdateMin.json
  */
 async function createOrUpdateDataMaskingPolicyMin(): Promise<void> {
   const credential = new DefaultAzureCredential();

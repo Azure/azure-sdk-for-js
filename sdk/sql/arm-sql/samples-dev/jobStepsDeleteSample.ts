@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a job step. This will implicitly create a new job version.
  *
  * @summary deletes a job step. This will implicitly create a new job version.
- * x-ms-original-file: 2025-08-01-preview/DeleteJobStep.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteJobStep.json
  */
 async function deleteAJobStep(): Promise<void> {
   const credential = new DefaultAzureCredential();

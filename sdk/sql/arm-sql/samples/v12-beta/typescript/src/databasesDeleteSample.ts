@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the database.
  *
  * @summary deletes the database.
- * x-ms-original-file: 2025-08-01-preview/DeleteDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteDatabase.json
  */
 async function deletesADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

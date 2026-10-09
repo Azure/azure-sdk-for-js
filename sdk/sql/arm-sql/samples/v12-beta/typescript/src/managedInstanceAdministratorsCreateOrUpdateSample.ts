@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed instance administrator.
  *
  * @summary creates or updates a managed instance administrator.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAdministratorCreate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAdministratorCreate.json
  */
 async function createAdministratorOfManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createAdministratorOfManagedInstance(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed instance administrator.
  *
  * @summary creates or updates a managed instance administrator.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAdministratorUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAdministratorUpdate.json
  */
 async function updateAdministratorOfManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

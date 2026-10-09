@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a failover group.
  *
  * @summary updates a failover group.
- * x-ms-original-file: 2025-08-01-preview/FailoverGroupUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/FailoverGroupUpdate.json
  */
 async function updateFailoverGroup() {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function updateFailoverGroup() {
  * This sample demonstrates how to updates a failover group.
  *
  * @summary updates a failover group.
- * x-ms-original-file: 2025-08-01-preview/FailoverGroupUpdateStandbySecondary.json
+ * x-ms-original-file: 2026-08-01-preview/FailoverGroupUpdateStandbySecondary.json
  */
 async function addDatabaseToFailoverGroupWithStandbySecondaryOnPartnerServer() {
   const credential = new DefaultAzureCredential();

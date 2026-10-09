@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to completes the restore operation on a managed database.
  *
  * @summary completes the restore operation on a managed database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCompleteExternalRestore.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCompleteExternalRestore.json
  */
 async function completesAManagedDatabaseExternalBackupRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();

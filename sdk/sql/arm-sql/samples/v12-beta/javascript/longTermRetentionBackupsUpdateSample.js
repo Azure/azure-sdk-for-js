@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing long term retention backup.
  *
  * @summary updates an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionBackupUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionBackupUpdate.json
  */
 async function updateTheLongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();

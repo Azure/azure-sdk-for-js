@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed instance time zone.
  *
  * @summary gets a managed instance time zone.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceTimeZoneGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceTimeZoneGet.json
  */
 async function getManagedInstanceTimeZone() {
   const credential = new DefaultAzureCredential();

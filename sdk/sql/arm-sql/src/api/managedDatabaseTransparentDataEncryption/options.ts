@@ -5,7 +5,9 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface ManagedDatabaseTransparentDataEncryptionGetOptionalParams extends OperationOptions {}

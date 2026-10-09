@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a server.
  *
  * @summary gets a server.
- * x-ms-original-file: 2025-08-01-preview/ServerGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerGet.json
  */
 async function getServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getServer(): Promise<void> {
  * This sample demonstrates how to gets a server.
  *
  * @summary gets a server.
- * x-ms-original-file: 2025-08-01-preview/ServerGetWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ServerGetWithExpandEqualsAdministrators.json
  */
 async function getServerWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

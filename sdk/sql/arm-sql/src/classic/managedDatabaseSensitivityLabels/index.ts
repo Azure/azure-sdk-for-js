@@ -115,6 +115,7 @@ export interface ManagedDatabaseSensitivityLabelsOperations {
     options?: ManagedDatabaseSensitivityLabelsGetOptionalParams,
   ) => Promise<SensitivityLabel>;
 }
+
 function _getManagedDatabaseSensitivityLabels(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -251,6 +252,7 @@ function _getManagedDatabaseSensitivityLabels(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getManagedDatabaseSensitivityLabelsOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseSensitivityLabelsOperations {

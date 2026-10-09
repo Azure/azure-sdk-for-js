@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
  *
  * @summary enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedLedgerDigestUploadsEnable.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedLedgerDigestUploadsEnable.json
  */
 async function enablesManagedLedgerDigestUploadConfigurationForADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

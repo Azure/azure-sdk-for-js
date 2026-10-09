@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a server key.
  *
  * @summary creates or updates a server key.
- * x-ms-original-file: 2025-08-01-preview/ServerKeyCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ServerKeyCreateOrUpdate.json
  */
 async function createsOrUpdatesAServerKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createsOrUpdatesAServerKey(): Promise<void> {
  * This sample demonstrates how to creates or updates a server key.
  *
  * @summary creates or updates a server key.
- * x-ms-original-file: 2025-08-01-preview/ServerKeyCreateOrUpdateWithVersionlessKey.json
+ * x-ms-original-file: 2026-08-01-preview/ServerKeyCreateOrUpdateWithVersionlessKey.json
  */
 async function createsOrUpdatesAServerKeyWithVersionlessKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

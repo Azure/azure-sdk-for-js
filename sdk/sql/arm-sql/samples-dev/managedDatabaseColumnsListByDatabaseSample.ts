@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list managed database columns
  *
  * @summary list managed database columns
- * x-ms-original-file: 2025-08-01-preview/ManagedColumnsListByDatabaseMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedColumnsListByDatabaseMax.json
  */
 async function filterManagedDatabaseColumns(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function filterManagedDatabaseColumns(): Promise<void> {
  * This sample demonstrates how to list managed database columns
  *
  * @summary list managed database columns
- * x-ms-original-file: 2025-08-01-preview/ManagedColumnsListByDatabaseMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedColumnsListByDatabaseMin.json
  */
 async function listManagedDatabaseColumns(): Promise<void> {
   const credential = new DefaultAzureCredential();

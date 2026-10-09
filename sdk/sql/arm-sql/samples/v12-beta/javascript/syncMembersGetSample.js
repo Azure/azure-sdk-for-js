@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a sync member.
  *
  * @summary gets a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberGet.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberGet.json
  */
 async function getASyncMember() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function getASyncMember() {
  * This sample demonstrates how to gets a sync member.
  *
  * @summary gets a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberGetWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberGetWithIdentity.json
  */
 async function getASyncMemberWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();

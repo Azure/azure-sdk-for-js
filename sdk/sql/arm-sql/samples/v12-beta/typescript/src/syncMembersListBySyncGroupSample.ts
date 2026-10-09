@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists sync members in the given sync group.
  *
  * @summary lists sync members in the given sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberListBySyncGroup.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberListBySyncGroup.json
  */
 async function listSyncMembersUnderASyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

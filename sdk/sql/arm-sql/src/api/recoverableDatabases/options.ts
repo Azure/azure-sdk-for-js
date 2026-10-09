@@ -5,6 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface RecoverableDatabasesListByServerOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface RecoverableDatabasesGetOptionalParams extends OperationOptions {
   /** The child resources to include in the response. */

@@ -63,6 +63,7 @@ export interface ServerAdvancedThreatProtectionSettingsOperations {
     options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams,
   ) => Promise<ServerAdvancedThreatProtection>;
 }
+
 function _getServerAdvancedThreatProtectionSettings(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -127,6 +128,7 @@ function _getServerAdvancedThreatProtectionSettings(context: SqlManagementContex
     ) => get(context, resourceGroupName, serverName, advancedThreatProtectionName, options),
   };
 }
+
 export function _getServerAdvancedThreatProtectionSettingsOperations(
   context: SqlManagementContext,
 ): ServerAdvancedThreatProtectionSettingsOperations {

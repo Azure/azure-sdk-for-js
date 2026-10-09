@@ -57,6 +57,7 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesGetOptionalParams,
   ) => Promise<FirewallRule>;
 }
+
 function _getFirewallRules(context: SqlManagementContext) {
   return {
     replace: (
@@ -92,6 +93,7 @@ function _getFirewallRules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, firewallRuleName, options),
   };
 }
+
 export function _getFirewallRulesOperations(
   context: SqlManagementContext,
 ): FirewallRulesOperations {

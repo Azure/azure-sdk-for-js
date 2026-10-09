@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of restorable dropped databases.
  *
  * @summary gets a list of restorable dropped databases.
- * x-ms-original-file: 2025-08-01-preview/ListRestorableDroppedDatabasesByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListRestorableDroppedDatabasesByServer.json
  */
 async function getsAListOfRestorableDroppedDatabases() {
   const credential = new DefaultAzureCredential();
@@ -25,8 +25,31 @@ async function getsAListOfRestorableDroppedDatabases() {
   console.log(resArray);
 }
 
+/**
+ * This sample demonstrates how to gets a list of restorable dropped databases.
+ *
+ * @summary gets a list of restorable dropped databases.
+ * x-ms-original-file: 2026-08-01-preview/ListRestorableDroppedDatabasesByServerWithOdata.json
+ */
+async function getsAListOfRestorableDroppedDatabasesWithODataFiltering() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.restorableDroppedDatabases.listByServer(
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    { top: 25 },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
 async function main() {
   await getsAListOfRestorableDroppedDatabases();
+  await getsAListOfRestorableDroppedDatabasesWithODataFiltering();
 }
 
 main().catch(console.error);

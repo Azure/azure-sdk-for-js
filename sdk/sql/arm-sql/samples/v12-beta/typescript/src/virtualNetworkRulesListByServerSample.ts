@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual network rules in a server.
  *
  * @summary gets a list of virtual network rules in a server.
- * x-ms-original-file: 2025-08-01-preview/VirtualNetworkRulesList.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualNetworkRulesList.json
  */
 async function listVirtualNetworkRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

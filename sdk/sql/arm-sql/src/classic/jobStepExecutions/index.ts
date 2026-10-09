@@ -32,6 +32,7 @@ export interface JobStepExecutionsOperations {
     options?: JobStepExecutionsGetOptionalParams,
   ) => Promise<JobExecution>;
 }
+
 function _getJobStepExecutions(context: SqlManagementContext) {
   return {
     listByJobExecution: (
@@ -72,6 +73,7 @@ function _getJobStepExecutions(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getJobStepExecutionsOperations(
   context: SqlManagementContext,
 ): JobStepExecutionsOperations {

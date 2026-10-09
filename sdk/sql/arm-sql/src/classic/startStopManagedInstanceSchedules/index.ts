@@ -51,6 +51,7 @@ export interface StartStopManagedInstanceSchedulesOperations {
     options?: StartStopManagedInstanceSchedulesGetOptionalParams,
   ) => Promise<StartStopManagedInstanceSchedule>;
 }
+
 function _getStartStopManagedInstanceSchedules(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -87,6 +88,7 @@ function _getStartStopManagedInstanceSchedules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, startStopScheduleName, options),
   };
 }
+
 export function _getStartStopManagedInstanceSchedulesOperations(
   context: SqlManagementContext,
 ): StartStopManagedInstanceSchedulesOperations {

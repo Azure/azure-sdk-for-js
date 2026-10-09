@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the managed instance's Start/Stop schedules.
  *
  * @summary lists the managed instance's Start/Stop schedules.
- * x-ms-original-file: 2025-08-01-preview/StartStopManagedInstanceScheduleList.json
+ * x-ms-original-file: 2026-08-01-preview/StartStopManagedInstanceScheduleList.json
  */
 async function listsTheManagedInstanceStartOrStopSchedules() {
   const credential = new DefaultAzureCredential();

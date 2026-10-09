@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list database tables
  *
  * @summary list database tables
- * x-ms-original-file: 2025-08-01-preview/DatabaseTableListBySchema.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseTableListBySchema.json
  */
 async function listDatabaseTables() {
   const credential = new DefaultAzureCredential();

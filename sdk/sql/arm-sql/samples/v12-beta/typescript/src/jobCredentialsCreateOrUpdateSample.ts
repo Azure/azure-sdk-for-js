@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a job credential.
  *
  * @summary creates or updates a job credential.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobCredential.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobCredential.json
  */
 async function createOrUpdateACredential(): Promise<void> {
   const credential = new DefaultAzureCredential();

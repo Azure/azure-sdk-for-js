@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to determines whether a resource can be created with the specified name.
  *
  * @summary determines whether a resource can be created with the specified name.
- * x-ms-original-file: 2025-08-01-preview/CheckNameAvailabilityServerAlreadyExists.json
+ * x-ms-original-file: 2026-08-01-preview/CheckNameAvailabilityServerAlreadyExists.json
  */
 async function checkForAServerNameThatAlreadyExists() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function checkForAServerNameThatAlreadyExists() {
  * This sample demonstrates how to determines whether a resource can be created with the specified name.
  *
  * @summary determines whether a resource can be created with the specified name.
- * x-ms-original-file: 2025-08-01-preview/CheckNameAvailabilityServerAvailable.json
+ * x-ms-original-file: 2026-08-01-preview/CheckNameAvailabilityServerAvailable.json
  */
 async function checkForAServerNameThatIsAvailable() {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function checkForAServerNameThatIsAvailable() {
  * This sample demonstrates how to determines whether a resource can be created with the specified name.
  *
  * @summary determines whether a resource can be created with the specified name.
- * x-ms-original-file: 2025-08-01-preview/CheckNameAvailabilityServerInvalid.json
+ * x-ms-original-file: 2026-08-01-preview/CheckNameAvailabilityServerInvalid.json
  */
 async function checkForAServerNameThatIsInvalid() {
   const credential = new DefaultAzureCredential();

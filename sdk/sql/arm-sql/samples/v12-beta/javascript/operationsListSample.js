@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the available SQL Rest API operations.
  *
  * @summary lists all of the available SQL Rest API operations.
- * x-ms-original-file: 2025-08-01-preview/ListOperations.json
+ * x-ms-original-file: 2026-08-01-preview/ListOperations.json
  */
 async function listsAllOfTheAvailableSQLRestAPIOperations() {
   const credential = new DefaultAzureCredential();

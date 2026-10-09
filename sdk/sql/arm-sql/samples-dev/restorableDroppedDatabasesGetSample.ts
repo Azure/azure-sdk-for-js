@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a restorable dropped database.
  *
  * @summary gets a restorable dropped database.
- * x-ms-original-file: 2025-08-01-preview/GetRestorableDroppedDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/GetRestorableDroppedDatabase.json
  */
 async function getsARestorableDroppedDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getsARestorableDroppedDatabase(): Promise<void> {
  * This sample demonstrates how to gets a restorable dropped database.
  *
  * @summary gets a restorable dropped database.
- * x-ms-original-file: 2025-08-01-preview/GetRestorableDroppedDatabaseWithExpandEqualsKeys.json
+ * x-ms-original-file: 2026-08-01-preview/GetRestorableDroppedDatabaseWithExpandEqualsKeys.json
  */
 async function getsARestorableDroppedDatabaseWithExpandEqualsKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the current ledger digest upload configuration for a database.
  *
  * @summary gets the current ledger digest upload configuration for a database.
- * x-ms-original-file: 2025-08-01-preview/ManagedLedgerDigestUploadsGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedLedgerDigestUploadsGet.json
  */
 async function getsTheCurrentLedgerDigestUploadConfigurationForADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

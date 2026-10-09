@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a private endpoint connection.
  *
  * @summary gets a private endpoint connection.
- * x-ms-original-file: 2025-08-01-preview/PrivateEndpointConnectionGet.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateEndpointConnectionGet.json
  */
 async function getsPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

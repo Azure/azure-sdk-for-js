@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed instance key.
  *
  * @summary gets a managed instance key.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceKeyGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceKeyGet.json
  */
 async function getTheManagedInstanceKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

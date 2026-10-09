@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all target groups in an agent.
  *
  * @summary gets all target groups in an agent.
- * x-ms-original-file: 2025-08-01-preview/ListJobTargetGroups.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobTargetGroups.json
  */
 async function getAllTargetGroupsInAnAgent() {
   const credential = new DefaultAzureCredential();

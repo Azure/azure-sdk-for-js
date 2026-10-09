@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fails over from the current primary server to this server. This operation tries planned before forced failover but might still result in data loss.
  *
  * @summary fails over from the current primary server to this server. This operation tries planned before forced failover but might still result in data loss.
- * x-ms-original-file: 2025-08-01-preview/FailoverGroupTryPlannedBeforeForcedFailover.json
+ * x-ms-original-file: 2026-08-01-preview/FailoverGroupTryPlannedBeforeForcedFailover.json
  */
 async function tryPlannedBeforeForcedFailoverOfAFailoverGroup() {
   const credential = new DefaultAzureCredential();

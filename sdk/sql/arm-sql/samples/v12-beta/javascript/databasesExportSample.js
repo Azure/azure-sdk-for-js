@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to exports a database.
  *
  * @summary exports a database.
- * x-ms-original-file: 2025-08-01-preview/ExportDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ExportDatabase.json
  */
 async function exportsADatabase() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function exportsADatabase() {
  * This sample demonstrates how to exports a database.
  *
  * @summary exports a database.
- * x-ms-original-file: 2025-08-01-preview/ExportDatabaseWithManagedIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/ExportDatabaseWithManagedIdentity.json
  */
 async function exportsADatabaseUsingManagedIdentityToCommunicateWithSQLServerAndStorageAccount() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function exportsADatabaseUsingManagedIdentityToCommunicateWithSQLServerAnd
  * This sample demonstrates how to exports a database.
  *
  * @summary exports a database.
- * x-ms-original-file: 2025-08-01-preview/ExportDatabaseWithNetworkIsolation.json
+ * x-ms-original-file: 2026-08-01-preview/ExportDatabaseWithNetworkIsolation.json
  */
 async function exportsADatabaseUsingPrivateLinkToCommunicateWithSQLServerAndStorageAccount() {
   const credential = new DefaultAzureCredential();

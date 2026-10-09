@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to perform a database extension operation, like database import, database export, or polybase import
  *
  * @summary perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateDatabaseExtensions.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateDatabaseExtensions.json
  */
 async function createOrUpdateDatabaseExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function createOrUpdateDatabaseExtensions(): Promise<void> {
  * This sample demonstrates how to perform a database extension operation, like database import, database export, or polybase import
  *
  * @summary perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: 2025-08-01-preview/ExportDatabaseUsingDatabaseExtensions.json
+ * x-ms-original-file: 2026-08-01-preview/ExportDatabaseUsingDatabaseExtensions.json
  */
 async function exportDatabaseUsingDatabaseExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function exportDatabaseUsingDatabaseExtension(): Promise<void> {
  * This sample demonstrates how to perform a database extension operation, like database import, database export, or polybase import
  *
  * @summary perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: 2025-08-01-preview/ExportDatabaseUsingDatabaseExtensionsWithManagedIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/ExportDatabaseUsingDatabaseExtensionsWithManagedIdentity.json
  */
 async function exportDatabaseUsingDatabaseExtensionWithManagedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function exportDatabaseUsingDatabaseExtensionWithManagedIdentity(): Promis
  * This sample demonstrates how to perform a database extension operation, like database import, database export, or polybase import
  *
  * @summary perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: 2025-08-01-preview/ImportDatabaseUsingDatabaseExtensions.json
+ * x-ms-original-file: 2026-08-01-preview/ImportDatabaseUsingDatabaseExtensions.json
  */
 async function importDatabaseUsingDatabaseExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

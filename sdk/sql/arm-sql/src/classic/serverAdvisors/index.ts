@@ -34,6 +34,7 @@ export interface ServerAdvisorsOperations {
     options?: ServerAdvisorsGetOptionalParams,
   ) => Promise<Advisor>;
 }
+
 function _getServerAdvisors(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -56,6 +57,7 @@ function _getServerAdvisors(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, advisorName, options),
   };
 }
+
 export function _getServerAdvisorsOperations(
   context: SqlManagementContext,
 ): ServerAdvisorsOperations {
