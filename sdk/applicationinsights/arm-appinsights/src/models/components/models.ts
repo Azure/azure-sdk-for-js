@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+
 /** An Application Insights component definition. */
 export interface ApplicationInsightsComponent extends ComponentsResource {
   /** The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone. */
@@ -65,6 +65,18 @@ export interface ApplicationInsightsComponent extends ComponentsResource {
   disableLocalAuth?: boolean;
   /** Force users to create their own storage account for profiler and debugger. */
   forceCustomerStorageForProfiler?: boolean;
+  /** Resource Id of the Azure Monitor workspace which the OpenTelemetry data will be ingested to. */
+  azureMonitorWorkspaceResourceId?: string;
+  /** Indicates the state of the OpenTelemetry ingestion into the linked Azure Monitor workspace. Clients may set this to `NotOptedIn` or `Enabled`; `Disabled` is set only by the service when the link to the Azure Monitor workspace is broken. */
+  azureMonitorWorkspaceIngestionMode?: AzureMonitorWorkspaceIngestionMode;
+  /** Resource Id of the data collection rule that routes the OpenTelemetry data ingested through the OTLP endpoints of this component. */
+  readonly dataCollectionRuleResourceId?: string;
+  /** The OTLP endpoint to which OpenTelemetry metrics for this component are sent. */
+  readonly otlpMetricsEndpoint?: string;
+  /** The OTLP endpoint to which OpenTelemetry logs for this component are sent. */
+  readonly otlpLogsEndpoint?: string;
+  /** The OTLP endpoint to which OpenTelemetry traces for this component are sent. */
+  readonly otlpTracesEndpoint?: string;
 }
 
 export function applicationInsightsComponentSerializer(item: ApplicationInsightsComponent): any {
@@ -74,20 +86,22 @@ export function applicationInsightsComponentSerializer(item: ApplicationInsights
     kind: item["kind"],
     etag: item["etag"],
     properties: areAllPropsUndefined(item, [
-      "Application_Type",
-      "Flow_Type",
-      "Request_Source",
-      "HockeyAppId",
-      "SamplingPercentage",
-      "RetentionInDays",
-      "DisableIpMasking",
-      "ImmediatePurgeDataOn30Days",
-      "WorkspaceResourceId",
+      "applicationType",
+      "flowType",
+      "requestSource",
+      "hockeyAppId",
+      "samplingPercentage",
+      "retentionInDays",
+      "disableIpMasking",
+      "immediatePurgeDataOn30Days",
+      "workspaceResourceId",
       "publicNetworkAccessForIngestion",
       "publicNetworkAccessForQuery",
-      "IngestionMode",
-      "DisableLocalAuth",
-      "ForceCustomerStorageForProfiler",
+      "ingestionMode",
+      "disableLocalAuth",
+      "forceCustomerStorageForProfiler",
+      "azureMonitorWorkspaceResourceId",
+      "azureMonitorWorkspaceIngestionMode",
     ])
       ? undefined
       : _applicationInsightsComponentPropertiesSerializer(item),
@@ -163,6 +177,18 @@ export interface ApplicationInsightsComponentProperties {
   disableLocalAuth?: boolean;
   /** Force users to create their own storage account for profiler and debugger. */
   forceCustomerStorageForProfiler?: boolean;
+  /** Resource Id of the Azure Monitor workspace which the OpenTelemetry data will be ingested to. */
+  azureMonitorWorkspaceResourceId?: string;
+  /** Indicates the state of the OpenTelemetry ingestion into the linked Azure Monitor workspace. Clients may set this to `NotOptedIn` or `Enabled`; `Disabled` is set only by the service when the link to the Azure Monitor workspace is broken. */
+  azureMonitorWorkspaceIngestionMode?: AzureMonitorWorkspaceIngestionMode;
+  /** Resource Id of the data collection rule that routes the OpenTelemetry data ingested through the OTLP endpoints of this component. */
+  readonly dataCollectionRuleResourceId?: string;
+  /** The OTLP endpoint to which OpenTelemetry metrics for this component are sent. */
+  readonly otlpMetricsEndpoint?: string;
+  /** The OTLP endpoint to which OpenTelemetry logs for this component are sent. */
+  readonly otlpLogsEndpoint?: string;
+  /** The OTLP endpoint to which OpenTelemetry traces for this component are sent. */
+  readonly otlpTracesEndpoint?: string;
 }
 
 export function applicationInsightsComponentPropertiesSerializer(
@@ -183,6 +209,8 @@ export function applicationInsightsComponentPropertiesSerializer(
     IngestionMode: item["ingestionMode"],
     DisableLocalAuth: item["disableLocalAuth"],
     ForceCustomerStorageForProfiler: item["forceCustomerStorageForProfiler"],
+    AzureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
+    AzureMonitorWorkspaceIngestionMode: item["azureMonitorWorkspaceIngestionMode"],
   };
 }
 
@@ -219,6 +247,12 @@ export function applicationInsightsComponentPropertiesDeserializer(
     ingestionMode: item["IngestionMode"],
     disableLocalAuth: item["DisableLocalAuth"],
     forceCustomerStorageForProfiler: item["ForceCustomerStorageForProfiler"],
+    azureMonitorWorkspaceResourceId: item["AzureMonitorWorkspaceResourceId"],
+    azureMonitorWorkspaceIngestionMode: item["AzureMonitorWorkspaceIngestionMode"],
+    dataCollectionRuleResourceId: item["DataCollectionRuleResourceId"],
+    otlpMetricsEndpoint: item["OTLPMetricsEndpoint"],
+    otlpLogsEndpoint: item["OTLPLogsEndpoint"],
+    otlpTracesEndpoint: item["OTLPTracesEndpoint"],
   };
 }
 
@@ -331,6 +365,27 @@ export enum KnownIngestionMode {
  * **LogAnalytics**: LogAnalytics
  */
 export type IngestionMode = string;
+
+/** Indicates the state of the OpenTelemetry ingestion into the Azure Monitor workspace that is linked to the Application Insights component. */
+export enum KnownAzureMonitorWorkspaceIngestionMode {
+  /** The component has not been opted in to Azure Monitor workspace ingestion. Clients may specify this value on create to decline Azure Monitor workspace ingestion. */
+  NotOptedIn = "NotOptedIn",
+  /** Azure Monitor workspace ingestion is enabled for the component. Clients may specify this value to opt in. Opting back out after ingestion has been enabled is not supported. */
+  Enabled = "Enabled",
+  /** Azure Monitor workspace ingestion is disabled for the component because the link to the Azure Monitor workspace is broken. This value is set only by the service and is rejected if specified by a client. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates the state of the OpenTelemetry ingestion into the Azure Monitor workspace that is linked to the Application Insights component. \
+ * {@link KnownAzureMonitorWorkspaceIngestionMode} can be used interchangeably with AzureMonitorWorkspaceIngestionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotOptedIn**: The component has not been opted in to Azure Monitor workspace ingestion. Clients may specify this value on create to decline Azure Monitor workspace ingestion. \
+ * **Enabled**: Azure Monitor workspace ingestion is enabled for the component. Clients may specify this value to opt in. Opting back out after ingestion has been enabled is not supported. \
+ * **Disabled**: Azure Monitor workspace ingestion is disabled for the component because the link to the Azure Monitor workspace is broken. This value is set only by the service and is rejected if specified by a client.
+ */
+export type AzureMonitorWorkspaceIngestionMode = string;
 
 /** An azure resource object */
 export interface ComponentsResource {
@@ -509,6 +564,8 @@ export function _applicationInsightsComponentPropertiesSerializer(
     IngestionMode: item["ingestionMode"],
     DisableLocalAuth: item["disableLocalAuth"],
     ForceCustomerStorageForProfiler: item["forceCustomerStorageForProfiler"],
+    AzureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
+    AzureMonitorWorkspaceIngestionMode: item["azureMonitorWorkspaceIngestionMode"],
   };
 }
 
@@ -543,5 +600,11 @@ export function _applicationInsightsComponentPropertiesDeserializer(item: any) {
     ingestionMode: item["IngestionMode"],
     disableLocalAuth: item["DisableLocalAuth"],
     forceCustomerStorageForProfiler: item["ForceCustomerStorageForProfiler"],
+    azureMonitorWorkspaceResourceId: item["AzureMonitorWorkspaceResourceId"],
+    azureMonitorWorkspaceIngestionMode: item["AzureMonitorWorkspaceIngestionMode"],
+    dataCollectionRuleResourceId: item["DataCollectionRuleResourceId"],
+    otlpMetricsEndpoint: item["OTLPMetricsEndpoint"],
+    otlpLogsEndpoint: item["OTLPLogsEndpoint"],
+    otlpTracesEndpoint: item["OTLPTracesEndpoint"],
   };
 }

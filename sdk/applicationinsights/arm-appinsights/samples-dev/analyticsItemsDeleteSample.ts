@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function analyticsItemDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "subid";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   await client.analyticsItems.delete("my-resource-group", "my-component", "analyticsItems", {
     id: "3466c160-4a10-4df8-afdf-0007f3f6dee5",

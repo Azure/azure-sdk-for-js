@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
 import { errorResponseLinkedStorageDeserializer } from "../../models/applicationInsightsCommonTypes/models.js";
-import {
+import type {
   ComponentLinkedStorageAccounts,
-  componentLinkedStorageAccountsSerializer,
-  componentLinkedStorageAccountsDeserializer,
   StorageType,
   ComponentLinkedStorageAccountsPatch,
+} from "../../models/componentLinkedStorageAccountApi/models.js";
+import {
+  componentLinkedStorageAccountsSerializer,
+  componentLinkedStorageAccountsDeserializer,
   componentLinkedStorageAccountsPatchSerializer,
 } from "../../models/componentLinkedStorageAccountApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ComponentLinkedStorageAccountsDeleteOptionalParams,
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams,
   ComponentLinkedStorageAccountsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -52,7 +50,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -107,7 +107,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -170,7 +172,9 @@ export async function _createAndUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -230,7 +234,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }

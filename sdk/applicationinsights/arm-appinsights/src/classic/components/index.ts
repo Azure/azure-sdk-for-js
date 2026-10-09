@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   getPurgeStatus,
   purge,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/components/operations.js";
-import {
+import type {
   ComponentsGetPurgeStatusOptionalParams,
   ComponentsPurgeOptionalParams,
   ComponentsListOptionalParams,
@@ -22,14 +22,14 @@ import {
   ComponentsCreateOrUpdateOptionalParams,
   ComponentsGetOptionalParams,
 } from "../../api/components/options.js";
-import { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
-import {
+import type { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
+import type {
   ApplicationInsightsComponent,
   ComponentPurgeBody,
   ComponentPurgeResponse,
   ComponentPurgeStatusResponse,
 } from "../../models/components/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Components operations. */
 export interface ComponentsOperations {

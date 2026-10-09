@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { update, get, list } from "../../api/proactiveDetectionConfigurations/operations.js";
-import {
+import type {
   ProactiveDetectionConfigurationsUpdateOptionalParams,
   ProactiveDetectionConfigurationsGetOptionalParams,
   ProactiveDetectionConfigurationsListOptionalParams,
 } from "../../api/proactiveDetectionConfigurations/options.js";
-import { ApplicationInsightsComponentProactiveDetectionConfiguration } from "../../models/componentAPIs/models.js";
+import type { ApplicationInsightsComponentProactiveDetectionConfiguration } from "../../models/componentAPIs/models.js";
 
 /** Interface representing a ProactiveDetectionConfigurations operations. */
 export interface ProactiveDetectionConfigurationsOperations {
