@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a CommvaultPlan
  *
  * @summary create a CommvaultPlan
- * x-ms-original-file: 2026-07-03-preview/Plans_CreateOrupdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/Plans_CreateOrupdate_MaximumSet_Gen.json
  */
 async function plansCreateOrupdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

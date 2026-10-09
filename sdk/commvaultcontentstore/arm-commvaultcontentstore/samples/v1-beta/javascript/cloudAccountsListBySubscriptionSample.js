@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list CloudAccount resources by subscription ID
  *
  * @summary list CloudAccount resources by subscription ID
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_ListBySubscription_MaximumSet_Gen.json
  */
 async function cloudAccountsListBySubscriptionMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function cloudAccountsListBySubscriptionMaximumSetGeneratedByMaximumSetRul
  * This sample demonstrates how to list CloudAccount resources by subscription ID
  *
  * @summary list CloudAccount resources by subscription ID
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_ListBySubscription_MinimumSet_Gen.json
  */
 async function cloudAccountsListBySubscriptionMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

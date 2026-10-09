@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a RoleMapping
  *
  * @summary get a RoleMapping
- * x-ms-original-file: 2026-07-03-preview/RoleMappings_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/RoleMappings_Get_MaximumSet_Gen.json
  */
 async function roleMappingsGetMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function roleMappingsGetMaximumSetGeneratedByMaximumSetRule() {
  * This sample demonstrates how to get a RoleMapping
  *
  * @summary get a RoleMapping
- * x-ms-original-file: 2026-07-03-preview/RoleMappings_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/RoleMappings_Get_MinimumSet_Gen.json
  */
 async function roleMappingsGetMinimumSetGetRoleMappingsWithSingleRole() {
   const credential = new DefaultAzureCredential();

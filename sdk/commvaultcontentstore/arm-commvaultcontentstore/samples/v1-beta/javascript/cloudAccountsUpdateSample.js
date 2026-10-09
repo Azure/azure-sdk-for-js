@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a CloudAccount
  *
  * @summary update a CloudAccount
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_Update_MaximumSet_Gen.json
  */
 async function cloudAccountsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -33,6 +33,16 @@ async function cloudAccountsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedBy
         emailAddress: "user@example.com",
         upn: "wiwwe",
         phoneNumber: "ebszyfnuyzk",
+      },
+      company: {
+        jobTitle: "Backup Operator",
+        companyName: "Contoso",
+        website: "https://www.contoso.com",
+        street: "1 Microsoft Way",
+        city: "Redmond",
+        country: "USA",
+        postalCode: "98052",
+        state: "WA",
       },
     },
     identity: { type: "None", userAssignedIdentities: {} },

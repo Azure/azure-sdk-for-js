@@ -1,12 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type {
+  MarketplaceDetails,
+  UserDetails,
+  MarketplaceDetailsCreateOrUpdate,
+  MarketplaceDetailsUpdate,
+} from "./liftrBase/models.js";
+import {
+  marketplaceDetailsSerializer,
+  marketplaceDetailsDeserializer,
+  userDetailsSerializer,
+  userDetailsDeserializer,
+  marketplaceDetailsCreateOrUpdateSerializer,
+  marketplaceDetailsUpdateSerializer,
+} from "./liftrBase/models.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -226,22 +241,15 @@ export interface CloudAccountProperties {
   readonly provisioningState?: ResourceProvisioningState;
   /** SSO URL for the Commvault Cloud Account */
   readonly ssoUrl?: string;
-  /** The backup administrator principal provided during CCA create. Required on create (enforced by backend), ignored on update. */
-  backupAdminOnCcaCreate?: EntityInfo;
-  /** The multi-person authorization (MPA) administrator principal provided during CCA create. Required on create (enforced by backend), ignored on update. */
-  multiPersonAuthorizationOnCcaCreate?: EntityInfo;
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
 }
 
 export function cloudAccountPropertiesSerializer(item: CloudAccountProperties): any {
   return {
     marketplace: marketplaceDetailsSerializer(item["marketplace"]),
     user: userDetailsSerializer(item["user"]),
-    backupAdminOnCcaCreate: !item["backupAdminOnCcaCreate"]
-      ? item["backupAdminOnCcaCreate"]
-      : entityInfoSerializer(item["backupAdminOnCcaCreate"]),
-    multiPersonAuthorizationOnCcaCreate: !item["multiPersonAuthorizationOnCcaCreate"]
-      ? item["multiPersonAuthorizationOnCcaCreate"]
-      : entityInfoSerializer(item["multiPersonAuthorizationOnCcaCreate"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
   };
 }
 
@@ -251,137 +259,7 @@ export function cloudAccountPropertiesDeserializer(item: any): CloudAccountPrope
     user: userDetailsDeserializer(item["user"]),
     provisioningState: item["provisioningState"],
     ssoUrl: item["ssoUrl"],
-    backupAdminOnCcaCreate: !item["backupAdminOnCcaCreate"]
-      ? item["backupAdminOnCcaCreate"]
-      : entityInfoDeserializer(item["backupAdminOnCcaCreate"]),
-    multiPersonAuthorizationOnCcaCreate: !item["multiPersonAuthorizationOnCcaCreate"]
-      ? item["multiPersonAuthorizationOnCcaCreate"]
-      : entityInfoDeserializer(item["multiPersonAuthorizationOnCcaCreate"]),
-  };
-}
-
-/** Marketplace details for an organization */
-export interface MarketplaceDetails {
-  /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId?: string;
-  /** Marketplace subscription status */
-  readonly subscriptionStatus?: MarketplaceSubscriptionStatus;
-  /** Marketplace SaaS Resource Id */
-  saasResourceId?: string;
-  /** Offer details for the marketplace that is selected by the user */
-  offerDetails: OfferDetails;
-}
-
-export function marketplaceDetailsSerializer(item: MarketplaceDetails): any {
-  return {
-    subscriptionId: item["subscriptionId"],
-    saasResourceId: item["saasResourceId"],
-    offerDetails: offerDetailsSerializer(item["offerDetails"]),
-  };
-}
-
-export function marketplaceDetailsDeserializer(item: any): MarketplaceDetails {
-  return {
-    subscriptionId: item["subscriptionId"],
-    subscriptionStatus: item["subscriptionStatus"],
-    saasResourceId: item["saasResourceId"],
-    offerDetails: offerDetailsDeserializer(item["offerDetails"]),
-  };
-}
-
-/** Marketplace subscription status of a resource. */
-export enum KnownMarketplaceSubscriptionStatus {
-  /** Purchased but not yet activated */
-  PendingFulfillmentStart = "PendingFulfillmentStart",
-  /** Marketplace subscription is activated */
-  Subscribed = "Subscribed",
-  /** This state indicates that a customer's payment for the Marketplace service was not received */
-  Suspended = "Suspended",
-  /** Customer has cancelled the subscription */
-  Unsubscribed = "Unsubscribed",
-}
-
-/**
- * Marketplace subscription status of a resource. \
- * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PendingFulfillmentStart**: Purchased but not yet activated \
- * **Subscribed**: Marketplace subscription is activated \
- * **Suspended**: This state indicates that a customer's payment for the Marketplace service was not received \
- * **Unsubscribed**: Customer has cancelled the subscription
- */
-export type MarketplaceSubscriptionStatus = string;
-
-/** Offer details for the marketplace that is selected by the user */
-export interface OfferDetails {
-  /** Publisher Id for the marketplace offer */
-  publisherId: string;
-  /** Offer Id for the marketplace offer */
-  offerId: string;
-  /** Plan Id for the marketplace offer */
-  planId?: string;
-  /** Plan Name for the marketplace offer */
-  planName?: string;
-  /** Plan Display Name for the marketplace offer */
-  termUnit?: string;
-  /** Plan Display Name for the marketplace offer */
-  termId?: string;
-}
-
-export function offerDetailsSerializer(item: OfferDetails): any {
-  return {
-    publisherId: item["publisherId"],
-    offerId: item["offerId"],
-    planId: item["planId"],
-    planName: item["planName"],
-    termUnit: item["termUnit"],
-    termId: item["termId"],
-  };
-}
-
-export function offerDetailsDeserializer(item: any): OfferDetails {
-  return {
-    publisherId: item["publisherId"],
-    offerId: item["offerId"],
-    planId: item["planId"],
-    planName: item["planName"],
-    termUnit: item["termUnit"],
-    termId: item["termId"],
-  };
-}
-
-/** User details for an organization */
-export interface UserDetails {
-  /** First name of the user */
-  firstName?: string;
-  /** Last name of the user */
-  lastName?: string;
-  /** Email address of the user */
-  emailAddress?: string;
-  /** User's principal name */
-  upn?: string;
-  /** User's phone number */
-  phoneNumber?: string;
-}
-
-export function userDetailsSerializer(item: UserDetails): any {
-  return {
-    firstName: item["firstName"],
-    lastName: item["lastName"],
-    emailAddress: item["emailAddress"],
-    upn: item["upn"],
-    phoneNumber: item["phoneNumber"],
-  };
-}
-
-export function userDetailsDeserializer(item: any): UserDetails {
-  return {
-    firstName: item["firstName"],
-    lastName: item["lastName"],
-    emailAddress: item["emailAddress"],
-    upn: item["upn"],
-    phoneNumber: item["phoneNumber"],
+    company: !item["company"] ? item["company"] : companyProfileDeserializer(item["company"]),
   };
 }
 
@@ -406,45 +284,51 @@ export enum KnownResourceProvisioningState {
  */
 export type ResourceProvisioningState = string;
 
-/** Information about an Entra entity (user or group) assigned to a role */
-export interface EntityInfo {
-  /** The unique identifier (UUID) of the Entra entity */
-  id?: string;
-  /** The display name of the Entra entity */
-  displayName?: string;
-  /** The type of entity - user or group */
-  entityType?: EntityType;
+/** Optional company profile information */
+export interface CompanyProfile {
+  /** Job title */
+  jobTitle?: string;
+  /** Company name */
+  companyName?: string;
+  /** Company website */
+  website?: string;
+  /** Street address */
+  street?: string;
+  /** City of the company address. */
+  city?: string;
+  /** Country of the company address. */
+  country?: string;
+  /** Postal code */
+  postalCode?: string;
+  /** State or province of the company address. */
+  state?: string;
 }
 
-export function entityInfoSerializer(item: EntityInfo): any {
-  return { id: item["id"], displayName: item["displayName"], entityType: item["entityType"] };
-}
-
-export function entityInfoDeserializer(item: any): EntityInfo {
+export function companyProfileSerializer(item: CompanyProfile): any {
   return {
-    id: item["id"],
-    displayName: item["displayName"],
-    entityType: item["entityType"],
+    jobTitle: item["jobTitle"],
+    companyName: item["companyName"],
+    website: item["website"],
+    street: item["street"],
+    city: item["city"],
+    country: item["country"],
+    postalCode: item["postalCode"],
+    state: item["state"],
   };
 }
 
-/** The type of the entity */
-export enum KnownEntityType {
-  /** The entity is an Entra user */
-  User = "User",
-  /** The entity is an Entra security group */
-  Group = "Group",
+export function companyProfileDeserializer(item: any): CompanyProfile {
+  return {
+    jobTitle: item["jobTitle"],
+    companyName: item["companyName"],
+    website: item["website"],
+    street: item["street"],
+    city: item["city"],
+    country: item["country"],
+    postalCode: item["postalCode"],
+    state: item["state"],
+  };
 }
-
-/**
- * The type of the entity \
- * {@link KnownEntityType} can be used interchangeably with EntityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity is an Entra user \
- * **Group**: The entity is an Entra security group
- */
-export type EntityType = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -520,6 +404,104 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
     clientId: item["clientId"],
   };
 }
+
+/** A role assignment mapping a Commvault role to one or more Entra entities (users or groups) */
+export interface RoleAssignment {
+  /** The name of the Commvault role */
+  roleName: RoleName;
+  /** The Entra entities (users or groups) assigned to this role */
+  entities: EntityInfo[];
+}
+
+export function roleAssignmentSerializer(item: RoleAssignment): any {
+  return { roleName: item["roleName"], entities: entityInfoArraySerializer(item["entities"]) };
+}
+
+export function roleAssignmentDeserializer(item: any): RoleAssignment {
+  return {
+    roleName: item["roleName"],
+    entities: entityInfoArrayDeserializer(item["entities"]),
+  };
+}
+
+/** Supported Commvault role names. Extensible enum — additional roles may be added in future versions without a breaking change. */
+export enum KnownRoleName {
+  /** Backup Administrator - full access to all resources */
+  BackupAdmin = "BackupAdmin",
+  /** Backup Operator - can manage resources but cannot delete storage or plans */
+  BackupOperator = "BackupOperator",
+  /** Backup User - can manage protection groups, read-only on plans and storage */
+  BackupUser = "BackupUser",
+  /** Security Administrator - can manage CCA enrollment and user management */
+  SecurityAdmin = "SecurityAdmin",
+  /** MPA Administrator - can authorize critical operations protected by MPA */
+  MultiPersonAuthorization = "MultiPersonAuthorization",
+}
+
+/**
+ * Supported Commvault role names. Extensible enum — additional roles may be added in future versions without a breaking change. \
+ * {@link KnownRoleName} can be used interchangeably with RoleName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BackupAdmin**: Backup Administrator - full access to all resources \
+ * **BackupOperator**: Backup Operator - can manage resources but cannot delete storage or plans \
+ * **BackupUser**: Backup User - can manage protection groups, read-only on plans and storage \
+ * **SecurityAdmin**: Security Administrator - can manage CCA enrollment and user management \
+ * **MultiPersonAuthorization**: MPA Administrator - can authorize critical operations protected by MPA
+ */
+export type RoleName = string;
+
+export function entityInfoArraySerializer(result: Array<EntityInfo>): any[] {
+  return result.map((item) => {
+    return entityInfoSerializer(item);
+  });
+}
+
+export function entityInfoArrayDeserializer(result: Array<EntityInfo>): any[] {
+  return result.map((item) => {
+    return entityInfoDeserializer(item);
+  });
+}
+
+/** Information about an Entra entity (user or group) assigned to a role */
+export interface EntityInfo {
+  /** The unique identifier (UUID) of the Entra entity */
+  id?: string;
+  /** The display name of the Entra entity */
+  displayName?: string;
+  /** The type of entity - user or group */
+  entityType?: EntityType;
+}
+
+export function entityInfoSerializer(item: EntityInfo): any {
+  return { id: item["id"], displayName: item["displayName"], entityType: item["entityType"] };
+}
+
+export function entityInfoDeserializer(item: any): EntityInfo {
+  return {
+    id: item["id"],
+    displayName: item["displayName"],
+    entityType: item["entityType"],
+  };
+}
+
+/** The type of the entity */
+export enum KnownEntityType {
+  /** The entity is an Entra user */
+  User = "User",
+  /** The entity is an Entra security group */
+  Group = "Group",
+}
+
+/**
+ * The type of the entity \
+ * {@link KnownEntityType} can be used interchangeably with EntityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity is an Entra user \
+ * **Group**: The entity is an Entra security group
+ */
+export type EntityType = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -628,45 +610,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** The type used for update operations of the CloudAccount. */
-export interface CloudAccountUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: CloudAccountUpdateProperties;
-}
-
-export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
-  return {
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the CloudAccount. */
-export interface CloudAccountUpdateProperties {
-  /** Marketplace details of the resource. */
-  marketplace?: MarketplaceDetails;
-  /** Details of the user. */
-  user?: UserDetails;
-}
-
-export function cloudAccountUpdatePropertiesSerializer(item: CloudAccountUpdateProperties): any {
-  return {
-    marketplace: !item["marketplace"]
-      ? item["marketplace"]
-      : marketplaceDetailsSerializer(item["marketplace"]),
-    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
-  };
-}
-
 /** The response of a CloudAccount list operation. */
 export interface _CloudAccountListResult {
   /** The CloudAccount items on this page */
@@ -722,11 +665,39 @@ export function latestLinkedSaaSResponseDeserializer(item: any): LatestLinkedSaa
 /** SaaS guid for Activate and Validate SaaS Resource */
 export interface ActivateSaaSParameterRequest {
   /** SaaS guid for Activate and Validate SaaS Resource */
-  saaSGuid: string;
+  saasGuid: string;
+  /** Optional publisher identifier */
+  publisherId?: string;
+  /** Optional activation request parameters containing user and company details */
+  activateSaaSRequestParam?: ActivateSaaSRequestParam;
 }
 
 export function activateSaaSParameterRequestSerializer(item: ActivateSaaSParameterRequest): any {
-  return { saaSGuid: item["saaSGuid"] };
+  return {
+    saasGuid: item["saasGuid"],
+    publisherId: item["publisherId"],
+    activateSaaSRequestParam: !item["activateSaaSRequestParam"]
+      ? item["activateSaaSRequestParam"]
+      : activateSaaSRequestParamSerializer(item["activateSaaSRequestParam"]),
+  };
+}
+
+/** Optional activate SaaS request parameters */
+export interface ActivateSaaSRequestParam {
+  /** Optional Marketplace SaaS resource identifier */
+  saasResourceId?: string;
+  /** Optional user details */
+  user?: UserDetails;
+  /** Optional company details */
+  company?: CompanyProfile;
+}
+
+export function activateSaaSRequestParamSerializer(item: ActivateSaaSRequestParam): any {
+  return {
+    saasResourceId: item["saasResourceId"],
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+  };
 }
 
 /** Marketplace SaaS resource details. */
@@ -805,6 +776,8 @@ export interface StorageProperties {
   class: StorageClassType;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ResourceProvisioningState;
+  /** The compliance lock status of the storage. */
+  readonly complianceLockStatus?: ComplianceLockStatus;
 }
 
 export function storagePropertiesSerializer(item: StorageProperties): any {
@@ -823,6 +796,7 @@ export function storagePropertiesDeserializer(item: any): StorageProperties {
     vendor: item["vendor"],
     class: item["class"],
     provisioningState: item["provisioningState"],
+    complianceLockStatus: item["complianceLockStatus"],
   };
 }
 
@@ -873,6 +847,27 @@ export enum KnownStorageClassType {
  * **HOT**: Hot storage class
  */
 export type StorageClassType = string;
+
+/** Compliance lock status of a Commvault Storage. */
+export enum KnownComplianceLockStatus {
+  /** Compliance lock is enabled — storage is protected. */
+  Enabled = "Enabled",
+  /** Disablement is pending multi-person authorization (MPA) approval. Status transitions to 'Disabled' once approved. */
+  DisablementPending = "DisablementPending",
+  /** Compliance lock is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Compliance lock status of a Commvault Storage. \
+ * {@link KnownComplianceLockStatus} can be used interchangeably with ComplianceLockStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Compliance lock is enabled — storage is protected. \
+ * **DisablementPending**: Disablement is pending multi-person authorization (MPA) approval. Status transitions to 'Disabled' once approved. \
+ * **Disabled**: Compliance lock is disabled.
+ */
+export type ComplianceLockStatus = string;
 
 /** The response of a Storage list operation. */
 export interface _StorageListResult {
@@ -1475,11 +1470,11 @@ export interface ProtectionGroupProperties {
   /** The resources to be protected under Protection Group */
   resources: ProtectionGroupResources;
   /** The protection group schedule */
-  readonly protectionStatus?: ProtectionStatus;
+  readonly protectionStatus: ProtectionStatus;
   /** The number of ProtectedItems under the Protection Group */
-  readonly numberOfProtectedItems?: number;
+  readonly numberOfProtectedItems: number;
   /** The Commvault Protection Group backup time */
-  readonly lastBackUpTime?: number;
+  readonly lastBackUpTime: number;
   /** The backup activity status indicating if backup is enabled or not on the protection group */
   readonly backupActivityStatus?: string;
   /** Provisioning state of the resource. */
@@ -2149,67 +2144,6 @@ export function roleAssignmentArrayDeserializer(result: Array<RoleAssignment>): 
   });
 }
 
-/** A role assignment mapping a Commvault role to one or more Entra entities (users or groups) */
-export interface RoleAssignment {
-  /** The name of the Commvault role */
-  roleName?: RoleName;
-  /** The Entra entities (users or groups) assigned to this role */
-  entities?: EntityInfo[];
-}
-
-export function roleAssignmentSerializer(item: RoleAssignment): any {
-  return {
-    roleName: item["roleName"],
-    entities: !item["entities"] ? item["entities"] : entityInfoArraySerializer(item["entities"]),
-  };
-}
-
-export function roleAssignmentDeserializer(item: any): RoleAssignment {
-  return {
-    roleName: item["roleName"],
-    entities: !item["entities"] ? item["entities"] : entityInfoArrayDeserializer(item["entities"]),
-  };
-}
-
-/** Supported Commvault role names */
-export enum KnownRoleName {
-  /** Backup Administrator - full access to all resources */
-  BackupAdmin = "BackupAdmin",
-  /** Backup Operator - can manage resources but cannot delete storage or plans */
-  BackupOperator = "BackupOperator",
-  /** Backup User - can manage protection groups, read-only on plans and storage */
-  BackupUser = "BackupUser",
-  /** Security Administrator - can manage CCA enrollment and user management */
-  SecurityAdmin = "SecurityAdmin",
-  /** MPA Administrator - can authorize critical operations protected by MPA */
-  MultiPersonAuthorization = "MultiPersonAuthorization",
-}
-
-/**
- * Supported Commvault role names \
- * {@link KnownRoleName} can be used interchangeably with RoleName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BackupAdmin**: Backup Administrator - full access to all resources \
- * **BackupOperator**: Backup Operator - can manage resources but cannot delete storage or plans \
- * **BackupUser**: Backup User - can manage protection groups, read-only on plans and storage \
- * **SecurityAdmin**: Security Administrator - can manage CCA enrollment and user management \
- * **MultiPersonAuthorization**: MPA Administrator - can authorize critical operations protected by MPA
- */
-export type RoleName = string;
-
-export function entityInfoArraySerializer(result: Array<EntityInfo>): any[] {
-  return result.map((item) => {
-    return entityInfoSerializer(item);
-  });
-}
-
-export function entityInfoArrayDeserializer(result: Array<EntityInfo>): any[] {
-  return result.map((item) => {
-    return entityInfoDeserializer(item);
-  });
-}
-
 /** The response of a RoleMapping list operation. */
 export interface _RoleMappingListResult {
   /** The RoleMapping items on this page */
@@ -2237,6 +2171,307 @@ export function roleMappingArrayDeserializer(result: Array<RoleMapping>): any[] 
   });
 }
 
+/** A Commvault Role Mapping Resource. Singleton per Cloud Account - maps Entra security groups to Commvault roles for RBAC enforcement. */
+export interface RoleMappingCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: RoleMappingPropertiesCreateOrUpdate;
+}
+
+export function roleMappingCreateOrUpdateSerializer(item: RoleMappingCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : roleMappingPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+/** The properties of Commvault Role Mapping */
+export interface RoleMappingPropertiesCreateOrUpdate {
+  /** The list of role assignments mapping roles to Entra entities (users and groups) */
+  roles?: RoleAssignment[];
+}
+
+export function roleMappingPropertiesCreateOrUpdateSerializer(
+  item: RoleMappingPropertiesCreateOrUpdate,
+): any {
+  return { roles: !item["roles"] ? item["roles"] : roleAssignmentArraySerializer(item["roles"]) };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResourceCreateOrUpdate extends ResourceCreateOrUpdate {}
+
+export function proxyResourceCreateOrUpdateSerializer(_item: ProxyResourceCreateOrUpdate): any {
+  return {};
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceCreateOrUpdate {}
+
+export function resourceCreateOrUpdateSerializer(_item: ResourceCreateOrUpdate): any {
+  return {};
+}
+
+/** A Commvault Plan Resource */
+export interface ProtectionGroupCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: ProtectionGroupPropertiesCreateOrUpdate;
+}
+
+export function protectionGroupCreateOrUpdateSerializer(item: ProtectionGroupCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : protectionGroupPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+/** The properties of Commvault Protection Group */
+export interface ProtectionGroupPropertiesCreateOrUpdate {
+  /** The datasource type of Commvault Protection Group */
+  dataSourceType: "AzureVM";
+  /** The Commvault Plan to be associated with the Protection Group */
+  plan: string;
+  /** The resources to be protected under Protection Group */
+  resources: ProtectionGroupResources;
+}
+
+export function protectionGroupPropertiesCreateOrUpdateSerializer(
+  item: ProtectionGroupPropertiesCreateOrUpdate,
+): any {
+  return {
+    dataSourceType: item["dataSourceType"],
+    plan: item["plan"],
+    resources: protectionGroupResourcesSerializer(item["resources"]),
+  };
+}
+
+/** A Commvault Plan Resource */
+export interface CommvaultPlanCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: PlanPropertiesCreateOrUpdate;
+}
+
+export function commvaultPlanCreateOrUpdateSerializer(item: CommvaultPlanCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : planPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+/** The properties of Commvault Plan */
+export interface PlanPropertiesCreateOrUpdate {
+  /** Location of the Commvault Plan */
+  location: string;
+  /** The storage plans associated with the Commvault Plan */
+  storagePlans: StoragePlan[];
+  /** The Commvault Plan Schedule */
+  schedules?: Schedule[];
+  /** The Commvault Plan Retention */
+  retention?: Retention;
+}
+
+export function planPropertiesCreateOrUpdateSerializer(item: PlanPropertiesCreateOrUpdate): any {
+  return {
+    location: item["location"],
+    storagePlans: storagePlanArraySerializer(item["storagePlans"]),
+    schedules: !item["schedules"] ? item["schedules"] : scheduleArraySerializer(item["schedules"]),
+    retention: !item["retention"] ? item["retention"] : retentionSerializer(item["retention"]),
+  };
+}
+
+/** A Commvault Storage Resource */
+export interface StorageCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: StoragePropertiesCreateOrUpdate;
+}
+
+export function storageCreateOrUpdateSerializer(item: StorageCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : storagePropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+/** The properties of Commvault Storage */
+export interface StoragePropertiesCreateOrUpdate {
+  /** Location of the Commvault Storage */
+  location: string;
+  /** The type of Commvault Storage */
+  storageType: StorageType;
+  /** The vendor of Commvault Storage */
+  vendor: Vendor;
+  /** The class of Commvault Storage */
+  class: StorageClassType;
+}
+
+export function storagePropertiesCreateOrUpdateSerializer(
+  item: StoragePropertiesCreateOrUpdate,
+): any {
+  return {
+    location: item["location"],
+    storageType: item["storageType"],
+    vendor: item["vendor"],
+    class: item["class"],
+  };
+}
+
+/** A Commvault Cloud Account Resource */
+export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountPropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityCreateOrUpdate;
+}
+
+export function cloudAccountCreateOrUpdateSerializer(item: CloudAccountCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountPropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+/** Properties specific to Commvault Cloud Account resource */
+export interface CloudAccountPropertiesCreateOrUpdate {
+  /** Marketplace details of the resource. */
+  marketplace: MarketplaceDetailsCreateOrUpdate;
+  /** Details of the user. */
+  user: UserDetails;
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
+  /** Role assignments to provision during CCA creation. Each entry maps a Commvault role to its assigned Entra principals. */
+  roleAssignmentsOnCcaCreate?: RoleAssignment[];
+}
+
+export function cloudAccountPropertiesCreateOrUpdateSerializer(
+  item: CloudAccountPropertiesCreateOrUpdate,
+): any {
+  return {
+    marketplace: marketplaceDetailsCreateOrUpdateSerializer(item["marketplace"]),
+    user: userDetailsSerializer(item["user"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+    roleAssignmentsOnCcaCreate: !item["roleAssignmentsOnCcaCreate"]
+      ? item["roleAssignmentsOnCcaCreate"]
+      : roleAssignmentArraySerializer(item["roleAssignmentsOnCcaCreate"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentityCreateOrUpdate>;
+}
+
+export function managedServiceIdentityCreateOrUpdateSerializer(
+  item: ManagedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentityCreateOrUpdate {}
+
+export function userAssignedIdentityCreateOrUpdateSerializer(
+  _item: UserAssignedIdentityCreateOrUpdate,
+): any {
+  return {};
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceCreateOrUpdateSerializer(item: TrackedResourceCreateOrUpdate): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+/** A Commvault Cloud Account Resource */
+export interface CloudAccountUpdate extends TrackedResourceUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountPropertiesUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
+}
+
+export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountPropertiesUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+  };
+}
+
+/** Properties specific to Commvault Cloud Account resource */
+export interface CloudAccountPropertiesUpdate {
+  /** Marketplace details of the resource. */
+  marketplace: MarketplaceDetailsUpdate;
+  /** Details of the user. */
+  user: UserDetails;
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
+}
+
+export function cloudAccountPropertiesUpdateSerializer(item: CloudAccountPropertiesUpdate): any {
+  return {
+    marketplace: marketplaceDetailsUpdateSerializer(item["marketplace"]),
+    user: userDetailsSerializer(item["user"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
+}
+
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentityUpdate {}
+
+export function userAssignedIdentityUpdateSerializer(_item: UserAssignedIdentityUpdate): any {
+  return {};
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceUpdate extends ResourceUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function trackedResourceUpdateSerializer(item: TrackedResourceUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceUpdate {}
+
+export function resourceUpdateSerializer(_item: ResourceUpdate): any {
+  return {};
+}
+
 /** Supported API versions for the Commvault.ContentStore resource provider. */
 export enum KnownVersions {
   /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview */
@@ -2255,4 +2490,6 @@ export enum KnownVersions {
   V7Preview = "2026-07-01-preview",
   /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview */
   V8Preview = "2026-07-03-preview",
+  /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v3_preview */
+  V9Preview = "2026-08-01-preview",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a CloudAccount
  *
  * @summary create a CloudAccount
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -39,16 +39,63 @@ async function cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGen
           upn: "frlpmyk",
           phoneNumber: "mpunfyfckyzpqxotsmclzk",
         },
-        backupAdminOnCcaCreate: {
-          id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-          displayName: "Tenant Admins",
-          entityType: "Group",
+        company: {
+          jobTitle: "Backup Administrator",
+          companyName: "Contoso",
+          website: "https://www.contoso.com",
+          street: "1 Microsoft Way",
+          city: "Redmond",
+          country: "USA",
+          postalCode: "98052",
+          state: "WA",
         },
-        multiPersonAuthorizationOnCcaCreate: {
-          id: "11111111-2222-3333-4444-555555555555",
-          displayName: "John Smith",
-          entityType: "User",
-        },
+        roleAssignmentsOnCcaCreate: [
+          {
+            roleName: "BackupAdmin",
+            entities: [
+              {
+                id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+                displayName: "Tenant Admins",
+                entityType: "Group",
+              },
+            ],
+          },
+          {
+            roleName: "BackupUser",
+            entities: [
+              {
+                id: "22222222-3333-4444-5555-666666666666",
+                displayName: "Backup Users SG",
+                entityType: "Group",
+              },
+              {
+                id: "33333333-4444-5555-6666-777777777777",
+                displayName: "Jane Doe",
+                entityType: "User",
+              },
+            ],
+          },
+          {
+            roleName: "BackupOperator",
+            entities: [
+              {
+                id: "44444444-5555-6666-7777-888888888888",
+                displayName: "Ops Team",
+                entityType: "Group",
+              },
+            ],
+          },
+          {
+            roleName: "MultiPersonAuthorization",
+            entities: [
+              {
+                id: "11111111-2222-3333-4444-555555555555",
+                displayName: "MPA Approvers",
+                entityType: "Group",
+              },
+            ],
+          },
+        ],
       },
       identity: { type: "None", userAssignedIdentities: {} },
       tags: {},
@@ -62,9 +109,9 @@ async function cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGen
  * This sample demonstrates how to create a CloudAccount
  *
  * @summary create a CloudAccount
- * x-ms-original-file: 2026-07-03-preview/CloudAccounts_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudAccounts_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function cloudAccountsCreateOrUpdateMinimumSetCCACreateWithCreateOnlyRoleBootstrapFieldsOmitted() {
+async function cloudAccountsCreateOrUpdateMinimumSetCCACreateWithRoleAssignments() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "65D4E6D7-7063-4C4B-BAC5-13C45474009E";
   const client = new ContentStoreClient(credential, subscriptionId);
@@ -91,6 +138,53 @@ async function cloudAccountsCreateOrUpdateMinimumSetCCACreateWithCreateOnlyRoleB
           upn: "john.doe@contoso.com",
           phoneNumber: "1234567890",
         },
+        roleAssignmentsOnCcaCreate: [
+          {
+            roleName: "BackupAdmin",
+            entities: [
+              {
+                id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+                displayName: "Tenant Admins",
+                entityType: "Group",
+              },
+            ],
+          },
+          {
+            roleName: "BackupUser",
+            entities: [
+              {
+                id: "22222222-3333-4444-5555-666666666666",
+                displayName: "Backup Users SG",
+                entityType: "Group",
+              },
+              {
+                id: "33333333-4444-5555-6666-777777777777",
+                displayName: "Jane Doe",
+                entityType: "User",
+              },
+            ],
+          },
+          {
+            roleName: "BackupOperator",
+            entities: [
+              {
+                id: "44444444-5555-6666-7777-888888888888",
+                displayName: "Ops Team",
+                entityType: "Group",
+              },
+            ],
+          },
+          {
+            roleName: "MultiPersonAuthorization",
+            entities: [
+              {
+                id: "11111111-2222-3333-4444-555555555555",
+                displayName: "MPA Approvers",
+                entityType: "Group",
+              },
+            ],
+          },
+        ],
       },
       identity: { type: "None", userAssignedIdentities: {} },
       tags: {},
@@ -102,7 +196,7 @@ async function cloudAccountsCreateOrUpdateMinimumSetCCACreateWithCreateOnlyRoleB
 
 async function main() {
   await cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  await cloudAccountsCreateOrUpdateMinimumSetCCACreateWithCreateOnlyRoleBootstrapFieldsOmitted();
+  await cloudAccountsCreateOrUpdateMinimumSetCCACreateWithRoleAssignments();
 }
 
 main().catch(console.error);

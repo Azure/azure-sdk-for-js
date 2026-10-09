@@ -27,7 +27,7 @@ export function _activateResourceSend(
     "/subscriptions/{subscriptionId}/providers/Commvault.ContentStore/activateSaaS{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,6 @@ export function activateResource(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _activateResourceSend(context, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
 }

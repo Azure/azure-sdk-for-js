@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 import type { ContentStoreContext as Client } from "../index.js";
-import type { CommvaultPlan, _CommvaultPlanListResult } from "../../models/models.js";
+import type {
+  CommvaultPlan,
+  _CommvaultPlanListResult,
+  CommvaultPlanCreateOrUpdate,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  commvaultPlanSerializer,
   commvaultPlanDeserializer,
   _commvaultPlanListResultDeserializer,
+  commvaultPlanCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -35,7 +39,7 @@ export function _listByCloudAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +82,7 @@ export function listByCloudAccount(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -97,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +138,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudAccountName, planName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -143,7 +147,7 @@ export function _createOrupdateSend(
   resourceGroupName: string,
   cloudAccountName: string,
   planName: string,
-  resource: CommvaultPlan,
+  resource: CommvaultPlanCreateOrUpdate,
   options: PlansCreateOrupdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -153,7 +157,7 @@ export function _createOrupdateSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +167,7 @@ export function _createOrupdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commvaultPlanSerializer(resource),
+    body: commvaultPlanCreateOrUpdateSerializer(resource),
   });
 }
 
@@ -189,7 +193,7 @@ export function createOrupdate(
   resourceGroupName: string,
   cloudAccountName: string,
   planName: string,
-  resource: CommvaultPlan,
+  resource: CommvaultPlanCreateOrUpdate,
   options: PlansCreateOrupdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CommvaultPlan>, CommvaultPlan> {
   return getLongRunningPoller(context, _createOrupdateDeserialize, ["200", "201", "202"], {
@@ -205,7 +209,7 @@ export function createOrupdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<CommvaultPlan>, CommvaultPlan>;
 }
 
@@ -223,7 +227,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

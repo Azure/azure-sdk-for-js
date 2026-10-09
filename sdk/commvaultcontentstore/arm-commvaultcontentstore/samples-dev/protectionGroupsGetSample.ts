@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ProtectionGroup
  *
  * @summary get a ProtectionGroup
- * x-ms-original-file: 2026-07-03-preview/ProtectionGroups_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ProtectionGroups_Get_MaximumSet_Gen.json
  */
 async function protectionGroupsGetMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
