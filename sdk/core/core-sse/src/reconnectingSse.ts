@@ -113,9 +113,14 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
   let activeCancel: (() => Promise<void>) | undefined;
   let stopped = false;
 
-  const abort = (): void => {
+  const cancelConnection = (): Promise<void> => {
+    // Start body cancellation before aborting to avoid a late Node socket error.
+    const cancellation = safeCancel(activeCancel);
     aborter.abort();
-    void safeCancel(activeCancel);
+    return cancellation;
+  };
+  const abort = (): void => {
+    void cancelConnection();
   };
   options.abortSignal?.addEventListener("abort", abort);
 
@@ -124,9 +129,9 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
       return;
     }
     stopped = true;
-    aborter.abort();
+    const cancellation = cancelConnection();
     options.abortSignal?.removeEventListener("abort", abort);
-    await safeCancel(activeCancel);
+    await cancellation;
   };
 
   try {
