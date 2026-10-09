@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-dataprotection",
-  "version": "5.0.0",
+  "version": "5.1.0-beta.1",
   "description": "A generated SDK for DataProtectionClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -88,7 +88,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-dataprotection",
@@ -96,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-dataprotection"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-dataprotection?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
