@@ -1,5 +1,17 @@
 # Release History
 
+## 1.25.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Preserve lazy `createFileFromStream` factories and their sizes through Node multipart serialization, and keep legacy abort signals connected while streamed Node responses remain readable. Update the runtime minimum to include opt-in `Expect: 100-continue` support. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+
+### Other Changes
+
 ## 1.25.0 (2026-07-13)
 
 ### Other Changes

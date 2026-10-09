@@ -2,57 +2,52 @@
 // Licensed under the MIT License.
 
 import { Readable } from "stream";
-import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { isBlob } from "./typeGuards.js";
-
-async function* streamAsyncIterator(
-  this: ReadableStream<Uint8Array>,
-): AsyncIterableIterator<Uint8Array> {
-  const reader = this.getReader();
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        return;
-      }
-
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
-  }
-}
-
-function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterableReadableStream<T> {
-  if (!webStream[Symbol.asyncIterator]) {
-    webStream[Symbol.asyncIterator] = streamAsyncIterator.bind(webStream);
-  }
-
-  if (!webStream.values) {
-    webStream.values = streamAsyncIterator.bind(webStream);
-  }
-}
-
-function ensureNodeStream(
-  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
-): NodeJS.ReadableStream {
-  if (stream instanceof ReadableStream) {
-    makeAsyncIterable<Uint8Array>(stream);
-    return Readable.fromWeb(stream);
-  } else {
-    return stream;
-  }
-}
+import {
+  disposeBodyStream,
+  monitorBodyStreamErrors,
+  registerMultipartStream,
+  startBodyStream,
+} from "./nodeBody.js";
+import { logger } from "../log.js";
+import { RestError } from "../restError.js";
 
 function toStream(
   source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob,
+  owned: boolean,
 ): NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
-    return ensureNodeStream(source.stream());
+    return toStream(source.stream(), true);
+  } else if (source instanceof ReadableStream) {
+    const reader = source.getReader();
+    const stream = new Readable({
+      read() {
+        return reader
+          .read()
+          .then(
+            ({ done, value }) => !stream.destroyed && stream.push(done ? null : Buffer.from(value)),
+          )
+          .catch((error: unknown) =>
+            stream.destroyed
+              ? stream
+              : stream.destroy(error instanceof Error ? error : new Error(String(error))),
+          );
+      },
+      destroy(error, callback) {
+        reader.releaseLock();
+        if (owned) {
+          source.cancel(error).catch((cancelError: unknown) => {
+            logger.warning("Error canceling multipart source", cancelError);
+          });
+        }
+        callback(error);
+      },
+    });
+    return stream;
   } else {
-    return ensureNodeStream(source);
+    return source;
   }
 }
 
@@ -77,16 +72,100 @@ export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
   return function () {
-    const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
-
-    return Readable.from(
-      (async function* () {
-        for (const stream of streams) {
-          for await (const chunk of stream) {
-            yield chunk;
+    let index = 0;
+    let current: NodeJS.ReadableStream | undefined;
+    let cleanupCurrent: (() => void) | undefined;
+    let protectReplay = false;
+    const stream = new Readable({
+      read() {
+        if (current) current.resume();
+        else advance();
+      },
+      destroy(error, callback) {
+        cleanupCurrent?.();
+        callback(error);
+      },
+    });
+    registerMultipartStream(stream, (enabled) => {
+      protectReplay = enabled;
+    });
+    function advance(): void {
+      if (stream.destroyed) return;
+      if (index === sources.length) {
+        stream.push(null);
+        return;
+      }
+      const source = sources[index++];
+      const factory = typeof source === "function";
+      try {
+        const resolved = factory ? source() : source;
+        const owned = factory || resolved instanceof Uint8Array || isBlob(resolved);
+        if (stream.destroyed) {
+          if (factory && !(resolved instanceof Uint8Array) && !isBlob(resolved)) {
+            if (resolved instanceof ReadableStream) {
+              resolved.cancel().catch((error: unknown) => {
+                logger.warning("Error canceling multipart source", error);
+              });
+            } else {
+              disposeBodyStream(resolved);
+            }
+          }
+          return;
+        }
+        if (!(resolved instanceof Uint8Array) && !isBlob(resolved)) {
+          if (resolved instanceof ReadableStream) {
+            // Web sources also need identity-based replay protection before taking a reader.
+            startWebSource(resolved, protectReplay);
+          } else {
+            startBodyStream(resolved, protectReplay);
           }
         }
-      })(),
-    );
+        const part = toStream(resolved, owned);
+        current = part;
+        const onData = (chunk: Buffer | string): void => {
+          if (!stream.push(chunk)) part.pause();
+        };
+        const onError = (error: Error): void => {
+          stream.destroy(error);
+        };
+        const onEnd = (): void => {
+          cleanupCurrent?.();
+          advance();
+        };
+        const onClose = (): void => {
+          if (current === part) stream.destroy(new Error("Multipart source closed before ending"));
+        };
+        cleanupCurrent = () => {
+          current = undefined;
+          cleanupCurrent = undefined;
+          part.pause();
+          part.removeListener("data", onData);
+          part.removeListener("end", onEnd);
+          part.removeListener("error", onError);
+          part.removeListener("close", onClose);
+          if (owned || resolved instanceof ReadableStream) disposeBodyStream(part);
+          else monitorBodyStreamErrors(part);
+        };
+        part.on("data", onData);
+        part.once("end", onEnd);
+        part.once("error", onError);
+        part.once("close", onClose);
+        part.resume();
+      } catch (error) {
+        stream.destroy(error instanceof Error ? error : new Error(String(error)));
+      }
+    }
+    return stream;
   };
+}
+
+const startedWebSources = new WeakSet<ReadableStream>();
+function startWebSource(source: ReadableStream, protectReplay: boolean): void {
+  if (startedWebSources.has(source)) {
+    throw new RestError(
+      "Cannot resend an already-started multipart stream. Use a factory returning a fresh stream.",
+      { code: "REQUEST_BODY_NOT_REPLAYABLE" },
+    );
+  }
+  if (protectReplay) startedWebSources.add(source);
 }

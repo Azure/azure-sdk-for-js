@@ -71,12 +71,14 @@ const unimplementedMethods = {
  * @internal
  */
 const rawContent: unique symbol = Symbol("rawContent");
+const rawStreamFactory: unique symbol = Symbol("rawStreamFactory");
 
 /**
  * Type signature of a blob-like object with a raw content property.
  */
 export interface RawContent extends Blob {
   [rawContent](): Uint8Array | NodeReadableStream | WebReadableStream<Uint8Array>;
+  [rawStreamFactory]?: () => NodeReadableStream | WebReadableStream<Uint8Array>;
 }
 
 /**
@@ -101,6 +103,13 @@ export function getRawContent(
   } else {
     return blob;
   }
+}
+
+/** @internal */
+export function getRawStreamFactory(
+  blob: Blob,
+): (() => NodeReadableStream | WebReadableStream<Uint8Array>) | undefined {
+  return hasRawContent(blob) ? blob[rawStreamFactory] : undefined;
 }
 
 /**
@@ -154,6 +163,7 @@ export function createFileFromStream(
   name: string,
   options: CreateFileFromStreamOptions = {},
 ): File {
+  const factory = Object.assign(() => stream(), { size: options.size ?? -1 });
   return {
     ...unimplementedMethods,
     type: options.type ?? "",
@@ -172,6 +182,7 @@ export function createFileFromStream(
       return s;
     },
     [rawContent]: stream,
+    [rawStreamFactory]: factory,
   } as File & RawContent;
 }
 
