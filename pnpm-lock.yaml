@@ -1212,8 +1212,8 @@ importers:
         specifier: ^1.9.1
         version: 1.9.1
       https-proxy-agent:
-        specifier: ^7.0.1
-        version: 7.0.6(supports-color@8.1.1)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@8.1.1)
       openai:
         specifier: ^6.16.0
         version: 6.49.0(ws@8.22.0)(zod@4.6.5)
@@ -9723,8 +9723,8 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(supports-color@8.1.1)
       https-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.6(supports-color@8.1.1)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@8.1.1)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -14842,8 +14842,8 @@ importers:
         specifier: 'catalog:'
         version: 10.11.0(supports-color@8.1.1)
       https-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.6(supports-color@8.1.1)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@8.1.1)
       node-forge:
         specifier: ^1.3.2
         version: 1.4.0
@@ -30053,8 +30053,8 @@ importers:
         specifier: ^3.0.0
         version: 3.3.0
       https-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.6(supports-color@8.1.1)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@8.1.1)
       playwright:
         specifier: catalog:testing
         version: 1.63.0
@@ -35156,8 +35156,8 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       https-proxy-agent:
-        specifier: ^7.0.1
-        version: 7.0.6(supports-color@8.1.1)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@8.1.1)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -40093,6 +40093,10 @@ packages:
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha1-2o3+rH2hMLBcK6S1nJts1mYRprk=}
     engines: {node: '>= 14'}
+
+  https-proxy-agent@9.1.0:
+    resolution: {integrity: sha1-qfYPebwVeMN7Fm3X9Ytry1xX5Es=}
+    engines: {node: '>= 20'}
 
   human-signals@2.1.0:
     resolution: {integrity: sha1-3JH8ukLk0G5Kuu0zs+ejwC9RTqA=}
@@ -47648,6 +47652,15 @@ snapshots:
       agent-base: 7.1.4
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
+      - supports-color
+
+  https-proxy-agent@9.1.0(supports-color@8.1.1):
+    dependencies:
+      agent-base: 9.0.0
+      debug: 4.4.3(supports-color@8.1.1)
+      proxy-agent-negotiate: 1.1.0
+    transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   human-signals@2.1.0: {}
