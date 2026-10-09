@@ -131,10 +131,10 @@ export function listTextBlocklists(
     _listTextBlocklistsDeserialize,
     ["200"],
     {
+      requestOptions: options,
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-09-01-preview",
-      requestOptions: options,
     },
   );
 }
@@ -190,11 +190,11 @@ export function listTextBlocklistItems(
     _listTextBlocklistItemsDeserialize,
     ["200"],
     {
+      requestOptions: options,
+      maxPageSizeParamName: "maxpagesize",
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-09-01-preview",
-      requestOptions: options,
-      maxPageSizeParamName: "maxpagesize",
     },
   );
 }

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.2 (Unreleased)
+
+### Bugs Fixed
+
+- Preserve blocklist paging customizations when regenerating the client with a new default API version.
+
 ## 1.0.0-beta.1 (2026-09-18)
 
 ### Features Added
