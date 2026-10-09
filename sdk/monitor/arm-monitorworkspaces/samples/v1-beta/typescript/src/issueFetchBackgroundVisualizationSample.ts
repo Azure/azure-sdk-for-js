@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetch the background visualization of the issue
  *
  * @summary fetch the background visualization of the issue
- * x-ms-original-file: 2025-10-03/Issue_FetchBackgroundVisualization_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_FetchBackgroundVisualization_MaximumSet_Gen.json
  */
 async function issueFetchBackgroundVisualizationMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

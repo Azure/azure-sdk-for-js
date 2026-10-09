@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an Azure Monitor Workspace
  *
  * @summary deletes an Azure Monitor Workspace
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_Delete_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesDeleteGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

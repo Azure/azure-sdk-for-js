@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the specified Azure Monitor Workspace
  *
  * @summary returns the specified Azure Monitor Workspace
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_Get_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesGetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

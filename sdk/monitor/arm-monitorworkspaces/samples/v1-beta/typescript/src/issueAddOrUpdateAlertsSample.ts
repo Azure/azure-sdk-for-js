@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add or update alerts associated with an issue
  *
  * @summary add or update alerts associated with an issue
- * x-ms-original-file: 2025-10-03/Issue_AddOrUpdateAlerts_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_AddOrUpdateAlerts_MaximumSet_Gen.json
  */
 async function issueAddOrUpdateAlertsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
