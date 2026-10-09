@@ -75,6 +75,7 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /**
  * Activates failover for the specified workspace.
  *
@@ -133,6 +134,7 @@ export async function _reconcileNSPDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Reconcile network security perimeter configuration for Workspace resource. */
 export function reconcileNSP(
   context: Client,
@@ -196,6 +198,7 @@ export async function _listNSPDeserialize(
 
   return _networkSecurityPerimeterConfigurationListResultDeserializer(result.body);
 }
+
 /** Gets a list of NSP configurations for specified workspace. */
 export function listNSP(
   context: Client,
@@ -253,6 +256,7 @@ export async function _getNSPDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
+
 /** Gets a network security perimeter configuration. */
 export async function getNSP(
   context: Client,
@@ -305,6 +309,7 @@ export async function _failbackDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /**
  * Deactivates failover for the specified workspace.
  *
@@ -360,6 +365,7 @@ export async function _listDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
+
 /** Gets the workspaces in a subscription. */
 export function list(
   context: Client,
@@ -411,6 +417,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
+
 /** Gets workspaces in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -461,6 +468,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a workspace resource. To recover the workspace, create it again with the same name, in the same subscription, resource group and location. The name is kept for 14 days and cannot be used for another workspace. To remove the workspace completely and release the name, use the force flag. */
 export function $delete(
   context: Client,
@@ -517,6 +525,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return workspaceDeserializer(result.body);
 }
+
 /** Updates a workspace. */
 export async function update(
   context: Client,
@@ -571,6 +580,7 @@ export async function _createOrUpdateDeserialize(
 
   return workspaceDeserializer(result.body);
 }
+
 /** Create or update a workspace. */
 export function createOrUpdate(
   context: Client,
@@ -626,6 +636,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
 
   return workspaceDeserializer(result.body);
 }
+
 /** Gets a workspace instance. */
 export async function get(
   context: Client,

@@ -53,6 +53,7 @@ export async function _listDeserialize(
 
   return _workspaceListManagementGroupsResultDeserializer(result.body);
 }
+
 /** Gets a list of management groups connected to a workspace. */
 export function list(
   context: Client,

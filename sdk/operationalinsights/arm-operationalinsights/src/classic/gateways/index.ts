@@ -15,6 +15,7 @@ export interface GatewaysOperations {
     options?: GatewaysDeleteOptionalParams,
   ) => Promise<void>;
 }
+
 function _getGateways(context: OperationalInsightsManagementContext) {
   return {
     delete: (
@@ -25,6 +26,7 @@ function _getGateways(context: OperationalInsightsManagementContext) {
     ) => $delete(context, resourceGroupName, workspaceName, gatewayId, options),
   };
 }
+
 export function _getGatewaysOperations(
   context: OperationalInsightsManagementContext,
 ): GatewaysOperations {

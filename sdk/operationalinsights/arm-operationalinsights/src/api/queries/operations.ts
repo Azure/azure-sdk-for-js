@@ -73,6 +73,7 @@ export async function _listSearchDeserialize(
 
   return _logAnalyticsQueryPackQueryListResultDeserializer(result.body);
 }
+
 /** Search a list of Queries defined within a Log Analytics QueryPack according to given search properties. */
 export function listSearch(
   context: Client,
@@ -133,6 +134,7 @@ export async function _listDeserialize(
 
   return _logAnalyticsQueryPackQueryListResultDeserializer(result.body);
 }
+
 /** Gets a list of Queries defined within a Log Analytics QueryPack. */
 export function list(
   context: Client,
@@ -185,6 +187,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a specific Query defined within an Log Analytics QueryPack. */
 export async function $delete(
   context: Client,
@@ -241,6 +244,7 @@ export async function _updateDeserialize(
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
+
 /** Adds or Updates a specific Query within a Log Analytics QueryPack. */
 export async function update(
   context: Client,
@@ -305,6 +309,7 @@ export async function _putDeserialize(
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
+
 /** Adds or Updates a specific Query within a Log Analytics QueryPack. */
 export async function put(
   context: Client,
@@ -366,6 +371,7 @@ export async function _getDeserialize(
 
   return logAnalyticsQueryPackQueryDeserializer(result.body);
 }
+
 /** Gets a specific Log Analytics Query defined within a Log Analytics QueryPack. */
 export async function get(
   context: Client,

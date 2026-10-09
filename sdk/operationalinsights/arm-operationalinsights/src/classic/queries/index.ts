@@ -63,6 +63,7 @@ export interface QueriesOperations {
     options?: QueriesGetOptionalParams,
   ) => Promise<LogAnalyticsQueryPackQuery>;
 }
+
 function _getQueries(context: OperationalInsightsManagementContext) {
   return {
     listSearch: (
@@ -101,6 +102,7 @@ function _getQueries(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, queryPackName, id, options),
   };
 }
+
 export function _getQueriesOperations(
   context: OperationalInsightsManagementContext,
 ): QueriesOperations {

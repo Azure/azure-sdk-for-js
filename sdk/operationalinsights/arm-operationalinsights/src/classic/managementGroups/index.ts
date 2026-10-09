@@ -16,6 +16,7 @@ export interface ManagementGroupsOperations {
     options?: ManagementGroupsListOptionalParams,
   ) => PagedAsyncIterableIterator<ManagementGroup>;
 }
+
 function _getManagementGroups(context: OperationalInsightsManagementContext) {
   return {
     list: (
@@ -25,6 +26,7 @@ function _getManagementGroups(context: OperationalInsightsManagementContext) {
     ) => list(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getManagementGroupsOperations(
   context: OperationalInsightsManagementContext,
 ): ManagementGroupsOperations {

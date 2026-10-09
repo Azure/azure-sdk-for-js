@@ -58,6 +58,7 @@ export async function _listByWorkspaceDeserialize(
 
   return savedSearchesListResultDeserializer(result.body);
 }
+
 /** Gets the saved searches for a given Log Analytics Workspace */
 export async function listByWorkspace(
   context: Client,
@@ -105,6 +106,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the specified saved search in a given workspace. */
 export async function $delete(
   context: Client,
@@ -167,6 +169,7 @@ export async function _createOrUpdateDeserialize(
 
   return savedSearchDeserializer(result.body);
 }
+
 /** Creates or updates a saved search for a given workspace. */
 export async function createOrUpdate(
   context: Client,
@@ -226,6 +229,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sa
 
   return savedSearchDeserializer(result.body);
 }
+
 /** Gets the specified saved search for a given workspace. */
 export async function get(
   context: Client,

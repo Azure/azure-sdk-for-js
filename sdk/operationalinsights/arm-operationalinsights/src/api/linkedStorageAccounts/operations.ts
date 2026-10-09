@@ -64,6 +64,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _linkedStorageAccountsListResultDeserializer(result.body);
 }
+
 /** Gets all linked storage accounts associated with the specified workspace, storage accounts will be sorted by their data source type. */
 export function listByWorkspace(
   context: Client,
@@ -116,6 +117,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes all linked storage accounts of a specific data source type associated with the specified workspace. */
 export async function $delete(
   context: Client,
@@ -178,6 +180,7 @@ export async function _createOrUpdateDeserialize(
 
   return linkedStorageAccountsResourceDeserializer(result.body);
 }
+
 /** Create or Update a link relation between current workspace and a group of storage accounts of a specific data source type. */
 export async function createOrUpdate(
   context: Client,
@@ -239,6 +242,7 @@ export async function _getDeserialize(
 
   return linkedStorageAccountsResourceDeserializer(result.body);
 }
+
 /** Gets all linked storage account of a specific data source type associated with the specified workspace. */
 export async function get(
   context: Client,

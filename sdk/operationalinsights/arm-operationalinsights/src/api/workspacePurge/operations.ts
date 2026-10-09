@@ -65,6 +65,7 @@ export async function _purgeLakeDataDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
+
 /**
  * Purges data lake data in a Log Analytics workspace for a table over a specified time range.
  *
@@ -128,6 +129,7 @@ export async function _getPurgeStatusDeserialize(
 
   return workspacePurgeStatusResponseDeserializer(result.body);
 }
+
 /** Gets status of an ongoing purge operation. */
 export async function getPurgeStatus(
   context: Client,
@@ -188,6 +190,7 @@ export async function _purgeDeserialize(
 
   return workspacePurgeResponseDeserializer(result.body);
 }
+
 /**
  * Purges data in an Log Analytics workspace by a set of user-defined filters.
  *

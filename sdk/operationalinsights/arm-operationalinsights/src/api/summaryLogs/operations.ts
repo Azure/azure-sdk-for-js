@@ -72,6 +72,7 @@ export async function _retryBinDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Retries a failed Summary rule bin. */
 export function retryBin(
   context: Client,
@@ -134,6 +135,7 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
+
 /** Stops an active Summary rule. */
 export async function stop(
   context: Client,
@@ -188,6 +190,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Starts an inactive Summary rule. */
 export function start(
   context: Client,
@@ -245,6 +248,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _summaryLogsListResultDeserializer(result.body);
 }
+
 /** Gets all summary rules for the specified Log Analytics workspace. */
 export function listByWorkspace(
   context: Client,
@@ -297,6 +301,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes Log Analytics workspace Summary rules. */
 export function $delete(
   context: Client,
@@ -359,6 +364,7 @@ export async function _createOrUpdateDeserialize(
 
   return summaryLogsDeserializer(result.body);
 }
+
 /** Creates or updates Log Analytics workspace Summary rules. */
 export function createOrUpdate(
   context: Client,
@@ -424,6 +430,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Su
 
   return summaryLogsDeserializer(result.body);
 }
+
 /** Gets Log Analytics workspace Summary rules. */
 export async function get(
   context: Client,

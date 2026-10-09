@@ -44,6 +44,7 @@ export interface DataSourcesOperations {
     options?: DataSourcesGetOptionalParams,
   ) => Promise<DataSource>;
 }
+
 function _getDataSources(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -81,6 +82,7 @@ function _getDataSources(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, dataSourceName, options),
   };
 }
+
 export function _getDataSourcesOperations(
   context: OperationalInsightsManagementContext,
 ): DataSourcesOperations {

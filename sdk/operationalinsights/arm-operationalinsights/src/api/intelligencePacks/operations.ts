@@ -53,6 +53,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<I
 
   return intelligencePackArrayDeserializer(result.body);
 }
+
 /** Lists all the intelligence packs possible and whether they are enabled or disabled for a given workspace. */
 export async function list(
   context: Client,
@@ -100,6 +101,7 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Enables an intelligence pack for a given workspace. */
 export async function enable(
   context: Client,
@@ -154,6 +156,7 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Disables an intelligence pack for a given workspace. */
 export async function disable(
   context: Client,

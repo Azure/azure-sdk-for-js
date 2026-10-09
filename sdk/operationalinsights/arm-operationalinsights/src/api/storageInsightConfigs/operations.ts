@@ -60,6 +60,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _storageInsightListResultDeserializer(result.body);
 }
+
 /** Lists the storage insight instances within a workspace */
 export function listByWorkspace(
   context: Client,
@@ -116,6 +117,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a storageInsightsConfigs resource */
 export async function $delete(
   context: Client,
@@ -178,6 +180,7 @@ export async function _createOrUpdateDeserialize(
 
   return storageInsightDeserializer(result.body);
 }
+
 /** Create or update a storage insight. */
 export async function createOrUpdate(
   context: Client,
@@ -237,6 +240,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<St
 
   return storageInsightDeserializer(result.body);
 }
+
 /** Gets a storage insight instance. */
 export async function get(
   context: Client,

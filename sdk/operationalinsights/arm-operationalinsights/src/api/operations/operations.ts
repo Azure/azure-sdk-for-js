@@ -48,6 +48,7 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
+
 /** Lists all of the available OperationalInsights Rest API operations. */
 export function list(
   context: Client,

@@ -43,6 +43,7 @@ export interface DataExportsOperations {
     options?: DataExportsGetOptionalParams,
   ) => Promise<DataExport>;
 }
+
 function _getDataExports(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -79,6 +80,7 @@ function _getDataExports(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, dataExportName, options),
   };
 }
+
 export function _getDataExportsOperations(
   context: OperationalInsightsManagementContext,
 ): DataExportsOperations {

@@ -62,6 +62,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _linkedServiceListResultDeserializer(result.body);
 }
+
 /** Gets the linked services instances in a workspace. */
 export function listByWorkspace(
   context: Client,
@@ -117,6 +118,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return linkedServiceDeserializer(result.body);
 }
+
 /** Deletes a linked service instance. */
 export function $delete(
   context: Client,
@@ -179,6 +181,7 @@ export async function _createOrUpdateDeserialize(
 
   return linkedServiceDeserializer(result.body);
 }
+
 /** Create or update a linked service. */
 export function createOrUpdate(
   context: Client,
@@ -244,6 +247,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Li
 
   return linkedServiceDeserializer(result.body);
 }
+
 /** Gets a linked service instance. */
 export async function get(
   context: Client,

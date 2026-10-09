@@ -48,6 +48,7 @@ export interface LinkedStorageAccountsOperations {
     options?: LinkedStorageAccountsGetOptionalParams,
   ) => Promise<LinkedStorageAccountsResource>;
 }
+
 function _getLinkedStorageAccounts(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -84,6 +85,7 @@ function _getLinkedStorageAccounts(context: OperationalInsightsManagementContext
     ) => get(context, resourceGroupName, workspaceName, dataSourceType, options),
   };
 }
+
 export function _getLinkedStorageAccountsOperations(
   context: OperationalInsightsManagementContext,
 ): LinkedStorageAccountsOperations {

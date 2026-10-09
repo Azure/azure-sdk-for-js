@@ -51,6 +51,7 @@ export async function _listByWorkspaceDeserialize(
 
   return availableServiceTierArrayDeserializer(result.body);
 }
+
 /** Gets the available service tiers for the workspace. */
 export async function listByWorkspace(
   context: Client,

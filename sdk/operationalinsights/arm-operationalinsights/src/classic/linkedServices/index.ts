@@ -81,6 +81,7 @@ export interface LinkedServicesOperations {
     options?: LinkedServicesGetOptionalParams,
   ) => Promise<LinkedService>;
 }
+
 function _getLinkedServices(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -169,6 +170,7 @@ function _getLinkedServices(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, linkedServiceName, options),
   };
 }
+
 export function _getLinkedServicesOperations(
   context: OperationalInsightsManagementContext,
 ): LinkedServicesOperations {

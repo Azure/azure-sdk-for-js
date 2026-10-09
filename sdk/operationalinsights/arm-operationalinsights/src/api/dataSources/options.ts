@@ -8,9 +8,12 @@ export interface DataSourcesListByWorkspaceOptionalParams extends OperationOptio
   /** Starting point of the collection of data source instances. */
   skiptoken?: string;
 }
+
 /** Optional parameters. */
 export interface DataSourcesDeleteOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface DataSourcesCreateOrUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface DataSourcesGetOptionalParams extends OperationOptions {}

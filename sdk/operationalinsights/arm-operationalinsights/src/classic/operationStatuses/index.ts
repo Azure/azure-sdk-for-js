@@ -15,6 +15,7 @@ export interface OperationStatusesOperations {
     options?: OperationStatusesGetOptionalParams,
   ) => Promise<OperationStatus>;
 }
+
 function _getOperationStatuses(context: OperationalInsightsManagementContext) {
   return {
     get: (
@@ -24,6 +25,7 @@ function _getOperationStatuses(context: OperationalInsightsManagementContext) {
     ) => get(context, location, asyncOperationId, options),
   };
 }
+
 export function _getOperationStatusesOperations(
   context: OperationalInsightsManagementContext,
 ): OperationStatusesOperations {

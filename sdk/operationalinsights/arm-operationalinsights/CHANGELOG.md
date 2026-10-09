@@ -1,6 +1,6 @@
 # Release History
 
-## 11.1.0 (2026-08-09)
+## 11.1.0 (2026-10-09)
 
 ### Features Added
   - Added operation WorkspacePurgeOperations.beginPurgeLakeData

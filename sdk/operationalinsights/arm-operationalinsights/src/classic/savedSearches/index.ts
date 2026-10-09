@@ -47,6 +47,7 @@ export interface SavedSearchesOperations {
     options?: SavedSearchesGetOptionalParams,
   ) => Promise<SavedSearch>;
 }
+
 function _getSavedSearches(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -76,6 +77,7 @@ function _getSavedSearches(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, savedSearchId, options),
   };
 }
+
 export function _getSavedSearchesOperations(
   context: OperationalInsightsManagementContext,
 ): SavedSearchesOperations {

@@ -51,6 +51,7 @@ export async function _getDeserialize(
 
   return searchGetSchemaResponseDeserializer(result.body);
 }
+
 /** Gets the schema for a given workspace. */
 export async function get(
   context: Client,

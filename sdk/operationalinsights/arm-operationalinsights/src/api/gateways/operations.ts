@@ -44,6 +44,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Log Analytics gateway. */
 export async function $delete(
   context: Client,

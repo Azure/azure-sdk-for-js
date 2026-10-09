@@ -53,6 +53,7 @@ export async function _listDeserialize(
 
   return _workspaceListUsagesResultDeserializer(result.body);
 }
+
 /** Gets a list of usage metrics for a workspace. */
 export function list(
   context: Client,

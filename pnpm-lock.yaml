@@ -989,7 +989,7 @@ importers:
         version: 4.13.0(supports-color@8.1.1)
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.20.1(supports-color@8.1.1)
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.45
         version: 1.0.0-beta.45(supports-color@8.1.1)
@@ -1228,7 +1228,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/monitor-opentelemetry':
         specifier: ^1.20.0
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.20.1(supports-color@8.1.1)
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
         version: 1.0.0(supports-color@8.1.1)
@@ -22544,7 +22544,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.20.0
-        version: link:../monitor-opentelemetry
+        version: 1.20.1(supports-color@8.1.1)
       '@opentelemetry/api':
         specifier: ^1.9.1
         version: 1.9.1
@@ -24163,7 +24163,7 @@ importers:
   sdk/operationalinsights/arm-operationalinsights:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -35845,6 +35845,14 @@ packages:
     resolution: {integrity: sha1-G9v/g//cBjwX3AxPLXK+Gdd0IDI=}
     engines: {node: '>=22.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.46':
+    resolution: {integrity: sha512-DXrkmKi2+zZCZEWPZN2cwEv3++NSeoo93F6FlHivoT+t7Q/7IRxLrCVttn22jGvFs8636cRKcWA8tqS8jPFOsQ==}
+    engines: {node: '>=22.0.0'}
+
+  '@azure/monitor-opentelemetry@1.20.1':
+    resolution: {integrity: sha512-KisIq7afY46aF1jrEfp2VlfotZZ7bIP5aguZCL6dm8mYCICpPR0P6AV53PIKQR/NQ8Z7m3MKbe8TPaZxePZ1Aw==}
+    engines: {node: '>=22.0.0'}
+
   '@azure/msal-browser@4.30.0':
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
@@ -35886,6 +35894,10 @@ packages:
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
     resolution: {integrity: sha1-jq6h9ZGcvym6g/L6yZ2JRDbhfco=}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.1.0-beta.1':
+    resolution: {integrity: sha1-yYnrme/U2tHVDI4Sin8ppUEs7Rs=}
     engines: {node: '>=20.0.0'}
 
   '@azure/schema-registry@1.3.0':
@@ -36139,7 +36151,7 @@ packages:
     engines: {node: ^22.18.0 || >=24.11.0}
 
   '@blazediff/core@1.10.0':
-    resolution: {integrity: sha1-ytBmZlXtCoFRflzqaLQBP+jkRFk=}
+    resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
 
   '@braidai/lang@1.1.2':
     resolution: {integrity: sha1-ZbwrwdttAOFTuVrHAG9Fc+KJ6b4=}
@@ -36405,25 +36417,25 @@ packages:
     resolution: {integrity: sha1-EHPl3ubdVAQQeEmQ63PkrNJcmBM=}
 
   '@esbuild/aix-ppc64@0.28.2':
-    resolution: {integrity: sha1-v24QMDvPLnxoaXX6Uvk37Cco2Lw=}
+    resolution: {integrity: sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ==}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [aix]
 
   '@esbuild/android-arm64@0.28.2':
-    resolution: {integrity: sha1-DGJGvI0sTRcqrC2z+xGQ1yvWVQQ=}
+    resolution: {integrity: sha512-5YfKeeI8qWfBZIX+u2xZC3Zlb3Os/gLS2sbEKM+I4ZOcsWmHS2WLysCcQZDAFRslDUU5Oiq44gf6PYN1vGwG5A==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [android]
 
   '@esbuild/android-arm@0.28.2':
-    resolution: {integrity: sha1-LYTs5qTiaE2SvibuE9QnV9gxw4E=}
+    resolution: {integrity: sha512-kXXoiPVVGQcnIYGOeaovwOURpniDBpSq4A03qkQ+BMQqtGG6HYap3xne9C1O1yo4TR3qxlCX5IqqmX6fFo2Lqg==}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [android]
 
   '@esbuild/android-x64@0.28.2':
-    resolution: {integrity: sha1-/DjU1jWNjcHPU/CfdYn+Q262SAE=}
+    resolution: {integrity: sha512-O387ite7SzUyCcy3JQX4P4bLtEA7bLLkx+esve5JHnyYfNTxcVpXZo9jhdB0lTKN44gztELTdU7nS8Nr16Fs1Q==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [android]
@@ -36441,13 +36453,13 @@ packages:
     os: [darwin]
 
   '@esbuild/freebsd-arm64@0.28.2':
-    resolution: {integrity: sha1-CTuSAOzwsRW6Tl4kinSFycX4vV4=}
+    resolution: {integrity: sha512-n+I0BTSRIoy+d6RPKnEVwql5UwBJolytvY4mAOIEJorKlqgPII8ix6slVVrfZ5Tnj7glIZvloylbB/EJPMWEXw==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [freebsd]
 
   '@esbuild/freebsd-x64@0.28.2':
-    resolution: {integrity: sha1-C+Irbfkl0hPoQeqHEjr134Cw+vc=}
+    resolution: {integrity: sha512-78XJTJkvPs0kz2w61301PJjXl4g7q3JqiYMZ/M/yVI73EHBrCRTgkhu9oqG7vPqq+a/yadEW8aD+agKlk5xrmg==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [freebsd]
@@ -36459,43 +36471,43 @@ packages:
     os: [linux]
 
   '@esbuild/linux-arm@0.28.2':
-    resolution: {integrity: sha1-vrEq1yuE9y0oSIzBuO6ffrFB11M=}
+    resolution: {integrity: sha512-XlDnu2q5yoqems+xay6wSAcg9DDD7K9RLKZEBOMZm3ckNpJBvOX20tSfby8KfrrhINDyv9V2YVZKY/SpoGJI8w==}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [linux]
 
   '@esbuild/linux-ia32@0.28.2':
-    resolution: {integrity: sha1-uB+dVVKbRcIGpGoTghSxqmh5aWs=}
+    resolution: {integrity: sha512-CYbnj78HsIeA+DhgUKgFCfvNsTHFhMMrinUrMZpDXJXKN8T3XViTZ/+wtHeVxEWY8ewSzTFN+nRmSwO2tZaLUQ==}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [linux]
 
   '@esbuild/linux-loong64@0.28.2':
-    resolution: {integrity: sha1-WYZnJBoEyZt27W75QKxQA4xBn5g=}
+    resolution: {integrity: sha512-buwkd8nsph4R+ajRvw0qM5Hja/TXQow3ptzWO2EbG/cqcIkHloRrdlBtQlshyYGTNFvfkfJ5tpPLVkY4DtsPfQ==}
     engines: {node: '>=18'}
     cpu: [loong64]
     os: [linux]
 
   '@esbuild/linux-mips64el@0.28.2':
-    resolution: {integrity: sha1-HFHrnOqQP1PZe1rzsYQdtw9Vlso=}
+    resolution: {integrity: sha512-ZVykbDyk7519VwiNb9Lcj9m8XM6v5V9uKPvrEMkkEedVewf+0itkhahp4HDpgERXhwLRpWFypsGbG/J8s0QjJA==}
     engines: {node: '>=18'}
     cpu: [mips64el]
     os: [linux]
 
   '@esbuild/linux-ppc64@0.28.2':
-    resolution: {integrity: sha1-Y91h8XzrMagSJ/QT/qyKcbwsUfI=}
+    resolution: {integrity: sha512-CAXl+Dtd9UUuJd8pKKdwh6MLm3MUMiqMPmhZ3tTSXPqfyQ3vDl6R5hZdZ/kYojK4ofXtdfSv1tFq8XzWx3heNQ==}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [linux]
 
   '@esbuild/linux-riscv64@0.28.2':
-    resolution: {integrity: sha1-N2Owj95c8lqx+suOd1Lt/kX7/Cc=}
+    resolution: {integrity: sha512-GeXCej4IQtU1B+QlDV8W/RRvbzI3O/Stss+/bCXv4lZls5WGRtu2a+3JkA3i4qIUlMXpcHebWpF8AkJhATowuA==}
     engines: {node: '>=18'}
     cpu: [riscv64]
     os: [linux]
 
   '@esbuild/linux-s390x@0.28.2':
-    resolution: {integrity: sha1-GhN/8pOoKQbrMXY4W9fo4OXPt8s=}
+    resolution: {integrity: sha512-3H1weTYZPxt/WOhByszQZybS9w5lKzUn1FDMsgEChbHWQwHYQQRfBxgCcZvPhjHfKyJjIievvMmEUawJrdY9Dg==}
     engines: {node: '>=18'}
     cpu: [s390x]
     os: [linux]
@@ -36507,37 +36519,37 @@ packages:
     os: [linux]
 
   '@esbuild/netbsd-arm64@0.28.2':
-    resolution: {integrity: sha1-Ilca2VHWK7aszILY0frVyMGsC6E=}
+    resolution: {integrity: sha512-sSATRjPeDBg3pdgHoQfoYBob11Kk1FGa9lui5RIHZCoCkJa9QKlvl3/vKz2usCmYYjs7ymJR/2Nnsqe+Hjt5nw==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [netbsd]
 
   '@esbuild/netbsd-x64@0.28.2':
-    resolution: {integrity: sha1-QvzFcpfrCgyj9fxHUpH0waP3wN4=}
+    resolution: {integrity: sha512-lqnzCV+mM0gIADaKihiCg6ifgfU2L3h5E33rNQBN1Y4MaVGnzryzmvvf7UHxprpQdE8hpqLolJ9Rl+SkIRDpyw==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [netbsd]
 
   '@esbuild/openbsd-arm64@0.28.2':
-    resolution: {integrity: sha1-nrMq8QSsPaz07coB9ZZmSqsMc+8=}
+    resolution: {integrity: sha512-AL2qJILH7lNjrDmCQDvdxMfAUIv8KMNZOvrwAQ8i8//ntL9FflhOyMJ8OZSMBb8/AWXe3/5v5S20y3zCoZWKoQ==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openbsd]
 
   '@esbuild/openbsd-x64@0.28.2':
-    resolution: {integrity: sha1-/r7SQC1giCJekfIPtM4lIq0KTv0=}
+    resolution: {integrity: sha512-QtiuPytchRyC4rwUKhexJdQKvDuZ6hWloi3igqPQNUJCS1/v9EiO3UTOXR6A3FoMo4fnAKbWJdqaIwhOzh8qEw==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [openbsd]
 
   '@esbuild/openharmony-arm64@0.28.2':
-    resolution: {integrity: sha1-hWQcPUZkKL+8zqXyHCaDZmP+9c4=}
+    resolution: {integrity: sha512-WkhYDmpTjLvGlScA1rwjRUmhl4k8oXR3cIbtqWmELgU/dFeHHlEllxDvdWcNJV9rbzCexB5vz8gtNewWLgCT7Q==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openharmony]
 
   '@esbuild/sunos-x64@0.28.2':
-    resolution: {integrity: sha1-pzb52JYkgQRfxMPlT1R58iyHD7Q=}
+    resolution: {integrity: sha512-GPMSkTOtMnv2U2F8gxe4Io6qmVs+YKyp832Etqqxr0hFngmXQ3rzwytelm3GIn7T4VviRUlf3sOgBOiTdvaf7g==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [sunos]
@@ -36549,7 +36561,7 @@ packages:
     os: [win32]
 
   '@esbuild/win32-ia32@0.28.2':
-    resolution: {integrity: sha1-xA0optmaEn2mcR8q/XSxHLY7Bqc=}
+    resolution: {integrity: sha512-YmJbfTlvU7Sdn9BB+4PRES4oB6pxgS37MAONj+hBr/cpXS1aBPKXxNnDbu+QCWPj0o9dgyxeq79g6c5P8KeuYA==}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [win32]
@@ -42746,6 +42758,62 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.46(supports-color@8.1.1)':
+    dependencies:
+      '@azure-rest/core-client': 2.9.0(supports-color@8.1.1)
+      '@azure/core-auth': 1.11.0(supports-color@8.1.1)
+      '@azure/core-client': 1.11.1(supports-color@8.1.1)
+      '@azure/core-process': 1.0.0
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-util': 1.14.0(supports-color@8.1.1)
+      '@opentelemetry/api': 1.9.1
+      '@opentelemetry/api-logs': 0.221.0
+      '@opentelemetry/core': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/resources': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-logs': 0.221.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-metrics': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-trace-base': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/semantic-conventions': 1.43.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry@1.20.1(supports-color@8.1.1)':
+    dependencies:
+      '@azure-rest/core-client': 2.9.0(supports-color@8.1.1)
+      '@azure/core-auth': 1.11.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-tracing': 1.4.0
+      '@azure/identity': 4.13.3(supports-color@8.1.1)
+      '@azure/logger': 1.4.0(supports-color@8.1.1)
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.46(supports-color@8.1.1)
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.1.0-beta.1(supports-color@8.1.1)
+      '@microsoft/applicationinsights-web-snippet': 1.2.3
+      '@opentelemetry/api': 1.9.1
+      '@opentelemetry/api-logs': 0.221.0
+      '@opentelemetry/core': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/instrumentation': 0.221.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-bunyan': 0.66.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-console': 0.3.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-http': 0.221.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-mongodb': 0.74.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-mysql': 0.67.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-pg': 0.73.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-redis': 0.69.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/instrumentation-winston': 0.65.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/resource-detector-azure': 0.29.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/resources': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-logs': 0.221.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-metrics': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-node': 0.221.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/sdk-trace-base': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-trace-node': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/semantic-conventions': 1.43.0
+      '@opentelemetry/winston-transport': 0.31.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@4.30.0':
     dependencies:
       '@azure/msal-common': 15.17.0
@@ -42786,6 +42854,18 @@ snapshots:
       jsonwebtoken: 9.0.3
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0(supports-color@8.1.1)':
+    dependencies:
+      '@azure/core-tracing': 1.4.0
+      '@azure/logger': 1.4.0(supports-color@8.1.1)
+      '@opentelemetry/api': 1.9.1
+      '@opentelemetry/core': 2.11.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/instrumentation': 0.211.0(@opentelemetry/api@1.9.1)(supports-color@8.1.1)
+      '@opentelemetry/sdk-trace-web': 2.11.0(@opentelemetry/api@1.9.1)
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.1.0-beta.1(supports-color@8.1.1)':
     dependencies:
       '@azure/core-tracing': 1.4.0
       '@azure/logger': 1.4.0(supports-color@8.1.1)

@@ -54,6 +54,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
+
 /** Gets recently deleted workspaces in a resource group, available for recovery. */
 export function listByResourceGroup(
   context: Client,
@@ -104,6 +105,7 @@ export async function _listDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
+
 /** Gets recently deleted workspaces in a subscription, available for recovery. */
 export function list(
   context: Client,

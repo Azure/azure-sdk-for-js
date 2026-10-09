@@ -48,6 +48,7 @@ export interface StorageInsightConfigsOperations {
     options?: StorageInsightConfigsGetOptionalParams,
   ) => Promise<StorageInsight>;
 }
+
 function _getStorageInsightConfigs(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -84,6 +85,7 @@ function _getStorageInsightConfigs(context: OperationalInsightsManagementContext
     ) => get(context, resourceGroupName, workspaceName, storageInsightName, options),
   };
 }
+
 export function _getStorageInsightConfigsOperations(
   context: OperationalInsightsManagementContext,
 ): StorageInsightConfigsOperations {

@@ -65,6 +65,7 @@ export interface WorkspacePurgeOperations {
     options?: WorkspacePurgePurgeOptionalParams,
   ) => Promise<WorkspacePurgeResponse>;
 }
+
 function _getWorkspacePurge(context: OperationalInsightsManagementContext) {
   return {
     purgeLakeData: (
@@ -105,6 +106,7 @@ function _getWorkspacePurge(context: OperationalInsightsManagementContext) {
     ) => purge(context, resourceGroupName, workspaceName, body, options),
   };
 }
+
 export function _getWorkspacePurgeOperations(
   context: OperationalInsightsManagementContext,
 ): WorkspacePurgeOperations {

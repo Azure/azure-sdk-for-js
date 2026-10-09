@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.OperationalInsights": "2026-03-01"
   },
-  "emitterVersion": "0.55.2",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.OperationalInsights",
     "CrossLanguageDefinitionId": {

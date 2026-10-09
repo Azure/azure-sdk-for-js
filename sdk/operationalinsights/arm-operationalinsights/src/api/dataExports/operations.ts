@@ -60,6 +60,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _dataExportListResultDeserializer(result.body);
 }
+
 /** Lists the data export instances within a workspace. */
 export function listByWorkspace(
   context: Client,
@@ -112,6 +113,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the specified data export in a given workspace.. */
 export async function $delete(
   context: Client,
@@ -174,6 +176,7 @@ export async function _createOrUpdateDeserialize(
 
   return dataExportDeserializer(result.body);
 }
+
 /** Create or update a data export. */
 export async function createOrUpdate(
   context: Client,
@@ -233,6 +236,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return dataExportDeserializer(result.body);
 }
+
 /** Gets a data export instance. */
 export async function get(
   context: Client,

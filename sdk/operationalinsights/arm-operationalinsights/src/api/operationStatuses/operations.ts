@@ -46,6 +46,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Op
 
   return operationStatusDeserializer(result.body);
 }
+
 /** Get the status of a long running azure asynchronous operation. */
 export async function get(
   context: Client,

@@ -20,6 +20,7 @@ export interface DeletedWorkspacesOperations {
   /** Gets recently deleted workspaces in a subscription, available for recovery. */
   list: (options?: DeletedWorkspacesListOptionalParams) => PagedAsyncIterableIterator<Workspace>;
 }
+
 function _getDeletedWorkspaces(context: OperationalInsightsManagementContext) {
   return {
     listByResourceGroup: (
@@ -29,6 +30,7 @@ function _getDeletedWorkspaces(context: OperationalInsightsManagementContext) {
     list: (options?: DeletedWorkspacesListOptionalParams) => list(context, options),
   };
 }
+
 export function _getDeletedWorkspacesOperations(
   context: OperationalInsightsManagementContext,
 ): DeletedWorkspacesOperations {

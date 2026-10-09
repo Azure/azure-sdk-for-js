@@ -139,6 +139,7 @@ export interface SummaryLogsOperations {
     options?: SummaryLogsGetOptionalParams,
   ) => Promise<SummaryLogs>;
 }
+
 function _getSummaryLogs(context: OperationalInsightsManagementContext) {
   return {
     retryBin: (
@@ -298,6 +299,7 @@ function _getSummaryLogs(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, summaryLogsName, options),
   };
 }
+
 export function _getSummaryLogsOperations(
   context: OperationalInsightsManagementContext,
 ): SummaryLogsOperations {

@@ -59,6 +59,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _clusterListResultDeserializer(result.body);
 }
+
 /** Gets the Log Analytics clusters in a subscription. */
 export function list(
   context: Client,
@@ -110,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _clusterListResultDeserializer(result.body);
 }
+
 /** Gets Log Analytics clusters in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -159,6 +161,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a cluster instance. */
 export function $delete(
   context: Client,
@@ -215,6 +218,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
+
 /** Updates a Log Analytics cluster. */
 export function update(
   context: Client,
@@ -273,6 +277,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return clusterDeserializer(result.body);
 }
+
 /** Create or update a Log Analytics cluster. */
 export function createOrUpdate(
   context: Client,
@@ -328,6 +333,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
 
   return clusterDeserializer(result.body);
 }
+
 /** Gets a Log Analytics cluster instance. */
 export async function get(
   context: Client,

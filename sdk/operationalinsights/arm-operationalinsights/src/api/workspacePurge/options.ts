@@ -8,7 +8,9 @@ export interface WorkspacePurgePurgeLakeDataOptionalParams extends OperationOpti
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface WorkspacePurgeGetPurgeStatusOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface WorkspacePurgePurgeOptionalParams extends OperationOptions {}

@@ -181,6 +181,7 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
+
 function _getWorkspaces(context: OperationalInsightsManagementContext) {
   return {
     failover: (
@@ -352,6 +353,7 @@ function _getWorkspaces(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getWorkspacesOperations(
   context: OperationalInsightsManagementContext,
 ): WorkspacesOperations {

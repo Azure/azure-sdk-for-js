@@ -100,6 +100,7 @@ export interface ClustersOperations {
     options?: ClustersGetOptionalParams,
   ) => Promise<Cluster>;
 }
+
 function _getClusters(context: OperationalInsightsManagementContext) {
   return {
     list: (options?: ClustersListOptionalParams) => list(context, options),
@@ -180,6 +181,7 @@ function _getClusters(context: OperationalInsightsManagementContext) {
       get(context, resourceGroupName, clusterName, options),
   };
 }
+
 export function _getClustersOperations(
   context: OperationalInsightsManagementContext,
 ): ClustersOperations {

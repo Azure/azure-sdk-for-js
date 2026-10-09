@@ -63,6 +63,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _dataSourceListResultDeserializer(result.body);
 }
+
 /** Gets the first page of data source instances in a workspace with the link to the next page. */
 export function listByWorkspace(
   context: Client,
@@ -116,6 +117,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a data source instance. */
 export async function $delete(
   context: Client,
@@ -178,6 +180,7 @@ export async function _createOrUpdateDeserialize(
 
   return dataSourceDeserializer(result.body);
 }
+
 /** Create or update a data source. */
 export async function createOrUpdate(
   context: Client,
@@ -237,6 +240,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return dataSourceDeserializer(result.body);
 }
+
 /** Gets a datasource instance. */
 export async function get(
   context: Client,

@@ -67,6 +67,7 @@ export interface QueryPacksOperations {
     options?: QueryPacksGetOptionalParams,
   ) => Promise<LogAnalyticsQueryPack>;
 }
+
 function _getQueryPacks(context: OperationalInsightsManagementContext) {
   return {
     createOrUpdateWithoutName: (
@@ -111,6 +112,7 @@ function _getQueryPacks(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, queryPackName, options),
   };
 }
+
 export function _getQueryPacksOperations(
   context: OperationalInsightsManagementContext,
 ): QueryPacksOperations {

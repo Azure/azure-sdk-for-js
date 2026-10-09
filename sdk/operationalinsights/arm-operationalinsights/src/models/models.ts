@@ -1690,6 +1690,7 @@ export function workspaceArrayDeserializer(result: Array<Workspace>): any[] {
 
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
   properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
@@ -1711,11 +1712,15 @@ export function networkSecurityPerimeterConfigurationDeserializer(
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Provisioning state of the network security perimeter configuration */
   readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of provisioning issues, if any */
   readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about the network security perimeter (NSP) */
   networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about the resource association */
   resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
   profile?: NetworkSecurityProfile;
 }
 
@@ -1741,19 +1746,19 @@ export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
 
 /** Provisioning state of a network security perimeter configuration that is being created or updated. */
 export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
-  /** Succeeded */
+  /** The configuration was provisioned successfully. */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** The configuration is being created. */
   Creating = "Creating",
-  /** Updating */
+  /** The configuration is being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** The configuration is being deleted. */
   Deleting = "Deleting",
-  /** Accepted */
+  /** The configuration request was accepted and provisioning has not started yet. */
   Accepted = "Accepted",
-  /** Failed */
+  /** The configuration failed to provision. */
   Failed = "Failed",
-  /** Canceled */
+  /** The configuration provisioning was canceled. */
   Canceled = "Canceled",
 }
 
@@ -1762,13 +1767,13 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
  * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Accepted** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: The configuration was provisioned successfully. \
+ * **Creating**: The configuration is being created. \
+ * **Updating**: The configuration is being updated. \
+ * **Deleting**: The configuration is being deleted. \
+ * **Accepted**: The configuration request was accepted and provisioning has not started yet. \
+ * **Failed**: The configuration failed to provision. \
+ * **Canceled**: The configuration provisioning was canceled.
  */
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
@@ -1782,6 +1787,7 @@ export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIss
 export interface ProvisioningIssue {
   /** Name of the issue */
   readonly name?: string;
+  /** Details of the provisioning issue */
   readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -1850,9 +1856,9 @@ export type IssueType = string;
 
 /** Severity of the issue. */
 export enum KnownSeverity {
-  /** Warning */
+  /** The issue is a warning and does not prevent the configuration from being applied. */
   Warning = "Warning",
-  /** Error */
+  /** The issue is an error and prevents the configuration from being applied. */
   Error = "Error",
 }
 
@@ -1861,8 +1867,8 @@ export enum KnownSeverity {
  * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Warning** \
- * **Error**
+ * **Warning**: The issue is a warning and does not prevent the configuration from being applied. \
+ * **Error**: The issue is an error and prevents the configuration from being applied.
  */
 export type Severity = string;
 
@@ -1876,6 +1882,7 @@ export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
 export interface AccessRule {
   /** Name of the access rule */
   name?: string;
+  /** Properties of the access rule */
   properties?: AccessRuleProperties;
 }
 
@@ -1890,6 +1897,7 @@ export function accessRuleDeserializer(item: any): AccessRule {
 
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
+  /** Direction of the access rule */
   direction?: AccessRuleDirection;
   /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
@@ -2007,6 +2015,7 @@ export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurity
 export interface ResourceAssociation {
   /** Name of the resource association */
   name?: string;
+  /** Access mode of the resource association */
   accessMode?: ResourceAssociationAccessMode;
 }
 

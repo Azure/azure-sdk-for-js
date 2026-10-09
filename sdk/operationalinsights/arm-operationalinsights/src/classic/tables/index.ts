@@ -125,6 +125,7 @@ export interface TablesOperations {
     options?: TablesGetOptionalParams,
   ) => Promise<Table>;
 }
+
 function _getTables(context: OperationalInsightsManagementContext) {
   return {
     cancelSearch: (
@@ -258,6 +259,7 @@ function _getTables(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, tableName, options),
   };
 }
+
 export function _getTablesOperations(
   context: OperationalInsightsManagementContext,
 ): TablesOperations {

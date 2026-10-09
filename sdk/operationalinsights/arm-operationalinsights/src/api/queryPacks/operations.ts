@@ -69,6 +69,7 @@ export async function _createOrUpdateWithoutNameDeserialize(
 
   return logAnalyticsQueryPackDeserializer(result.body);
 }
+
 /** Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. */
 export async function createOrUpdateWithoutName(
   context: Client,
@@ -120,6 +121,7 @@ export async function _listDeserialize(
 
   return _logAnalyticsQueryPackListResultDeserializer(result.body);
 }
+
 /** Gets a list of all Log Analytics QueryPacks within a subscription. */
 export function list(
   context: Client,
@@ -171,6 +173,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _logAnalyticsQueryPackListResultDeserializer(result.body);
 }
+
 /** Gets a list of Log Analytics QueryPacks within a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -220,6 +223,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a Log Analytics QueryPack. */
 export async function $delete(
   context: Client,
@@ -273,6 +277,7 @@ export async function _updateTagsDeserialize(
 
   return logAnalyticsQueryPackDeserializer(result.body);
 }
+
 /** Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method. */
 export async function updateTags(
   context: Client,
@@ -333,6 +338,7 @@ export async function _createOrUpdateDeserialize(
 
   return logAnalyticsQueryPackDeserializer(result.body);
 }
+
 /** Creates (or updates) a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. */
 export async function createOrUpdate(
   context: Client,
@@ -390,6 +396,7 @@ export async function _getDeserialize(
 
   return logAnalyticsQueryPackDeserializer(result.body);
 }
+
 /** Returns a Log Analytics QueryPack. */
 export async function get(
   context: Client,

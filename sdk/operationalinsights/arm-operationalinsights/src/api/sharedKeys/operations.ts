@@ -49,6 +49,7 @@ export async function _regenerateDeserialize(result: PathUncheckedResponse): Pro
 
   return sharedKeysDeserializer(result.body);
 }
+
 /** Regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft Operational Insights agents to the workspace. */
 export async function regenerate(
   context: Client,
@@ -99,6 +100,7 @@ export async function _getSharedKeysDeserialize(
 
   return sharedKeysDeserializer(result.body);
 }
+
 /** Gets the shared keys for a workspace. */
 export async function getSharedKeys(
   context: Client,

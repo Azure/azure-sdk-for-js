@@ -15,12 +15,14 @@ export interface SchemaOperations {
     options?: SchemaGetOptionalParams,
   ) => Promise<SearchGetSchemaResponse>;
 }
+
 function _getSchema(context: OperationalInsightsManagementContext) {
   return {
     get: (resourceGroupName: string, workspaceName: string, options?: SchemaGetOptionalParams) =>
       get(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getSchemaOperations(
   context: OperationalInsightsManagementContext,
 ): SchemaOperations {

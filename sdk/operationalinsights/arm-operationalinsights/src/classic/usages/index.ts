@@ -16,12 +16,14 @@ export interface UsagesOperations {
     options?: UsagesListOptionalParams,
   ) => PagedAsyncIterableIterator<UsageMetric>;
 }
+
 function _getUsages(context: OperationalInsightsManagementContext) {
   return {
     list: (resourceGroupName: string, workspaceName: string, options?: UsagesListOptionalParams) =>
       list(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getUsagesOperations(
   context: OperationalInsightsManagementContext,
 ): UsagesOperations {

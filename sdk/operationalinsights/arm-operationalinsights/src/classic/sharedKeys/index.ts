@@ -24,6 +24,7 @@ export interface SharedKeysOperations {
     options?: SharedKeysGetSharedKeysOptionalParams,
   ) => Promise<SharedKeys>;
 }
+
 function _getSharedKeys(context: OperationalInsightsManagementContext) {
   return {
     regenerate: (
@@ -38,6 +39,7 @@ function _getSharedKeys(context: OperationalInsightsManagementContext) {
     ) => getSharedKeys(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getSharedKeysOperations(
   context: OperationalInsightsManagementContext,
 ): SharedKeysOperations {

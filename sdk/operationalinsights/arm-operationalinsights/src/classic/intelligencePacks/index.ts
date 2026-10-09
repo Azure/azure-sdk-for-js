@@ -33,6 +33,7 @@ export interface IntelligencePacksOperations {
     options?: IntelligencePacksDisableOptionalParams,
   ) => Promise<void>;
 }
+
 function _getIntelligencePacks(context: OperationalInsightsManagementContext) {
   return {
     list: (
@@ -54,6 +55,7 @@ function _getIntelligencePacks(context: OperationalInsightsManagementContext) {
     ) => disable(context, resourceGroupName, workspaceName, intelligencePackName, options),
   };
 }
+
 export function _getIntelligencePacksOperations(
   context: OperationalInsightsManagementContext,
 ): IntelligencePacksOperations {

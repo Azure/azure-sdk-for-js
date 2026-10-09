@@ -15,6 +15,7 @@ export interface AvailableServiceTiersOperations {
     options?: AvailableServiceTiersListByWorkspaceOptionalParams,
   ) => Promise<AvailableServiceTier[]>;
 }
+
 function _getAvailableServiceTiers(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -24,6 +25,7 @@ function _getAvailableServiceTiers(context: OperationalInsightsManagementContext
     ) => listByWorkspace(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getAvailableServiceTiersOperations(
   context: OperationalInsightsManagementContext,
 ): AvailableServiceTiersOperations {

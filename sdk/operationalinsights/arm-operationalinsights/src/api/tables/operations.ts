@@ -62,6 +62,7 @@ export async function _cancelSearchDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Cancel a log analytics workspace search results table query run. */
 export async function cancelSearch(
   context: Client,
@@ -116,6 +117,7 @@ export async function _migrateDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs. */
 export async function migrate(
   context: Client,
@@ -167,6 +169,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _tablesListResultDeserializer(result.body);
 }
+
 /** Gets all the tables for the specified Log Analytics workspace. */
 export function listByWorkspace(
   context: Client,
@@ -219,6 +222,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Log Analytics workspace table. */
 export function $delete(
   context: Client,
@@ -279,6 +283,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return tableDeserializer(result.body);
 }
+
 /** Update a Log Analytics workspace table. */
 export function update(
   context: Client,
@@ -340,6 +345,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return tableDeserializer(result.body);
 }
+
 /** Update or Create a Log Analytics workspace table. */
 export function createOrUpdate(
   context: Client,
@@ -405,6 +411,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
 
   return tableDeserializer(result.body);
 }
+
 /** Gets a Log Analytics workspace table. */
 export async function get(
   context: Client,
