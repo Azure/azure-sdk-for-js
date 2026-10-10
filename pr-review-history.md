@@ -13,3 +13,4 @@
 ## PR #38013 @azure/arm-containerservicefleet 2.1.0-beta.4 - clean; CI pending (ADO 6121881)
 ## PR #38228 @azure/arm-compute 24.0.0 (first-typespec-migration) - 1 tool issue (@azure/arm-network dropped from devDependencies causing all UnitTest failures)
 ## PR #39752 @azure/arm-enclave 1.0.0-beta.1 -> 1.0.0 - 1 issue (userAgentInfo version mismatch)
+## PR #40264 @azure/arm-eventgrid 15.0.0-beta.3 - clean (api-version 2026-06-15-preview, preview channel match confirmed; PartnerConfiguration Resource->ProxyResource is no-op base change; PartnerTopicsOperations.update Promise<T|void> is exempted; breaking changes list matches beta.2)
