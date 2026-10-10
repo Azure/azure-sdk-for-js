@@ -22,8 +22,8 @@
 // `Storage-XDataMove-RP/test/E2ETest/C2CTest/StartJobTest.cs::StartC2CJobWithPrivateSourceAsyncSuccessPathTest`
 // and the Python `test_start_c2c_job_with_private_source` reference impl.
 //
-// Both tests run in `westcentralus` because the shared `cpmoveraccount` and
-// `test-pls-wcs` PLS live there.
+// Both tests default to `westcentralus` for the recorded shared infrastructure.
+// Live runs can override the mover region and PLS using sample.env settings.
 
 import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from "vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -39,7 +39,7 @@ import {
   SHARED_STORAGE_ACCOUNT_ID,
   SHARED_STORAGE_ACCOUNT_NAME,
   STORAGE_ACCOUNT_RG,
-  WCUS_LOCATION,
+  C2C_TEST_LOCATION,
   blobContainerScope,
   createAuthorizationClient,
   createNetworkClient,
@@ -77,7 +77,7 @@ const APPROVAL_INTERVAL_MS = 30_000;
 const APPROVAL_MAX_ITERATIONS = 10;
 
 /**
- * Per-spec resource groups in WCUS. Each big test gets its own RG because
+ * Per-spec resource groups. Each big test gets its own RG because
  * each is long-running and we don't want one failure to block the other.
  */
 const RG_ROW_10 = "testsmrg-js-jdjr-pub";
@@ -90,8 +90,8 @@ describe("JobDefinitionJobRunTests", () => {
 
   beforeAll(async () => {
     subscriptionId = getSubscriptionId();
-    await provisionResourceGroup(subscriptionId, RG_ROW_10, WCUS_LOCATION);
-    await provisionResourceGroup(subscriptionId, RG_ROW_31, WCUS_LOCATION);
+    await provisionResourceGroup(subscriptionId, RG_ROW_10, C2C_TEST_LOCATION);
+    await provisionResourceGroup(subscriptionId, RG_ROW_31, C2C_TEST_LOCATION);
   });
 
   afterAll(async () => {
@@ -136,7 +136,7 @@ describe("JobDefinitionJobRunTests", () => {
       storageMoverName,
       "scenario-test storage mover (#10 extended)",
       undefined,
-      WCUS_LOCATION,
+      C2C_TEST_LOCATION,
     );
     await createProject(client, RG_ROW_10, storageMoverName, projectName);
 
@@ -344,14 +344,14 @@ describe("JobDefinitionJobRunTests", () => {
       const roleDefinitionId = storageBlobDataContributorRoleId();
 
       try {
-        // 1. Self-provision mover + project (WCUS — required by the shared PLS).
+        // 1. Self-provision mover + project in the configured test region.
         await createStorageMover(
           client,
           RG_ROW_31,
           storageMoverName,
           "scenario-test storage mover (#31)",
           undefined,
-          WCUS_LOCATION,
+          C2C_TEST_LOCATION,
         );
         await createProject(client, RG_ROW_31, storageMoverName, projectName);
 

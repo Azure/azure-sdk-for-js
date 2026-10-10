@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -127,13 +129,17 @@ export interface AzureMultiCloudConnectorEndpointUpdateProperties extends Endpoi
 
 // @public
 export interface AzureStorageBlobContainerEndpointProperties extends EndpointBaseProperties {
+    allowedStorageAccounts?: string[];
     blobContainerName: string;
+    enableCrossTenantTransfer?: boolean;
     endpointType: "AzureStorageBlobContainer";
     storageAccountResourceId: string;
 }
 
 // @public
 export interface AzureStorageBlobContainerEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    allowedStorageAccounts?: string[];
+    enableCrossTenantTransfer?: boolean;
     endpointType: "AzureStorageBlobContainer";
 }
 
@@ -151,6 +157,8 @@ export interface AzureStorageNfsFileShareEndpointUpdateProperties extends Endpoi
 
 // @public
 export interface AzureStorageSmbFileShareEndpointProperties extends EndpointBaseProperties {
+    allowedStorageAccounts?: string[];
+    enableCrossTenantTransfer?: boolean;
     endpointType: "AzureStorageSmbFileShare";
     fileShareName: string;
     storageAccountResourceId: string;
@@ -158,6 +166,8 @@ export interface AzureStorageSmbFileShareEndpointProperties extends EndpointBase
 
 // @public
 export interface AzureStorageSmbFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    allowedStorageAccounts?: string[];
+    enableCrossTenantTransfer?: boolean;
     endpointType: "AzureStorageSmbFileShare";
 }
 
@@ -327,6 +337,8 @@ export interface ErrorResponse {
 // @public
 export type Frequency = string;
 
+export { isRestError }
+
 // @public
 export interface JobDefinition extends ProxyResource {
     properties: JobDefinitionProperties;
@@ -338,12 +350,16 @@ export interface JobDefinitionProperties {
     readonly agentResourceId?: string;
     connections?: string[];
     copyMode: CopyMode;
+    crossTenantEndpointResourceId?: string;
+    crossTenantEndpointTenantId?: string;
     dataIntegrityValidation?: DataIntegrityValidation;
     description?: string;
+    isCrossTenantJob?: boolean;
     jobType?: JobType;
     readonly latestJobRunName?: string;
     readonly latestJobRunResourceId?: string;
     readonly latestJobRunStatus?: JobRunStatus;
+    moverSyncedUntil?: Date;
     preservePermissions?: boolean;
     readonly provisioningState?: ProvisioningState;
     schedule?: ScheduleInfo;
@@ -353,6 +369,7 @@ export interface JobDefinitionProperties {
     sourceTargetMap?: {
         value?: SourceTargetMap[];
     };
+    syncMode?: string;
     targetName: string;
     readonly targetResourceId?: string;
     targetSubpath?: string;
@@ -381,9 +398,14 @@ export interface JobDefinitionsOperations {
     delete: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsGetOptionalParams) => Promise<JobDefinition>;
     list: (resourceGroupName: string, storageMoverName: string, projectName: string, options?: JobDefinitionsListOptionalParams) => PagedAsyncIterableIterator<JobDefinition>;
+    reconcileJob: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsReconcileJobOptionalParams) => Promise<JobRunResourceId>;
     startJob: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStartJobOptionalParams) => Promise<JobRunResourceId>;
     stopJob: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStopJobOptionalParams) => Promise<JobRunResourceId>;
     update: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinitionUpdateParameters, options?: JobDefinitionsUpdateOptionalParams) => Promise<JobDefinition>;
+}
+
+// @public
+export interface JobDefinitionsReconcileJobOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -410,7 +432,9 @@ export interface JobDefinitionUpdateProperties {
     copyMode?: CopyMode;
     dataIntegrityValidation?: DataIntegrityValidation;
     description?: string;
+    moverSyncedUntil?: Date;
     schedule?: ScheduleInfo;
+    syncMode?: string;
 }
 
 // @public
@@ -566,6 +590,7 @@ export enum KnownEndpointType {
 // @public
 export enum KnownFrequency {
     Daily = "Daily",
+    Hourly = "Hourly",
     Monthly = "Monthly",
     None = "None",
     Onetime = "Onetime",
@@ -595,7 +620,8 @@ export enum KnownJobRunStatus {
 // @public
 export enum KnownJobType {
     CloudToCloud = "CloudToCloud",
-    OnPremToCloud = "OnPremToCloud"
+    OnPremToCloud = "OnPremToCloud",
+    OnPremToCloudAgentLess = "OnPremToCloudAgentLess"
 }
 
 // @public
@@ -614,10 +640,17 @@ export enum KnownMinute {
 }
 
 // @public
+export enum KnownNfsMountSourceType {
+    Fsxefs = "FSX-EFS",
+    NfsMount = "NfsMount"
+}
+
+// @public
 export enum KnownNfsVersion {
     NFSauto = "NFSauto",
     NFSv3 = "NFSv3",
-    NFSv4 = "NFSv4"
+    NFSv4 = "NFSv4",
+    NFSv41 = "NFSv4_1"
 }
 
 // @public
@@ -646,6 +679,12 @@ export enum KnownS3WithHmacSourceType {
 }
 
 // @public
+export enum KnownSmbMountSourceType {
+    Fsxsmb = "FSX-SMB",
+    SmbMount = "SmbMount"
+}
+
+// @public
 export enum KnownTriggerType {
     Manual = "Manual",
     Scheduled = "Scheduled"
@@ -656,7 +695,8 @@ export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20250701 = "2025-07-01",
     V20250801 = "2025-08-01",
-    V20251201 = "2025-12-01"
+    V20251201 = "2025-12-01",
+    V20260501 = "2026-05-01"
 }
 
 // @public
@@ -679,12 +719,16 @@ export interface NfsMountEndpointProperties extends EndpointBaseProperties {
     export: string;
     host: string;
     nfsVersion?: NfsVersion;
+    sourceType?: NfsMountSourceType;
 }
 
 // @public
 export interface NfsMountEndpointUpdateProperties extends EndpointBaseUpdateProperties {
     endpointType: "NfsMount";
 }
+
+// @public
+export type NfsMountSourceType = string;
 
 // @public
 export type NfsVersion = string;
@@ -802,6 +846,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageMoverClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -839,6 +885,7 @@ export interface ScheduleInfo {
     executionTime?: SchedulerTime;
     frequency?: Frequency;
     isActive?: boolean;
+    repeatInterval?: string;
     startDate?: Date;
 }
 
@@ -854,6 +901,7 @@ export interface SmbMountEndpointProperties extends EndpointBaseProperties {
     endpointType: "SmbMount";
     host: string;
     shareName: string;
+    sourceType?: SmbMountSourceType;
 }
 
 // @public
@@ -861,6 +909,9 @@ export interface SmbMountEndpointUpdateProperties extends EndpointBaseUpdateProp
     credentials?: AzureKeyVaultSmbCredentials;
     endpointType: "SmbMount";
 }
+
+// @public
+export type SmbMountSourceType = string;
 
 // @public
 export interface SourceEndpoint {
