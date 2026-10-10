@@ -41,7 +41,7 @@ export function _listByEdgeActionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +59,10 @@ export async function _listByEdgeActionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -78,11 +81,7 @@ export function listByEdgeAction(
     () => _listByEdgeActionSend(context, resourceGroupName, edgeActionName, options),
     _listByEdgeActionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -100,7 +99,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +112,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -121,11 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a EdgeActionExecutionFilter */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -139,7 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, edgeActionName, executionFilter, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -158,7 +155,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,14 +175,17 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return edgeActionExecutionFilterDeserializer(result.body);
 }
 
-/** Update a EdgeActionExecutionFilter */
+/** Updates the properties and tags of an Edge Action execution filter. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -200,7 +200,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, edgeActionName, executionFilter, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 }
 
@@ -219,7 +219,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +239,10 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -261,7 +264,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, edgeActionName, executionFilter, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 }
 
@@ -279,7 +282,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +300,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
