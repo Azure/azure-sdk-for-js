@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByFirmware } from "../../api/cves/operations.js";
-import { CvesListByFirmwareOptionalParams } from "../../api/cves/options.js";
-import { CveResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CvesListByFirmwareOptionalParams } from "../../api/cves/options.js";
+import type { CveResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Cves operations. */
 export interface CvesOperations {

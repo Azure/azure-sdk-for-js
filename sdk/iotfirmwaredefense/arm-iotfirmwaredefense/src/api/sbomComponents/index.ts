@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByFirmware } from "./operations.js";
-export { type SbomComponentsListByFirmwareOptionalParams } from "./options.js";
+export type { SbomComponentsListByFirmwareOptionalParams } from "./options.js";
