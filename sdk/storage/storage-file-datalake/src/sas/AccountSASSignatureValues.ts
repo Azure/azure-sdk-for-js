@@ -4,7 +4,7 @@
 import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes.js";
 import { AccountSASServices } from "./AccountSASServices.js";
-import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
