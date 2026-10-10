@@ -5,10 +5,10 @@ const { PaloAltoNetworksCloudngfw } = require("@azure/arm-paloaltonetworksngfw")
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to execute createProductSerialNumber
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute createProductSerialNumber
- * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_createProductSerialNumber_MaximumSet_Gen.json
+ * @summary a long-running provider action.
+ * x-ms-original-file: 2026-07-29-preview/PaloAltoNetworksCloudngfwOperations_createProductSerialNumber_MaximumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsCreateProductSerialNumberMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -19,10 +19,10 @@ async function paloAltoNetworksCloudngfwOperationsCreateProductSerialNumberMaxim
 }
 
 /**
- * This sample demonstrates how to execute createProductSerialNumber
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute createProductSerialNumber
- * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_createProductSerialNumber_MinimumSet_Gen.json
+ * @summary a long-running provider action.
+ * x-ms-original-file: 2026-07-29-preview/PaloAltoNetworksCloudngfwOperations_createProductSerialNumber_MinimumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsCreateProductSerialNumberMinimumSetGen() {
   const credential = new DefaultAzureCredential();

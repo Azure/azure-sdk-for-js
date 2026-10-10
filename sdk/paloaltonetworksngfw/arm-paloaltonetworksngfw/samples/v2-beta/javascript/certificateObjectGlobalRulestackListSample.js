@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list CertificateObjectGlobalRulestackResource resources by Tenant
  *
  * @summary list CertificateObjectGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_List_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function certificateObjectGlobalRulestackListMaximumSetGen() {
  * This sample demonstrates how to list CertificateObjectGlobalRulestackResource resources by Tenant
  *
  * @summary list CertificateObjectGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_List_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

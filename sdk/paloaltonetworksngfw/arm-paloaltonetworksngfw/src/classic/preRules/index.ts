@@ -97,7 +97,6 @@ export interface PreRulesOperations {
     options?: PreRulesGetOptionalParams,
   ) => Promise<PreRulesResource>;
 }
-
 function _getPreRules(context: PaloAltoNetworksCloudngfwContext) {
   return {
     resetCounters: (
@@ -166,7 +165,6 @@ function _getPreRules(context: PaloAltoNetworksCloudngfwContext) {
       get(context, globalRulestackName, priority, options),
   };
 }
-
 export function _getPreRulesOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): PreRulesOperations {

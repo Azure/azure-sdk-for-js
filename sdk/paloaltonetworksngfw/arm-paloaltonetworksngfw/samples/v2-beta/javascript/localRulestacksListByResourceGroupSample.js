@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list LocalRulestackResource resources by resource group
  *
  * @summary list LocalRulestackResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function localRulestacksListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function localRulestacksListByResourceGroupMaximumSetGen() {
  * This sample demonstrates how to list LocalRulestackResource resources by resource group
  *
  * @summary list LocalRulestackResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function localRulestacksListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -33,7 +33,7 @@ export function _listByFirewallsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listByFirewallsDeserialize(
 
   return _firewallStatusResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallStatusResource resources by Firewalls */
 export function listByFirewalls(
   context: Client,
@@ -76,7 +75,7 @@ export function listByFirewalls(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -93,7 +92,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +119,6 @@ export async function _getDeserialize(
 
   return firewallStatusResourceDeserializer(result.body);
 }
-
 /** Get a FirewallStatusResource */
 export async function get(
   context: Client,

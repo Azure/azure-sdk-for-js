@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a LocalRulestackResource
  *
  * @summary update a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Update_MaximumSet_Gen.json
  */
 async function localRulestacksUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function localRulestacksUpdateMaximumSetGen() {
  * This sample demonstrates how to update a LocalRulestackResource
  *
  * @summary update a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Update_MinimumSet_Gen.json
  */
 async function localRulestacksUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
