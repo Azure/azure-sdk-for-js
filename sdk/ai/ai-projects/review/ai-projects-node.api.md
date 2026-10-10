@@ -2434,9 +2434,9 @@ export interface CreateSkillVersionFromFilesBody {
 }
 
 // @public
-export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+export interface CreateTeamsPhoneExtensibilityTelephonyBindingRequest extends CreateTelephonyBindingRequest {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
@@ -2448,7 +2448,7 @@ export interface CreateTelephonyBindingRequest {
 }
 
 // @public
-export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensionTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateTelephonyBindingRequest;
+export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensibilityTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateTelephonyBindingRequest;
 
 // @public
 export interface CreateTelephonyCallJobRequest {
@@ -3387,7 +3387,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview" | "FineTuningSessions=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -5799,16 +5799,16 @@ export interface TaxonomySubCategory {
 }
 
 // @public
-export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
+export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBinding {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
 // @public
-export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
+export interface TeamsPhoneExtensibilityTelephonyBindingListItem extends TelephonyBindingListItem {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
@@ -5880,13 +5880,13 @@ export interface TelephonyBindingListItem {
 }
 
 // @public
-export type TelephonyBindingListItemUnion = TeamsPhoneExtensionTelephonyBindingListItem | TwilioTelephonyBindingListItem | TelephonyBindingListItem;
+export type TelephonyBindingListItemUnion = TeamsPhoneExtensibilityTelephonyBindingListItem | TwilioTelephonyBindingListItem | TelephonyBindingListItem;
 
 // @public
 export type TelephonyBindingStatus = "active" | "suspended";
 
 // @public
-export type TelephonyBindingUnion = TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+export type TelephonyBindingUnion = TeamsPhoneExtensibilityTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
 
 // @public
 export type TelephonyCallDurationBasis = "answered" | "received";
@@ -5962,7 +5962,7 @@ export type TelephonyCallLifecycleEventOutcome = "observed" | "started" | "succe
 export type TelephonyCallLifecycleEventReason = "invalid_webhook_payload" | "webhook_validation_failed" | "binding_not_found" | "binding_suspended" | "admission_rejected" | "admission_check_failed" | "route_agent_mismatch" | "invalid_binding_configuration" | "credential_resolution_failed" | "provider_resource_mismatch" | "endpoint_resolution_failed" | "ingress_setup_failed" | "live_call_conflict" | "live_call_persistence_failed" | "answer_failed" | "provider_disconnected" | "provider_busy" | "provider_no_answer" | "provider_cancelled" | "provider_failed" | "provider_stream_error" | "provider_stream_stopped" | "agent_session_connect_failed" | "media_stream_ended" | "bridge_cancelled" | "bridge_failed" | "managed_hangup" | "managed_transfer" | "manage_hangup_failed" | "manage_transfer_failed" | string;
 
 // @public
-export type TelephonyCallLifecycleEventSource = "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
+export type TelephonyCallLifecycleEventSource = "gateway" | "teams_phone_extensibility" | "twilio" | "voice_agent";
 
 // @public
 export type TelephonyCallPhase = "received" | "validated" | "admitted" | "answering" | "answered" | "media_connected" | "agent_session_ready" | "bridging" | "managing" | "completed" | "rejected" | "failed";
@@ -6078,7 +6078,7 @@ export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 export type TelephonyOutboundRetryPolicyUnion = TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
 
 // @public
-export type TelephonyProvider = "teams_phone_extension" | "twilio";
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
 
 // @public
 export interface TelephonyTransferDestination {

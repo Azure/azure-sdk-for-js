@@ -14486,7 +14486,8 @@ export type FoundryFeaturesOptInKeys =
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
-  | "ModelRouterControls=V1Preview";
+  | "ModelRouterControls=V1Preview"
+  | "FineTuningSessions=V1Preview";
 
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
@@ -14656,9 +14657,8 @@ export function specificProgrammaticToolCallingParamSerializer(
 /** Session defaults applied to sessions created for a hosted agent version. */
 export interface SessionConfiguration {
   /**
-   * The idle duration, in seconds, before a session's sandbox is suspended. Optional — when
-   * unset, the server default of 900 seconds is used. Must be between 120 and 3600 seconds
-   * (inclusive).
+   * The idle duration, in seconds, before a session's sandbox is suspended. When omitted,
+   * the server defaults to 900 seconds. Must be between 120 and 14400 seconds (4 hours).
    */
   idle_timeout_seconds?: number;
 }
@@ -17363,7 +17363,7 @@ export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequ
 /** The request to create a telephony binding. */
 export interface CreateTelephonyBindingRequest {
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -17381,7 +17381,7 @@ export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBin
 
 /** Alias for CreateTelephonyBindingRequestUnion */
 export type CreateTelephonyBindingRequestUnion =
-  | CreateTeamsPhoneExtensionTelephonyBindingRequest
+  | CreateTeamsPhoneExtensibilityTelephonyBindingRequest
   | CreateTwilioTelephonyBindingRequest
   | CreateTelephonyBindingRequest;
 
@@ -17389,9 +17389,9 @@ export function createTelephonyBindingRequestUnionSerializer(
   item: CreateTelephonyBindingRequestUnion,
 ): any {
   switch (item.provider) {
-    case "teams_phone_extension":
-      return createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
-        item as CreateTeamsPhoneExtensionTelephonyBindingRequest,
+    case "teams_phone_extensibility":
+      return createTeamsPhoneExtensibilityTelephonyBindingRequestSerializer(
+        item as CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
       );
 
     case "twilio":
@@ -17405,29 +17405,7 @@ export function createTelephonyBindingRequestUnionSerializer(
 }
 
 /** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
-export type TelephonyProvider = "teams_phone_extension" | "twilio";
-
-/** The request to create a Microsoft Teams Phone Extension binding. */
-export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
-  item: CreateTeamsPhoneExtensionTelephonyBindingRequest,
-): any {
-  return {
-    provider: item["provider"],
-    connection_name: item["connection_name"],
-    label: item["label"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
-}
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
 
 /** The request to create a Twilio binding. */
 export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
@@ -17453,7 +17431,7 @@ export interface TelephonyBinding {
   /** The service-generated binding identifier. */
   id: string;
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -17478,13 +17456,13 @@ export function telephonyBindingDeserializer(item: any): TelephonyBinding {
 
 /** Alias for TelephonyBindingUnion */
 export type TelephonyBindingUnion =
-  TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+  TeamsPhoneExtensibilityTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
 
 export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
   switch (item["provider"]) {
-    case "teams_phone_extension":
-      return teamsPhoneExtensionTelephonyBindingDeserializer(
-        item as TeamsPhoneExtensionTelephonyBinding,
+    case "teams_phone_extensibility":
+      return teamsPhoneExtensibilityTelephonyBindingDeserializer(
+        item as TeamsPhoneExtensibilityTelephonyBinding,
       );
 
     case "twilio":
@@ -17497,31 +17475,6 @@ export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUn
 
 /** The lifecycle status of a telephony binding. */
 export type TelephonyBindingStatus = "active" | "suspended";
-
-/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
-export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function teamsPhoneExtensionTelephonyBindingDeserializer(
-  item: any,
-): TeamsPhoneExtensionTelephonyBinding {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection_name: item["connection_name"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
-}
 
 /** A Twilio binding owned by a voice agent. */
 export interface TwilioTelephonyBinding extends TelephonyBinding {
@@ -17579,7 +17532,7 @@ export interface TelephonyBindingListItem {
   /** The service-generated binding identifier. */
   id: string;
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -17607,7 +17560,7 @@ export function telephonyBindingListItemDeserializer(item: any): TelephonyBindin
 
 /** Alias for TelephonyBindingListItemUnion */
 export type TelephonyBindingListItemUnion =
-  | TeamsPhoneExtensionTelephonyBindingListItem
+  | TeamsPhoneExtensibilityTelephonyBindingListItem
   | TwilioTelephonyBindingListItem
   | TelephonyBindingListItem;
 
@@ -17615,9 +17568,9 @@ export function telephonyBindingListItemUnionDeserializer(
   item: any,
 ): TelephonyBindingListItemUnion {
   switch (item["provider"]) {
-    case "teams_phone_extension":
-      return teamsPhoneExtensionTelephonyBindingListItemDeserializer(
-        item as TeamsPhoneExtensionTelephonyBindingListItem,
+    case "teams_phone_extensibility":
+      return teamsPhoneExtensibilityTelephonyBindingListItemDeserializer(
+        item as TeamsPhoneExtensibilityTelephonyBindingListItem,
       );
 
     case "twilio":
@@ -17626,32 +17579,6 @@ export function telephonyBindingListItemUnionDeserializer(
     default:
       return telephonyBindingListItemDeserializer(item);
   }
-}
-
-/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
-export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
-  item: any,
-): TeamsPhoneExtensionTelephonyBindingListItem {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection_name: item["connection_name"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    etag: item["etag"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
 }
 
 /** A Twilio binding returned in a list, including its entity tag. */
@@ -17683,9 +17610,9 @@ export interface UpdateTelephonyBindingRequest {
   status?: TelephonyBindingStatus;
   /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
   label?: string;
-  /** The replacement Foundry connection name. This property is valid only for a Teams Phone Extension binding; a Twilio binding's connection is immutable. */
+  /** The replacement Foundry connection name. This property is valid only for a Teams Phone extensibility binding; a Twilio binding's connection is immutable. */
   connection_name?: string;
-  /** The replacement Teams Phone Extension display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone Extension binding. */
+  /** The replacement Teams Phone extensibility display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone extensibility binding. */
   phone_number?: string;
 }
 
@@ -17737,7 +17664,7 @@ export interface TelephonyCallSummary {
   provider_call_id?: string;
   /** The caller's phone number, when supplied by the provider. */
   caller_number?: string;
-  /** The Teams Phone Extension or Twilio number that received the call. */
+  /** The Teams Phone extensibility or Twilio number that received the call. */
   provider_number?: string;
   /** The lifecycle status of the call. */
   status: TelephonyCallStatus;
@@ -17861,7 +17788,7 @@ export interface TelephonyCallRecord {
   provider_call_id?: string;
   /** The caller's phone number, when supplied by the provider. */
   caller_number?: string;
-  /** The Teams Phone Extension or Twilio number that received the call. */
+  /** The Teams Phone extensibility or Twilio number that received the call. */
   provider_number?: string;
   /** The lifecycle status of the call. */
   status: TelephonyCallStatus;
@@ -18119,7 +18046,7 @@ export type TelephonyCallLifecycleEventName =
 
 /** The component that supplied a telephony lifecycle observation. */
 export type TelephonyCallLifecycleEventSource =
-  "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
+  "gateway" | "teams_phone_extensibility" | "twilio" | "voice_agent";
 
 /** The outcome of one telephony lifecycle observation. */
 export type TelephonyCallLifecycleEventOutcome =
@@ -20000,7 +19927,7 @@ export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordi
 export interface CreateTelephonyCallJobRequest {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
   connection_name: string;
   /** An optional customer-declared purpose for placing the call. */
   purpose?: string;
@@ -20010,7 +19937,7 @@ export interface CreateTelephonyCallJobRequest {
   schedule?: TelephonyCallJobSchedule;
   /** The provider-attempt retry policy. Omit it for one attempt with no retry delay. */
   retry_policy?: TelephonyOutboundRetryPolicyUnion;
-  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
   source: string;
 }
 
@@ -20163,7 +20090,7 @@ export function telephonyOutboundFixedIntervalRetryPolicyDeserializer(
 export interface TelephonyCallJob {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
   connection_name: string;
   /** An optional customer-declared purpose for placing the call. */
   purpose?: string;
@@ -20195,7 +20122,7 @@ export interface TelephonyCallJob {
   created_at: Date;
   /** The Unix timestamp in seconds when the call job was last updated. */
   updated_at: Date;
-  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
   source: string;
 }
 
@@ -28181,5 +28108,78 @@ export function reinforcementFineTuningDataGenerationJobOutputConfigurationDeser
     name: item["name"],
     write_mode: item["write_mode"],
     merge_file_id: item["merge_file_id"],
+  };
+}
+
+/** The request to create a Microsoft Teams Phone extensibility binding. */
+export interface CreateTeamsPhoneExtensibilityTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Microsoft Teams Phone extensibility provider. */
+  provider: "teams_phone_extensibility";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function createTeamsPhoneExtensibilityTelephonyBindingRequestSerializer(
+  item: CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Microsoft Teams Phone extensibility binding owned by a voice agent. */
+export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBinding {
+  /** The Microsoft Teams Phone extensibility provider. */
+  provider: "teams_phone_extensibility";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensibilityTelephonyBindingDeserializer(
+  item: any,
+): TeamsPhoneExtensibilityTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Microsoft Teams Phone extensibility binding returned in a list, including its entity tag. */
+export interface TeamsPhoneExtensibilityTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Microsoft Teams Phone extensibility provider. */
+  provider: "teams_phone_extensibility";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensibilityTelephonyBindingListItemDeserializer(
+  item: any,
+): TeamsPhoneExtensibilityTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
   };
 }
