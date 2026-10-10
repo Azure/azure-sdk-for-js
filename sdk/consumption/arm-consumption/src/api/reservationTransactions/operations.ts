@@ -34,7 +34,7 @@ export function _listByBillingProfileSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -75,7 +75,7 @@ export function listByBillingProfile(
     () => _listByBillingProfileSend(context, billingAccountId, billingProfileId, options),
     _listByBillingProfileDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -88,7 +88,7 @@ export function _listSend(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/reservationTransactions{?api%2Dversion,%24filter,useMarkupIfPartner,previewMarkupPercentage}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       useMarkupIfPartner: options?.useMarkupIfPartner,
       previewMarkupPercentage: options?.previewMarkupPercentage,
@@ -130,6 +130,6 @@ export function list(
     () => _listSend(context, billingAccountId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

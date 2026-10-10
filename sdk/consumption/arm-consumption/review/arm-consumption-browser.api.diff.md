@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      timePeriod: BudgetTimePeriod;
  }
  
-@@ -1297,9 +1297,9 @@
+@@ -1313,9 +1313,9 @@
      readonly unitPrice?: number;
  }
  
@@ -40,7 +40,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      contactGroups?: string[];
      contactRoles?: string[];
      enabled: boolean;
-@@ -1307,8 +1307,9 @@
+@@ -1323,8 +1323,9 @@
      operator: OperatorType;
      threshold: number;
      thresholdType?: ThresholdType;
