@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Elastic monitor resources within a specified subscription, helping you audit and manage your monitoring setup.
  *
  * @summary list all Elastic monitor resources within a specified subscription, helping you audit and manage your monitoring setup.
- * x-ms-original-file: 2025-06-01/Monitors_List.json
+ * x-ms-original-file: 2026-03-15-preview/Monitors_List.json
  */
 async function monitorsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

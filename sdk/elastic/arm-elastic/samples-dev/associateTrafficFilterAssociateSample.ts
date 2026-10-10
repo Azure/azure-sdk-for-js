@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to associate a traffic filter with your Elastic monitor resource to control and manage network traffic.
  *
  * @summary associate a traffic filter with your Elastic monitor resource to control and manage network traffic.
- * x-ms-original-file: 2025-06-01/AssociateTrafficFilter_Update.json
+ * x-ms-original-file: 2026-03-15-preview/AssociateTrafficFilter_Update.json
  */
 async function associateTrafficFilterAssociate(): Promise<void> {
   const credential = new DefaultAzureCredential();

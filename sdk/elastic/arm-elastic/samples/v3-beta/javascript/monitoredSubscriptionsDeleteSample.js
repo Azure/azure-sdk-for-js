@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete subscriptions being monitored by the Elastic monitor resource, removing their observability and monitoring capabilities.
  *
  * @summary delete subscriptions being monitored by the Elastic monitor resource, removing their observability and monitoring capabilities.
- * x-ms-original-file: 2025-06-01/MonitoredSubscriptions_Delete.json
+ * x-ms-original-file: 2026-03-15-preview/MonitoredSubscriptions_Delete.json
  */
 async function monitorsDeleteMonitoredSubscriptions() {
   const credential = new DefaultAzureCredential();

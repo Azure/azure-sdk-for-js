@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all tag rules for a given Elastic monitor resource, helping you manage fine-grained control over observability based on resource tags.
  *
  * @summary list all tag rules for a given Elastic monitor resource, helping you manage fine-grained control over observability based on resource tags.
- * x-ms-original-file: 2025-06-01/TagRules_List.json
+ * x-ms-original-file: 2026-03-15-preview/TagRules_List.json
  */
 async function tagRulesList() {
   const credential = new DefaultAzureCredential();

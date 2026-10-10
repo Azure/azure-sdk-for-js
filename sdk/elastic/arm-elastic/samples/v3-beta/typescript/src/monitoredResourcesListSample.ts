@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all resources currently being monitored by the Elastic monitor resource, helping you manage observability.
  *
  * @summary list all resources currently being monitored by the Elastic monitor resource, helping you manage observability.
- * x-ms-original-file: 2025-06-01/MonitoredResources_List.json
+ * x-ms-original-file: 2026-03-15-preview/MonitoredResources_List.json
  */
 async function monitoredResourcesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

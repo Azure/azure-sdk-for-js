@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control over observability based on resource tags.
  *
  * @summary create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control over observability based on resource tags.
- * x-ms-original-file: 2025-06-01/TagRules_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-15-preview/TagRules_CreateOrUpdate.json
  */
 async function tagRulesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

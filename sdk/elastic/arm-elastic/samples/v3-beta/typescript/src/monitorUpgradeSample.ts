@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrade the Elastic monitor resource to a newer version, ensuring optimal observability and performance.
  *
  * @summary upgrade the Elastic monitor resource to a newer version, ensuring optimal observability and performance.
- * x-ms-original-file: 2025-06-01/Monitor_Upgrade.json
+ * x-ms-original-file: 2026-03-15-preview/Monitor_Upgrade.json
  */
 async function monitorUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

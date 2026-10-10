@@ -26,7 +26,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/elasticVersions{?api%2Dversion,region}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
       region: region,
     },
     {
@@ -66,6 +66,10 @@ export function list(
     () => _listSend(context, region, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    },
   );
 }
