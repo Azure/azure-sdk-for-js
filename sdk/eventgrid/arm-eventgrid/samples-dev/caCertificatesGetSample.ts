@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of a CA certificate.
  *
  * @summary get properties of a CA certificate.
- * x-ms-original-file: 2025-07-15-preview/CaCertificates_Get.json
+ * x-ms-original-file: 2026-06-15-preview/CaCertificates_Get.json
  */
 async function caCertificatesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

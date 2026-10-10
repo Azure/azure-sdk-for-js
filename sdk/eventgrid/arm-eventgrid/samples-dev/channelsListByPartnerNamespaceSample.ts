@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the channels in a partner namespace.
  *
  * @summary list all the channels in a partner namespace.
- * x-ms-original-file: 2025-07-15-preview/Channels_ListByPartnerNamespace.json
+ * x-ms-original-file: 2026-06-15-preview/Channels_ListByPartnerNamespace.json
  */
 async function channelsListByPartnerNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

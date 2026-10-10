@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a partner registration with the specified parameters.
  *
  * @summary updates a partner registration with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerRegistrations_Update.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerRegistrations_Update.json
  */
 async function partnerRegistrationsUpdate() {
   const credential = new DefaultAzureCredential();

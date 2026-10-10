@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of a client.
  *
  * @summary get properties of a client.
- * x-ms-original-file: 2025-07-15-preview/Clients_Get.json
+ * x-ms-original-file: 2026-06-15-preview/Clients_Get.json
  */
 async function clientsGet() {
   const credential = new DefaultAzureCredential();

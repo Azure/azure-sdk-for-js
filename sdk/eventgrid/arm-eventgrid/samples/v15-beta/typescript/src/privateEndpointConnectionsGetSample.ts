@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
  *
  * @summary get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
- * x-ms-original-file: 2025-07-15-preview/PrivateEndpointConnections_Get.json
+ * x-ms-original-file: 2026-06-15-preview/PrivateEndpointConnections_Get.json
  */
 async function privateEndpointConnectionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

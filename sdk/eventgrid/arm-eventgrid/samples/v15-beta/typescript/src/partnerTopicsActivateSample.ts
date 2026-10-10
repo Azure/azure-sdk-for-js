@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to activate a newly created partner topic.
  *
  * @summary activate a newly created partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_Activate.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_Activate.json
  */
 async function partnerTopicsActivate(): Promise<void> {
   const credential = new DefaultAzureCredential();

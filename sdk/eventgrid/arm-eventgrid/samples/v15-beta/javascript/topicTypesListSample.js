@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all registered topic types.
  *
  * @summary list all registered topic types.
- * x-ms-original-file: 2025-07-15-preview/TopicTypes_List.json
+ * x-ms-original-file: 2026-06-15-preview/TopicTypes_List.json
  */
 async function topicTypesList() {
   const credential = new DefaultAzureCredential();

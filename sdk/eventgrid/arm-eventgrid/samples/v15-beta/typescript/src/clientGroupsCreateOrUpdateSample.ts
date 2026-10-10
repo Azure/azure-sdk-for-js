@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a client group with the specified parameters.
  *
  * @summary create or update a client group with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/ClientGroups_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/ClientGroups_CreateOrUpdate.json
  */
 async function clientGroupsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

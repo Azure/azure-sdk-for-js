@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously creates a new partner topic with the specified parameters.
  *
  * @summary asynchronously creates a new partner topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_CreateOrUpdate.json
  */
 async function partnerTopicsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

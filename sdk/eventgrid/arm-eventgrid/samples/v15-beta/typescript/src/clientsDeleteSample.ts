@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an existing client.
  *
  * @summary delete an existing client.
- * x-ms-original-file: 2025-07-15-preview/Clients_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/Clients_Delete.json
  */
 async function clientsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously creates or updates a new domain topic with the specified parameters.
  *
  * @summary asynchronously creates or updates a new domain topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/DomainTopics_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopics_CreateOrUpdate.json
  */
 async function domainTopicsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

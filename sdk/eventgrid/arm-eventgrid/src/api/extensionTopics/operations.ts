@@ -18,7 +18,7 @@ export function _getSend(
     "/{+scope}/providers/Microsoft.EventGrid/extensionTopics/default{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -34,7 +34,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

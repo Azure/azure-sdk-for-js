@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete existing partner namespace.
  *
  * @summary delete existing partner namespace.
- * x-ms-original-file: 2025-07-15-preview/PartnerNamespaces_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerNamespaces_Delete.json
  */
 async function partnerNamespacesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

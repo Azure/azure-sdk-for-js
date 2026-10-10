@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the full endpoint URL of a partner destination channel.
  *
  * @summary get the full endpoint URL of a partner destination channel.
- * x-ms-original-file: 2025-07-15-preview/Channels_GetFullUrl.json
+ * x-ms-original-file: 2026-06-15-preview/Channels_GetFullUrl.json
  */
 async function channelsGetFullUrl(): Promise<void> {
   const credential = new DefaultAzureCredential();

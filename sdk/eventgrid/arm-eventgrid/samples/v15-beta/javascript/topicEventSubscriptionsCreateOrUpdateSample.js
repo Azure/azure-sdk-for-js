@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/TopicEventSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/TopicEventSubscriptions_CreateOrUpdate.json
  */
 async function topicEventSubscriptionsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

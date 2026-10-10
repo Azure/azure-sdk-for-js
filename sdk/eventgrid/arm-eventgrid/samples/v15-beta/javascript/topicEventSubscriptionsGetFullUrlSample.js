@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the full endpoint URL for an event subscription for topic.
  *
  * @summary get the full endpoint URL for an event subscription for topic.
- * x-ms-original-file: 2025-07-15-preview/TopicEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: 2026-06-15-preview/TopicEventSubscriptions_GetFullUrl.json
  */
 async function topicEventSubscriptionsGetFullUrl() {
   const credential = new DefaultAzureCredential();

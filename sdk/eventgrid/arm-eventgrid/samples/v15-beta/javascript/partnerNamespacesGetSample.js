@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of a partner namespace.
  *
  * @summary get properties of a partner namespace.
- * x-ms-original-file: 2025-07-15-preview/PartnerNamespaces_Get.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerNamespaces_Get.json
  */
 async function partnerNamespacesGet() {
   const credential = new DefaultAzureCredential();

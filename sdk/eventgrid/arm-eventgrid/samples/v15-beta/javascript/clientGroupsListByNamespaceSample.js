@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all the client groups under a namespace.
  *
  * @summary get all the client groups under a namespace.
- * x-ms-original-file: 2025-07-15-preview/ClientGroups_ListByNamespace.json
+ * x-ms-original-file: 2026-06-15-preview/ClientGroups_ListByNamespace.json
  */
 async function clientGroupsListByNamespace() {
   const credential = new DefaultAzureCredential();

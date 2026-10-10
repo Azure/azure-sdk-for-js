@@ -60,7 +60,7 @@ export function _listRegionalByResourceGroupForTopicTypeSend(
       resourceGroupName: resourceGroupName,
       location: location,
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -80,7 +80,9 @@ export async function _listRegionalByResourceGroupForTopicTypeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -113,7 +115,7 @@ export function listRegionalByResourceGroupForTopicType(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -132,7 +134,7 @@ export function _listRegionalBySubscriptionForTopicTypeSend(
       subscriptionId: context.subscriptionId,
       location: location,
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -152,7 +154,9 @@ export async function _listRegionalBySubscriptionForTopicTypeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -177,7 +181,7 @@ export function listRegionalBySubscriptionForTopicType(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -194,7 +198,7 @@ export function _listRegionalByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -214,7 +218,9 @@ export async function _listRegionalByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -237,7 +243,7 @@ export function listRegionalByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -252,7 +258,7 @@ export function _listRegionalBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -272,7 +278,9 @@ export async function _listRegionalBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -294,7 +302,7 @@ export function listRegionalBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -313,7 +321,7 @@ export function _listGlobalByResourceGroupForTopicTypeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -333,7 +341,9 @@ export async function _listGlobalByResourceGroupForTopicTypeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -364,7 +374,7 @@ export function listGlobalByResourceGroupForTopicType(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -381,7 +391,7 @@ export function _listGlobalBySubscriptionForTopicTypeSend(
     {
       subscriptionId: context.subscriptionId,
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -401,7 +411,9 @@ export async function _listGlobalBySubscriptionForTopicTypeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -425,7 +437,7 @@ export function listGlobalBySubscriptionForTopicType(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -441,7 +453,7 @@ export function _getFullUrlSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -459,7 +471,9 @@ export async function _getFullUrlDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -489,7 +503,7 @@ export function _getDeliveryAttributesSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,7 +521,9 @@ export async function _getDeliveryAttributesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -542,7 +558,7 @@ export function _listByResourceSend(
       providerNamespace: providerNamespace,
       resourceTypeName: resourceTypeName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -562,7 +578,9 @@ export async function _listByResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -595,7 +613,7 @@ export function listByResource(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -608,7 +626,7 @@ export function _listGlobalBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/eventSubscriptions{?api%2Dversion,%24filter,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -628,7 +646,9 @@ export async function _listGlobalBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -649,7 +669,7 @@ export function listGlobalBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -665,7 +685,7 @@ export function _$deleteSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -678,7 +698,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -687,11 +709,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an existing event subscription. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   scope: string,
@@ -703,7 +720,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, scope, eventSubscriptionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -719,7 +736,7 @@ export function _updateSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -739,7 +756,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -767,7 +786,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<EventSubscription>, EventSubscription>;
 }
 
@@ -783,7 +802,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,7 +822,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -825,7 +846,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, scope, eventSubscriptionName, eventSubscriptionInfo, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<EventSubscription>, EventSubscription>;
 }
 
@@ -840,7 +861,7 @@ export function _getSend(
     {
       scope: scope,
       eventSubscriptionName: eventSubscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -856,7 +877,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -889,7 +912,7 @@ export function _listByDomainTopicSend(
       resourceGroupName: resourceGroupName,
       domainName: domainName,
       topicName: topicName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -909,7 +932,9 @@ export async function _listByDomainTopicDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -933,7 +958,7 @@ export function listByDomainTopic(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -948,7 +973,7 @@ export function _listGlobalByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -968,7 +993,9 @@ export async function _listGlobalByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -990,7 +1017,7 @@ export function listGlobalByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }

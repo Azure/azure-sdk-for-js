@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/arm-eventgrid",
   "dependencies": {
-    "@azure/arm-eventgrid": "next",
+    "@azure/arm-eventgrid": "beta",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
@@ -38,6 +38,6 @@
     "@types/node": "^22.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

@@ -34,7 +34,7 @@ export function _listEventTypesSend(
     "/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventTypes{?api%2Dversion}",
     {
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,9 @@ export async function _listEventTypesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -74,7 +76,7 @@ export function listEventTypes(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -86,7 +88,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.EventGrid/topicTypes{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,7 +106,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -125,7 +129,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -139,7 +143,7 @@ export function _getSend(
     "/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}{?api%2Dversion}",
     {
       topicTypeName: topicTypeName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +159,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

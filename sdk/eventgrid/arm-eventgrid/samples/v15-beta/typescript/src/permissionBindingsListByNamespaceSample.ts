@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the permission bindings under a namespace.
  *
  * @summary get all the permission bindings under a namespace.
- * x-ms-original-file: 2025-07-15-preview/PermissionBindings_ListByNamespace.json
+ * x-ms-original-file: 2026-06-15-preview/PermissionBindings_ListByNamespace.json
  */
 async function permissionBindingsListByNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

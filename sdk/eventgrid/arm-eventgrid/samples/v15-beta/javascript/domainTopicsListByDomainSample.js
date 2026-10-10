@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the topics in a domain.
  *
  * @summary list all the topics in a domain.
- * x-ms-original-file: 2025-07-15-preview/DomainTopics_ListByDomain.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopics_ListByDomain.json
  */
 async function domainTopicsListByDomain() {
   const credential = new DefaultAzureCredential();
