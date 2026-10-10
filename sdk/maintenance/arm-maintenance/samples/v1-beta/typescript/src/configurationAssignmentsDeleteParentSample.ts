@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to unregister configuration for resource.
  *
  * @summary unregister configuration for resource.
- * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignments_DeleteParent.json
+ * x-ms-original-file: 2025-10-01-preview/ConfigurationAssignments_DeleteParent.json
  */
 async function configurationAssignmentsDeleteParent(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to apply maintenance updates to resource
  *
  * @summary apply maintenance updates to resource
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_CreateOrUpdateOnly_NoCancellation.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdates_CreateOrUpdateOnly_NoCancellation.json
  */
 async function applyUpdatesCreateOrUpdateOnlyNoCancellation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function applyUpdatesCreateOrUpdateOnlyNoCancellation(): Promise<void> {
  * This sample demonstrates how to apply maintenance updates to resource
  *
  * @summary apply maintenance updates to resource
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_CreateOrUpdate_CancelMaintenance.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdates_CreateOrUpdate_CancelMaintenance.json
  */
 async function applyUpdatesCreateOrUpdateOrCancel(): Promise<void> {
   const credential = new DefaultAzureCredential();
