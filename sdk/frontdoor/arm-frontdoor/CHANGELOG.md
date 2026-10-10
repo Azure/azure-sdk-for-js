@@ -1,5 +1,21 @@
 # Release History
 
+## 6.1.0 (2026-09-14)
+
+### Features Added
+  - Interface ManagedRuleDefinition has a new optional parameter paranoiaLevel
+  - Interface ManagedRuleSetDefinition has a new optional parameter displayName
+  - Interface ManagedRuleSetDefinition has a new optional parameter status
+  - Interface ManagedRuleSetDefinitionProperties has a new optional parameter displayName
+  - Interface ManagedRuleSetDefinitionProperties has a new optional parameter status
+  - Added Type Alias ManagedRuleSetStatus
+  - Added Type Alias ParanoiaLevel
+  - Added Enum KnownManagedRuleSetStatus
+  - Added Enum KnownParanoiaLevel
+  - Enum KnownVariableName has a new value Asn
+  - Enum KnownVariableName has a new value Ja4
+  - Enum KnownVersions has a new value V20260401
+
 ## 6.0.0 (2026-07-27)
 
 ### Features Added
