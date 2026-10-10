@@ -1741,6 +1741,9 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgeworkloadsecurity/arm-secretsstoreextension/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/apimanagement/arm-aigateway/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
