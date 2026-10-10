@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_CreateConfidential.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_CreateConfidential.json
  */
 async function confidentialContainerGroupProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function confidentialContainerGroupProfile(): Promise<void> {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_EncryptionProperties.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_EncryptionProperties.json
  */
 async function containerGroupProfileWithEncryptionProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function containerGroupProfileWithEncryptionProperties(): Promise<void> {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_Extensions.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_Extensions.json
  */
 async function containerGroupProfileCreateWithExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -121,7 +121,7 @@ async function containerGroupProfileCreateWithExtensions(): Promise<void> {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesCreateOrUpdate.json
  */
 async function containerGroupProfilesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

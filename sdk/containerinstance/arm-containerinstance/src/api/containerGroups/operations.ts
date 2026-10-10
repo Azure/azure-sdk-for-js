@@ -45,7 +45,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _containerGroupListResultDeserializer(result.body);
 }
-
 /** Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes. */
 export function listByResourceGroup(
   context: Client,
@@ -87,7 +86,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -100,7 +99,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +126,6 @@ export async function _listDeserialize(
 
   return _containerGroupListResultDeserializer(result.body);
 }
-
 /** Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes. */
 export function list(
   context: Client,
@@ -141,7 +139,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -160,7 +158,7 @@ export function _getOutboundNetworkDependenciesEndpointsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +189,6 @@ export async function _getOutboundNetworkDependenciesEndpointsDeserialize(
     }),
   };
 }
-
 /** Gets all the network dependencies for this container group to allow complete control of network setting and configuration. For container groups, this will always be an empty list. */
 export async function getOutboundNetworkDependenciesEndpoints(
   context: Client,
@@ -222,7 +219,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,7 +241,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Starts all containers in a container group. Compute resources will be allocated and billing will start. */
 export function start(
   context: Client,
@@ -257,7 +253,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, containerGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -273,7 +269,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +291,6 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
-
 /** Stops all containers in a container group. Compute resources will be deallocated and billing will stop. */
 export async function stop(
   context: Client,
@@ -319,7 +314,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,7 +336,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Restarts all containers in a container group in place. If container image has updates, new image will be downloaded. */
 export function restart(
   context: Client,
@@ -354,7 +348,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, containerGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -370,7 +364,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,7 +389,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return containerGroupDeserializer(result.body);
 }
-
 /** Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes. */
 export function $delete(
   context: Client,
@@ -408,7 +401,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, containerGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ContainerGroup>, ContainerGroup>;
 }
 
@@ -425,7 +418,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,7 +445,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return containerGroupDeserializer(result.body);
 }
-
 /** Updates container group tags with specified values. */
 export async function update(
   context: Client,
@@ -484,7 +476,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -513,7 +505,6 @@ export async function _createOrUpdateDeserialize(
 
   return containerGroupDeserializer(result.body);
 }
-
 /** Create or update container groups with specified configurations. */
 export function createOrUpdate(
   context: Client,
@@ -528,7 +519,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, containerGroupName, containerGroup, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ContainerGroup>, ContainerGroup>;
 }
 
@@ -544,7 +535,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -569,7 +560,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return containerGroupDeserializer(result.body);
 }
-
 /** Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes. */
 export async function get(
   context: Client,

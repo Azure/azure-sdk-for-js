@@ -4,10 +4,10 @@
 import type { ContainerInstanceManagementClient } from "./containerInstanceManagementClient.js";
 import { _$deleteDeserialize } from "./api/subnetServiceAssociationLink/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeSandboxGroups,
+  _$deleteDeserialize as _$deleteDeserializeAiAgentsGroups,
   _updateDeserialize,
   _createOrUpdateDeserialize,
-} from "./api/sandboxGroups/operations.js";
+} from "./api/aiAgentsGroups/operations.js";
 import {
   _restartDeserialize,
   _startDeserialize,
@@ -93,11 +93,11 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}":
-    { deserializer: _$deleteDeserializeSandboxGroups, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}":
+    { deserializer: _$deleteDeserializeAiAgentsGroups, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/aiAgentsGroups/{aiAgentsGroupName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/restart":
     { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },

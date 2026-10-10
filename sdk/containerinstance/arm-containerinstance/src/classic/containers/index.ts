@@ -40,7 +40,6 @@ export interface ContainersOperations {
     options?: ContainersListLogsOptionalParams,
   ) => Promise<Logs>;
 }
-
 function _getContainers(context: ContainerInstanceManagementContext) {
   return {
     attach: (
@@ -72,7 +71,6 @@ function _getContainers(context: ContainerInstanceManagementContext) {
     ) => listLogs(context, resourceGroupName, containerGroupName, containerName, options),
   };
 }
-
 export function _getContainersOperations(
   context: ContainerInstanceManagementContext,
 ): ContainersOperations {
