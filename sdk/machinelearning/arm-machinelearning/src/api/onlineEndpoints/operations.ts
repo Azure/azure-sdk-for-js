@@ -52,7 +52,7 @@ export function _getTokenSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +113,7 @@ export function _regenerateKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function regenerateKeys(
     getInitialResponse: () =>
       _regenerateKeysSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -173,7 +173,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +231,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       name: options?.name,
       count: options?.count,
       computeType: options?.computeType,
@@ -278,11 +278,7 @@ export function list(
     () => _listSend(context, resourceGroupName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -300,7 +296,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -337,7 +333,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, endpointName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -356,7 +352,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -399,7 +395,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OnlineEndpoint>, OnlineEndpoint>;
 }
 
@@ -418,7 +414,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -463,7 +459,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OnlineEndpoint>, OnlineEndpoint>;
 }
 
@@ -481,7 +477,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
