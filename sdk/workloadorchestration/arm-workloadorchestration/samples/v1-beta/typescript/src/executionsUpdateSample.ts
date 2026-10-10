@@ -8,19 +8,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an Execution Resource
  *
  * @summary update an Execution Resource
- * x-ms-original-file: 2025-06-01/Executions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Executions_Update_MaximumSet_Gen.json
  */
 async function executionsUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "FFA229AF-C1A3-4CB6-9E5D-62C25CFBE4D0";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.executions.update(
     "rgconfigurationmanager",
+    "testname",
+    "testname",
     "abcde",
     "abcde",
-    "abcde",
-    "abcde",
-    { properties: { specification: {}, workflowVersionId: "xjsxzbfltzvbuvn" } },
+    { properties: { workflowVersionId: "ihhcmejnkuto", specification: {} } },
   );
   console.log(result);
 }

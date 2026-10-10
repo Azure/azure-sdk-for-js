@@ -1,37 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
   $delete,
   removeVersion,
   createVersion,
+  unLinkFromHierarchies,
+  linkToHierarchies,
   update,
   createOrUpdate,
   get,
 } from "../../api/configTemplates/operations.js";
-import {
+import type {
   ConfigTemplatesListBySubscriptionOptionalParams,
   ConfigTemplatesListByResourceGroupOptionalParams,
   ConfigTemplatesDeleteOptionalParams,
   ConfigTemplatesRemoveVersionOptionalParams,
   ConfigTemplatesCreateVersionOptionalParams,
+  ConfigTemplatesUnLinkFromHierarchiesOptionalParams,
+  ConfigTemplatesLinkToHierarchiesOptionalParams,
   ConfigTemplatesUpdateOptionalParams,
   ConfigTemplatesCreateOrUpdateOptionalParams,
   ConfigTemplatesGetOptionalParams,
 } from "../../api/configTemplates/options.js";
-import {
+import type {
   VersionParameter,
   RemoveVersionResponse,
   ConfigTemplate,
   ConfigTemplateUpdate,
+  HierarchySelector,
   ConfigTemplateVersionWithUpdateType,
   ConfigTemplateVersion,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConfigTemplates operations. */
 export interface ConfigTemplatesOperations {
@@ -45,11 +50,6 @@ export interface ConfigTemplatesOperations {
     options?: ConfigTemplatesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ConfigTemplate>;
   /** Delete a Config Template Resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     configTemplateName: string,
@@ -69,6 +69,20 @@ export interface ConfigTemplatesOperations {
     body: ConfigTemplateVersionWithUpdateType,
     options?: ConfigTemplatesCreateVersionOptionalParams,
   ) => PollerLike<OperationState<ConfigTemplateVersion>, ConfigTemplateVersion>;
+  /** Remove a Config Template from a particular hierarchy node */
+  unLinkFromHierarchies: (
+    resourceGroupName: string,
+    configTemplateName: string,
+    body: HierarchySelector,
+    options?: ConfigTemplatesUnLinkFromHierarchiesOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Apply a Config Template to a particular hierarchy node */
+  linkToHierarchies: (
+    resourceGroupName: string,
+    configTemplateName: string,
+    body: HierarchySelector,
+    options?: ConfigTemplatesLinkToHierarchiesOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** update a Config Template Resource */
   update: (
     resourceGroupName: string,
@@ -116,6 +130,18 @@ function _getConfigTemplates(context: WorkloadOrchestrationManagementContext) {
       body: ConfigTemplateVersionWithUpdateType,
       options?: ConfigTemplatesCreateVersionOptionalParams,
     ) => createVersion(context, resourceGroupName, configTemplateName, body, options),
+    unLinkFromHierarchies: (
+      resourceGroupName: string,
+      configTemplateName: string,
+      body: HierarchySelector,
+      options?: ConfigTemplatesUnLinkFromHierarchiesOptionalParams,
+    ) => unLinkFromHierarchies(context, resourceGroupName, configTemplateName, body, options),
+    linkToHierarchies: (
+      resourceGroupName: string,
+      configTemplateName: string,
+      body: HierarchySelector,
+      options?: ConfigTemplatesLinkToHierarchiesOptionalParams,
+    ) => linkToHierarchies(context, resourceGroupName, configTemplateName, body, options),
     update: (
       resourceGroupName: string,
       configTemplateName: string,

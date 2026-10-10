@@ -8,54 +8,33 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Target Resource
  *
  * @summary create or update a Target Resource
- * x-ms-original-file: 2025-06-01/Targets_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Targets_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function targetsCreateOrUpdateMaximumSet() {
+async function targetsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.targets.createOrUpdate("rgconfigurationmanager", "testname", {
     properties: {
-      description: "riabrxtvhlmizyhffdpjeyhvw",
-      displayName: "qjlbshhqzfmwxvvynibkoi",
-      targetSpecification: {},
-      capabilities: ["grjapghdidoao"],
+      displayName: "uqslbtoqsdhxuzhjyxxhh",
       contextId:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
-      hierarchyLevel: "octqptfirejhjfavlnfqeiikqx",
-      status: {
-        lastModified: new Date("2025-06-09T10:12:04.224Z"),
-        deployed: 24,
-        expectedRunningJobId: 19,
-        runningJobId: 6,
-        status: "nnpksn",
-        statusDetails: "bslqqnfciczenaltdcmrgg",
-        generation: 21,
-        targetStatuses: [
-          {
-            name: "jpbfbxmjvr",
-            status: "gsgkxfwtyoaepwa",
-            componentStatuses: [
-              {
-                name: "lxzbkoblvaoubknkblwplf",
-                status: "txtthlvducufbblgtctegtgpzkzgyi",
-              },
-            ],
-          },
-        ],
-      },
+        "/subscriptions/612CB927-8AC8-42DD-B74E-C676C3960BA5/resourceGroups/rgconfigurationmanager/providers/Microsoft.Edge/contexts/testContext",
+      targetSpecification: {},
+      capabilities: ["jo"],
+      hierarchyLevel: "gfeixwakwerayliymdejq",
       solutionScope: "testname",
       state: "active",
+      description: "tprpzngmtoweelhwwilawu",
     },
-    extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },
-    tags: { key612: "vtqzrk" },
-    location: "kckloegmwsjgwtcl",
+    extendedLocation: { name: "ggfwkwklvvkrmlysvvhcj", type: "EdgeZone" },
+    tags: {},
+    location: "yimw",
   });
   console.log(result);
 }
 
 async function main() {
-  await targetsCreateOrUpdateMaximumSet();
+  await targetsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

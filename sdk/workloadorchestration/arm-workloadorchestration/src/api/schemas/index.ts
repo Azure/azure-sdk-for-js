@@ -11,13 +11,13 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type SchemasListBySubscriptionOptionalParams,
-  type SchemasListByResourceGroupOptionalParams,
-  type SchemasRemoveVersionOptionalParams,
-  type SchemasCreateVersionOptionalParams,
-  type SchemasDeleteOptionalParams,
-  type SchemasUpdateOptionalParams,
-  type SchemasCreateOrUpdateOptionalParams,
-  type SchemasGetOptionalParams,
+export type {
+  SchemasListBySubscriptionOptionalParams,
+  SchemasListByResourceGroupOptionalParams,
+  SchemasRemoveVersionOptionalParams,
+  SchemasCreateVersionOptionalParams,
+  SchemasDeleteOptionalParams,
+  SchemasUpdateOptionalParams,
+  SchemasCreateOrUpdateOptionalParams,
+  SchemasGetOptionalParams,
 } from "./options.js";

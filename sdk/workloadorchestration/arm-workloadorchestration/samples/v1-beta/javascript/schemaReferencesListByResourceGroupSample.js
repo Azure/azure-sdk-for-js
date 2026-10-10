@@ -8,14 +8,34 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list by specified resource group
  *
  * @summary list by specified resource group
- * x-ms-original-file: 2025-06-01/SchemaReferences_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/SchemaReferences_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function schemaReferencesListByResourceGroupMaximumSet() {
+async function schemaReferencesListByResourceGroupMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
+  const client = new WorkloadOrchestrationManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.schemaReferences.listByResourceGroup("jdvtghygpz")) {
+  for await (const item of client.schemaReferences.listByResourceGroup(
+    "subscriptions/612CB927-8AC8-42DD-B74E-C676C3960BA5/resourceGroups/rgconfigurationmanager/providers/Microsoft.Edge/targets/testTarget",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list by specified resource group
+ *
+ * @summary list by specified resource group
+ * x-ms-original-file: 2026-05-01-preview/SchemaReferences_ListByResourceGroup_MinimumSet_Gen.json
+ */
+async function schemaReferencesListByResourceGroupMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadOrchestrationManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.schemaReferences.listByResourceGroup(
+    "subscriptions/612CB927-8AC8-42DD-B74E-C676C3960BA5/resourceGroups/rgconfigurationmanager/providers/Microsoft.Edge/targets/testTarget",
+  )) {
     resArray.push(item);
   }
 
@@ -23,7 +43,8 @@ async function schemaReferencesListByResourceGroupMaximumSet() {
 }
 
 async function main() {
-  await schemaReferencesListByResourceGroupMaximumSet();
+  await schemaReferencesListByResourceGroupMaximumSetGeneratedByMaximumSetRule();
+  await schemaReferencesListByResourceGroupMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

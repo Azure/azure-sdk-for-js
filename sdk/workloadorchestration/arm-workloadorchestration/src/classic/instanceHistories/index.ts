@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByInstance, get } from "../../api/instanceHistories/operations.js";
-import {
+import type {
   InstanceHistoriesListByInstanceOptionalParams,
   InstanceHistoriesGetOptionalParams,
 } from "../../api/instanceHistories/options.js";
-import { InstanceHistory } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { InstanceHistory } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a InstanceHistories operations. */
 export interface InstanceHistoriesOperations {

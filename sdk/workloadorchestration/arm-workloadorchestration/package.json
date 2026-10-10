@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -89,7 +89,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-workloadorchestration",
@@ -127,6 +128,90 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/solutionDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/solutionDeployments/index.d.ts",
+        "default": "./dist/browser/api/solutionDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/solutionDeployments/index.d.ts",
+        "default": "./dist/esm/api/solutionDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/solutionDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/solutionDeployments/index.js"
+      }
+    },
+    "./api/hierarchyConfigurationMetadataVersions": {
+      "browser": {
+        "types": "./dist/browser/api/hierarchyConfigurationMetadataVersions/index.d.ts",
+        "default": "./dist/browser/api/hierarchyConfigurationMetadataVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/hierarchyConfigurationMetadataVersions/index.d.ts",
+        "default": "./dist/esm/api/hierarchyConfigurationMetadataVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/hierarchyConfigurationMetadataVersions/index.d.ts",
+        "default": "./dist/commonjs/api/hierarchyConfigurationMetadataVersions/index.js"
+      }
+    },
+    "./api/hierarchyConfigurationMetadatas": {
+      "browser": {
+        "types": "./dist/browser/api/hierarchyConfigurationMetadatas/index.d.ts",
+        "default": "./dist/browser/api/hierarchyConfigurationMetadatas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/hierarchyConfigurationMetadatas/index.d.ts",
+        "default": "./dist/esm/api/hierarchyConfigurationMetadatas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/hierarchyConfigurationMetadatas/index.d.ts",
+        "default": "./dist/commonjs/api/hierarchyConfigurationMetadatas/index.js"
+      }
+    },
+    "./api/configTemplateMetadatas": {
+      "browser": {
+        "types": "./dist/browser/api/configTemplateMetadatas/index.d.ts",
+        "default": "./dist/browser/api/configTemplateMetadatas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configTemplateMetadatas/index.d.ts",
+        "default": "./dist/esm/api/configTemplateMetadatas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configTemplateMetadatas/index.d.ts",
+        "default": "./dist/commonjs/api/configTemplateMetadatas/index.js"
+      }
+    },
+    "./api/configTemplateSchemas": {
+      "browser": {
+        "types": "./dist/browser/api/configTemplateSchemas/index.d.ts",
+        "default": "./dist/browser/api/configTemplateSchemas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configTemplateSchemas/index.d.ts",
+        "default": "./dist/esm/api/configTemplateSchemas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configTemplateSchemas/index.d.ts",
+        "default": "./dist/commonjs/api/configTemplateSchemas/index.js"
+      }
+    },
+    "./api/solutionSchemas": {
+      "browser": {
+        "types": "./dist/browser/api/solutionSchemas/index.d.ts",
+        "default": "./dist/browser/api/solutionSchemas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/solutionSchemas/index.d.ts",
+        "default": "./dist/esm/api/solutionSchemas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/solutionSchemas/index.d.ts",
+        "default": "./dist/commonjs/api/solutionSchemas/index.js"
       }
     },
     "./api/siteReferences": {
@@ -295,6 +380,34 @@
       "require": {
         "types": "./dist/commonjs/api/solutionTemplateVersions/index.d.ts",
         "default": "./dist/commonjs/api/solutionTemplateVersions/index.js"
+      }
+    },
+    "./api/solutionMetadataVersions": {
+      "browser": {
+        "types": "./dist/browser/api/solutionMetadataVersions/index.d.ts",
+        "default": "./dist/browser/api/solutionMetadataVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/solutionMetadataVersions/index.d.ts",
+        "default": "./dist/esm/api/solutionMetadataVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/solutionMetadataVersions/index.d.ts",
+        "default": "./dist/commonjs/api/solutionMetadataVersions/index.js"
+      }
+    },
+    "./api/solutionMetadatas": {
+      "browser": {
+        "types": "./dist/browser/api/solutionMetadatas/index.d.ts",
+        "default": "./dist/browser/api/solutionMetadatas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/solutionMetadatas/index.d.ts",
+        "default": "./dist/esm/api/solutionMetadatas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/solutionMetadatas/index.d.ts",
+        "default": "./dist/commonjs/api/solutionMetadatas/index.js"
       }
     },
     "./api/solutions": {
