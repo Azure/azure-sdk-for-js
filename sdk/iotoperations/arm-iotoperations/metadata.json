@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.IoTOperations": "2026-07-01"
+    "Microsoft.IoTOperations": "2026-10-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.IoTOperations",
     "CrossLanguageDefinitionId": {
@@ -21,6 +21,7 @@
       "@azure/arm-iotoperations!ExtendedLocation:interface": "Microsoft.IoTOperations.ExtendedLocation",
       "@azure/arm-iotoperations!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
       "@azure/arm-iotoperations!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-iotoperations!InstanceSku:interface": "Microsoft.IoTOperations.InstanceSku",
       "@azure/arm-iotoperations!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
       "@azure/arm-iotoperations!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-iotoperations!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
@@ -161,6 +162,7 @@
       "@azure/arm-iotoperations!DataflowGraphDestinationAddIfNotPresentHeaderAction:interface": "Microsoft.IoTOperations.DataflowGraphDestinationAddIfNotPresentHeaderAction",
       "@azure/arm-iotoperations!DataflowGraphDestinationRemoveHeaderAction:interface": "Microsoft.IoTOperations.DataflowGraphDestinationRemoveHeaderAction",
       "@azure/arm-iotoperations!DataflowGraphDestinationAddOrReplaceHeaderAction:interface": "Microsoft.IoTOperations.DataflowGraphDestinationAddOrReplaceHeaderAction",
+      "@azure/arm-iotoperations!DataflowGraphDestinationSchemaSettings:interface": "Microsoft.IoTOperations.DataflowGraphDestinationSchemaSettings",
       "@azure/arm-iotoperations!DataflowGraphNodeConnection:interface": "Microsoft.IoTOperations.DataflowGraphNodeConnection",
       "@azure/arm-iotoperations!DataflowGraphConnectionInput:interface": "Microsoft.IoTOperations.DataflowGraphConnectionInput",
       "@azure/arm-iotoperations!DataflowGraphConnectionSchemaSettings:interface": "Microsoft.IoTOperations.DataflowGraphConnectionSchemaSettings",
@@ -231,6 +233,7 @@
       "@azure/arm-iotoperations!KnownResourceHealthState:enum": "Microsoft.IoTOperations.ResourceHealthState",
       "@azure/arm-iotoperations!KnownExtendedLocationType:enum": "Microsoft.IoTOperations.ExtendedLocationType",
       "@azure/arm-iotoperations!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-iotoperations!KnownInstanceSkuName:enum": "Microsoft.IoTOperations.InstanceSkuName",
       "@azure/arm-iotoperations!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-iotoperations!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-iotoperations!KnownSubscriberMessageDropStrategy:enum": "Microsoft.IoTOperations.SubscriberMessageDropStrategy",
@@ -273,6 +276,7 @@
       "@azure/arm-iotoperations!KnownDataflowOpenTelemetryAuthenticationMethod:enum": "Microsoft.IoTOperations.DataflowOpenTelemetryAuthenticationMethod",
       "@azure/arm-iotoperations!KnownDataflowGraphNodeType:enum": "Microsoft.IoTOperations.DataflowGraphNodeType",
       "@azure/arm-iotoperations!KnownDataflowGraphDestinationHeaderActionType:enum": "Microsoft.IoTOperations.DataflowGraphDestinationHeaderActionType",
+      "@azure/arm-iotoperations!KnownDataflowGraphDestinationSchemaSerializationFormat:enum": "Microsoft.IoTOperations.DataflowGraphDestinationSchemaSerializationFormat",
       "@azure/arm-iotoperations!KnownDataflowGraphConnectionSchemaSerializationFormat:enum": "Microsoft.IoTOperations.DataflowGraphConnectionSchemaSerializationFormat",
       "@azure/arm-iotoperations!KnownRegistryEndpointAuthenticationMethod:enum": "Microsoft.IoTOperations.RegistryEndpointAuthenticationMethod",
       "@azure/arm-iotoperations!KnownRegistryEndpointTrustedSigningKeyType:enum": "Microsoft.IoTOperations.RegistryEndpointTrustedSigningKeyType",

@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -182,6 +183,8 @@ export interface InstanceResource extends TrackedResource {
   extendedLocation: ExtendedLocation;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 
 export function instanceResourceSerializer(item: InstanceResource): any {
@@ -195,6 +198,7 @@ export function instanceResourceSerializer(item: InstanceResource): any {
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
+    sku: !item["sku"] ? item["sku"] : instanceSkuSerializer(item["sku"]),
   };
 }
 
@@ -217,6 +221,7 @@ export function instanceResourceDeserializer(item: any): InstanceResource {
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
+    sku: !item["sku"] ? item["sku"] : instanceSkuDeserializer(item["sku"]),
   };
 }
 
@@ -572,6 +577,40 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
     clientId: item["clientId"],
   };
 }
+
+/** The billing SKU for an AIO Instance. */
+export interface InstanceSku {
+  /** The name of the SKU. Determines the billing meter applied to this instance. */
+  name: InstanceSkuName;
+}
+
+export function instanceSkuSerializer(item: InstanceSku): any {
+  return { name: item["name"] };
+}
+
+export function instanceSkuDeserializer(item: any): InstanceSku {
+  return {
+    name: item["name"],
+  };
+}
+
+/** The set of supported SKU names for an AIO Instance. */
+export enum KnownInstanceSkuName {
+  /** Essentials SKU. Reduced feature set targeted at constrained edge and entry-level workloads. */
+  Essentials = "Essentials",
+  /** Standard SKU. Full feature set. Default when sku is not specified. */
+  Standard = "Standard",
+}
+
+/**
+ * The set of supported SKU names for an AIO Instance. \
+ * {@link KnownInstanceSkuName} can be used interchangeably with InstanceSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Essentials**: Essentials SKU. Reduced feature set targeted at constrained edge and entry-level workloads. \
+ * **Standard**: Standard SKU. Full feature set. Default when sku is not specified.
+ */
+export type InstanceSkuName = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -2511,7 +2550,7 @@ export function certManagerCertificateSpecDeserializer(item: any): CertManagerCe
 /** Cert-Manager issuerRef properties */
 export interface CertManagerIssuerRef {
   /** group of issuer. */
-  group: string;
+  group?: string;
   /** kind of issuer (Issuer or ClusterIssuer). */
   kind: CertManagerIssuerKind;
   /** name of issuer. */
@@ -4451,7 +4490,7 @@ export interface DataflowEndpointDataExplorer {
   authentication: DataflowEndpointDataExplorerAuthentication;
   /** Database name. */
   database: string;
-  /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net . */
+  /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net (Azure Public) or <cluster>.<region>.kusto.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.*\.kusto\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Explorer endpoint batching configuration. */
   batching?: BatchingConfiguration;
@@ -4612,7 +4651,7 @@ export function batchingConfigurationDeserializer(item: any): BatchingConfigurat
 export interface DataflowEndpointDataLakeStorage {
   /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
   authentication: DataflowEndpointDataLakeStorageAuthentication;
-  /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net . */
+  /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net (Azure Public) or <account>.blob.core.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.blob\.core\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Lake endpoint batching configuration. */
   batching?: BatchingConfiguration;
@@ -4747,7 +4786,7 @@ export interface DataflowEndpointFabricOneLake {
   names: DataflowEndpointFabricOneLakeNames;
   /** Type of location of the data in the workspace. Can be either tables or files. */
   oneLakePathType: DataflowEndpointFabricPathType;
-  /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com. */
+  /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com (Azure Public) or https://<host>.fabric.microsoft.us (Azure US Government). This will be validated by the regex `.*\.fabric\.microsoft\.(com|us)`. */
   host: string;
   /** Batching configuration. */
   batching?: BatchingConfiguration;
@@ -6068,6 +6107,8 @@ export interface DataflowGraphDestinationNodeSettings {
   dataDestination: string;
   /** Headers for the output data. */
   headers?: DataflowGraphDestinationHeaderActionUnion[];
+  /** Output schema settings. */
+  outputSchemaSettings?: DataflowGraphDestinationSchemaSettings;
 }
 
 export function dataflowGraphDestinationNodeSettingsSerializer(
@@ -6079,6 +6120,9 @@ export function dataflowGraphDestinationNodeSettingsSerializer(
     headers: !item["headers"]
       ? item["headers"]
       : dataflowGraphDestinationHeaderActionUnionArraySerializer(item["headers"]),
+    outputSchemaSettings: !item["outputSchemaSettings"]
+      ? item["outputSchemaSettings"]
+      : dataflowGraphDestinationSchemaSettingsSerializer(item["outputSchemaSettings"]),
   };
 }
 
@@ -6091,6 +6135,9 @@ export function dataflowGraphDestinationNodeSettingsDeserializer(
     headers: !item["headers"]
       ? item["headers"]
       : dataflowGraphDestinationHeaderActionUnionArrayDeserializer(item["headers"]),
+    outputSchemaSettings: !item["outputSchemaSettings"]
+      ? item["outputSchemaSettings"]
+      : dataflowGraphDestinationSchemaSettingsDeserializer(item["outputSchemaSettings"]),
   };
 }
 
@@ -6278,6 +6325,47 @@ export function dataflowGraphDestinationAddOrReplaceHeaderActionDeserializer(
     value: item["value"],
   };
 }
+
+/** DataflowGraph destination node output schema settings. */
+export interface DataflowGraphDestinationSchemaSettings {
+  /** The format of the output data. */
+  serializationFormat: DataflowGraphDestinationSchemaSerializationFormat;
+  /** Reference to the schema that describes the output of the transformation. */
+  schemaRef?: string;
+}
+
+export function dataflowGraphDestinationSchemaSettingsSerializer(
+  item: DataflowGraphDestinationSchemaSettings,
+): any {
+  return { serializationFormat: item["serializationFormat"], schemaRef: item["schemaRef"] };
+}
+
+export function dataflowGraphDestinationSchemaSettingsDeserializer(
+  item: any,
+): DataflowGraphDestinationSchemaSettings {
+  return {
+    serializationFormat: item["serializationFormat"],
+    schemaRef: item["schemaRef"],
+  };
+}
+
+/** Serialization format for dataflow graph. */
+export enum KnownDataflowGraphDestinationSchemaSerializationFormat {
+  /** Parquet serialization format. */
+  Parquet = "Parquet",
+  /** Delta serialization format. */
+  Delta = "Delta",
+}
+
+/**
+ * Serialization format for dataflow graph. \
+ * {@link KnownDataflowGraphDestinationSchemaSerializationFormat} can be used interchangeably with DataflowGraphDestinationSchemaSerializationFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Parquet**: Parquet serialization format. \
+ * **Delta**: Delta serialization format.
+ */
+export type DataflowGraphDestinationSchemaSerializationFormat = string;
 
 export function dataflowGraphNodeConnectionArraySerializer(
   result: Array<DataflowGraphNodeConnection>,
@@ -8705,4 +8793,6 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** 2026-07-01 version */
   V20260701 = "2026-07-01",
+  /** 2026-10-01 version */
+  V20261001 = "2026-10-01",
 }
