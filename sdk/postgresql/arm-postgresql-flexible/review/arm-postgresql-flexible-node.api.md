@@ -150,6 +150,7 @@ export interface Backup {
     backupRetentionDays?: number;
     readonly earliestRestoreDate?: Date;
     geoRedundantBackup?: GeographicallyRedundantBackup;
+    immutableBackup?: ImmutableBackup;
 }
 
 // @public
@@ -171,6 +172,7 @@ export interface BackupForPatch {
     backupRetentionDays?: number;
     readonly earliestRestoreDate?: Date;
     readonly geoRedundantBackup?: GeographicallyRedundantBackup;
+    immutableBackup?: ImmutableBackup;
 }
 
 // @public
@@ -566,6 +568,61 @@ export interface DataEncryption {
 export type DataEncryptionType = string;
 
 // @public
+export interface DbAgent extends ProxyResource {
+    properties?: DbAgentProperties;
+}
+
+// @public
+export interface DbAgentForUpdate {
+    properties: DbAgentForUpdateProperties;
+}
+
+// @public
+export interface DbAgentForUpdateProperties {
+    state: DbAgentForUpdateState;
+}
+
+// @public
+export type DbAgentForUpdateState = "Enabled" | "Disabled";
+
+// @public
+export interface DbAgentProperties {
+    readonly lastModifiedTime?: Date;
+    readonly provisioningState?: DbAgentProvisioningState;
+    readonly state: DbAgentState;
+}
+
+// @public
+export type DbAgentProvisioningState = string;
+
+// @public
+export interface DbAgentsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DbAgentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DbAgentsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DbAgentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DbAgent>, DbAgent>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => Promise<DbAgent>;
+    createOrUpdate: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DbAgent>, DbAgent>;
+    get: (resourceGroupName: string, serverName: string, options?: DbAgentsGetOptionalParams) => Promise<DbAgent>;
+    list: (resourceGroupName: string, serverName: string, options?: DbAgentsListOptionalParams) => PagedAsyncIterableIterator<DbAgent>;
+}
+
+// @public
+export type DbAgentState = string;
+
+// @public
 export interface DbLevelValidationStatus {
     databaseName?: string;
     endedOn?: Date;
@@ -630,6 +687,9 @@ export type FastProvisioningSupport = string;
 
 // @public
 export type FeatureStatus = string;
+
+// @public
+export type FipsMode = string;
 
 // @public
 export interface FirewallRule extends ProxyResource {
@@ -705,6 +765,9 @@ export type HighAvailabilityState = string;
 
 // @public
 export type IdentityType = string;
+
+// @public
+export type ImmutableBackup = string;
 
 // @public
 export interface ImpactRecord {
@@ -794,6 +857,23 @@ export enum KnownDataEncryptionType {
 }
 
 // @public
+export enum KnownDbAgentProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownDbAgentState {
+    Disabled = "Disabled",
+    Disabling = "Disabling",
+    Enabled = "Enabled",
+    Enabling = "Enabling",
+    Failed = "Failed"
+}
+
+// @public
 export enum KnownEncryptionKeyStatus {
     Invalid = "Invalid",
     Valid = "Valid"
@@ -823,6 +903,12 @@ export enum KnownFastProvisioningSupport {
 
 // @public
 export enum KnownFeatureStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownFipsMode {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -863,6 +949,12 @@ export enum KnownIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownImmutableBackup {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1020,6 +1112,7 @@ export enum KnownPostgresMajorVersion {
     Eleven = "11",
     Fifteen = "15",
     Fourteen = "14",
+    PostgresMajorVersion19 = "19",
     Seventeen = "17",
     Sixteen = "16",
     Thirteen = "13",
@@ -1220,7 +1313,8 @@ export enum KnownValidationState {
 export enum KnownVersions {
     V20250801 = "2025-08-01",
     V20260101 = "2026-01-01-preview",
-    V20260401 = "2026-04-01-preview"
+    V20260401 = "2026-04-01-preview",
+    V20260701 = "2026-07-01-preview"
 }
 
 // @public
@@ -1588,7 +1682,7 @@ export interface MigrationsListByTargetServerOptionalParams extends OperationOpt
 
 // @public
 export interface MigrationsOperations {
-    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration | undefined>;
+    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration | void>;
     checkNameAvailability: (resourceGroupName: string, serverName: string, parameters: MigrationNameAvailability, options?: MigrationsCheckNameAvailabilityOptionalParams) => Promise<MigrationNameAvailability>;
     create: (resourceGroupName: string, serverName: string, migrationName: string, parameters: Migration, options?: MigrationsCreateOptionalParams) => Promise<Migration>;
     get: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsGetOptionalParams) => Promise<Migration>;
@@ -1796,6 +1890,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     readonly capturedLogs: CapturedLogsOperations;
     readonly configurations: ConfigurationsOperations;
     readonly databases: DatabasesOperations;
+    readonly dbAgents: DbAgentsOperations;
     readonly firewallRules: FirewallRulesOperations;
     readonly maintenanceEvents: MaintenanceEventsOperations;
     readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
@@ -2041,6 +2136,7 @@ export interface Server extends TrackedResource {
     cluster?: Cluster;
     createMode?: CreateMode;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
     identity?: UserAssignedIdentity;
@@ -2077,6 +2173,7 @@ export interface ServerForPatch {
     cluster?: Cluster;
     createMode?: CreateModeForPatch;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     highAvailability?: HighAvailabilityForPatch;
     identity?: UserAssignedIdentity;
     maintenanceWindow?: MaintenanceWindowForPatch;
@@ -2084,6 +2181,7 @@ export interface ServerForPatch {
     replica?: Replica;
     replicationRole?: ReplicationRole;
     sku?: SkuForPatch;
+    sourceServerResourceId?: string;
     storage?: Storage_2;
     tags?: Record<string, string>;
     version?: PostgresMajorVersion;
@@ -2099,6 +2197,7 @@ export interface ServerProperties {
     cluster?: Cluster;
     createMode?: CreateMode;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
     maintenanceWindow?: MaintenanceWindow;
@@ -2125,11 +2224,13 @@ export interface ServerPropertiesForPatch {
     cluster?: Cluster;
     createMode?: CreateModeForPatch;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     highAvailability?: HighAvailabilityForPatch;
     maintenanceWindow?: MaintenanceWindowForPatch;
     network?: Network;
     replica?: Replica;
     replicationRole?: ReplicationRole;
+    sourceServerResourceId?: string;
     storage?: Storage_2;
     version?: PostgresMajorVersion;
 }
@@ -2346,6 +2447,8 @@ export interface StartMajorVersionUpgradePrecheckResponse {
 // @public
 interface Storage_2 {
     autoGrow?: StorageAutoGrow;
+    autoGrowIncrementPercent?: number;
+    autoGrowMaxThresholdMb?: number;
     iops?: number;
     storageSizeGB?: number;
     throughput?: number;

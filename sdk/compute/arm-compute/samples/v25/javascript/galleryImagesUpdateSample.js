@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a gallery image definition.
  *
  * @summary update a gallery image definition.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImage_Update.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImage_Update.json
  */
 async function updateASimpleGalleryImage() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function updateASimpleGalleryImage() {
  * This sample demonstrates how to update a gallery image definition.
  *
  * @summary update a gallery image definition.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImage_UpdateFeatures.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImage_UpdateFeatures.json
  */
 async function updateAGalleryImageFeature() {
   const credential = new DefaultAzureCredential();

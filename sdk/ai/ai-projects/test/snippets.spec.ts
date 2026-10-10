@@ -166,6 +166,18 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleVoiceAgentQuery", async function () {
+    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+      agentSessionId: "session-123",
+      store: false,
+      query: {
+        custom_key: "custom value",
+        custom_flag: true,
+      },
+    });
+    await connection.close();
+  });
+
   it("agent-code-interpreter", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({

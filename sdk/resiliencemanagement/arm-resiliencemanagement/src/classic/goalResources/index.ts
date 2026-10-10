@@ -12,13 +12,13 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a GoalResources operations. */
 export interface GoalResourcesOperations {
-  /** List GoalResource resources by GoalAssignment */
+  /** Lists goal resources under a goal assignment. */
   list: (
     serviceGroupName: string,
     goalAssignmentName: string,
     options?: GoalResourcesListOptionalParams,
   ) => PagedAsyncIterableIterator<GoalResource>;
-  /** Get a GoalResource */
+  /** Gets a goal resource. */
   get: (
     serviceGroupName: string,
     goalAssignmentName: string,

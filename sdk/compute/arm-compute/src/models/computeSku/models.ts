@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The List Resource Skus operation response. */
 export interface _ResourceSkusResult {
   /** The ResourceSku items on this page */
