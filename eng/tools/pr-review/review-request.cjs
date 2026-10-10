@@ -3,6 +3,10 @@
 
 const intakeWorkflow = "pr-review-intake.yml";
 const labelRequestWindowMs = 5 * 60 * 1000;
+const automaticMgmtRequest = "auto_mgmt";
+const automaticMgmtTitlePrefix = "[AutoPR";
+const automaticMgmtLabel = "Mgmt";
+const mgmtReviewAddedLabel = "mgmt-review-added";
 const reviewers = {
   archie: {
     workflow: "archie.lock.yml",
@@ -153,6 +157,23 @@ function hasLabel(pr, name) {
   return pr.labels.some((label) => (typeof label === "string" ? label : label.name) === name);
 }
 
+function isAutomaticMgmtReview(pr) {
+  return (
+    !pr.draft &&
+    pr.title?.startsWith(automaticMgmtTitlePrefix) &&
+    hasLabel(pr, automaticMgmtLabel) &&
+    !hasLabel(pr, reviewers["mgmt-review"].inProgressLabel) &&
+    !hasLabel(pr, mgmtReviewAddedLabel)
+  );
+}
+
+function hasReviewRequest(pr) {
+  return (
+    Object.values(reviewers).some((reviewer) => hasLabel(pr, reviewer.label)) ||
+    isAutomaticMgmtReview(pr)
+  );
+}
+
 function matchesRun(pr, run, repositoryId) {
   return (
     pr.state === "open" &&
@@ -173,9 +194,7 @@ async function getReviewTarget(github, context, run) {
     },
   );
   const candidates = associatedPRs.filter(
-    (pr) =>
-      matchesRun(pr, run, context.payload.repository.id) &&
-      Object.values(reviewers).some((reviewer) => hasLabel(pr, reviewer.label)),
+    (pr) => matchesRun(pr, run, context.payload.repository.id) && hasReviewRequest(pr),
   );
   if (candidates.length > 1) {
     throw new Error(
@@ -275,22 +294,35 @@ async function routeReviewRequest({ github, context, core }) {
     return;
   }
   const requests = await getLabelRequests({ github, context, core }, run, target);
-  if (requests.size === 0) {
-    core.info("No attributable label events authorize this intake; nothing to dispatch.");
+  const automaticMgmt = isAutomaticMgmtReview(target) && !requests.has("mgmt-review");
+  const automaticMgmtEvent = automaticMgmt
+    ? (await getLabelEvents(github, context, target.number))
+        .filter((event) => event.label.name === reviewers["mgmt-review"].label)
+        .at(-1)
+    : undefined;
+  const automaticMgmtEventId =
+    automaticMgmtEvent?.event === "labeled" ? automaticMgmtEvent.id : undefined;
+  if (requests.size === 0 && !automaticMgmt) {
+    core.info("No current automatic or attributable label request authorizes this intake.");
     return;
   }
-  // Every selected event has the same immutable actor ID; authorize that recorded actor.
-  const allowed = await getAuthorizedReviewers(
-    github,
-    context,
-    requests.values().next().value.actor,
-  );
+  // Every label event has the same immutable actor ID; automatic management
+  // reviews are authorized independently from trusted PR metadata.
+  const allowed =
+    requests.size === 0
+      ? new Set()
+      : await getAuthorizedReviewers(
+          github,
+          context,
+          requests.values().next().value.actor,
+        );
 
   const results = await Promise.allSettled(
     Object.entries(reviewers).map(async ([reviewerId, reviewer]) => {
       const event = requests.get(reviewerId);
-      if (!event) return;
-      if (!allowed.has(reviewerId)) {
+      const isAutomaticMgmt = reviewerId === "mgmt-review" && automaticMgmt;
+      if (!event && !isAutomaticMgmt) return;
+      if (event && !allowed.has(reviewerId)) {
         core.info(
           `Skipping ${reviewerId}: ${event.actor.login} is not authorized for this reviewer.`,
         );
@@ -302,7 +334,10 @@ async function routeReviewRequest({ github, context, core }) {
         run.head_sha,
         run.head_repository.id,
       );
-      if (!pr || !hasLabel(pr, reviewer.label)) {
+      if (
+        !pr ||
+        (isAutomaticMgmt ? !isAutomaticMgmtReview(pr) : !hasLabel(pr, reviewer.label))
+      ) {
         core.info(`The ${reviewer.label} request is no longer current; nothing to dispatch.`);
         return;
       }
@@ -318,7 +353,12 @@ async function routeReviewRequest({ github, context, core }) {
           item_number: String(pr.number),
           head_sha: run.head_sha,
           request_run_id: String(run.id),
-          request_event_id: String(event.id),
+          request_event_id: event
+            ? String(event.id)
+            : automaticMgmtEventId
+              ? String(automaticMgmtEventId)
+              : "",
+          ...(isAutomaticMgmt ? { request_kind: automaticMgmtRequest } : {}),
         },
       });
       core.info(`Dispatched ${reviewer.workflow} for PR #${pr.number} at ${run.head_sha}.`);
@@ -434,6 +474,14 @@ async function prepareReview({ github, context, core }, reviewerId) {
   let headSha = inputs.head_sha ? commitSha(inputs.head_sha) : undefined;
   let run;
   let eventId;
+  const requestKind = inputs.request_kind || "";
+  if (requestKind && requestKind !== automaticMgmtRequest) {
+    throw new Error(`Unknown automatic review request kind: ${requestKind}.`);
+  }
+  const isAutomaticMgmt = requestKind === automaticMgmtRequest;
+  if (isAutomaticMgmt && reviewerId !== "mgmt-review") {
+    throw new Error("Automatic management requests can only invoke mgmt-review.");
+  }
   if (context.actor !== "github-actions[bot]") {
     await requireReviewerPermission(
       github,
@@ -443,11 +491,17 @@ async function prepareReview({ github, context, core }, reviewerId) {
     );
   }
   if (inputs.request_run_id) {
-    eventId = positiveInteger(inputs.request_event_id, "request_event_id");
     run = await getIntakeRun({ github, context, core }, inputs.request_run_id);
     if (!run) return undefined;
     if (headSha !== run.head_sha) {
       throw new Error("The dispatched head SHA does not match the intake run.");
+    }
+    if (isAutomaticMgmt) {
+      eventId = inputs.request_event_id
+        ? positiveInteger(inputs.request_event_id, "request_event_id")
+        : undefined;
+    } else {
+      eventId = positiveInteger(inputs.request_event_id, "request_event_id");
     }
   } else if (context.actor === "github-actions[bot]") {
     throw new Error("Automated reviewer dispatches must include an intake run.");
@@ -462,7 +516,11 @@ async function prepareReview({ github, context, core }, reviewerId) {
   );
   if (!pr) return undefined;
   const requested = hasLabel(pr, reviewer.label);
-  if (run && !requested) {
+  if (run && isAutomaticMgmt && !isAutomaticMgmtReview(pr)) {
+    core.info(`Skipping PR #${number}: it is no longer eligible for automatic management review.`);
+    return undefined;
+  }
+  if (run && !isAutomaticMgmt && !requested) {
     core.info(`Skipping PR #${number}: ${reviewer.label} was removed or already consumed.`);
     return undefined;
   }
@@ -471,15 +529,33 @@ async function prepareReview({ github, context, core }, reviewerId) {
     if (!target || target.number !== number) {
       throw new Error("The dispatched PR does not match the intake's uniquely resolved target.");
     }
-    const requests = await getLabelRequests({ github, context, core }, run, pr);
-    const event = requests.get(reviewerId);
-    if (!event || event.id !== eventId) {
-      core.info(
-        `Skipping ${reviewerId}: the recorded label request is stale, replaced, or mismatched.`,
-      );
-      return undefined;
+    if (isAutomaticMgmt) {
+      if (!isAutomaticMgmtReview(target)) {
+        core.info(`Skipping PR #${number}: its automatic management request is no longer current.`);
+        return undefined;
+      }
+      if (eventId !== undefined) {
+        const latest = (await getLabelEvents(github, context, number))
+          .filter((event) => event.label.name === reviewer.label)
+          .at(-1);
+        if (!requested || latest?.id !== eventId || latest.event !== "labeled") {
+          core.info(
+            `Skipping ${reviewerId}: the recorded label cleanup target is stale or replaced.`,
+          );
+          return undefined;
+        }
+      }
+    } else {
+      const requests = await getLabelRequests({ github, context, core }, run, pr);
+      const event = requests.get(reviewerId);
+      if (!event || event.id !== eventId) {
+        core.info(
+          `Skipping ${reviewerId}: the recorded label request is stale, replaced, or mismatched.`,
+        );
+        return undefined;
+      }
+      await requireReviewerPermission(github, context, event.actor, reviewerId);
     }
-    await requireReviewerPermission(github, context, event.actor, reviewerId);
   } else if (requested) {
     const latest = (await getLabelEvents(github, context, number))
       .filter((event) => event.label.name === reviewer.label)
