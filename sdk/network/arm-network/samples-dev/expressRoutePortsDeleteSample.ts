@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified ExpressRoutePort resource.
  *
  * @summary deletes the specified ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortDelete.json
  */
 async function expressRoutePortDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

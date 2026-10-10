@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified route filter.
  *
  * @summary gets the specified route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterGet.json
+ * x-ms-original-file: 2026-03-01/RouteFilterGet.json
  */
 async function routeFilterGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

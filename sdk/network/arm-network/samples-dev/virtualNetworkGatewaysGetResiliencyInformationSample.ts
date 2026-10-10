@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves the resiliency information for an Express Route Gateway, including the gateway's current resiliency score and recommendations to further improve the score
  *
  * @summary this operation retrieves the resiliency information for an Express Route Gateway, including the gateway's current resiliency score and recommendations to further improve the score
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetResiliencyInformation.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetResiliencyInformation.json
  */
 async function getVirtualNetworkGatewayResiliencyInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();

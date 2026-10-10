@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all network managers in a subscription.
  *
  * @summary list all network managers in a subscription.
- * x-ms-original-file: 2026-01-01/NetworkManagerListAll.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerListAll.json
  */
 async function networkManagersList(): Promise<void> {
   const credential = new DefaultAzureCredential();

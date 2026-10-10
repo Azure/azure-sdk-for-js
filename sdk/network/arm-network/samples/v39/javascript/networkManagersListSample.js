@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list network managers in a resource group.
  *
  * @summary list network managers in a resource group.
- * x-ms-original-file: 2026-01-01/NetworkManagerList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerList.json
  */
 async function listNetworkManager() {
   const credential = new DefaultAzureCredential();

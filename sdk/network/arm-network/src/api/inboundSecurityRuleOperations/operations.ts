@@ -33,7 +33,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<InboundSecurityRule>, InboundSecurityRule>;
 }
 
@@ -103,7 +103,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

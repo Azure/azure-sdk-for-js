@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resets the VpnLink connection specified.
  *
  * @summary resets the VpnLink connection specified.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionReset.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionReset.json
  */
 async function resetVpnLinkConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

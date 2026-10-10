@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified private endpoint connection on application gateway.
  *
  * @summary deletes the specified private endpoint connection on application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayPrivateEndpointConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayPrivateEndpointConnectionDelete.json
  */
 async function deleteApplicationGatewayPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

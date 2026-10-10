@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
  *
  * @summary retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
- * x-ms-original-file: 2026-01-01/AzureFirewallListLearnedIPPrefixes.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallListLearnedIPPrefixes.json
  */
 async function azureFirewallListLearnedPrefixes() {
   const credential = new DefaultAzureCredential();

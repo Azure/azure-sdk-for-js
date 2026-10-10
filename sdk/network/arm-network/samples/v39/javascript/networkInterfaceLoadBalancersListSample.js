@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all load balancers in a network interface.
  *
  * @summary list all load balancers in a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceLoadBalancerList.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceLoadBalancerList.json
  */
 async function networkInterfaceLoadBalancerList() {
   const credential = new DefaultAzureCredential();

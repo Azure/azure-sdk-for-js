@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Firewall Policy.
  *
  * @summary deletes the specified Firewall Policy.
- * x-ms-original-file: 2026-01-01/FirewallPolicyDelete.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyDelete.json
  */
 async function deleteFirewallPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

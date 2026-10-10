@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified ExpressRouteConnection.
  *
  * @summary gets the specified ExpressRouteConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteConnectionGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteConnectionGet.json
  */
 async function expressRouteConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

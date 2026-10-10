@@ -43,7 +43,7 @@ export function _listByVpnGatewaySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function listByVpnGateway(
     () => _listByVpnGatewaySend(context, resourceGroupName, gatewayName, options),
     _listByVpnGatewayDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -101,7 +101,7 @@ export function _stopPacketCaptureSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       vpnConnectionName: vpnConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +150,7 @@ export function stopPacketCapture(
     getInitialResponse: () =>
       _stopPacketCaptureSend(context, resourceGroupName, gatewayName, vpnConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<VpnConnectionsStopPacketCaptureResponse>,
     VpnConnectionsStopPacketCaptureResponse
@@ -171,7 +171,7 @@ export function _startPacketCaptureSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       vpnConnectionName: vpnConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -220,7 +220,7 @@ export function startPacketCapture(
     getInitialResponse: () =>
       _startPacketCaptureSend(context, resourceGroupName, gatewayName, vpnConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<VpnConnectionsStartPacketCaptureResponse>,
     VpnConnectionsStartPacketCaptureResponse
@@ -241,7 +241,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,7 +278,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, gatewayName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -297,7 +297,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +349,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<VpnConnection>, VpnConnection>;
 }
 
@@ -367,7 +367,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

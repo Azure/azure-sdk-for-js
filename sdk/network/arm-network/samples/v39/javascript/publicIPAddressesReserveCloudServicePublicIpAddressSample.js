@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reserves the specified Cloud Service Public IP by switching its allocation method to Static. If rollback is requested, reverts the allocation method to Dynamic.
  *
  * @summary reserves the specified Cloud Service Public IP by switching its allocation method to Static. If rollback is requested, reverts the allocation method to Dynamic.
- * x-ms-original-file: 2026-01-01/PublicIpAddressReserve.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressReserve.json
  */
 async function reservePublicIPAddress() {
   const credential = new DefaultAzureCredential();

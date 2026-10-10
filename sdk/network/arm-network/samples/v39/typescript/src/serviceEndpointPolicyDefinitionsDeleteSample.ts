@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified ServiceEndpoint policy definitions.
  *
  * @summary deletes the specified ServiceEndpoint policy definitions.
- * x-ms-original-file: 2026-01-01/ServiceEndpointPolicyDefinitionDelete.json
+ * x-ms-original-file: 2026-03-01/ServiceEndpointPolicyDefinitionDelete.json
  */
 async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each location. Available bandwidths can only be obtained when retrieving a specific peering location.
  *
  * @summary retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each location. Available bandwidths can only be obtained when retrieving a specific peering location.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortsLocationList.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortsLocationList.json
  */
 async function expressRoutePortsLocationList() {
   const credential = new DefaultAzureCredential();

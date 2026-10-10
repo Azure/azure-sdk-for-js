@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a custom IP prefix.
  *
  * @summary creates or updates a custom IP prefix.
- * x-ms-original-file: 2026-01-01/CustomIpPrefixCreateCustomizedValues.json
+ * x-ms-original-file: 2026-03-01/CustomIpPrefixCreateCustomizedValues.json
  */
 async function createCustomIPPrefixAllocationMethod() {
   const credential = new DefaultAzureCredential();

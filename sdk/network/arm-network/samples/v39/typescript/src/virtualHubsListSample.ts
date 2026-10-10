@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the VirtualHubs in a subscription.
  *
  * @summary lists all the VirtualHubs in a subscription.
- * x-ms-original-file: 2026-01-01/VirtualHubList.json
+ * x-ms-original-file: 2026-03-01/VirtualHubList.json
  */
 async function virtualHubList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified application gateway.
  *
  * @summary gets the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayGet.json
  */
 async function getApplicationGateway() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getApplicationGateway() {
  * This sample demonstrates how to gets the specified application gateway.
  *
  * @summary gets the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayGetBasicV2.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayGetBasicV2.json
  */
 async function getBasicV2ApplicationGateway() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getBasicV2ApplicationGateway() {
  * This sample demonstrates how to gets the specified application gateway.
  *
  * @summary gets the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayGetBasicWafV2.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayGetBasicWafV2.json
  */
 async function getBasicWAFV2ApplicationGateway() {
   const credential = new DefaultAzureCredential();

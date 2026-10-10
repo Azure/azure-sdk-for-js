@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about all public IP addresses in a role instance IP configuration in a cloud service.
  *
  * @summary gets information about all public IP addresses in a role instance IP configuration in a cloud service.
- * x-ms-original-file: 2026-01-01/CloudServiceRoleInstancePublicIpList.json
+ * x-ms-original-file: 2026-03-01/CloudServiceRoleInstancePublicIpList.json
  */
 async function listVmssvmPublicIP() {
   const credential = new DefaultAzureCredential();

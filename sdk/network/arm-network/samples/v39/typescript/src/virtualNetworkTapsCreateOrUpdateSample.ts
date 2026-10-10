@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a VirtualNetworkTap
  *
  * @summary create a VirtualNetworkTap
- * x-ms-original-file: 2026-01-01/VirtualNetworkTapCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkTapCreate.json
  */
 async function createVirtualNetworkTap(): Promise<void> {
   const credential = new DefaultAzureCredential();

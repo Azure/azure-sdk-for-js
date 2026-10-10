@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
  *
  * @summary gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayGetConnectionHealth.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayGetConnectionHealth.json
  */
 async function p2SVpnGatewayGetConnectionHealth() {
   const credential = new DefaultAzureCredential();

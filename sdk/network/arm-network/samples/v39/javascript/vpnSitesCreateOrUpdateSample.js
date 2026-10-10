@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
  *
  * @summary creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
- * x-ms-original-file: 2026-01-01/VpnSitePut.json
+ * x-ms-original-file: 2026-03-01/VpnSitePut.json
  */
 async function vpnSiteCreate() {
   const credential = new DefaultAzureCredential();

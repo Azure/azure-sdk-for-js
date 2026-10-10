@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specific Pool resource.
  *
  * @summary gets the specific Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_Get.json
+ * x-ms-original-file: 2026-03-01/IpamPools_Get.json
  */
 async function ipamPoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

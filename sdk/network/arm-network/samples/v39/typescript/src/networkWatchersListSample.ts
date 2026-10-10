@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all network watchers by resource group.
  *
  * @summary gets all network watchers by resource group.
- * x-ms-original-file: 2026-01-01/NetworkWatcherList.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherList.json
  */
 async function listNetworkWatchers(): Promise<void> {
   const credential = new DefaultAzureCredential();

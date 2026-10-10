@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or update policy with specified rule set name within a resource group.
  *
  * @summary creates or update policy with specified rule set name within a resource group.
- * x-ms-original-file: 2026-01-01/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/WafPolicyCreateOrUpdate.json
  */
 async function createsOrUpdatesAWAFPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -217,7 +217,7 @@ async function createsOrUpdatesAWAFPolicyWithinAResourceGroup() {
  * This sample demonstrates how to creates or update policy with specified rule set name within a resource group.
  *
  * @summary creates or update policy with specified rule set name within a resource group.
- * x-ms-original-file: 2026-01-01/WafPolicyCreateOrUpdateBasic.json
+ * x-ms-original-file: 2026-03-01/WafPolicyCreateOrUpdateBasic.json
  */
 async function createsOrUpdatesABasicTierWAFPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();

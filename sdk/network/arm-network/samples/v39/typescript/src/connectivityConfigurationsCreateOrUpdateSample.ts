@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates/Updates a new network manager connectivity configuration
  *
  * @summary creates/Updates a new network manager connectivity configuration
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectivityConfigurationPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectivityConfigurationPut.json
  */
 async function connectivityConfigurationsPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a network manager connection on this management group.
  *
  * @summary create a network manager connection on this management group.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectionManagementGroupPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectionManagementGroupPut.json
  */
 async function createOrUpdateManagementGroupNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

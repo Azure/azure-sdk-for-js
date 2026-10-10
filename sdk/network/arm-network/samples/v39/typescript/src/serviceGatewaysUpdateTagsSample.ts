@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a service gateway tags.
  *
  * @summary updates a service gateway tags.
- * x-ms-original-file: 2026-01-01/ServiceGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayUpdateTags.json
  */
 async function updateServiceGatewayTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

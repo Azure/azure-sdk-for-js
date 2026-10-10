@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ServiceEndpointPolicyDefinition
  *
  * @summary get a ServiceEndpointPolicyDefinition
- * x-ms-original-file: 2026-01-01/ServiceEndpointPolicyDefinitionGet.json
+ * x-ms-original-file: 2026-03-01/ServiceEndpointPolicyDefinitionGet.json
  */
 async function getServiceEndpointDefinitionInServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

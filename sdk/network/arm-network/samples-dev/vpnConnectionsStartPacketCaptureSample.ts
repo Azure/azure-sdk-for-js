@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnConnectionStartPacketCapture.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
  * This sample demonstrates how to starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnConnectionWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

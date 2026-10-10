@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified virtual network gateway connection by resource group.
  *
  * @summary gets the specified virtual network gateway connection by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionGet.json
  */
 async function getVirtualNetworkGatewayConnection() {
   const credential = new DefaultAzureCredential();

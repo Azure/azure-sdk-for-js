@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a network manager security configuration admin rule.
  *
  * @summary gets a network manager security configuration admin rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerAdminRuleGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerAdminRuleGet.json
  */
 async function getsSecurityAdminRule() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function getsSecurityAdminRule() {
  * This sample demonstrates how to gets a network manager security configuration admin rule.
  *
  * @summary gets a network manager security configuration admin rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerDefaultAdminRuleGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerDefaultAdminRuleGet.json
  */
 async function getsSecurityDefaultAdminRule() {
   const credential = new DefaultAzureCredential();

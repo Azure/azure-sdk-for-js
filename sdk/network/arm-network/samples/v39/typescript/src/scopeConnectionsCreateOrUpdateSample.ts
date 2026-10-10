@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates scope connection from Network Manager
  *
  * @summary creates or updates scope connection from Network Manager
- * x-ms-original-file: 2026-01-01/NetworkManagerScopeConnectionPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerScopeConnectionPut.json
  */
 async function createOrUpdateNetworkManagerScopeConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

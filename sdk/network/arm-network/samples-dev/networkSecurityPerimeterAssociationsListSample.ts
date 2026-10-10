@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the NSP resource associations.
  *
  * @summary lists the NSP resource associations.
- * x-ms-original-file: 2026-01-01/NspAssociationList.json
+ * x-ms-original-file: 2026-03-01/NspAssociationList.json
  */
 async function nspAssociationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

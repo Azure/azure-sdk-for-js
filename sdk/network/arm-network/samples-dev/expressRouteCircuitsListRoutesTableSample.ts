@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the currently advertised routes table associated with the express route circuit in a resource group.
  *
  * @summary gets the currently advertised routes table associated with the express route circuit in a resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitRouteTableList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitRouteTableList.json
  */
 async function listRouteTables(): Promise<void> {
   const credential = new DefaultAzureCredential();

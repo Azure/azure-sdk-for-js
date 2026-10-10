@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Bastion Hosts in a subscription.
  *
  * @summary lists all Bastion Hosts in a subscription.
- * x-ms-original-file: 2026-01-01/BastionHostListBySubscription.json
+ * x-ms-original-file: 2026-03-01/BastionHostListBySubscription.json
  */
 async function listAllBastionHostsForAGivenSubscription() {
   const credential = new DefaultAzureCredential();

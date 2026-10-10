@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a static member.
  *
  * @summary creates or updates a static member.
- * x-ms-original-file: 2026-01-01/NetworkManagerStaticMemberPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerStaticMemberPut.json
  */
 async function staticMemberPut() {
   const credential = new DefaultAzureCredential();

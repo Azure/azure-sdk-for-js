@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all application security groups in a subscription.
  *
  * @summary gets all application security groups in a subscription.
- * x-ms-original-file: 2026-01-01/ApplicationSecurityGroupListAll.json
+ * x-ms-original-file: 2026-03-01/ApplicationSecurityGroupListAll.json
  */
 async function listAllApplicationSecurityGroups() {
   const credential = new DefaultAzureCredential();

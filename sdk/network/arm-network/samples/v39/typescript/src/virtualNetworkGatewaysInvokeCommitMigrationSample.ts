@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger commit migration for the virtual network gateway.
  *
  * @summary trigger commit migration for the virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayCommitMigration.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayCommitMigration.json
  */
 async function virtualNetworkGatewayCommitMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();
