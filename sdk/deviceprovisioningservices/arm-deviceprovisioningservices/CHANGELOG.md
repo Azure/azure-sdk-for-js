@@ -1,5 +1,16 @@
 # Release History
 
+## 6.1.0 (2026-10-08)
+
+### Features Added
+  - Added Interface DeviceRegistryNamespaceDescription
+  - Interface IotDpsPropertiesDescription has a new optional parameter deviceRegistryNamespaces
+  - Added Type Alias DeviceRegistryNamespaceAuthenticationType
+  - Added Type Alias LinkingState
+  - Added Enum KnownDeviceRegistryNamespaceAuthenticationType
+  - Added Enum KnownLinkingState
+  - Enum KnownVersions has a new value V20261101
+
 ## 6.0.0 (2026-08-27)
 
 ### Features Added

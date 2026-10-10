@@ -45,7 +45,7 @@ export function _verifyCertificateSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -130,7 +130,7 @@ export function _generateVerificationCodeSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -208,7 +208,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +262,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -337,7 +337,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -405,7 +405,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete private endpoint connection with the specified name
  *
  * @summary delete private endpoint connection with the specified name
- * x-ms-original-file: 2026-08-31/DPSDeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-11-01/DPSDeletePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

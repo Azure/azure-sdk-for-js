@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Devices": "2026-08-31"
+    "Microsoft.Devices": "2026-11-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {
@@ -29,6 +29,7 @@
       "@azure/arm-deviceprovisioningservices!PrivateEndpoint:interface": "Microsoft.Devices.PrivateEndpoint",
       "@azure/arm-deviceprovisioningservices!PrivateLinkServiceConnectionState:interface": "Microsoft.Devices.PrivateLinkServiceConnectionState",
       "@azure/arm-deviceprovisioningservices!IotHubDefinitionDescription:interface": "Microsoft.Devices.IotHubDefinitionDescription",
+      "@azure/arm-deviceprovisioningservices!DeviceRegistryNamespaceDescription:interface": "Microsoft.Devices.DeviceRegistryNamespaceDescription",
       "@azure/arm-deviceprovisioningservices!SharedAccessSignatureAuthorizationRuleAccessRightsDescription:interface": "Microsoft.Devices.SharedAccessSignatureAuthorizationRuleAccessRightsDescription",
       "@azure/arm-deviceprovisioningservices!IotDpsSkuInfo:interface": "Microsoft.Devices.IotDpsSkuInfo",
       "@azure/arm-deviceprovisioningservices!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
@@ -56,6 +57,8 @@
       "@azure/arm-deviceprovisioningservices!KnownIpFilterTargetType:enum": "Microsoft.Devices.IpFilterTargetType",
       "@azure/arm-deviceprovisioningservices!KnownPrivateLinkServiceConnectionStatus:enum": "Microsoft.Devices.PrivateLinkServiceConnectionStatus",
       "@azure/arm-deviceprovisioningservices!KnownIotHubAuthenticationType:enum": "Microsoft.Devices.IotHubAuthenticationType",
+      "@azure/arm-deviceprovisioningservices!KnownDeviceRegistryNamespaceAuthenticationType:enum": "Microsoft.Devices.DeviceRegistryNamespaceAuthenticationType",
+      "@azure/arm-deviceprovisioningservices!KnownLinkingState:enum": "Microsoft.Devices.LinkingState",
       "@azure/arm-deviceprovisioningservices!KnownAllocationPolicy:enum": "Microsoft.Devices.AllocationPolicy",
       "@azure/arm-deviceprovisioningservices!KnownAccessRightsDescription:enum": "Microsoft.Devices.AccessRightsDescription",
       "@azure/arm-deviceprovisioningservices!KnownIotDpsSku:enum": "Microsoft.Devices.IotDpsSku",
