@@ -29,7 +29,7 @@ export function _byBillingProfileIdSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       startDate: startDate,
       endDate: endDate,
     },
@@ -58,8 +58,7 @@ export async function _byBillingProfileIdDeserialize(
 
   return operationStatusDeserializer(result.body);
 }
-
-/** Generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles see, https://docs.microsoft.com/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access */
+/** Generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles see, https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access */
 export function byBillingProfileId(
   context: Client,
   billingAccountId: string,
@@ -83,7 +82,7 @@ export function byBillingProfileId(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<OperationStatus>, OperationStatus>;
 }
 
@@ -100,7 +99,7 @@ export function _byBillingAccountIdSend(
     "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport{?api%2Dversion,startDate,endDate}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       startDate: startDate,
       endDate: endDate,
     },
@@ -129,8 +128,7 @@ export async function _byBillingAccountIdDeserialize(
 
   return operationStatusDeserializer(result.body);
 }
-
-/** Generates the reservations details report for provided date range asynchronously based on enrollment id. The Reservation usage details can be viewed only by certain enterprise roles. For more details on the roles see, https://docs.microsoft.com/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role */
+/** Generates the reservations details report for provided date range asynchronously based on enrollment id. The Reservation usage details can be viewed only by certain enterprise roles. For more details on the roles see, https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role */
 export function byBillingAccountId(
   context: Client,
   billingAccountId: string,
@@ -146,6 +144,6 @@ export function byBillingAccountId(
     getInitialResponse: () =>
       _byBillingAccountIdSend(context, billingAccountId, startDate, endDate, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<OperationStatus>, OperationStatus>;
 }

@@ -52,7 +52,6 @@ export interface ExportsOperations {
   /** The operation to get the export for the defined scope by export name. */
   get: (scope: string, exportName: string, options?: ExportsGetOptionalParams) => Promise<Export>;
 }
-
 function _getExports(context: CostManagementContext) {
   return {
     getExecutionHistory: (
@@ -75,7 +74,6 @@ function _getExports(context: CostManagementContext) {
       get(context, scope, exportName, options),
   };
 }
-
 export function _getExportsOperations(context: CostManagementContext): ExportsOperations {
   return {
     ..._getExports(context),

@@ -32,7 +32,7 @@ export function _listByExternalCloudProviderTypeSend(
     {
       externalCloudProviderType: externalCloudProviderType,
       externalCloudProviderId: externalCloudProviderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
       "%24skiptoken": options?.skiptoken,
@@ -63,7 +63,6 @@ export async function _listByExternalCloudProviderTypeDeserialize(
 
   return _dimensionsListResultDeserializer(result.body);
 }
-
 /** Lists the dimensions by the external cloud provider type. */
 export function listByExternalCloudProviderType(
   context: Client,
@@ -82,7 +81,7 @@ export function listByExternalCloudProviderType(
       ),
     _listByExternalCloudProviderTypeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -95,7 +94,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.CostManagement/dimensions{?api%2Dversion,%24filter,%24expand,%24skiptoken,%24top}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
       "%24skiptoken": options?.skiptoken,
@@ -126,7 +125,6 @@ export async function _listDeserialize(
 
   return _dimensionsListResultDeserializer(result.body);
 }
-
 /** Lists the dimensions by the defined scope. */
 export function list(
   context: Client,
@@ -138,6 +136,6 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200", "204"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

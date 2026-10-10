@@ -39,7 +39,7 @@ export function _checkNameAvailabilitySend(
     "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability{?api%2Dversion}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return costAllocationRuleCheckNameAvailabilityResponseDeserializer(result.body);
 }
-
 /** Checks availability and correctness of a name for a cost allocation rule */
 export async function checkNameAvailability(
   context: Client,
@@ -96,7 +95,7 @@ export function _listSend(
     "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules{?api%2Dversion}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,7 +122,6 @@ export async function _listDeserialize(
 
   return _costAllocationRuleListDeserializer(result.body);
 }
-
 /** Get the list of all cost allocation rules for a billing account or enterprise enrollment. */
 export function list(
   context: Client,
@@ -135,7 +133,7 @@ export function list(
     () => _listSend(context, billingAccountId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -150,7 +148,7 @@ export function _$deleteSend(
     {
       billingAccountId: billingAccountId,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +170,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete cost allocation rule for billing account or enterprise enrollment. */
 export async function $delete(
   context: Client,
@@ -196,7 +193,7 @@ export function _createOrUpdateSend(
     {
       billingAccountId: billingAccountId,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +222,6 @@ export async function _createOrUpdateDeserialize(
 
   return costAllocationRuleDefinitionDeserializer(result.body);
 }
-
 /** Create/Update a rule to allocate cost between different resources within a billing account or enterprise enrollment. */
 export async function createOrUpdate(
   context: Client,
@@ -255,7 +251,7 @@ export function _getSend(
     {
       billingAccountId: billingAccountId,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +278,6 @@ export async function _getDeserialize(
 
   return costAllocationRuleDefinitionDeserializer(result.body);
 }
-
 /** Get a cost allocation rule by rule name and billing account or enterprise enrollment. */
 export async function get(
   context: Client,
