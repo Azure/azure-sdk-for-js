@@ -32,6 +32,6 @@
     "@azure/keyvault-secrets": "^4.8.0",
     "@azure/identity": "^4.4.1",
     "ws": "^8.2.0",
-    "https-proxy-agent": "^7.0.0"
+    "https-proxy-agent": "^9.1.0"
   }
 }

@@ -64,6 +64,7 @@ output IDENTITY_CONTAINER_INSTANCE_NAME string = deployMIResources ? managedIden
 output IDENTITY_FUNCTION_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityFunctionName : ''
 output IDENTITY_AKS_CLUSTER_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityAksClusterName : ''
 output IDENTITY_AKS_POD_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityAksPodName : ''
+output IDENTITY_AKS_IDENTITY_BINDING_POD_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityAksIdentityBindingPodName : ''
 output IDENTITY_ACR_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityAcrName : ''
 output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources ? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
 output IDENTITY_TENANT_ID string = deployMIResources ? managedIdentityModule.outputs.IdentityTenantID : ''
