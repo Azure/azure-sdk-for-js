@@ -131,6 +131,7 @@ export interface AdvancedPlatformMetricsRuleProperties {
     enabled: boolean;
     readonly lastModifiedTime?: Date;
     readonly metricsEmitted?: MetricsEmitted[];
+    metricsToEmit?: MetricsEmitted[];
     ruleConfig: AdvancedPlatformMetricsRuleConfig;
     readonly ruleType?: AdvancedPlatformMetricsRuleType;
 }
@@ -177,7 +178,366 @@ export interface AzureFilesIdentityBasedAuthentication {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BlobAccessPointAccessKeyAuthProperties extends BlobAccessPointRemoteAuthProperties {
+    accessKeyId: string;
+    // (undocumented)
+    authType: "AccessKey";
+    hostOverride?: string;
+    secretAccessKey: string;
+    signingRegion?: string;
+}
+
+// @public
+export interface BlobAccessPointAccessKeyAuthPropertiesUpdate extends BlobAccessPointRemoteAuthPropertiesUpdate {
+    accessKeyId?: string;
+    // (undocumented)
+    authType: "AccessKey";
+    hostOverride?: string;
+    secretAccessKey?: string;
+    signingRegion?: string;
+}
+
+// @public
+export interface BlobAccessPointAzureNetAppFilesSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "AzureNetAppFiles";
+}
+
+// @public
+export interface BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "AzureNetAppFiles";
+}
+
+// @public
+export interface BlobAccessPointCommvaultSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "Commvault";
+}
+
+// @public
+export interface BlobAccessPointCommvaultSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "Commvault";
+}
+
+// @public
+export interface BlobAccessPointConfiguration extends TrackedResource {
+    properties: BlobAccessPointConfigurationProperties;
+}
+
+// @public
+export interface BlobAccessPointConfigurationConnection {
+    blobAccessPointConfigurationName?: string;
+    blobAccessPointConfigurationUniqueId?: string;
+}
+
+// @public
+export interface BlobAccessPointConfigurationProperties {
+    description?: string;
+    readonly lastConnectionTestErrorMessage?: string;
+    readonly lastConnectionTestStatus?: BlobAccessPointConnectionTestStatus;
+    readonly lastConnectionTestTimestamp?: Date;
+    readonly provisioningState?: ResourceProvisioningState;
+    source: BlobAccessPointSourcePropertiesUnion;
+    state?: BlobAccessPointConfigurationState;
+    readonly uniqueId?: string;
+}
+
+// @public
+export interface BlobAccessPointConfigurationPropertiesUpdate {
+    description?: string;
+    source?: BlobAccessPointSourcePropertiesUpdateUnion;
+    state?: BlobAccessPointConfigurationState;
+}
+
+// @public
+export interface BlobAccessPointConfigurationsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BlobAccessPointConfigurationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BlobAccessPointConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BlobAccessPointConfigurationsListByStorageAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BlobAccessPointConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, resource: BlobAccessPointConfiguration, options?: BlobAccessPointConfigurationsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<BlobAccessPointConfiguration>, BlobAccessPointConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, resource: BlobAccessPointConfiguration, options?: BlobAccessPointConfigurationsCreateOptionalParams) => Promise<BlobAccessPointConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, options?: BlobAccessPointConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, options?: BlobAccessPointConfigurationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTestExistingConnection: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, body: BlobAccessPointConnectionTestRequest, options?: BlobAccessPointConfigurationsTestExistingConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<BlobAccessPointConnectionTestResponse>, BlobAccessPointConnectionTestResponse>>;
+    // @deprecated (undocumented)
+    beginTestExistingConnectionAndWait: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, body: BlobAccessPointConnectionTestRequest, options?: BlobAccessPointConfigurationsTestExistingConnectionOptionalParams) => Promise<BlobAccessPointConnectionTestResponse>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, properties: BlobAccessPointConfigurationUpdate, options?: BlobAccessPointConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BlobAccessPointConfiguration>, BlobAccessPointConfiguration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, properties: BlobAccessPointConfigurationUpdate, options?: BlobAccessPointConfigurationsUpdateOptionalParams) => Promise<BlobAccessPointConfiguration>;
+    create: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, resource: BlobAccessPointConfiguration, options?: BlobAccessPointConfigurationsCreateOptionalParams) => PollerLike<OperationState<BlobAccessPointConfiguration>, BlobAccessPointConfiguration>;
+    delete: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, options?: BlobAccessPointConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, options?: BlobAccessPointConfigurationsGetOptionalParams) => Promise<BlobAccessPointConfiguration>;
+    listByStorageAccount: (resourceGroupName: string, accountName: string, options?: BlobAccessPointConfigurationsListByStorageAccountOptionalParams) => PagedAsyncIterableIterator<BlobAccessPointConfiguration>;
+    testExistingConnection: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, body: BlobAccessPointConnectionTestRequest, options?: BlobAccessPointConfigurationsTestExistingConnectionOptionalParams) => PollerLike<OperationState<BlobAccessPointConnectionTestResponse>, BlobAccessPointConnectionTestResponse>;
+    update: (resourceGroupName: string, accountName: string, blobAccessPointConfigurationName: string, properties: BlobAccessPointConfigurationUpdate, options?: BlobAccessPointConfigurationsUpdateOptionalParams) => PollerLike<OperationState<BlobAccessPointConfiguration>, BlobAccessPointConfiguration>;
+}
+
+// @public
+export type BlobAccessPointConfigurationState = string;
+
+// @public
+export interface BlobAccessPointConfigurationsTestExistingConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BlobAccessPointConfigurationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BlobAccessPointConfigurationUpdate {
+    properties?: BlobAccessPointConfigurationPropertiesUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface BlobAccessPointConnectionProperties {
+    connectionType: BlobAccessPointConnectionType;
+}
+
+// @public
+export type BlobAccessPointConnectionPropertiesUnion = BlobAccessPointEndpointConnectionProperties | BlobAccessPointPrivateLinkConnectionProperties | BlobAccessPointConnectionProperties;
+
+// @public
+export interface BlobAccessPointConnectionPropertiesUpdate {
+    connectionType: BlobAccessPointConnectionType;
+}
+
+// @public
+export type BlobAccessPointConnectionPropertiesUpdateUnion = BlobAccessPointEndpointConnectionPropertiesUpdate | BlobAccessPointPrivateLinkConnectionPropertiesUpdate | BlobAccessPointConnectionPropertiesUpdate;
+
+// @public
+export interface BlobAccessPointConnectionTestRequest {
+    uniqueId: string;
+}
+
+// @public
+export interface BlobAccessPointConnectionTestResponse {
+    errorMessage?: string;
+    methodName: string;
+    requestId: string;
+}
+
+// @public
+export interface BlobAccessPointConnectionTestsOperations {
+    // @deprecated (undocumented)
+    beginTestProposedConnection: (resourceGroupName: string, accountName: string, body: BlobAccessPointProposedConnectionTestRequest, options?: BlobAccessPointConnectionTestsTestProposedConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<BlobAccessPointConnectionTestResponse>, BlobAccessPointConnectionTestResponse>>;
+    // @deprecated (undocumented)
+    beginTestProposedConnectionAndWait: (resourceGroupName: string, accountName: string, body: BlobAccessPointProposedConnectionTestRequest, options?: BlobAccessPointConnectionTestsTestProposedConnectionOptionalParams) => Promise<BlobAccessPointConnectionTestResponse>;
+    testProposedConnection: (resourceGroupName: string, accountName: string, body: BlobAccessPointProposedConnectionTestRequest, options?: BlobAccessPointConnectionTestsTestProposedConnectionOptionalParams) => PollerLike<OperationState<BlobAccessPointConnectionTestResponse>, BlobAccessPointConnectionTestResponse>;
+}
+
+// @public
+export type BlobAccessPointConnectionTestStatus = string;
+
+// @public
+export interface BlobAccessPointConnectionTestsTestProposedConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BlobAccessPointConnectionType = string;
+
+// @public
+export interface BlobAccessPointDellOneFsSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "DellOneFs";
+}
+
+// @public
+export interface BlobAccessPointDellOneFsSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "DellOneFs";
+}
+
+// @public
+export interface BlobAccessPointEndpointConnectionProperties extends BlobAccessPointConnectionProperties {
+    // (undocumented)
+    connectionType: "Endpoint";
+    endpoint: string;
+    tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+// @public
+export interface BlobAccessPointEndpointConnectionPropertiesUpdate extends BlobAccessPointConnectionPropertiesUpdate {
+    // (undocumented)
+    connectionType: "Endpoint";
+    tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+// @public
+export interface BlobAccessPointGenericS3SourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "S3Compatible";
+}
+
+// @public
+export interface BlobAccessPointGenericS3SourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "S3Compatible";
+}
+
+// @public
+export interface BlobAccessPointNasuniSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "Nasuni";
+}
+
+// @public
+export interface BlobAccessPointNasuniSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "Nasuni";
+}
+
+// @public
+export interface BlobAccessPointNetAppOntapSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "NetAppOntap";
+}
+
+// @public
+export interface BlobAccessPointNetAppOntapSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "NetAppOntap";
+}
+
+// @public
+export interface BlobAccessPointPrivateLinkConnectionProperties extends BlobAccessPointConnectionProperties {
+    // (undocumented)
+    connectionType: "PrivateLink";
+    endpoint: string;
+    readonly privateEndpointName?: string;
+    privateLinkGroupId?: string;
+    privateLinkId: string;
+    privateLinkIdType: BlobAccessPointPrivateLinkIdType;
+    privateLinkLocation: string;
+    requestMessage: string;
+    tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+// @public
+export interface BlobAccessPointPrivateLinkConnectionPropertiesUpdate extends BlobAccessPointConnectionPropertiesUpdate {
+    // (undocumented)
+    connectionType: "PrivateLink";
+    tlsVerification?: BlobAccessPointTlsVerification;
+}
+
+// @public
+export type BlobAccessPointPrivateLinkIdType = string;
+
+// @public
+export interface BlobAccessPointProposedConnectionTestRequest {
+    source: BlobAccessPointSourcePropertiesUnion;
+}
+
+// @public
+export interface BlobAccessPointQumuloSourceProperties extends BlobAccessPointSourceProperties {
+    auth: BlobAccessPointRemoteAuthPropertiesUnion;
+    connection: BlobAccessPointConnectionPropertiesUnion;
+    // (undocumented)
+    sourceType: "Qumulo";
+}
+
+// @public
+export interface BlobAccessPointQumuloSourcePropertiesUpdate extends BlobAccessPointSourcePropertiesUpdate {
+    auth?: BlobAccessPointRemoteAuthPropertiesUpdateUnion;
+    connection?: BlobAccessPointConnectionPropertiesUpdateUnion;
+    // (undocumented)
+    sourceType: "Qumulo";
+}
+
+// @public
+export interface BlobAccessPointRemoteAuthProperties {
+    authType: BlobAccessPointRemoteAuthType;
+}
+
+// @public
+export type BlobAccessPointRemoteAuthPropertiesUnion = BlobAccessPointAccessKeyAuthProperties | BlobAccessPointRemoteAuthProperties;
+
+// @public
+export interface BlobAccessPointRemoteAuthPropertiesUpdate {
+    authType: BlobAccessPointRemoteAuthType;
+}
+
+// @public
+export type BlobAccessPointRemoteAuthPropertiesUpdateUnion = BlobAccessPointAccessKeyAuthPropertiesUpdate | BlobAccessPointRemoteAuthPropertiesUpdate;
+
+// @public
+export type BlobAccessPointRemoteAuthType = string;
+
+// @public
+export interface BlobAccessPointSourceProperties {
+    sourceType: BlobAccessPointSourceType;
+}
+
+// @public
+export type BlobAccessPointSourcePropertiesUnion = BlobAccessPointNetAppOntapSourceProperties | BlobAccessPointAzureNetAppFilesSourceProperties | BlobAccessPointDellOneFsSourceProperties | BlobAccessPointQumuloSourceProperties | BlobAccessPointCommvaultSourceProperties | BlobAccessPointNasuniSourceProperties | BlobAccessPointGenericS3SourceProperties | BlobAccessPointSourceProperties;
+
+// @public
+export interface BlobAccessPointSourcePropertiesUpdate {
+    sourceType: BlobAccessPointSourceType;
+}
+
+// @public
+export type BlobAccessPointSourcePropertiesUpdateUnion = BlobAccessPointNetAppOntapSourcePropertiesUpdate | BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate | BlobAccessPointDellOneFsSourcePropertiesUpdate | BlobAccessPointQumuloSourcePropertiesUpdate | BlobAccessPointCommvaultSourcePropertiesUpdate | BlobAccessPointNasuniSourcePropertiesUpdate | BlobAccessPointGenericS3SourcePropertiesUpdate | BlobAccessPointSourcePropertiesUpdate;
+
+// @public
+export type BlobAccessPointSourceType = string;
+
+// @public
+export type BlobAccessPointTlsVerification = string;
+
+// @public
 export interface BlobContainer extends ProxyResource {
+    blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
     defaultEncryptionScope?: string;
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
@@ -540,6 +900,7 @@ export interface ConnectorUpdate extends TrackedResourceUpdate {
 
 // @public
 export interface ContainerProperties {
+    blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
     defaultEncryptionScope?: string;
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
@@ -563,12 +924,28 @@ export interface ContainerProperties {
 
 // @public
 export interface ContextCache extends TrackedResource {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties: ContextCacheProperties;
 }
 
 // @public
 export type ContextCacheAccountKind = string;
+
+// @public
+export type ContextCacheCheckNameAvailabilityFailureReason = string;
+
+// @public
+export interface ContextCacheCheckNameAvailabilityParameters {
+    name: string;
+    type: "Microsoft.Storage/contextCaches";
+}
+
+// @public
+export interface ContextCacheCheckNameAvailabilityResult {
+    readonly message?: string;
+    readonly nameAvailable: boolean;
+    readonly reason?: ContextCacheCheckNameAvailabilityFailureReason;
+}
 
 // @public
 export interface ContextCacheContainer extends ProxyResource {
@@ -657,6 +1034,10 @@ export interface ContextCachePropertiesUpdate {
 export type ContextCacheProvisioningState = string;
 
 // @public
+export interface ContextCachesCheckNameAvailabilityOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ContextCachesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -692,6 +1073,7 @@ export interface ContextCachesOperations {
     beginUpdate: (resourceGroupName: string, contextCacheName: string, properties: ContextCacheUpdate, options?: ContextCachesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContextCache>, ContextCache>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, contextCacheName: string, properties: ContextCacheUpdate, options?: ContextCachesUpdateOptionalParams) => Promise<ContextCache>;
+    checkNameAvailability: (body: ContextCacheCheckNameAvailabilityParameters, options?: ContextCachesCheckNameAvailabilityOptionalParams) => Promise<ContextCacheCheckNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, contextCacheName: string, resource: ContextCache, options?: ContextCachesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ContextCache>, ContextCache>;
     delete: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, contextCacheName: string, options?: ContextCachesGetOptionalParams) => Promise<ContextCache>;
@@ -707,7 +1089,7 @@ export interface ContextCachesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface ContextCacheUpdate {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: ContextCachePropertiesUpdate;
     tags?: Record<string, string>;
 }
@@ -1503,6 +1885,51 @@ export enum KnownAllowedMethods {
 }
 
 // @public
+export enum KnownBlobAccessPointConfigurationState {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownBlobAccessPointConnectionTestStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownBlobAccessPointConnectionType {
+    Endpoint = "Endpoint",
+    PrivateLink = "PrivateLink"
+}
+
+// @public
+export enum KnownBlobAccessPointPrivateLinkIdType {
+    ResourceId = "ResourceId"
+}
+
+// @public
+export enum KnownBlobAccessPointRemoteAuthType {
+    AccessKey = "AccessKey"
+}
+
+// @public
+export enum KnownBlobAccessPointSourceType {
+    AzureNetAppFiles = "AzureNetAppFiles",
+    Commvault = "Commvault",
+    DellOneFs = "DellOneFs",
+    Nasuni = "Nasuni",
+    NetAppOntap = "NetAppOntap",
+    Qumulo = "Qumulo",
+    S3Compatible = "S3Compatible"
+}
+
+// @public
+export enum KnownBlobAccessPointTlsVerification {
+    Perform = "Perform",
+    Skip = "Skip"
+}
+
+// @public
 export enum KnownBlobInventoryPolicyName {
     Default = "default"
 }
@@ -1527,6 +1954,12 @@ export enum KnownContextCacheAccountKind {
     DataZone = "DataZone",
     Global = "Global",
     Regional = "Regional"
+}
+
+// @public
+export enum KnownContextCacheCheckNameAvailabilityFailureReason {
+    AlreadyExists = "AlreadyExists",
+    ContextCacheNameInvalid = "ContextCacheNameInvalid"
 }
 
 // @public
@@ -1746,6 +2179,14 @@ export enum KnownListLocalUserIncludeParam {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownManagementPolicyName {
     Default = "default"
 }
@@ -1894,6 +2335,13 @@ export enum KnownResourceAssociationAccessMode {
     Audit = "Audit",
     Enforced = "Enforced",
     Learning = "Learning"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2059,12 +2507,6 @@ export enum KnownStorageTaskAssignmentProvisioningState {
 }
 
 // @public
-export enum KnownSystemAssignedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned"
-}
-
-// @public
 export enum KnownTriggerType {
     MockRun = "MockRun",
     OnSchedule = "OnSchedule",
@@ -2072,11 +2514,18 @@ export enum KnownTriggerType {
 }
 
 // @public
+export enum KnownTurboTierStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
     V20250801 = "2025-08-01",
     V20260401 = "2026-04-01",
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -2162,6 +2611,7 @@ export interface ListAccountSasResponse {
 
 // @public
 export interface ListContainerItem extends AzureEntityResource {
+    blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
     defaultEncryptionScope?: string;
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
@@ -2308,6 +2758,17 @@ export interface ManagedIdentityAuthPropertiesUpdate extends StorageConnectorAut
     identityResourceId?: string;
     type: "ManagedIdentity";
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface ManagementPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -2540,6 +3001,7 @@ export interface NspAccessRuleProperties {
     direction?: NspAccessRuleDirection;
     readonly fullyQualifiedDomainNames?: string[];
     readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    serviceTags?: string[];
     subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
 }
 
@@ -2905,6 +3367,9 @@ export interface ResourceAccessRule {
 // @public
 export type ResourceAssociationAccessMode = string;
 
+// @public
+export type ResourceProvisioningState = string;
+
 export { RestError }
 
 // @public
@@ -3174,6 +3639,7 @@ export interface StorageAccount extends TrackedResource {
     readonly statusOfPrimary?: AccountStatus;
     readonly statusOfSecondary?: AccountStatus;
     storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
+    turboTier?: TurboTier;
     zones?: string[];
 }
 
@@ -3221,6 +3687,7 @@ export interface StorageAccountCreateParameters {
     sasPolicy?: SasPolicy;
     sku: Sku;
     tags?: Record<string, string>;
+    turboTier?: TurboTier;
     zones?: string[];
 }
 
@@ -3334,6 +3801,7 @@ export interface StorageAccountProperties {
     readonly statusOfPrimary?: AccountStatus;
     readonly statusOfSecondary?: AccountStatus;
     storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
+    turboTier?: TurboTier;
 }
 
 // @public
@@ -3367,6 +3835,7 @@ export interface StorageAccountPropertiesCreateParameters {
     publicNetworkAccess?: PublicNetworkAccess;
     routingPreference?: RoutingPreference;
     sasPolicy?: SasPolicy;
+    turboTier?: TurboTier;
 }
 
 // @public
@@ -3398,6 +3867,7 @@ export interface StorageAccountPropertiesUpdateParameters {
     publicNetworkAccess?: PublicNetworkAccess;
     routingPreference?: RoutingPreference;
     sasPolicy?: SasPolicy;
+    turboTier?: TurboTier;
 }
 
 // @public
@@ -3582,6 +4052,7 @@ export interface StorageAccountUpdateParameters {
     sasPolicy?: SasPolicy;
     sku?: Sku;
     tags?: Record<string, string>;
+    turboTier?: TurboTier;
     zones?: string[];
 }
 
@@ -3662,6 +4133,7 @@ export type StorageConnectorState = string;
 
 // @public
 export interface StorageDataCollaborationPolicyProperties {
+    allowBlobAccessPoints?: boolean;
     allowCrossTenantDataSharing?: boolean;
     allowStorageConnectors?: boolean;
     allowStorageDataShares?: boolean;
@@ -3705,6 +4177,8 @@ export class StorageManagementClient {
     constructor(credential: TokenCredential, options?: StorageManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: StorageManagementClientOptionalParams);
     readonly advancedPlatformMetrics: AdvancedPlatformMetricsOperations;
+    readonly blobAccessPointConfigurations: BlobAccessPointConfigurationsOperations;
+    readonly blobAccessPointConnectionTests: BlobAccessPointConnectionTestsOperations;
     readonly blobContainers: BlobContainersOperations;
     readonly blobInventoryPolicies: BlobInventoryPoliciesOperations;
     readonly blobServices: BlobServicesOperations;
@@ -3906,16 +4380,6 @@ export interface StorageTaskReportProperties {
 }
 
 // @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -4069,6 +4533,15 @@ export interface TriggerParametersUpdate {
 
 // @public
 export type TriggerType = string;
+
+// @public
+export interface TurboTier {
+    status?: TurboTierStatus;
+    targetPercent?: number;
+}
+
+// @public
+export type TurboTierStatus = string;
 
 // @public
 export interface UpdateHistoryProperty {

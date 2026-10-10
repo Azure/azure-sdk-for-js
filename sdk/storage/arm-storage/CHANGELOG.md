@@ -1,5 +1,104 @@
 # Release History
 
+## 21.0.0 (2026-10-01)
+
+### Features Added
+  - Added operation group BlobAccessPointConfigurationsOperations
+  - Added operation group BlobAccessPointConnectionTestsOperations
+  - Added operation ContextCachesOperations.checkNameAvailability
+  - Added Interface BlobAccessPointAccessKeyAuthProperties
+  - Added Interface BlobAccessPointAccessKeyAuthPropertiesUpdate
+  - Added Interface BlobAccessPointAzureNetAppFilesSourceProperties
+  - Added Interface BlobAccessPointAzureNetAppFilesSourcePropertiesUpdate
+  - Added Interface BlobAccessPointCommvaultSourceProperties
+  - Added Interface BlobAccessPointCommvaultSourcePropertiesUpdate
+  - Added Interface BlobAccessPointConfiguration
+  - Added Interface BlobAccessPointConfigurationConnection
+  - Added Interface BlobAccessPointConfigurationProperties
+  - Added Interface BlobAccessPointConfigurationPropertiesUpdate
+  - Added Interface BlobAccessPointConfigurationsCreateOptionalParams
+  - Added Interface BlobAccessPointConfigurationsDeleteOptionalParams
+  - Added Interface BlobAccessPointConfigurationsGetOptionalParams
+  - Added Interface BlobAccessPointConfigurationsListByStorageAccountOptionalParams
+  - Added Interface BlobAccessPointConfigurationsTestExistingConnectionOptionalParams
+  - Added Interface BlobAccessPointConfigurationsUpdateOptionalParams
+  - Added Interface BlobAccessPointConfigurationUpdate
+  - Added Interface BlobAccessPointConnectionProperties
+  - Added Interface BlobAccessPointConnectionPropertiesUpdate
+  - Added Interface BlobAccessPointConnectionTestRequest
+  - Added Interface BlobAccessPointConnectionTestResponse
+  - Added Interface BlobAccessPointConnectionTestsTestProposedConnectionOptionalParams
+  - Added Interface BlobAccessPointDellOneFsSourceProperties
+  - Added Interface BlobAccessPointDellOneFsSourcePropertiesUpdate
+  - Added Interface BlobAccessPointEndpointConnectionProperties
+  - Added Interface BlobAccessPointEndpointConnectionPropertiesUpdate
+  - Added Interface BlobAccessPointGenericS3SourceProperties
+  - Added Interface BlobAccessPointGenericS3SourcePropertiesUpdate
+  - Added Interface BlobAccessPointNasuniSourceProperties
+  - Added Interface BlobAccessPointNasuniSourcePropertiesUpdate
+  - Added Interface BlobAccessPointNetAppOntapSourceProperties
+  - Added Interface BlobAccessPointNetAppOntapSourcePropertiesUpdate
+  - Added Interface BlobAccessPointPrivateLinkConnectionProperties
+  - Added Interface BlobAccessPointPrivateLinkConnectionPropertiesUpdate
+  - Added Interface BlobAccessPointProposedConnectionTestRequest
+  - Added Interface BlobAccessPointQumuloSourceProperties
+  - Added Interface BlobAccessPointQumuloSourcePropertiesUpdate
+  - Added Interface BlobAccessPointRemoteAuthProperties
+  - Added Interface BlobAccessPointRemoteAuthPropertiesUpdate
+  - Added Interface BlobAccessPointSourceProperties
+  - Added Interface BlobAccessPointSourcePropertiesUpdate
+  - Added Interface ContextCacheCheckNameAvailabilityParameters
+  - Added Interface ContextCacheCheckNameAvailabilityResult
+  - Added Interface ContextCachesCheckNameAvailabilityOptionalParams
+  - Added Interface ManagedServiceIdentity
+  - Added Interface TurboTier
+  - Interface AdvancedPlatformMetricsRuleProperties has a new optional parameter metricsToEmit
+  - Interface BlobContainer has a new optional parameter blobAccessPointConfiguration
+  - Interface ContainerProperties has a new optional parameter blobAccessPointConfiguration
+  - Interface ListContainerItem has a new optional parameter blobAccessPointConfiguration
+  - Interface NspAccessRuleProperties has a new optional parameter serviceTags
+  - Interface StorageAccount has a new optional parameter turboTier
+  - Interface StorageAccountCreateParameters has a new optional parameter turboTier
+  - Interface StorageAccountProperties has a new optional parameter turboTier
+  - Interface StorageAccountPropertiesCreateParameters has a new optional parameter turboTier
+  - Interface StorageAccountPropertiesUpdateParameters has a new optional parameter turboTier
+  - Interface StorageAccountUpdateParameters has a new optional parameter turboTier
+  - Interface StorageDataCollaborationPolicyProperties has a new optional parameter allowBlobAccessPoints
+  - Added Type Alias BlobAccessPointConfigurationState
+  - Added Type Alias BlobAccessPointConnectionPropertiesUnion
+  - Added Type Alias BlobAccessPointConnectionPropertiesUpdateUnion
+  - Added Type Alias BlobAccessPointConnectionTestStatus
+  - Added Type Alias BlobAccessPointConnectionType
+  - Added Type Alias BlobAccessPointPrivateLinkIdType
+  - Added Type Alias BlobAccessPointRemoteAuthPropertiesUnion
+  - Added Type Alias BlobAccessPointRemoteAuthPropertiesUpdateUnion
+  - Added Type Alias BlobAccessPointRemoteAuthType
+  - Added Type Alias BlobAccessPointSourcePropertiesUnion
+  - Added Type Alias BlobAccessPointSourcePropertiesUpdateUnion
+  - Added Type Alias BlobAccessPointSourceType
+  - Added Type Alias BlobAccessPointTlsVerification
+  - Added Type Alias ContextCacheCheckNameAvailabilityFailureReason
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias TurboTierStatus
+  - Added Enum KnownBlobAccessPointConfigurationState
+  - Added Enum KnownBlobAccessPointConnectionTestStatus
+  - Added Enum KnownBlobAccessPointConnectionType
+  - Added Enum KnownBlobAccessPointPrivateLinkIdType
+  - Added Enum KnownBlobAccessPointRemoteAuthType
+  - Added Enum KnownBlobAccessPointSourceType
+  - Added Enum KnownBlobAccessPointTlsVerification
+  - Added Enum KnownContextCacheCheckNameAvailabilityFailureReason
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownTurboTierStatus
+  - Enum KnownVersions has a new value V20260901
+
+### Breaking Changes
+  - Removed Interface SystemAssignedServiceIdentity
+  - Removed Type Alias SystemAssignedServiceIdentityType
+  - Removed Enum KnownSystemAssignedServiceIdentityType
+
 ## 20.2.0 (2026-09-22)
 
 ### Features Added
