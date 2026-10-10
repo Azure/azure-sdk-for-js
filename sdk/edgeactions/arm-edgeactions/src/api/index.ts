@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createEdgeActionsManagement,
-  type EdgeActionsManagementContext,
-  type EdgeActionsManagementClientOptionalParams,
+export type {
+  EdgeActionsManagementContext,
+  EdgeActionsManagementClientOptionalParams,
 } from "./edgeActionsManagementContext.js";
+export { createEdgeActionsManagement } from "./edgeActionsManagementContext.js";

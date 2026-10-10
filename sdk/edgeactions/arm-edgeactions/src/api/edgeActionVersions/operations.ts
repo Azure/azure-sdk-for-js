@@ -51,7 +51,7 @@ export function _swapDefaultSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,10 @@ export async function _swapDefaultDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -87,7 +90,7 @@ export function swapDefault(
     getInitialResponse: () =>
       _swapDefaultSend(context, resourceGroupName, edgeActionName, version, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -105,7 +108,7 @@ export function _getVersionCodeSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,10 +124,13 @@ export function _getVersionCodeSend(
 export async function _getVersionCodeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VersionCode> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -139,13 +145,13 @@ export function getVersionCode(
   version: string,
   options: EdgeActionVersionsGetVersionCodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VersionCode>, VersionCode> {
-  return getLongRunningPoller(context, _getVersionCodeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _getVersionCodeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _getVersionCodeSend(context, resourceGroupName, edgeActionName, version, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<VersionCode>, VersionCode>;
 }
 
@@ -164,7 +170,7 @@ export function _deployVersionCodeSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,10 +187,13 @@ export function _deployVersionCodeSend(
 export async function _deployVersionCodeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EdgeActionVersionProperties> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -200,13 +209,13 @@ export function deployVersionCode(
   body: VersionCode,
   options: EdgeActionVersionsDeployVersionCodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties> {
-  return getLongRunningPoller(context, _deployVersionCodeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _deployVersionCodeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _deployVersionCodeSend(context, resourceGroupName, edgeActionName, version, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
 }
 
@@ -222,7 +231,7 @@ export function _listByEdgeActionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +249,10 @@ export async function _listByEdgeActionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -259,11 +271,7 @@ export function listByEdgeAction(
     () => _listByEdgeActionSend(context, resourceGroupName, edgeActionName, options),
     _listByEdgeActionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -281,7 +289,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +302,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -302,11 +313,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a EdgeActionVersion */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -320,7 +326,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, edgeActionName, version, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -339,7 +345,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,14 +365,17 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return edgeActionVersionDeserializer(result.body);
 }
 
-/** Update a EdgeActionVersion */
+/** Updates the tags of an Edge Action version. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Version properties are not changed. If deploymentType or isDefaultVersion is supplied, it must match the existing value; use swapDefault to change the default version. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -381,7 +390,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, edgeActionName, version, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
 }
 
@@ -400,7 +409,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -420,7 +429,10 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -442,7 +454,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, edgeActionName, version, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
 }
 
@@ -460,7 +472,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,7 +488,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ed
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

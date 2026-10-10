@@ -34,17 +34,12 @@ export interface EdgeActionsOperations {
     options?: EdgeActionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeAction>;
   /** Delete a EdgeAction */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,
     options?: EdgeActionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update a EdgeAction */
+  /** Updates the tags of an Edge Action. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
   update: (
     resourceGroupName: string,
     edgeActionName: string,

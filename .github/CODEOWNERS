@@ -1636,7 +1636,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
