@@ -19,11 +19,7 @@ import type {
   ListBlobsResponse,
   ListBlobsHierarchicalResponse,
 } from "./generated/index.js";
-import type {
-  BlobPrefix as BlobPrefixInternal,
-  ContainerListBlobHierarchySegmentApacheArrowHeaders,
-  ContainerListBlobHierarchySegmentApacheArrowResponse,
-} from "./generated-classic-models.js";
+import type { BlobPrefix as BlobPrefixInternal } from "./generated-classic-models.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -709,6 +705,9 @@ function withListSegmentResponseMetadata<T>(
   parsedBody: unknown,
   bodyAsText = "",
 ): T {
+  // The body stream is already consumed; leave it out, as the XML path does.
+  const { readableStreamBody, blobBody, browserStreamBody, ...response } =
+    rawResponse._response as Record<string, unknown>;
   return {
     ...base,
     clientRequestId: rawResponse.clientRequestId,
@@ -717,7 +716,7 @@ function withListSegmentResponseMetadata<T>(
     date: rawResponse.date,
     contentType: rawResponse.contentType,
     _response: {
-      ...rawResponse._response,
+      ...response,
       bodyAsText,
       parsedBody,
     },
@@ -1536,38 +1535,29 @@ export class ContainerClient extends StorageClient {
     marker: string | undefined,
     options: ContainerListBlobsSegmentOptions,
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const rawResponse = await this.containerContext.listBlobFlatSegmentApacheArrow({
-      marker,
-      ...options,
-    });
-
-    const adjustedResponse = adjustResponse(rawResponse);
+    const rawResponse = adjustResponse(
+      await this.containerContext.listBlobFlatSegmentApacheArrow({
+        marker,
+        ...options,
+      }),
+    );
 
     // The service falls back to XML for accounts that do not support Apache Arrow.
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const { parsed: nonArrowResponse, bodyAsText } =
+      const { parsed: internalResponse, bodyAsText } =
         await deserializeListBlobFlatSegmentXml(rawResponse);
-      const converted1 = ConvertInternalResponseOfListBlobFlat(nonArrowResponse);
-      return {
-        ...adjustedResponse,
-        _response: { ...adjustedResponse._response, bodyAsText }, // _response is made non-enumerable
-        ...converted1,
-        segment: {
-          blobItems: converted1.segment.blobItems.map((b) => {
-            return {
-              ...b,
-              tags: toTags(b.blobTags),
-            };
-          }),
+      return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+        {
+          ...internalResponse,
+          segment: { blobItems: internalResponse.blobItems.map(mapBlobItemTsp) },
         },
-      } as unknown as WithResponse<
-        ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
-        ContainerListBlobFlatSegmentHeaders,
-        ListBlobsFlatSegmentResponseModel
-      >;
+        rawResponse,
+        ConvertInternalResponseOfListBlobFlat(internalResponse),
+        bodyAsText,
+      );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
@@ -1577,7 +1567,7 @@ export class ContainerClient extends StorageClient {
     serviceUrl.search = "";
     serviceUrl.hash = "";
     const serviceEndpoint = serviceUrl.toString();
-    const arrowResponse: ListBlobsResponse = {
+    const internalResponse: ListBlobsResponse = {
       serviceEndpoint,
       containerName: this.containerName,
       prefix: options.prefix,
@@ -1586,23 +1576,19 @@ export class ContainerClient extends StorageClient {
       blobItems: parsed.blobItems,
       continuationToken: parsed.nextMarker,
     };
-    const converted2 = ConvertInternalResponseOfListBlobFlat(arrowResponse);
-    return {
-      ...adjustedResponse,
-      ...converted2,
-      segment: {
-        blobItems: converted2.segment.blobItems.map((b) => {
-          return {
-            ...b,
-            tags: toTags(b.blobTags),
-          };
-        }),
+    return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+      {
+        serviceEndpoint,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        segment: { blobItems: parsed.blobItems.map(mapBlobItemTsp) },
+        continuationToken: parsed.nextMarker,
       },
-    } as unknown as WithResponse<
-      ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
-      ContainerListBlobFlatSegmentHeaders,
-      ListBlobsFlatSegmentResponseModel
-    >;
+      rawResponse,
+      ConvertInternalResponseOfListBlobFlat(internalResponse),
+    );
   }
 
   /**
@@ -1697,10 +1683,7 @@ export class ContainerClient extends StorageClient {
     marker: string | undefined,
     options: ContainerListBlobsSegmentOptions,
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const rawResponse = assertResponse<
-      ContainerListBlobHierarchySegmentApacheArrowResponse,
-      ContainerListBlobHierarchySegmentApacheArrowHeaders
-    >(
+    const rawResponse = adjustResponse(
       await this.containerContext.listBlobHierarchySegmentApacheArrow(delimiter, {
         marker,
         ...options,

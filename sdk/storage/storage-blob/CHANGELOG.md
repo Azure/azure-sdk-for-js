@@ -10,6 +10,7 @@
 - Added `BlobClient.getLayout`, which pages through the blob's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
 - Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call.
 - Added `downloadHint` to the blob download response.
+- `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
 
 ### Breaking Changes
 
