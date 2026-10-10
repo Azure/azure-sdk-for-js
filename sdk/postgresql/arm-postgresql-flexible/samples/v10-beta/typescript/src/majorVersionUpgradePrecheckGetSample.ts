@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a major version upgrade precheck for a flexible server.
  *
  * @summary gets information about a major version upgrade precheck for a flexible server.
- * x-ms-original-file: 2026-04-01-preview/MajorVersionUpgradePrecheckGet.json
+ * x-ms-original-file: 2026-07-01-preview/MajorVersionUpgradePrecheckGet.json
  */
 async function getInformationAboutAMajorVersionUpgradePrecheckValidation(): Promise<void> {
   const credential = new DefaultAzureCredential();

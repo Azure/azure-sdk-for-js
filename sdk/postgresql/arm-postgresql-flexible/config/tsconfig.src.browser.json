@@ -1,6 +1,37 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/virtualNetworkSubnetUsage/index.ts",
+    "../src/api/quotaUsages/index.ts",
+    "../src/api/privateDnsZoneSuffix/index.ts",
+    "../src/api/nameAvailability/index.ts",
+    "../src/api/capabilitiesByLocation/index.ts",
+    "../src/api/tuningOptionsOperations/index.ts",
+    "../src/api/backupsAutomaticAndOnDemand/index.ts",
+    "../src/api/serverThreatProtectionSettings/index.ts",
+    "../src/api/advancedThreatProtectionSettings/index.ts",
+    "../src/api/replicas/index.ts",
+    "../src/api/backupsLongTermRetention/index.ts",
+    "../src/api/capturedLogs/index.ts",
+    "../src/api/capabilitiesByServer/index.ts",
+    "../src/api/administratorsMicrosoftEntra/index.ts",
+    "../src/api/dbAgents/index.ts",
+    "../src/api/majorVersionUpgradePrecheck/index.ts",
+    "../src/api/maintenanceEvents/index.ts",
+    "../src/api/virtualEndpoints/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/firewallRules/index.ts",
+    "../src/api/databases/index.ts",
+    "../src/api/configurations/index.ts",
+    "../src/api/servers/index.ts",
+    "../src/api/migrations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

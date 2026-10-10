@@ -137,6 +137,7 @@ export interface VirtualMachineScaleSetVMExtensionsOperations {
     options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSetVMExtension>;
 }
+
 function _getVirtualMachineScaleSetVMExtensions(context: ComputeManagementContext) {
   return {
     list: (
@@ -305,6 +306,7 @@ function _getVirtualMachineScaleSetVMExtensions(context: ComputeManagementContex
     ) => get(context, resourceGroupName, vmScaleSetName, instanceId, vmExtensionName, options),
   };
 }
+
 export function _getVirtualMachineScaleSetVMExtensionsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMExtensionsOperations {

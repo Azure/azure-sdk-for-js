@@ -110,6 +110,7 @@ export interface CapacityReservationsOperations {
     options?: CapacityReservationsGetOptionalParams,
   ) => Promise<CapacityReservation>;
 }
+
 function _getCapacityReservations(context: ComputeManagementContext) {
   return {
     listByCapacityReservationGroup: (
@@ -279,6 +280,7 @@ function _getCapacityReservations(context: ComputeManagementContext) {
       ),
   };
 }
+
 export function _getCapacityReservationsOperations(
   context: ComputeManagementContext,
 ): CapacityReservationsOperations {

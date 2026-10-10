@@ -37,7 +37,14 @@ class TestTokenCredential implements TokenCredential {
 }
 
 describe("HttpSender", () => {
-  const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
+  // `scope` is recreated fresh for every test (see `beforeEach` below) rather than being a
+  // single shared, `.persist()`-ed interceptor reused across the whole file. nock v14 reconfigures
+  // a persisted interceptor's response in place on every `scope.reply()`/`scope.replyWithError()`
+  // call and never fully resets its prior state (e.g. `replyWithError` leaves `errorMessage` set
+  // even after a later `reply()` call), so a long-lived shared interceptor can leak a previous
+  // test's mocked response -- or error -- into a later, unrelated test. Starting from a clean
+  // interceptor each test avoids that entire class of cross-test state leakage.
+  let scope: nock.Interceptor;
   nock.disableNetConnect();
 
   // These senders all share an on-disk persister (same instrumentation key). The
@@ -45,6 +52,8 @@ describe("HttpSender", () => {
   // shared persister, stealing envelopes these tests assert on. Startup replay is
   // covered explicitly in baseSender.spec.ts, so disable it here for determinism.
   beforeEach(() => {
+    nock.cleanAll();
+    scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
     vi.spyOn(BaseSender.prototype as any, "scheduleStartupReplay").mockImplementation(() => {});
   });
 
@@ -472,19 +481,16 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      scope.reply(1, ""); // httpSender will throw
+      // A plain network error with no `.code` is classified by the transport as a retriable
+      // `REQUEST_SEND_ERROR` (and gets persisted for replay), so use a non-retriable error code
+      // here to exercise the "fail without persisting" path this test is meant to cover.
+      scope.replyWithError(Object.assign(new Error("network down"), { code: "EACCES" })); // httpSender will throw
 
       const result = await sender.exportEnvelopes([envelope]);
-      setTimeout(() => {
-        assert.strictEqual(result.code, ExportResultCode.FAILED);
-      }, 1500);
+      assert.strictEqual(result.code, ExportResultCode.FAILED);
 
       const persistedEnvelopes = await sender["persister"].shift();
-      setTimeout(() => {
-        assert.strictEqual(persistedEnvelopes, null);
-      }, 1500);
-
-      await delay(4000); // wait enough time for timeout callbacks
+      assert.strictEqual(persistedEnvelopes, null);
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {

@@ -513,3 +513,193 @@ export type { ItemsUpdateItemOptionalParams, ItemsPatchItemOptionalParams } from
     [],
   );
 });
+
+// Mirrors a service change that merges an entire beta group into a
+// hand-maintained (protected) group, such as beta datasets into datasets.
+function protectedMergeTrees() {
+  // Protected modules must not drift, so use the current emitter's parameter spelling.
+  const current = (text) => text.replaceAll("api%2Dversion", "api-version");
+  const emitted = (depth, specs) => current(operations(depth, specs));
+  const customDatasetsApi = `${emitted(1, [getItem])}
+export function datasetUploadRoot(): string {
+  return "uploads";
+}`;
+  const customDatasets = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/datasets/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/datasets/options.js";
+import { uploadFile } from "#platform/api/datasets/uploads";
+
+/** Interface representing a Datasets operations. */
+export interface DatasetsOperations {
+  /** getItem operation. */
+  getItem: (id: string, options?: ItemsGetItemOptionalParams) => Promise<string>;
+  /** Uploads a file. Only supported in Node.js. */
+  uploadFile: (path: string) => Promise<string>;
+}
+
+function _getDatasets(context: AIProjectContext, projectOptions: object = {}) {
+  return {
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) => getItem(context, id, options),
+    uploadFile: (path: string) => uploadFile(context, path, projectOptions),
+  };
+}
+
+export function _getDatasetsOperations(context: AIProjectContext, projectOptions: object = {}): DatasetsOperations {
+  return {
+    ..._getDatasets(context, projectOptions),
+  };
+}`;
+  const customBetaApi = emitted(2, [betaArchive])
+    .replace(
+      'import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";',
+      'import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";\nimport { tagItem } from "../../../static-helpers/tagging.js";',
+    )
+    .replace(
+      "return _archiveItemDeserialize(result);",
+      "return tagItem(await _archiveItemDeserialize(result));",
+    );
+  const barrel = (groups) =>
+    groups.map(([name, path]) => `export type { ${name} } from "./${path}/index.js";`).join("\n");
+  const shared = {
+    ...models(),
+    "api/datasets/options.ts": options([getItem[3]]),
+    "api/beta/datasets/options.ts": options([betaArchive[3]]),
+    "classic/beta/datasets/index.ts": classic(3, "BetaDatasets", "beta/datasets", [betaArchive]),
+    "classic/index.ts": barrel([
+      ["DatasetsOperations", "datasets"],
+      ["BetaDatasetsOperations", "beta/datasets"],
+    ]),
+  };
+  const baseGenerated = new Map(
+    Object.entries({
+      ...shared,
+      "api/datasets/operations.ts": emitted(1, [getItem]),
+      "api/beta/datasets/operations.ts": emitted(2, [betaArchive]),
+      "classic/datasets/index.ts": classic(2, "Datasets", "datasets", [getItem]),
+    }),
+  );
+  const baseSource = new Map(
+    Object.entries({
+      ...shared,
+      "api/datasets/operations.ts": customDatasetsApi,
+      "api/beta/datasets/operations.ts": customBetaApi,
+      "classic/datasets/index.ts": customDatasets,
+    }),
+  );
+  const generated = new Map(
+    Object.entries({
+      ...models(),
+      "api/datasets/options.ts": options([getItem[3], archive[3]]),
+      "api/datasets/operations.ts": emitted(1, [getItem, archive]),
+      "classic/datasets/index.ts": classic(2, "Datasets", "datasets", [getItem, archive]),
+      "classic/index.ts": barrel([["DatasetsOperations", "datasets"]]),
+    }),
+  );
+  return { baseGenerated, baseSource, generated };
+}
+
+test("merges a removed beta group into a protected customized group", () => {
+  const inputs = protectedMergeTrees();
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const api = plan.source.get("api/datasets/operations.ts");
+  assert.match(api, /export function datasetUploadRoot\(\)/);
+  assert.match(api, /return tagItem\(await _archiveItemDeserialize\(result\)\);/);
+  assert.match(api, /import \{ tagItem \} from "\.\.\/\.\.\/static-helpers\/tagging\.js";/);
+  const datasets = plan.source.get("classic/datasets/index.ts");
+  assert.match(
+    datasets,
+    /uploadFile: \(path: string\) => uploadFile\(context, path, projectOptions\)/,
+  );
+  assert.match(
+    datasets,
+    /archiveItem: \(id: string, options\?: ItemsArchiveItemOptionalParams\) => archiveItem\(/,
+  );
+  // The removed group's untouched generated export follows the emitter
+  // instead of being retained as a dangling compatibility alias.
+  assert.doesNotMatch(plan.source.get("classic/index.ts"), /BetaDatasetsOperations/);
+  assert.ok(plan.removedFiles.has("classic/beta/datasets/index.ts"));
+  assert.deepEqual(
+    validateCustomization({
+      ...inputs,
+      source: plan.source,
+      matches: plan.matches,
+      modelRenames: plan.modelRenames,
+    }),
+    [],
+  );
+});
+
+test("relocation into a protected group admits only the relocated operations", () => {
+  const inputs = protectedMergeTrees();
+  const plan = planCustomization(inputs);
+  const validate = (file, edit) => {
+    const source = new Map(plan.source);
+    source.set(file, edit(source.get(file)));
+    return validateCustomization({
+      ...inputs,
+      source,
+      matches: plan.matches,
+      modelRenames: plan.modelRenames,
+    });
+  };
+  const rejected = (diagnostics, declaration, message) =>
+    assert.ok(
+      diagnostics.some(
+        (item) => item.declaration === declaration && item.message.includes(message),
+      ),
+      JSON.stringify(diagnostics, null, 2),
+    );
+  rejected(
+    validate(
+      "api/datasets/operations.ts",
+      (text) => `${text}\nexport function extra(): number { return 1; }`,
+    ),
+    "extra",
+    "Unproven addition",
+  );
+  rejected(
+    validate(
+      "api/datasets/operations.ts",
+      (text) => `import { leak } from "../../static-helpers/leak.js";\n${text}`,
+    ),
+    "leak",
+    "Unproven import",
+  );
+  rejected(
+    validate("classic/datasets/index.ts", (text) =>
+      text.replace(
+        "uploadFile: (path: string) => uploadFile(",
+        "extraUpload: (path: string) => uploadFile(context, path),\n    uploadFile: (path: string) => uploadFile(",
+      ),
+    ),
+    "_getDatasets",
+    "Protected customization changed",
+  );
+  rejected(
+    validate("classic/datasets/index.ts", (text) =>
+      text.replace(/=> archiveItem\(context, id, options\)/, "=> getItem(context, id, options)"),
+    ),
+    "_getDatasets",
+    "Protected customization changed",
+  );
+  rejected(
+    validate("classic/datasets/index.ts", (text) =>
+      text.replace(
+        "uploadFile: (path: string) => Promise<string>;",
+        "uploadFile: (path: string) => Promise<void>;",
+      ),
+    ),
+    "DatasetsOperations",
+    "Protected customization changed",
+  );
+  // Without the planner's relocation evidence the same output is unproven.
+  const unmatched = validateCustomization({
+    ...inputs,
+    source: plan.source,
+    matches: [],
+    modelRenames: plan.modelRenames,
+  });
+  rejected(unmatched, "archiveItem", "Unproven addition");
+  rejected(unmatched, "tagItem", "Unproven import");
+});
