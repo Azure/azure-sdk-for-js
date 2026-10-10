@@ -38,7 +38,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Cancels a Job (asynchronous). */
 export function cancel(
   context: Client,
@@ -74,7 +73,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, workspaceName, id, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -90,7 +89,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
       jobType: options?.jobType,
       tag: options?.tag,
@@ -122,7 +121,6 @@ export async function _listDeserialize(
 
   return _jobBaseResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists Jobs in the workspace. */
 export function list(
   context: Client,
@@ -138,7 +136,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -157,7 +155,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +177,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a Job (asynchronous). */
 export function $delete(
   context: Client,
@@ -193,7 +190,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, workspaceName, id, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -212,7 +209,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +236,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return jobBaseDeserializer(result.body);
 }
-
 /**
  * Creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
@@ -277,7 +273,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       id: id,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,7 +298,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobBaseDeserializer(result.body);
 }
-
 /** Gets a Job by name/id. */
 export async function get(
   context: Client,

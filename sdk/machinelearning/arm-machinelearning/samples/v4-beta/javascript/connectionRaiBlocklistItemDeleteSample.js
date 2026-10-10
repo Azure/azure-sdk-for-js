@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified custom blocklist item associated with the Azure OpenAI connection.
  *
  * @summary deletes the specified custom blocklist item associated with the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/RaiBlocklistItem/delete.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/RaiBlocklistItem/delete.json
  */
 async function deleteRaiBlocklistItem() {
   const credential = new DefaultAzureCredential();

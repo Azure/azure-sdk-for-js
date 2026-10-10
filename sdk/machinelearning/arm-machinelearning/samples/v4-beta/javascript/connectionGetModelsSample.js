@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get available models under the Azure OpenAI connection.
  *
  * @summary get available models under the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/getModels.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/getModels.json
  */
 async function getAzureOpenAIConnectionModels() {
   const credential = new DefaultAzureCredential();

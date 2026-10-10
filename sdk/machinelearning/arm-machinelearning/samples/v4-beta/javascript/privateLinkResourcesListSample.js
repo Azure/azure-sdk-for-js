@@ -16,7 +16,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * Pre single connection endpoint per workspace: the Data Plane IP address, returned by DNS resolution.
  * Other RPs, such as Azure Storage, have multiple - one for Blobs, other for Queues, etc.
  * Defined in the "[NRP] Private Endpoint Design" doc, topic "GET API for GroupIds".
- * x-ms-original-file: 2026-03-15-preview/PrivateLinkResource/list.json
+ * x-ms-original-file: 2026-05-15-preview/PrivateLinkResource/list.json
  */
 async function workspaceListPrivateLinkResources() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update InferenceGroup (asynchronous).
  *
  * @summary create or update InferenceGroup (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceGroup/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceGroup/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceInferenceGroup() {
   const credential = new DefaultAzureCredential();

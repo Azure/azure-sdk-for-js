@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete registry
  *
  * @summary delete registry
- * x-ms-original-file: 2026-03-15-preview/Registries/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Registries/delete.json
  */
 async function deleteRegistry() {
   const credential = new DefaultAzureCredential();

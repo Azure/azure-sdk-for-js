@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the size of a Compute Instance.
  *
  * @summary updates the size of a Compute Instance.
- * x-ms-original-file: 2026-03-15-preview/Compute/resize.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/resize.json
  */
 async function listVMSizes() {
   const credential = new DefaultAzureCredential();

@@ -46,7 +46,7 @@ export function _publishSend(
       workspaceName: workspaceName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _publishDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Publish version asset into registry. */
 export function publish(
   context: Client,
@@ -89,7 +88,7 @@ export function publish(
     getInitialResponse: () =>
       _publishSend(context, resourceGroupName, workspaceName, name, version, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -107,7 +106,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24orderBy": options?.orderBy,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -138,7 +137,6 @@ export async function _listDeserialize(
 
   return _componentVersionResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List component versions. */
 export function list(
   context: Client,
@@ -155,7 +153,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -176,7 +174,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +196,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete version. */
 export async function $delete(
   context: Client,
@@ -236,7 +233,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,7 +262,6 @@ export async function _createOrUpdateDeserialize(
 
   return componentVersionDeserializer(result.body);
 }
-
 /** Create or update version. */
 export async function createOrUpdate(
   context: Client,
@@ -304,7 +300,7 @@ export function _getSend(
       workspaceName: workspaceName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -329,7 +325,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return componentVersionDeserializer(result.body);
 }
-
 /** Get version. */
 export async function get(
   context: Client,

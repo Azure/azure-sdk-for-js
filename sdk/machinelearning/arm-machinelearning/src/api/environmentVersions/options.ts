@@ -9,7 +9,6 @@ export interface EnvironmentVersionsPublishOptionalParams extends OperationOptio
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface EnvironmentVersionsListOptionalParams extends OperationOptions {
   /** Ordering of list. */
@@ -21,12 +20,9 @@ export interface EnvironmentVersionsListOptionalParams extends OperationOptions 
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface EnvironmentVersionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EnvironmentVersionsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EnvironmentVersionsGetOptionalParams extends OperationOptions {}

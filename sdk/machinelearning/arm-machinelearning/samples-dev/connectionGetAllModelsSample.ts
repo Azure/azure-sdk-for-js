@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get models under the Azure ML workspace for all Azure OpenAI connections that the user can deploy.
  *
  * @summary get models under the Azure ML workspace for all Azure OpenAI connections that the user can deploy.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/listConnectionModels.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/listConnectionModels.json
  */
 async function getModelsUnderTheAzureMLWorkspaceForAllAzureOpenAIConnectionsThatTheUserCanDeploy(): Promise<void> {
   const credential = new DefaultAzureCredential();

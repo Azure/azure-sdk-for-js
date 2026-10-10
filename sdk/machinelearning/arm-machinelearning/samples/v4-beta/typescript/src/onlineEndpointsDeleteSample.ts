@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Online Endpoint (asynchronous).
  *
  * @summary delete Online Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineEndpoint/delete.json
  */
 async function deleteWorkspaceOnlineEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

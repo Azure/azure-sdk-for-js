@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provisions the managed network of a machine learning workspace.
  *
  * @summary provisions the managed network of a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/provision.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/provision.json
  */
 async function provisionManagedNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -32,7 +32,6 @@ export interface ManagedNetworkProvisionsOperations {
     options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ) => Promise<ManagedNetworkProvisionStatus>;
 }
-
 function _getManagedNetworkProvisions(context: AzureMachineLearningServicesManagementContext) {
   return {
     provisionManagedNetwork: (
@@ -58,7 +57,6 @@ function _getManagedNetworkProvisions(context: AzureMachineLearningServicesManag
     },
   };
 }
-
 export function _getManagedNetworkProvisionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ManagedNetworkProvisionsOperations {

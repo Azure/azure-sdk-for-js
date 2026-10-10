@@ -36,7 +36,7 @@ export function _postSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _postDeserialize(
 
   return _outboundRuleListResultDeserializer(result.body);
 }
-
 /** The POST API for updating the outbound rules of the managed network associated with the machine learning workspace. */
 export function post(
   context: Client,
@@ -85,7 +84,7 @@ export function post(
       getInitialResponse: () =>
         _postSend(context, resourceGroupName, workspaceName, managedNetworkName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -97,7 +96,7 @@ export function post(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

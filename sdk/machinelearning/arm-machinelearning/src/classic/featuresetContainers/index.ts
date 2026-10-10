@@ -81,7 +81,6 @@ export interface FeaturesetContainersOperations {
     options?: FeaturesetContainersGetEntityOptionalParams,
   ) => Promise<FeaturesetContainer>;
 }
-
 function _getFeaturesetContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -148,7 +147,6 @@ function _getFeaturesetContainers(context: AzureMachineLearningServicesManagemen
     ) => getEntity(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getFeaturesetContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): FeaturesetContainersOperations {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list schedules in specified workspace.
  *
  * @summary list schedules in specified workspace.
- * x-ms-original-file: 2026-03-15-preview/Schedule/list.json
+ * x-ms-original-file: 2026-05-15-preview/Schedule/list.json
  */
 async function listSchedules() {
   const credential = new DefaultAzureCredential();

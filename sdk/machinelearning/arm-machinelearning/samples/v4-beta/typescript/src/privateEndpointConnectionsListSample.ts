@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to called by end-users to get all PE connections.
  *
  * @summary called by end-users to get all PE connections.
- * x-ms-original-file: 2026-03-15-preview/PrivateEndpointConnection/list.json
+ * x-ms-original-file: 2026-05-15-preview/PrivateEndpointConnection/list.json
  */
 async function storageAccountListPrivateEndpointConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();

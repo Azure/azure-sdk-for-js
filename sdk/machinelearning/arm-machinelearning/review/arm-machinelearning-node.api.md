@@ -1688,8 +1688,10 @@ export interface CustomModelJobInput extends JobInput {
 // @public
 export interface CustomModelJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "custom_model";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 
@@ -5475,7 +5477,9 @@ export enum KnownVersions {
     V20251201 = "2025-12-01",
     V20260115Preview = "2026-01-15-preview",
     V20260301 = "2026-03-01",
-    V20260315Preview = "2026-03-15-preview"
+    V20260315Preview = "2026-03-15-preview",
+    V20260501 = "2026-05-01",
+    V20260515Preview = "2026-05-15-preview"
 }
 
 // @public
@@ -5930,8 +5934,10 @@ export interface MLFlowModelJobInput extends JobInput {
 // @public
 export interface MLFlowModelJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "mlflow_model";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 
@@ -5951,8 +5957,10 @@ export interface MLTableJobInput extends JobInput {
 // @public
 export interface MLTableJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "mltable";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 
@@ -8751,8 +8759,10 @@ export interface TritonModelJobInput extends JobInput {
 // @public
 export interface TritonModelJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "triton_model";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 
@@ -8798,8 +8808,10 @@ export interface UriFileJobInput extends JobInput {
 // @public
 export interface UriFileJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "uri_file";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 
@@ -8818,8 +8830,10 @@ export interface UriFolderJobInput extends JobInput {
 // @public
 export interface UriFolderJobOutput extends JobOutput {
     assetName?: string;
+    assetVersion?: string;
     jobOutputType: "uri_folder";
     mode?: OutputDeliveryMode;
+    pathOnCompute?: string;
     uri?: string;
 }
 

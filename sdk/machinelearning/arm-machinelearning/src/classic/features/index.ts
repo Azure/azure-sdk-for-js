@@ -30,7 +30,6 @@ export interface FeaturesOperations {
     options?: FeaturesGetOptionalParams,
   ) => Promise<Feature>;
 }
-
 function _getFeatures(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -60,7 +59,6 @@ function _getFeatures(context: AzureMachineLearningServicesManagementContext) {
       ),
   };
 }
-
 export function _getFeaturesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): FeaturesOperations {

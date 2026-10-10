@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update datastore.
  *
  * @summary create or update datastore.
- * x-ms-original-file: 2026-03-15-preview/Datastore/AzureBlobWAccountKey/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureBlobWOrAccountKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey(): Promise<void> {
  * This sample demonstrates how to create or update datastore.
  *
  * @summary create or update datastore.
- * x-ms-original-file: 2026-03-15-preview/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -79,7 +79,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal(): Pr
  * This sample demonstrates how to create or update datastore.
  *
  * @summary create or update datastore.
- * x-ms-original-file: 2026-03-15-preview/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -118,7 +118,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal(): Pr
  * This sample demonstrates how to create or update datastore.
  *
  * @summary create or update datastore.
- * x-ms-original-file: 2026-03-15-preview/Datastore/AzureFileWAccountKey/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

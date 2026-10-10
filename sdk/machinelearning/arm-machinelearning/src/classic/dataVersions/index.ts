@@ -78,7 +78,6 @@ export interface DataVersionsOperations {
     options?: DataVersionsGetOptionalParams,
   ) => Promise<DataVersionBase>;
 }
-
 function _getDataVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     publish: (
@@ -149,7 +148,6 @@ function _getDataVersions(context: AzureMachineLearningServicesManagementContext
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getDataVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): DataVersionsOperations {

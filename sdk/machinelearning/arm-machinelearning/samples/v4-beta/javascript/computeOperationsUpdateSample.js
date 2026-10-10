@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
  *
  * @summary updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
- * x-ms-original-file: 2026-03-15-preview/Compute/patch.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/patch.json
  */
 async function updateAAmlComputeCompute() {
   const credential = new DefaultAzureCredential();

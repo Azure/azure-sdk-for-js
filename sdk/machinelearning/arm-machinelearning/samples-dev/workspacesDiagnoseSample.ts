@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to diagnose workspace setup issue.
  *
  * @summary diagnose workspace setup issue.
- * x-ms-original-file: 2026-03-15-preview/Workspace/diagnose.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/diagnose.json
  */
 async function diagnoseWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

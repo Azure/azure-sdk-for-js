@@ -65,7 +65,7 @@ export function _resyncKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,7 +87,6 @@ export async function _resyncKeysDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Resync all the keys associated with this workspace.This includes keys for the storage account, app insights and password for container registry */
 export function resyncKeys(
   context: Client,
@@ -100,7 +99,7 @@ export function resyncKeys(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resyncKeysSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -116,7 +115,7 @@ export function _prepareNotebookSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +142,6 @@ export async function _prepareNotebookDeserialize(
 
   return notebookResourceInfoDeserializer(result.body);
 }
-
 /** Prepare Azure Machine Learning Workspace's notebook resource */
 export function prepareNotebook(
   context: Client,
@@ -157,7 +155,7 @@ export function prepareNotebook(
     getInitialResponse: () =>
       _prepareNotebookSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<NotebookResourceInfo>, NotebookResourceInfo>;
 }
 
@@ -175,7 +173,7 @@ export function _listOutboundNetworkDependenciesEndpointsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +200,6 @@ export async function _listOutboundNetworkDependenciesEndpointsDeserialize(
 
   return externalFqdnResponseDeserializer(result.body);
 }
-
 /** Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically. */
 export async function listOutboundNetworkDependenciesEndpoints(
   context: Client,
@@ -233,7 +230,7 @@ export function _listStorageAccountKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +257,6 @@ export async function _listStorageAccountKeysDeserialize(
 
   return listStorageAccountKeysResultDeserializer(result.body);
 }
-
 /** Lists keys of Azure Machine Learning Workspace's storage account. */
 export async function listStorageAccountKeys(
   context: Client,
@@ -289,7 +285,7 @@ export function _listNotebookKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +312,6 @@ export async function _listNotebookKeysDeserialize(
 
   return listNotebookKeysResultDeserializer(result.body);
 }
-
 /** Lists keys of Azure Machine Learning Workspaces notebook. */
 export async function listNotebookKeys(
   context: Client,
@@ -340,7 +335,7 @@ export function _listNotebookAccessTokenSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -367,7 +362,6 @@ export async function _listNotebookAccessTokenDeserialize(
 
   return notebookAccessTokenResultDeserializer(result.body);
 }
-
 /** Get Azure Machine Learning Workspace notebook access token */
 export async function listNotebookAccessToken(
   context: Client,
@@ -396,7 +390,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,7 +417,6 @@ export async function _listKeysDeserialize(
 
   return listWorkspaceKeysResultDeserializer(result.body);
 }
-
 /** Lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry. */
 export async function listKeys(
   context: Client,
@@ -447,7 +440,7 @@ export function _diagnoseSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,7 +469,6 @@ export async function _diagnoseDeserialize(
 
   return diagnoseResponseResultDeserializer(result.body);
 }
-
 /** Diagnose workspace setup issue. */
 export function diagnose(
   context: Client,
@@ -489,7 +481,7 @@ export function diagnose(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _diagnoseSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<DiagnoseResponseResult>, DiagnoseResponseResult>;
 }
 
@@ -501,7 +493,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces{?api%2Dversion,kind,%24skip,aiCapabilities}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       kind: options?.kind,
       "%24skip": options?.skip,
       aiCapabilities: options?.aiCapabilities,
@@ -531,7 +523,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
-
 /** Lists all the available machine learning workspaces under the specified subscription. */
 export function listBySubscription(
   context: Client,
@@ -545,7 +536,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -560,7 +551,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       kind: options?.kind,
       "%24skip": options?.skip,
       aiCapabilities: options?.aiCapabilities,
@@ -590,7 +581,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _workspaceListResultDeserializer(result.body);
 }
-
 /** Lists all the available machine learning workspaces under the specified resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -605,7 +595,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -622,7 +612,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       forceToPurge: options?.forceToPurge ?? false,
     },
     {
@@ -645,7 +635,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a machine learning workspace. */
 export function $delete(
   context: Client,
@@ -658,7 +647,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -675,7 +664,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -702,7 +691,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return workspaceDeserializer(result.body);
 }
-
 /** Updates a machine learning workspace with the specified parameters. */
 export function update(
   context: Client,
@@ -716,7 +704,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, workspaceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Workspace>, Workspace>;
 }
 
@@ -733,7 +721,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -762,7 +750,6 @@ export async function _createOrUpdateDeserialize(
 
   return workspaceDeserializer(result.body);
 }
-
 /** Creates or updates a workspace with the specified parameters. */
 export function createOrUpdate(
   context: Client,
@@ -777,7 +764,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Workspace>, Workspace>;
 }
 
@@ -793,7 +780,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -818,7 +805,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
 
   return workspaceDeserializer(result.body);
 }
-
 /** Gets the properties of the specified machine learning workspace. */
 export async function get(
   context: Client,

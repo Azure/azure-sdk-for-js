@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/AKSCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/AKSCompute.json
  */
 async function updateAnAKSCompute() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function updateAnAKSCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/AmlCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/AmlCompute.json
  */
 async function updateAAMLCompute() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function updateAAMLCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/BasicAKSCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/BasicAKSCompute.json
  */
 async function createAnAKSCompute() {
   const credential = new DefaultAzureCredential();
@@ -83,7 +83,7 @@ async function createAnAKSCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/BasicAmlCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/BasicAmlCompute.json
  */
 async function createAAMLCompute() {
   const credential = new DefaultAzureCredential();
@@ -119,7 +119,7 @@ async function createAAMLCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/BasicDataFactoryCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/BasicDataFactoryCompute.json
  */
 async function createADataFactoryCompute() {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function createADataFactoryCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/ComputeInstance.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/ComputeInstance.json
  */
 async function createAnComputeInstanceCompute() {
   const credential = new DefaultAzureCredential();
@@ -212,7 +212,7 @@ async function createAnComputeInstanceCompute() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/ComputeInstanceMinimal.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/ComputeInstanceMinimal.json
  */
 async function createAnComputeInstanceComputeWithMinimalInputs() {
   const credential = new DefaultAzureCredential();
@@ -234,7 +234,7 @@ async function createAnComputeInstanceComputeWithMinimalInputs() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
  */
 async function createAnComputeInstanceComputeWithSchedules() {
   const credential = new DefaultAzureCredential();
@@ -284,7 +284,7 @@ async function createAnComputeInstanceComputeWithSchedules() {
  * This sample demonstrates how to creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: 2026-03-15-preview/Compute/createOrUpdate/KubernetesCompute.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/createOrUpdate/KubernetesCompute.json
  */
 async function attachAKubernetesCompute() {
   const credential = new DefaultAzureCredential();

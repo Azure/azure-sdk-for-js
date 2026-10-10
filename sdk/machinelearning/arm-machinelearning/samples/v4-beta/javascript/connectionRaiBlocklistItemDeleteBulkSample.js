@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete multiple blocklist items from the specified blocklist associated with the Azure OpenAI connection.
  *
  * @summary delete multiple blocklist items from the specified blocklist associated with the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/RaiBlocklistItem/deleteBulk.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/RaiBlocklistItem/deleteBulk.json
  */
 async function deleteBulkRaiBlocklistItems() {
   const credential = new DefaultAzureCredential();

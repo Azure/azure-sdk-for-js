@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
     },
     {
@@ -66,7 +66,6 @@ export async function _listDeserialize(
 
   return _codeContainerResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List containers. */
 export function list(
   context: Client,
@@ -82,7 +81,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -101,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       codeName: codeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,7 +122,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Code container. */
 export function $delete(
   context: Client,
@@ -138,7 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, codeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +155,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       codeName: codeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +184,6 @@ export async function _createOrUpdateDeserialize(
 
   return codeContainerDeserializer(result.body);
 }
-
 /** Create or update Code container. */
 export function createOrUpdate(
   context: Client,
@@ -202,7 +199,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, registryName, codeName, body, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<CodeContainer>, CodeContainer>;
 }
 
@@ -220,7 +217,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       codeName: codeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +242,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return codeContainerDeserializer(result.body);
 }
-
 /** Get Code container. */
 export async function get(
   context: Client,
