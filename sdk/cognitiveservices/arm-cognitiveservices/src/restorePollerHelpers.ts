@@ -26,7 +26,6 @@ import {
   _stopDeserialize,
   _startDeserialize,
   _$deleteDeserialize as _$deleteDeserializeWorkbenches,
-  _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkbenches,
 } from "./api/workbenches/operations.js";
 import {
@@ -37,8 +36,12 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeComputes,
 } from "./api/computes/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeAdapterDeployments,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAdapterDeployments,
+} from "./api/adapterDeployments/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeManagedComputeDeployments,
-  _updateDeserialize as _updateDeserializeManagedComputeDeployments,
+  _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedComputeDeployments,
 } from "./api/managedComputeDeployments/operations.js";
 import {
@@ -205,8 +208,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}":
     { deserializer: _$deleteDeserializeWorkbenches, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}":
     {
       deserializer: _createOrUpdateDeserializeWorkbenches,
@@ -222,16 +223,23 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeComputes, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
     { deserializer: _createOrUpdateDeserializeComputes, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/adapterDeployments/{adapterDeploymentName}":
+    {
+      deserializer: _$deleteDeserializeAdapterDeployments,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/adapterDeployments/{adapterDeploymentName}":
+    {
+      deserializer: _createOrUpdateDeserializeAdapterDeployments,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
     {
       deserializer: _$deleteDeserializeManagedComputeDeployments,
       expectedStatuses: ["200", "202", "204"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
-    {
-      deserializer: _updateDeserializeManagedComputeDeployments,
-      expectedStatuses: ["200", "202", "201"],
-    },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
     {
       deserializer: _createOrUpdateDeserializeManagedComputeDeployments,

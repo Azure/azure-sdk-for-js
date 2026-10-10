@@ -31,10 +31,7 @@ export interface WorkbenchesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface WorkbenchesUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface WorkbenchesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkbenchesCreateOrUpdateOptionalParams extends OperationOptions {

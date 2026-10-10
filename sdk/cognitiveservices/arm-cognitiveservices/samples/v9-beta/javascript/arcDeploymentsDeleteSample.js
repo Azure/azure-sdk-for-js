@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified Arc deployment associated with the Cognitive Services account.
  *
  * @summary deletes the specified Arc deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/DeleteArcDeployment.json
+ * x-ms-original-file: 2026-09-15-preview/DeleteArcDeployment.json
  */
 async function deleteArcDeployment() {
   const credential = new DefaultAzureCredential();
