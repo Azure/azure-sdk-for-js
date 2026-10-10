@@ -247,7 +247,7 @@ function runRegenerateEmitter() {
 }
 
 function installGlobalCliTools() {
-  runShell("npm install -g @azure-tools/typespec-client-generator-cli pnpm");
+  runShell("npm install -g --allow-scripts=pnpm @azure-tools/typespec-client-generator-cli pnpm");
   // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
   runShell("npm config set legacy-peer-deps true");
 }
