@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/napsteromniagentapi/arm-napsteromniagentapi)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-napsteromniagentapi)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-napsteromniagentapi?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-napsteromniagentapi)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples)
 
 ## Getting started

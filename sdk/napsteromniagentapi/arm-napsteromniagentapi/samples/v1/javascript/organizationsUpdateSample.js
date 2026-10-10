@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a OrganizationResource
  *
  * @summary update a OrganizationResource
- * x-ms-original-file: 2025-12-24-preview/Organizations_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/Organizations_Update_MaximumSet_Gen.json
  */
 async function organizationsUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
