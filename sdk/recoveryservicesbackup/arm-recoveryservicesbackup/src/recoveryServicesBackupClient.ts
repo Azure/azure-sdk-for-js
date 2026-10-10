@@ -94,6 +94,8 @@ import type { ProtectionContainerOperationResultsOperations } from "./classic/pr
 import { _getProtectionContainerOperationResultsOperations } from "./classic/protectionContainerOperationResults/index.js";
 import type { ProtectionContainerRefreshOperationResultsOperations } from "./classic/protectionContainerRefreshOperationResults/index.js";
 import { _getProtectionContainerRefreshOperationResultsOperations } from "./classic/protectionContainerRefreshOperationResults/index.js";
+import type { ProtectionContainerRefreshOperationStatusesOperations } from "./classic/protectionContainerRefreshOperationStatuses/index.js";
+import { _getProtectionContainerRefreshOperationStatusesOperations } from "./classic/protectionContainerRefreshOperationStatuses/index.js";
 import type { ProtectionContainersOperations } from "./classic/protectionContainers/index.js";
 import { _getProtectionContainersOperations } from "./classic/protectionContainers/index.js";
 import type { ProtectionIntentOperationsOperations } from "./classic/protectionIntentOperations/index.js";
@@ -175,6 +177,8 @@ export class RecoveryServicesBackupClient {
     this.bMSPrepareDataMoveOperationResult = _getbMSPrepareDataMoveOperationResultOperations(
       this._client,
     );
+    this.protectionContainerRefreshOperationStatuses =
+      _getProtectionContainerRefreshOperationStatusesOperations(this._client);
     this.tieringCostOperationStatus = _getTieringCostOperationStatusOperations(this._client);
     this.getTieringCostOperationResult = _getGetTieringCostOperationResultOperations(this._client);
     this.fetchTieringCost = _getFetchTieringCostOperations(this._client);
@@ -422,6 +426,8 @@ export class RecoveryServicesBackupClient {
   public readonly protectionIntentOperations: ProtectionIntentOperationsOperations;
   /** The operation groups for bMSPrepareDataMoveOperationResult */
   public readonly bMSPrepareDataMoveOperationResult: bMSPrepareDataMoveOperationResultOperations;
+  /** The operation groups for protectionContainerRefreshOperationStatuses */
+  public readonly protectionContainerRefreshOperationStatuses: ProtectionContainerRefreshOperationStatusesOperations;
   /** The operation groups for tieringCostOperationStatus */
   public readonly tieringCostOperationStatus: TieringCostOperationStatusOperations;
   /** The operation groups for getTieringCostOperationResult */

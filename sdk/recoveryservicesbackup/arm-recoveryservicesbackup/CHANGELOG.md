@@ -1,5 +1,59 @@
 # Release History
 
+## 15.0.0 (2026-10-08)
+
+### Features Added
+  - Added operation group ProtectionContainerRefreshOperationStatusesOperations
+  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfo
+  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoAndWait
+  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoOperationResult
+  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoOperationResultAndWait
+  - Added operation RecoveryPointsOperations.getRPExtendedInfo
+  - Added operation RecoveryPointsOperations.getRPExtendedInfoOperationResult
+  - Added Interface AzureVmWorkloadSQLInstanceProtectedItem
+  - Added Interface DatabaseInRP
+  - Added Interface DiskInfo
+  - Added Interface FilesystemInfo
+  - Added Interface GetRPExtendedInfoRequest
+  - Added Interface GetRPExtendedInfoRequestResource
+  - Added Interface ProtectionContainerRefreshOperationStatusesGetOptionalParams
+  - Added Interface RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams
+  - Added Interface RecoveryPointsGetRPExtendedInfoOptionalParams
+  - Added Interface SnapshotRecoveryPointInfo
+  - Added Interface StorageSpaceInfo
+  - Added Interface ValidateAzureWorkloadRestoreOperationRequest
+  - Interface AzureIaaSClassicComputeVMProtectedItem has a new optional parameter existingBasicVMProtection
+  - Interface AzureIaaSComputeVMProtectedItem has a new optional parameter existingBasicVMProtection
+  - Interface AzureIaaSVMProtectedItem has a new optional parameter existingBasicVMProtection
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter instantAccessDurationMinutes
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter instantAccessSnapshotEnabled
+  - Interface AzureVmWorkloadProtectionPolicy has a new optional parameter vmWorkloadPolicyType
+  - Interface AzureVmWorkloadSQLDatabaseProtectedItem has a new optional parameter parentProtectedItem
+  - Interface AzureVmWorkloadSQLDatabaseProtectedItem has a new optional parameter protectionLevel
+  - Interface AzureWorkloadSQLRecoveryPointExtendedInfo has a new optional parameter includedDatabases
+  - Interface AzureWorkloadSQLRecoveryPointExtendedInfo has a new optional parameter snapshotRecoveryPointInfo
+  - Interface DiskInformation has a new optional parameter diskSizeInGb
+  - Interface DiskInformation has a new optional parameter storageType
+  - Interface SnapshotRestoreParameters has a new optional parameter disksToDetachOnClash
+  - Added Type Alias ExistingBasicVMProtection
+  - Added Type Alias InstanceProtectionReadiness
+  - Added Type Alias ProtectionLevel
+  - Added Type Alias VMWorkloadPolicyType
+  - Added Enum KnownExistingBasicVMProtection
+  - Added Enum KnownInstanceProtectionReadiness
+  - Added Enum KnownProtectionLevel
+  - Added Enum KnownRecoveryPointTierType
+  - Added Enum KnownVMWorkloadPolicyType
+  - Enum KnownVersions has a new value V20261001
+
+### Breaking Changes
+  - Operation FetchTieringCostOperations.beginPost has a new signature
+  - Operation FetchTieringCostOperations.beginPostAndWait has a new signature
+  - Operation FetchTieringCostOperations.post has a new signature
+  - Type of parameter protectedItemType of interface AzureVmWorkloadProtectedItem is changed from "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" to "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "AzureVmWorkloadSQLInstance"
+  - Type alias "AzureVmWorkloadProtectedItemUnion" has been changed
+  - Type alias "RecoveryPointTierType" has been changed
+
 ## 14.1.0 (2026-08-31)
 
 ### Features Added

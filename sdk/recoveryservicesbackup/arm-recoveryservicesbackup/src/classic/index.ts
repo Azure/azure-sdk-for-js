@@ -39,6 +39,7 @@ export type { ProtectedItemOperationStatusesOperations } from "./protectedItemOp
 export type { ProtectedItemsOperations } from "./protectedItems/index.js";
 export type { ProtectionContainerOperationResultsOperations } from "./protectionContainerOperationResults/index.js";
 export type { ProtectionContainerRefreshOperationResultsOperations } from "./protectionContainerRefreshOperationResults/index.js";
+export type { ProtectionContainerRefreshOperationStatusesOperations } from "./protectionContainerRefreshOperationStatuses/index.js";
 export type { ProtectionContainersOperations } from "./protectionContainers/index.js";
 export type { ProtectionIntentOperationsOperations } from "./protectionIntentOperations/index.js";
 export type { ProtectionPoliciesOperations } from "./protectionPolicies/index.js";
