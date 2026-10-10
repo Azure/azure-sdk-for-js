@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** The list of available operations. */
 export interface _OperationListResult {
   /** The list of operations. */
@@ -503,7 +503,7 @@ export interface FailoverProperties {
 
 export function failoverPropertiesSerializer(item: FailoverProperties): any {
   return {
-    properties: areAllPropsUndefined(item, ["IsSafeFailover"])
+    properties: areAllPropsUndefined(item, ["isSafeFailover"])
       ? undefined
       : _failoverPropertiesPropertiesSerializer(item),
   };
@@ -1913,8 +1913,8 @@ export interface SBNamespace extends TrackedResource {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function sbNamespaceSerializer(item: SBNamespace): any {
@@ -1932,7 +1932,7 @@ export function sbNamespaceSerializer(item: SBNamespace): any {
       "premiumMessagingPartitions",
       "platformCapabilities",
       "geoDataReplication",
-      "ipV6Enabled",
+      "ipAddressType",
     ])
       ? undefined
       : _sbNamespacePropertiesSerializer(item),
@@ -1994,8 +1994,8 @@ export interface SBNamespaceProperties {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function sbNamespacePropertiesSerializer(item: SBNamespaceProperties): any {
@@ -2016,7 +2016,7 @@ export function sbNamespacePropertiesSerializer(item: SBNamespaceProperties): an
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2046,7 +2046,7 @@ export function sbNamespacePropertiesDeserializer(item: any): SBNamespacePropert
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2293,23 +2293,16 @@ export interface NamespaceReplicaLocation {
   locationName?: string;
   /** GeoDR Role Types */
   roleType?: GeoDRRoleType;
-  /** Optional property that denotes the ARM ID of the Cluster. This is required, if a namespace replica should be placed in a Dedicated Event Hub Cluster */
-  clusterArmId?: string;
 }
 
 export function namespaceReplicaLocationSerializer(item: NamespaceReplicaLocation): any {
-  return {
-    locationName: item["locationName"],
-    roleType: item["roleType"],
-    clusterArmId: item["clusterArmId"],
-  };
+  return { locationName: item["locationName"], roleType: item["roleType"] };
 }
 
 export function namespaceReplicaLocationDeserializer(item: any): NamespaceReplicaLocation {
   return {
     locationName: item["locationName"],
     roleType: item["roleType"],
-    clusterArmId: item["clusterArmId"],
   };
 }
 
@@ -2330,6 +2323,24 @@ export enum KnownGeoDRRoleType {
  * **Secondary**
  */
 export type GeoDRRoleType = string;
+
+/** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+export enum KnownIpAddressType {
+  /** The namespace supports IPv4 addresses only. */
+  IPv4 = "IPv4",
+  /** The namespace supports both IPv4 and IPv6 addresses (dual stack). */
+  DualStack = "DualStack",
+}
+
+/**
+ * The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). \
+ * {@link KnownIpAddressType} can be used interchangeably with IpAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: The namespace supports IPv4 addresses only. \
+ * **DualStack**: The namespace supports both IPv4 and IPv6 addresses (dual stack).
+ */
+export type IpAddressType = string;
 
 /** SKU of the namespace. */
 export interface SBSku {
@@ -3202,8 +3213,12 @@ export function sbSubscriptionArrayDeserializer(result: Array<SBSubscription>): 
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2025-05-01-preview API version. */
+  V20250501Preview = "2025-05-01-preview",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-07-01-preview API version. */
+  V20260701Preview = "2026-07-01-preview",
 }
 
 export function _sbAuthorizationRulePropertiesSerializer(item: SBAuthorizationRule): any {
@@ -3448,7 +3463,7 @@ export function _sbNamespacePropertiesSerializer(item: SBNamespace): any {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -3478,7 +3493,7 @@ export function _sbNamespacePropertiesDeserializer(item: any) {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
