@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { OptionalPropertiesCertificatePolicyConfiguration } from "./typeSpec/models.js";
+import { optionalPropertiesCertificatePolicyConfigurationSerializer } from "./typeSpec/models.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1378,7 +1381,7 @@ export interface Namespace extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: NamespaceProperties;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
 }
 
 export function namespaceSerializer(item: Namespace): any {
@@ -1390,7 +1393,7 @@ export function namespaceSerializer(item: Namespace): any {
       : namespacePropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -1411,7 +1414,7 @@ export function namespaceDeserializer(item: any): Namespace {
       : namespacePropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentityDeserializer(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -1421,6 +1424,12 @@ export interface NamespaceProperties {
   readonly uuid?: string;
   /** Assigned and unassigned messaging endpoints. */
   messaging?: Messaging;
+  /** Assigned and unassigned management endpoints. */
+  management?: Management;
+  /** The provisioning endpoints associated with this namespace. */
+  provisioning?: NamespaceProvisioning;
+  /** The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default. */
+  outboundIdentity?: OutboundIdentity;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -1428,6 +1437,13 @@ export interface NamespaceProperties {
 export function namespacePropertiesSerializer(item: NamespaceProperties): any {
   return {
     messaging: !item["messaging"] ? item["messaging"] : messagingSerializer(item["messaging"]),
+    management: !item["management"] ? item["management"] : managementSerializer(item["management"]),
+    provisioning: !item["provisioning"]
+      ? item["provisioning"]
+      : namespaceProvisioningSerializer(item["provisioning"]),
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentitySerializer(item["outboundIdentity"]),
   };
 }
 
@@ -1435,6 +1451,15 @@ export function namespacePropertiesDeserializer(item: any): NamespaceProperties 
   return {
     uuid: item["uuid"],
     messaging: !item["messaging"] ? item["messaging"] : messagingDeserializer(item["messaging"]),
+    management: !item["management"]
+      ? item["management"]
+      : managementDeserializer(item["management"]),
+    provisioning: !item["provisioning"]
+      ? item["provisioning"]
+      : namespaceProvisioningDeserializer(item["provisioning"]),
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentityDeserializer(item["outboundIdentity"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1486,9 +1511,19 @@ export interface MessagingEndpoint {
   /** Type of connection used for messaging endpoint. */
   endpointType?: string;
   /** The endpoint address to connect to. */
-  address: string;
+  address?: string;
   /** The messaging endpoint Azure resource Id. */
   resourceId?: string;
+  /** The endpoint address used by devices. */
+  readonly deviceAddress?: string;
+  /** The identity the linked resource uses to call the ADR namespace. */
+  inboundCallerIdentity?: InboundCallerIdentity;
+  /** The linking state of this messaging endpoint. */
+  readonly linkingState?: NamespaceLinkingStateValue;
+  /** The error detail surfaced when this messaging endpoint is in the Failed linking state. */
+  readonly linkingError?: NamespaceLinkingError;
+  /** The provisioning configuration for this messaging endpoint. */
+  provisioning?: MessagingEndpointProvisioning;
 }
 
 export function messagingEndpointSerializer(item: MessagingEndpoint): any {
@@ -1496,6 +1531,12 @@ export function messagingEndpointSerializer(item: MessagingEndpoint): any {
     endpointType: item["endpointType"],
     address: item["address"],
     resourceId: item["resourceId"],
+    inboundCallerIdentity: !item["inboundCallerIdentity"]
+      ? item["inboundCallerIdentity"]
+      : inboundCallerIdentitySerializer(item["inboundCallerIdentity"]),
+    provisioning: !item["provisioning"]
+      ? item["provisioning"]
+      : messagingEndpointProvisioningSerializer(item["provisioning"]),
   };
 }
 
@@ -1504,55 +1545,411 @@ export function messagingEndpointDeserializer(item: any): MessagingEndpoint {
     endpointType: item["endpointType"],
     address: item["address"],
     resourceId: item["resourceId"],
+    deviceAddress: item["deviceAddress"],
+    inboundCallerIdentity: !item["inboundCallerIdentity"]
+      ? item["inboundCallerIdentity"]
+      : inboundCallerIdentityDeserializer(item["inboundCallerIdentity"]),
+    linkingState: item["linkingState"],
+    linkingError: !item["linkingError"]
+      ? item["linkingError"]
+      : namespaceLinkingErrorDeserializer(item["linkingError"]),
+    provisioning: !item["provisioning"]
+      ? item["provisioning"]
+      : messagingEndpointProvisioningDeserializer(item["provisioning"]),
   };
 }
 
-/** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+/** The identity a linked resource uses for inbound calls to the ADR namespace. */
+export interface InboundCallerIdentity {
+  /** The identity type. */
+  type: InboundCallerIdentityType;
+  /** The resource ID of the user-assigned managed identity. Required when type is UserAssigned. */
+  userAssignedIdentity?: string;
+}
+
+export function inboundCallerIdentitySerializer(item: InboundCallerIdentity): any {
+  return { type: item["type"], userAssignedIdentity: item["userAssignedIdentity"] };
+}
+
+export function inboundCallerIdentityDeserializer(item: any): InboundCallerIdentity {
+  return {
+    type: item["type"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+/** The type of identity used for inbound calls to the ADR namespace. */
+export enum KnownInboundCallerIdentityType {
+  /** System-assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User-assigned managed identity. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * The type of identity used for inbound calls to the ADR namespace. \
+ * {@link KnownInboundCallerIdentityType} can be used interchangeably with InboundCallerIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: System-assigned managed identity. \
+ * **UserAssigned**: User-assigned managed identity.
+ */
+export type InboundCallerIdentityType = string;
+
+/** The linking state values for namespace endpoint entries. */
+export enum KnownNamespaceLinkingStateValue {
+  /** Linking is in progress. */
+  InProgress = "InProgress",
+  /** Linking succeeded. */
+  Succeeded = "Succeeded",
+  /** Linking failed. */
+  Failed = "Failed",
+}
+
+/**
+ * The linking state values for namespace endpoint entries. \
+ * {@link KnownNamespaceLinkingStateValue} can be used interchangeably with NamespaceLinkingStateValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: Linking is in progress. \
+ * **Succeeded**: Linking succeeded. \
+ * **Failed**: Linking failed.
+ */
+export type NamespaceLinkingStateValue = string;
+
+/** Error detail for an endpoint whose linking state is Failed. Present only while the linking state is Failed and removed when the endpoint recovers. */
+export interface NamespaceLinkingError {
+  /** Error code that classifies the linking failure. */
+  readonly code?: string;
+  /** Human-readable message describing the linking failure. */
+  readonly message?: string;
+}
+
+export function namespaceLinkingErrorDeserializer(item: any): NamespaceLinkingError {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** The provisioning configuration for a messaging endpoint. */
+export interface MessagingEndpointProvisioning {
+  /** The availability status of the messaging endpoint. */
+  availability?: MessagingEndpointAvailability;
+  /** The allocation weight for this messaging endpoint. */
+  allocationWeight?: number;
+}
+
+export function messagingEndpointProvisioningSerializer(item: MessagingEndpointProvisioning): any {
+  return { availability: item["availability"], allocationWeight: item["allocationWeight"] };
+}
+
+export function messagingEndpointProvisioningDeserializer(
+  item: any,
+): MessagingEndpointProvisioning {
+  return {
+    availability: item["availability"],
+    allocationWeight: item["allocationWeight"],
+  };
+}
+
+/** The availability status of a messaging endpoint. */
+export enum KnownMessagingEndpointAvailability {
+  /** The messaging endpoint is available. */
+  Available = "Available",
+  /** The messaging endpoint is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The availability status of a messaging endpoint. \
+ * {@link KnownMessagingEndpointAvailability} can be used interchangeably with MessagingEndpointAvailability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The messaging endpoint is available. \
+ * **Disabled**: The messaging endpoint is disabled.
+ */
+export type MessagingEndpointAvailability = string;
+
+/** The namespace management endpoints model. */
+export interface Management {
+  /** Dictionary of management endpoints. */
+  endpoints?: Record<string, ManagementEndpoint>;
+}
+
+export function managementSerializer(item: Management): any {
+  return {
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : managementEndpointRecordSerializer(item["endpoints"]),
+  };
+}
+
+export function managementDeserializer(item: any): Management {
+  return {
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : managementEndpointRecordDeserializer(item["endpoints"]),
+  };
+}
+
+export function managementEndpointRecordSerializer(
+  item: Record<string, ManagementEndpoint>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : managementEndpointSerializer(item[key]);
+  });
+  return result;
+}
+
+export function managementEndpointRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, ManagementEndpoint> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : managementEndpointDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Namespace management endpoint model used by service to connect to device. */
+export interface ManagementEndpoint {
+  /** Type of connection used for management endpoint. */
+  endpointType: string;
+  /** The endpoint address to connect to. */
+  address: string;
+  /** The scope ID for the management endpoint. */
+  scopeId: string;
+  /** The messaging endpoint Azure resource Id. */
+  resourceId: string;
+}
+
+export function managementEndpointSerializer(item: ManagementEndpoint): any {
+  return {
+    endpointType: item["endpointType"],
+    address: item["address"],
+    scopeId: item["scopeId"],
+    resourceId: item["resourceId"],
+  };
+}
+
+export function managementEndpointDeserializer(item: any): ManagementEndpoint {
+  return {
+    endpointType: item["endpointType"],
+    address: item["address"],
+    scopeId: item["scopeId"],
+    resourceId: item["resourceId"],
+  };
+}
+
+/** The provisioning endpoints associated with this namespace. */
+export interface NamespaceProvisioning {
+  /** Dictionary of provisioning endpoints. */
+  endpoints?: Record<string, ProvisioningEndpoint>;
+}
+
+export function namespaceProvisioningSerializer(item: NamespaceProvisioning): any {
+  return {
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : provisioningEndpointRecordSerializer(item["endpoints"]),
+  };
+}
+
+export function namespaceProvisioningDeserializer(item: any): NamespaceProvisioning {
+  return {
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : provisioningEndpointRecordDeserializer(item["endpoints"]),
+  };
+}
+
+export function provisioningEndpointRecordSerializer(
+  item: Record<string, ProvisioningEndpoint>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : provisioningEndpointSerializer(item[key]);
+  });
+  return result;
+}
+
+export function provisioningEndpointRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, ProvisioningEndpoint> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : provisioningEndpointDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** A provisioning service endpoint linked to this namespace. */
+export interface ProvisioningEndpoint {
+  /** Type of provisioning resource. */
+  endpointType: ProvisioningEndpointType;
+  /** The provisioning endpoint Azure resource Id. */
+  resourceId: string;
+  /** The identity the linked resource uses to call the ADR namespace. */
+  inboundCallerIdentity: InboundCallerIdentity;
+  /** The linking state of this provisioning endpoint. */
+  readonly linkingState?: NamespaceLinkingStateValue;
+  /** The error detail surfaced when this provisioning endpoint is in the Failed linking state. */
+  readonly linkingError?: NamespaceLinkingError;
+}
+
+export function provisioningEndpointSerializer(item: ProvisioningEndpoint): any {
+  return {
+    endpointType: item["endpointType"],
+    resourceId: item["resourceId"],
+    inboundCallerIdentity: inboundCallerIdentitySerializer(item["inboundCallerIdentity"]),
+  };
+}
+
+export function provisioningEndpointDeserializer(item: any): ProvisioningEndpoint {
+  return {
+    endpointType: item["endpointType"],
+    resourceId: item["resourceId"],
+    inboundCallerIdentity: inboundCallerIdentityDeserializer(item["inboundCallerIdentity"]),
+    linkingState: item["linkingState"],
+    linkingError: !item["linkingError"]
+      ? item["linkingError"]
+      : namespaceLinkingErrorDeserializer(item["linkingError"]),
+  };
+}
+
+/** The type of provisioning resource that can be linked to a namespace. */
+export enum KnownProvisioningEndpointType {
+  /** Azure Device Provisioning Service. */
+  DPS = "Microsoft.Devices/provisioningServices",
+}
+
+/**
+ * The type of provisioning resource that can be linked to a namespace. \
+ * {@link KnownProvisioningEndpointType} can be used interchangeably with ProvisioningEndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.Devices\/provisioningServices**: Azure Device Provisioning Service.
+ */
+export type ProvisioningEndpointType = string;
+
+/** The identity the ADR namespace uses for outbound calls. If this property is null and the namespace has a system-assigned identity enabled, the namespace defaults to using the system-assigned identity for outbound calls. */
+export interface OutboundIdentity {
+  /** The identity type. */
+  type: OutboundIdentityType;
+  /** The resource ID of the user-assigned managed identity. Required when type is UserAssigned. */
+  userAssignedIdentity?: string;
+}
+
+export function outboundIdentitySerializer(item: OutboundIdentity): any {
+  return { type: item["type"], userAssignedIdentity: item["userAssignedIdentity"] };
+}
+
+export function outboundIdentityDeserializer(item: any): OutboundIdentity {
+  return {
+    type: item["type"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+/** The type of identity used for outbound calls from the ADR namespace. */
+export enum KnownOutboundIdentityType {
+  /** System-assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User-assigned managed identity. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * The type of identity used for outbound calls from the ADR namespace. \
+ * {@link KnownOutboundIdentityType} can be used interchangeably with OutboundIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: System-assigned managed identity. \
+ * **UserAssigned**: User-assigned managed identity.
+ */
+export type OutboundIdentityType = string;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
   /** The type of managed identity assigned to this resource. */
-  type: SystemAssignedServiceIdentityType;
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function systemAssignedServiceIdentitySerializer(item: SystemAssignedServiceIdentity): any {
-  return { type: item["type"] };
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function systemAssignedServiceIdentityDeserializer(
-  item: any,
-): SystemAssignedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
-/** Type of managed service identity (either system assigned, or none). */
-export enum KnownSystemAssignedServiceIdentityType {
-  /** No managed system identity. */
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
   None = "None",
-  /** System assigned managed system identity. */
+  /** System assigned managed identity. */
   SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * Type of managed service identity (either system assigned, or none). \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: No managed system identity. \
- * **SystemAssigned**: System assigned managed system identity.
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
-export type SystemAssignedServiceIdentityType = string;
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
 
 /** The type used for update operations of the Namespace. */
 export interface NamespaceUpdate {
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
@@ -1563,7 +1960,7 @@ export function namespaceUpdateSerializer(item: NamespaceUpdate): any {
   return {
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -1575,11 +1972,24 @@ export function namespaceUpdateSerializer(item: NamespaceUpdate): any {
 export interface NamespaceUpdateProperties {
   /** Assigned and unassigned messaging endpoints. */
   messaging?: Messaging;
+  /** Assigned and unassigned management endpoints. */
+  management?: Management;
+  /** The provisioning endpoints associated with this namespace. */
+  provisioning?: NamespaceProvisioning;
+  /** The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default. */
+  outboundIdentity?: OutboundIdentity;
 }
 
 export function namespaceUpdatePropertiesSerializer(item: NamespaceUpdateProperties): any {
   return {
     messaging: !item["messaging"] ? item["messaging"] : messagingSerializer(item["messaging"]),
+    management: !item["management"] ? item["management"] : managementSerializer(item["management"]),
+    provisioning: !item["provisioning"]
+      ? item["provisioning"]
+      : namespaceProvisioningSerializer(item["provisioning"]),
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentitySerializer(item["outboundIdentity"]),
   };
 }
 
@@ -1669,424 +2079,6 @@ export function errorDetailsDeserializer(item: any): ErrorDetails {
     info: item["info"],
     correlationId: item["correlationId"],
   };
-}
-
-/** A Credential Resource */
-export interface Credential extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: CredentialProperties;
-}
-
-export function credentialSerializer(item: Credential): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : credentialPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function credentialDeserializer(item: any): Credential {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : credentialPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the Credential Resource. */
-export interface CredentialProperties {
-  /** The status of the last operation. */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function credentialPropertiesSerializer(_item: CredentialProperties): any {
-  return {};
-}
-
-export function credentialPropertiesDeserializer(item: any): CredentialProperties {
-  return {
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** The type used for update operations of the Credential. */
-export interface CredentialUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function credentialUpdateSerializer(item: CredentialUpdate): any {
-  return { tags: item["tags"] };
-}
-
-/** The response of a Credential list operation. */
-export interface _CredentialListResult {
-  /** The Credential items on this page */
-  value: Credential[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _credentialListResultDeserializer(item: any): _CredentialListResult {
-  return {
-    value: credentialArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function credentialArraySerializer(result: Array<Credential>): any[] {
-  return result.map((item) => {
-    return credentialSerializer(item);
-  });
-}
-
-export function credentialArrayDeserializer(result: Array<Credential>): any[] {
-  return result.map((item) => {
-    return credentialDeserializer(item);
-  });
-}
-
-/** A Credential Policy */
-export interface Policy extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PolicyProperties;
-}
-
-export function policySerializer(item: Policy): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : policyPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function policyDeserializer(item: any): Policy {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : policyPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the Credential Policy. */
-export interface PolicyProperties {
-  /** The status of the last operation. */
-  readonly provisioningState?: ProvisioningState;
-  /** The certificate configuration. */
-  certificate?: CertificateConfiguration;
-}
-
-export function policyPropertiesSerializer(item: PolicyProperties): any {
-  return {
-    certificate: !item["certificate"]
-      ? item["certificate"]
-      : certificateConfigurationSerializer(item["certificate"]),
-  };
-}
-
-export function policyPropertiesDeserializer(item: any): PolicyProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    certificate: !item["certificate"]
-      ? item["certificate"]
-      : certificateConfigurationDeserializer(item["certificate"]),
-  };
-}
-
-/** The certificate configuration. */
-export interface CertificateConfiguration {
-  /** The configuration to set up an ICA. */
-  certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
-  /** The leaf certificate configuration. */
-  leafCertificateConfiguration: LeafCertificateConfiguration;
-}
-
-export function certificateConfigurationSerializer(item: CertificateConfiguration): any {
-  return {
-    certificateAuthorityConfiguration: certificateAuthorityConfigurationSerializer(
-      item["certificateAuthorityConfiguration"],
-    ),
-    leafCertificateConfiguration: leafCertificateConfigurationSerializer(
-      item["leafCertificateConfiguration"],
-    ),
-  };
-}
-
-export function certificateConfigurationDeserializer(item: any): CertificateConfiguration {
-  return {
-    certificateAuthorityConfiguration: certificateAuthorityConfigurationDeserializer(
-      item["certificateAuthorityConfiguration"],
-    ),
-    leafCertificateConfiguration: leafCertificateConfigurationDeserializer(
-      item["leafCertificateConfiguration"],
-    ),
-  };
-}
-
-/** The configuration to set up an ICA. */
-export interface CertificateAuthorityConfiguration {
-  /** Crypto type: ECC. */
-  keyType: SupportedKeyType;
-  /** Certificate subject. */
-  readonly subject?: string;
-  /** Certificate is valid not before this date. Format ISO8601. Generated based on on validity period. */
-  readonly validityNotBefore?: Date;
-  /** Certificate is valid not after this date. Format ISO8601. Generated based on validity period. */
-  readonly validityNotAfter?: Date;
-  /** Configuration for Bring Your Own Root. */
-  bringYourOwnRoot?: BringYourOwnRoot;
-}
-
-export function certificateAuthorityConfigurationSerializer(
-  item: CertificateAuthorityConfiguration,
-): any {
-  return {
-    keyType: item["keyType"],
-    bringYourOwnRoot: !item["bringYourOwnRoot"]
-      ? item["bringYourOwnRoot"]
-      : bringYourOwnRootSerializer(item["bringYourOwnRoot"]),
-  };
-}
-
-export function certificateAuthorityConfigurationDeserializer(
-  item: any,
-): CertificateAuthorityConfiguration {
-  return {
-    keyType: item["keyType"],
-    subject: item["subject"],
-    validityNotBefore: !item["validityNotBefore"]
-      ? item["validityNotBefore"]
-      : new Date(item["validityNotBefore"]),
-    validityNotAfter: !item["validityNotAfter"]
-      ? item["validityNotAfter"]
-      : new Date(item["validityNotAfter"]),
-    bringYourOwnRoot: !item["bringYourOwnRoot"]
-      ? item["bringYourOwnRoot"]
-      : bringYourOwnRootDeserializer(item["bringYourOwnRoot"]),
-  };
-}
-
-/** Supported key types. */
-export enum KnownSupportedKeyType {
-  /** Indicates the ECC key type. */
-  ECC = "ECC",
-}
-
-/**
- * Supported key types. \
- * {@link KnownSupportedKeyType} can be used interchangeably with SupportedKeyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ECC**: Indicates the ECC key type.
- */
-export type SupportedKeyType = string;
-
-/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
-export interface BringYourOwnRoot {
-  /** Indicates whether Bring Your Own Root is enabled. This can only be set at creation time and cannot be changed afterward. */
-  enabled: boolean;
-  /** Certificate Signing Request (CSR) in PEM format, generated by the service. Sign this CSR with your Certificate Authority and activate via the activateBringYourOwnRoot action. A new CSR is generated at policy creation and when certificates near expiration. */
-  readonly certificateSigningRequest?: string;
-  /** Thumbprint of the issuing certificate. */
-  readonly issuingCertificateThumbprint?: string;
-  /** The status of the Bring Your Own Root configuration, indicating the current state of the certificate lifecycle. */
-  readonly status?: BringYourOwnRootStatus;
-}
-
-export function bringYourOwnRootSerializer(item: BringYourOwnRoot): any {
-  return { enabled: item["enabled"] };
-}
-
-export function bringYourOwnRootDeserializer(item: any): BringYourOwnRoot {
-  return {
-    enabled: item["enabled"],
-    certificateSigningRequest: item["certificateSigningRequest"],
-    issuingCertificateThumbprint: item["issuingCertificateThumbprint"],
-    status: item["status"],
-  };
-}
-
-/** Status of the Bring Your Own Root configuration. */
-export enum KnownBringYourOwnRootStatus {
-  /** The CSR has been generated and is waiting for the customer to provide the signed certificate. */
-  PendingActivation = "PendingActivation",
-  /** The signed certificate has been successfully uploaded and validated, and the CA is active. */
-  Active = "Active",
-  /** The certificate is nearing expiration (within renewal window) or has expired. A new CSR has been generated and is waiting for the customer to provide a new signed certificate. */
-  ActiveButPendingRenewal = "ActiveButPendingRenewal",
-}
-
-/**
- * Status of the Bring Your Own Root configuration. \
- * {@link KnownBringYourOwnRootStatus} can be used interchangeably with BringYourOwnRootStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PendingActivation**: The CSR has been generated and is waiting for the customer to provide the signed certificate. \
- * **Active**: The signed certificate has been successfully uploaded and validated, and the CA is active. \
- * **ActiveButPendingRenewal**: The certificate is nearing expiration (within renewal window) or has expired. A new CSR has been generated and is waiting for the customer to provide a new signed certificate.
- */
-export type BringYourOwnRootStatus = string;
-
-/** The leaf certificate configuration. */
-export interface LeafCertificateConfiguration {
-  /** The validity period in days. */
-  validityPeriodInDays: number;
-}
-
-export function leafCertificateConfigurationSerializer(item: LeafCertificateConfiguration): any {
-  return { validityPeriodInDays: item["validityPeriodInDays"] };
-}
-
-export function leafCertificateConfigurationDeserializer(item: any): LeafCertificateConfiguration {
-  return {
-    validityPeriodInDays: item["validityPeriodInDays"],
-  };
-}
-
-/** A Credential Policy */
-export interface PolicyUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: PolicyUpdateProperties;
-}
-
-export function policyUpdateSerializer(item: PolicyUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : policyUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Details of the Credential Policy. */
-export interface PolicyUpdateProperties {
-  /** The certificate configuration. */
-  certificate?: CertificateConfigurationUpdate;
-}
-
-export function policyUpdatePropertiesSerializer(item: PolicyUpdateProperties): any {
-  return {
-    certificate: !item["certificate"]
-      ? item["certificate"]
-      : certificateConfigurationUpdateSerializer(item["certificate"]),
-  };
-}
-
-/** The updatable certificate configuration for Policy. */
-export interface CertificateConfigurationUpdate {
-  /** The configuration to set up an ICA. */
-  certificateAuthorityConfiguration?: CertificateAuthorityConfigurationUpdate;
-  /** The leaf certificate configuration. */
-  leafCertificateConfiguration: LeafCertificateConfigurationUpdate;
-}
-
-export function certificateConfigurationUpdateSerializer(
-  item: CertificateConfigurationUpdate,
-): any {
-  return {
-    certificateAuthorityConfiguration: !item["certificateAuthorityConfiguration"]
-      ? item["certificateAuthorityConfiguration"]
-      : certificateAuthorityConfigurationUpdateSerializer(
-          item["certificateAuthorityConfiguration"],
-        ),
-    leafCertificateConfiguration: leafCertificateConfigurationUpdateSerializer(
-      item["leafCertificateConfiguration"],
-    ),
-  };
-}
-
-/** The configuration to set up an ICA. */
-export interface CertificateAuthorityConfigurationUpdate {
-  /** Configuration for Bring Your Own Root. */
-  bringYourOwnRoot?: BringYourOwnRootUpdate;
-}
-
-export function certificateAuthorityConfigurationUpdateSerializer(
-  item: CertificateAuthorityConfigurationUpdate,
-): any {
-  return {
-    bringYourOwnRoot: !item["bringYourOwnRoot"]
-      ? item["bringYourOwnRoot"]
-      : bringYourOwnRootUpdateSerializer(item["bringYourOwnRoot"]),
-  };
-}
-
-/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
-export interface BringYourOwnRootUpdate {}
-
-export function bringYourOwnRootUpdateSerializer(_item: BringYourOwnRootUpdate): any {
-  return {};
-}
-
-/** The updatable leaf certificate configuration for Policy. */
-export interface LeafCertificateConfigurationUpdate {
-  /** The validity period in days. */
-  validityPeriodInDays: number;
-}
-
-export function leafCertificateConfigurationUpdateSerializer(
-  item: LeafCertificateConfigurationUpdate,
-): any {
-  return { validityPeriodInDays: item["validityPeriodInDays"] };
-}
-
-/** The response of a Policy list operation. */
-export interface _PolicyListResult {
-  /** The Policy items on this page */
-  value: Policy[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _policyListResultDeserializer(item: any): _PolicyListResult {
-  return {
-    value: policyArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function policyArraySerializer(result: Array<Policy>): any[] {
-  return result.map((item) => {
-    return policySerializer(item);
-  });
-}
-
-export function policyArrayDeserializer(result: Array<Policy>): any[] {
-  return result.map((item) => {
-    return policyDeserializer(item);
-  });
-}
-
-/** Request payload for activating a Bring Your Own Root policy with a customer-provided signed certificate. */
-export interface ActivateBringYourOwnRootRequest {
-  /** Certificate chain in PEM format, including the signed certificate. The first certificate must be the signed certificate (matching the CSR generated by the service), followed by any intermediate CAs, and optionally the root CA. Certificates must be ordered from leaf to root and concatenated in PEM format. */
-  certificateChain: string;
-}
-
-export function activateBringYourOwnRootRequestSerializer(
-  item: ActivateBringYourOwnRootRequest,
-): any {
-  return { certificateChain: item["certificateChain"] };
 }
 
 /** Asset definition. */
@@ -3224,6 +3216,8 @@ export interface NamespaceAssetStatus {
   readonly streams?: NamespaceAssetStatusStream[];
   /** Array of management group statuses that describe the status of each management group. */
   readonly managementGroups?: NamespaceAssetStatusManagementGroup[];
+  /** The details about the runtime health state of the asset. */
+  readonly healthState?: HealthState;
 }
 
 export function namespaceAssetStatusDeserializer(item: any): NamespaceAssetStatus {
@@ -3241,6 +3235,9 @@ export function namespaceAssetStatusDeserializer(item: any): NamespaceAssetStatu
     managementGroups: !item["managementGroups"]
       ? item["managementGroups"]
       : namespaceAssetStatusManagementGroupArrayDeserializer(item["managementGroups"]),
+    healthState: !item["healthState"]
+      ? item["healthState"]
+      : healthStateDeserializer(item["healthState"]),
   };
 }
 
@@ -3475,6 +3472,54 @@ export function namespaceAssetStatusManagementActionDeserializer(
   };
 }
 
+/** Represents the health state of a resource. */
+export interface HealthState {
+  /** The high-level health status of the resource. */
+  readonly status?: HealthStatus;
+  /** The timestamp (RFC3339) when the health status last changed. */
+  readonly lastTransitionTime?: string;
+  /** The timestamp (RFC3339) when the health status was last updated, even if the status did not change. */
+  readonly lastUpdateTime?: string;
+  /** A human-readable message describing the last transition. */
+  readonly message?: string;
+  /** Unique, CamelCase reason code describing the cause of the last health state transition. */
+  readonly reasonCode?: string;
+}
+
+export function healthStateDeserializer(item: any): HealthState {
+  return {
+    status: item["status"],
+    lastTransitionTime: item["lastTransitionTime"],
+    lastUpdateTime: item["lastUpdateTime"],
+    message: item["message"],
+    reasonCode: item["reasonCode"],
+  };
+}
+
+/** Defines the health state of the resource. */
+export enum KnownHealthStatus {
+  /** Resource state is unknown. */
+  Unknown = "Unknown",
+  /** Resource is Available and functioning as expected. */
+  Available = "Available",
+  /** Resource health is degraded. */
+  Degraded = "Degraded",
+  /** Resource is not functioning as expected. */
+  Unavailable = "Unavailable",
+}
+
+/**
+ * Defines the health state of the resource. \
+ * {@link KnownHealthStatus} can be used interchangeably with HealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Resource state is unknown. \
+ * **Available**: Resource is Available and functioning as expected. \
+ * **Degraded**: Resource health is degraded. \
+ * **Unavailable**: Resource is not functioning as expected.
+ */
+export type HealthStatus = string;
+
 /** The type used for update operations of the NamespaceAsset. */
 export interface NamespaceAssetUpdate {
   /** Resource tags. */
@@ -3618,6 +3663,26 @@ export function namespaceAssetArrayDeserializer(result: Array<NamespaceAsset>): 
   });
 }
 
+/** The request body for the executeAction operation on NamespaceAsset. */
+export interface NamespaceAssetExecuteActionRequest {
+  /** Name of the management action to be executed. */
+  managementActionName: string;
+  /** Name of the management group under which the action is to be executed. */
+  managementGroupName: string;
+  /** Payload required for executing the management action. */
+  payload?: Record<string, any>;
+}
+
+export function namespaceAssetExecuteActionRequestSerializer(
+  item: NamespaceAssetExecuteActionRequest,
+): any {
+  return {
+    managementActionName: item["managementActionName"],
+    managementGroupName: item["managementGroupName"],
+    payload: item["payload"],
+  };
+}
+
 /** Device definition. */
 export interface NamespaceDevice extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -3693,8 +3758,6 @@ export interface NamespaceDeviceProperties {
   readonly lastTransitionTime?: Date;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Policy used to issue device certificates. */
-  policy?: DeviceCredentialPolicy;
 }
 
 export function namespaceDevicePropertiesSerializer(item: NamespaceDeviceProperties): any {
@@ -3710,7 +3773,6 @@ export function namespaceDevicePropertiesSerializer(item: NamespaceDevicePropert
       ? item["endpoints"]
       : messagingEndpointsSerializer(item["endpoints"]),
     attributes: item["attributes"],
-    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicySerializer(item["policy"]),
   };
 }
 
@@ -3738,7 +3800,6 @@ export function namespaceDevicePropertiesDeserializer(item: any): NamespaceDevic
       ? item["lastTransitionTime"]
       : new Date(item["lastTransitionTime"]),
     provisioningState: item["provisioningState"],
-    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicyDeserializer(item["policy"]),
   };
 }
 
@@ -4020,27 +4081,16 @@ export function deviceStatusEndpointRecordDeserializer(
 export interface DeviceStatusEndpoint {
   /** Defines the error related to this endpoint. */
   readonly error?: StatusError;
+  /** Health state of the endpoint. */
+  readonly healthState?: HealthState;
 }
 
 export function deviceStatusEndpointDeserializer(item: any): DeviceStatusEndpoint {
   return {
     error: !item["error"] ? item["error"] : statusErrorDeserializer(item["error"]),
-  };
-}
-
-/** Defines the Policy used to issue device certificates if any. */
-export interface DeviceCredentialPolicy {
-  /** Resource Id of the Policy. */
-  resourceId?: string;
-}
-
-export function deviceCredentialPolicySerializer(item: DeviceCredentialPolicy): any {
-  return { resourceId: item["resourceId"] };
-}
-
-export function deviceCredentialPolicyDeserializer(item: any): DeviceCredentialPolicy {
-  return {
-    resourceId: item["resourceId"],
+    healthState: !item["healthState"]
+      ? item["healthState"]
+      : healthStateDeserializer(item["healthState"]),
   };
 }
 
@@ -4069,8 +4119,6 @@ export interface NamespaceDeviceUpdateProperties {
   endpoints?: MessagingEndpoints;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
   attributes?: Record<string, any>;
-  /** Policy used to issue device certificates. */
-  policy?: DeviceCredentialPolicy;
   /** Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID. */
   enabled?: boolean;
 }
@@ -4084,7 +4132,6 @@ export function namespaceDeviceUpdatePropertiesSerializer(
       ? item["endpoints"]
       : messagingEndpointsSerializer(item["endpoints"]),
     attributes: item["attributes"],
-    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicySerializer(item["policy"]),
     enabled: item["enabled"],
   };
 }
@@ -4114,18 +4161,6 @@ export function namespaceDeviceArrayDeserializer(result: Array<NamespaceDevice>)
   return result.map((item) => {
     return namespaceDeviceDeserializer(item);
   });
-}
-
-/** Request payload for revoking device credentials. */
-export interface DeviceCredentialsRevokeRequest {
-  /** Indicates whether to disable the device(s) after revoking credentials. Prevents new credentials to be issued. */
-  disable?: boolean;
-}
-
-export function deviceCredentialsRevokeRequestSerializer(
-  item: DeviceCredentialsRevokeRequest,
-): any {
-  return { disable: item["disable"] };
 }
 
 /** Discovered asset definition. */
@@ -5264,7 +5299,7 @@ export interface SchemaRegistry extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: SchemaRegistryProperties;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
 }
 
 export function schemaRegistrySerializer(item: SchemaRegistry): any {
@@ -5276,7 +5311,7 @@ export function schemaRegistrySerializer(item: SchemaRegistry): any {
       : schemaRegistryPropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -5297,7 +5332,7 @@ export function schemaRegistryDeserializer(item: any): SchemaRegistry {
       : schemaRegistryPropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentityDeserializer(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -5313,6 +5348,8 @@ export interface SchemaRegistryProperties {
   description?: string;
   /** The Storage Account's Container URL where schemas will be stored. */
   storageAccountContainerUrl: string;
+  /** The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default. */
+  outboundIdentity?: OutboundIdentity;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -5323,6 +5360,9 @@ export function schemaRegistryPropertiesSerializer(item: SchemaRegistryPropertie
     displayName: item["displayName"],
     description: item["description"],
     storageAccountContainerUrl: item["storageAccountContainerUrl"],
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentitySerializer(item["outboundIdentity"]),
   };
 }
 
@@ -5333,6 +5373,9 @@ export function schemaRegistryPropertiesDeserializer(item: any): SchemaRegistryP
     displayName: item["displayName"],
     description: item["description"],
     storageAccountContainerUrl: item["storageAccountContainerUrl"],
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentityDeserializer(item["outboundIdentity"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -5340,7 +5383,7 @@ export function schemaRegistryPropertiesDeserializer(item: any): SchemaRegistryP
 /** The type used for update operations of the SchemaRegistry. */
 export interface SchemaRegistryUpdate {
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
@@ -5351,7 +5394,7 @@ export function schemaRegistryUpdateSerializer(item: SchemaRegistryUpdate): any 
   return {
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -5365,12 +5408,20 @@ export interface SchemaRegistryUpdateProperties {
   displayName?: string;
   /** Human-readable description of the schema registry. */
   description?: string;
+  /** The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default. */
+  outboundIdentity?: OutboundIdentity;
 }
 
 export function schemaRegistryUpdatePropertiesSerializer(
   item: SchemaRegistryUpdateProperties,
 ): any {
-  return { displayName: item["displayName"], description: item["description"] };
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    outboundIdentity: !item["outboundIdentity"]
+      ? item["outboundIdentity"]
+      : outboundIdentitySerializer(item["outboundIdentity"]),
+  };
 }
 
 /** The response of a SchemaRegistry list operation. */
@@ -5476,6 +5527,8 @@ export enum KnownFormat {
   JsonSchemaDraft7 = "JsonSchema/draft-07",
   /** Delta format */
   Delta10 = "Delta/1.0",
+  /** W3C Web of Things JSON-LD format */
+  JsonLD11 = "JsonLD/1.1",
 }
 
 /**
@@ -5484,7 +5537,8 @@ export enum KnownFormat {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **JsonSchema\/draft-07**: JSON Schema version draft 7 format \
- * **Delta\/1.0**: Delta format
+ * **Delta\/1.0**: Delta format \
+ * **JsonLD\/1.1**: W3C Web of Things JSON-LD format
  */
 export type Format = string;
 
@@ -5492,6 +5546,10 @@ export type Format = string;
 export enum KnownSchemaType {
   /** Message Schema schema type */
   MessageSchema = "MessageSchema",
+  /** W3C Web of Things Thing Model document */
+  ThingModel = "ThingModel",
+  /** W3C Web of Things Thing Description document */
+  ThingDescription = "ThingDescription",
 }
 
 /**
@@ -5499,7 +5557,9 @@ export enum KnownSchemaType {
  * {@link KnownSchemaType} can be used interchangeably with SchemaType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **MessageSchema**: Message Schema schema type
+ * **MessageSchema**: Message Schema schema type \
+ * **ThingModel**: W3C Web of Things Thing Model document \
+ * **ThingDescription**: W3C Web of Things Thing Description document
  */
 export type SchemaType = string;
 
@@ -5613,20 +5673,752 @@ export function schemaVersionArrayDeserializer(result: Array<SchemaVersion>): an
   });
 }
 
+/** A Certificate Authority resource. */
+export interface CertificateAuthority extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CertificateAuthorityPropertiesUnion;
+}
+
+export function certificateAuthoritySerializer(item: CertificateAuthority): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : certificateAuthorityPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function certificateAuthorityDeserializer(item: any): CertificateAuthority {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : certificateAuthorityPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Certificate Authority resource. */
+export interface CertificateAuthorityProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+  /** Globally unique, immutable, non-reusable identifier of the Certificate Authority resource. */
+  readonly uuid?: string;
+  /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+  /** The discriminator possible values: Root, ICA */
+  certificateAuthorityType: CertificateAuthorityType;
+  /** Crypto type: ECC. */
+  keyType: CertificateAuthorityKeyType;
+  /** Certificate subject. */
+  readonly subject?: string;
+  /** Certificate is valid not before this date. Format ISO8601. */
+  readonly validityNotBefore?: Date;
+  /** Certificate is valid not after this date. Format ISO8601. */
+  readonly validityNotAfter?: Date;
+}
+
+export function certificateAuthorityPropertiesSerializer(
+  item: CertificateAuthorityProperties,
+): any {
+  return { certificateAuthorityType: item["certificateAuthorityType"], keyType: item["keyType"] };
+}
+
+export function certificateAuthorityPropertiesDeserializer(
+  item: any,
+): CertificateAuthorityProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    uuid: item["uuid"],
+    certificateAuthorityType: item["certificateAuthorityType"],
+    keyType: item["keyType"],
+    subject: item["subject"],
+    validityNotBefore: !item["validityNotBefore"]
+      ? item["validityNotBefore"]
+      : new Date(item["validityNotBefore"]),
+    validityNotAfter: !item["validityNotAfter"]
+      ? item["validityNotAfter"]
+      : new Date(item["validityNotAfter"]),
+  };
+}
+
+/** Alias for CertificateAuthorityPropertiesUnion */
+export type CertificateAuthorityPropertiesUnion =
+  | RootCertificateAuthorityProperties
+  | IntermediateCertificateAuthorityProperties
+  | CertificateAuthorityProperties;
+
+export function certificateAuthorityPropertiesUnionSerializer(
+  item: CertificateAuthorityPropertiesUnion,
+): any {
+  switch (item.certificateAuthorityType) {
+    case "Root":
+      return rootCertificateAuthorityPropertiesSerializer(
+        item as RootCertificateAuthorityProperties,
+      );
+
+    case "ICA":
+      return intermediateCertificateAuthorityPropertiesSerializer(
+        item as IntermediateCertificateAuthorityProperties,
+      );
+
+    default:
+      return certificateAuthorityPropertiesSerializer(item);
+  }
+}
+
+export function certificateAuthorityPropertiesUnionDeserializer(
+  item: any,
+): CertificateAuthorityPropertiesUnion {
+  switch (item["certificateAuthorityType"]) {
+    case "Root":
+      return rootCertificateAuthorityPropertiesDeserializer(
+        item as RootCertificateAuthorityProperties,
+      );
+
+    case "ICA":
+      return intermediateCertificateAuthorityPropertiesDeserializer(
+        item as IntermediateCertificateAuthorityProperties,
+      );
+
+    default:
+      return certificateAuthorityPropertiesDeserializer(item);
+  }
+}
+
+/** Supported Certificate Authority types. */
+export enum KnownCertificateAuthorityType {
+  /** Self-signed, service-managed root Certificate Authority. */
+  Root = "Root",
+  /** Intermediate Certificate Authority signed by another Certificate Authority. */
+  ICA = "ICA",
+}
+
+/**
+ * Supported Certificate Authority types. \
+ * {@link KnownCertificateAuthorityType} can be used interchangeably with CertificateAuthorityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Root**: Self-signed, service-managed root Certificate Authority. \
+ * **ICA**: Intermediate Certificate Authority signed by another Certificate Authority.
+ */
+export type CertificateAuthorityType = string;
+
+/** Supported Certificate Authority key types. */
+export enum KnownCertificateAuthorityKeyType {
+  /** Indicate the ECC key type. */
+  ECC = "ECC",
+}
+
+/**
+ * Supported Certificate Authority key types. \
+ * {@link KnownCertificateAuthorityKeyType} can be used interchangeably with CertificateAuthorityKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ECC**: Indicate the ECC key type.
+ */
+export type CertificateAuthorityKeyType = string;
+
+/** Properties for a self-signed, service-managed root Certificate Authority. */
+export interface RootCertificateAuthorityProperties extends CertificateAuthorityProperties {
+  /** The self-signed, service-managed root Certificate Authority type. */
+  certificateAuthorityType: "Root";
+}
+
+export function rootCertificateAuthorityPropertiesSerializer(
+  item: RootCertificateAuthorityProperties,
+): any {
+  return { certificateAuthorityType: item["certificateAuthorityType"], keyType: item["keyType"] };
+}
+
+export function rootCertificateAuthorityPropertiesDeserializer(
+  item: any,
+): RootCertificateAuthorityProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    uuid: item["uuid"],
+    certificateAuthorityType: item["certificateAuthorityType"],
+    keyType: item["keyType"],
+    subject: item["subject"],
+    validityNotBefore: !item["validityNotBefore"]
+      ? item["validityNotBefore"]
+      : new Date(item["validityNotBefore"]),
+    validityNotAfter: !item["validityNotAfter"]
+      ? item["validityNotAfter"]
+      : new Date(item["validityNotAfter"]),
+  };
+}
+
+/** Properties for an intermediate Certificate Authority signed by another same-namespace Certificate Authority. */
+export interface IntermediateCertificateAuthorityProperties extends CertificateAuthorityProperties {
+  /** The intermediate Certificate Authority type. */
+  certificateAuthorityType: "ICA";
+  /** The issuer for the intermediate Certificate Authority. */
+  issuer: CertificateAuthorityIssuerUnion;
+}
+
+export function intermediateCertificateAuthorityPropertiesSerializer(
+  item: IntermediateCertificateAuthorityProperties,
+): any {
+  return {
+    certificateAuthorityType: item["certificateAuthorityType"],
+    keyType: item["keyType"],
+    issuer: certificateAuthorityIssuerUnionSerializer(item["issuer"]),
+  };
+}
+
+export function intermediateCertificateAuthorityPropertiesDeserializer(
+  item: any,
+): IntermediateCertificateAuthorityProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    uuid: item["uuid"],
+    certificateAuthorityType: item["certificateAuthorityType"],
+    keyType: item["keyType"],
+    subject: item["subject"],
+    validityNotBefore: !item["validityNotBefore"]
+      ? item["validityNotBefore"]
+      : new Date(item["validityNotBefore"]),
+    validityNotAfter: !item["validityNotAfter"]
+      ? item["validityNotAfter"]
+      : new Date(item["validityNotAfter"]),
+    issuer: certificateAuthorityIssuerUnionDeserializer(item["issuer"]),
+  };
+}
+
+/** The issuer for an intermediate Certificate Authority. */
+export interface CertificateAuthorityIssuer {
+  /** The Certificate Authority issuer type. */
+  /** The discriminator possible values: Microsoft, External */
+  issuerType: CertificateAuthorityIssuerType;
+}
+
+export function certificateAuthorityIssuerSerializer(item: CertificateAuthorityIssuer): any {
+  return { issuerType: item["issuerType"] };
+}
+
+export function certificateAuthorityIssuerDeserializer(item: any): CertificateAuthorityIssuer {
+  return {
+    issuerType: item["issuerType"],
+  };
+}
+
+/** Alias for CertificateAuthorityIssuerUnion */
+export type CertificateAuthorityIssuerUnion =
+  | MicrosoftCertificateAuthorityIssuer
+  | ExternalCertificateAuthorityIssuer
+  | CertificateAuthorityIssuer;
+
+export function certificateAuthorityIssuerUnionSerializer(
+  item: CertificateAuthorityIssuerUnion,
+): any {
+  switch (item.issuerType) {
+    case "Microsoft":
+      return microsoftCertificateAuthorityIssuerSerializer(
+        item as MicrosoftCertificateAuthorityIssuer,
+      );
+
+    case "External":
+      return externalCertificateAuthorityIssuerSerializer(
+        item as ExternalCertificateAuthorityIssuer,
+      );
+
+    default:
+      return certificateAuthorityIssuerSerializer(item);
+  }
+}
+
+export function certificateAuthorityIssuerUnionDeserializer(
+  item: any,
+): CertificateAuthorityIssuerUnion {
+  switch (item["issuerType"]) {
+    case "Microsoft":
+      return microsoftCertificateAuthorityIssuerDeserializer(
+        item as MicrosoftCertificateAuthorityIssuer,
+      );
+
+    case "External":
+      return externalCertificateAuthorityIssuerDeserializer(
+        item as ExternalCertificateAuthorityIssuer,
+      );
+
+    default:
+      return certificateAuthorityIssuerDeserializer(item);
+  }
+}
+
+/** The issuer type for an intermediate Certificate Authority. */
+export enum KnownCertificateAuthorityIssuerType {
+  /** The intermediate Certificate Authority is issued by Microsoft. */
+  Microsoft = "Microsoft",
+  /** The intermediate Certificate Authority is issued by an external Certificate Authority. */
+  External = "External",
+}
+
+/**
+ * The issuer type for an intermediate Certificate Authority. \
+ * {@link KnownCertificateAuthorityIssuerType} can be used interchangeably with CertificateAuthorityIssuerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft**: The intermediate Certificate Authority is issued by Microsoft. \
+ * **External**: The intermediate Certificate Authority is issued by an external Certificate Authority.
+ */
+export type CertificateAuthorityIssuerType = string;
+
+/** A Microsoft issuer for an intermediate Certificate Authority. */
+export interface MicrosoftCertificateAuthorityIssuer extends CertificateAuthorityIssuer {
+  /** The Microsoft issuer type. */
+  issuerType: "Microsoft";
+  /** The resource ID of the root issuer Certificate Authority in the same namespace. */
+  certificateAuthorityResourceId: string;
+}
+
+export function microsoftCertificateAuthorityIssuerSerializer(
+  item: MicrosoftCertificateAuthorityIssuer,
+): any {
+  return {
+    issuerType: item["issuerType"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
+  };
+}
+
+export function microsoftCertificateAuthorityIssuerDeserializer(
+  item: any,
+): MicrosoftCertificateAuthorityIssuer {
+  return {
+    issuerType: item["issuerType"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
+  };
+}
+
+/** An external issuer for an intermediate Certificate Authority. */
+export interface ExternalCertificateAuthorityIssuer extends CertificateAuthorityIssuer {
+  /** The external issuer type. */
+  issuerType: "External";
+  /** Certificate Signing Request (CSR) in PEM format, generated by the service. */
+  readonly certificateSigningRequest?: string;
+  /** Thumbprint of the Certificate Authority certificate signed by the external issuer. */
+  readonly thumbprint?: string;
+  /** The status of the external issuer certificate lifecycle. */
+  readonly status?: CertificateAuthorityStatus;
+}
+
+export function externalCertificateAuthorityIssuerSerializer(
+  item: ExternalCertificateAuthorityIssuer,
+): any {
+  return { issuerType: item["issuerType"] };
+}
+
+export function externalCertificateAuthorityIssuerDeserializer(
+  item: any,
+): ExternalCertificateAuthorityIssuer {
+  return {
+    issuerType: item["issuerType"],
+    certificateSigningRequest: item["certificateSigningRequest"],
+    thumbprint: item["thumbprint"],
+    status: item["status"],
+  };
+}
+
+/** Status of the Certificate Authority certificate lifecycle. */
+export enum KnownCertificateAuthorityStatus {
+  /** The CSR has been generated and is waiting for activation. */
+  PendingActivation = "PendingActivation",
+  /** The Certificate Authority is active. */
+  Active = "Active",
+  /** The Certificate Authority is active but requires renewal. */
+  ActiveButPendingRenewal = "ActiveButPendingRenewal",
+}
+
+/**
+ * Status of the Certificate Authority certificate lifecycle. \
+ * {@link KnownCertificateAuthorityStatus} can be used interchangeably with CertificateAuthorityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingActivation**: The CSR has been generated and is waiting for activation. \
+ * **Active**: The Certificate Authority is active. \
+ * **ActiveButPendingRenewal**: The Certificate Authority is active but requires renewal.
+ */
+export type CertificateAuthorityStatus = string;
+
+/** Update model for Certificate Authority. */
+export interface CertificateAuthorityUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function certificateAuthorityUpdateSerializer(item: CertificateAuthorityUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a CertificateAuthority list operation. */
+export interface _CertificateAuthorityListResult {
+  /** The CertificateAuthority items on this page */
+  value: CertificateAuthority[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _certificateAuthorityListResultDeserializer(
+  item: any,
+): _CertificateAuthorityListResult {
+  return {
+    value: certificateAuthorityArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function certificateAuthorityArraySerializer(result: Array<CertificateAuthority>): any[] {
+  return result.map((item) => {
+    return certificateAuthoritySerializer(item);
+  });
+}
+
+export function certificateAuthorityArrayDeserializer(result: Array<CertificateAuthority>): any[] {
+  return result.map((item) => {
+    return certificateAuthorityDeserializer(item);
+  });
+}
+
+/** Request payload for activating a Certificate Authority with a signed certificate. */
+export interface ActivateCertificateAuthorityRequest {
+  /** Certificate chain in PEM format for activating an externally issued intermediate Certificate Authority, including the signed certificate. The first certificate must be the signed certificate matching the CSR generated by the service, followed by any intermediate CAs, and optionally the root CA. Certificates must be ordered from leaf to root and concatenated in PEM format. */
+  certificateChain: string;
+}
+
+export function activateCertificateAuthorityRequestSerializer(
+  item: ActivateCertificateAuthorityRequest,
+): any {
+  return { certificateChain: item["certificateChain"] };
+}
+
+/** A Certificate Policy resource. */
+export interface CertificatePolicy extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CertificatePolicyProperties;
+}
+
+export function certificatePolicySerializer(item: CertificatePolicy): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : certificatePolicyPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function certificatePolicyDeserializer(item: any): CertificatePolicy {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : certificatePolicyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Certificate Policy resource. */
+export interface CertificatePolicyProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+  /** Globally unique, immutable, non-reusable identifier of the Certificate Policy resource. */
+  readonly uuid?: string;
+  /** The certificate configuration. */
+  certificate?: CertificatePolicyConfiguration;
+}
+
+export function certificatePolicyPropertiesSerializer(item: CertificatePolicyProperties): any {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificatePolicyConfigurationSerializer(item["certificate"]),
+  };
+}
+
+export function certificatePolicyPropertiesDeserializer(item: any): CertificatePolicyProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    uuid: item["uuid"],
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificatePolicyConfigurationDeserializer(item["certificate"]),
+  };
+}
+
+/** The Certificate Policy certificate configuration. */
+export interface CertificatePolicyConfiguration {
+  /** The validity period in days. */
+  validityPeriodInDays: number;
+}
+
+export function certificatePolicyConfigurationSerializer(
+  item: CertificatePolicyConfiguration,
+): any {
+  return { validityPeriodInDays: item["validityPeriodInDays"] };
+}
+
+export function certificatePolicyConfigurationDeserializer(
+  item: any,
+): CertificatePolicyConfiguration {
+  return {
+    validityPeriodInDays: item["validityPeriodInDays"],
+  };
+}
+
+/** The type used for update operations of the CertificatePolicy. */
+export interface CertificatePolicyUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CertificatePolicyUpdateProperties;
+}
+
+export function certificatePolicyUpdateSerializer(item: CertificatePolicyUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : certificatePolicyUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the CertificatePolicy. */
+export interface CertificatePolicyUpdateProperties {
+  /** The certificate configuration. */
+  certificate?: OptionalPropertiesCertificatePolicyConfiguration;
+}
+
+export function certificatePolicyUpdatePropertiesSerializer(
+  item: CertificatePolicyUpdateProperties,
+): any {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : optionalPropertiesCertificatePolicyConfigurationSerializer(item["certificate"]),
+  };
+}
+
+/** The response of a CertificatePolicy list operation. */
+export interface _CertificatePolicyListResult {
+  /** The CertificatePolicy items on this page */
+  value: CertificatePolicy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _certificatePolicyListResultDeserializer(item: any): _CertificatePolicyListResult {
+  return {
+    value: certificatePolicyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function certificatePolicyArraySerializer(result: Array<CertificatePolicy>): any[] {
+  return result.map((item) => {
+    return certificatePolicySerializer(item);
+  });
+}
+
+export function certificatePolicyArrayDeserializer(result: Array<CertificatePolicy>): any[] {
+  return result.map((item) => {
+    return certificatePolicyDeserializer(item);
+  });
+}
+
+/** A Registry Device resource is a tracked resource with a provisioning lifecycle. The different capabilities of the device are defined through child Device Capability resources. */
+export interface RegistryDevice extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RegistryDeviceProperties;
+  /** Resource etag. */
+  readonly etag?: string;
+}
+
+export function registryDeviceSerializer(item: RegistryDevice): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : registryDevicePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function registryDeviceDeserializer(item: any): RegistryDevice {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : registryDevicePropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** The properties of a registry device. */
+export interface RegistryDeviceProperties {
+  /** Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision. */
+  enablementState: RegistryDeviceEnablementState;
+  /** Globally unique, immutable, non-reusable ID. */
+  readonly uuid?: string;
+  /** A Device ID provided by the customer. */
+  externalDeviceId?: string;
+  /** Device manufacturer. */
+  manufacturer?: string;
+  /** Device model. */
+  model?: string;
+  /** Device hardware revision. */
+  hardwareRevision?: string;
+  /** Device software revision. */
+  softwareRevision?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function registryDevicePropertiesSerializer(item: RegistryDeviceProperties): any {
+  return {
+    enablementState: item["enablementState"],
+    externalDeviceId: item["externalDeviceId"],
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+  };
+}
+
+export function registryDevicePropertiesDeserializer(item: any): RegistryDeviceProperties {
+  return {
+    enablementState: item["enablementState"],
+    uuid: item["uuid"],
+    externalDeviceId: item["externalDeviceId"],
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Represents the enablement state of a device. */
+export enum KnownRegistryDeviceEnablementState {
+  /** The device is enabled. */
+  Enabled = "Enabled",
+  /** The device is disabled. All PUT/PATCH/POST APIs on the child resources will be blocked. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Represents the enablement state of a device. \
+ * {@link KnownRegistryDeviceEnablementState} can be used interchangeably with RegistryDeviceEnablementState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The device is enabled. \
+ * **Disabled**: The device is disabled. All PUT\/PATCH\/POST APIs on the child resources will be blocked.
+ */
+export type RegistryDeviceEnablementState = string;
+
+/** The type used for update operations of the RegistryDevice. */
+export interface RegistryDeviceUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: RegistryDeviceUpdateProperties;
+}
+
+export function registryDeviceUpdateSerializer(item: RegistryDeviceUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : registryDeviceUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the RegistryDevice. */
+export interface RegistryDeviceUpdateProperties {
+  /** Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision. */
+  enablementState?: RegistryDeviceEnablementState;
+  /** Device manufacturer. */
+  manufacturer?: string;
+  /** Device model. */
+  model?: string;
+  /** Device hardware revision. */
+  hardwareRevision?: string;
+  /** Device software revision. */
+  softwareRevision?: string;
+}
+
+export function registryDeviceUpdatePropertiesSerializer(
+  item: RegistryDeviceUpdateProperties,
+): any {
+  return {
+    enablementState: item["enablementState"],
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+  };
+}
+
+/** The response of a RegistryDevice list operation. */
+export interface _RegistryDeviceListResult {
+  /** The RegistryDevice items on this page */
+  value: RegistryDevice[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _registryDeviceListResultDeserializer(item: any): _RegistryDeviceListResult {
+  return {
+    value: registryDeviceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function registryDeviceArraySerializer(result: Array<RegistryDevice>): any[] {
+  return result.map((item) => {
+    return registryDeviceSerializer(item);
+  });
+}
+
+export function registryDeviceArrayDeserializer(result: Array<RegistryDevice>): any[] {
+  return result.map((item) => {
+    return registryDeviceDeserializer(item);
+  });
+}
+
 /** Microsoft.DeviceRegistry Resource Provider supported API versions. */
 export enum KnownVersions {
-  /** Microsoft.DeviceRegistry Resource Provider management API version 2023-11-01-preview. */
-  V20231101Preview = "2023-11-01-preview",
-  /** Microsoft.DeviceRegistry Resource Provider management API version 2024-09-01-preview. */
-  V20240901Preview = "2024-09-01-preview",
   /** Microsoft.DeviceRegistry Resource Provider management API version 2024-11-01. */
   V20241101 = "2024-11-01",
-  /** Microsoft.DeviceRegistry Resource Provider management API version 2025-07-01-preview. */
-  V20250701Preview = "2025-07-01-preview",
   /** Microsoft.DeviceRegistry Resource Provider management API version 2025-10-01. */
   V20251001 = "2025-10-01",
-  /** Microsoft.DeviceRegistry Resource Provider management API version 2025-11-01-preview. */
-  V20251101Preview = "2025-11-01-preview",
-  /** Microsoft.DeviceRegistry Resource Provider management API version 2026-03-01-preview. */
-  V20260301Preview = "2026-03-01-preview",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2026-04-01. */
+  V20260401 = "2026-04-01",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2026-11-01. */
+  V20261101 = "2026-11-01",
 }
