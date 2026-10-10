@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a compute associated with the Cognitive Services account.
  *
  * @summary creates or updates a compute associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/PutCompute.json
+ * x-ms-original-file: 2026-09-15-preview/PutCompute.json
  */
 async function putCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function putCompute(): Promise<void> {
  * This sample demonstrates how to creates or updates a compute associated with the Cognitive Services account.
  *
  * @summary creates or updates a compute associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/PutContainerInstanceCompute.json
+ * x-ms-original-file: 2026-09-15-preview/PutContainerInstanceCompute.json
  */
 async function putContainerInstanceCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
