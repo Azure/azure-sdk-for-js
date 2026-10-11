@@ -637,7 +637,7 @@ function buildWebSocketUrl(
     url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
   }
   if (options.structuredInputs !== undefined) {
-    url.searchParams.set("structured_input", JSON.stringify(options.structuredInputs));
+    url.searchParams.set("structured_inputs", JSON.stringify(options.structuredInputs));
   }
   return url.toString();
 }

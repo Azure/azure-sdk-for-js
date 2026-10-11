@@ -18,7 +18,7 @@ never make a network request.
   request).
 - **node/webSocketTransport.spec.ts**: the Node `ws`-backed transport implementation.
 
-On every transport, connect-time `structuredInputs` are JSON-serialized into the `structured_input`
+On every transport, connect-time `structuredInputs` are JSON-serialized into the `structured_inputs`
 query parameter using standard URL encoding. No structured-input header is sent. The parameter is
 omitted when `structuredInputs` is undefined; an empty object is sent as `{}`. Query parameters may
 appear in URL logs, so do not put secrets in structured inputs.

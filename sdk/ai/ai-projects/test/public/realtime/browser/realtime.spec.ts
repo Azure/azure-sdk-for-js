@@ -98,7 +98,8 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("x-ms-client-sdk")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
     expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
-    expect(url.searchParams.get("structured_input")).toBe(JSON.stringify({ customer: "Ada" }));
+    expect(url.searchParams.get("structured_inputs")).toBe(JSON.stringify({ customer: "Ada" }));
+    expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("user-agent")).toBe(false);
@@ -117,7 +118,7 @@ describe("AIProjectClient browser realtime", () => {
     const sourceUrl = new URL(
       "wss://example.test/voice?api-version=v1&x-ms-client-sdk=sdk-version",
     );
-    sourceUrl.searchParams.set("structured_input", structuredInputs);
+    sourceUrl.searchParams.set("structured_inputs", structuredInputs);
     const urlWithHeaders = addHeadersToUrl(sourceUrl.toString(), {
       [headerName]: '{"customer":"legacy"}',
       "foundry-features": "VoiceAgents=V1Preview",
@@ -131,7 +132,7 @@ describe("AIProjectClient browser realtime", () => {
     expect(Object.fromEntries(url.searchParams)).toEqual({
       "api-version": "v1",
       "x-ms-client-sdk": "sdk-version",
-      structured_input: structuredInputs,
+      structured_inputs: structuredInputs,
       "client-request-id": "request-1",
       "h-user-agent": "custom-prefix sdk-version",
       "h-x-ms-client-sdk": "sdk-version",
@@ -158,9 +159,10 @@ describe("AIProjectClient browser realtime", () => {
     });
     const url = new URL(getSocket().url);
 
-    expect(url.searchParams.getAll("structured_input")).toEqual(
+    expect(url.searchParams.getAll("structured_inputs")).toEqual(
       structuredInputs === undefined ? [] : [JSON.stringify(structuredInputs)],
     );
+    expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("x-ms-voice-structured-inputs")).toBe(false);
 
