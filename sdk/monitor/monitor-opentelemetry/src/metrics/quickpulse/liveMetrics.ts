@@ -274,9 +274,12 @@ export class LiveMetrics {
       if (!this.isShutdown) {
         this.pause();
       }
-      await this.deactivateMetrics();
-      this.etag = "";
-      this.quickpulseExporter.setEtag("");
+      try {
+        await this.deactivateMetrics();
+      } finally {
+        this.etag = "";
+        this.quickpulseExporter.setEtag("");
+      }
     } else if (this.config.enableLiveMetrics && this.remoteEnabled && !this.isShutdown) {
       this.pingAbortController = new AbortController();
       this.quickpulseExporter.setEnabled(true);

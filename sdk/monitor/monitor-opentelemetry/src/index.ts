@@ -43,12 +43,18 @@ export type {
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
-let sdk: NodeSDK;
+let sdk: NodeSDK | undefined;
+let sdkShutdownPromise: Promise<void> | undefined;
 let metricHandler: MetricHandler | undefined;
 let browserSdkLoader: BrowserSdkLoader | undefined;
 // NodeSDK shuts down providers, but leaves instrumentation hooks enabled.
 let instrumentations: Instrumentation[] = [];
 const instrumentationCache = new Map<string, Instrumentation>();
+
+function shutdownSdk(): Promise<void> | undefined {
+  sdkShutdownPromise ??= sdk?.shutdown();
+  return sdkShutdownPromise;
+}
 
 function disableInstrumentations(): void {
   for (const instrumentation of instrumentations) {
@@ -84,6 +90,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const config = new InternalConfig(options);
   void metricHandler?.shutdown().catch((error) => {
     Logger.getInstance().warn("Failed to shut down previous metric collectors", error);
+  });
+  void shutdownSdk()?.catch((error) => {
+    Logger.getInstance().warn("Failed to shut down previous SDK", error);
   });
   disableInstrumentations();
   patchOpenTelemetryInstrumentationEnable();
@@ -173,6 +182,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     resourceDetectors: resourceDetectorsList,
   };
   sdk = new NodeSDK(sdkConfig);
+  sdkShutdownPromise = undefined;
   setSdkPrefix();
   sendAttachWarning();
   sdk.start();
@@ -185,7 +195,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 export async function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   disableInstrumentations();
-  await Promise.all([metricHandler?.shutdown(), sdk?.shutdown()]);
+  await Promise.all([metricHandler?.shutdown(), shutdownSdk()]);
 }
 
 /**

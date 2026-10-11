@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MockInstance } from "vitest";
 import { SpanKind, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import {
   AzureMonitorLogExporter,
+  AzureMonitorMetricExporter,
   AzureMonitorTraceExporter,
 } from "@azure/monitor-opentelemetry-exporter";
 import { ExportResultCode } from "@opentelemetry/core";
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import {
   BasicTracerProvider,
   InMemorySpanExporter,
@@ -20,7 +21,7 @@ import {
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { MetricHandler } from "../../../../src/metrics/handler.js";
 import { InternalConfig } from "../../../../src/shared/config.js";
-import { useAzureMonitor, shutdownAzureMonitor } from "../../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../../src/index.js";
 import { createMockSdkLogRecord } from "../../../utils/breezeTestUtils.js";
 import type {
   QuickpulseResponse,
@@ -223,17 +224,29 @@ describe("OneSettings Live Metrics", () => {
   });
 
   it("recovers after a rejected shutdown transition", async () => {
-    const collector = await startCollecting();
+    const collector = createLiveMetrics();
+    ping.mockResolvedValueOnce({
+      ...subscribed,
+      eTag: "response-etag",
+      xMsQpsConfigurationEtag: "old-configuration",
+    });
+    await vi.advanceTimersByTimeAsync(6000);
+    expect(collector["etag"]).toBe("old-configuration");
+    const setEtag = vi.spyOn(collector["quickpulseExporter"], "setEtag");
     const deactivate = collector.deactivateMetrics.bind(collector);
     vi.spyOn(collector, "deactivateMetrics").mockImplementationOnce(async () => {
       await deactivate();
       throw new Error("Shutdown failed");
     });
     await expect(callback()(false)).rejects.toThrow("Shutdown failed");
+    expect(collector["etag"]).toBe("");
+    expect(setEtag).toHaveBeenCalledExactlyOnceWith("");
     await callback()(true);
     await vi.advanceTimersByTimeAsync(6000);
     expect(collector.getMeterProvider()).toBeDefined();
     expect(ping).toHaveBeenCalledTimes(2);
+    expect(ping.mock.calls[1][0].configurationEtag).toBe("");
+    expect(publish.mock.calls[1][0].configurationEtag).toBe("");
   });
 
   it("does not resume polling until an in-progress shutdown completes", async () => {
@@ -374,6 +387,42 @@ describe("OneSettings Live Metrics", () => {
       expect(configuration.unregister).toHaveBeenCalledTimes(2);
     } finally {
       await shutdownAzureMonitor();
+    }
+  });
+
+  it("shuts down the previous SDK and stops its metric export timer on reinitialization", async () => {
+    const exporter = new AzureMonitorMetricExporter(options.azureMonitorExporterOptions);
+    vi.spyOn(exporter, "export").mockImplementation((_, result) => {
+      result({ code: ExportResultCode.SUCCESS });
+      return Promise.resolve();
+    });
+    const reader = new PeriodicExportingMetricReader({
+      exporter,
+      exportIntervalMillis: 1000,
+    });
+    const collect = vi.spyOn(reader, "collect");
+    try {
+      useAzureMonitor({
+        ...options,
+        enableLiveMetrics: false,
+        metricReaders: [reader],
+      });
+      const previousSdk = _getSdkInstance();
+      assert.isDefined(previousSdk);
+      const shutdown = vi.spyOn(previousSdk, "shutdown");
+      await vi.advanceTimersByTimeAsync(1000);
+      expect(collect).toHaveBeenCalledOnce();
+
+      useAzureMonitor({ ...options, enableLiveMetrics: false });
+      expect(shutdown).toHaveBeenCalledOnce();
+      expect(_getSdkInstance()).not.toBe(previousSdk);
+      await shutdown.mock.results[0].value;
+      collect.mockClear();
+      await vi.advanceTimersByTimeAsync(3000);
+      expect(collect).not.toHaveBeenCalled();
+    } finally {
+      await shutdownAzureMonitor();
+      await reader.shutdown();
     }
   });
 
