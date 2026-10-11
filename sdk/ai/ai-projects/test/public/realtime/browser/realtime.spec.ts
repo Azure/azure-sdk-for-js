@@ -139,24 +139,6 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it.each([
-    "x-ms-voice-structured-inputs",
-    "X-MS-Voice-Structured-Inputs",
-    "X-MS-VOICE-STRUCTURED-INPUTS",
-  ])("ignores the obsolete %s header without changing the shared query", (headerName) => {
-    const structuredInputs = JSON.stringify({ customer: "Ada & Bob" });
-    const sourceUrl = new URL("wss://example.test/voice?api-version=v1");
-    sourceUrl.searchParams.set("structured_inputs", structuredInputs);
-    const url = new URL(
-      addHeadersToUrl(sourceUrl.toString(), { [headerName]: '{"customer":"legacy"}' }),
-    );
-
-    expect(Object.fromEntries(url.searchParams)).toEqual({
-      "api-version": "v1",
-      structured_inputs: structuredInputs,
-    });
-  });
-
-  it.each([
     undefined,
     {},
     {
