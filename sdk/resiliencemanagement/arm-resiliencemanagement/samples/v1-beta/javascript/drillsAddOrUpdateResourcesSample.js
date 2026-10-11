@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this enables the user to include, exclude or update resources from their Drill.
  *
  * @summary this enables the user to include, exclude or update resources from their Drill.
- * x-ms-original-file: 2026-04-01-preview/Drills_AddOrUpdateResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Drills_AddOrUpdateResources_MaximumSet_Gen.json
  */
 async function drillsAddOrUpdateResourcesMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -5,10 +5,10 @@ import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete a GoalTemplate
+ * This sample demonstrates how to deletes a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
  *
- * @summary delete a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_Delete_MaximumSet_Gen.json
+ * @summary deletes a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_Delete_MaximumSet_Gen.json
  */
 async function goalTemplatesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,10 +17,10 @@ async function goalTemplatesDeleteMaximumSet(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to delete a GoalTemplate
+ * This sample demonstrates how to deletes a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
  *
- * @summary delete a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_Delete_MinimumSet_Gen.json
+ * @summary deletes a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead.
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_Delete_MinimumSet_Gen.json
  */
 async function goalTemplatesDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

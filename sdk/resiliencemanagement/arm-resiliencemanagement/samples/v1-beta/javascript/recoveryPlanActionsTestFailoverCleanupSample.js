@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this action triggers the test failover cleanup operation on the recovery orchestration plan for the qualified resources.
  *
  * @summary this action triggers the test failover cleanup operation on the recovery orchestration plan for the qualified resources.
- * x-ms-original-file: 2026-04-01-preview/RecoveryPlanActions_TestFailoverCleanup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryPlanActions_TestFailoverCleanup_MaximumSet_Gen.json
  */
 async function recoveryPlanActionsTestFailoverCleanupMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the status of an async operation of a BulkCreate.
  *
  * @summary get the status of an async operation of a BulkCreate.
- * x-ms-original-file: 2026-09-06-preview/BulkCreate_GetAsyncOperationStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/BulkCreate_GetAsyncOperationStatus_MaximumSet_Gen.json
  */
 async function bulkCreateGetAsyncOperationStatusMaximumSet() {
   const credential = new DefaultAzureCredential();

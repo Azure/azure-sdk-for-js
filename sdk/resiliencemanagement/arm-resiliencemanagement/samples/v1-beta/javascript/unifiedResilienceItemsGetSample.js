@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a UnifiedResilienceItem
  *
  * @summary get a UnifiedResilienceItem
- * x-ms-original-file: 2026-04-01-preview/UnifiedResilienceItems_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UnifiedResilienceItems_Get_MaximumSet_Gen.json
  */
 async function unifiedResilienceItemsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

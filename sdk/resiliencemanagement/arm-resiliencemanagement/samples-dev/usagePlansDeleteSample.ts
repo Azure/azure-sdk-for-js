@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a UsagePlan
  *
  * @summary delete a UsagePlan
- * x-ms-original-file: 2026-04-01-preview/UsagePlans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UsagePlans_Delete_MaximumSet_Gen.json
  */
 async function usagePlansDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

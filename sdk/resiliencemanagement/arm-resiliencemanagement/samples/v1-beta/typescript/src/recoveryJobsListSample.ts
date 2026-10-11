@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list RecoveryJob resources by RecoveryPlan
  *
  * @summary list RecoveryJob resources by RecoveryPlan
- * x-ms-original-file: 2026-04-01-preview/RecoveryJobs_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryJobs_List_MaximumSet_Gen.json
  */
 async function recoveryJobsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

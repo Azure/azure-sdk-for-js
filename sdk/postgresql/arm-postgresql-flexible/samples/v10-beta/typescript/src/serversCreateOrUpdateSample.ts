@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersClusterCreate.json
+ * x-ms-original-file: 2026-07-01-preview/ServersClusterCreate.json
  */
 async function createANewElasticCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function createANewElasticCluster(): Promise<void> {
     location: "eastus",
     administratorLogin: "examplelogin",
     administratorLoginPassword: "examplepassword",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Disabled" },
     cluster: { clusterSize: 2, defaultDatabaseName: "clusterdb" },
     createMode: "Create",
     highAvailability: { mode: "Disabled" },
@@ -34,7 +34,7 @@ async function createANewElasticCluster(): Promise<void> {
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateGeoRestoreWithDataEncryptionEnabled.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateGeoRestoreWithDataEncryptionEnabled.json
  */
 async function createANewServerUsingARestoreOfAGeographicallyRedundantBackupOfAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function createANewServerUsingARestoreOfAGeographicallyRedundantBackupOfAn
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateGeoRestoreWithDataEncryptionEnabledAutoUpdate.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateGeoRestoreWithDataEncryptionEnabledAutoUpdate.json
  */
 async function createANewServerUsingARestoreOfAGeographicallyRedundantBackupOfAnExistingServerWithDataEncryptionBasedOnCustomerManagedKeyWithAutomaticKeyVersionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -112,7 +112,7 @@ async function createANewServerUsingARestoreOfAGeographicallyRedundantBackupOfAn
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateInMicrosoftOwnedVirtualNetworkWithZoneRedundantHighAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateInMicrosoftOwnedVirtualNetworkWithZoneRedundantHighAvailability.json
  */
 async function createANewServerInMicrosoftOwnedVirtualNetworkWithZoneRedundantHighAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -123,7 +123,7 @@ async function createANewServerInMicrosoftOwnedVirtualNetworkWithZoneRedundantHi
     administratorLogin: "exampleadministratorlogin",
     administratorLoginPassword: "examplepassword",
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Enabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Enabled" },
     createMode: "Create",
     highAvailability: { mode: "ZoneRedundant" },
     network: { publicNetworkAccess: "Enabled" },
@@ -139,7 +139,7 @@ async function createANewServerInMicrosoftOwnedVirtualNetworkWithZoneRedundantHi
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateInYourOwnVirtualNetworkWithSameZoneHighAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateInYourOwnVirtualNetworkWithSameZoneHighAvailability.json
  */
 async function createANewServerInYourOwnVirtualNetworkWithSameZoneHighAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -150,7 +150,7 @@ async function createANewServerInYourOwnVirtualNetworkWithSameZoneHighAvailabili
     administratorLogin: "exampleadministratorlogin",
     administratorLoginPassword: "examplepassword",
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Enabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Enabled" },
     createMode: "Create",
     highAvailability: { mode: "SameZone" },
     network: {
@@ -171,7 +171,7 @@ async function createANewServerInYourOwnVirtualNetworkWithSameZoneHighAvailabili
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreatePointInTimeRestore.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreatePointInTimeRestore.json
  */
 async function createANewServerUsingAPointInTimeRestoreOfABackupOfAnExistingServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -191,7 +191,7 @@ async function createANewServerUsingAPointInTimeRestoreOfABackupOfAnExistingServ
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateReplica.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateReplica.json
  */
 async function createAReadReplicaOfAnExistingServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -226,7 +226,7 @@ async function createAReadReplicaOfAnExistingServer(): Promise<void> {
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateReviveDropped.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateReviveDropped.json
  */
 async function createANewServerUsingABackupOfAServerThatWasDeletedOrDroppedRecently(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -246,7 +246,7 @@ async function createANewServerUsingABackupOfAServerThatWasDeletedOrDroppedRecen
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateWithDataEncryptionEnabled.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateWithDataEncryptionEnabled.json
  */
 async function createANewServerWithDataEncryptionBasedOnCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -264,7 +264,7 @@ async function createANewServerWithDataEncryptionBasedOnCustomerManagedKey(): Pr
     administratorLogin: "exampleadministratorlogin",
     administratorLoginPassword: "examplepassword",
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Disabled" },
     createMode: "Create",
     dataEncryption: {
       type: "AzureKeyVault",
@@ -293,7 +293,7 @@ async function createANewServerWithDataEncryptionBasedOnCustomerManagedKey(): Pr
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateWithDataEncryptionEnabledAutoUpdate.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateWithDataEncryptionEnabledAutoUpdate.json
  */
 async function createANewServerWithDataEncryptionBasedOnCustomerManagedKeyWithAutomaticKeyVersionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -311,7 +311,7 @@ async function createANewServerWithDataEncryptionBasedOnCustomerManagedKeyWithAu
     administratorLogin: "exampleadministratorlogin",
     administratorLoginPassword: "examplepassword",
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Disabled" },
     createMode: "Create",
     dataEncryption: {
       type: "AzureKeyVault",
@@ -339,7 +339,7 @@ async function createANewServerWithDataEncryptionBasedOnCustomerManagedKeyWithAu
  * This sample demonstrates how to creates a new server.
  *
  * @summary creates a new server.
- * x-ms-original-file: 2026-04-01-preview/ServersCreateWithMicrosoftEntraEnabledInYourOwnVirtualNetworkWithoutHighAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/ServersCreateWithMicrosoftEntraEnabledInYourOwnVirtualNetworkWithoutHighAvailability.json
  */
 async function createANewServerWithMicrosoftEntraAuthenticationEnabledInYourOwnVirtualNetworkAndWithoutHighAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -355,7 +355,7 @@ async function createANewServerWithMicrosoftEntraAuthenticationEnabledInYourOwnV
       tenantId: "tttttt-tttt-tttt-tttt-tttttttttttt",
     },
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    backup: { backupRetentionDays: 7, immutableBackup: "Enabled", geoRedundantBackup: "Disabled" },
     createMode: "Create",
     dataEncryption: { type: "SystemManaged" },
     highAvailability: { mode: "Disabled" },

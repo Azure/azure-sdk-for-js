@@ -4,6 +4,8 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
+import { parse } from "./modules.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -522,7 +524,17 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     alternatives(output, indexes.output, renames, report),
   ];
   requireDelta(unions[0], unions[2], unions[3], target, "union alternative", report);
-  preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  if (
+    target.name === "DataGenerationJobType" &&
+    isUpstreamDataGenerationType(base?.node) &&
+    isUpstreamDataGenerationType(custom?.node, true) &&
+    isUpstreamDataGenerationType(incoming?.node)
+  ) {
+    if (!isUpstreamDataGenerationType(output?.node))
+      report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
+  } else {
+    preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  }
   if (/Serializer$|Deserializer$/.test(incoming?.name ?? custom.name)) {
     const resolved = [
       resolveAlias(base, indexes.base, renames, report),
@@ -553,6 +565,42 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
       renames,
     );
   }
+}
+
+function retiredTaskGeneration(name, base, custom, incoming) {
+  if (
+    ![
+      "TaskGenerationDataGenerationJobOptions",
+      "taskGenerationDataGenerationJobOptionsSerializer",
+      "taskGenerationDataGenerationJobOptionsDeserializer",
+    ].includes(name)
+  )
+    return false;
+  const single = (index, key) =>
+    index.get(key)?.length === 1 ? index.get(key)[0].node : undefined;
+  const legacy = single(custom, "TaskGenerationDataGenerationJobOptions");
+  return Boolean(
+    !incoming.has(name) &&
+    base.has("DataGenerationJobOptions") &&
+    !incoming.has("DataGenerationJobOptions") &&
+    incoming.has("DataGenerationJobConfiguration") &&
+    isUpstreamDataGenerationType(single(base, "DataGenerationJobType")) &&
+    isUpstreamDataGenerationType(single(custom, "DataGenerationJobType"), true) &&
+    isUpstreamDataGenerationType(single(incoming, "DataGenerationJobType")) &&
+    legacy &&
+    ts.isInterfaceDeclaration(legacy) &&
+    legacy.heritageClauses?.some((clause) =>
+      clause.types.some((type) => nameOf(type.expression) === "DataGenerationJobOptions"),
+    ) &&
+    legacy.members.some(
+      (member) =>
+        nameOf(member.name) === "type" &&
+        member.type &&
+        ts.isLiteralTypeNode(member.type) &&
+        ts.isStringLiteral(member.type.literal) &&
+        member.type.literal.text === "task_generation",
+    ),
+  );
 }
 
 function checkModels(trees, renames, report) {
@@ -587,6 +635,8 @@ function checkModels(trees, renames, report) {
       const output = find(indexes.output, custom.name, custom.file, renames, report);
       if (base && !incoming) continue;
       if (!output) {
+        if (retiredTaskGeneration(custom.name, indexes.base, indexes.custom, indexes.incoming))
+          continue;
         const alias = aliasTarget(custom.node);
         if (
           alias &&
@@ -731,6 +781,7 @@ function exportsOf(modules, file, report, seen = new Set()) {
 
 function checkExports(trees, renames, report) {
   const baseInventory = inventory(trees.base);
+  const customInventory = inventory(trees.custom);
   const incomingInventory = inventory(trees.incoming);
   for (const file of ["index.ts", "models/index.ts", "classic/index.ts"]) {
     const previous = exportsOf(trees.custom, file, report);
@@ -763,6 +814,8 @@ function checkExports(trees, renames, report) {
         emittedBase.get(name) ??
         [...emittedBase.values()].find((item) => mapped(item.name, renames) === name);
       const generatedName = counterpart?.imported ?? entry.imported;
+      if (retiredTaskGeneration(generatedName, baseInventory, customInventory, incomingInventory))
+        continue;
       if (
         candidates(baseInventory, generatedName, renames).length &&
         !candidates(incomingInventory, generatedName, renames).length
@@ -1120,7 +1173,11 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
               )
                 generatedAddition = true;
             });
-          if (!generatedAddition) return false;
+          if (
+            !generatedAddition &&
+            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+          )
+            return false;
         }
       }
       if (index !== oldStatements.length) return false;
@@ -1148,10 +1205,147 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
+// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
+// customized client has two auth contexts, unlike the emitted single _client.
+// Admit only the new evaluator factory, using the same context as beta before
+// promotion; never substitute or rewrite the maintained constructor.
+function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+  if (
+    !ts.isClassDeclaration(before) ||
+    before.name?.text !== "AIProjectClient" ||
+    !baseGenerated ||
+    !generated ||
+    !ts.isClassDeclaration(generated) ||
+    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+  )
+    return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  const initializers = (node) => classInitializers({ node });
+  const previousBeta = unwrap(initializers(before).get("beta"));
+  const emitted = unwrap(initializers(generated).get("evaluators"));
+  if (
+    !previousBeta ||
+    !ts.isCallExpression(previousBeta) ||
+    previousBeta.expression.getText() !== "_getBetaOperations" ||
+    !previousBeta.arguments.length ||
+    !emitted ||
+    !ts.isCallExpression(emitted) ||
+    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
+    emitted.arguments.length !== 1
+  )
+    return false;
+  const expected = parse(
+    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
+  ).statements[0];
+  return key(statement) === key(expected);
+}
+
 function isProtectedFile(file) {
   return (
     protectedFiles.has(file) || file.startsWith("static-helpers/") || file.startsWith("tracing/")
   );
+}
+
+function classicModuleOf(apiFile) {
+  return apiFile.replace(/^api\//, "classic/").replace(/operations\.ts$/, "index.ts");
+}
+
+// Operations the planner relocated into a module from another operation group.
+// checkOperations validates them exactly as it does relocations into
+// unprotected modules, so a protected destination admits only these additions.
+function relocationsInto(matches) {
+  const result = new Map();
+  const target = (file) => {
+    if (!result.has(file))
+      result.set(file, { declarations: new Set(), members: new Map(), sources: new Set() });
+    return result.get(file);
+  };
+  for (const { base, customized, incoming, names } of matches) {
+    if (!base || !customized || !incoming?.file || base.file === incoming.file) continue;
+    const api = target(incoming.file);
+    for (const name of [names.publicNode, names.send, names.deserialize])
+      api.declarations.add(name);
+    api.sources.add(customized.file);
+    const classic = target(classicModuleOf(incoming.file));
+    classic.members.set(names.publicNode.replace(/^\$/, ""), names.publicNode);
+    classic.sources.add(classicModuleOf(customized.file));
+  }
+  return result;
+}
+
+function returnedObject(node) {
+  const statement = node.body?.statements.at(-1);
+  if (!statement || !ts.isReturnStatement(statement) || !statement.expression) return undefined;
+  const value = unwrap(statement.expression);
+  return ts.isObjectLiteralExpression(value) ? value : undefined;
+}
+
+// A protected classic group interface or factory may gain only the members of
+// operations relocated into its API module; every maintained member and all
+// surrounding factory behavior must be unchanged.
+function relocatedAdditive(before, after, relocation, renames) {
+  const relocated = relocation?.members;
+  if (!relocated?.size || before.kind !== after.kind) return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  let oldMembers;
+  let newMembers;
+  if (ts.isInterfaceDeclaration(before)) {
+    if (
+      before.heritageClauses?.map((clause) => clause.getText()).join() !==
+      after.heritageClauses?.map((clause) => clause.getText()).join()
+    )
+      return false;
+    oldMembers = before.members;
+    newMembers = after.members;
+  } else if (ts.isFunctionDeclaration(before)) {
+    const oldObject = returnedObject(before);
+    const newObject = returnedObject(after);
+    const oldStatements = before.body.statements;
+    const newStatements = after.body?.statements ?? [];
+    if (
+      !oldObject ||
+      !newObject ||
+      nameOf(before.name) !== nameOf(after.name) ||
+      key(before.type) !== key(after.type) ||
+      before.parameters.map(key).join() !== after.parameters.map(key).join() ||
+      oldStatements.length !== newStatements.length ||
+      oldStatements
+        .slice(0, -1)
+        .some((statement, index) => key(statement) !== key(newStatements[index]))
+    )
+      return false;
+    oldMembers = oldObject.properties;
+    newMembers = newObject.properties;
+  } else return false;
+  const next = new Map(newMembers.map((member) => [nameOf(member.name), member]));
+  for (const member of oldMembers) {
+    if (key(member) !== key(next.get(nameOf(member.name)))) return false;
+  }
+  const previous = new Set(oldMembers.map((member) => nameOf(member.name)));
+  for (const member of newMembers) {
+    const name = nameOf(member.name);
+    if (previous.has(name)) continue;
+    if (!relocated.has(name)) return false;
+    if (ts.isFunctionDeclaration(before) && !containsIdentifier(member, relocated.get(name), true))
+      return false;
+  }
+  return true;
+}
+
+function relocatedImport(file, binding, relocation, trees) {
+  const target = (owner, specifier) => moduleFile(owner, specifier) ?? specifier;
+  for (const sourceFile of relocation?.sources ?? []) {
+    if (
+      imports(trees.custom.get(sourceFile)).some(
+        (candidate) =>
+          candidate.local === binding.local &&
+          candidate.imported === binding.imported &&
+          target(sourceFile, candidate.module) === target(file, binding.module),
+      )
+    )
+      return true;
+  }
+  return false;
 }
 
 function classInitializers(entry) {
@@ -1246,8 +1440,9 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report) {
+function checkProtected(trees, renames, report, matches = []) {
   checkProtectedAdditions(trees, renames, report);
+  const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
     if (!isProtectedFile(file)) continue;
     const output = trees.output.get(file);
@@ -1256,11 +1451,18 @@ function checkProtected(trees, renames, report) {
       continue;
     }
     if (canonicalize(previous.source.text) === canonicalize(output.source.text)) continue;
+    const relocation = relocations.get(file);
     for (const entry of previous.entries) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
-      if (!next || !additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames)) {
+      if (
+        !next ||
+        !(
+          additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
+          relocatedAdditive(entry.node, next.node, relocation, renames)
+        )
+      ) {
         report(
           file,
           entry.name,
@@ -1270,6 +1472,8 @@ function checkProtected(trees, renames, report) {
     }
     for (const entry of output.entries) {
       if (previous.byName.has(entry.name)) continue;
+      if (relocation?.declarations.has(entry.name) && !trees.base.get(file)?.byName.has(entry.name))
+        continue;
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
       if (
         !incoming ||
@@ -1303,7 +1507,11 @@ function checkProtected(trees, renames, report) {
         candidate.local === binding.local &&
         candidate.imported === binding.imported &&
         candidate.module === binding.module;
-      if (!oldImports.some(same) && !imports(trees.incoming.get(file)).some(same)) {
+      if (
+        !oldImports.some(same) &&
+        !imports(trees.incoming.get(file)).some(same) &&
+        !relocatedImport(file, binding, relocation, trees)
+      ) {
         report(
           file,
           binding.local,
@@ -1410,6 +1618,28 @@ function checkVoicePaging(entry, report) {
 }
 
 function checkKnownPolicies(trees, modelIndexes, renames, report) {
+  const hasList = (tree, file, declaration) =>
+    tree
+      .get(file)
+      ?.byName.get(declaration)
+      ?.node.members?.some((member) => nameOf(member.name) === "list");
+  const betaFile = "classic/beta/evaluators/index.ts";
+  const rootFile = "classic/evaluators/index.ts";
+  const remainingBetaMembers = trees.incoming.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  const outputBetaMembers = trees.output.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  // A missing beta list is valid only when generated evidence places it at
+  // root (including later no-op regenerations after the promotion).
+  const evaluatorListPromoted =
+    Boolean(hasList(trees.base, betaFile, "BetaEvaluatorsOperations")) !==
+      Boolean(hasList(trees.base, rootFile, "EvaluatorsOperations")) &&
+    !hasList(trees.incoming, betaFile, "BetaEvaluatorsOperations") &&
+    hasList(trees.incoming, rootFile, "EvaluatorsOperations") &&
+    hasList(trees.output, rootFile, "EvaluatorsOperations") &&
+    remainingBetaMembers?.every((member) =>
+      outputBetaMembers?.some((output) => nameOf(output.name) === nameOf(member.name)),
+    );
   for (const [file, module] of trees.output) {
     if (file === "restorePollerHelpers.ts")
       report(file, "<file>", "Generated-only restorePollerHelpers.ts must not exist in src.");
@@ -1437,14 +1667,16 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
       }
       if (
         ts.isInterfaceDeclaration(node) &&
-        node.name.text === "BetaEvaluatorsOperations" &&
-        (!node.members.some((member) => nameOf(member.name) === "list") ||
+        (node.name.text === "BetaEvaluatorsOperations" ||
+          (file === rootFile && node.name.text === "EvaluatorsOperations")) &&
+        ((!node.members.some((member) => nameOf(member.name) === "list") &&
+          !(file === betaFile && evaluatorListPromoted)) ||
           node.members.some((member) => nameOf(member.name) === "listLatestVersions"))
       ) {
         report(
           file,
           node.name.text,
-          "Preserve BetaEvaluatorsOperations.list; listLatestVersions is not the maintained API.",
+          "Preserve evaluators.list in its generated-backed group; listLatestVersions is not the maintained API.",
           "list",
         );
       }
@@ -1658,7 +1890,7 @@ export function validateCustomization({
   }
   checkExports(trees, exportRenames, report);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report);
+  checkProtected(trees, renames, report, matches);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }

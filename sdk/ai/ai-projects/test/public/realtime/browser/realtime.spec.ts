@@ -78,7 +78,7 @@ describe("AIProjectClient browser realtime", () => {
     vi.unstubAllGlobals();
   });
 
-  it("sends bearer auth as a WebSocket subprotocol and other headers as query parameters", async () => {
+  it("sends bearer auth as a WebSocket subprotocol and supported connection query parameters", async () => {
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
       agentSessionId: "session-1",
       store: false,
@@ -95,51 +95,65 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("agent_session_id")).toBe("session-1");
     expect(url.searchParams.get("store")).toBe("false");
     expect(url.searchParams.has("authorization")).toBe(false);
-    expect(url.searchParams.get("x-ms-client-sdk")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
+    expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    ]);
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
-    expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
-    expect(url.searchParams.get("structured_inputs")).toBe(JSON.stringify({ customer: "Ada" }));
+    expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
+    expect(url.searchParams.get("client-request-id")).toBeTruthy();
+    expect(url.searchParams.getAll("structured_inputs")).toEqual([
+      JSON.stringify({ customer: "Ada" }),
+    ]);
+    expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("x-ms-voice-structured-inputs")).toBe(false);
-    expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
     expect(url.searchParams.has("user-agent")).toBe(false);
-    expect(url.searchParams.get("h-user-agent")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
+    expect(url.searchParams.has("h-user-agent")).toBe(false);
+    expect(url.searchParams.has("h-x-ms-client-sdk")).toBe(false);
     expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
 
     await connection.close();
+  });
+
+  it("maps only supported headers, case-insensitively, without generic header forwarding", () => {
+    const structuredInputs = JSON.stringify({ customer: "Ada & Bob" });
+    const url = new URL(
+      addHeadersToUrl("wss://example.test/voice?api-version=v1&x-ms-client-sdk=sdk-version", {
+        Authorization: "Bearer browser-test-token",
+        "Foundry-Features": "VoiceAgents=V1Preview",
+        "X-MS-Client-Request-ID": "request-1",
+        "X-MS-Voice-Structured-Inputs": structuredInputs,
+        "User-Agent": "custom-prefix sdk-version",
+        "X-MS-Client-SDK": "sdk-version",
+        "X-Custom-Header": "custom-value",
+        Accept: "application/json",
+      }),
+    );
+
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      "api-version": "v1",
+      "x-ms-client-sdk": "sdk-version",
+      "client-request-id": "request-1",
+      foundry_features: "VoiceAgents=V1Preview",
+    });
   });
 
   it.each([
     "x-ms-voice-structured-inputs",
     "X-MS-Voice-Structured-Inputs",
     "X-MS-VOICE-STRUCTURED-INPUTS",
-  ])("ignores the obsolete %s header without changing other header mappings", (headerName) => {
+  ])("ignores the obsolete %s header without changing the shared query", (headerName) => {
     const structuredInputs = JSON.stringify({ customer: "Ada & Bob" });
-    const sourceUrl = new URL(
-      "wss://example.test/voice?api-version=v1&x-ms-client-sdk=sdk-version",
-    );
+    const sourceUrl = new URL("wss://example.test/voice?api-version=v1");
     sourceUrl.searchParams.set("structured_inputs", structuredInputs);
-    const urlWithHeaders = addHeadersToUrl(sourceUrl.toString(), {
-      [headerName]: '{"customer":"legacy"}',
-      "foundry-features": "VoiceAgents=V1Preview",
-      "x-ms-client-request-id": "request-1",
-      "user-agent": "custom-prefix sdk-version",
-      "x-ms-client-sdk": "sdk-version",
-      "x-custom-header": "custom-value",
-    });
-    const url = new URL(urlWithHeaders);
+    const url = new URL(
+      addHeadersToUrl(sourceUrl.toString(), { [headerName]: '{"customer":"legacy"}' }),
+    );
 
     expect(Object.fromEntries(url.searchParams)).toEqual({
       "api-version": "v1",
-      "x-ms-client-sdk": "sdk-version",
       structured_inputs: structuredInputs,
-      "client-request-id": "request-1",
-      "h-user-agent": "custom-prefix sdk-version",
-      "h-x-ms-client-sdk": "sdk-version",
-      "h-x-custom-header": "custom-value",
-      foundry_features: "VoiceAgents=V1Preview",
     });
-    expect(urlWithHeaders).toContain("foundry_features=VoiceAgents=V1Preview");
   });
 
   it.each([
@@ -169,15 +183,88 @@ describe("AIProjectClient browser realtime", () => {
     await connection.close();
   });
 
-  it("prefixes the user-agent query parameter with a custom userAgentPrefix", async () => {
+  it("preserves custom connection query parameters alongside browser authentication", async () => {
+    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+      query: { custom: "value + /?&=#", enabled: false, count: 0, omitted: undefined },
+      structuredInputs: { customer: "Ada" },
+      store: false,
+    });
+    try {
+      const socket = getSocket();
+      const url = new URL(socket.url);
+      expect(url.searchParams.getAll("custom")).toEqual(["value + /?&=#"]);
+      expect(url.searchParams.get("enabled")).toBe("false");
+      expect(url.searchParams.get("count")).toBe("0");
+      expect(url.searchParams.has("omitted")).toBe(false);
+      expect(url.searchParams.get("store")).toBe("false");
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada"}']);
+      expect(url.searchParams.has("structured_input")).toBe(false);
+      expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
+      expect(url.searchParams.has("authorization")).toBe(false);
+      expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("snapshots structured inputs before loading the browser transport and acquiring a token", async () => {
+    const structuredInputs = { customer: { name: "Ada" } };
+    const options = { structuredInputs };
+    const pendingConnection = createClient().beta.voiceAgents.realtime.connect(
+      "browser-agent",
+      options,
+    );
+    structuredInputs.customer.name = "changed";
+    options.structuredInputs = { customer: { name: "replacement" } };
+
+    const connection = await pendingConnection;
+    try {
+      const url = new URL(getSocket().url);
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":{"name":"Ada"}}']);
+      expect(url.searchParams.has("structured_input")).toBe(false);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it.each(["structured_input", "STRUCTURED_INPUT", "structured_inputs", "STRUCTURED_INPUTS"])(
+    "rejects reserved browser query parameter %s before creating a WebSocket",
+    async (name) => {
+      await expect(
+        createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+          structuredInputs: { customer: "Ada" },
+          query: { [name]: '{"customer":"Mallory"}' },
+        }),
+      ).rejects.toThrow(TypeError);
+      expect(MockBrowserWebSocket.instances).toHaveLength(0);
+    },
+  );
+
+  it("replaces existing preview parameters using standard URL encoding", () => {
+    const urlWithHeaders = addHeadersToUrl(
+      "wss://example.test/voice?foundry_features=old&foundry_features=duplicate",
+      { "foundry-features": "VoiceAgents=V1Preview" },
+    );
+
+    expect(urlWithHeaders).toBe(
+      "wss://example.test/voice?foundry_features=VoiceAgents%3DV1Preview",
+    );
+    expect(new URL(urlWithHeaders).searchParams.getAll("foundry_features")).toEqual([
+      "VoiceAgents=V1Preview",
+    ]);
+  });
+
+  it("keeps only the SDK query parameter when a custom userAgentPrefix is configured", async () => {
     const connection =
       await createClient("custom-prefix").beta.voiceAgents.realtime.connect("browser-agent");
     const url = new URL(getSocket().url);
 
+    expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    ]);
     expect(url.searchParams.has("user-agent")).toBe(false);
-    expect(url.searchParams.get("h-user-agent")).toBe(
-      `custom-prefix azsdk-js-ai-projects/${SDK_VERSION}`,
-    );
+    expect(url.searchParams.has("h-user-agent")).toBe(false);
+    expect(url.searchParams.has("h-x-ms-client-sdk")).toBe(false);
 
     await connection.close();
   });

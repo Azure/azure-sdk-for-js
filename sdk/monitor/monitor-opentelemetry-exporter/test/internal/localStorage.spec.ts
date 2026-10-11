@@ -8,8 +8,10 @@ import { join } from "node:path";
 import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpClient } from "@azure/core-rest-pipeline";
 import "../../src/platform/nodejs/index.js";
 import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
+import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
 import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
 import { ConfigurationProfile } from "../../src/_configuration/configurationProfile.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
@@ -130,6 +132,50 @@ describe("OneSettings local storage", () => {
     await configuration.getConfigurationAndRefreshInterval();
   }
 
+  it.each([
+    { replayMethod: "sendFirstPersistedFile", isStatsbeatSender: false },
+    { replayMethod: "sendAllPersistedFiles", isStatsbeatSender: false },
+    { replayMethod: "sendFirstPersistedFile", isStatsbeatSender: true },
+    { replayMethod: "sendAllPersistedFiles", isStatsbeatSender: true },
+  ] as const)(
+    "serializes persisted timestamps after restart: $replayMethod, Statsbeat=$isStatsbeatSender",
+    async ({ replayMethod, isStatsbeatSender }) => {
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => ({
+        request,
+        status: 200,
+        headers: createHttpHeaders(),
+        bodyAsText: '{"itemsReceived":1,"itemsAccepted":1,"errors":[]}',
+      }));
+      const options = {
+        instrumentationKey: "00000000-0000-4000-8000-000000000001",
+        endpointUrl: "https://example.test",
+        trackStatsbeat: false,
+        isStatsbeatSender,
+        exporterOptions: {
+          storageDirectory: directory,
+          httpClient: { sendRequest },
+          retryOptions: { maxRetries: 0 },
+        },
+      };
+      const writer = new HttpSender(options);
+      try {
+        expect(await writer["persister"].push(batch)).toBe(true);
+      } finally {
+        await writer.shutdown();
+      }
+
+      const reader = new HttpSender(options);
+      try {
+        await reader[replayMethod]();
+        expect(sendRequest).toHaveBeenCalledOnce();
+        expect(sendRequest.mock.calls[0][0].body).toBe(JSON.stringify(batch));
+        expect(await reader["persister"].shift()).toBeNull();
+      } finally {
+        await reader.shutdown();
+      }
+    },
+  );
+
   it("applies cached disable to late senders, including SDK Stats senders", async () => {
     await publish(disabled);
     for (const stats of [false, true]) {
@@ -245,7 +291,7 @@ describe("OneSettings local storage", () => {
     expect(sender.send).not.toHaveBeenCalled();
     expect(await sender["persister"].shift()).toBeNull();
     await sender["storageCallback"](enabled);
-    expect(await sender["persister"].shift()).toEqual(JSON.parse(JSON.stringify(batch)));
+    expect(await sender["persister"].shift()).toEqual(batch);
   });
 
   it("waits for an old replay before restarting after rapid toggles", async () => {
@@ -323,7 +369,7 @@ describe("OneSettings local storage", () => {
     await replay;
     expect(sender.send).not.toHaveBeenCalled();
     await sender["storageCallback"](enabled);
-    expect(await sender["persister"].shift()).toEqual(JSON.parse(JSON.stringify(batch)));
+    expect(await sender["persister"].shift()).toEqual(batch);
   });
 
   it("cancels retry timers and honors their deadline when re-enabled", async () => {
@@ -380,7 +426,7 @@ describe("OneSettings local storage", () => {
 
       expect(shift).toHaveBeenCalledTimes(2);
       expect(sender.send).toHaveBeenCalledTimes(3);
-      expect(sender.send).toHaveBeenLastCalledWith(JSON.parse(JSON.stringify(queuedBatch)));
+      expect(sender.send).toHaveBeenLastCalledWith(queuedBatch);
     },
   );
 
@@ -399,7 +445,7 @@ describe("OneSettings local storage", () => {
     expect(sender["retryTimer"]).not.toBeNull();
     await vi.advanceTimersByTimeAsync(0);
     await Promise.all([...sender["replayOperations"]]);
-    expect(sender.send).toHaveBeenCalledExactlyOnceWith(JSON.parse(JSON.stringify(batch)));
+    expect(sender.send).toHaveBeenCalledExactlyOnceWith(batch);
   });
 
   it.each(["pause", "shutdown"])("cancels overlapping replay requests on %s", async (action) => {
@@ -431,7 +477,7 @@ describe("OneSettings local storage", () => {
       await vi.advanceTimersByTimeAsync(1000);
       await Promise.all([...sender["replayOperations"]]);
       expect(sender.send).toHaveBeenCalledTimes(3);
-      expect(sender.send).toHaveBeenLastCalledWith(JSON.parse(JSON.stringify(queuedBatch)));
+      expect(sender.send).toHaveBeenLastCalledWith(queuedBatch);
     }
   });
 
@@ -467,7 +513,7 @@ describe("OneSettings local storage", () => {
       await Promise.all([replay, closing]);
     }
 
-    expect(await sender["persister"].shift()).toEqual(JSON.parse(JSON.stringify(batch)));
+    expect(await sender["persister"].shift()).toEqual(batch);
   });
 
   it("stops a pending write before creating a file if disabled during directory setup", async () => {
@@ -494,7 +540,7 @@ describe("OneSettings local storage", () => {
     active.mockReturnValueOnce(true).mockReturnValue(false);
     expect(await persister.shift()).toBeNull();
     active.mockReturnValue(true);
-    expect(await persister.shift()).toEqual(JSON.parse(JSON.stringify(batch)));
+    expect(await persister.shift()).toEqual(batch);
   });
 
   it("keeps retention cleanup available while paused", async () => {

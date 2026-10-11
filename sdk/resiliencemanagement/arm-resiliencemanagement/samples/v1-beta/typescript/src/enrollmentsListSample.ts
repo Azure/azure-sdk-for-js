@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Enrollments by Usage Plan.
  *
  * @summary list Enrollments by Usage Plan.
- * x-ms-original-file: 2026-04-01-preview/Enrollments_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Enrollments_List_MaximumSet_Gen.json
  */
 async function enrollmentsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

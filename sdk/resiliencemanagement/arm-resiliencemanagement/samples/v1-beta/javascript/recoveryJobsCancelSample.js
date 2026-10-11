@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this action attempts to cancel the ongoing recovery orchestration job.
  *
  * @summary this action attempts to cancel the ongoing recovery orchestration job.
- * x-ms-original-file: 2026-04-01-preview/RecoveryJobs_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryJobs_Cancel_MaximumSet_Gen.json
  */
 async function recoveryJobsCancelMaximumSet() {
   const credential = new DefaultAzureCredential();

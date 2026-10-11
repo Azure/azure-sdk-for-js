@@ -24,6 +24,7 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 | Release / publish a package                                             | `.github/skills/azsdk-common-sdk-release/SKILL.md`                            |
 | Resolve APIView feedback                                                | `.github/skills/azsdk-common-apiview-feedback-resolution/SKILL.md`            |
 | Troubleshoot a CI / pipeline failure                                    | `.github/skills/azsdk-common-pipeline-troubleshooting/SKILL.md`               |
+| Audit or register ADO pipelines for `ci.yml` files                      | `.github/skills/ado-pipeline-audit/SKILL.md`                                  |
 | Create a new package-specific skill                                     | `.github/skills/create-package-skill/SKILL.md`                                |
 | Copilot code review (CCR)                                               | `.github/skills/code-review/SKILL.md` (routes to canonical reviewer guidance) |
 | Review criteria (architecture, perf, security, deps, tests, docs, mgmt) | `.github/instructions/reviewer/*.instructions.md`                             |

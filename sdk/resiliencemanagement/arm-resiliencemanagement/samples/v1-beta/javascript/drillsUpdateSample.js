@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Drill
  *
  * @summary update a Drill
- * x-ms-original-file: 2026-04-01-preview/Drills_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Drills_Update_MaximumSet_Gen.json
  */
 async function drillsUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -43,6 +43,29 @@ async function drillsUpdateMaximumSet() {
         },
       },
       drillAssetProperties: { subscription: "pxlmwjuhcif", region: "zuvwzxnbqyzdkthrewruw" },
+      healthModelMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        discoveryRuleId:
+          "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourceGroups/contoso-health/providers/Microsoft.CloudHealth/healthmodels/contoso-payments-hm/discoveryrules/payments-frontend-rule",
+      },
+      sliMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        slis: [
+          {
+            sliId:
+              "/providers/Microsoft.Management/serviceGroups/sampleServiceGroupName/providers/Microsoft.Monitor/slis/checkout-availability",
+            type: "Availability",
+          },
+        ],
+      },
     },
     identity: { type: "None", userAssignedIdentities: {} },
   });

@@ -31,7 +31,7 @@ export function _listSend(
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
       recoveryJobName: recoveryJobName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   );
 }
@@ -95,7 +95,7 @@ export function _getSend(
       recoveryPlanName: recoveryPlanName,
       recoveryJobName: recoveryJobName,
       recoveryJobResourceName: recoveryJobResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

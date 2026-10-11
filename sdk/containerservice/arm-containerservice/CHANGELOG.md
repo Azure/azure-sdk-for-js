@@ -1,5 +1,16 @@
 # Release History
 
+## 25.6.0 (2026-09-29)
+
+### Features Added
+  - Added Interface KubernetesResourceObjectEncryptionProfile
+  - Interface ManagedCluster has a new optional parameter enableFips
+  - Interface ManagedClusterProperties has a new optional parameter enableFips
+  - Interface ManagedClusterSecurityProfile has a new optional parameter kubernetesResourceObjectEncryptionProfile
+  - Added Type Alias InfrastructureEncryption
+  - Added Enum KnownInfrastructureEncryption
+  - Enum KnownVersions has a new value V20260701
+
 ## 25.6.0-beta.1 (2026-09-01)
 Compared with version 25.5.0
 

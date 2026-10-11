@@ -200,6 +200,28 @@ describe("FileSystemPersist", () => {
   });
 
   describe("#shift()", () => {
+    it("rehydrates envelope timestamps without changing nested time properties", async () => {
+      const timestamp = "2026-09-25T12:34:56.789Z";
+      const persisted = [
+        {
+          name: "replay",
+          time: timestamp,
+          tags: { time: timestamp },
+          data: { baseData: { properties: { time: timestamp } } },
+        },
+        { name: "second", time: timestamp },
+      ];
+      const persister = new FileSystemPersist(instrumentationKey);
+      try {
+        expect(await persister.push(persisted)).toBe(true);
+        expect(await persister.shift()).toEqual(
+          persisted.map((envelope) => ({ ...envelope, time: new Date(timestamp) })),
+        );
+      } finally {
+        persister.shutdown();
+      }
+    });
+
     it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist(instrumentationKey);
       expect(() => persister.shift()).not.toThrow();
@@ -376,11 +398,7 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(success, true);
 
       const result = await persister.shift();
-      assert.deepStrictEqual(
-        result,
-        JSON.parse(JSON.stringify(complexBatch)),
-        "Data should survive push/shift round-trip",
-      );
+      assert.deepStrictEqual(result, complexBatch, "Data should survive push/shift round-trip");
     });
 
     it("shift should handle empty directory gracefully", async () => {

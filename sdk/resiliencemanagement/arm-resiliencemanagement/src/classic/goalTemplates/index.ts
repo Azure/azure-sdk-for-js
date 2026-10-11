@@ -18,12 +18,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GoalTemplates operations. */
 export interface GoalTemplatesOperations {
-  /** List GoalTemplate resources by tenant */
+  /** Lists the goal templates of a service group. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead. */
   list: (
     serviceGroupName: string,
     options?: GoalTemplatesListOptionalParams,
   ) => PagedAsyncIterableIterator<GoalTemplate>;
-  /** Delete a GoalTemplate */
+  /** Deletes a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead. */
   delete: (
     serviceGroupName: string,
     goalTemplateName: string,
@@ -41,7 +41,7 @@ export interface GoalTemplatesOperations {
     goalTemplateName: string,
     options?: GoalTemplatesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a GoalTemplate */
+  /** Updates a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead. */
   update: (
     serviceGroupName: string,
     goalTemplateName: string,
@@ -62,7 +62,7 @@ export interface GoalTemplatesOperations {
     properties: GoalTemplate,
     options?: GoalTemplatesUpdateOptionalParams,
   ) => Promise<void>;
-  /** Create a GoalTemplate */
+  /** Creates or updates a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead. */
   createOrUpdate: (
     serviceGroupName: string,
     goalTemplateName: string,
@@ -83,7 +83,7 @@ export interface GoalTemplatesOperations {
     resource: GoalTemplate,
     options?: GoalTemplatesCreateOrUpdateOptionalParams,
   ) => Promise<GoalTemplate>;
-  /** Get a GoalTemplate */
+  /** Gets a goal template. Deprecated: the GoalTemplate resource type is deprecated and is removed in 2026-09-30-preview. Set resiliency intent directly on the GoalAssignment (requireZonalResiliency, requireRegionalResiliency) and read resource posture from GoalResource (zonalResiliency, regionalResiliency) instead. */
   get: (
     serviceGroupName: string,
     goalTemplateName: string,

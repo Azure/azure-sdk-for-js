@@ -8,6 +8,7 @@ packages:
   - eng/tools/versioning
   - eng/tools/dependency-testing
   - eng/tools/analyze-deps
+  - eng/tools/generate-doc
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'
@@ -102,6 +103,7 @@ allowBuilds:
   '@azure/msal-node-extensions': false
   '@azure/msal-node-runtime': false
   autorest: false
+  dtrace-provider: false
   esbuild: false
   keytar: false
   protobufjs: false

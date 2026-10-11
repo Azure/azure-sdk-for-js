@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list UsagePlan resources by resource group
  *
  * @summary list UsagePlan resources by resource group
- * x-ms-original-file: 2026-04-01-preview/UsagePlans_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UsagePlans_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function usagePlansListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();

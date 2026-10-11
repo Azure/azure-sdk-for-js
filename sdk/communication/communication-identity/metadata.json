@@ -1,0 +1,34 @@
+{
+  "apiVersions": {
+    "Azure.Communication.Identity": "2026-09-23"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Communication.Identity",
+    "CrossLanguageDefinitionId": {
+      "@azure/communication-identity!CommunicationIdentityCreateRequest:interface": "Azure.Communication.Identity.CommunicationIdentityCreateRequest",
+      "@azure/communication-identity!CommunicationIdentityAccessTokenResult:interface": "Azure.Communication.Identity.CommunicationIdentityAccessTokenResult",
+      "@azure/communication-identity!CommunicationIdentity:interface": "Azure.Communication.Identity.CommunicationIdentity",
+      "@azure/communication-identity!CommunicationIdentityAccessToken:interface": "Azure.Communication.Identity.CommunicationIdentityAccessToken",
+      "@azure/communication-identity!CommunicationErrorResponse:interface": "Azure.Communication.Identity.CommunicationErrorResponse",
+      "@azure/communication-identity!CommunicationError:interface": "Azure.Communication.Identity.CommunicationError",
+      "@azure/communication-identity!CommunicationIdentityAccessTokenRequest:interface": "Azure.Communication.Identity.CommunicationIdentityAccessTokenRequest",
+      "@azure/communication-identity!TeamsUserExchangeTokenRequest:interface": "Azure.Communication.Identity.TeamsUserExchangeTokenRequest",
+      "@azure/communication-identity!TeamsExtensionExchangeTokenRequest:interface": "Azure.Communication.Identity.TeamsExtensionExchangeTokenRequest",
+      "@azure/communication-identity!TeamsExtensionAssignmentResponse:interface": "Azure.Communication.Identity.TeamsExtensionAssignmentResponse",
+      "@azure/communication-identity!TeamsExtensionAssignmentCreateOrUpdateRequest:interface": "Azure.Communication.Identity.TeamsExtensionAssignmentCreateOrUpdateRequest",
+      "@azure/communication-identity!KnownCommunicationIdentityTokenScope:enum": "Azure.Communication.Identity.CommunicationIdentityTokenScope",
+      "@azure/communication-identity!KnownTeamsExtensionPrincipalType:enum": "Azure.Communication.Identity.TeamsExtensionPrincipalType",
+      "@azure/communication-identity!KnownVersions:enum": "Azure.Communication.Identity.Versions",
+      "@azure/communication-identity!TeamsExtensionOperationsOperations#deleteAssignment:member": "Azure.Communication.Identity.TeamsExtensionOperations.deleteAssignment",
+      "@azure/communication-identity!TeamsExtensionOperationsOperations#upsertAssignment:member": "Azure.Communication.Identity.TeamsExtensionOperations.upsertAssignment",
+      "@azure/communication-identity!TeamsExtensionOperationsOperations#getAssignment:member": "Azure.Communication.Identity.TeamsExtensionOperations.getAssignment",
+      "@azure/communication-identity!TeamsExtensionOperationsOperations#exchangeToken:member": "Azure.Communication.Identity.TeamsExtensionOperations.exchangeToken",
+      "@azure/communication-identity!TeamsUserOperationsOperations#exchangeTeamsUserAccessToken:member": "Azure.Communication.Identity.TeamsUserOperations.exchangeTeamsUserAccessToken",
+      "@azure/communication-identity!IdentityOperationsOperations#issueAccessToken:member": "Azure.Communication.Identity.IdentityOperations.issueAccessToken",
+      "@azure/communication-identity!IdentityOperationsOperations#revokeAccessTokens:member": "Azure.Communication.Identity.IdentityOperations.revokeAccessTokens",
+      "@azure/communication-identity!IdentityOperationsOperations#delete:member": "Azure.Communication.Identity.IdentityOperations.delete",
+      "@azure/communication-identity!IdentityOperationsOperations#create:member": "Azure.Communication.Identity.IdentityOperations.create"
+    }
+  }
+}
