@@ -1,5 +1,21 @@
 # Release History
 
+## 1.21.0 (Unreleased)
+
+### Features Added
+
+- Added OneSettings `FEATURE_LIVE_METRICS` control of QuickPulse polling, collection, and publishing, preserving local opt-outs and the last valid state when settings are missing or invalid.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Live Metrics subscriptions and background metric collectors are now cleaned up on distro shutdown and reinitialization.
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.47.
+
 ## 1.20.1 (2026-10-05)
 
 ### Bugs Fixed

@@ -68,7 +68,9 @@ import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils.js";
 import { getCloudRole, getCloudRoleInstance } from "../utils.js";
 import { Logger } from "../../shared/logging/logger.js";
+import { _registerFeatureCallback } from "@azure/monitor-opentelemetry-exporter/_configuration";
 
+const ONE_SETTINGS_FEATURE_LIVE_METRICS = "FEATURE_LIVE_METRICS";
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
 const PING_INTERVAL = 5000;
@@ -101,6 +103,10 @@ export class LiveMetrics {
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
   private isShutdown = false;
+  private remoteEnabled = true;
+  private unregisterConfigurationCallback: (() => void) | undefined;
+  private configurationTransition: Promise<void> = Promise.resolve();
+  private pingAbortController = new AbortController();
   private resetCountersOnActivation = true;
   private isDeactivating: boolean = false;
   private deactivatingPromise: Promise<void> | undefined;
@@ -202,21 +208,90 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
-    this.schedulePing();
     this.lastCpuUsage = process.cpuUsage();
     this.lastHrTime = process.hrtime.bigint();
+    if (this.config.enableLiveMetrics) {
+      this.unregisterConfigurationCallback = _registerFeatureCallback(
+        ONE_SETTINGS_FEATURE_LIVE_METRICS,
+        (enabled) => this.setFeatureEnabled(enabled),
+      );
+    }
+    this.schedulePing();
   }
 
   public async shutdown(): Promise<void> {
     this.isShutdown = true;
+    this.unregisterConfigurationCallback?.();
+    this.unregisterConfigurationCallback = undefined;
     clearTimeout(this.handle);
     this.isCollectingData = false;
-    await this.deactivateMetrics();
+    this.pingAbortController.abort();
+    try {
+      await this.updateFeatureState(false);
+    } finally {
+      this.quickpulseExporter.setEnabled(false);
+    }
+  }
+
+  private get enabled(): boolean {
+    return (
+      !!this.config.enableLiveMetrics &&
+      this.remoteEnabled &&
+      !this.isShutdown &&
+      !this.pingAbortController.signal.aborted
+    );
+  }
+
+  private setFeatureEnabled(enabled: boolean): void | Promise<void> {
+    if (this.isShutdown || this.remoteEnabled === enabled) {
+      return;
+    }
+    this.remoteEnabled = enabled;
+    if (!enabled) {
+      this.pause();
+    }
+    return this.updateFeatureState(enabled);
+  }
+
+  private pause(): void {
+    clearTimeout(this.handle);
+    this.isCollectingData = false;
+    this.pingAbortController.abort();
+    // MeterProvider.shutdown() flushes its reader; do not send that final batch while paused.
+    this.quickpulseExporter.setEnabled(false);
+  }
+
+  private updateFeatureState(enabled: boolean): Promise<void> {
+    this.configurationTransition = this.configurationTransition.then(
+      () => this.applyFeatureState(enabled),
+      () => this.applyFeatureState(enabled),
+    );
+    return this.configurationTransition;
+  }
+
+  private async applyFeatureState(enabled: boolean): Promise<void> {
+    if (!enabled) {
+      if (!this.isShutdown) {
+        this.pause();
+      }
+      await this.deactivateMetrics();
+      this.etag = "";
+      this.quickpulseExporter.setEtag("");
+    } else if (this.config.enableLiveMetrics && this.remoteEnabled && !this.isShutdown) {
+      this.pingAbortController = new AbortController();
+      this.quickpulseExporter.setEnabled(true);
+      this.lastCpuUsage = process.cpuUsage();
+      this.lastHrTime = process.hrtime.bigint();
+      this.lastSuccessTime = Date.now();
+      this.pingInterval = PING_INTERVAL;
+      this.postInterval = POST_INTERVAL;
+      this.schedulePing();
+    }
   }
 
   private schedulePing(): void {
     clearTimeout(this.handle);
-    if (!this.isShutdown && !this.isCollectingData) {
+    if (this.enabled && !this.isCollectingData) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
@@ -224,23 +299,32 @@ export class LiveMetrics {
   }
 
   private async goQuickpulse(): Promise<void> {
-    if (this.isShutdown) {
+    if (!this.enabled) {
       return;
     }
+    const abortController = this.pingAbortController;
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
         const params: IsSubscribedOptionalParams = {
+          abortSignal: abortController.signal,
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
           configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
           const response = await this.pingSender.isSubscribed(params);
-          await this.quickPulseDone(response);
+          if (this.enabled && this.pingAbortController === abortController) {
+            await this.quickPulseDone(response);
+          }
         });
       } catch (error) {
-        await this.quickPulseDone(undefined);
+        if (this.enabled && this.pingAbortController === abortController) {
+          await this.quickPulseDone(undefined);
+        }
+      }
+      if (!this.enabled || this.pingAbortController !== abortController) {
+        return;
       }
       this.schedulePing();
     }
@@ -250,7 +334,7 @@ export class LiveMetrics {
   }
 
   private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
-    if (this.isShutdown) {
+    if (!this.enabled) {
       return;
     }
     if (!response) {
@@ -322,7 +406,7 @@ export class LiveMetrics {
 
   // Activate live metrics collection
   public activateMetrics(options?: { collectionInterval: number }): void {
-    if (this.meterProvider || this.isDeactivating || this.isShutdown) {
+    if (this.meterProvider || this.isDeactivating || !this.enabled) {
       return;
     }
     // Turn on live metrics active collection for statsbeat
@@ -515,7 +599,7 @@ export class LiveMetrics {
    * @internal
    */
   public recordSpan(span: ReadableSpan): void {
-    if (this.isCollectingData) {
+    if (this.enabled && this.isCollectingData) {
       const columns: RequestData | DependencyData = getSpanData(span);
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       let derivedMetricInfos: DerivedMetricInfo[];
@@ -579,7 +663,7 @@ export class LiveMetrics {
    * @internal
    */
   public recordLog(logRecord: SdkLogRecord): void {
-    if (this.isCollectingData) {
+    if (this.enabled && this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
