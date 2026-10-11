@@ -397,12 +397,14 @@ describe("OneSettings Live Metrics", () => {
       logs.getLogger("test").emit({ body: "ordinary-log" });
       await vi.advanceTimersByTimeAsync(0);
       await shutdownAzureMonitor();
-      expect(traceExport.mock.calls.flatMap(([spans]) => spans.map((span) => span.name))).toContain(
-        "ordinary-span",
+      expect(traceExport).toHaveBeenCalledWith(
+        expect.arrayContaining([expect.objectContaining({ name: "ordinary-span" })]),
+        expect.any(Function),
       );
-      expect(
-        logExport.mock.calls.flatMap(([records]) => records.map((record) => record.body)),
-      ).toContain("ordinary-log");
+      expect(logExport).toHaveBeenCalledWith(
+        expect.arrayContaining([expect.objectContaining({ body: "ordinary-log" })]),
+        expect.any(Function),
+      );
     } finally {
       await shutdownAzureMonitor();
     }
