@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Ddos Protection Status of a Public IP Address
  *
  * @summary gets the Ddos Protection Status of a Public IP Address
- * x-ms-original-file: 2026-01-01/PublicIpAddressGetDdosProtectionStatus.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressGetDdosProtectionStatus.json
  */
 async function getDdosProtectionStatusOfAPublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();

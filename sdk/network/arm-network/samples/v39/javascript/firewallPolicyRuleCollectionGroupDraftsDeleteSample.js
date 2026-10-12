@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Rule Collection Group Draft.
  *
  * @summary delete Rule Collection Group Draft.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupDraftDelete.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupDraftDelete.json
  */
 async function deleteFirewallRuleCollectionGroupDraft() {
   const credential = new DefaultAzureCredential();

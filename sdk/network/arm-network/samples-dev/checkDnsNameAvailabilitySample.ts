@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks whether a domain name in the cloudapp.azure.com zone is available for use.
  *
  * @summary checks whether a domain name in the cloudapp.azure.com zone is available for use.
- * x-ms-original-file: 2026-01-01/CheckDnsNameAvailability.json
+ * x-ms-original-file: 2026-03-01/CheckDnsNameAvailability.json
  */
 async function checkDnsNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

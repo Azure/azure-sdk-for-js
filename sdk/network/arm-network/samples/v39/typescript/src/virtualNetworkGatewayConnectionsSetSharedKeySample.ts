@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
  * @summary the Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionSetSharedKey.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionSetSharedKey.json
  */
 async function setVirtualNetworkGatewayConnectionSharedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
