@@ -168,7 +168,7 @@ You can find more code samples through the following links:
 - [Key Vault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/typescript)
 - [Key Vault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/test/)
 
-- [Manage EKM proxy private endpoints][ekm_private_endpoint_operations_sample] ([async version][ekm_private_endpoint_operations_async_sample])
+- [Manage EKM proxy private endpoints][ekm_private_endpoint_operations_sample]
 
 ## Contributing
 
