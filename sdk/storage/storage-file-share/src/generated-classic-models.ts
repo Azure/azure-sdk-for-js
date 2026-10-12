@@ -1982,6 +1982,9 @@ export enum KnownNfsFileType {
  * **Regular** \
  * **Directory** \
  * **SymLink**
+ *
+ * File items listed by `ShareDirectoryClient.listFilesAndDirectories()` on NFS shares can also be of
+ * type **BlockDevice**, **CharacterDevice**, **Fifo** or **Socket**.
  */
 export type NfsFileType = string;
 
