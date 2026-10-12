@@ -17,6 +17,10 @@ import type {
   EkmConnection,
   EkmProxyClientCertificateInfo,
   EkmProxyInfo,
+  EkmPrivateEndpointOperation,
+  EkmPrivateEndpointCreateParameters,
+  EkmPrivateEndpoint,
+  EkmPrivateEndpointListResult,
 } from "../models/models.js";
 import {
   fullBackupOperationDeserializer,
@@ -35,6 +39,10 @@ import {
   ekmConnectionDeserializer,
   ekmProxyClientCertificateInfoDeserializer,
   ekmProxyInfoDeserializer,
+  ekmPrivateEndpointOperationDeserializer,
+  ekmPrivateEndpointCreateParametersSerializer,
+  ekmPrivateEndpointDeserializer,
+  ekmPrivateEndpointListResultDeserializer,
 } from "../models/models.js";
 import type {
   GetSettingsOptionalParams,
@@ -54,12 +62,281 @@ import type {
   CheckEkmConnectionOptionalParams,
   GetEkmCertificateOptionalParams,
   GetEkmConnectionOptionalParams,
+  ListEkmPrivateEndpointsOptionalParams,
+  GetEkmPrivateEndpointOptionalParams,
+  DeleteEkmPrivateEndpointOptionalParams,
+  CreateEkmPrivateEndpointOptionalParams,
+  GetEkmPrivateEndpointOperationStatusOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listEkmPrivateEndpointsSend(
+  context: Client,
+  options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listEkmPrivateEndpointsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointListResultDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) lists all EKM proxy private endpoints on the pool. This operation requires ekm/read permission. */
+export async function listEkmPrivateEndpoints(
+  context: Client,
+  options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpointListResult> {
+  const result = await _listEkmPrivateEndpointsSend(context, options);
+  return _listEkmPrivateEndpointsDeserialize(result);
+}
+
+export function _getEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpoint> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) gets an existing EKM proxy private endpoint. This operation requires ekm/read permission. */
+export async function getEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpoint> {
+  const result = await _getEkmPrivateEndpointSend(context, peName, options);
+  return _getEkmPrivateEndpointDeserialize(result);
+}
+
+export function _deleteEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) deletes an existing EKM proxy private endpoint. The operation is rejected while an EKM connection still references the private endpoint. This operation requires ekm/write permission. */
+export function deleteEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+  return getLongRunningPoller(context, _deleteEkmPrivateEndpointDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _deleteEkmPrivateEndpointSend(context, peName, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
+}
+
+export function _createEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  parameters: EkmPrivateEndpointCreateParameters,
+  options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: ekmPrivateEndpointCreateParametersSerializer(parameters),
+  });
+}
+
+export async function _createEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) creates a private endpoint to the EKM proxy Private Link Service. A pool may have up to two private endpoints. This operation requires ekm/write permission. */
+export function createEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  parameters: EkmPrivateEndpointCreateParameters,
+  options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+  return getLongRunningPoller(
+    context,
+    _createEkmPrivateEndpointDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () => _createEkmPrivateEndpointSend(context, peName, parameters, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
+}
+
+export function _getEkmPrivateEndpointOperationStatusSend(
+  context: Client,
+  operationId: string,
+  options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/operations/{operationId}{?api%2Dversion}",
+    {
+      operationId: operationId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getEkmPrivateEndpointOperationStatusDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) private endpoint operation status. Returns the status of a private endpoint create or delete operation. This operation requires ekm/read permission. */
+export async function getEkmPrivateEndpointOperationStatus(
+  context: Client,
+  operationId: string,
+  options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpointOperation> {
+  const result = await _getEkmPrivateEndpointOperationStatusSend(context, operationId, options);
+  return _getEkmPrivateEndpointOperationStatusDeserialize(result);
+}
 
 export function _deleteEkmConnectionSend(
   context: Client,

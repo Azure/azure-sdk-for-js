@@ -9,7 +9,9 @@ import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PollerLike as PollerLike_2 } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -34,11 +36,21 @@ export interface CreateEkmConnectionOptions extends OperationOptions {
 }
 
 // @public
+export interface CreateEkmPrivateEndpointOptions extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
 export interface DeleteEkmConnectionOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteEkmPrivateEndpointOptions extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -57,11 +69,70 @@ export interface EkmClientOptions extends ClientOptions {
 
 // @public
 export interface EkmConnection {
+    connectivityMode?: EkmConnectivityMode;
     host: string;
     pathPrefix?: string;
     serverCaCertificates: Uint8Array[];
     serverSubjectCommonName?: string;
 }
+
+// @public
+export type EkmConnectivityMode = string;
+
+// @public
+export interface EkmPrivateEndpoint {
+    readonly location?: string;
+    readonly name?: string;
+    readonly privateLinkServiceConnectionState?: EkmPrivateEndpointConnectionState;
+    readonly properties?: EkmPrivateEndpointProperties;
+    readonly provisioningState?: EkmPrivateEndpointProvisioningState;
+}
+
+// @public
+export interface EkmPrivateEndpointConnectionState {
+    readonly actionsRequired?: string;
+    readonly description?: string;
+    readonly status?: EkmPrivateEndpointConnectionStatus;
+}
+
+// @public
+export type EkmPrivateEndpointConnectionStatus = string;
+
+// @public
+export interface EkmPrivateEndpointCreateParameters {
+    privateLinkServiceId: string;
+    requestMessage?: string;
+}
+
+// @public
+export interface EkmPrivateEndpointListResult {
+    readonly value?: EkmPrivateEndpoint[];
+}
+
+// @public
+export interface EkmPrivateEndpointOperation {
+    endTime?: Date;
+    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
+    error?: ErrorModel;
+    jobId?: string;
+    operationType?: EkmPrivateEndpointOperationType;
+    privateEndpointName?: string;
+    startTime?: Date;
+    status?: OperationState;
+    statusDetails?: string;
+}
+
+// @public
+export type EkmPrivateEndpointOperationType = string;
+
+// @public
+export interface EkmPrivateEndpointProperties {
+    readonly privateLinkServiceConnectionName?: string;
+    readonly privateLinkServiceId?: string;
+}
+
+// @public
+export type EkmPrivateEndpointProvisioningState = string;
 
 // @public
 export interface EkmProxyClientCertificateInfo {
@@ -84,6 +155,14 @@ export interface GetEkmCertificateOptions extends OperationOptions {
 
 // @public
 export interface GetEkmConnectionOptions extends OperationOptions {
+}
+
+// @public
+export interface GetEkmPrivateEndpointOperationStatusOptions extends OperationOptions {
+}
+
+// @public
+export interface GetEkmPrivateEndpointOptions extends OperationOptions {
 }
 
 // @public
@@ -196,9 +275,14 @@ export class KeyVaultEkmClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: EkmClientOptions);
     checkEkmConnection(options?: CheckEkmConnectionOptions): Promise<EkmProxyInfo>;
     createEkmConnection(ekmConnection: EkmConnection, options?: CreateEkmConnectionOptions): Promise<EkmConnection>;
+    createEkmPrivateEndpoint(peName: string, parameters: EkmPrivateEndpointCreateParameters, options?: CreateEkmPrivateEndpointOptions): PollerLike_2<OperationState_2<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
     deleteEkmConnection(options?: DeleteEkmConnectionOptions): Promise<EkmConnection>;
+    deleteEkmPrivateEndpoint(peName: string, options?: DeleteEkmPrivateEndpointOptions): PollerLike_2<OperationState_2<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
     getEkmCertificate(options?: GetEkmCertificateOptions): Promise<EkmProxyClientCertificateInfo>;
     getEkmConnection(options?: GetEkmConnectionOptions): Promise<EkmConnection>;
+    getEkmPrivateEndpoint(peName: string, options?: GetEkmPrivateEndpointOptions): Promise<EkmPrivateEndpoint>;
+    getEkmPrivateEndpointOperationStatus(operationId: string, options?: GetEkmPrivateEndpointOperationStatusOptions): Promise<EkmPrivateEndpointOperation>;
+    listEkmPrivateEndpoints(options?: ListEkmPrivateEndpointsOptions): Promise<EkmPrivateEndpointListResult>;
     updateEkmConnection(ekmConnection: EkmConnection, options?: UpdateEkmConnectionOptions): Promise<EkmConnection>;
     readonly vaultUrl: string;
 }
@@ -322,7 +406,11 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "2026-01-01-preview";
+export const LATEST_API_VERSION = "2026-07-01-preview";
+
+// @public
+export interface ListEkmPrivateEndpointsOptions extends OperationOptions {
+}
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -350,6 +438,9 @@ export interface ListSettingsOptions extends OperationOptions {
 export interface ListSettingsResponse {
     settings: KeyVaultSetting[];
 }
+
+// @public
+export type OperationState = string;
 
 // @public
 export type OperationStatus = string;
@@ -392,7 +483,7 @@ export interface SettingsClientOptions extends ClientOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-01-01-preview";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-01-01-preview" | "2026-07-01-preview";
 
 // @public
 export interface UpdateEkmConnectionOptions extends OperationOptions {

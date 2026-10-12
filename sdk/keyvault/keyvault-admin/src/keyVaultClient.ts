@@ -64,6 +64,26 @@ import { _getRoleDefinitionsOperations } from "./classic/roleDefinitions/index.j
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  listEkmPrivateEndpoints,
+  getEkmPrivateEndpoint,
+  deleteEkmPrivateEndpoint,
+  createEkmPrivateEndpoint,
+  getEkmPrivateEndpointOperationStatus,
+} from "./api/operations.js";
+import type {
+  ListEkmPrivateEndpointsOptionalParams,
+  GetEkmPrivateEndpointOptionalParams,
+  DeleteEkmPrivateEndpointOptionalParams,
+  CreateEkmPrivateEndpointOptionalParams,
+  GetEkmPrivateEndpointOperationStatusOptionalParams,
+} from "./api/options.js";
+import type {
+  EkmPrivateEndpointOperation,
+  EkmPrivateEndpointCreateParameters,
+  EkmPrivateEndpoint,
+  EkmPrivateEndpointListResult,
+} from "./models/models.js";
 
 export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
@@ -89,6 +109,41 @@ export class KeyVaultClient {
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
+  }
+
+  listEkmPrivateEndpoints(
+    options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpointListResult> {
+    return listEkmPrivateEndpoints(this._client, options);
+  }
+
+  getEkmPrivateEndpoint(
+    peName: string,
+    options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpoint> {
+    return getEkmPrivateEndpoint(this._client, peName, options);
+  }
+
+  deleteEkmPrivateEndpoint(
+    peName: string,
+    options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    return deleteEkmPrivateEndpoint(this._client, peName, options);
+  }
+
+  createEkmPrivateEndpoint(
+    peName: string,
+    parameters: EkmPrivateEndpointCreateParameters,
+    options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    return createEkmPrivateEndpoint(this._client, peName, parameters, options);
+  }
+
+  getEkmPrivateEndpointOperationStatus(
+    operationId: string,
+    options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpointOperation> {
+    return getEkmPrivateEndpointOperationStatus(this._client, operationId, options);
   }
 
   /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exist, this operation fails. This operation requires ekm/delete permission. */

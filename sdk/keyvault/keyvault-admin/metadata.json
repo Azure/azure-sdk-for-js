@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "KeyVault": "2026-01-01-preview"
+    "KeyVault": "2026-07-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "KeyVault",
     "CrossLanguageDefinitionId": {
@@ -22,6 +22,12 @@
       "@azure/keyvault-admin!EkmConnection:interface": "KeyVault.EkmConnection",
       "@azure/keyvault-admin!EkmProxyClientCertificateInfo:interface": "KeyVault.EkmProxyClientCertificateInfo",
       "@azure/keyvault-admin!EkmProxyInfo:interface": "KeyVault.EkmProxyInfo",
+      "@azure/keyvault-admin!EkmPrivateEndpointOperation:interface": "KeyVault.EkmPrivateEndpointOperation",
+      "@azure/keyvault-admin!EkmPrivateEndpointCreateParameters:interface": "KeyVault.EkmPrivateEndpointCreateParameters",
+      "@azure/keyvault-admin!EkmPrivateEndpoint:interface": "KeyVault.EkmPrivateEndpoint",
+      "@azure/keyvault-admin!EkmPrivateEndpointProperties:interface": "KeyVault.EkmPrivateEndpointProperties",
+      "@azure/keyvault-admin!EkmPrivateEndpointConnectionState:interface": "KeyVault.EkmPrivateEndpointConnectionState",
+      "@azure/keyvault-admin!EkmPrivateEndpointListResult:interface": "KeyVault.EkmPrivateEndpointListResult",
       "@azure/keyvault-admin!RoleDefinition:interface": "KeyVault.RoleDefinition",
       "@azure/keyvault-admin!RoleDefinitionProperties:interface": "KeyVault.RoleDefinitionProperties",
       "@azure/keyvault-admin!Permission:interface": "KeyVault.Permission",
@@ -34,6 +40,11 @@
       "@azure/keyvault-admin!RoleAssignmentListResult:interface": "KeyVault.RoleAssignmentListResult",
       "@azure/keyvault-admin!KnownOperationStatus:enum": "KeyVault.OperationStatus",
       "@azure/keyvault-admin!KnownSettingTypeEnum:enum": "KeyVault.SettingTypeEnum",
+      "@azure/keyvault-admin!KnownEkmConnectivityMode:enum": "KeyVault.EkmConnectivityMode",
+      "@azure/keyvault-admin!KnownEkmPrivateEndpointOperationType:enum": "KeyVault.EkmPrivateEndpointOperationType",
+      "@azure/keyvault-admin!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure/keyvault-admin!KnownEkmPrivateEndpointProvisioningState:enum": "KeyVault.EkmPrivateEndpointProvisioningState",
+      "@azure/keyvault-admin!KnownEkmPrivateEndpointConnectionStatus:enum": "KeyVault.EkmPrivateEndpointConnectionStatus",
       "@azure/keyvault-admin!KnownRoleDefinitionType:enum": "KeyVault.RoleDefinitionType",
       "@azure/keyvault-admin!KnownRoleType:enum": "KeyVault.RoleType",
       "@azure/keyvault-admin!KnownDataAction:enum": "KeyVault.DataAction",
@@ -43,6 +54,11 @@
       "@azure/keyvault-admin!FullBackupOperationEndTime:type": "KeyVault.FullBackupOperation.endTime.anonymous",
       "@azure/keyvault-admin!RestoreOperationEndTime:type": "KeyVault.RestoreOperation.endTime.anonymous",
       "@azure/keyvault-admin!SelectiveKeyRestoreOperationEndTime:type": "KeyVault.SelectiveKeyRestoreOperation.endTime.anonymous",
+      "@azure/keyvault-admin!KeyVaultClient#listEkmPrivateEndpoints:member(1)": "KeyVault.listEkmPrivateEndpoints",
+      "@azure/keyvault-admin!KeyVaultClient#getEkmPrivateEndpoint:member(1)": "KeyVault.getEkmPrivateEndpoint",
+      "@azure/keyvault-admin!KeyVaultClient#deleteEkmPrivateEndpoint:member(1)": "KeyVault.deleteEkmPrivateEndpoint",
+      "@azure/keyvault-admin!KeyVaultClient#createEkmPrivateEndpoint:member(1)": "KeyVault.createEkmPrivateEndpoint",
+      "@azure/keyvault-admin!KeyVaultClient#getEkmPrivateEndpointOperationStatus:member(1)": "KeyVault.getEkmPrivateEndpointOperationStatus",
       "@azure/keyvault-admin!KeyVaultClient#deleteEkmConnection:member(1)": "KeyVault.deleteEkmConnection",
       "@azure/keyvault-admin!KeyVaultClient#updateEkmConnection:member(1)": "KeyVault.updateEkmConnection",
       "@azure/keyvault-admin!KeyVaultClient#createEkmConnection:member(1)": "KeyVault.createEkmConnection",

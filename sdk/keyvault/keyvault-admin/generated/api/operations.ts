@@ -33,10 +33,23 @@ import {
   ekmProxyClientCertificateInfoDeserializer,
   EkmProxyInfo,
   ekmProxyInfoDeserializer,
+  EkmPrivateEndpointOperation,
+  ekmPrivateEndpointOperationDeserializer,
+  EkmPrivateEndpointCreateParameters,
+  ekmPrivateEndpointCreateParametersSerializer,
+  EkmPrivateEndpoint,
+  ekmPrivateEndpointDeserializer,
+  EkmPrivateEndpointListResult,
+  ekmPrivateEndpointListResultDeserializer,
 } from "../models/models.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
+  ListEkmPrivateEndpointsOptionalParams,
+  GetEkmPrivateEndpointOptionalParams,
+  DeleteEkmPrivateEndpointOptionalParams,
+  CreateEkmPrivateEndpointOptionalParams,
+  GetEkmPrivateEndpointOperationStatusOptionalParams,
   DeleteEkmConnectionOptionalParams,
   UpdateEkmConnectionOptionalParams,
   CreateEkmConnectionOptionalParams,
@@ -63,6 +76,267 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _listEkmPrivateEndpointsSend(
+  context: Client,
+  options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _listEkmPrivateEndpointsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointListResultDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) lists all EKM proxy private endpoints on the pool. This operation requires ekm/read permission. */
+export async function listEkmPrivateEndpoints(
+  context: Client,
+  options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpointListResult> {
+  const result = await _listEkmPrivateEndpointsSend(context, options);
+  return _listEkmPrivateEndpointsDeserialize(result);
+}
+
+export function _getEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpoint> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) gets an existing EKM proxy private endpoint. This operation requires ekm/read permission. */
+export async function getEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpoint> {
+  const result = await _getEkmPrivateEndpointSend(context, peName, options);
+  return _getEkmPrivateEndpointDeserialize(result);
+}
+
+export function _deleteEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _deleteEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) deletes an existing EKM proxy private endpoint. The operation is rejected while an EKM connection still references the private endpoint. This operation requires ekm/write permission. */
+export function deleteEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+  return getLongRunningPoller(context, _deleteEkmPrivateEndpointDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _deleteEkmPrivateEndpointSend(context, peName, options),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+  }) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
+}
+
+export function _createEkmPrivateEndpointSend(
+  context: Client,
+  peName: string,
+  parameters: EkmPrivateEndpointCreateParameters,
+  options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/{peName}{?api%2Dversion}",
+    {
+      peName: peName,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ekmPrivateEndpointCreateParametersSerializer(parameters),
+    });
+}
+
+export async function _createEkmPrivateEndpointDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) creates a private endpoint to the EKM proxy Private Link Service. A pool may have up to two private endpoints. This operation requires ekm/write permission. */
+export function createEkmPrivateEndpoint(
+  context: Client,
+  peName: string,
+  parameters: EkmPrivateEndpointCreateParameters,
+  options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+  return getLongRunningPoller(
+    context,
+    _createEkmPrivateEndpointDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () => _createEkmPrivateEndpointSend(context, peName, parameters, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
+  ) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
+}
+
+export function _getEkmPrivateEndpointOperationStatusSend(
+  context: Client,
+  operationId: string,
+  options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/privateendpoint/operations/{operationId}{?api%2Dversion}",
+    {
+      operationId: operationId,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getEkmPrivateEndpointOperationStatusDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmPrivateEndpointOperation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return ekmPrivateEndpointOperationDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) private endpoint operation status. Returns the status of a private endpoint create or delete operation. This operation requires ekm/read permission. */
+export async function getEkmPrivateEndpointOperationStatus(
+  context: Client,
+  operationId: string,
+  options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+): Promise<EkmPrivateEndpointOperation> {
+  const result = await _getEkmPrivateEndpointOperationStatusSend(context, operationId, options);
+  return _getEkmPrivateEndpointOperationStatusDeserialize(result);
+}
+
 export function _deleteEkmConnectionSend(
   context: Client,
   options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
@@ -70,7 +344,7 @@ export function _deleteEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +391,7 @@ export function _updateEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,7 +441,7 @@ export function _createEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm/create{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +490,7 @@ export function _checkEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm/check{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +536,7 @@ export function _getEkmCertificateSend(
   const path = expandUrlTemplate(
     "/ekm/certificate{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +582,7 @@ export function _getEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +628,7 @@ export function _getSettingsSend(
   const path = expandUrlTemplate(
     "/settings{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +676,7 @@ export function _getSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -450,7 +724,7 @@ export function _updateSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -501,7 +775,7 @@ export function _selectiveKeyRestoreOperationSend(
     "/keys/{keyName}/restore{?api%2Dversion}",
     {
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -550,7 +824,7 @@ export function selectiveKeyRestoreOperation(
       getInitialResponse: () =>
         _selectiveKeyRestoreOperationSend(context, keyName, restoreBlobDetails, options),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
     },
   ) as PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>;
 }
@@ -564,7 +838,7 @@ export function _selectiveKeyRestoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +886,7 @@ export function _preFullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/prerestore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -656,7 +930,7 @@ export function preFullRestoreOperation(
     getInitialResponse: () =>
       _preFullRestoreOperationSend(context, preRestoreOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -668,7 +942,7 @@ export function _fullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -711,7 +985,7 @@ export function fullRestoreOperation(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullRestoreOperationSend(context, restoreBlobDetails, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -724,7 +998,7 @@ export function _restoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -772,7 +1046,7 @@ export function _preFullBackupSend(
   const path = expandUrlTemplate(
     "/prebackup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -815,7 +1089,7 @@ export function preFullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _preFullBackupSend(context, preBackupOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -827,7 +1101,7 @@ export function _fullBackupSend(
   const path = expandUrlTemplate(
     "/backup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -870,7 +1144,7 @@ export function fullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullBackupSend(context, azureStorageBlobContainerUri, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -883,7 +1157,7 @@ export function _fullBackupStatusSend(
     "/backup/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

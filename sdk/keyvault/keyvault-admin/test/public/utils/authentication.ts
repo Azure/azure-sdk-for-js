@@ -39,6 +39,8 @@ export async function authenticate(that: TestInfo): Promise<any> {
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
       EKM_PROXY_HOST: "ekm-proxy.managedhsm.azure.net:443",
+      EKM_PRIVATE_LINK_SERVICE_ID:
+        "ekmproxy-pls.683cd8c6-5569-442d-a86c-df01152f95a9.centraluseuap.azure.privatelinkservice",
       EKM_SERVER_CA_CERTIFICATE: "AA==",
     },
     sanitizerOptions: {

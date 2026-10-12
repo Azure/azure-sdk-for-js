@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { type Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
 import type { EkmConnection } from "../../src/models/index.js";
 import type { KeyVaultEkmClient } from "#platform/ekmClient";
-import { stringToUint8Array } from "@azure/core-util";
+import { randomUUID, stringToUint8Array } from "@azure/core-util";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { getEnvironmentVariable } from "./utils/common.js";
@@ -69,6 +69,65 @@ describe("EKM connection operations", () => {
         await client.deleteEkmConnection().catch(() => {
           // best-effort cleanup
         });
+      }
+    }
+  });
+
+  it("manages the full EKM private endpoint lifecycle", async () => {
+    // EKM private endpoint names are limited to 24 characters.
+    const peName = recorder.variable(
+      "ekm-private-endpoint-name",
+      `ekm-${randomUUID().replace(/-/g, "").slice(0, 20)}`,
+    );
+    const updateIntervalInMs = isPlaybackMode() ? 0 : 5000;
+    let privateEndpointCreated = false;
+
+    try {
+      const existingEndpoints = await client.listEkmPrivateEndpoints();
+      expect(existingEndpoints.value).toBeDefined();
+
+      const createPoller = client.createEkmPrivateEndpoint(
+        peName,
+        { privateLinkServiceId: getEnvironmentVariable("EKM_PRIVATE_LINK_SERVICE_ID") },
+        { updateIntervalInMs },
+      );
+      privateEndpointCreated = true;
+      const createdOperation = await createPoller.pollUntilDone();
+
+      expect(createdOperation.privateEndpointName).toEqual(peName);
+      expect(createdOperation.operationType).toEqual("Create");
+      expect(createdOperation.status).toEqual("Succeeded");
+      expect(createdOperation.jobId).toBeDefined();
+
+      const operationStatus = await client.getEkmPrivateEndpointOperationStatus(
+        createdOperation.jobId!,
+      );
+      expect(operationStatus.jobId).toEqual(createdOperation.jobId);
+      expect(operationStatus.status).toEqual("Succeeded");
+
+      const endpoint = await client.getEkmPrivateEndpoint(peName);
+      expect(endpoint.name).toEqual(peName);
+      expect(endpoint.properties?.privateLinkServiceId).toEqual(
+        getEnvironmentVariable("EKM_PRIVATE_LINK_SERVICE_ID"),
+      );
+
+      const endpoints = await client.listEkmPrivateEndpoints();
+      expect(endpoints.value?.some((item) => item.name === peName)).toBe(true);
+
+      const deletePoller = client.deleteEkmPrivateEndpoint(peName, { updateIntervalInMs });
+      const deletedOperation = await deletePoller.pollUntilDone();
+      privateEndpointCreated = false;
+      expect(deletedOperation.privateEndpointName).toEqual(peName);
+      expect(deletedOperation.operationType).toEqual("Delete");
+      expect(deletedOperation.status).toEqual("Succeeded");
+    } finally {
+      if (privateEndpointCreated) {
+        await client
+          .deleteEkmPrivateEndpoint(peName, { updateIntervalInMs })
+          .pollUntilDone()
+          .catch(() => {
+            // best-effort cleanup
+          });
       }
     }
   });
