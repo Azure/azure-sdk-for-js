@@ -4081,9 +4081,11 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Blob size threshold in bytes to start concurrency uploading.
-   * Default value is 256MB, blob size less than this option will
-   * be uploaded via one I/O operation without concurrency.
-   * You can customize a value less equal than the default value.
+   * Blobs up to this size are uploaded in one request. Larger blobs are uploaded in blocks, and the
+   * service doesn't compute a Content-MD5 property for them; set `blobHTTPHeaders.blobContentMD5` to
+   * store one.
+   * Default value is 4MB and doesn't depend on blockSize. You can customize a value less than or
+   * equal to 256MB.
    */
   maxSingleShotSize?: number;
 
@@ -4112,6 +4114,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Concurrency of parallel uploading. Must be greater than or equal to 0.
+   * If set to 0 or undefined, it defaults to 5.
    */
   concurrency?: number;
 
@@ -4810,7 +4813,7 @@ export class BlockBlobClient extends BlobClient {
    * Uploads a Buffer(Node.js)/Blob(browsers)/ArrayBuffer/ArrayBufferView object to a BlockBlob.
    *
    * When data length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
-   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * 4MB), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
@@ -4859,7 +4862,8 @@ export class BlockBlobClient extends BlobClient {
    *
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
    *
-   * When buffer length lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
+   * When buffer length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize}
+   * (default is 4MB), this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
    *
@@ -4898,7 +4902,7 @@ export class BlockBlobClient extends BlobClient {
    * which need to return a {@link HttpRequestBody} object with the offset and size provided.
    *
    * When data length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
-   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * 4MB), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
@@ -4919,7 +4923,8 @@ export class BlockBlobClient extends BlobClient {
       );
     }
 
-    const maxSingleShotSize = options.maxSingleShotSize ?? BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+    // Default to the default block size rather than the 256MB maximum.
+    const maxSingleShotSize = options.maxSingleShotSize ?? DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
 
     if (maxSingleShotSize < 0 || maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       throw new RangeError(
@@ -4965,7 +4970,8 @@ export class BlockBlobClient extends BlobClient {
         const blockIDPrefix = randomUUID();
         let transferProgress: number = 0;
 
-        const batch = new Batch(options.concurrency);
+        // 0 uses the default concurrency.
+        const batch = new Batch(options.concurrency || undefined);
         for (let i = 0; i < numBlocks; i++) {
           batch.addOperation(async (): Promise<any> => {
             const blockID = generateBlockID(blockIDPrefix, i);
@@ -5000,9 +5006,10 @@ export class BlockBlobClient extends BlobClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a local file in blocks to a block blob.
+   * Uploads a local file to a block blob.
    *
-   * When file size lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
+   * When file size is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize}
+   * (default is 4MB), this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
    * to commit the block list.
    *
