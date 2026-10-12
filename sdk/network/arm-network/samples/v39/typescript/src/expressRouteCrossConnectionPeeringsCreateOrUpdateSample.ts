@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a peering in the specified ExpressRouteCrossConnection.
  *
  * @summary creates or updates a peering in the specified ExpressRouteCrossConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionBgpPeeringCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionBgpPeeringCreate.json
  */
 async function expressRouteCrossConnectionBgpPeeringCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

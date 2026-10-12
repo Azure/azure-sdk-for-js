@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified application security group.
  *
  * @summary deletes the specified application security group.
- * x-ms-original-file: 2026-01-01/ApplicationSecurityGroupDelete.json
+ * x-ms-original-file: 2026-03-01/ApplicationSecurityGroupDelete.json
  */
 async function deleteApplicationSecurityGroup() {
   const credential = new DefaultAzureCredential();

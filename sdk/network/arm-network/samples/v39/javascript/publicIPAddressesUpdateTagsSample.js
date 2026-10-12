@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates public IP address tags.
  *
  * @summary updates public IP address tags.
- * x-ms-original-file: 2026-01-01/PublicIpAddressUpdateTags.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressUpdateTags.json
  */
 async function updatePublicIPAddressTags() {
   const credential = new DefaultAzureCredential();

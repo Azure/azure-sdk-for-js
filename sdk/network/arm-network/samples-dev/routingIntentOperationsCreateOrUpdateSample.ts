@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
  *
  * @summary creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
- * x-ms-original-file: 2026-01-01/RoutingIntentPut.json
+ * x-ms-original-file: 2026-03-01/RoutingIntentPut.json
  */
 async function routeTablePut(): Promise<void> {
   const credential = new DefaultAzureCredential();
