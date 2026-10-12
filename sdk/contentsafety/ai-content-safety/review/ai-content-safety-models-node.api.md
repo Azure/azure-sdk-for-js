@@ -12,7 +12,7 @@ export interface AacsContextExtension {
 }
 
 // @public
-export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function";
+export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function" | (string & {});
 
 // @public
 export interface AddOrUpdateBlocklistItemsOptions {
@@ -118,7 +118,7 @@ export interface AgentEvaluationError {
 }
 
 // @public
-export type AgentEvaluationErrorCode = "InvalidRequest" | "DeveloperPolicyRevisionRequired" | "DeveloperPolicyRevisionMismatch" | "DeveloperPolicyRevisionUnavailable" | "PolicyFenceChanged" | "UnsupportedCapability" | "MandatoryPolicyUnavailable" | "NativeRouteDisabled";
+export type AgentEvaluationErrorCode = "InvalidRequest" | "DeveloperPolicyRevisionRequired" | "DeveloperPolicyRevisionMismatch" | "DeveloperPolicyRevisionUnavailable" | "PolicyFenceChanged" | "UnsupportedCapability" | "MandatoryPolicyUnavailable" | "NativeRouteDisabled" | (string & {});
 
 // @public
 export interface AgentEvaluationErrorDetail {
@@ -130,6 +130,13 @@ export interface AgentEvaluationErrorDetail {
 
 // @public
 export type AgentEvaluationProfile = "foundryProject" | "namedPolicy";
+
+// @public
+export interface AgentEvaluationRequestBinding {
+    algorithm: "sha256";
+    canonicalization: "rfc8785";
+    digest: string;
+}
 
 // @public
 export interface AgentEvaluationResult {
@@ -147,9 +154,11 @@ export interface AgentEvidence {
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
     appliedGeneration: number;
     bindingEpoch: number;
+    capabilityVersion: string;
     // (undocumented)
     profile: "foundryProject";
     readinessEpoch: number;
+    supportedInterventionPoints: AgentInterceptionPoint[];
     targetIncarnation: string;
     targetResourceId: string;
 }
@@ -257,7 +266,6 @@ export interface AgentOutputContext extends AgentContext {
 export interface AgentPolicyEvaluationReceipt {
     attempt: number;
     authenticatedProducerResourceId: string;
-    capabilityVersion: string;
     evaluatedInterventionPoint: AgentInterceptionPoint;
     evaluatedPolicyLayers: AgentEvaluatedPolicyLayer[];
     evaluationId: string;
@@ -265,15 +273,15 @@ export interface AgentPolicyEvaluationReceipt {
     hostProfileVersion: string;
     profile: AgentEvaluationProfile;
     receiptVersion: "2026-10-15-preview";
+    requestBinding: AgentEvaluationRequestBinding;
     requiredInterventionPoints: AgentInterceptionPoint[];
-    satisfiedInterventionPoints: AgentInterceptionPoint[];
 }
 
 // @public
 export type AgentPolicyEvaluationReceiptUnion = AgentFoundryProjectReceipt | AgentNamedPolicyReceipt | AgentPolicyEvaluationReceipt;
 
 // @public
-export type AgentPolicyLayerKind = "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn";
+export type AgentPolicyLayerKind = "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn" | (string & {});
 
 // @public
 export interface AgentPostModelCallContext extends AgentContext {

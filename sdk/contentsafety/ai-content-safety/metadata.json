@@ -63,6 +63,7 @@
       "@azure/ai-content-safety!AgentTransformVerdict:interface": "ContentSafety.AgentTransformVerdict",
       "@azure/ai-content-safety!AgentTransform:interface": "ContentSafety.AgentTransform",
       "@azure/ai-content-safety!AgentPolicyEvaluationReceipt:interface": "ContentSafety.AgentPolicyEvaluationReceipt",
+      "@azure/ai-content-safety!AgentEvaluationRequestBinding:interface": "ContentSafety.AgentEvaluationRequestBinding",
       "@azure/ai-content-safety!AgentEvaluatedPolicyLayer:interface": "ContentSafety.AgentEvaluatedPolicyLayer",
       "@azure/ai-content-safety!AgentHarmResult:interface": "ContentSafety.AgentHarmResult",
       "@azure/ai-content-safety!AgentHarmDetail:interface": "ContentSafety.AgentHarmDetail",

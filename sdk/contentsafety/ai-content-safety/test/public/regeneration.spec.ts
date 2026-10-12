@@ -39,4 +39,43 @@ describe("pagination customization regeneration", () => {
       rmSync(directory, { recursive: true, force: true });
     }
   });
+
+  it("preserves open strings and native Agent Hooks JSON customizations", () => {
+    const source = readFileSync(new URL("../../src/models/models.ts", import.meta.url), "utf8");
+    const baseline = readFileSync(
+      new URL("../../generated/models/models.ts", import.meta.url),
+      "utf8",
+    );
+    const regenerated = baseline.replace(
+      "Copyright (c) Microsoft Corporation.",
+      "Copyright (c) Microsoft Corporation. Generated refresh.",
+    );
+    const directory = mkdtempSync(join(tmpdir(), "contentsafety-model-regeneration-"));
+    try {
+      const paths = ["customized.ts", "baseline.ts", "regenerated.ts"].map((name) =>
+        join(directory, name),
+      );
+      for (const [index, text] of [source, baseline, regenerated].entries()) {
+        writeFileSync(paths[index], text);
+      }
+      const merged = execFileSync("git", ["merge-file", "-p", ...paths], { encoding: "utf8" });
+
+      assert.notMatch(merged, /^(<<<<<<<|=======|>>>>>>>)/m);
+      assert.match(merged, /export type AacsSubjectRole =[^;]+\| \(string & \{\}\);/s);
+      assert.match(merged, /export type AgentPolicyLayerKind =[^;]+\| \(string & \{\}\);/s);
+      assert.match(merged, /export type AgentEvaluationErrorCode =[^;]+\| \(string & \{\}\);/s);
+      assert.include(
+        merged,
+        "return serializeRecord(item, undefined, agentHarmResultDeserializer);",
+      );
+      assert.include(
+        merged,
+        'target: agentInitializationSerializer(item["target"] as AgentInitialization)',
+      );
+      assert.include(merged, 'item["target"] === item["toolCall"].args');
+      assert.include(merged, "Generated refresh.");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
 });

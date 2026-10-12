@@ -70,6 +70,7 @@ export type {
   AgentPolicyEvaluationReceipt,
   AgentPolicyEvaluationReceiptUnion,
   AgentEvaluationProfile,
+  AgentEvaluationRequestBinding,
   AgentEvaluatedPolicyLayer,
   AgentPolicyLayerKind,
   AgentHarmResult,

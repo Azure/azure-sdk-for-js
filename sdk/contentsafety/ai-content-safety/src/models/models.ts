@@ -798,7 +798,7 @@ export function aacsContextExtensionSerializer(item: AacsContextExtension): any 
 }
 
 /** Classifier subject roles used by existing Azure AI Content Safety (AACS) and Azure OpenAI (AOAI) flows. This is not actor identity or an authorization claim. */
-export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function";
+export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function" | (string & {});
 
 /** Startup context. target equals agent_init; a host must reject startup transforms. */
 export interface AgentStartupContext extends AgentContext {
@@ -814,7 +814,7 @@ export function agentStartupContextSerializer(item: AgentStartupContext): any {
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentInitializationSerializer(item["target"] as AgentInitialization),
     agent_init: agentInitializationSerializer(item["agentInit"]),
     input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
     model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
@@ -853,7 +853,7 @@ export function agentInputContextSerializer(item: AgentInputContext): any {
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentInputSerializer(item["target"] as AgentInput),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -895,7 +895,7 @@ export function agentPreModelCallContextSerializer(item: AgentPreModelCallContex
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentMessageArraySerializer(item["target"] as AgentMessage[]),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -937,7 +937,7 @@ export function agentPostModelCallContextSerializer(item: AgentPostModelCallCont
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentModelResultSerializer(item["target"] as AgentModelResult),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -978,7 +978,10 @@ export function agentPreToolCallContextSerializer(item: AgentPreToolCallContext)
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target:
+      item["target"] === item["toolCall"].args
+        ? agentJsonObjectSerializer(item["target"] as AgentJsonObject)
+        : item["target"],
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -1059,7 +1062,7 @@ export function agentOutputContextSerializer(item: AgentOutputContext): any {
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentOutputSerializer(item["target"] as AgentOutput),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -1100,7 +1103,7 @@ export function agentShutdownContextSerializer(item: AgentShutdownContext): any 
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: agentSummarySerializer(item["target"] as AgentSummary),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -1337,18 +1340,16 @@ export interface AgentPolicyEvaluationReceipt {
   evaluationId: string;
   /** One-based attempt number for evaluation retries sharing the same evaluation identifier. */
   attempt: number;
+  /** Binding to the exact API version, AgentContext and admitted selector values evaluated in this attempt. */
+  requestBinding: AgentEvaluationRequestBinding;
   /** Exact policy layers evaluated and composed into the aggregate Verdict. */
   evaluatedPolicyLayers: AgentEvaluatedPolicyLayer[];
   /** The single intervention point evaluated by this receipt. */
   evaluatedInterventionPoint: AgentInterceptionPoint;
-  /** Intervention points required by every applicable policy layer for this host profile. This is capability evidence, not a claim that those points ran in this evaluation. */
+  /** Intervention points required by every applicable policy layer. This states policy requirements, not host support and not points executed in this evaluation. */
   requiredInterventionPoints: AgentInterceptionPoint[];
-  /** Required intervention points supported by the admitted host profile. This is capability evidence, not a list of points evaluated by this receipt. */
-  satisfiedInterventionPoints: AgentInterceptionPoint[];
   /** AACS host-profile version included in executable artifact identity. */
   hostProfileVersion: string;
-  /** Foundry-owned effective capability version admitted for this target, region, cohort and operation. API version alone does not establish this capability. */
-  capabilityVersion: string;
   /** Authenticated producer resource ID established by the service transport. This value is service-derived and never accepted from the request body or a customer-settable identity header. */
   authenticatedProducerResourceId: string;
   /** Optional public classifier summaries keyed by harm category. numericSeverity preserves the existing ordinal 0–7 result; raw model scores and internal diagnostics are not exposed. */
@@ -1361,6 +1362,7 @@ export function agentPolicyEvaluationReceiptDeserializer(item: any): AgentPolicy
     profile: item["profile"],
     evaluationId: item["evaluationId"],
     attempt: item["attempt"],
+    requestBinding: agentEvaluationRequestBindingDeserializer(item["requestBinding"]),
     evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
       item["evaluatedPolicyLayers"],
     ),
@@ -1368,11 +1370,7 @@ export function agentPolicyEvaluationReceiptDeserializer(item: any): AgentPolicy
     requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
       return p;
     }),
-    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
-      return p;
-    }),
     hostProfileVersion: item["hostProfileVersion"],
-    capabilityVersion: item["capabilityVersion"],
     authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
     harmResults: !item["harmResults"]
       ? item["harmResults"]
@@ -1401,6 +1399,26 @@ export function agentPolicyEvaluationReceiptUnionDeserializer(
 
 /** Hosted Unified Moderate evaluation profile. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS and are not represented by this hosted HTTP profile. */
 export type AgentEvaluationProfile = "foundryProject" | "namedPolicy";
+
+/** Cryptographic binding between this receipt and the exact Unified Moderate request. The host recomputes the digest before trusting receipt metadata. */
+export interface AgentEvaluationRequestBinding {
+  /** Digest algorithm. SHA-256 is required for this receipt version. */
+  algorithm: "sha256";
+  /** Canonicalization algorithm. rfc8785 means the RFC 8785 JSON Canonicalization Scheme applied to the documented digest input. */
+  canonicalization: "rfc8785";
+  /** Lowercase SHA-256 digest of the RFC 8785 canonical UTF-8 JSON object { apiVersion, context, selectors }, prefixed with sha256:. context is the exact decoded AgentContext request body. selectors contains the exact decoded query selector values used for admission: { targetResourceId, developerPolicyId?, developerPolicyRevision?, developerPolicySemanticDigest? } for foundryProject or { policyId } for namedPolicy. Omitted optional selectors are omitted rather than encoded as null. The service derives this value from the accepted request; it is never copied from request metadata. */
+  digest: string;
+}
+
+export function agentEvaluationRequestBindingDeserializer(
+  item: any,
+): AgentEvaluationRequestBinding {
+  return {
+    algorithm: item["algorithm"],
+    canonicalization: item["canonicalization"],
+    digest: item["digest"],
+  };
+}
 
 export function agentEvaluatedPolicyLayerArrayDeserializer(
   result: Array<AgentEvaluatedPolicyLayer>,
@@ -1439,16 +1457,18 @@ export function agentEvaluatedPolicyLayerDeserializer(item: any): AgentEvaluated
 
 /** The policy layer evaluated by Azure AI Content Safety. Unknown future layer kinds are preserved for forward compatibility and do not change the aggregate Verdict semantics. */
 export type AgentPolicyLayerKind =
-  "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn";
+  | "project"
+  | "developer"
+  | "namedPolicy"
+  | "subscription"
+  | "hierarchy"
+  | "builtIn"
+  | (string & {});
 
 export function agentHarmResultRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, AgentHarmResult> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : agentHarmResultDeserializer(item[key]);
-  });
-  return result;
+  return serializeRecord(item, undefined, agentHarmResultDeserializer);
 }
 
 /** Public classifier summary preserved from Unified Moderate. This excludes model family/version, thresholds, private configuration and raw confidence or probability scores. */
@@ -1505,15 +1525,19 @@ export function agentHarmDetailDeserializer(item: any): AgentHarmDetail {
 /** Receipt for a governed Foundry project. These fencing fields are required only for this profile and must come from authoritative Foundry/PMS state rather than request metadata. */
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
   profile: "foundryProject";
+  /** Required intervention points supported by the admitted Foundry host capability. Foundry's authenticated capability authority supplies this value; AACS must not infer it, echo request metadata or claim support when the authoritative value is unavailable. This is not a list of points evaluated by this receipt. */
+  supportedInterventionPoints: AgentInterceptionPoint[];
+  /** Foundry-owned effective capability version admitted for this target, region, cohort and operation. AACS obtains it from the authenticated capability authority and fails closed when it cannot. API version and request metadata do not establish this capability. */
+  capabilityVersion: string;
   /** Governed project selected by targetResourceId. */
   targetResourceId: string;
   /** Opaque project incarnation that changes when the target is deleted and recreated. */
   targetIncarnation: string;
-  /** Monotonic active-binding epoch authoritatively read for this attempt. */
+  /** Monotonic active-binding epoch obtained from the approved authoritative binding interface for this attempt. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
   bindingEpoch: number;
-  /** Monotonic operation-readiness epoch authoritatively read for this attempt. */
+  /** Monotonic operation-readiness epoch obtained from the approved authoritative readiness interface for this attempt. AACS must fail closed when it is unavailable and must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
   readinessEpoch: number;
-  /** Immutable target-effective policy generation evaluated by this attempt. */
+  /** Immutable target-effective policy generation obtained from authoritative target state and evaluated by this attempt. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
   appliedGeneration: number;
 }
 
@@ -1523,6 +1547,7 @@ export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryP
     profile: item["profile"],
     evaluationId: item["evaluationId"],
     attempt: item["attempt"],
+    requestBinding: agentEvaluationRequestBindingDeserializer(item["requestBinding"]),
     evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
       item["evaluatedPolicyLayers"],
     ),
@@ -1530,15 +1555,15 @@ export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryP
     requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
       return p;
     }),
-    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
-      return p;
-    }),
     hostProfileVersion: item["hostProfileVersion"],
-    capabilityVersion: item["capabilityVersion"],
     authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
     harmResults: !item["harmResults"]
       ? item["harmResults"]
       : agentHarmResultRecordDeserializer(item["harmResults"]),
+    supportedInterventionPoints: item["supportedInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    capabilityVersion: item["capabilityVersion"],
     targetResourceId: item["targetResourceId"],
     targetIncarnation: item["targetIncarnation"],
     bindingEpoch: item["bindingEpoch"],
@@ -1558,6 +1583,7 @@ export function agentNamedPolicyReceiptDeserializer(item: any): AgentNamedPolicy
     profile: item["profile"],
     evaluationId: item["evaluationId"],
     attempt: item["attempt"],
+    requestBinding: agentEvaluationRequestBindingDeserializer(item["requestBinding"]),
     evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
       item["evaluatedPolicyLayers"],
     ),
@@ -1565,11 +1591,7 @@ export function agentNamedPolicyReceiptDeserializer(item: any): AgentNamedPolicy
     requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
       return p;
     }),
-    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
-      return p;
-    }),
     hostProfileVersion: item["hostProfileVersion"],
-    capabilityVersion: item["capabilityVersion"],
     authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
     harmResults: !item["harmResults"]
       ? item["harmResults"]
@@ -1621,7 +1643,8 @@ export type AgentEvaluationErrorCode =
   | "PolicyFenceChanged"
   | "UnsupportedCapability"
   | "MandatoryPolicyUnavailable"
-  | "NativeRouteDisabled";
+  | "NativeRouteDisabled"
+  | (string & {});
 
 export function agentEvaluationErrorDetailArrayDeserializer(
   result: Array<AgentEvaluationErrorDetail>,

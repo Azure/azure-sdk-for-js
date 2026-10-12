@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -434,9 +434,9 @@
+@@ -442,9 +442,9 @@
  
  // @public
  export interface AnalyzeImageOptions {
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -605,12 +605,13 @@
+@@ -613,12 +613,13 @@
  // @public
  export type ImageCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
  

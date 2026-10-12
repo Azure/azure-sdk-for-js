@@ -7,7 +7,11 @@ import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, expect, it } from "vitest";
 import type {
+  AacsSubjectRole,
   AgentAllowVerdict,
+  AgentContextUnion,
+  AgentEvaluatedPolicyLayer,
+  AgentEvaluationErrorCode,
   AgentInputContext,
   DetectProvenanceResult,
 } from "../../src/index.js";
@@ -63,6 +67,11 @@ function createNamedPolicyReceipt(
     profile: "namedPolicy",
     evaluationId: "evaluation-1",
     attempt: 1,
+    requestBinding: {
+      algorithm: "sha256",
+      canonicalization: "rfc8785",
+      digest: `sha256:${"1".repeat(64)}`,
+    },
     evaluatedPolicyLayers: [
       {
         kind: "namedPolicy",
@@ -75,9 +84,7 @@ function createNamedPolicyReceipt(
     ],
     evaluatedInterventionPoint: interventionPoint,
     requiredInterventionPoints: [interventionPoint],
-    satisfiedInterventionPoints: [interventionPoint],
     hostProfileVersion: "aacs-frontdoor/2",
-    capabilityVersion: "capability-1",
     authenticatedProducerResourceId: "/accounts/account-1",
     ...(harmResults ? { harmResults } : {}),
   };
@@ -107,12 +114,14 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         decision: "deny",
       },
     ],
+    supportedInterventionPoints: [interventionPoint],
+    capabilityVersion: "capability-1",
     targetResourceId:
       "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
     targetIncarnation: "project-incarnation-1",
-    bindingEpoch: 4,
-    readinessEpoch: 7,
-    appliedGeneration: 9,
+    bindingEpoch: Number.MAX_SAFE_INTEGER,
+    readinessEpoch: Number.MAX_SAFE_INTEGER,
+    appliedGeneration: Number.MAX_SAFE_INTEGER,
   };
 }
 
@@ -244,9 +253,9 @@ describe("preview operations", () => {
       assert.fail("Expected a Foundry project receipt");
     }
     assert.equal(receipt.targetIncarnation, "project-incarnation-1");
-    assert.equal(receipt.bindingEpoch, 4);
-    assert.equal(receipt.readinessEpoch, 7);
-    assert.equal(receipt.appliedGeneration, 9);
+    assert.equal(receipt.bindingEpoch, Number.MAX_SAFE_INTEGER);
+    assert.equal(receipt.readinessEpoch, Number.MAX_SAFE_INTEGER);
+    assert.equal(receipt.appliedGeneration, Number.MAX_SAFE_INTEGER);
     assert.deepInclude(receipt.harmResults?.violence, {
       blocked: true,
       detected: true,
@@ -275,6 +284,156 @@ describe("preview operations", () => {
     assert.equal(result.verdict.decision, "allow");
     assert.equal(result.receipt.profile, "namedPolicy");
     assert.equal(result.receipt.evaluatedInterventionPoint, "input");
+  });
+
+  it("preserves extensible roles, policy layers, and service error codes", async () => {
+    const customRole: AacsSubjectRole = "reviewer";
+    const customLayer: AgentEvaluatedPolicyLayer = {
+      kind: "tenantOverlay",
+      policyResourceId: "/policies/tenant-overlay",
+      policyRevision: '"revision-2"',
+      policySemanticDigest: "sha256:semantic",
+      manifestRegoDigest: "sha256:artifact",
+      decision: "allow",
+    };
+    const knownServiceCodes: AgentEvaluationErrorCode[] = ["Unauthorized", "Forbidden"];
+    assert.equal(customRole, "reviewer");
+    assert.equal(customLayer.kind, "tenantOverlay");
+    assert.deepEqual(knownServiceCodes, ["Unauthorized", "Forbidden"]);
+
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return createJsonResponse(request, 200, {
+          verdict: { decision: "allow" },
+          receipt: {
+            ...createNamedPolicyReceipt(),
+            evaluatedPolicyLayers: [customLayer],
+          },
+        });
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+    const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
+
+    assert.equal(result.receipt.evaluatedPolicyLayers[0].kind, "tenantOverlay");
+  });
+
+  it("surfaces standard authorization codes through the extensible error type", async () => {
+    for (const [status, code] of [
+      [401, "Unauthorized"],
+      [403, "Forbidden"],
+    ] as const) {
+      const httpClient: HttpClient = {
+        async sendRequest(request) {
+          return createJsonResponse(request, status, {
+            error: { code, message: `${code} request.` },
+          });
+        },
+      };
+      const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+      await expect(
+        client.unifiedModerate(createInputContext(), { policyId: "policy-1" }),
+      ).rejects.toMatchObject({ statusCode: status, code });
+    }
+  });
+
+  it("serializes typed targets exactly like their point payloads", async () => {
+    const requests: PipelineRequest[] = [];
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        requests.push(request);
+        const point = parseRequestBody(request).interception_point as string;
+        return createJsonResponse(request, 200, {
+          verdict: { decision: "allow" },
+          receipt: createNamedPolicyReceipt(point),
+        });
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+    const common = {
+      spec: "agent-hooks/0.1" as const,
+      timestamp: new Date("2026-10-08T04:00:01Z"),
+      sequence: 1,
+      agent: { id: "agent-1", framework: "test" },
+      session: { id: "session-1" },
+    };
+    const agentInit = { toolsRegistered: ["weather"] };
+    const input = { content: "hello", role: "user" as const };
+    const model = { id: "model-1" };
+    const messages = [{ role: "user", content: "hello" }];
+    const response = { content: "hi", toolCalls: [], finishReason: "stop" };
+    const toolArgs = { additionalProperties: { city: "Seattle" } };
+    const toolCall = { id: "call-1", name: "weather", args: toolArgs };
+    const toolResult = { value: { temperature: 72 }, isError: false, durationMs: 25 };
+    const output = { content: "done" };
+    const summary = { reason: "completed" as const, toolCalls: 1, durationSeconds: 2 };
+    const contexts: AgentContextUnion[] = [
+      { ...common, interceptionPoint: "agent_startup", agentInit, target: agentInit },
+      { ...common, interceptionPoint: "input", input, target: input },
+      { ...common, interceptionPoint: "pre_model_call", model, messages, target: messages },
+      { ...common, interceptionPoint: "post_model_call", model, response, target: response },
+      { ...common, interceptionPoint: "pre_tool_call", toolCall, target: toolArgs },
+      {
+        ...common,
+        interceptionPoint: "post_tool_call",
+        toolCall,
+        toolResult,
+        target: toolResult.value,
+      },
+      { ...common, interceptionPoint: "output", output, target: output },
+      { ...common, interceptionPoint: "agent_shutdown", summary, target: summary },
+    ];
+
+    for (const context of contexts) {
+      await client.unifiedModerate(context, { policyId: "policy-1" });
+    }
+
+    for (const request of requests) {
+      const body = parseRequestBody(request);
+      const point = body.interception_point;
+      const expected =
+        point === "agent_startup"
+          ? body.agent_init
+          : point === "input"
+            ? body.input
+            : point === "pre_model_call"
+              ? body.messages
+              : point === "post_model_call"
+                ? body.response
+                : point === "pre_tool_call"
+                  ? (body.tool_call as Record<string, unknown>).args
+                  : point === "post_tool_call"
+                    ? (body.tool_result as Record<string, unknown>).value
+                    : point === "output"
+                      ? body.output
+                      : body.summary;
+      assert.deepEqual(body.target, expected);
+    }
+  });
+
+  it("preserves own harm-result keys including __proto__", async () => {
+    const harmResults = JSON.parse(
+      '{"__proto__":{"blocked":true,"detected":true},"violence":{"blocked":false,"detected":true}}',
+    ) as Record<string, unknown>;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return createJsonResponse(request, 200, {
+          verdict: { decision: "allow" },
+          receipt: createNamedPolicyReceipt("input", harmResults),
+        });
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+    const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
+    const decoded = result.receipt.harmResults!;
+
+    assert.deepEqual(Object.keys(decoded), ["__proto__", "violence"]);
+    assert.isTrue(Object.prototype.hasOwnProperty.call(decoded, "__proto__"));
+    assert.equal(decoded.__proto__.blocked, true);
+    assert.equal(Object.getPrototypeOf(decoded), Object.prototype);
   });
 
   it("surfaces unified moderation service errors", async () => {
