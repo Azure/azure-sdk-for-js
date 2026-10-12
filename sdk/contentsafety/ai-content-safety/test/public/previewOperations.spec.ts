@@ -6,7 +6,7 @@ import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, expect, it } from "vitest";
-import type { DetectProvenanceResult } from "../../src/index.js";
+import type { AgentInputContext, DetectProvenanceResult } from "../../src/index.js";
 import {
   BlocklistClient,
   ContentProvenanceClient,
@@ -35,6 +35,19 @@ function createJsonResponse(
 function parseRequestBody(request: PipelineRequest): Record<string, unknown> {
   assert.isString(request.body);
   return JSON.parse(request.body as string) as Record<string, unknown>;
+}
+
+function createInputContext(): AgentInputContext {
+  return {
+    spec: "agent-hooks/0.1",
+    interceptionPoint: "input",
+    timestamp: new Date("2026-10-08T04:00:01Z"),
+    sequence: 1,
+    agent: { id: "agent-1", framework: "test" },
+    session: { id: "session-1" },
+    input: { content: "test", role: "user" },
+    target: { content: "test", role: "user" },
+  };
 }
 
 function createProvenanceClient(pollResponseBody: Record<string, unknown>): {
@@ -67,65 +80,78 @@ function createProvenanceClient(pollResponseBody: Record<string, unknown>): {
 }
 
 describe("preview operations", () => {
-  it("sends and deserializes a unified moderation request", async () => {
+  it("sends native moderation JSON with query selectors and preserves Verdict metadata", async () => {
     const requests: PipelineRequest[] = [];
     const httpClient: HttpClient = {
       async sendRequest(request) {
         requests.push(request);
         return createJsonResponse(request, 200, {
-          verdict: "blocked",
+          decision: "deny",
           reason: "policy_violation",
-          acsVerdict: {
-            decision: "deny",
-            warnings: ["Review the submitted content."],
-            harmResults: {
-              Violence: {
-                blocked: true,
-                detected: true,
-                severity: "high",
-              },
-            },
+          warnings: [{ reason: "review", message: "Review the submitted content." }],
+          approval: { owner: "policy-1", details: { steps: [1, null] } },
+          evidence: {
+            artefact: "sha256:proof",
+            verification_pointers: { registry: "https://example.com/proof" },
           },
+          result_labels: ["classified"],
         });
       },
     };
     const client = new ContentSafetyClient(endpoint, credential, {
-      apiVersion: KnownVersions.V20260901Preview,
       httpClient,
     });
 
-    const result = await client.unifiedModerate({
-      policyId: "policy-1",
-      source: "post_tool_call",
-      content: '{"temperature":72}',
-      toolName: "get_weather",
-      toolCallId: "call-1",
-      toolArguments: '{"city":"Seattle"}',
-      toolResultIsError: false,
-      toolDurationMs: 25,
-      context: { agentId: "agent-1", sessionId: "session-1", sequence: 2 },
-    });
+    const target = { value: { temperature: 72 }, is_error: false, duration_ms: 25 };
+    const result = await client.unifiedModerate(
+      {
+        spec: "agent-hooks/0.1",
+        interceptionPoint: "post_tool_call",
+        timestamp: new Date("2026-10-08T04:00:01Z"),
+        sequence: 2,
+        agent: { id: "agent-1", framework: "test" },
+        session: { id: "session-1" },
+        toolCall: {
+          id: "call-1",
+          name: "get_weather",
+          args: { additionalProperties: { city: "Seattle" } },
+        },
+        toolResult: { value: { temperature: 72 }, isError: false, durationMs: 25 },
+        target,
+      },
+      { policyId: "policy-1", targetResourceId: "resource-1" },
+    );
 
     assert.lengthOf(requests, 1);
     const requestUrl = new URL(requests[0].url);
     assert.equal(requests[0].method, "POST");
     assert.equal(requestUrl.pathname, "/contentsafety/content:unifiedModerate");
-    assert.equal(requestUrl.searchParams.get("api-version"), KnownVersions.V20260901Preview);
+    assert.equal(requestUrl.searchParams.get("api-version"), KnownVersions.V20261015Preview);
+    assert.equal(requestUrl.searchParams.get("policyId"), "policy-1");
+    assert.equal(requestUrl.searchParams.get("targetResourceId"), "resource-1");
     assert.equal(requests[0].headers.get("content-type"), "application/json");
     assert.deepEqual(parseRequestBody(requests[0]), {
-      policyId: "policy-1",
-      source: "post_tool_call",
-      content: '{"temperature":72}',
-      toolName: "get_weather",
-      toolCallId: "call-1",
-      toolArguments: '{"city":"Seattle"}',
-      toolResultIsError: false,
-      toolDurationMs: 25,
-      context: { agentId: "agent-1", sessionId: "session-1", sequence: 2 },
+      spec: "agent-hooks/0.1",
+      interception_point: "post_tool_call",
+      timestamp: "2026-10-08T04:00:01.000Z",
+      sequence: 2,
+      agent: { id: "agent-1", framework: "test" },
+      session: { id: "session-1" },
+      tool_call: { id: "call-1", name: "get_weather", args: { city: "Seattle" } },
+      tool_result: target,
+      target,
     });
-    assert.equal(result.verdict, "blocked");
-    assert.equal(result.acsVerdict.decision, "deny");
-    assert.equal(result.acsVerdict.harmResults?.Violence.severity, "high");
+    assert.deepInclude(result, {
+      decision: "deny",
+      reason: "policy_violation",
+      warnings: [{ reason: "review", message: "Review the submitted content." }],
+      approval: { additionalProperties: { owner: "policy-1", details: { steps: [1, null] } } },
+      evidence: {
+        artefact: "sha256:proof",
+        verificationPointers: { registry: "https://example.com/proof" },
+      },
+      resultLabels: ["classified"],
+    });
   });
 
   it("surfaces unified moderation service errors", async () => {
@@ -137,13 +163,33 @@ describe("preview operations", () => {
       },
     };
     const client = new ContentSafetyClient(endpoint, credential, {
-      apiVersion: KnownVersions.V20260901Preview,
       httpClient,
     });
 
     await expect(
-      client.unifiedModerate({ policyId: "missing-policy", source: "input", content: "test" }),
+      client.unifiedModerate(createInputContext(), { policyId: "missing-policy" }),
     ).rejects.toMatchObject({ statusCode: 400, code: "InvalidRequest" });
+  });
+
+  it("deserializes native transforms with null or omitted values", async () => {
+    for (const transform of [
+      { path: "$target.content", value: null },
+      { path: "$target.content" },
+    ]) {
+      const httpClient: HttpClient = {
+        async sendRequest(request) {
+          return createJsonResponse(request, 200, { decision: "transform", transform });
+        },
+      };
+      const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+      const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
+
+      assert.deepInclude(result, {
+        decision: "transform",
+        transform: { path: "$target.content", value: "value" in transform ? null : undefined },
+      });
+    }
   });
 
   it("sends and deserializes prompt shielding and protected material requests", async () => {
@@ -276,7 +322,7 @@ describe("preview operations", () => {
       assert.equal(request.headers.get("x-test-header"), "preserved");
       assert.equal(
         new URL(request.url).searchParams.get("api-version"),
-        KnownVersions.V20260901Preview,
+        KnownVersions.V20261015Preview,
       );
     }
     assert.equal(options.maxpagesize, 10);

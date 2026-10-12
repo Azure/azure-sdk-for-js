@@ -7,54 +7,12 @@
 import { ErrorModel } from '@azure-rest/core-client';
 
 // @public
-export interface AcsApproval {
-    type: string;
+export interface AacsContextExtension {
+    role?: AacsSubjectRole;
 }
 
 // @public
-export type AcsDecision = "allow" | "deny" | "transform";
-
-// @public
-export interface AcsEvidence {
-    description?: string;
-    id?: string;
-    type?: string;
-    uri?: string;
-}
-
-// @public
-export interface AcsHarmDetail {
-    detected: boolean;
-    id: string;
-}
-
-// @public
-export interface AcsHarmResult {
-    blocked: boolean;
-    details?: AcsHarmDetail[];
-    detected: boolean;
-    license?: string;
-    severity?: string;
-    url?: string;
-}
-
-// @public
-export interface AcsTransform {
-    path: string;
-    value: string;
-}
-
-// @public
-export interface AcsVerdict {
-    approval?: AcsApproval;
-    decision: AcsDecision;
-    evidence?: AcsEvidence[];
-    harmResults?: Record<string, AcsHarmResult>;
-    message?: string;
-    reason?: string;
-    transform?: AcsTransform;
-    warnings?: string[];
-}
+export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function";
 
 // @public
 export interface AddOrUpdateBlocklistItemsOptions {
@@ -64,6 +22,309 @@ export interface AddOrUpdateBlocklistItemsOptions {
 // @public
 export interface AddOrUpdateTextBlocklistItemsResult {
     blocklistItems: TextBlocklistItem[];
+}
+
+// @public
+export interface AgentActor {
+    id?: string;
+    kind?: AgentActorKind;
+}
+
+// @public
+export type AgentActorKind = "human" | "service" | "agent";
+
+// @public
+export interface AgentAllowVerdict extends AgentVerdict {
+    // (undocumented)
+    decision: "allow";
+}
+
+// @public
+export interface AgentBudgets {
+    costUsd?: number;
+    elapsedSeconds?: number;
+    tokenCount?: number;
+    toolCallCount?: number;
+}
+
+// @public
+export interface AgentContext {
+    actor?: AgentActor;
+    agent: AgentDefinition;
+    agentInit?: AgentInitialization;
+    budgets?: AgentBudgets;
+    extensions?: AgentContextExtensions;
+    input?: AgentInput;
+    interceptionPoint: AgentInterceptionPoint;
+    messages?: AgentMessage[];
+    model?: AgentModel;
+    output?: AgentOutput;
+    requestId?: string;
+    response?: AgentModelResult;
+    sequence: number;
+    session: AgentSession;
+    spec: "agent-hooks/0.1";
+    summary?: AgentSummary;
+    target: any;
+    tenant?: AgentTenant;
+    timestamp: Date;
+    toolCall?: AgentToolCall;
+    toolResult?: AgentToolResult;
+    tools?: AgentToolDeclaration[];
+    trace?: AgentTrace;
+    usage?: AgentModelUsage;
+}
+
+// @public
+export interface AgentContextExtensions {
+    aacs?: AacsContextExtension;
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
+export type AgentContextUnion = AgentStartupContext | AgentInputContext | AgentPreModelCallContext | AgentPostModelCallContext | AgentPreToolCallContext | AgentPostToolCallContext | AgentOutputContext | AgentShutdownContext | AgentContext;
+
+// @public
+export type AgentDecision = "allow" | "deny" | "transform";
+
+// @public
+export interface AgentDefinition {
+    framework: string;
+    id: string;
+    name?: string;
+    version?: string;
+}
+
+// @public
+export interface AgentDenyVerdict extends AgentVerdict {
+    approval?: AgentJsonObject;
+    // (undocumented)
+    decision: "deny";
+}
+
+// @public
+export interface AgentEvaluationError {
+    error: ErrorModel;
+}
+
+// @public
+export interface AgentEvidence {
+    artefact?: string;
+    verificationPointers?: Record<string, string>;
+}
+
+// @public
+export interface AgentInitialization {
+    toolsRegistered: string[];
+}
+
+// @public
+export interface AgentInput {
+    content: any;
+    role: AgentInputRole;
+}
+
+// @public
+export interface AgentInputContext extends AgentContext {
+    // (undocumented)
+    input: AgentInput;
+    // (undocumented)
+    interceptionPoint: "input";
+}
+
+// @public
+export type AgentInputRole = "user" | "system" | "external";
+
+// @public
+export type AgentInterceptionPoint = "agent_startup" | "input" | "pre_model_call" | "post_model_call" | "pre_tool_call" | "post_tool_call" | "output" | "agent_shutdown";
+
+// @public
+export interface AgentJsonObject {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
+export interface AgentMessage {
+    content: any;
+    role: string;
+}
+
+// @public
+export interface AgentModel {
+    id: string;
+    params?: AgentJsonObject;
+    vendor?: string;
+}
+
+// @public
+export interface AgentModelResult {
+    content: any;
+    finishReason: string;
+    toolCalls: AgentModelToolCall[];
+}
+
+// @public
+export interface AgentModelToolCall {
+    args: AgentJsonObject;
+    id?: string;
+    name: string;
+}
+
+// @public
+export interface AgentModelUsage {
+    completionTokens?: number;
+    promptTokens?: number;
+}
+
+// @public
+export interface AgentOutput {
+    content: any;
+}
+
+// @public
+export interface AgentOutputContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "output";
+    // (undocumented)
+    output: AgentOutput;
+}
+
+// @public
+export interface AgentPostModelCallContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "post_model_call";
+    // (undocumented)
+    model: AgentModel;
+    // (undocumented)
+    response: AgentModelResult;
+}
+
+// @public
+export interface AgentPostToolCallContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "post_tool_call";
+    // (undocumented)
+    toolCall: AgentToolCall;
+    // (undocumented)
+    toolResult: AgentToolResult;
+}
+
+// @public
+export interface AgentPreModelCallContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "pre_model_call";
+    // (undocumented)
+    messages: AgentMessage[];
+    // (undocumented)
+    model: AgentModel;
+}
+
+// @public
+export interface AgentPreToolCallContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "pre_tool_call";
+    // (undocumented)
+    toolCall: AgentToolCall;
+}
+
+// @public
+export interface AgentSession {
+    id: string;
+    startedAt?: Date;
+    turn?: number;
+}
+
+// @public
+export interface AgentShutdownContext extends AgentContext {
+    // (undocumented)
+    interceptionPoint: "agent_shutdown";
+    // (undocumented)
+    summary: AgentSummary;
+}
+
+// @public
+export type AgentShutdownReason = "completed" | "error" | "cancelled";
+
+// @public
+export interface AgentStartupContext extends AgentContext {
+    // (undocumented)
+    agentInit: AgentInitialization;
+    // (undocumented)
+    interceptionPoint: "agent_startup";
+}
+
+// @public
+export interface AgentSummary {
+    durationSeconds?: number;
+    errors?: number;
+    reason: AgentShutdownReason;
+    toolCalls?: number;
+}
+
+// @public
+export interface AgentTenant {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface AgentToolCall {
+    args: AgentJsonObject;
+    contentHash?: string;
+    id: string;
+    name: string;
+}
+
+// @public
+export interface AgentToolDeclaration {
+    description?: string;
+    name: string;
+    schema?: AgentJsonObject;
+}
+
+// @public
+export interface AgentToolResult {
+    durationMs?: number;
+    isError: boolean;
+    value: any;
+}
+
+// @public
+export interface AgentTrace {
+    spanId?: string;
+    traceId?: string;
+}
+
+// @public
+export interface AgentTransform {
+    path: string;
+    value?: any;
+}
+
+// @public
+export interface AgentTransformVerdict extends AgentVerdict {
+    // (undocumented)
+    decision: "transform";
+    transform: AgentTransform;
+}
+
+// @public
+export interface AgentVerdict {
+    decision: AgentDecision;
+    evidence?: AgentEvidence;
+    message?: string;
+    reason?: string;
+    resultLabels?: string[];
+    warnings?: AgentWarning[];
+}
+
+// @public
+export type AgentVerdictUnion = AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict | AgentVerdict;
+
+// @public
+export interface AgentWarning {
+    message?: string;
+    reason?: string;
 }
 
 // @public
@@ -163,7 +424,8 @@ export interface ImageData {
 export enum KnownVersions {
     V20231001 = "2023-10-01",
     V20240901 = "2024-09-01",
-    V20260901Preview = "2026-09-01-preview"
+    V20260901Preview = "2026-09-01-preview",
+    V20261015Preview = "2026-10-15-preview"
 }
 
 // @public
@@ -246,45 +508,6 @@ export type TextCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
 export interface TextProtectedMaterialAnalysisResult {
     detected: boolean;
 }
-
-// @public
-export interface UnifiedModerateContext {
-    agentId?: string;
-    correlationId?: string;
-    extensions?: string;
-    sequence?: number;
-    sessionId?: string;
-    tenantId?: string;
-    userId?: string;
-}
-
-// @public
-export interface UnifiedModerateOptions {
-    content: string;
-    context?: UnifiedModerateContext;
-    policyId?: string;
-    source: UnifiedModerateSource;
-    targetResourceId?: string;
-    toolArguments?: string;
-    toolCallId?: string;
-    toolDurationMs?: number;
-    toolName?: string;
-    toolResultIsError?: boolean;
-}
-
-// @public
-export interface UnifiedModerateResult {
-    acsVerdict: AcsVerdict;
-    content?: string;
-    reason?: string;
-    verdict: UnifiedModerateVerdict;
-}
-
-// @public
-export type UnifiedModerateSource = "input" | "output" | "pre_tool_call" | "post_tool_call";
-
-// @public
-export type UnifiedModerateVerdict = "allowed" | "blocked";
 
 // @public
 export interface UserPromptInjectionAnalysisResult {

@@ -19,10 +19,11 @@ import {
   shieldPromptOptionsSerializer,
   ShieldPromptResult,
   shieldPromptResultDeserializer,
-  UnifiedModerateOptions,
-  unifiedModerateOptionsSerializer,
-  UnifiedModerateResult,
-  unifiedModerateResultDeserializer,
+  agentContextUnionSerializer,
+  AgentContextUnion,
+  agentVerdictUnionDeserializer,
+  AgentVerdictUnion,
+  agentEvaluationErrorDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -41,13 +42,15 @@ import {
 
 export function _unifiedModerateSend(
   context: Client,
-  body: UnifiedModerateOptions,
+  body: AgentContextUnion,
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/content:unifiedModerate{?api%2Dversion}",
+    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
+      targetResourceId: options?.targetResourceId,
+      policyId: options?.policyId,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,27 +60,54 @@ export function _unifiedModerateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: unifiedModerateOptionsSerializer(body),
+    body: agentContextUnionSerializer(body),
   });
 }
 
 export async function _unifiedModerateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UnifiedModerateResult> {
+): Promise<AgentVerdictUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode === 400) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 401) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 403) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 429) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 500) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 503) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    }
+    throw error;
   }
 
-  return unifiedModerateResultDeserializer(result.body);
+  return agentVerdictUnionDeserializer(result.body);
 }
 
-/** A synchronous API that evaluates input, output, a proposed tool call, or a completed tool result against an applicable Agent Control Specification policy and returns the enforced content and policy verdict. */
+/** Synchronously evaluate a canonical Agent Hooks 0.1 context against authorized effective policy. This version evolves Unified Moderate on its existing route and supports all eight interception points. Azure AI Content Safety composes the applicable selected, bound, subscription and hierarchy policies within this evaluation and returns a complete Verdict. The calling host owns composition across independent interceptors, transform application, final enforcement, approvals, timeouts and audit. policyId selects an authorized policy and targetResourceId selects an authorized binding target; provide at least one. Applicable mandatory policies cannot be bypassed by either selector. Body identity metadata is not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Over-limit results are errors, not truncated successful verdicts. */
 export async function unifiedModerate(
   context: Client,
-  body: UnifiedModerateOptions,
+  body: AgentContextUnion,
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
-): Promise<UnifiedModerateResult> {
+): Promise<AgentVerdictUnion> {
   const result = await _unifiedModerateSend(context, body, options);
   return _unifiedModerateDeserialize(result);
 }
@@ -90,7 +120,7 @@ export function _shieldPromptSend(
   const path = expandUrlTemplate(
     "/text:shieldPrompt{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +163,7 @@ export function _detectTextProtectedMaterialSend(
   const path = expandUrlTemplate(
     "/text:detectProtectedMaterial{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +206,7 @@ export function _analyzeTextSend(
   const path = expandUrlTemplate(
     "/text:analyze{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +249,7 @@ export function _analyzeImageSend(
   const path = expandUrlTemplate(
     "/image:analyze{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

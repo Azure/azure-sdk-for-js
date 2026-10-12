@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 
@@ -306,253 +307,1019 @@ export function documentInjectionAnalysisResultDeserializer(
   };
 }
 
-/** A request to evaluate and enforce an applicable policy for one workload event. The service uses the first policy it can resolve from policyId and then from the policy binding for targetResourceId, in that order. The request fails if neither selector resolves a policy. */
-export interface UnifiedModerateOptions {
-  /** The identifier of a policy available to the Content Safety resource. When provided, the service attempts to resolve this policy before using the policy bound to targetResourceId. */
-  policyId?: string;
-  /** The Azure resource identifier whose policy binding is resolved if no policy is resolved from policyId. The target resource must already have a policy binding available to the Content Safety resource. */
-  targetResourceId?: string;
-  /** The workload event source. The source selects the policy intervention point. */
-  source: UnifiedModerateSource;
-  /** The content to evaluate. For input and output sources, provide nonempty plain text. For pre_tool_call, provide a string containing a JSON-encoded object with the proposed tool arguments. For post_tool_call, provide a string containing the JSON-encoded tool result. */
-  content: string;
-  /** The tool name. Required and nonempty for tool-call sources and not allowed for input or output sources. */
-  toolName?: string;
-  /** An optional caller-provided tool-call identifier. The service generates one when omitted for a tool-call source. */
-  toolCallId?: string;
-  /** A string containing a JSON-encoded object with the original arguments for a completed tool call. This property applies only to post_tool_call. The service uses an empty object when omitted. */
-  toolArguments?: string;
-  /** Whether the completed tool call returned an error. This property applies only to post_tool_call. */
-  toolResultIsError?: boolean;
-  /** The non-negative duration of the completed tool call, in milliseconds. This property applies only to post_tool_call. */
-  toolDurationMs?: number;
-  /** Optional agent, session, and request context supplied to policy evaluation. */
-  context?: UnifiedModerateContext;
+/** Canonical Agent Hooks 0.1 context. The host supplies the exact point and a target equal to its point-specific payload. Authentication, policy selection and composition are transport or host configuration, not body fields. The service validates conditional payloads and target equality. */
+export interface AgentContext {
+  /** The supported Agent Hooks specification identifier. */
+  spec: "agent-hooks/0.1";
+  /** The lifecycle point being evaluated. */
+  /** The discriminator possible values: agent_startup, input, pre_model_call, post_model_call, pre_tool_call, post_tool_call, output, agent_shutdown */
+  interceptionPoint: AgentInterceptionPoint;
+  /** UTC instant when the host constructed the context. */
+  timestamp: Date;
+  /** Strictly increasing, non-negative emission sequence within the session. */
+  sequence: number;
+  /** Agent definition metadata. */
+  agent: AgentDefinition;
+  /** Execution-session metadata. */
+  session: AgentSession;
+  /** The native JSON value under evaluation. It must equal the corresponding point payload and is the root addressed by a transform. */
+  target: any;
+  /** Initialization payload when available; required at agent_startup. */
+  agentInit?: AgentInitialization;
+  /** Input payload when available; required at input. */
+  input?: AgentInput;
+  /** Model metadata when available; required at both model-call points. */
+  model?: AgentModel;
+  /** Model messages when available; required at pre_model_call. */
+  messages?: AgentMessage[];
+  /** Optional model-request correlation identifier. */
+  requestId?: string;
+  /** Model response when available; required at post_model_call. */
+  response?: AgentModelResult;
+  /** Optional model token usage. */
+  usage?: AgentModelUsage;
+  /** Tool-call payload when available; required at both tool-call points. */
+  toolCall?: AgentToolCall;
+  /** Tool-result payload when available; required at post_tool_call. */
+  toolResult?: AgentToolResult;
+  /** Optional tools available to the host. */
+  tools?: AgentToolDeclaration[];
+  /** Output payload when available; required at output. */
+  output?: AgentOutput;
+  /** Session summary when available; required at agent_shutdown. */
+  summary?: AgentSummary;
+  /** Optional trace identifiers. */
+  trace?: AgentTrace;
+  /** Optional caller-reported tenant metadata. */
+  tenant?: AgentTenant;
+  /** Optional caller-reported actor metadata. */
+  actor?: AgentActor;
+  /** Optional caller-reported budget counters. */
+  budgets?: AgentBudgets;
+  /** Namespaced extension values. Namespace keys match ^[a-z][a-z0-9_]*$. Values are native JSON; caller extensions cannot override trusted service annotations. */
+  extensions?: AgentContextExtensions;
 }
 
-export function unifiedModerateOptionsSerializer(item: UnifiedModerateOptions): any {
+export function agentContextSerializer(item: AgentContext): any {
   return {
-    policyId: item["policyId"],
-    targetResourceId: item["targetResourceId"],
-    source: item["source"],
-    content: item["content"],
-    toolName: item["toolName"],
-    toolCallId: item["toolCallId"],
-    toolArguments: item["toolArguments"],
-    toolResultIsError: item["toolResultIsError"],
-    toolDurationMs: item["toolDurationMs"],
-    context: !item["context"] ? item["context"] : unifiedModerateContextSerializer(item["context"]),
-  };
-}
-
-/** The workload event source evaluated by Unified Moderate. */
-export type UnifiedModerateSource = "input" | "output" | "pre_tool_call" | "post_tool_call";
-
-/** Optional agent, session, and request context supplied to policy evaluation. */
-export interface UnifiedModerateContext {
-  /** Caller-provided identifier of the agent associated with the event. */
-  agentId?: string;
-  /** Caller-provided identifier of the session associated with the event. */
-  sessionId?: string;
-  /** Zero-based event sequence within the session, when available. */
-  sequence?: number;
-  /** Caller-provided end-to-end correlation identifier. */
-  correlationId?: string;
-  /** Caller-provided workload user identifier. */
-  userId?: string;
-  /** Caller-provided workload tenant identifier. */
-  tenantId?: string;
-  /** A string containing a JSON-encoded object with validated host-specific context extensions. */
-  extensions?: string;
-}
-
-export function unifiedModerateContextSerializer(item: UnifiedModerateContext): any {
-  return {
-    agentId: item["agentId"],
-    sessionId: item["sessionId"],
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
     sequence: item["sequence"],
-    correlationId: item["correlationId"],
-    userId: item["userId"],
-    tenantId: item["tenantId"],
-    extensions: item["extensions"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
   };
 }
 
-/** The enforced result of unified moderation. */
-export interface UnifiedModerateResult {
-  /** The caller-facing enforcement outcome. */
-  verdict: UnifiedModerateVerdict;
-  /** An optional machine-readable policy reason. */
-  reason?: string;
-  /** The original or transformed content when allowed, using the same source-specific representation as the request content. Structured content is returned as a string containing the JSON-encoded value. This property is omitted when blocked. */
-  content?: string;
-  /** The complete Agent Control Specification policy verdict. */
-  acsVerdict: AcsVerdict;
+/** Alias for AgentContextUnion */
+export type AgentContextUnion =
+  | AgentStartupContext
+  | AgentInputContext
+  | AgentPreModelCallContext
+  | AgentPostModelCallContext
+  | AgentPreToolCallContext
+  | AgentPostToolCallContext
+  | AgentOutputContext
+  | AgentShutdownContext
+  | AgentContext;
+
+export function agentContextUnionSerializer(item: AgentContextUnion): any {
+  switch (item.interceptionPoint) {
+    case "agent_startup":
+      return agentStartupContextSerializer(item as AgentStartupContext);
+
+    case "input":
+      return agentInputContextSerializer(item as AgentInputContext);
+
+    case "pre_model_call":
+      return agentPreModelCallContextSerializer(item as AgentPreModelCallContext);
+
+    case "post_model_call":
+      return agentPostModelCallContextSerializer(item as AgentPostModelCallContext);
+
+    case "pre_tool_call":
+      return agentPreToolCallContextSerializer(item as AgentPreToolCallContext);
+
+    case "post_tool_call":
+      return agentPostToolCallContextSerializer(item as AgentPostToolCallContext);
+
+    case "output":
+      return agentOutputContextSerializer(item as AgentOutputContext);
+
+    case "agent_shutdown":
+      return agentShutdownContextSerializer(item as AgentShutdownContext);
+
+    default:
+      return agentContextSerializer(item);
+  }
 }
 
-export function unifiedModerateResultDeserializer(item: any): UnifiedModerateResult {
+/** The closed set of Agent Hooks 0.1 interception points. The service never infers the point from the agent identifier. */
+export type AgentInterceptionPoint =
+  | "agent_startup"
+  | "input"
+  | "pre_model_call"
+  | "post_model_call"
+  | "pre_tool_call"
+  | "post_tool_call"
+  | "output"
+  | "agent_shutdown";
+
+/** Caller-supplied agent definition metadata. This metadata does not authorize policy selection or resource access. */
+export interface AgentDefinition {
+  /** Stable identifier of the agent definition, shared across its sessions. */
+  id: string;
+  /** Lowercase framework identifier. */
+  framework: string;
+  /** Optional display name. */
+  name?: string;
+  /** Optional agent definition version. */
+  version?: string;
+}
+
+export function agentDefinitionSerializer(item: AgentDefinition): any {
   return {
-    verdict: item["verdict"],
-    reason: item["reason"],
-    content: item["content"],
-    acsVerdict: acsVerdictDeserializer(item["acsVerdict"]),
+    id: item["id"],
+    framework: item["framework"],
+    name: item["name"],
+    version: item["version"],
   };
 }
 
-/** The caller-facing enforcement result returned by Unified Moderate. */
-export type UnifiedModerateVerdict = "allowed" | "blocked";
-
-/** The complete Agent Control Specification policy verdict. */
-export interface AcsVerdict {
-  /** The canonical policy decision. */
-  decision: AcsDecision;
-  /** An optional machine-readable reason for the decision. */
-  reason?: string;
-  /** An optional human-readable message for the decision. */
-  message?: string;
-  /** Optional non-blocking warnings produced by policy evaluation. */
-  warnings?: string[];
-  /** Optional approval metadata for a deny decision. Unified Moderate does not invoke an approval workflow, so the content remains blocked. */
-  approval?: AcsApproval;
-  /** Canonical transform metadata. Required when the decision is transform. */
-  transform?: AcsTransform;
-  /** Optional policy evidence and verification pointers. */
-  evidence?: AcsEvidence[];
-  /** Optional moderation results keyed by harm category. Category names come from the policy harm configuration and are not restricted to a predefined set. A policy deny that is unrelated to a configured harm can omit this property. */
-  harmResults?: Record<string, AcsHarmResult>;
+/** Caller-supplied execution-session metadata. */
+export interface AgentSession {
+  /** Stable identifier of the run or conversation. */
+  id: string;
+  /** Time the session started. */
+  startedAt?: Date;
+  /** Non-negative turn number, when available. */
+  turn?: number;
 }
 
-export function acsVerdictDeserializer(item: any): AcsVerdict {
+export function agentSessionSerializer(item: AgentSession): any {
+  return {
+    id: item["id"],
+    started_at: !item["startedAt"] ? item["startedAt"] : item["startedAt"].toISOString(),
+    turn: item["turn"],
+  };
+}
+
+/** The execution-session initialization payload. */
+export interface AgentInitialization {
+  /** Names of tools registered for this session. */
+  toolsRegistered: string[];
+}
+
+export function agentInitializationSerializer(item: AgentInitialization): any {
+  return {
+    tools_registered: item["toolsRegistered"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** An input payload. Content is native JSON, not a JSON-encoded string. */
+export interface AgentInput {
+  /** The input content as a native JSON value. */
+  content: any;
+  /** The input origin. */
+  role: AgentInputRole;
+}
+
+export function agentInputSerializer(item: AgentInput): any {
+  return { content: item["content"], role: item["role"] };
+}
+
+/** The closed Agent Hooks input-origin set. */
+export type AgentInputRole = "user" | "system" | "external";
+
+/** Metadata for a model request or response. */
+export interface AgentModel {
+  /** Logical model identifier. */
+  id: string;
+  /** Optional model vendor. */
+  vendor?: string;
+  /** Optional model parameters as a JSON object. */
+  params?: AgentJsonObject;
+}
+
+export function agentModelSerializer(item: AgentModel): any {
+  return {
+    id: item["id"],
+    vendor: item["vendor"],
+    params: !item["params"] ? item["params"] : agentJsonObjectSerializer(item["params"]),
+  };
+}
+
+/** A native JSON object whose member values may be any JSON type, including null. */
+export interface AgentJsonObject {
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function agentJsonObjectSerializer(item: AgentJsonObject): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
+}
+
+export function agentJsonObjectDeserializer(item: any): AgentJsonObject {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
+
+export function agentMessageArraySerializer(result: Array<AgentMessage>): any[] {
+  return result.map((item) => {
+    return agentMessageSerializer(item);
+  });
+}
+
+/** One model message. */
+export interface AgentMessage {
+  /** The message role. */
+  role: string;
+  /** The message content as a native JSON value. */
+  content: any;
+}
+
+export function agentMessageSerializer(item: AgentMessage): any {
+  return { role: item["role"], content: item["content"] };
+}
+
+/** A completed model response. tool_calls is present even when it is an empty array. */
+export interface AgentModelResult {
+  /** Response content as a native JSON value, including null. */
+  content: any;
+  /** Tool calls proposed by the model, or an empty array. */
+  toolCalls: AgentModelToolCall[];
+  /** The model's finish reason. */
+  finishReason: string;
+}
+
+export function agentModelResultSerializer(item: AgentModelResult): any {
+  return {
+    content: item["content"],
+    tool_calls: agentModelToolCallArraySerializer(item["toolCalls"]),
+    finish_reason: item["finishReason"],
+  };
+}
+
+export function agentModelToolCallArraySerializer(result: Array<AgentModelToolCall>): any[] {
+  return result.map((item) => {
+    return agentModelToolCallSerializer(item);
+  });
+}
+
+/** A tool call proposed by a model. */
+export interface AgentModelToolCall {
+  /** Optional model-supplied call identifier. */
+  id?: string;
+  /** The proposed tool name. */
+  name: string;
+  /** Proposed arguments as a native JSON object. */
+  args: AgentJsonObject;
+}
+
+export function agentModelToolCallSerializer(item: AgentModelToolCall): any {
+  return { id: item["id"], name: item["name"], args: agentJsonObjectSerializer(item["args"]) };
+}
+
+/** Optional model token usage. */
+export interface AgentModelUsage {
+  /** Non-negative prompt token count. */
+  promptTokens?: number;
+  /** Non-negative completion token count. */
+  completionTokens?: number;
+}
+
+export function agentModelUsageSerializer(item: AgentModelUsage): any {
+  return { prompt_tokens: item["promptTokens"], completion_tokens: item["completionTokens"] };
+}
+
+/** A tool invocation. For a completed call, args contains the arguments actually dispatched after any host-applied transform. */
+export interface AgentToolCall {
+  /** Tool-call identifier. */
+  id: string;
+  /** Tool name. */
+  name: string;
+  /** Arguments as a native JSON object. */
+  args: AgentJsonObject;
+  /** Optional host-defined content hash, comparable only within that host. */
+  contentHash?: string;
+}
+
+export function agentToolCallSerializer(item: AgentToolCall): any {
+  return {
+    id: item["id"],
+    name: item["name"],
+    args: agentJsonObjectSerializer(item["args"]),
+    content_hash: item["contentHash"],
+  };
+}
+
+/** A completed tool result. */
+export interface AgentToolResult {
+  /** The native JSON result value, including null. */
+  value: any;
+  /** Whether the tool returned an error. */
+  isError: boolean;
+  /** Optional non-negative call duration in milliseconds. */
+  durationMs?: number;
+}
+
+export function agentToolResultSerializer(item: AgentToolResult): any {
+  return { value: item["value"], is_error: item["isError"], duration_ms: item["durationMs"] };
+}
+
+export function agentToolDeclarationArraySerializer(result: Array<AgentToolDeclaration>): any[] {
+  return result.map((item) => {
+    return agentToolDeclarationSerializer(item);
+  });
+}
+
+/** A tool declaration available to the host. */
+export interface AgentToolDeclaration {
+  /** Tool name. */
+  name: string;
+  /** Optional tool description. */
+  description?: string;
+  /** Optional tool schema as a JSON object. */
+  schema?: AgentJsonObject;
+}
+
+export function agentToolDeclarationSerializer(item: AgentToolDeclaration): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    schema: !item["schema"] ? item["schema"] : agentJsonObjectSerializer(item["schema"]),
+  };
+}
+
+/** Output that the host has not yet released. */
+export interface AgentOutput {
+  /** Output content as a native JSON value. */
+  content: any;
+}
+
+export function agentOutputSerializer(item: AgentOutput): any {
+  return { content: item["content"] };
+}
+
+/** Caller-reported execution-session summary. The evaluation service does not initiate shutdown or undo previous actions. */
+export interface AgentSummary {
+  /** Why the session ended. */
+  reason: AgentShutdownReason;
+  /** Optional non-negative tool-call count. */
+  toolCalls?: number;
+  /** Optional non-negative error count. */
+  errors?: number;
+  /** Optional non-negative session duration in seconds. */
+  durationSeconds?: number;
+}
+
+export function agentSummarySerializer(item: AgentSummary): any {
+  return {
+    reason: item["reason"],
+    tool_calls: item["toolCalls"],
+    errors: item["errors"],
+    duration_seconds: item["durationSeconds"],
+  };
+}
+
+/** The closed Agent Hooks session-ending reasons. */
+export type AgentShutdownReason = "completed" | "error" | "cancelled";
+
+/** Optional trace identifiers. */
+export interface AgentTrace {
+  /** Trace identifier. */
+  traceId?: string;
+  /** Span identifier. */
+  spanId?: string;
+}
+
+export function agentTraceSerializer(item: AgentTrace): any {
+  return { trace_id: item["traceId"], span_id: item["spanId"] };
+}
+
+/** Caller-reported tenant metadata, not an authorization fact. */
+export interface AgentTenant {
+  /** Optional tenant identifier. */
+  id?: string;
+  /** Optional tenant name. */
+  name?: string;
+}
+
+export function agentTenantSerializer(item: AgentTenant): any {
+  return { id: item["id"], name: item["name"] };
+}
+
+/** Caller-reported actor metadata, not an authorization fact. */
+export interface AgentActor {
+  /** Optional actor identifier. */
+  id?: string;
+  /** Optional actor kind. */
+  kind?: AgentActorKind;
+}
+
+export function agentActorSerializer(item: AgentActor): any {
+  return { id: item["id"], kind: item["kind"] };
+}
+
+/** The closed Agent Hooks actor-kind set. */
+export type AgentActorKind = "human" | "service" | "agent";
+
+/** Optional caller-reported budget counters. */
+export interface AgentBudgets {
+  /** Reported tool-call count. */
+  toolCallCount?: number;
+  /** Reported token count. */
+  tokenCount?: number;
+  /** Reported elapsed seconds. */
+  elapsedSeconds?: number;
+  /** Reported cost in US dollars. */
+  costUsd?: number;
+}
+
+export function agentBudgetsSerializer(item: AgentBudgets): any {
+  return {
+    tool_call_count: item["toolCallCount"],
+    token_count: item["tokenCount"],
+    elapsed_seconds: item["elapsedSeconds"],
+    cost_usd: item["costUsd"],
+  };
+}
+
+/** Canonical namespaced extensions, including the optional Azure AI Content Safety (AACS) classifier-role bridge. */
+export interface AgentContextExtensions {
+  /** Optional Azure AI Content Safety (AACS) metadata; do not copy the legacy Unified Moderate body here. */
+  aacs?: AacsContextExtension;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function agentContextExtensionsSerializer(item: AgentContextExtensions): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    aacs: !item["aacs"] ? item["aacs"] : aacsContextExtensionSerializer(item["aacs"]),
+  };
+}
+
+/** Minimal Azure AI Content Safety (AACS) request metadata for existing non-Hooks classification paths. */
+export interface AacsContextExtension {
+  /** Optional original classifier subject role for existing Azure AI Content Safety (AACS) prompt, completion and tool paths when the canonical payload cannot represent it. Canonical payload roles take precedence; contradictory claims, unsupported roles, and use at model/startup/shutdown points are rejected. Point-derived roles are defaults only. This does not authorize a caller or change the interception point. */
+  role?: AacsSubjectRole;
+}
+
+export function aacsContextExtensionSerializer(item: AacsContextExtension): any {
+  return { role: item["role"] };
+}
+
+/** Classifier subject roles used by existing Azure AI Content Safety (AACS) and Azure OpenAI (AOAI) flows. This is not actor identity or an authorization claim. */
+export type AacsSubjectRole = "user" | "system" | "assistant" | "tool" | "function";
+
+/** Startup context. target equals agent_init; a host must reject startup transforms. */
+export interface AgentStartupContext extends AgentContext {
+  interceptionPoint: "agent_startup";
+  agentInit: AgentInitialization;
+}
+
+export function agentStartupContextSerializer(item: AgentStartupContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Input context. target equals the complete input object, not only its content. */
+export interface AgentInputContext extends AgentContext {
+  interceptionPoint: "input";
+  input: AgentInput;
+}
+
+export function agentInputContextSerializer(item: AgentInputContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Pre-model context. target equals the messages array actually proposed for dispatch. */
+export interface AgentPreModelCallContext extends AgentContext {
+  interceptionPoint: "pre_model_call";
+  model: AgentModel;
+  messages: AgentMessage[];
+}
+
+export function agentPreModelCallContextSerializer(item: AgentPreModelCallContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: agentModelSerializer(item["model"]),
+    messages: agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Post-model context. target equals the complete response object; the service cannot undo the model call. */
+export interface AgentPostModelCallContext extends AgentContext {
+  interceptionPoint: "post_model_call";
+  model: AgentModel;
+  response: AgentModelResult;
+}
+
+export function agentPostModelCallContextSerializer(item: AgentPostModelCallContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Pre-tool context. target equals tool_call.args. */
+export interface AgentPreToolCallContext extends AgentContext {
+  interceptionPoint: "pre_tool_call";
+  toolCall: AgentToolCall;
+}
+
+export function agentPreToolCallContextSerializer(item: AgentPreToolCallContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Post-tool context. target equals tool_result.value; the service cannot undo the tool call. */
+export interface AgentPostToolCallContext extends AgentContext {
+  interceptionPoint: "post_tool_call";
+  toolCall: AgentToolCall;
+  toolResult: AgentToolResult;
+}
+
+export function agentPostToolCallContextSerializer(item: AgentPostToolCallContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: agentToolCallSerializer(item["toolCall"]),
+    tool_result: agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Output context. target equals the complete output object. */
+export interface AgentOutputContext extends AgentContext {
+  interceptionPoint: "output";
+  output: AgentOutput;
+}
+
+export function agentOutputContextSerializer(item: AgentOutputContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: agentOutputSerializer(item["output"]),
+    summary: !item["summary"] ? item["summary"] : agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Shutdown context. target equals summary; a host must reject shutdown transforms. */
+export interface AgentShutdownContext extends AgentContext {
+  interceptionPoint: "agent_shutdown";
+  summary: AgentSummary;
+}
+
+export function agentShutdownContextSerializer(item: AgentShutdownContext): any {
+  return {
+    spec: item["spec"],
+    interception_point: item["interceptionPoint"],
+    timestamp: item["timestamp"].toISOString(),
+    sequence: item["sequence"],
+    agent: agentDefinitionSerializer(item["agent"]),
+    session: agentSessionSerializer(item["session"]),
+    target: item["target"],
+    agent_init: !item["agentInit"]
+      ? item["agentInit"]
+      : agentInitializationSerializer(item["agentInit"]),
+    input: !item["input"] ? item["input"] : agentInputSerializer(item["input"]),
+    model: !item["model"] ? item["model"] : agentModelSerializer(item["model"]),
+    messages: !item["messages"] ? item["messages"] : agentMessageArraySerializer(item["messages"]),
+    request_id: item["requestId"],
+    response: !item["response"] ? item["response"] : agentModelResultSerializer(item["response"]),
+    usage: !item["usage"] ? item["usage"] : agentModelUsageSerializer(item["usage"]),
+    tool_call: !item["toolCall"] ? item["toolCall"] : agentToolCallSerializer(item["toolCall"]),
+    tool_result: !item["toolResult"]
+      ? item["toolResult"]
+      : agentToolResultSerializer(item["toolResult"]),
+    tools: !item["tools"] ? item["tools"] : agentToolDeclarationArraySerializer(item["tools"]),
+    output: !item["output"] ? item["output"] : agentOutputSerializer(item["output"]),
+    summary: agentSummarySerializer(item["summary"]),
+    trace: !item["trace"] ? item["trace"] : agentTraceSerializer(item["trace"]),
+    tenant: !item["tenant"] ? item["tenant"] : agentTenantSerializer(item["tenant"]),
+    actor: !item["actor"] ? item["actor"] : agentActorSerializer(item["actor"]),
+    budgets: !item["budgets"] ? item["budgets"] : agentBudgetsSerializer(item["budgets"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : agentContextExtensionsSerializer(item["extensions"]),
+  };
+}
+
+/** Canonical Agent Hooks Verdict. HTTP 200 indicates evaluation completed, not permission to proceed. Azure AI Content Safety composes the applicable selected, bound, subscription and hierarchy policies within this evaluation. The calling host owns composition across independent interceptors, transform application, final enforcement, approvals, timeouts and audit. The service does not return an allowed/blocked wrapper, enforced content or harmResults. Unsupported members and invalid decision/approval/transform combinations are rejected. */
+export interface AgentVerdict {
+  /** Canonical decision: allow, deny or transform. */
+  /** The discriminator possible values: allow, deny, transform */
+  decision: AgentDecision;
+  /** Optional machine-readable reason. host_error: is reserved for host-synthesized failures. */
+  reason?: string;
+  /** Optional human-readable message. */
+  message?: string;
+  /** Optional structured, non-blocking warnings. */
+  warnings?: AgentWarning[];
+  /** Optional opaque evidence pointer. */
+  evidence?: AgentEvidence;
+  /** Optional labels. The host persists labels with produced data only if the action proceeds and resurfaces them on later derived contexts. */
+  resultLabels?: string[];
+}
+
+export function agentVerdictDeserializer(item: any): AgentVerdict {
   return {
     decision: item["decision"],
     reason: item["reason"],
     message: item["message"],
     warnings: !item["warnings"]
       ? item["warnings"]
-      : item["warnings"].map((p: any) => {
-          return p;
+      : agentWarningArrayDeserializer(item["warnings"]),
+    evidence: !item["evidence"] ? item["evidence"] : agentEvidenceDeserializer(item["evidence"]),
+    resultLabels: !item["result_labels"]
+      ? item["result_labels"]
+      : item["result_labels"].map((p1: any) => {
+          return p1;
         }),
-    approval: !item["approval"] ? item["approval"] : acsApprovalDeserializer(item["approval"]),
-    transform: !item["transform"] ? item["transform"] : acsTransformDeserializer(item["transform"]),
-    evidence: !item["evidence"] ? item["evidence"] : acsEvidenceArrayDeserializer(item["evidence"]),
-    harmResults: !item["harmResults"]
-      ? item["harmResults"]
-      : acsHarmResultRecordDeserializer(item["harmResults"]),
   };
 }
 
-/** The canonical decision returned by Agent Control Specification policy evaluation. */
-export type AcsDecision = "allow" | "deny" | "transform";
+/** Alias for AgentVerdictUnion */
+export type AgentVerdictUnion =
+  AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict | AgentVerdict;
 
-/** Approval metadata returned by an ACS deny decision. Unified Moderate does not invoke an approval workflow. */
-export interface AcsApproval {
-  /** The type of approval required by the policy. */
-  type: string;
+export function agentVerdictUnionDeserializer(item: any): AgentVerdictUnion {
+  switch (item["decision"]) {
+    case "allow":
+      return agentAllowVerdictDeserializer(item as AgentAllowVerdict);
+
+    case "deny":
+      return agentDenyVerdictDeserializer(item as AgentDenyVerdict);
+
+    case "transform":
+      return agentTransformVerdictDeserializer(item as AgentTransformVerdict);
+
+    default:
+      return agentVerdictDeserializer(item);
+  }
 }
 
-export function acsApprovalDeserializer(item: any): AcsApproval {
+/** The three canonical Agent Hooks decisions. */
+export type AgentDecision = "allow" | "deny" | "transform";
+
+export function agentWarningArrayDeserializer(result: Array<AgentWarning>): any[] {
+  return result.map((item) => {
+    return agentWarningDeserializer(item);
+  });
+}
+
+/** A non-blocking concern. Both reason and message are preserved when present. */
+export interface AgentWarning {
+  /** Optional machine-readable reason, excluding the host_error: namespace. */
+  reason?: string;
+  /** Optional human-readable message. */
+  message?: string;
+}
+
+export function agentWarningDeserializer(item: any): AgentWarning {
   return {
-    type: item["type"],
+    reason: item["reason"],
+    message: item["message"],
   };
 }
 
-/** A canonical ACS transform applied by Unified Moderate. */
-export interface AcsTransform {
-  /** The transformation target path. For input and output sources, the allowed path is `$target.content`. For tool sources, `$target` replaces the complete value and a path rooted at `$target` replaces an individual member. */
-  path: string;
-  /** A string containing the JSON-encoded replacement value applied at the target path. */
-  value: string;
+/** An opaque offline-verifiable evidence pointer. The host must not automatically dereference verification pointers. Its canonical JSON representation is limited to 10,240 UTF-8 bytes. */
+export interface AgentEvidence {
+  /** Optional content address or URI of an evidence artefact. */
+  artefact?: string;
+  /** Optional named verification pointers. */
+  verificationPointers?: Record<string, string>;
 }
 
-export function acsTransformDeserializer(item: any): AcsTransform {
+export function agentEvidenceDeserializer(item: any): AgentEvidence {
+  return {
+    artefact: item["artefact"],
+    verificationPointers: !item["verification_pointers"]
+      ? item["verification_pointers"]
+      : Object.fromEntries(
+          Object.entries(item["verification_pointers"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Permit the original target without mutation. */
+export interface AgentAllowVerdict extends AgentVerdict {
+  decision: "allow";
+}
+
+export function agentAllowVerdictDeserializer(item: any): AgentAllowVerdict {
+  return {
+    decision: item["decision"],
+    reason: item["reason"],
+    message: item["message"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : agentWarningArrayDeserializer(item["warnings"]),
+    evidence: !item["evidence"] ? item["evidence"] : agentEvidenceDeserializer(item["evidence"]),
+    resultLabels: !item["result_labels"]
+      ? item["result_labels"]
+      : item["result_labels"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** Deny the action. Approval metadata makes a deny liftable only by the host's configured approval seam; without a resolver it remains denied. An unconditional mandatory deny cannot be lifted by another policy's approval. */
+export interface AgentDenyVerdict extends AgentVerdict {
+  decision: "deny";
+  /** Optional complete approval metadata as a native JSON object, which may be empty. */
+  approval?: AgentJsonObject;
+}
+
+export function agentDenyVerdictDeserializer(item: any): AgentDenyVerdict {
+  return {
+    decision: item["decision"],
+    reason: item["reason"],
+    message: item["message"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : agentWarningArrayDeserializer(item["warnings"]),
+    evidence: !item["evidence"] ? item["evidence"] : agentEvidenceDeserializer(item["evidence"]),
+    resultLabels: !item["result_labels"]
+      ? item["result_labels"]
+      : item["result_labels"].map((p1: any) => {
+          return p1;
+        }),
+    approval: !item["approval"] ? item["approval"] : agentJsonObjectDeserializer(item["approval"]),
+  };
+}
+
+/** Permit only after the host applies the specified transform. The service does not apply it. */
+export interface AgentTransformVerdict extends AgentVerdict {
+  decision: "transform";
+  /** Required transform metadata. */
+  transform: AgentTransform;
+}
+
+export function agentTransformVerdictDeserializer(item: any): AgentTransformVerdict {
+  return {
+    decision: item["decision"],
+    reason: item["reason"],
+    message: item["message"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : agentWarningArrayDeserializer(item["warnings"]),
+    evidence: !item["evidence"] ? item["evidence"] : agentEvidenceDeserializer(item["evidence"]),
+    resultLabels: !item["result_labels"]
+      ? item["result_labels"]
+      : item["result_labels"].map((p1: any) => {
+          return p1;
+        }),
+    transform: agentTransformDeserializer(item["transform"]),
+  };
+}
+
+/** A replacement the host applies to its target, not a transform already applied by the service. */
+export interface AgentTransform {
+  /** Path rooted at $target using dot members, bracket indices or quoted members. The deprecated $policy_target alias is accepted by Agent Hooks 0.1. The host rejects unresolvable paths and startup/shutdown transforms. */
+  path: string;
+  /** Native JSON replacement value, including null. An absent member is equivalent to null; structured values are never JSON-encoded strings. */
+  value?: any;
+}
+
+export function agentTransformDeserializer(item: any): AgentTransform {
   return {
     path: item["path"],
     value: item["value"],
   };
 }
 
-export function acsEvidenceArrayDeserializer(result: Array<AcsEvidence>): any[] {
-  return result.map((item) => {
-    return acsEvidenceDeserializer(item);
-  });
+/** A validation, authorization, throttling or operational failure. This is an HTTP error, never a successful allow verdict. */
+export interface AgentEvaluationError {
+  /** The error object. */
+  error: ErrorModel;
 }
 
-/** Evidence or a verification pointer returned by policy evaluation. */
-export interface AcsEvidence {
-  /** An optional evidence identifier. */
-  id?: string;
-  /** An optional evidence type. */
-  type?: string;
-  /** An optional location containing or describing the evidence. */
-  uri?: string;
-  /** An optional human-readable evidence description. */
-  description?: string;
-}
-
-export function acsEvidenceDeserializer(item: any): AcsEvidence {
+export function agentEvaluationErrorDeserializer(item: any): AgentEvaluationError {
   return {
-    id: item["id"],
-    type: item["type"],
-    uri: item["uri"],
-    description: item["description"],
-  };
-}
-
-export function acsHarmResultRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, AcsHarmResult> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : acsHarmResultDeserializer(item[key]);
-  });
-  return result;
-}
-
-/** The moderation and policy-attribution result for one harm category. The category name is the key in the harmResults map and is not restricted to a predefined set. */
-export interface AcsHarmResult {
-  /** Whether this harm contributed to the overall ACS verdict blocking the content. */
-  blocked: boolean;
-  /** Whether this harm was detected, regardless of whether it caused the overall verdict to block. */
-  detected: boolean;
-  /** An optional harm-specific severity value. The value is defined by the moderation model or policy that produced the result. */
-  severity?: string;
-  /** Optional blocklist results. Each item identifies one evaluated blocklist and whether it was detected. */
-  details?: AcsHarmDetail[];
-  /** An optional internet location associated with detected protected material. */
-  url?: string;
-  /** An optional license description associated with detected protected material. */
-  license?: string;
-}
-
-export function acsHarmResultDeserializer(item: any): AcsHarmResult {
-  return {
-    blocked: item["blocked"],
-    detected: item["detected"],
-    severity: item["severity"],
-    details: !item["details"] ? item["details"] : acsHarmDetailArrayDeserializer(item["details"]),
-    url: item["url"],
-    license: item["license"],
-  };
-}
-
-export function acsHarmDetailArrayDeserializer(result: Array<AcsHarmDetail>): any[] {
-  return result.map((item) => {
-    return acsHarmDetailDeserializer(item);
-  });
-}
-
-/** The detection result for one blocklist evaluated as part of a harm result. */
-export interface AcsHarmDetail {
-  /** Whether the blocklist was detected. */
-  detected: boolean;
-  /** The identifier of the evaluated blocklist. */
-  id: string;
-}
-
-export function acsHarmDetailDeserializer(item: any): AcsHarmDetail {
-  return {
-    detected: item["detected"],
-    id: item["id"],
+    error: item["error"],
   };
 }
 
@@ -830,4 +1597,6 @@ export enum KnownVersions {
   V20240901 = "2024-09-01",
   /** Public preview that adds the synchronous Unified Moderate operation. */
   V20260901Preview = "2026-09-01-preview",
+  /** Public preview that evolves Unified Moderate to canonical Agent Hooks context evaluation while preserving previously released contracts. */
+  V20261015Preview = "2026-10-15-preview",
 }

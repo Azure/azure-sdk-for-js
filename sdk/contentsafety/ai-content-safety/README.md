@@ -86,18 +86,29 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 `ContentSafetyClient` analyzes text and images, detects protected material and prompt injection, and evaluates content against an Agent Control Specification policy.
 
+In `2026-10-15-preview`, `unifiedModerate` accepts an Agent Hooks context and returns a native Verdict. Pass `policyId` or `targetResourceId` in the operation options. The host applies transforms and handles approval and final enforcement; HTTP 200 does not mean the action was allowed.
+
 ```ts snippet:ReadmeSampleUnifiedModerate
 import { ContentSafetyClient } from "@azure/ai-content-safety";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new ContentSafetyClient("<endpoint>", new DefaultAzureCredential());
 async function moderateInput(): Promise<void> {
-  const result = await client.unifiedModerate({
-    policyId: "<policy-id>",
-    source: "input",
-    content: "Text to evaluate",
-  });
-  console.log(result.verdict);
+  const input = { content: "Text to evaluate", role: "user" as const };
+  const result = await client.unifiedModerate(
+    {
+      spec: "agent-hooks/0.1",
+      interceptionPoint: "input",
+      timestamp: new Date(),
+      sequence: 1,
+      agent: { id: "<agent-id>", framework: "custom" },
+      session: { id: "<session-id>" },
+      input,
+      target: input,
+    },
+    { policyId: "<policy-id>" },
+  );
+  console.log(result.decision);
 }
 void moderateInput;
 ```
