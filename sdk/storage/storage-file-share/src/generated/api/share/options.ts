@@ -109,6 +109,10 @@ export interface ShareSetPropertiesOptionalParams extends OperationOptions {
   shareProvisionedBandwidthMibps?: number;
   /** Optional. Used to enable SMB directory lease. */
   enableSmbDirectoryLease?: boolean;
+  /** Optional. Boolean. Default if not specified is false. This property enables change feed on the share. */
+  enableChangeFeed?: boolean;
+  /** Optional. Integer. Specifies the number of days that change feed records are retained, between 1 and 365. Default if not specified is 7 days. */
+  changeFeedRetentionInDays?: number;
 }
 
 /** Optional parameters. */
@@ -277,4 +281,8 @@ export interface ShareCreateOptionalParams extends OperationOptions {
   shareProvisionedBandwidthMibps?: number;
   /** Optional. Used to enable SMB directory lease. */
   enableSmbDirectoryLease?: boolean;
+  /** Optional. Boolean. Default if not specified is false. This property enables change feed on the share. */
+  enableChangeFeed?: boolean;
+  /** Optional. Integer. Specifies the number of days that change feed records are retained, between 1 and 365. Default if not specified is 7 days. */
+  changeFeedRetentionInDays?: number;
 }

@@ -55,7 +55,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export abstract class Credential implements RequestPolicyFactory {
-@@ -72,32 +69,30 @@
+@@ -72,35 +69,33 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -69,6 +69,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
 -export function isBuffer(value: unknown): value is NodeBuffer;
 +export function isBuffer(_value: unknown): _value is NodeBuffer;
+ 
+ // @public
+ export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
  
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
@@ -97,7 +100,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -187,42 +182,35 @@
+@@ -196,42 +191,35 @@
  }
  
  // @public
@@ -151,7 +154,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -231,13 +219,8 @@
+@@ -240,13 +228,8 @@
      encodedContentLength: number;
  }>;
  
@@ -165,7 +168,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -250,10 +233,13 @@
+@@ -259,10 +242,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

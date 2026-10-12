@@ -3,7 +3,6 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { createAbortablePromise } from "@azure/core-util";
-import type { SessionTokenInfo } from "./models.js";
 
 /**
  * How long a single acquisition may run before the cache gives up on it and keeps serving the
@@ -12,33 +11,42 @@ import type { SessionTokenInfo } from "./models.js";
 export const ACQUIRE_TIMEOUT_MS = 30 * 1000;
 
 /**
- * Acquires a fresh session. Rejects if one could not be obtained.
+ * A cached value that knows when it dies and when it would rather be replaced.
  */
-export type AcquireSession = (abortSignal?: AbortSignalLike) => Promise<SessionTokenInfo>;
+export interface ExpiringValue {
+  /** When the value stops being usable and callers must block for a new one. */
+  readonly expiresOnTimestamp: number;
+  /** When the value should start being refreshed in the background, while still being served. */
+  readonly refreshAfterTimestamp: number;
+}
 
 /**
- * A cache for a single expiring session that refreshes itself proactively in the background.
+ * Acquires a fresh value. Rejects if one could not be obtained.
+ */
+export type Acquire<T> = (abortSignal?: AbortSignalLike) => Promise<T>;
+
+/**
+ * A cache for a single expiring value that refreshes itself proactively in the background.
  *
  * Only one acquisition runs at a time; concurrent callers await the same promise rather than
- * issuing duplicate requests. Specialized to {@link SessionTokenInfo} since it has exactly one
- * consumer.
+ * issuing duplicate requests.
  */
-export class AutoRefreshingCache {
-  private current: SessionTokenInfo | undefined;
-  private inFlight: Promise<SessionTokenInfo> | undefined;
+export class AutoRefreshingCache<T extends ExpiringValue> {
+  private current: T | undefined;
+  private inFlight: Promise<T> | undefined;
   private backgroundRefresh: Promise<void> | undefined;
 
   constructor(
-    private readonly acquire: AcquireSession,
+    private readonly acquire: Acquire<T>,
     private readonly acquireTimeoutMs: number = ACQUIRE_TIMEOUT_MS,
   ) {}
 
   /**
-   * Returns the cached session, acquiring or refreshing it as needed. Callers block only when
+   * Returns the cached value, acquiring or refreshing it as needed. Callers block only when
    * there is no usable value; once past `refreshAfterTimestamp` the current value is returned
    * immediately and a refresh runs in the background.
    */
-  async get(abortSignal?: AbortSignalLike): Promise<SessionTokenInfo> {
+  async get(abortSignal?: AbortSignalLike): Promise<T> {
     const current = this.current;
     const now = Date.now();
 
@@ -56,7 +64,7 @@ export class AutoRefreshingCache {
 
     // Each caller races the shared acquisition against its own signal, so one caller
     // cancelling never fails the others.
-    return createAbortablePromise<SessionTokenInfo>(
+    return createAbortablePromise<T>(
       (resolve, reject) => {
         void shared.then(resolve).catch(reject);
       },
@@ -65,23 +73,19 @@ export class AutoRefreshingCache {
   }
 
   /**
-   * Drops the cached session, but only if it is still the one the caller used. This keeps a
-   * failed request from clobbering a newer session that a concurrent refresh already installed.
+   * Drops the cached value if `predicate` accepts it. Callers use this to avoid clobbering a
+   * newer value that a concurrent refresh already installed.
    */
-  invalidateIfCurrent(expected: SessionTokenInfo): void {
+  invalidateIf(predicate: (current: T) => boolean): void {
     const current = this.current;
-    if (
-      current?.kind === "session" &&
-      expected.kind === "session" &&
-      current.sessionToken === expected.sessionToken
-    ) {
+    if (current && predicate(current)) {
       this.current = undefined;
     }
   }
 
-  private acquireShared(): Promise<SessionTokenInfo> {
+  private acquireShared(): Promise<T> {
     // Assigned synchronously, before any await, so concurrent callers join this attempt. This is
-    // the only place a session is installed, so completions cannot race each other.
+    // the only place a value is installed, so completions cannot race each other.
     if (!this.inFlight) {
       // The cache owns the deadline. Callers only race this promise against their own signal and
       // are free to walk away, so nothing else would ever settle an acquisition that hangs.
@@ -97,7 +101,7 @@ export class AutoRefreshingCache {
     return this.inFlight;
   }
 
-  private startBackgroundRefresh(current: SessionTokenInfo): void {
+  private startBackgroundRefresh(current: T): void {
     if (this.inFlight || this.backgroundRefresh) {
       return;
     }
@@ -105,7 +109,7 @@ export class AutoRefreshingCache {
     this.backgroundRefresh = this.runBackgroundRefresh(current);
   }
 
-  private async runBackgroundRefresh(current: SessionTokenInfo): Promise<void> {
+  private async runBackgroundRefresh(current: T): Promise<void> {
     try {
       // Shares the foreground attempt: if `current` expires or is invalidated while this runs,
       // the blocked caller joins this acquisition instead of starting a second one.
@@ -121,7 +125,7 @@ export class AutoRefreshingCache {
         this.current = {
           ...current,
           refreshAfterTimestamp: Date.now() + (timedOut ? 0 : this.acquireTimeoutMs),
-        };
+        } as T;
       }
     } finally {
       this.backgroundRefresh = undefined;
