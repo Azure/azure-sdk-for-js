@@ -133,6 +133,10 @@ missing, it reports the performance claim as unverified.
 To add another reviewer, extend the intake's label filter and the fixed routing
 map in `eng/tools/pr-review/review-request.cjs`, then give that reviewer the same
 validated dispatch contract. The bot allowlist is scoped to each reviewer.
+Automatic eligibility is also declared per reviewer in that routing map. A
+reviewer that opts in defines its request kind, title prefix, required labels,
+and completion label; the shared router and worker apply the same generic
+validation and deduplication logic.
 
 ### What to Expect
 

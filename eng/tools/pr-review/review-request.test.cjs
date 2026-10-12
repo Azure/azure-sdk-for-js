@@ -211,7 +211,7 @@ function automaticMgmtDispatchFixture() {
     head_sha: headSha,
     request_run_id: "100",
     request_event_id: "",
-    request_kind: "auto_mgmt",
+    request_kind: "sdk_autopr",
   };
   return state;
 }
@@ -650,7 +650,7 @@ test("routes an eligible management AutoPR without a review-needed label", async
         head_sha: headSha,
         request_run_id: "100",
         request_event_id: "",
-        request_kind: "auto_mgmt",
+        request_kind: "sdk_autopr",
       },
     },
   ]);
@@ -695,7 +695,7 @@ test("automatic management routing records a bot-added request label for safe cl
   state.labelEvents[0].actor = workflowBot;
   await routeReviewRequest(state);
   assert.equal(state.calls.dispatches.length, 1);
-  assert.equal(state.calls.dispatches[0].inputs.request_kind, "auto_mgmt");
+  assert.equal(state.calls.dispatches[0].inputs.request_kind, "sdk_autopr");
   assert.equal(state.calls.dispatches[0].inputs.request_event_id, "1003");
 });
 
@@ -746,18 +746,21 @@ test("automatic management requests reject stale label-cleanup provenance", asyn
   assert.equal(state.calls.additions.length, 0);
 });
 
-test("automatic management requests cannot invoke another reviewer", async () => {
+test("automatic request kinds cannot invoke an unconfigured reviewer", async () => {
   const state = automaticMgmtDispatchFixture();
   await assert.rejects(
     prepareReview(state, "archie"),
-    /can only invoke mgmt-review/,
+    /archie is not configured for automatic request kind: sdk_autopr/,
   );
 });
 
 test("reviewers reject unknown automatic request kinds", async () => {
   const state = automaticMgmtDispatchFixture();
   state.context.payload.inputs.request_kind = "unknown";
-  await assert.rejects(prepareReview(state, "mgmt-review"), /Unknown automatic review request kind/);
+  await assert.rejects(
+    prepareReview(state, "mgmt-review"),
+    /mgmt-review is not configured for automatic request kind: unknown/,
+  );
 });
 
 for (const reviewerId of Object.keys(reviewFlows).filter((id) => id !== "mgmt-review")) {
@@ -1432,6 +1435,18 @@ test("management review accepts only trusted automatic request kinds", () => {
   assert.match(source, /request_kind:\n\s+description: Trusted automatic request kind/);
   const compiled = workflowText("mgmt-review.lock.yml");
   assert.match(compiled, /request_kind:\n\s+description: Trusted automatic request kind/);
+});
+
+test("automatic eligibility is configured per reviewer instead of embedded in routing logic", () => {
+  const helper = readFileSync(
+    path.join(repoRoot, "eng", "tools", "pr-review", "review-request.cjs"),
+    "utf8",
+  );
+  assert.match(
+    helper,
+    /"mgmt-review": \{[\s\S]*?completedLabel: "mgmt-review-added",[\s\S]*?automatic: \{[\s\S]*?kind: "sdk_autopr",[\s\S]*?titlePrefix: "\[AutoPR",[\s\S]*?requiredLabels: \["Mgmt"\]/,
+  );
+  assert.doesNotMatch(helper, /automaticMgmt|isAutomaticMgmt|reviewerId === "mgmt-review"/);
 });
 
 test("Dash requires external benchmark evidence instead of executing PR-derived benchmarks", () => {
