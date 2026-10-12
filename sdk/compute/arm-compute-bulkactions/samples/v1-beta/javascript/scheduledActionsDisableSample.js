@@ -8,17 +8,17 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables the specified scheduled action so future occurrences do not run.
  *
  * @summary disables the specified scheduled action so future occurrences do not run.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Disable_BasicSuccess.json
  */
-async function disableAScheduledAction() {
+async function disableARecurringScheduledAction() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.disable("rgcompute", "myScheduledAction");
+  await client.scheduledActions.disable("example-rg", "weekday-start");
 }
 
 async function main() {
-  await disableAScheduledAction();
+  await disableARecurringScheduledAction();
 }
 
 main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Traffic Manager endpoint.
  *
  * @summary gets a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-GET-External-WithGeoMapping.json
+ * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithGeoMapping.json
  */
 async function endpointGETExternalWithGeoMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function endpointGETExternalWithGeoMapping(): Promise<void> {
  * This sample demonstrates how to gets a Traffic Manager endpoint.
  *
  * @summary gets a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-GET-External-WithLocation.json
+ * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithLocation.json
  */
 async function endpointGETExternalWithLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function endpointGETExternalWithLocation(): Promise<void> {
  * This sample demonstrates how to gets a Traffic Manager endpoint.
  *
  * @summary gets a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-GET-External-WithSubnetMapping.json
+ * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithSubnetMapping.json
  */
 async function endpointGETExternalWithSubnetMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();

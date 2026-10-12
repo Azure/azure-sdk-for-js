@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the custom IP prefixes in a subscription.
  *
  * @summary gets all the custom IP prefixes in a subscription.
- * x-ms-original-file: 2026-01-01/CustomIpPrefixListAll.json
+ * x-ms-original-file: 2026-03-01/CustomIpPrefixListAll.json
  */
 async function listAllCustomIPPrefixes() {
   const credential = new DefaultAzureCredential();

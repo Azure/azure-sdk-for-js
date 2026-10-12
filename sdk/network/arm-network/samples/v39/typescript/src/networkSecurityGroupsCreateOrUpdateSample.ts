@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a network security group in the specified resource group.
  *
  * @summary creates or updates a network security group in the specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkSecurityGroupCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityGroupCreate.json
  */
 async function createNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function createNetworkSecurityGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates a network security group in the specified resource group.
  *
  * @summary creates or updates a network security group in the specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkSecurityGroupCreateWithRule.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityGroupCreateWithRule.json
  */
 async function createNetworkSecurityGroupWithRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

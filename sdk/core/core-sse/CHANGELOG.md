@@ -1,5 +1,27 @@
 # Release History
 
+## 2.5.0 (Unreleased)
+
+### Features Added
+
+- Add `createReconnectingSseStream` for EventSource-style reconnection with
+  `Last-Event-ID`, server-provided retry delays, default HTTP response validation,
+  cancellation, optional retry limits, and service-defined terminal events.
+  `createSseStream` also supports terminal events. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Process colonless SSE fields, including empty `id` resets. Preserve committed
+  IDs on subsequent `createSseStream` events without an `id` field; those events
+  previously reported an empty `id`. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+- Reject server-provided `retry:` values outside the safe integer range instead
+  of reporting imprecise values; honor longer safe delays in full.
+  [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
+
+### Other Changes
+
 ## 2.4.0 (2026-07-13)
 
 ### Other Changes

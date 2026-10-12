@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-trafficmanager",
-  "version": "6.2.0-beta.1",
+  "version": "6.2.0",
   "description": "A generated SDK for TrafficManagerManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -164,9 +164,9 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -205,7 +205,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-trafficmanager",
@@ -213,7 +214,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager"
   },
   "imports": {
     "#platform/*": {

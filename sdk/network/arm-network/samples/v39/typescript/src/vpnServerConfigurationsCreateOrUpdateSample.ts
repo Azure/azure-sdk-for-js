@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
  *
  * @summary creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
- * x-ms-original-file: 2026-01-01/VpnServerConfigurationPut.json
+ * x-ms-original-file: 2026-03-01/VpnServerConfigurationPut.json
  */
 async function vpnServerConfigurationCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

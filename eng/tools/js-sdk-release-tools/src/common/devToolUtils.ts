@@ -40,24 +40,22 @@ export async function lintFix(packageDirectory: string) {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: "utf-8" }));
     const lintFixScript: string = packageJson.scripts?.["lint:fix"] ?? "";
 
+    // Ensure @azure/eslint-plugin-azure-sdk is built first; pnpm install only symlinks it.
+    logger.info(`Building @azure/eslint-plugin-azure-sdk to ensure its dist files are available.`);
+    await runCommand(
+      "pnpm",
+      ["build", "--filter", "@azure/eslint-plugin-azure-sdk"],
+      runCommandOptions,
+      true,
+      300,
+      true,
+    );
+    logger.info(`@azure/eslint-plugin-azure-sdk build step completed.`);
+
     if (lintFixScript.trimStart().startsWith("echo")) {
       // lint:fix is a no-op for this package (e.g. mgmt packages set it to "echo skipped").
       // Run eslint directly via `pnpm exec` so that pnpm resolves the binary from the
       // workspace-hoisted node_modules/.bin without mutating package.json.
-
-      // Ensure @azure/eslint-plugin-azure-sdk is built first; pnpm install only symlinks it.
-      logger.info(
-        `Building @azure/eslint-plugin-azure-sdk to ensure its dist files are available.`,
-      );
-      await runCommand(
-        "pnpm",
-        ["build", "--filter", "@azure/eslint-plugin-azure-sdk"],
-        runCommandOptions,
-        true,
-        300,
-        true,
-      );
-      logger.info(`@azure/eslint-plugin-azure-sdk build step completed.`);
 
       // Lint only TypeScript source directories; exclude JSON files to avoid a crash in the
       // ts-package-json-repo rule of @azure/eslint-plugin-azure-sdk under ESLint 9.

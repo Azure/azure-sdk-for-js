@@ -40,18 +40,62 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
   Ambiguous matches are errors.
+- Classic modules that are plain delegating factories are regenerated from
+  their resolved operations. A customized classic module (custom-only members,
+  overloads, signature customizations, or factory behavior) is not
+  regenerated: the emitter's member delta is applied to it instead. Emitted
+  additions, including operations relocated from another group, are rendered
+  from the resolved API contract; uncustomized members follow emitted changes
+  and removals; customized members the emitter changes are merged by identity
+  or reported. A member is uncustomized only when it is unchanged from the
+  emitted baseline or is exactly the delegation rendered from its own
+  operation's customized signature: the same callee, parameter names and types,
+  plain optional parameters, and return type. Relocating a customized member
+  out of its classic module requires review.
+- Preview opt-ins are sent as constant `foundry-features` headers rather than
+  the emitter's optional `foundryFeatures` option. The emitted optional header
+  is normalized into the customized constant form before merging, so a changed
+  opt-in literal follows the emitter. When the emitter retires an operation's
+  opt-in that its baseline declared, the constant header, local opt-in
+  constant, and continuation header are removed; poll headers that only carried
+  the opt-in beside the forwarded `options.requestOptions.headers` return to
+  the emitted poller shape, and other maintained poll headers are kept. A
+  preview header the emitter never sent is a customization and stays.
+- A custom-only declaration or export may reuse a generated name the
+  customization renamed away, for example a compatibility alias. It is retained
+  beside the renamed declaration rather than collapsed into it, and a
+  custom-only alias of an emitted model follows that model's emitted shape.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
-  model module remains canonical, with re-export modules where necessary.
+  model module `src/models/models.ts` remains canonical and `src/models/index.ts`
+  exports the public models, so emitted namespace modules such as
+  `models/openAI/` and `models/typeSpec/` are not mirrored into `src/`. A
+  re-export module for another model path is kept only while another customized
+  file imports that path; one that nothing imports is removed.
 - Retained legacy models keep their existing polymorphic union membership,
   discriminator values, and terminal serializer/deserializer registrations.
   Unrelated removed values and intentionally customized-away models are not
   resurrected; ambiguous legacy dispatch still requires review.
+  The explicitly approved exception for the data-generation configuration
+  migration (azure-rest-api-specs#46941) adopts the upstream
+  `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and
+  `simulation_seed`, without the customized `task_generation` value. The policy
+  validates these exact values; future discriminator changes still require review.
+  Retire renamed options/output-target declarations with the generated-model
+  removal synchronizer, including dependent legacy task-generation models.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
-  hand-maintained implementations are not replaced wholesale.
+  hand-maintained implementations are not replaced wholesale. A protected
+  module admits only operations the planner relocated into it from another
+  group: their declarations, the imports their source customization used, and
+  their classic interface and factory members. Those operations pass the same
+  guards as relocations into unprotected modules; every maintained declaration
+  and all other factory behavior must remain unchanged.
 - Public exports are reconciled without replacing the customized import
-  scaffold. Generated-backed moves are distinguished from custom-only API.
+  scaffold. Generated-backed moves are distinguished from custom-only API. An
+  unmodified generated export of a group module the emitter removed, for
+  example when its operations were merged into another group, is removed rather
+  than retained as a compatibility alias.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,

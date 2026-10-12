@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified route from a route table.
  *
  * @summary deletes the specified route from a route table.
- * x-ms-original-file: 2026-01-01/RouteTableRouteDelete.json
+ * x-ms-original-file: 2026-03-01/RouteTableRouteDelete.json
  */
 async function deleteRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();

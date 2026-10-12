@@ -130,7 +130,7 @@ export interface EndpointsGetOptionalParams extends OperationOptions {
 // @public
 export interface EndpointsOperations {
     createOrUpdate: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => Promise<Endpoint>;
-    delete: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    delete: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<DeleteOperationResult | void>;
     get: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
     update: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsUpdateOptionalParams) => Promise<Endpoint>;
 }
@@ -273,7 +273,7 @@ export enum KnownTrafficViewEnrollmentStatus {
 // @public
 export enum KnownVersions {
     V20220401 = "2022-04-01",
-    V20240401Preview = "2024-04-01-preview"
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -378,7 +378,7 @@ export interface ProfilesOperations {
     checkTrafficManagerNameAvailabilityV2: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams) => Promise<TrafficManagerNameAvailability>;
     checkTrafficManagerRelativeDnsNameAvailability: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams) => Promise<TrafficManagerNameAvailability>;
     createOrUpdate: (resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesCreateOrUpdateOptionalParams) => Promise<Profile>;
-    delete: (resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    delete: (resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams) => Promise<DeleteOperationResult | void>;
     get: (resourceGroupName: string, profileName: string, options?: ProfilesGetOptionalParams) => Promise<Profile>;
     listByResourceGroup: (resourceGroupName: string, options?: ProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Profile>;
     listBySubscription: (options?: ProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Profile>;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a VirtualHub.
  *
  * @summary deletes a VirtualHub.
- * x-ms-original-file: 2026-01-01/VirtualHubDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualHubDelete.json
  */
 async function virtualHubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

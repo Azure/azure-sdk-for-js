@@ -8,17 +8,39 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists resources for the specified occurrence.
  *
  * @summary lists resources for the specified occurrence.
- * x-ms-original-file: 2026-09-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_BasicSuccess.json
  */
-async function listResourcesInAScheduledActionOccurrence(): Promise<void> {
+async function _01ListResourcesInARecurringScheduledActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.occurrences.listResources(
-    "rgcompute",
-    "myScheduledAction",
-    "67b5bada-4772-43fc-8dbb-402476d98a45",
+    "example-rg",
+    "weekday-start",
+    "77777777-7777-7777-7777-777777777777",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists resources for the specified occurrence.
+ *
+ * @summary lists resources for the specified occurrence.
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_PagedSuccess.json
+ */
+async function _02ListAPageOfResourcesInARecurringScheduledActionOccurrence(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.occurrences.listResources(
+    "example-rg",
+    "weekday-start",
+    "88888888-8888-8888-8888-888888888888",
   )) {
     resArray.push(item);
   }
@@ -27,7 +49,8 @@ async function listResourcesInAScheduledActionOccurrence(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listResourcesInAScheduledActionOccurrence();
+  await _01ListResourcesInARecurringScheduledActionOccurrence();
+  await _02ListAPageOfResourcesInARecurringScheduledActionOccurrence();
 }
 
 main().catch(console.error);

@@ -7,7 +7,6 @@ import {
   _getBetaAgentInsightMonitorsOperations,
 } from "./agentInsightMonitors/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
-import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
@@ -27,7 +26,6 @@ import { BetaVoiceAgentsOperations, _getBetaVoiceAgentsOperations } from "./voic
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   schedules: BetaSchedulesOperations;
   routines: BetaRoutinesOperations;
@@ -44,7 +42,6 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     routines: _getBetaRoutinesOperations(context),

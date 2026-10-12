@@ -101,109 +101,122 @@ describe("generateCodeOwnersAndIgnoreLinkForPackage", () => {
     expect(fsModule.writeFileSync).not.toHaveBeenCalled();
   });
 
-  test("should update both CODEOWNERS and ignore-links.txt for first beta release", async () => {
-    // Setup mock for tryGetNpmView to return undefined (package doesn't exist)
-    vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
-    // Call the function
-    await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
-      mockPackageFolderPath,
-      mockPackageName,
-    );
+  test.each(["sdk/test-package", "/sdk/test-package"])(
+    "should update both CODEOWNERS and ignore-links.txt for first beta release: %s",
+    async (packageFolderPath) => {
+      // Setup mock for tryGetNpmView to return undefined (package doesn't exist)
+      vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
+      // Call the function
+      await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
+        packageFolderPath,
+        mockPackageName,
+      );
 
-    // Check that fs.writeFileSync was called twice (for CODEOWNERS and ignore-links.txt)
-    expect(fsModule.writeFileSync).toHaveBeenCalledTimes(2);
+      // Check that fs.writeFileSync was called twice (for CODEOWNERS and ignore-links.txt)
+      expect(fsModule.writeFileSync).toHaveBeenCalledTimes(2);
 
-    // Check CODEOWNERS update
-    const newContentBeforeConfig = `# PRLabel: %Mgmt\n${mockPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
-    const configSectionIndex = mockCODEOWNERSContent.indexOf("###########\n# Config\n###########");
-    const expectedCODEOWNERSContent =
-      mockCODEOWNERSContent.slice(0, configSectionIndex) +
-      newContentBeforeConfig +
-      "\n" +
-      mockCODEOWNERSContent.slice(configSectionIndex);
+      // Check CODEOWNERS update
+      const newContentBeforeConfig = `# PRLabel: %Mgmt\n/${mockPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
+      const configSectionIndex = mockCODEOWNERSContent.indexOf(
+        "###########\n# Config\n###########",
+      );
+      const expectedCODEOWNERSContent =
+        mockCODEOWNERSContent.slice(0, configSectionIndex) +
+        newContentBeforeConfig +
+        "\n" +
+        mockCODEOWNERSContent.slice(configSectionIndex);
 
-    expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
-      1,
-      mockCodeOwnersPath,
-      expectedCODEOWNERSContent,
-    );
+      expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
+        1,
+        mockCodeOwnersPath,
+        expectedCODEOWNERSContent,
+      );
 
-    // Check ignore-links.txt update - should add both learn link and npm link
-    const learnLink = `https://learn.microsoft.com/javascript/api/${mockPackageName}?view=azure-node-preview`;
-    const npmLink = `https://www.npmjs.com/package/${mockPackageName}`;
-    // Check if mockIgnoreLinksContent already ends with a newline
-    let expectedIgnoreLinksContent = mockIgnoreLinksContent;
-    if (!expectedIgnoreLinksContent.endsWith("\n")) {
-      expectedIgnoreLinksContent += "\n";
-    }
-    expectedIgnoreLinksContent += learnLink + "\n";
-    expectedIgnoreLinksContent += npmLink + "\n";
+      // Check ignore-links.txt update - should add both learn link and npm link
+      const learnLink = `https://learn.microsoft.com/javascript/api/${mockPackageName}?view=azure-node-preview`;
+      const npmLink = `https://www.npmjs.com/package/${mockPackageName}`;
+      // Check if mockIgnoreLinksContent already ends with a newline
+      let expectedIgnoreLinksContent = mockIgnoreLinksContent;
+      if (!expectedIgnoreLinksContent.endsWith("\n")) {
+        expectedIgnoreLinksContent += "\n";
+      }
+      expectedIgnoreLinksContent += learnLink + "\n";
+      expectedIgnoreLinksContent += npmLink + "\n";
 
-    expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
-      2,
-      mockIgnoreLinksPath,
-      expectedIgnoreLinksContent,
-    );
-  });
+      expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
+        2,
+        mockIgnoreLinksPath,
+        expectedIgnoreLinksContent,
+      );
+    },
+  );
 
-  test("should add %mgmt-review-needed in CODEOWNERS for first beta release in release mode with mgmt package", async () => {
-    const mgmtPackageFolderPath = "sdk/containerservice/arm-containerservicefleet";
-    vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
+  test.each([false, true])(
+    "should add mgmt-review-needed for first beta mgmt release (leading slash: %s)",
+    async (leadingSlash) => {
+      const mgmtPackageFolderPath = "sdk/containerservice/arm-containerservicefleet";
+      vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
 
-    await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
-      mgmtPackageFolderPath,
-      mockPackageName,
-      RunMode.Release,
-    );
+      await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
+        leadingSlash ? `/${mgmtPackageFolderPath}` : mgmtPackageFolderPath,
+        mockPackageName,
+        RunMode.Release,
+      );
 
-    expect(fsModule.writeFileSync).toHaveBeenCalledTimes(2);
+      expect(fsModule.writeFileSync).toHaveBeenCalledTimes(2);
 
-    const newContentBeforeConfig = `# PRLabel: %Mgmt %mgmt-review-needed\n${mgmtPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
-    const configSectionIndex = mockCODEOWNERSContent.indexOf("###########\n# Config\n###########");
-    const expectedCODEOWNERSContent =
-      mockCODEOWNERSContent.slice(0, configSectionIndex) +
-      newContentBeforeConfig +
-      "\n" +
-      mockCODEOWNERSContent.slice(configSectionIndex);
+      const newContentBeforeConfig = `# PRLabel: %Mgmt %mgmt-review-needed\n/${mgmtPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
+      const configSectionIndex = mockCODEOWNERSContent.indexOf(
+        "###########\n# Config\n###########",
+      );
+      const expectedCODEOWNERSContent =
+        mockCODEOWNERSContent.slice(0, configSectionIndex) +
+        newContentBeforeConfig +
+        "\n" +
+        mockCODEOWNERSContent.slice(configSectionIndex);
 
-    expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
-      1,
-      mockCodeOwnersPath,
-      expectedCODEOWNERSContent,
-    );
-  });
+      expect(fsModule.writeFileSync).toHaveBeenNthCalledWith(
+        1,
+        mockCodeOwnersPath,
+        expectedCODEOWNERSContent,
+      );
+    },
+  );
 
-  test("should update existing CODEOWNERS entry to add %mgmt-review-needed for non-first-beta mgmt release", async () => {
-    const mgmtPackageFolderPath = "sdk/containerservice/arm-containerservicefleet";
-    // Package already exists in npm (non-first-beta)
-    vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue({ version: "1.0.0" });
+  test.each([false, true])(
+    "should add mgmt-review-needed for non-first-beta mgmt release (leading slash: %s)",
+    async (leadingSlash) => {
+      const mgmtPackageFolderPath = "sdk/containerservice/arm-containerservicefleet";
+      // Package already exists in npm (non-first-beta)
+      vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue({ version: "1.0.0" });
 
-    // Existing CODEOWNERS has only %Mgmt for this package (paths in CODEOWNERS have leading slash)
-    const existingCodeownersContent = mockCODEOWNERSContent.replace(
-      "###########\n# Config\n###########",
-      `# PRLabel: %Mgmt\n/${mgmtPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n\n###########\n# Config\n###########`,
-    );
+      // Existing CODEOWNERS has only %Mgmt for this package (paths in CODEOWNERS have leading slash)
+      const existingCodeownersContent = mockCODEOWNERSContent.replace(
+        "###########\n# Config\n###########",
+        `# PRLabel: %Mgmt\n/${mgmtPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n\n###########\n# Config\n###########`,
+      );
 
-    vi.mocked(fsModule.readFileSync).mockImplementation((filePath) => {
-      if (filePath === mockCodeOwnersPath) return existingCodeownersContent;
-      if (filePath === mockIgnoreLinksPath) return mockIgnoreLinksContent;
-      return "";
-    });
+      vi.mocked(fsModule.readFileSync).mockImplementation((filePath) => {
+        if (filePath === mockCodeOwnersPath) return existingCodeownersContent;
+        if (filePath === mockIgnoreLinksPath) return mockIgnoreLinksContent;
+        return "";
+      });
 
-    await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
-      mgmtPackageFolderPath,
-      mockPackageName,
-      RunMode.Release,
-    );
+      await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
+        leadingSlash ? `/${mgmtPackageFolderPath}` : mgmtPackageFolderPath,
+        mockPackageName,
+        RunMode.Release,
+      );
 
-    // Only CODEOWNERS should be written (no ignore-links for non-first-beta)
-    expect(fsModule.writeFileSync).toHaveBeenCalledTimes(1);
-    const expectedContent = existingCodeownersContent.replace(
-      `# PRLabel: %Mgmt\n/${mgmtPackageFolderPath}/`,
-      `# PRLabel: %Mgmt %mgmt-review-needed\n/${mgmtPackageFolderPath}/`,
-    );
-    expect(fsModule.writeFileSync).toHaveBeenCalledWith(mockCodeOwnersPath, expectedContent);
-  });
+      // Only CODEOWNERS should be written (no ignore-links for non-first-beta)
+      expect(fsModule.writeFileSync).toHaveBeenCalledTimes(1);
+      const expectedContent = existingCodeownersContent.replace(
+        `# PRLabel: %Mgmt\n/${mgmtPackageFolderPath}/`,
+        `# PRLabel: %Mgmt %mgmt-review-needed\n/${mgmtPackageFolderPath}/`,
+      );
+      expect(fsModule.writeFileSync).toHaveBeenCalledWith(mockCodeOwnersPath, expectedContent);
+    },
+  );
 
   test("should not update CODEOWNERS if %mgmt-review-needed already present for non-first-beta mgmt release", async () => {
     const mgmtPackageFolderPath = "sdk/containerservice/arm-containerservicefleet";
@@ -234,7 +247,7 @@ describe("generateCodeOwnersAndIgnoreLinkForPackage", () => {
     vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
 
     // Modify mockCODEOWNERSContent to include the entry already
-    const newContentBeforeConfig = `# PRLabel: %Mgmt\n${mockPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
+    const newContentBeforeConfig = `# PRLabel: %Mgmt\n/${mockPackageFolderPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
     const configSectionIndex = mockCODEOWNERSContent.indexOf("###########\n# Config\n###########");
     const contentWithExistingEntry =
       mockCODEOWNERSContent.slice(0, configSectionIndex) +
@@ -266,6 +279,43 @@ describe("generateCodeOwnersAndIgnoreLinkForPackage", () => {
       contentWithExistingEntry,
     );
   });
+
+  test.each([undefined, RunMode.Release])(
+    "should keep repeated generation idempotent across path prefixes (run mode: %s)",
+    async (runMode) => {
+      const packageFolderPath = "sdk/containerservice/arm-containerservicefleet";
+      let codeownersContent = mockCODEOWNERSContent;
+      let ignoreLinksContent = mockIgnoreLinksContent;
+      vi.mocked(npmUtilsModule.tryGetNpmView).mockResolvedValue(undefined);
+      vi.mocked(fsModule.readFileSync).mockImplementation((filePath) => {
+        if (filePath === mockCodeOwnersPath) return codeownersContent;
+        if (filePath === mockIgnoreLinksPath) return ignoreLinksContent;
+        return "";
+      });
+      vi.mocked(fsModule.writeFileSync).mockImplementation((filePath, content) => {
+        if (filePath === mockCodeOwnersPath) codeownersContent = String(content);
+        if (filePath === mockIgnoreLinksPath) ignoreLinksContent = String(content);
+      });
+
+      await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
+        packageFolderPath,
+        mockPackageName,
+        runMode,
+      );
+      const firstCodeownersContent = codeownersContent;
+      const firstIgnoreLinksContent = ignoreLinksContent;
+
+      for (const input of [`/${packageFolderPath}`, packageFolderPath]) {
+        await codeOwnersModule.tryGenerateCodeOwnersAndIgnoreLinkForPackage(
+          input,
+          mockPackageName,
+          runMode,
+        );
+        expect(codeownersContent).toBe(firstCodeownersContent);
+        expect(ignoreLinksContent).toBe(firstIgnoreLinksContent);
+      }
+    },
+  );
 
   test("should not add duplicate entry to ignore-links.txt if both links already exist", async () => {
     // Setup mock for tryGetNpmView to return undefined (package doesn't exist)

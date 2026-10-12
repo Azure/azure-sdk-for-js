@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all route tables in a subscription.
  *
  * @summary gets all route tables in a subscription.
- * x-ms-original-file: 2026-01-01/RouteTableListAll.json
+ * x-ms-original-file: 2026-03-01/RouteTableListAll.json
  */
 async function listAllRouteTables() {
   const credential = new DefaultAzureCredential();

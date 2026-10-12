@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to migrates an Azure Database for PostgreSQL server from VNet integration to a Private Link network model.
  *
  * @summary migrates an Azure Database for PostgreSQL server from VNet integration to a Private Link network model.
- * x-ms-original-file: 2026-04-01-preview/ServersMigrateNetworkMode.json
+ * x-ms-original-file: 2026-07-01-preview/ServersMigrateNetworkMode.json
  */
 async function migrateServerNetworkConfiguration() {
   const credential = new DefaultAzureCredential();

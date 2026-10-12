@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an auto export job instance.
  *
  * @summary update an auto export job instance.
- * x-ms-original-file: 2026-01-01/autoExportJobs_Update.json
+ * x-ms-original-file: 2026-08-01/autoExportJobs_Update.json
  */
 async function autoExportJobsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

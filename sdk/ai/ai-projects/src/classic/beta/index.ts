@@ -7,8 +7,6 @@ import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/
 import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
 import { _getBetaAgentsOperations } from "./agents/index.js";
-import type { BetaDatasetsOperations } from "./datasets/index.js";
-import { _getBetaDatasetsOperations } from "./datasets/index.js";
 import type { BetaSkillsOperations } from "./skills/index.js";
 import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
@@ -33,8 +31,6 @@ import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentR
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing data generation jobs. */
-  datasets: BetaDatasetsOperations;
   /** Operations for managing skills. */
   skills: BetaSkillsOperations;
   /** Operations for managing schedules. */
@@ -68,8 +64,6 @@ export function _getBetaOperations(
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
 ): BetaOperations {
   return {
-    /** Operations for managing data generation jobs. */
-    datasets: _getBetaDatasetsOperations(context),
     /** Operations for managing skills. */
     skills: _getBetaSkillsOperations(context),
     /** Operations for managing schedules. */

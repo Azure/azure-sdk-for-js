@@ -3,15 +3,15 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for TemplateSpecsClient.",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "engines": {
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-client": "^1.9.3",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.19.1",
     "tslib": "^2.8.1"
   },
   "keywords": [
@@ -19,32 +19,38 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
   "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
+    "typescript": "catalog:",
+    "rimraf": "catalog:",
+    "dotenv": "catalog:testing",
     "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
     "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
+    "@azure/logger": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
     "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/templatespecs/arm-templatespecs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/templatespecs/arm-templatespecs"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -52,23 +58,21 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "extract-api": "dev-tool run extract-api",
+    "lint": "echo skipped",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "build:samples": "echo skipped.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "echo skipped",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -87,10 +91,10 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-templatespecs?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-templatespecs"
   },
-  "type": "module",
   "browser": "./dist/browser/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/templatespecs/arm-templatespecs/README.md",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -106,12 +110,6 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
-    }
-  },
-  "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "default": "./src/*.ts"
     }
   }
 }

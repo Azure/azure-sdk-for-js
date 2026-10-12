@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a ConfigurationPolicyGroup.
  *
  * @summary retrieves the details of a ConfigurationPolicyGroup.
- * x-ms-original-file: 2026-01-01/ConfigurationPolicyGroupGet.json
+ * x-ms-original-file: 2026-03-01/ConfigurationPolicyGroupGet.json
  */
 async function configurationPolicyGroupGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

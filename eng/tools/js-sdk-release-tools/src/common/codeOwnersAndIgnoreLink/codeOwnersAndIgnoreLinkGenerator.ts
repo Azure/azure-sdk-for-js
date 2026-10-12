@@ -69,7 +69,8 @@ function updateCODEOWNERS(packagePath: string, addMgmtReviewLabel: boolean) {
   const configSectionIndex = content.indexOf("###########\n# Config\n###########");
   if (configSectionIndex !== -1) {
     const prLabels = addMgmtReviewLabel ? "%Mgmt %mgmt-review-needed" : "%Mgmt";
-    const newContentBeforeConfig = `# PRLabel: ${prLabels}\n${packagePath}/ @qiaozha @MaryGao @JialinHuang803\n`;
+    const normalizedPath = packagePath.startsWith("/") ? packagePath : `/${packagePath}`;
+    const newContentBeforeConfig = `# PRLabel: ${prLabels}\n${normalizedPath}/ @qiaozha @MaryGao @JialinHuang803\n`;
     if (!content.includes(newContentBeforeConfig)) {
       content =
         content.slice(0, configSectionIndex) +

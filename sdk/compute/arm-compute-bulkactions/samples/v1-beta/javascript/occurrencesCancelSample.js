@@ -8,20 +8,63 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels the specified occurrence for the specified resource IDs.
  *
  * @summary cancels the specified occurrence for the specified resource IDs.
- * x-ms-original-file: 2026-09-06-preview/Occurrences_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_BasicSuccess.json
  */
-async function cancelResourcesInAScheduledActionOccurrence() {
+async function _01CancelOperationsInARecurringScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.occurrences.cancel(
-    "rgcompute",
-    "myScheduledAction",
-    "67b5bada-4772-43fc-8dbb-402476d98a45",
+    "example-rg",
+    "weekday-start",
+    "77777777-7777-7777-7777-777777777777",
     {
       resourceIds: [
-        "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm",
-        "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm2",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-01",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
+      ],
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to cancels the specified occurrence for the specified resource IDs.
+ *
+ * @summary cancels the specified occurrence for the specified resource IDs.
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_EntireOccurrenceSuccess.json
+ */
+async function _02CancelAllOperationsInARecurringScheduledActionOccurrence() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.occurrences.cancel(
+    "example-rg",
+    "weekday-start",
+    "77777777-7777-7777-7777-777777777777",
+    { resourceIds: [] },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to cancels the specified occurrence for the specified resource IDs.
+ *
+ * @summary cancels the specified occurrence for the specified resource IDs.
+ * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_PartialSuccess.json
+ */
+async function _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringScheduledActionOccurrence() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.occurrences.cancel(
+    "example-rg",
+    "weekday-start",
+    "77777777-7777-7777-7777-777777777777",
+    {
+      resourceIds: [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-01",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
       ],
     },
   );
@@ -29,7 +72,9 @@ async function cancelResourcesInAScheduledActionOccurrence() {
 }
 
 async function main() {
-  await cancelResourcesInAScheduledActionOccurrence();
+  await _01CancelOperationsInARecurringScheduledActionOccurrence();
+  await _02CancelAllOperationsInARecurringScheduledActionOccurrence();
+  await _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringScheduledActionOccurrence();
 }
 
 main().catch(console.error);

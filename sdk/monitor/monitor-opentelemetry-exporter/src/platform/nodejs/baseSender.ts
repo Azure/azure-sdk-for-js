@@ -9,6 +9,9 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { StatsbeatManager } from "../../export/statsbeat/statsbeatManager.js";
 import { CustomerSDKStatsManager } from "../../export/statsbeat/customerSDKStatsManager.js";
+import { ConfigurationManager } from "../../_configuration/configurationManager.js";
+import type { ConfigurationChangeCallback } from "../../_configuration/configurationManager.js";
+import { evaluateFeature } from "../../_configuration/featureEvaluation.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
@@ -30,6 +33,7 @@ import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   ENV_DISABLE_SDKSTATS,
+  ONE_SETTINGS_FEATURE_LOCAL_STORAGE,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -47,6 +51,7 @@ const REPLAY_BATCH_JITTER_MS = 200;
 // Prevent re-persisted files from creating an unbounded startup replay loop.
 const MAX_STARTUP_REPLAY_BATCHES = 10;
 const SENDER_SHUTDOWN_ERROR = new Error("Sender is shut down");
+const REPLAY_PAUSED_ERROR = new Error("Offline telemetry replay is paused");
 
 /**
  * Base sender class
@@ -61,11 +66,43 @@ export abstract class BaseSender {
   private readonly statsbeatManager: StatsbeatManager;
   private isShutdown: boolean = false;
   private readonly replayOperations = new Set<Promise<void>>();
+  private replayPending = false;
   private customerSDKStatsManager: CustomerSDKStatsManager | undefined;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
   private disableOfflineStorage: boolean;
+  private remoteStorageEnabled = true;
+  private storageGeneration = 0;
+  private unregisterStorageCallback: (() => void) | undefined;
+  private readonly storageCallback: ConfigurationChangeCallback = (settings) => {
+    if (this.isShutdown || !Object.hasOwn(settings, ONE_SETTINGS_FEATURE_LOCAL_STORAGE)) {
+      return;
+    }
+    const enabled = evaluateFeature(ONE_SETTINGS_FEATURE_LOCAL_STORAGE, settings);
+    if (typeof enabled !== "boolean") {
+      return;
+    }
+    if (enabled === this.remoteStorageEnabled) {
+      return;
+    }
+    this.remoteStorageEnabled = enabled;
+    const generation = ++this.storageGeneration;
+    this.cancelStorageTimers();
+    if (this.storageEnabled) {
+      return Promise.allSettled([...this.replayOperations]).then(() => {
+        if (!this.isShutdown && generation === this.storageGeneration) {
+          this.scheduleStartupReplay();
+        }
+        return;
+      });
+    }
+    return;
+  };
+
+  private get storageEnabled(): boolean {
+    return !this.disableOfflineStorage && this.remoteStorageEnabled;
+  }
 
   private get customerSDKStatsMetrics(): CustomerSDKStatsMetrics | undefined {
     return this.customerSDKStatsManager?.customerSDKStatsMetrics;
@@ -117,13 +154,19 @@ export abstract class BaseSender {
       options.instrumentationKey,
       options.exporterOptions,
       () => this.customerSDKStatsMetrics,
+      () => this.remoteStorageEnabled,
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
 
+    if (!this.disableOfflineStorage) {
+      this.unregisterStorageCallback = ConfigurationManager.getInstance().registerCallback(
+        this.storageCallback,
+      );
+    }
     // Replay persisted files from previous sessions on startup. Schedule after a randomized
     // delay so a fleet restarting together doesn't stampede Breeze the moment connectivity returns.
-    if (!this.disableOfflineStorage) {
+    if (this.storageEnabled) {
       this.scheduleStartupReplay();
     }
   }
@@ -136,16 +179,24 @@ export abstract class BaseSender {
       return;
     }
     this.isShutdown = true;
+    this.unregisterStorageCallback?.();
+    this.unregisterStorageCallback = undefined;
+    this.cancelStorageTimers();
+    this.retryTimerDeadlineMs = 0;
+    this.persister.shutdown();
+    await Promise.allSettled([...this.replayOperations]);
+  }
+
+  private cancelStorageTimers(): void {
+    this.replayPending = false;
     if (this.retryTimer) {
       clearTimeout(this.retryTimer);
       this.retryTimer = null;
     }
-    this.retryTimerDeadlineMs = 0;
     if (this.startupReplayTimer) {
       clearTimeout(this.startupReplayTimer);
       this.startupReplayTimer = null;
     }
-    await Promise.allSettled([...this.replayOperations]);
   }
 
   /**
@@ -155,9 +206,13 @@ export abstract class BaseSender {
     envelopes: Envelope[],
     redirectIsSerialized: boolean = false,
     redirectCount: number = 0,
+    isReplay: boolean = false,
   ): Promise<ExportResult> {
     if (this.isShutdown) {
       return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
+    }
+    if (isReplay && !this.storageEnabled) {
+      return { code: ExportResultCode.FAILED, error: REPLAY_PAUSED_ERROR };
     }
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
@@ -187,7 +242,7 @@ export abstract class BaseSender {
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
           this.scheduleRetryTimer(retryAfterMs);
-          return await this.persist(envelopes);
+          return await this.persist(envelopes, isReplay);
         }
         if (result) {
           diag.info(result);
@@ -222,7 +277,7 @@ export abstract class BaseSender {
             }
             // calls resultCallback(ExportResult) based on result of persister.push
             this.scheduleRetryTimer(retryAfterMs);
-            return await this.persist(filteredEnvelopes);
+            return await this.persist(filteredEnvelopes, isReplay);
           }
           // Failed -- not retriable
           if (!this.isStatsbeatSender) {
@@ -244,7 +299,7 @@ export abstract class BaseSender {
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
           this.scheduleRetryTimer(retryAfterMs);
-          return await this.persist(envelopes);
+          return await this.persist(envelopes, isReplay);
         }
       } else {
         // Failed -- not retriable
@@ -290,6 +345,7 @@ export abstract class BaseSender {
               envelopes,
               redirectIsSerialized,
               nextRedirectCount,
+              isReplay,
             );
           }
         } else {
@@ -315,7 +371,7 @@ export abstract class BaseSender {
         // Honor a server-requested Retry-After so persisted telemetry isn't replayed too early.
         const retryAfterMs = parseRetryAfterHeader(restError.response?.headers.get("retry-after"));
         this.scheduleRetryTimer(retryAfterMs);
-        return this.persist(envelopes);
+        return this.persist(envelopes, isReplay);
       } else if (
         restError.statusCode === 400 &&
         restError.message.includes("Invalid instrumentation key")
@@ -363,7 +419,7 @@ export abstract class BaseSender {
           restError.message,
         );
         this.scheduleRetryTimer();
-        return this.persist(envelopes);
+        return this.persist(envelopes, isReplay);
       }
       // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
@@ -385,9 +441,11 @@ export abstract class BaseSender {
   /**
    * Persist envelopes to disk
    */
-  private async persist(envelopes: unknown[]): Promise<ExportResult> {
+  private async persist(envelopes: unknown[], isReplay = false): Promise<ExportResult> {
     try {
-      const success = await this.persister.push(envelopes);
+      const success = isReplay
+        ? await this.persister.restore(envelopes)
+        : await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
         : this.buildExportResult({
@@ -440,20 +498,21 @@ export abstract class BaseSender {
   }
 
   private async sendFirstPersistedFileCore(): Promise<void> {
-    if (this.isShutdown) {
+    if (this.isShutdown || !this.storageEnabled) {
       return;
     }
+    const generation = this.storageGeneration;
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
       if (!envelopes) {
         return;
       }
-      if (this.isShutdown) {
+      if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
         await this.restoreShiftedEnvelopes(envelopes);
         return;
       }
-      const result = await this.exportEnvelopes(envelopes);
-      if (result.error === SENDER_SHUTDOWN_ERROR) {
+      const result = await this.exportEnvelopes(envelopes, false, 0, true);
+      if (result.error === SENDER_SHUTDOWN_ERROR || result.error === REPLAY_PAUSED_ERROR) {
         await this.restoreShiftedEnvelopes(envelopes);
       }
     } catch (err: any) {
@@ -472,13 +531,14 @@ export abstract class BaseSender {
   }
 
   private async sendAllPersistedFilesCore(): Promise<void> {
-    if (this.isShutdown) {
+    if (this.isShutdown || !this.storageEnabled) {
       return;
     }
+    const generation = this.storageGeneration;
     try {
       // Clean outdated telemetry from disk before attempting to send
       await this.persister.cleanExpiredFiles();
-      if (this.isShutdown) {
+      if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
         return;
       }
 
@@ -486,7 +546,7 @@ export abstract class BaseSender {
       let isFirstBatch = true;
       let replayedBatchCount = 0;
       while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
-        if (this.isShutdown) {
+        if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
           await this.restoreShiftedEnvelopes(envelopes);
           return;
         }
@@ -496,7 +556,7 @@ export abstract class BaseSender {
           const batchDelay = this.getReplayBatchDelayMs();
           if (batchDelay > 0) {
             await new Promise((resolve) => setTimeout(resolve, batchDelay));
-            if (this.isShutdown) {
+            if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
               await this.restoreShiftedEnvelopes(envelopes);
               return;
             }
@@ -505,12 +565,12 @@ export abstract class BaseSender {
         isFirstBatch = false;
         replayedBatchCount++;
 
-        const result = await this.exportEnvelopes(envelopes);
-        if (result.error === SENDER_SHUTDOWN_ERROR) {
+        const result = await this.exportEnvelopes(envelopes, false, 0, true);
+        if (result.error === SENDER_SHUTDOWN_ERROR || result.error === REPLAY_PAUSED_ERROR) {
           await this.restoreShiftedEnvelopes(envelopes);
           return;
         }
-        if (this.isShutdown) {
+        if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
           return;
         }
         if (result.code === ExportResultCode.FAILED) {
@@ -530,24 +590,26 @@ export abstract class BaseSender {
   }
 
   private trackReplay(operation: () => Promise<void>): Promise<void> {
+    if (this.replayOperations.size > 0) {
+      this.replayPending = true;
+      return Promise.resolve();
+    }
     const replay = operation();
     this.replayOperations.add(replay);
-    void replay.then(
-      () => {
-        this.replayOperations.delete(replay);
-        return;
-      },
-      () => {
-        this.replayOperations.delete(replay);
-        return;
-      },
-    );
+    const onSettled = (): void => {
+      this.replayOperations.delete(replay);
+      if (this.replayPending) {
+        this.replayPending = false;
+        this.scheduleRetryTimer(0);
+      }
+    };
+    void replay.then(onSettled, onSettled);
     return replay;
   }
 
   private async restoreShiftedEnvelopes(envelopes: Envelope[]): Promise<void> {
-    if (!(await this.persister.push(envelopes))) {
-      diag.warn("Failed to restore persisted telemetry during sender shutdown");
+    if (!(await this.persister.restore(envelopes))) {
+      diag.warn("Failed to restore persisted telemetry while replay was stopping");
     }
   }
 
@@ -557,14 +619,18 @@ export abstract class BaseSender {
    * their backlog at the same instant after a shared outage or coordinated restart.
    */
   private scheduleStartupReplay(): void {
-    if (this.isShutdown) {
+    if (this.isShutdown || !this.storageEnabled || this.startupReplayTimer) {
       return;
     }
-    const delay = this.getStartupReplayDelayMs();
+    const delay = Math.max(this.getStartupReplayDelayMs(), this.retryTimerDeadlineMs - Date.now());
     this.startupReplayTimer = setTimeout(() => {
       this.startupReplayTimer = null;
       if (!this.isShutdown) {
-        void this.sendAllPersistedFiles();
+        if (this.retryTimerDeadlineMs > Date.now()) {
+          this.scheduleStartupReplay();
+        } else {
+          void this.sendAllPersistedFiles();
+        }
       }
     }, delay);
     // Don't keep the event loop alive solely for startup replay
@@ -604,11 +670,15 @@ export abstract class BaseSender {
   }
 
   private scheduleRetryTimer(retryAfterMs?: number): void {
-    if (this.isShutdown) {
+    if (this.isShutdown || this.disableOfflineStorage) {
       return;
     }
     const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
-    const newDeadline = Date.now() + delay;
+    const newDeadline = Math.max(Date.now() + delay, this.retryTimerDeadlineMs);
+    if (!this.remoteStorageEnabled) {
+      this.retryTimerDeadlineMs = Math.max(this.retryTimerDeadlineMs, newDeadline);
+      return;
+    }
     // Reschedule if a new Retry-After results in a later absolute deadline
     if (this.retryTimer && retryAfterMs !== undefined && newDeadline > this.retryTimerDeadlineMs) {
       clearTimeout(this.retryTimer);
@@ -662,10 +732,14 @@ export abstract class BaseSender {
     envelopes: Envelope[],
     redirectIsSerialized: boolean,
     redirectCount: number,
+    isReplay: boolean,
   ): Promise<ExportResult> {
     const operation = async (): Promise<ExportResult> => {
       if (this.isShutdown) {
         return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
+      }
+      if (isReplay && !this.storageEnabled) {
+        return { code: ExportResultCode.FAILED, error: REPLAY_PAUSED_ERROR };
       }
       if (!this.handlePermanentRedirect(location)) {
         const refusalError = new Error("Refused cross-origin redirect");
@@ -683,7 +757,7 @@ export abstract class BaseSender {
       if (!this.isStatsbeatSender) {
         await this.statsbeatManager.updateEndpoint(location);
       }
-      return this.exportEnvelopes(envelopes, true, redirectCount);
+      return this.exportEnvelopes(envelopes, true, redirectCount, isReplay);
     };
 
     if (redirectIsSerialized || this.isStatsbeatSender) {

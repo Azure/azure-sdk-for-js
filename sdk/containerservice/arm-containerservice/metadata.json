@@ -1,14 +1,15 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-06-02-preview"
+    "Microsoft.ContainerService": "2026-07-02-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
       "@azure/arm-containerservice!AgentPool:interface": "Microsoft.ContainerService.AgentPool",
       "@azure/arm-containerservice!ManagedClusterAgentPoolProfileProperties:interface": "Microsoft.ContainerService.ManagedClusterAgentPoolProfileProperties",
       "@azure/arm-containerservice!AgentPoolUpgradeSettings:interface": "Microsoft.ContainerService.AgentPoolUpgradeSettings",
+      "@azure/arm-containerservice!UpgradeGateSettings:interface": "Microsoft.ContainerService.UpgradeGateSettings",
       "@azure/arm-containerservice!AgentPoolBlueGreenUpgradeSettings:interface": "Microsoft.ContainerService.AgentPoolBlueGreenUpgradeSettings",
       "@azure/arm-containerservice!PowerState:interface": "Microsoft.ContainerService.PowerState",
       "@azure/arm-containerservice!KubeletConfig:interface": "Microsoft.ContainerService.KubeletConfig",

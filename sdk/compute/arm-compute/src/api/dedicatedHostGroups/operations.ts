@@ -63,6 +63,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _dedicatedHostGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups. */
 export function listBySubscription(
   context: Client,
@@ -114,6 +115,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _dedicatedHostGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups. */
 export function listByResourceGroup(
   context: Client,
@@ -163,6 +165,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a dedicated host group. */
 export async function $delete(
   context: Client,
@@ -216,6 +219,7 @@ export async function _updateDeserialize(
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Update an dedicated host group. */
 export async function update(
   context: Client,
@@ -270,6 +274,7 @@ export async function _createOrUpdateDeserialize(
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596) */
 export async function createOrUpdate(
   context: Client,
@@ -326,6 +331,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Retrieves information about a dedicated host group. */
 export async function get(
   context: Client,

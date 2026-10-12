@@ -121,7 +121,7 @@
     "debug": "^4.4.0",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "https-proxy-agent": "^7.0.0",
+    "https-proxy-agent": "^9.1.0",
     "node-forge": "^1.3.2",
     "playwright": "catalog:testing",
     "prettier": "catalog:",

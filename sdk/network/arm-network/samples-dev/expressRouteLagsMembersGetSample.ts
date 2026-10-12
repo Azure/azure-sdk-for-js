@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the specified ExpressRouteLagMember resource.
  *
  * @summary retrieves the specified ExpressRouteLagMember resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagMemberGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagMemberGet.json
  */
 async function getExpressRouteLagMember(): Promise<void> {
   const credential = new DefaultAzureCredential();
