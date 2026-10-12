@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an admin rule.
  *
  * @summary deletes an admin rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerAdminRuleDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerAdminRuleDelete.json
  */
 async function deletesAnAdminRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

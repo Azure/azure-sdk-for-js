@@ -112,6 +112,8 @@ import type { ExpressRouteCrossConnectionsOperations } from "./classic/expressRo
 import { _getExpressRouteCrossConnectionsOperations } from "./classic/expressRouteCrossConnections/index.js";
 import type { ExpressRouteGatewaysOperations } from "./classic/expressRouteGateways/index.js";
 import { _getExpressRouteGatewaysOperations } from "./classic/expressRouteGateways/index.js";
+import type { ExpressRouteLagAuthorizationsOperations } from "./classic/expressRouteLagAuthorizations/index.js";
+import { _getExpressRouteLagAuthorizationsOperations } from "./classic/expressRouteLagAuthorizations/index.js";
 import type { ExpressRouteLagsOperations } from "./classic/expressRouteLags/index.js";
 import { _getExpressRouteLagsOperations } from "./classic/expressRouteLags/index.js";
 import type { ExpressRouteLinksOperations } from "./classic/expressRouteLinks/index.js";
@@ -330,6 +332,8 @@ import type { VirtualHubRouteTableV2SOperations } from "./classic/virtualHubRout
 import { _getVirtualHubRouteTableV2SOperations } from "./classic/virtualHubRouteTableV2S/index.js";
 import type { VirtualHubsOperations } from "./classic/virtualHubs/index.js";
 import { _getVirtualHubsOperations } from "./classic/virtualHubs/index.js";
+import type { VirtualNetworkApplianceCapabilitiesOperations } from "./classic/virtualNetworkApplianceCapabilities/index.js";
+import { _getVirtualNetworkApplianceCapabilitiesOperations } from "./classic/virtualNetworkApplianceCapabilities/index.js";
 import type { VirtualNetworkAppliancesOperations } from "./classic/virtualNetworkAppliances/index.js";
 import { _getVirtualNetworkAppliancesOperations } from "./classic/virtualNetworkAppliances/index.js";
 import type { VirtualNetworkGatewayConnectionsOperations } from "./classic/virtualNetworkGatewayConnections/index.js";
@@ -531,6 +535,9 @@ export class NetworkManagementClient {
     this.subgroups = _getSubgroupsOperations(this._client);
     this.interconnectGroups = _getInterconnectGroupsOperations(this._client);
     this.serviceGateways = _getServiceGatewaysOperations(this._client);
+    this.virtualNetworkApplianceCapabilities = _getVirtualNetworkApplianceCapabilitiesOperations(
+      this._client,
+    );
     this.virtualNetworkAppliances = _getVirtualNetworkAppliancesOperations(this._client);
     this.webApplicationFirewallPolicies = _getWebApplicationFirewallPoliciesOperations(
       this._client,
@@ -627,6 +634,7 @@ export class NetworkManagementClient {
       this._client,
     );
     this.firewallPolicies = _getFirewallPoliciesOperations(this._client);
+    this.expressRouteLagAuthorizations = _getExpressRouteLagAuthorizationsOperations(this._client);
     this.expressRouteLags = _getExpressRouteLagsOperations(this._client);
     this.expressRoutePortAuthorizations = _getExpressRoutePortAuthorizationsOperations(
       this._client,
@@ -1131,6 +1139,8 @@ export class NetworkManagementClient {
   public readonly interconnectGroups: InterconnectGroupsOperations;
   /** The operation groups for serviceGateways */
   public readonly serviceGateways: ServiceGatewaysOperations;
+  /** The operation groups for virtualNetworkApplianceCapabilities */
+  public readonly virtualNetworkApplianceCapabilities: VirtualNetworkApplianceCapabilitiesOperations;
   /** The operation groups for virtualNetworkAppliances */
   public readonly virtualNetworkAppliances: VirtualNetworkAppliancesOperations;
   /** The operation groups for webApplicationFirewallPolicies */
@@ -1281,6 +1291,8 @@ export class NetworkManagementClient {
   public readonly firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroupsOperations;
   /** The operation groups for firewallPolicies */
   public readonly firewallPolicies: FirewallPoliciesOperations;
+  /** The operation groups for expressRouteLagAuthorizations */
+  public readonly expressRouteLagAuthorizations: ExpressRouteLagAuthorizationsOperations;
   /** The operation groups for expressRouteLags */
   public readonly expressRouteLags: ExpressRouteLagsOperations;
   /** The operation groups for expressRoutePortAuthorizations */

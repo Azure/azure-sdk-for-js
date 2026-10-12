@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation starts failover simulation on the gateway for the specified peering location
  *
  * @summary this operation starts failover simulation on the gateway for the specified peering location
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayStartSiteFailoverSimulation.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayStartSiteFailoverSimulation.json
  */
 async function virtualNetworkGatewayStartSiteFailoverSimulation(): Promise<void> {
   const credential = new DefaultAzureCredential();

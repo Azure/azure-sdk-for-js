@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an IpAllocation in the specified resource group.
  *
  * @summary creates or updates an IpAllocation in the specified resource group.
- * x-ms-original-file: 2026-01-01/IpAllocationCreate.json
+ * x-ms-original-file: 2026-03-01/IpAllocationCreate.json
  */
 async function createIpAllocation() {
   const credential = new DefaultAzureCredential();

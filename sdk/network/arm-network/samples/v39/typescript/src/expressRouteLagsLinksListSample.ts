@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve the ExpressRouteLagLink sub-resources of the specified ExpressRouteLag resource.
  *
  * @summary retrieve the ExpressRouteLagLink sub-resources of the specified ExpressRouteLag resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagLinkList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagLinkList.json
  */
 async function listExpressRouteLagLinks(): Promise<void> {
   const credential = new DefaultAzureCredential();

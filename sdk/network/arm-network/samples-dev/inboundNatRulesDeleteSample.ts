@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified load balancer inbound NAT rule.
  *
  * @summary deletes the specified load balancer inbound NAT rule.
- * x-ms-original-file: 2026-01-01/InboundNatRuleDelete.json
+ * x-ms-original-file: 2026-03-01/InboundNatRuleDelete.json
  */
 async function inboundNatRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

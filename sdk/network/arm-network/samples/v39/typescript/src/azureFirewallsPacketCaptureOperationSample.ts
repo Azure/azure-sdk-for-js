@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to runs a packet capture operation on AzureFirewall.
  *
  * @summary runs a packet capture operation on AzureFirewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallPacketCaptureOperation.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPacketCaptureOperation.json
  */
 async function azureFirewallPacketCaptureOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
