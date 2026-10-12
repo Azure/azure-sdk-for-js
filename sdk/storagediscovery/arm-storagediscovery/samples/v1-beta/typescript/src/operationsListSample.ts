@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { StorageDiscoveryClient } = require("@azure/arm-storagediscovery");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { StorageDiscoveryClient } from "@azure/arm-storagediscovery";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-09-01/Operation_List.json
+ * x-ms-original-file: 2026-10-01-preview/Operation_List.json
  */
-async function listAllProviderOperations() {
+async function listAllProviderOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -22,7 +22,7 @@ async function listAllProviderOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllProviderOperations();
 }
 
