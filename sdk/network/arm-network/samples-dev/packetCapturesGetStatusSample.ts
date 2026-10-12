@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to query the status of a running packet capture session.
  *
  * @summary query the status of a running packet capture session.
- * x-ms-original-file: 2026-01-01/NetworkWatcherPacketCaptureQueryStatus.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherPacketCaptureQueryStatus.json
  */
 async function queryPacketCaptureStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

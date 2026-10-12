@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets list of Verifier Workspaces.
  *
  * @summary gets list of Verifier Workspaces.
- * x-ms-original-file: 2026-01-01/VerifierWorkspaceList.json
+ * x-ms-original-file: 2026-03-01/VerifierWorkspaceList.json
  */
 async function verifierWorkspaceList(): Promise<void> {
   const credential = new DefaultAzureCredential();
