@@ -9,6 +9,12 @@ import { AnonymousCredential } from '@azure/storage-common';
 import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
+import type { BlobGetLayoutHeaders } from '@azure/storage-blob';
+import type { BlobLayout } from '@azure/storage-blob';
+import type { BlobLayoutEndpoint } from '@azure/storage-blob';
+import type { BlobLayoutEndpoints } from '@azure/storage-blob';
+import type { BlobLayoutRange } from '@azure/storage-blob';
+import type { BlobLayoutRanges } from '@azure/storage-blob';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import type { BlobTags } from '@azure/storage-blob';
@@ -27,6 +33,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isPipelineLike } from '@azure/storage-blob';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import { LayoutAwareRouting } from '@azure/storage-blob';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -46,6 +53,7 @@ import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+import type { ResponseWithBody } from '@azure/storage-blob';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceClientOptions } from '@azure/storage-blob';
 import type { ServiceGetPropertiesOptions } from '@azure/storage-blob';
@@ -331,6 +339,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
     generateUserDelegationSasStringToSign(options: FileGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     generateUserDelegationSasUrl(options: FileGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
+    getLayout(options?: FileGetLayoutOptions): PagedAsyncIterableIterator<FileGetLayoutResponse, FileGetLayoutResponse>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
@@ -635,6 +644,37 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 // @public
+export interface FileGetLayoutHeaders extends Omit<BlobGetLayoutHeaders, "blobContentLength"> {
+    fileContentLength?: number;
+}
+
+// @public
+export interface FileGetLayoutOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
+    range?: FileRange;
+}
+
+// @public
+export type FileGetLayoutResponse = FileGetLayoutHeaders & FileLayout & ResponseWithBody<FileGetLayoutHeaders, FileLayout | undefined>;
+
+// @public
+export type FileLayout = BlobLayout;
+
+// @public
+export type FileLayoutEndpoint = BlobLayoutEndpoint;
+
+// @public
+export type FileLayoutEndpoints = BlobLayoutEndpoints;
+
+// @public
+export type FileLayoutRange = BlobLayoutRange;
+
+// @public
+export type FileLayoutRanges = BlobLayoutRanges;
+
+// @public
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     chunkSize?: number;
@@ -693,6 +733,12 @@ export interface FileQueryOptions extends CommonOptions {
 // @public
 export interface FileQueryParquetConfiguration {
     kind: "parquet";
+}
+
+// @public
+export interface FileRange {
+    count?: number;
+    offset: number;
 }
 
 // @public (undocumented)
@@ -776,6 +822,7 @@ export interface FileReadOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutEndpoint?: string;
     // (undocumented)
     maxRetryRequests?: number;
     // (undocumented)
@@ -800,6 +847,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutAwareRouting?: LayoutAwareRouting;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -1158,6 +1206,8 @@ export { HttpRequestBody }
 export { isPipelineLike }
 
 export { isRestError }
+
+export { LayoutAwareRouting }
 
 export { Lease }
 

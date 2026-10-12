@@ -3498,6 +3498,279 @@ export function blobPrefixXmlObjectDeserializer(xmlObject: Record<string, unknow
   return deserializeXmlObject<BlobPrefix>(xmlObject, properties);
 }
 
+/** The result of the Get Blob Layout API. */
+export interface BlobLayout {
+  /** The ranges that make up the blob. */
+  ranges?: BlobLayoutRanges;
+  /** The endpoints that serve the ranges of the blob. */
+  endpoints?: BlobLayoutEndpoints;
+  /** The continuation marker used for this request. */
+  marker?: string;
+  /** If the number of ranges exceeds MaxResults, a NextMarker is returned for use in subsequent requests to continue listing. */
+  nextMarker?: string;
+  /** The maximum number of ranges to return per request. */
+  maxResults?: number;
+}
+
+export function blobLayoutDeserializer(item: any): BlobLayout {
+  return {
+    ranges: !item["ranges"] ? item["ranges"] : blobLayoutRangesDeserializer(item["ranges"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : blobLayoutEndpointsDeserializer(item["endpoints"]),
+    marker: item["marker"],
+    nextMarker: item["nextMarker"],
+    maxResults: item["maxResults"],
+  };
+}
+
+export function blobLayoutXmlDeserializer(xmlString: string): BlobLayout {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "ranges",
+      xmlOptions: { name: "Ranges" },
+      type: "object",
+      deserializer: blobLayoutRangesXmlObjectDeserializer,
+    },
+    {
+      propertyName: "endpoints",
+      xmlOptions: { name: "Endpoints" },
+      type: "object",
+      deserializer: blobLayoutEndpointsXmlObjectDeserializer,
+    },
+    {
+      propertyName: "marker",
+      xmlOptions: { name: "Marker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "nextMarker",
+      xmlOptions: { name: "NextMarker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "maxResults",
+      xmlOptions: { name: "MaxResults" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<BlobLayout>(xmlString, properties, "BlobLayout");
+}
+
+/** The ranges that make up a blob. */
+export interface BlobLayoutRanges {
+  /** The list of ranges. */
+  range?: BlobLayoutRange[];
+}
+
+export function blobLayoutRangesDeserializer(item: any): BlobLayoutRanges {
+  return {
+    range: !item["range"] ? item["range"] : blobLayoutRangeArrayDeserializer(item["range"]),
+  };
+}
+
+export function blobLayoutRangesXmlDeserializer(xmlString: string): BlobLayoutRanges {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "range",
+      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
+      type: "array",
+      deserializer: blobLayoutRangeXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<BlobLayoutRanges>(xmlString, properties, "Ranges");
+}
+
+export function blobLayoutRangesXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): BlobLayoutRanges {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "range",
+      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
+      type: "array",
+      deserializer: blobLayoutRangeXmlObjectDeserializer,
+    },
+  ];
+  return deserializeXmlObject<BlobLayoutRanges>(xmlObject, properties);
+}
+
+export function blobLayoutRangeArrayDeserializer(result: Array<BlobLayoutRange>): any[] {
+  return result.map((item) => {
+    return blobLayoutRangeDeserializer(item);
+  });
+}
+
+/** A range of a blob, and the endpoint that serves it. */
+export interface BlobLayoutRange {
+  /** The start byte offset of the range. */
+  start: number;
+  /** The end byte offset of the range. */
+  end: number;
+  /** Index into the Endpoints array indicating which endpoint serves this range. */
+  endpointIndex: number;
+}
+
+export function blobLayoutRangeDeserializer(item: any): BlobLayoutRange {
+  return {
+    start: item["start"],
+    end: item["end"],
+    endpointIndex: item["endpointIndex"],
+  };
+}
+
+export function blobLayoutRangeXmlDeserializer(xmlString: string): BlobLayoutRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "endpointIndex",
+      xmlOptions: { name: "EndpointIndex", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<BlobLayoutRange>(xmlString, properties, "Range");
+}
+
+export function blobLayoutRangeXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): BlobLayoutRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "endpointIndex",
+      xmlOptions: { name: "EndpointIndex", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<BlobLayoutRange>(xmlObject, properties);
+}
+
+/** The endpoints that serve the ranges of a blob. */
+export interface BlobLayoutEndpoints {
+  /** The list of endpoints. */
+  endpoint?: BlobLayoutEndpoint[];
+}
+
+export function blobLayoutEndpointsDeserializer(item: any): BlobLayoutEndpoints {
+  return {
+    endpoint: !item["endpoint"]
+      ? item["endpoint"]
+      : blobLayoutEndpointArrayDeserializer(item["endpoint"]),
+  };
+}
+
+export function blobLayoutEndpointsXmlDeserializer(xmlString: string): BlobLayoutEndpoints {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "endpoint",
+      xmlOptions: { name: "Endpoint", unwrapped: true, itemsName: "Endpoint" },
+      type: "array",
+      deserializer: blobLayoutEndpointXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<BlobLayoutEndpoints>(xmlString, properties, "Endpoints");
+}
+
+export function blobLayoutEndpointsXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): BlobLayoutEndpoints {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "endpoint",
+      xmlOptions: { name: "Endpoint", unwrapped: true, itemsName: "Endpoint" },
+      type: "array",
+      deserializer: blobLayoutEndpointXmlObjectDeserializer,
+    },
+  ];
+  return deserializeXmlObject<BlobLayoutEndpoints>(xmlObject, properties);
+}
+
+export function blobLayoutEndpointArrayDeserializer(result: Array<BlobLayoutEndpoint>): any[] {
+  return result.map((item) => {
+    return blobLayoutEndpointDeserializer(item);
+  });
+}
+
+/** An endpoint that serves ranges of a blob. */
+export interface BlobLayoutEndpoint {
+  /** The index of the endpoint, referenced by Range elements. */
+  index: number;
+  /** The host:port of the endpoint. */
+  value: string;
+}
+
+export function blobLayoutEndpointDeserializer(item: any): BlobLayoutEndpoint {
+  return {
+    index: item["index"],
+    value: item["value"],
+  };
+}
+
+export function blobLayoutEndpointXmlDeserializer(xmlString: string): BlobLayoutEndpoint {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "index",
+      xmlOptions: { name: "Index", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "value",
+      xmlOptions: { name: "Value", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<BlobLayoutEndpoint>(xmlString, properties, "Endpoint");
+}
+
+export function blobLayoutEndpointXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): BlobLayoutEndpoint {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "index",
+      xmlOptions: { name: "Index", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "value",
+      xmlOptions: { name: "Value", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<BlobLayoutEndpoint>(xmlObject, properties);
+}
+
 /** The block lookup list. */
 export interface BlockLookupList {
   /** The committed blocks. */
@@ -4172,6 +4445,9 @@ export type ListBlobsIncludeItem =
 /** The algorithm used to produce the encryption key hash. */
 export type EncryptionAlgorithmType = "AES256";
 
+/** The download hint for a blob. */
+export type DownloadHint = "layout";
+
 /** Specifies the delete behavior of blob snapshots. */
 export type DeleteSnapshotsOptionType = "only" | "include";
 
@@ -4211,6 +4487,8 @@ export enum KnownVersions {
   V20261006 = "2026-10-06",
   /** The 2026-12-06 version of the Azure.Storage.Blob service. */
   V20261206 = "2026-12-06",
+  /** The 2027-03-07 version of the Azure.Storage.Blob service. */
+  V20270307 = "2027-03-07",
 }
 
 export type BlockBlobQueryResponse = {

@@ -73,6 +73,7 @@
       "azureAdAuth.js",
       "customPipeline.js",
       "customizedClientHeaders.js",
+      "layoutAwareRouting.js",
       "listBlobsByHierarchy.js",
       "listBlobs.js",
       "listContainers.js",

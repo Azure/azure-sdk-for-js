@@ -3157,6 +3157,8 @@ export interface SharePropertiesInternal {
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   /** Whether SMB directory lease is enabled. */
   enableSmbDirectoryLease?: boolean;
+  /** The creation time. */
+  creationTime?: Date;
 }
 
 export function sharePropertiesInternalDeserializer(item: any): SharePropertiesInternal {
@@ -3198,6 +3200,7 @@ export function sharePropertiesInternalDeserializer(item: any): SharePropertiesI
       ? item["nextAllowedProvisionedBandwidthDowngradeTime"]
       : new Date(item["nextAllowedProvisionedBandwidthDowngradeTime"]),
     enableSmbDirectoryLease: item["enableSmbDirectoryLease"],
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
   };
 }
 
@@ -3364,6 +3367,12 @@ export function sharePropertiesInternalXmlDeserializer(xmlString: string): Share
       xmlOptions: { name: "EnableSmbDirectoryLease" },
       type: "primitive",
       primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "Creation-Time" },
+      type: "date",
+      dateEncoding: "rfc7231",
     },
   ];
   return deserializeFromXml<SharePropertiesInternal>(
@@ -3538,6 +3547,12 @@ export function sharePropertiesInternalXmlObjectDeserializer(
       xmlOptions: { name: "EnableSmbDirectoryLease" },
       type: "primitive",
       primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "Creation-Time" },
+      type: "date",
+      dateEncoding: "rfc7231",
     },
   ];
   return deserializeXmlObject<SharePropertiesInternal>(xmlObject, properties);

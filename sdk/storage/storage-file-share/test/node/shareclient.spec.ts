@@ -7,6 +7,7 @@ import {
   configureStorageClient,
   getBSU,
   getConnectionStringFromEnvironment,
+  getGenericBSU,
   getUniqueName,
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
@@ -433,5 +434,59 @@ describe("ShareClient Node.js only - OAuth", () => {
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,
       identifiers[0].accessPolicy.permissions,
     );
+  });
+});
+
+describe("ShareClient change feed Node.js only", () => {
+  let serviceClient: ShareServiceClient;
+  let shareClient: ShareClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = await createAndStartRecorder(ctx);
+    try {
+      // Needs an account with change feed enabled.
+      serviceClient = getGenericBSU(recorder, "CHANGE_FEED_FILE_");
+    } catch {
+      ctx.skip();
+    }
+    shareClient = serviceClient.getShareClient(recorder.variable("share", getUniqueName("share")));
+  });
+
+  afterEach(async () => {
+    if (shareClient) {
+      await shareClient.deleteIfExists();
+    }
+    await recorder.stop();
+  });
+
+  it("create with change feed enabled", async () => {
+    await shareClient.create({ enableChangeFeed: true, changeFeedRetentionInDays: 3 });
+
+    const properties = await shareClient.getProperties();
+    assert.isTrue(properties.enableChangeFeed);
+    assert.strictEqual(properties.changeFeedRetentionInDays, 3);
+    assert.isDefined(properties.changeFeedBlobContainerName);
+  });
+
+  it("setProperties enables change feed", async () => {
+    await shareClient.create();
+    await shareClient.setProperties({ enableChangeFeed: true, changeFeedRetentionInDays: 5 });
+
+    const properties = await shareClient.getProperties();
+    assert.isTrue(properties.enableChangeFeed);
+    assert.strictEqual(properties.changeFeedRetentionInDays, 5);
+    assert.isDefined(properties.changeFeedBlobContainerName);
+  });
+
+  it("setProperties updates the change feed retention on its own", async () => {
+    await shareClient.create();
+    await shareClient.setProperties({ enableChangeFeed: true, changeFeedRetentionInDays: 5 });
+    await shareClient.setProperties({ changeFeedRetentionInDays: 30 });
+
+    const properties = await shareClient.getProperties();
+    assert.isTrue(properties.enableChangeFeed);
+    assert.strictEqual(properties.changeFeedRetentionInDays, 30);
   });
 });
