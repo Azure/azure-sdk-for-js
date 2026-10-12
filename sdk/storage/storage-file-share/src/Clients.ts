@@ -2519,6 +2519,9 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
+   * Items are grouped by type rather than sorted by name: each page lists its files before its
+   * directories, and on NFS shares its regular files before the other file types.
+   *
    * Example using `for await` syntax:
    *
    * ```ts snippet:ReadmeSampleListFilesAndDirectories
