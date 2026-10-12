@@ -21,8 +21,8 @@ import {
   shieldPromptResultDeserializer,
   agentContextUnionSerializer,
   AgentContextUnion,
-  agentVerdictUnionDeserializer,
-  AgentVerdictUnion,
+  AgentEvaluationResult,
+  agentEvaluationResultDeserializer,
   agentEvaluationErrorDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -46,11 +46,14 @@ export function _unifiedModerateSend(
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId}",
+    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId,developerPolicyId,developerPolicyRevision,developerPolicySemanticDigest}",
     {
       "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
       targetResourceId: options?.targetResourceId,
       policyId: options?.policyId,
+      developerPolicyId: options?.developerPolicyId,
+      developerPolicyRevision: options?.developerPolicyRevision,
+      developerPolicySemanticDigest: options?.developerPolicySemanticDigest,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +71,7 @@ export function _unifiedModerateSend(
 
 export async function _unifiedModerateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentVerdictUnion> {
+): Promise<AgentEvaluationResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -82,6 +85,14 @@ export async function _unifiedModerateDeserialize(
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 403) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 404) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 409) {
       if (result.body) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
@@ -101,15 +112,15 @@ export async function _unifiedModerateDeserialize(
     throw error;
   }
 
-  return agentVerdictUnionDeserializer(result.body);
+  return agentEvaluationResultDeserializer(result.body);
 }
 
-/** Synchronously evaluate a canonical Agent Hooks 0.1 context against authorized effective policy. This version evolves Unified Moderate on its existing route and supports all eight interception points. Azure AI Content Safety composes the applicable selected, bound, subscription and hierarchy policies within this evaluation and returns a complete Verdict. The calling host owns composition across independent interceptors, transform application, final enforcement, approvals, timeouts and audit. policyId selects an authorized policy and targetResourceId selects an authorized binding target; provide at least one. Applicable mandatory policies cannot be bypassed by either selector. Body identity metadata is not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Over-limit results are errors, not truncated successful verdicts. */
+/** Synchronously evaluate a canonical Agent Hooks 0.1 context and return a closed canonical Verdict plus a separate enforcement receipt. The hosted API supports two selector profiles. The Foundry-project profile uses targetResourceId for the mandatory project binding and may add one exact admitted developer policy through the all-or-none developerPolicyId/revision/digest tuple. The named-policy profile uses policyId without requiring a Foundry project. Exactly one profile is selected; targetResourceId and policyId cannot be combined. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS rather than this hosted protocol. The calling host validates the receipt and owns transform application, final enforcement, approvals, timeouts, audit and the separate host-action attestation. API version establishes wire compatibility only; regional/cohort activation comes from the relevant capability authority. Body identity metadata and customer-settable headers are not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Over-limit results are errors, not truncated successful responses. */
 export async function unifiedModerate(
   context: Client,
   body: AgentContextUnion,
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
-): Promise<AgentVerdictUnion> {
+): Promise<AgentEvaluationResult> {
   const result = await _unifiedModerateSend(context, body, options);
   return _unifiedModerateDeserialize(result);
 }

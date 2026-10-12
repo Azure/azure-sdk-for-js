@@ -45,7 +45,7 @@ describe("snippets", () => {
         },
         { policyId: "<policy-id>" },
       );
-      console.log(result.decision);
+      console.log(result.verdict.decision, result.receipt.profile);
     }
 
     void moderateInput;

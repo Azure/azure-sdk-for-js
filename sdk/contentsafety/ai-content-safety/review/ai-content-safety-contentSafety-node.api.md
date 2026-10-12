@@ -27,7 +27,7 @@ export class ContentSafetyClient {
     detectTextProtectedMaterial(body: DetectTextProtectedMaterialOptions, options?: DetectTextProtectedMaterialOptionalParams): Promise<DetectTextProtectedMaterialResult>;
     readonly pipeline: Pipeline;
     shieldPrompt(body: ShieldPromptOptions, options?: ShieldPromptOptionalParams): Promise<ShieldPromptResult>;
-    unifiedModerate(body: AgentContextUnion, options?: UnifiedModerateOptionalParams): Promise<AgentVerdictUnion>;
+    unifiedModerate(body: AgentContextUnion, options?: UnifiedModerateOptionalParams): Promise<AgentEvaluationResult>;
 }
 
 // @public
@@ -50,6 +50,9 @@ export interface ShieldPromptOptionalParams extends OperationOptions {
 
 // @public
 export interface UnifiedModerateOptionalParams extends OperationOptions {
+    developerPolicyId?: string;
+    developerPolicyRevision?: string;
+    developerPolicySemanticDigest?: string;
     policyId?: string;
     targetResourceId?: string;
 }

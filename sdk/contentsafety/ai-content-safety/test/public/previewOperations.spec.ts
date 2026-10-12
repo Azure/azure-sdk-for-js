@@ -54,6 +54,68 @@ function createInputContext(): AgentInputContext {
   };
 }
 
+function createNamedPolicyReceipt(
+  interventionPoint = "input",
+  harmResults?: Record<string, unknown>,
+): Record<string, unknown> {
+  return {
+    receiptVersion: "2026-10-15-preview",
+    profile: "namedPolicy",
+    evaluationId: "evaluation-1",
+    attempt: 1,
+    evaluatedPolicyLayers: [
+      {
+        kind: "namedPolicy",
+        policyResourceId: "/policies/policy-1",
+        policyRevision: '"revision-1"',
+        policySemanticDigest: "sha256:semantic",
+        manifestRegoDigest: "sha256:artifact",
+        decision: "deny",
+      },
+    ],
+    evaluatedInterventionPoint: interventionPoint,
+    requiredInterventionPoints: [interventionPoint],
+    satisfiedInterventionPoints: [interventionPoint],
+    hostProfileVersion: "aacs-frontdoor/2",
+    capabilityVersion: "capability-1",
+    authenticatedProducerResourceId: "/accounts/account-1",
+    ...(harmResults ? { harmResults } : {}),
+  };
+}
+
+function createFoundryProjectReceipt(interventionPoint: string): Record<string, unknown> {
+  return {
+    ...createNamedPolicyReceipt(interventionPoint, {
+      violence: { blocked: true, detected: true, severity: "High", numericSeverity: 6 },
+    }),
+    profile: "foundryProject",
+    evaluatedPolicyLayers: [
+      {
+        kind: "project",
+        policyResourceId: "/policies/project-policy",
+        policyRevision: '"project-revision"',
+        policySemanticDigest: "sha256:project-semantic",
+        manifestRegoDigest: "sha256:project-artifact",
+        decision: "deny",
+      },
+      {
+        kind: "developer",
+        policyResourceId: "/policies/developer-policy",
+        policyRevision: '"developer-revision"',
+        policySemanticDigest: "sha256:developer-semantic",
+        manifestRegoDigest: "sha256:developer-artifact",
+        decision: "deny",
+      },
+    ],
+    targetResourceId:
+      "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
+    targetIncarnation: "project-incarnation-1",
+    bindingEpoch: 4,
+    readinessEpoch: 7,
+    appliedGeneration: 9,
+  };
+}
+
 function createProvenanceClient(pollResponseBody: Record<string, unknown>): {
   client: ContentProvenanceClient;
   requests: PipelineRequest[];
@@ -84,21 +146,24 @@ function createProvenanceClient(pollResponseBody: Record<string, unknown>): {
 }
 
 describe("preview operations", () => {
-  it("sends native moderation JSON with query selectors and preserves Verdict metadata", async () => {
+  it("sends the Foundry selector tuple and decodes the Verdict and receipt", async () => {
     const requests: PipelineRequest[] = [];
     const httpClient: HttpClient = {
       async sendRequest(request) {
         requests.push(request);
         return createJsonResponse(request, 200, {
-          decision: "deny",
-          reason: "policy_violation",
-          warnings: [{ reason: "review", message: "Review the submitted content." }],
-          approval: { owner: "policy-1", details: { steps: [1, null] } },
-          evidence: {
-            artefact: "sha256:proof",
-            verification_pointers: { registry: "https://example.com/proof" },
+          verdict: {
+            decision: "deny",
+            reason: "policy_violation",
+            warnings: [{ reason: "review", message: "Review the submitted content." }],
+            approval: { owner: "policy-1", details: { steps: [1, null] } },
+            evidence: {
+              artefact: "sha256:proof",
+              verification_pointers: { registry: "https://example.com/proof" },
+            },
+            result_labels: ["classified"],
           },
-          result_labels: ["classified"],
+          receipt: createFoundryProjectReceipt("post_tool_call"),
         });
       },
     };
@@ -123,7 +188,13 @@ describe("preview operations", () => {
         toolResult: { value: { temperature: 72 }, isError: false, durationMs: 25 },
         target,
       },
-      { policyId: "policy-1", targetResourceId: "resource-1" },
+      {
+        targetResourceId:
+          "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
+        developerPolicyId: "/policies/developer-policy",
+        developerPolicyRevision: '"developer-revision"',
+        developerPolicySemanticDigest: "sha256:developer-semantic",
+      },
     );
 
     assert.lengthOf(requests, 1);
@@ -131,8 +202,17 @@ describe("preview operations", () => {
     assert.equal(requests[0].method, "POST");
     assert.equal(requestUrl.pathname, "/contentsafety/content:unifiedModerate");
     assert.equal(requestUrl.searchParams.get("api-version"), KnownVersions.V20261015Preview);
-    assert.equal(requestUrl.searchParams.get("policyId"), "policy-1");
-    assert.equal(requestUrl.searchParams.get("targetResourceId"), "resource-1");
+    assert.isNull(requestUrl.searchParams.get("policyId"));
+    assert.equal(
+      requestUrl.searchParams.get("targetResourceId"),
+      "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
+    );
+    assert.equal(requestUrl.searchParams.get("developerPolicyId"), "/policies/developer-policy");
+    assert.equal(requestUrl.searchParams.get("developerPolicyRevision"), '"developer-revision"');
+    assert.equal(
+      requestUrl.searchParams.get("developerPolicySemanticDigest"),
+      "sha256:developer-semantic",
+    );
     assert.equal(requests[0].headers.get("content-type"), "application/json");
     assert.deepEqual(parseRequestBody(requests[0]), {
       spec: "agent-hooks/0.1",
@@ -145,7 +225,7 @@ describe("preview operations", () => {
       tool_result: target,
       target,
     });
-    assert.deepInclude(result, {
+    assert.deepInclude(result.verdict, {
       decision: "deny",
       reason: "policy_violation",
       warnings: [{ reason: "review", message: "Review the submitted content." }],
@@ -156,6 +236,45 @@ describe("preview operations", () => {
       },
       resultLabels: ["classified"],
     });
+    const receipt = result.receipt;
+    assert.equal(receipt.profile, "foundryProject");
+    assert.equal(receipt.evaluatedInterventionPoint, "post_tool_call");
+    assert.isTrue("targetIncarnation" in receipt);
+    if (!("targetIncarnation" in receipt)) {
+      assert.fail("Expected a Foundry project receipt");
+    }
+    assert.equal(receipt.targetIncarnation, "project-incarnation-1");
+    assert.equal(receipt.bindingEpoch, 4);
+    assert.equal(receipt.readinessEpoch, 7);
+    assert.equal(receipt.appliedGeneration, 9);
+    assert.deepInclude(receipt.harmResults?.violence, {
+      blocked: true,
+      detected: true,
+      severity: "High",
+      numericSeverity: 6,
+    });
+  });
+
+  it("supports named-policy evaluation without a Foundry target", async () => {
+    let requestUrl: URL | undefined;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        requestUrl = new URL(request.url);
+        return createJsonResponse(request, 200, {
+          verdict: { decision: "allow" },
+          receipt: createNamedPolicyReceipt(),
+        });
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+    const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
+
+    assert.equal(requestUrl?.searchParams.get("policyId"), "policy-1");
+    assert.isNull(requestUrl?.searchParams.get("targetResourceId"));
+    assert.equal(result.verdict.decision, "allow");
+    assert.equal(result.receipt.profile, "namedPolicy");
+    assert.equal(result.receipt.evaluatedInterventionPoint, "input");
   });
 
   it("surfaces unified moderation service errors", async () => {
@@ -183,7 +302,10 @@ describe("preview operations", () => {
     const httpClient: HttpClient = {
       async sendRequest(request) {
         wire = parseRequestBody(request);
-        return createJsonResponse(request, 200, { decision: "deny", approval: opaque });
+        return createJsonResponse(request, 200, {
+          verdict: { decision: "deny", approval: opaque },
+          receipt: createNamedPolicyReceipt("pre_tool_call"),
+        });
       },
     };
     const client = new ContentSafetyClient(endpoint, credential, { httpClient });
@@ -202,10 +324,12 @@ describe("preview operations", () => {
       target: opaque,
       tool_call: { id: "call-1", name: "weather", args: opaque },
     });
-    assert.deepEqual(JSON.parse(JSON.stringify(result)), {
+    assert.deepEqual(JSON.parse(JSON.stringify(result.verdict)), {
       decision: "deny",
       approval: { additionalProperties: opaque },
     });
+    assert.equal(result.receipt.profile, "namedPolicy");
+    assert.equal(result.receipt.evaluatedInterventionPoint, "pre_tool_call");
   });
 
   it("accepts nullable Verdict fields in both the public types and decoded responses", async () => {
@@ -221,12 +345,15 @@ describe("preview operations", () => {
       const httpClient: HttpClient = {
         async sendRequest(request) {
           return createJsonResponse(request, 200, {
-            decision: "allow",
-            reason: null,
-            message: null,
-            warnings,
-            evidence: { artefact: null },
-            result_labels: null,
+            verdict: {
+              decision: "allow",
+              reason: null,
+              message: null,
+              warnings,
+              evidence: { artefact: null },
+              result_labels: null,
+            },
+            receipt: createNamedPolicyReceipt(),
           });
         },
       };
@@ -234,7 +361,7 @@ describe("preview operations", () => {
 
       const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
 
-      assert.deepInclude(result, expected);
+      assert.deepInclude(result.verdict, expected);
     }
   });
 
@@ -245,14 +372,17 @@ describe("preview operations", () => {
     ]) {
       const httpClient: HttpClient = {
         async sendRequest(request) {
-          return createJsonResponse(request, 200, { decision: "transform", transform });
+          return createJsonResponse(request, 200, {
+            verdict: { decision: "transform", transform },
+            receipt: createNamedPolicyReceipt(),
+          });
         },
       };
       const client = new ContentSafetyClient(endpoint, credential, { httpClient });
 
       const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
 
-      assert.deepInclude(result, {
+      assert.deepInclude(result.verdict, {
         decision: "transform",
         transform: { path: "$target.content", value: "value" in transform ? null : undefined },
       });

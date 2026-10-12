@@ -1127,7 +1127,22 @@ export function agentShutdownContextSerializer(item: AgentShutdownContext): any 
   };
 }
 
-/** Canonical Agent Hooks Verdict. HTTP 200 indicates evaluation completed, not permission to proceed. Azure AI Content Safety composes the applicable selected, bound, subscription and hierarchy policies within this evaluation. The calling host owns composition across independent interceptors, transform application, final enforcement, approvals, timeouts and audit. The service does not return an allowed/blocked wrapper, enforced content or harmResults. Unsupported members and invalid decision/approval/transform combinations are rejected. */
+/** October Unified Moderate transport response. Verdict is the canonical closed Agent Hooks object. Receipt is separate transport metadata used by the host to fence enforcement and join later host-action evidence. */
+export interface AgentEvaluationResult {
+  /** Canonical aggregate Agent Hooks Verdict. */
+  verdict: AgentVerdictUnion;
+  /** Policy-evaluation receipt for this attempt. */
+  receipt: AgentPolicyEvaluationReceiptUnion;
+}
+
+export function agentEvaluationResultDeserializer(item: any): AgentEvaluationResult {
+  return {
+    verdict: agentVerdictUnionDeserializer(item["verdict"]),
+    receipt: agentPolicyEvaluationReceiptUnionDeserializer(item["receipt"]),
+  };
+}
+
+/** Canonical closed Agent Hooks Verdict. HTTP 200 indicates evaluation completed, not permission to proceed. Azure AI Content Safety composes the applicable selected, bound, subscription and hierarchy policies within this evaluation. The calling host owns composition across independent interceptors, transform application, final enforcement, approvals, timeouts and audit. The service does not add transport or policy-evaluation metadata to this object. */
 export interface AgentVerdict {
   /** Canonical decision: allow, deny or transform. */
   /** The discriminator possible values: allow, deny, transform */
@@ -1311,16 +1326,309 @@ export function agentTransformDeserializer(item: any): AgentTransform {
   };
 }
 
-/** A validation, authorization, throttling or operational failure. This is an HTTP error, never a successful allow verdict. */
+/** Common versioned receipt fields for one AACS evaluation attempt. The receipt proves what was evaluated; it does not replace the Verdict or prove that the calling host enforced it. */
+export interface AgentPolicyEvaluationReceipt {
+  /** Receipt schema version. This version is tied to the October transport contract rather than customer-controlled feature activation. */
+  receiptVersion: "2026-10-15-preview";
+  /** Hosted evaluation profile. */
+  /** The discriminator possible values: foundryProject, namedPolicy */
+  profile: AgentEvaluationProfile;
+  /** Stable evaluation identifier used to join AACS evaluation evidence to a separate host action or release attestation. */
+  evaluationId: string;
+  /** One-based attempt number for evaluation retries sharing the same evaluation identifier. */
+  attempt: number;
+  /** Exact policy layers evaluated and composed into the aggregate Verdict. */
+  evaluatedPolicyLayers: AgentEvaluatedPolicyLayer[];
+  /** The single intervention point evaluated by this receipt. */
+  evaluatedInterventionPoint: AgentInterceptionPoint;
+  /** Intervention points required by every applicable policy layer for this host profile. This is capability evidence, not a claim that those points ran in this evaluation. */
+  requiredInterventionPoints: AgentInterceptionPoint[];
+  /** Required intervention points supported by the admitted host profile. This is capability evidence, not a list of points evaluated by this receipt. */
+  satisfiedInterventionPoints: AgentInterceptionPoint[];
+  /** AACS host-profile version included in executable artifact identity. */
+  hostProfileVersion: string;
+  /** Foundry-owned effective capability version admitted for this target, region, cohort and operation. API version alone does not establish this capability. */
+  capabilityVersion: string;
+  /** Authenticated producer resource ID established by the service transport. This value is service-derived and never accepted from the request body or a customer-settable identity header. */
+  authenticatedProducerResourceId: string;
+  /** Optional public classifier summaries keyed by harm category. numericSeverity preserves the existing ordinal 0–7 result; raw model scores and internal diagnostics are not exposed. */
+  harmResults?: Record<string, AgentHarmResult>;
+}
+
+export function agentPolicyEvaluationReceiptDeserializer(item: any): AgentPolicyEvaluationReceipt {
+  return {
+    receiptVersion: item["receiptVersion"],
+    profile: item["profile"],
+    evaluationId: item["evaluationId"],
+    attempt: item["attempt"],
+    evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
+      item["evaluatedPolicyLayers"],
+    ),
+    evaluatedInterventionPoint: item["evaluatedInterventionPoint"],
+    requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    hostProfileVersion: item["hostProfileVersion"],
+    capabilityVersion: item["capabilityVersion"],
+    authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
+    harmResults: !item["harmResults"]
+      ? item["harmResults"]
+      : agentHarmResultRecordDeserializer(item["harmResults"]),
+  };
+}
+
+/** Alias for AgentPolicyEvaluationReceiptUnion */
+export type AgentPolicyEvaluationReceiptUnion =
+  AgentFoundryProjectReceipt | AgentNamedPolicyReceipt | AgentPolicyEvaluationReceipt;
+
+export function agentPolicyEvaluationReceiptUnionDeserializer(
+  item: any,
+): AgentPolicyEvaluationReceiptUnion {
+  switch (item["profile"]) {
+    case "foundryProject":
+      return agentFoundryProjectReceiptDeserializer(item as AgentFoundryProjectReceipt);
+
+    case "namedPolicy":
+      return agentNamedPolicyReceiptDeserializer(item as AgentNamedPolicyReceipt);
+
+    default:
+      return agentPolicyEvaluationReceiptDeserializer(item);
+  }
+}
+
+/** Hosted Unified Moderate evaluation profile. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS and are not represented by this hosted HTTP profile. */
+export type AgentEvaluationProfile = "foundryProject" | "namedPolicy";
+
+export function agentEvaluatedPolicyLayerArrayDeserializer(
+  result: Array<AgentEvaluatedPolicyLayer>,
+): any[] {
+  return result.map((item) => {
+    return agentEvaluatedPolicyLayerDeserializer(item);
+  });
+}
+
+/** One exact policy artifact evaluated during this attempt. The resource ID, revision and semantic digest identify the admitted policy; the artifact digest identifies the activated manifest, Rego and immutable dependencies under the declared host profile. */
+export interface AgentEvaluatedPolicyLayer {
+  /** Layer role in the evaluation. */
+  kind: AgentPolicyLayerKind;
+  /** Full policy resource ID. Service-owned built-ins use their stable service identifier. */
+  policyResourceId: string;
+  /** Exact opaque policy revision. For current RP/PMS resources this is the RP-assigned ETag, preserved verbatim. */
+  policyRevision: string;
+  /** SHA-256 digest of the admitted semantic policy closure. This prevents a mutable policy name from resolving to different content during an admitted or resumed operation. */
+  policySemanticDigest: string;
+  /** SHA-256 digest of the activated manifest, Rego and immutable runtime dependencies under the declared host profile. */
+  manifestRegoDigest: string;
+  /** Decision returned by this layer before aggregate composition. */
+  decision: AgentDecision;
+}
+
+export function agentEvaluatedPolicyLayerDeserializer(item: any): AgentEvaluatedPolicyLayer {
+  return {
+    kind: item["kind"],
+    policyResourceId: item["policyResourceId"],
+    policyRevision: item["policyRevision"],
+    policySemanticDigest: item["policySemanticDigest"],
+    manifestRegoDigest: item["manifestRegoDigest"],
+    decision: item["decision"],
+  };
+}
+
+/** The policy layer evaluated by Azure AI Content Safety. Unknown future layer kinds are preserved for forward compatibility and do not change the aggregate Verdict semantics. */
+export type AgentPolicyLayerKind =
+  "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn";
+
+export function agentHarmResultRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, AgentHarmResult> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : agentHarmResultDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Public classifier summary preserved from Unified Moderate. This excludes model family/version, thresholds, private configuration and raw confidence or probability scores. */
+export interface AgentHarmResult {
+  /** Whether this category contributed to a blocking policy result. */
+  blocked: boolean;
+  /** Whether the classifier detected this category. */
+  detected: boolean;
+  /** Optional public risk label. */
+  severity?: string;
+  /** Optional ordinal public severity on the existing 0–7 Content Safety scale. This is not a confidence or probability. Detection-only categories omit it. */
+  numericSeverity?: number;
+  /** Optional public detection details. */
+  details?: AgentHarmDetail[];
+  /** Optional public result URL. */
+  url?: string;
+  /** Optional public result license. */
+  license?: string;
+}
+
+export function agentHarmResultDeserializer(item: any): AgentHarmResult {
+  return {
+    blocked: item["blocked"],
+    detected: item["detected"],
+    severity: item["severity"],
+    numericSeverity: item["numericSeverity"],
+    details: !item["details"] ? item["details"] : agentHarmDetailArrayDeserializer(item["details"]),
+    url: item["url"],
+    license: item["license"],
+  };
+}
+
+export function agentHarmDetailArrayDeserializer(result: Array<AgentHarmDetail>): any[] {
+  return result.map((item) => {
+    return agentHarmDetailDeserializer(item);
+  });
+}
+
+/** One detection detail associated with a public harm summary. */
+export interface AgentHarmDetail {
+  /** Whether this detail was detected. */
+  detected: boolean;
+  /** Stable public detail identifier, such as a configured blocklist or provider name. */
+  id: string;
+}
+
+export function agentHarmDetailDeserializer(item: any): AgentHarmDetail {
+  return {
+    detected: item["detected"],
+    id: item["id"],
+  };
+}
+
+/** Receipt for a governed Foundry project. These fencing fields are required only for this profile and must come from authoritative Foundry/PMS state rather than request metadata. */
+export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
+  profile: "foundryProject";
+  /** Governed project selected by targetResourceId. */
+  targetResourceId: string;
+  /** Opaque project incarnation that changes when the target is deleted and recreated. */
+  targetIncarnation: string;
+  /** Monotonic active-binding epoch authoritatively read for this attempt. */
+  bindingEpoch: number;
+  /** Monotonic operation-readiness epoch authoritatively read for this attempt. */
+  readinessEpoch: number;
+  /** Immutable target-effective policy generation evaluated by this attempt. */
+  appliedGeneration: number;
+}
+
+export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryProjectReceipt {
+  return {
+    receiptVersion: item["receiptVersion"],
+    profile: item["profile"],
+    evaluationId: item["evaluationId"],
+    attempt: item["attempt"],
+    evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
+      item["evaluatedPolicyLayers"],
+    ),
+    evaluatedInterventionPoint: item["evaluatedInterventionPoint"],
+    requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    hostProfileVersion: item["hostProfileVersion"],
+    capabilityVersion: item["capabilityVersion"],
+    authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
+    harmResults: !item["harmResults"]
+      ? item["harmResults"]
+      : agentHarmResultRecordDeserializer(item["harmResults"]),
+    targetResourceId: item["targetResourceId"],
+    targetIncarnation: item["targetIncarnation"],
+    bindingEpoch: item["bindingEpoch"],
+    readinessEpoch: item["readinessEpoch"],
+    appliedGeneration: item["appliedGeneration"],
+  };
+}
+
+/** Receipt for an authorized named-policy gateway evaluation. This profile has no Foundry project incarnation, binding epoch, readiness epoch or project generation. */
+export interface AgentNamedPolicyReceipt extends AgentPolicyEvaluationReceipt {
+  profile: "namedPolicy";
+}
+
+export function agentNamedPolicyReceiptDeserializer(item: any): AgentNamedPolicyReceipt {
+  return {
+    receiptVersion: item["receiptVersion"],
+    profile: item["profile"],
+    evaluationId: item["evaluationId"],
+    attempt: item["attempt"],
+    evaluatedPolicyLayers: agentEvaluatedPolicyLayerArrayDeserializer(
+      item["evaluatedPolicyLayers"],
+    ),
+    evaluatedInterventionPoint: item["evaluatedInterventionPoint"],
+    requiredInterventionPoints: item["requiredInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    satisfiedInterventionPoints: item["satisfiedInterventionPoints"].map((p: any) => {
+      return p;
+    }),
+    hostProfileVersion: item["hostProfileVersion"],
+    capabilityVersion: item["capabilityVersion"],
+    authenticatedProducerResourceId: item["authenticatedProducerResourceId"],
+    harmResults: !item["harmResults"]
+      ? item["harmResults"]
+      : agentHarmResultRecordDeserializer(item["harmResults"]),
+  };
+}
+
+/** A validation, authorization, conflict, throttling or operational failure. This is an HTTP error, never a successful allow verdict. Known codes include InvalidRequest, DeveloperPolicyRevisionRequired, DeveloperPolicyRevisionMismatch, DeveloperPolicyRevisionUnavailable, PolicyFenceChanged, UnsupportedCapability, MandatoryPolicyUnavailable and NativeRouteDisabled. */
 export interface AgentEvaluationError {
   /** The error object. */
-  error: ErrorModel;
+  error: AgentEvaluationErrorDetail;
 }
 
 export function agentEvaluationErrorDeserializer(item: any): AgentEvaluationError {
   return {
-    error: item["error"],
+    error: agentEvaluationErrorDetailDeserializer(item["error"]),
   };
+}
+
+/** Actionable October Unified Moderate error details. */
+export interface AgentEvaluationErrorDetail {
+  /** Server-defined error code. Known October codes describe selector, revision, readiness and capability failures. */
+  code: AgentEvaluationErrorCode;
+  /** Human-readable error message. */
+  message: string;
+  /** Optional request field or policy resource associated with the failure. */
+  target?: string;
+  /** Nested errors that contributed to this failure. */
+  details?: AgentEvaluationErrorDetail[];
+}
+
+export function agentEvaluationErrorDetailDeserializer(item: any): AgentEvaluationErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : agentEvaluationErrorDetailArrayDeserializer(item["details"]),
+  };
+}
+
+/** Known October Unified Moderate error codes. The standard Azure error response remains extensible. */
+export type AgentEvaluationErrorCode =
+  | "InvalidRequest"
+  | "DeveloperPolicyRevisionRequired"
+  | "DeveloperPolicyRevisionMismatch"
+  | "DeveloperPolicyRevisionUnavailable"
+  | "PolicyFenceChanged"
+  | "UnsupportedCapability"
+  | "MandatoryPolicyUnavailable"
+  | "NativeRouteDisabled";
+
+export function agentEvaluationErrorDetailArrayDeserializer(
+  result: Array<AgentEvaluationErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return agentEvaluationErrorDetailDeserializer(item);
+  });
 }
 
 /** Input describing the media to inspect using Content Provenance Detection. */

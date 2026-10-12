@@ -118,14 +118,72 @@ export interface AgentDenyVerdict extends AgentVerdict {
 }
 
 // @public
+export interface AgentEvaluatedPolicyLayer {
+    decision: AgentDecision;
+    kind: AgentPolicyLayerKind;
+    manifestRegoDigest: string;
+    policyResourceId: string;
+    policyRevision: string;
+    policySemanticDigest: string;
+}
+
+// @public
 export interface AgentEvaluationError {
-    error: ErrorModel;
+    error: AgentEvaluationErrorDetail;
+}
+
+// @public
+export type AgentEvaluationErrorCode = "InvalidRequest" | "DeveloperPolicyRevisionRequired" | "DeveloperPolicyRevisionMismatch" | "DeveloperPolicyRevisionUnavailable" | "PolicyFenceChanged" | "UnsupportedCapability" | "MandatoryPolicyUnavailable" | "NativeRouteDisabled";
+
+// @public
+export interface AgentEvaluationErrorDetail {
+    code: AgentEvaluationErrorCode;
+    details?: AgentEvaluationErrorDetail[];
+    message: string;
+    target?: string;
+}
+
+// @public
+export type AgentEvaluationProfile = "foundryProject" | "namedPolicy";
+
+// @public
+export interface AgentEvaluationResult {
+    receipt: AgentPolicyEvaluationReceiptUnion;
+    verdict: AgentVerdictUnion;
 }
 
 // @public
 export interface AgentEvidence {
     artefact?: string | null;
     verificationPointers?: Record<string, string>;
+}
+
+// @public
+export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
+    appliedGeneration: number;
+    bindingEpoch: number;
+    // (undocumented)
+    profile: "foundryProject";
+    readinessEpoch: number;
+    targetIncarnation: string;
+    targetResourceId: string;
+}
+
+// @public
+export interface AgentHarmDetail {
+    detected: boolean;
+    id: string;
+}
+
+// @public
+export interface AgentHarmResult {
+    blocked: boolean;
+    details?: AgentHarmDetail[];
+    detected: boolean;
+    license?: string;
+    numericSeverity?: number;
+    severity?: string;
+    url?: string;
 }
 
 // @public
@@ -192,6 +250,12 @@ export interface AgentModelUsage {
 }
 
 // @public
+export interface AgentNamedPolicyReceipt extends AgentPolicyEvaluationReceipt {
+    // (undocumented)
+    profile: "namedPolicy";
+}
+
+// @public
 export interface AgentOutput {
     content: any;
 }
@@ -203,6 +267,28 @@ export interface AgentOutputContext extends AgentContext {
     // (undocumented)
     output: AgentOutput;
 }
+
+// @public
+export interface AgentPolicyEvaluationReceipt {
+    attempt: number;
+    authenticatedProducerResourceId: string;
+    capabilityVersion: string;
+    evaluatedInterventionPoint: AgentInterceptionPoint;
+    evaluatedPolicyLayers: AgentEvaluatedPolicyLayer[];
+    evaluationId: string;
+    harmResults?: Record<string, AgentHarmResult>;
+    hostProfileVersion: string;
+    profile: AgentEvaluationProfile;
+    receiptVersion: "2026-10-15-preview";
+    requiredInterventionPoints: AgentInterceptionPoint[];
+    satisfiedInterventionPoints: AgentInterceptionPoint[];
+}
+
+// @public
+export type AgentPolicyEvaluationReceiptUnion = AgentFoundryProjectReceipt | AgentNamedPolicyReceipt | AgentPolicyEvaluationReceipt;
+
+// @public
+export type AgentPolicyLayerKind = "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn";
 
 // @public
 export interface AgentPostModelCallContext extends AgentContext {
@@ -423,7 +509,7 @@ export class ContentSafetyClient {
     detectTextProtectedMaterial(body: DetectTextProtectedMaterialOptions, options?: DetectTextProtectedMaterialOptionalParams): Promise<DetectTextProtectedMaterialResult>;
     readonly pipeline: Pipeline;
     shieldPrompt(body: ShieldPromptOptions, options?: ShieldPromptOptionalParams): Promise<ShieldPromptResult>;
-    unifiedModerate(body: AgentContextUnion, options?: UnifiedModerateOptionalParams): Promise<AgentVerdictUnion>;
+    unifiedModerate(body: AgentContextUnion, options?: UnifiedModerateOptionalParams): Promise<AgentEvaluationResult>;
 }
 
 // @public
@@ -663,6 +749,9 @@ export interface TextProtectedMaterialAnalysisResult {
 
 // @public
 export interface UnifiedModerateOptionalParams extends OperationOptions {
+    developerPolicyId?: string;
+    developerPolicyRevision?: string;
+    developerPolicySemanticDigest?: string;
     policyId?: string;
     targetResourceId?: string;
 }

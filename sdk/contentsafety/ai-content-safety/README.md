@@ -86,7 +86,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 `ContentSafetyClient` analyzes text and images, detects protected material and prompt injection, and evaluates content against an Agent Control Specification policy.
 
-In `2026-10-15-preview`, `unifiedModerate` accepts an Agent Hooks context and returns a native Verdict. Pass `policyId` or `targetResourceId` in the operation options. The host applies transforms and handles approval and final enforcement; HTTP 200 does not mean the action was allowed.
+In `2026-10-15-preview`, `unifiedModerate` accepts an Agent Hooks context and returns a closed native Verdict plus a separate policy-evaluation receipt. Use `policyId` for a named-policy gateway evaluation, or `targetResourceId` for a governed Foundry project. A Foundry request may also include the exact all-or-none `developerPolicyId`, `developerPolicyRevision`, and `developerPolicySemanticDigest` tuple. Do not combine the named-policy and Foundry selectors. The host validates the receipt, applies transforms, and owns approval and final enforcement; HTTP 200 means evaluation completed, not that the action was allowed.
 
 ```ts snippet:ReadmeSampleUnifiedModerate
 import { ContentSafetyClient } from "@azure/ai-content-safety";
@@ -108,7 +108,7 @@ async function moderateInput(): Promise<void> {
     },
     { policyId: "<policy-id>" },
   );
-  console.log(result.decision);
+  console.log(result.verdict.decision, result.receipt.profile);
 }
 void moderateInput;
 ```
