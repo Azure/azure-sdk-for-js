@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** The Mitigate Job captured from request body for Mitigate API */
 export interface MitigateJobRequest {
   /** Resolution code for the job */
@@ -297,8 +297,10 @@ export function jobPropertiesDeserializer(item: any): JobProperties {
 
 /** Type of the transfer. */
 export type TransferType = "ImportToAzure" | "ExportFromAzure";
+
 /** The Editable status for Reverse Shipping Address and Contact Info */
 export type ReverseShippingDetailsEditStatus = "Enabled" | "Disabled" | "NotSupported";
+
 /** The Editable status for Reverse Transport preferences */
 export type ReverseTransportPreferenceEditStatus = "Enabled" | "Disabled" | "NotSupported";
 
@@ -1505,6 +1507,7 @@ export function encryptionPreferencesDeserializer(item: any): EncryptionPreferen
 
 /** Defines secondary layer of software-based encryption enablement. */
 export type DoubleEncryption = "Enabled" | "Disabled";
+
 /** Hardware encryption support for a given sku for a given region. */
 export type HardwareEncryption = "Enabled" | "Disabled";
 
@@ -3109,6 +3112,7 @@ export function skuDeserializer(item: any): Sku {
 
 /** SKU names. */
 export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk";
+
 /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
 export type ModelName =
   | "DataBox"
@@ -3858,6 +3862,7 @@ export function shareCredentialDetailsDeserializer(item: any): ShareCredentialDe
 /** Type of the share. */
 export type ShareDestinationFormatType =
   "UnknownType" | "HCS" | "BlockBlob" | "PageBlob" | "AzureFile" | "ManagedDisk";
+
 /** Access protocols supported on the device. */
 export type AccessProtocol = "SMB" | "NFS";
 

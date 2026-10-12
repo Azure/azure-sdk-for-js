@@ -1,4 +1,4 @@
-# @azure/arm-databox client library samples for JavaScript (Beta)
+# @azure/arm-databox client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-databox in some common scenarios.
 
@@ -61,24 +61,24 @@ node jobsBookShipmentPickUpSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[jobsbookshipmentpickupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsBookShipmentPickUpSample.js
-[jobscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsCancelSample.js
-[jobscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsCreateSample.js
-[jobsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsDeleteSample.js
-[jobsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsGetSample.js
-[jobslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsListByResourceGroupSample.js
-[jobslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsListCredentialsSample.js
-[jobslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsListSample.js
-[jobsmarkdevicesshippedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsMarkDevicesShippedSample.js
-[jobsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/jobsUpdateSample.js
-[mitigatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/mitigateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/operationsListSample.js
-[servicelistavailableskusbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceListAvailableSkusByResourceGroupSample.js
-[serviceregionconfigurationbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceRegionConfigurationByResourceGroupSample.js
-[serviceregionconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceRegionConfigurationSample.js
-[servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceValidateAddressSample.js
-[servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceValidateInputsByResourceGroupSample.js
-[servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/javascript/serviceValidateInputsSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
+[jobsbookshipmentpickupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsBookShipmentPickUpSample.js
+[jobscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsCancelSample.js
+[jobscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsCreateSample.js
+[jobsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsDeleteSample.js
+[jobsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsGetSample.js
+[jobslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsListByResourceGroupSample.js
+[jobslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsListCredentialsSample.js
+[jobslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsListSample.js
+[jobsmarkdevicesshippedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsMarkDevicesShippedSample.js
+[jobsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/jobsUpdateSample.js
+[mitigatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/mitigateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/operationsListSample.js
+[servicelistavailableskusbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceListAvailableSkusByResourceGroupSample.js
+[serviceregionconfigurationbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceRegionConfigurationByResourceGroupSample.js
+[serviceregionconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceRegionConfigurationSample.js
+[servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceValidateAddressSample.js
+[servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceValidateInputsByResourceGroupSample.js
+[servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/javascript/serviceValidateInputsSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/README.md

@@ -1,4 +1,4 @@
-# @azure/arm-databox client library samples for TypeScript (Beta)
+# @azure/arm-databox client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-databox in some common scenarios.
 
@@ -73,25 +73,25 @@ node dist/jobsBookShipmentPickUpSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[jobsbookshipmentpickupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsBookShipmentPickUpSample.ts
-[jobscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsCancelSample.ts
-[jobscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsCreateSample.ts
-[jobsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsDeleteSample.ts
-[jobsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsGetSample.ts
-[jobslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsListByResourceGroupSample.ts
-[jobslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsListCredentialsSample.ts
-[jobslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsListSample.ts
-[jobsmarkdevicesshippedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsMarkDevicesShippedSample.ts
-[jobsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/jobsUpdateSample.ts
-[mitigatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/mitigateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/operationsListSample.ts
-[servicelistavailableskusbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceListAvailableSkusByResourceGroupSample.ts
-[serviceregionconfigurationbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceRegionConfigurationByResourceGroupSample.ts
-[serviceregionconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceRegionConfigurationSample.ts
-[servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceValidateAddressSample.ts
-[servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceValidateInputsByResourceGroupSample.ts
-[servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6-beta/typescript/src/serviceValidateInputsSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
+[jobsbookshipmentpickupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsBookShipmentPickUpSample.ts
+[jobscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsCancelSample.ts
+[jobscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsCreateSample.ts
+[jobsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsDeleteSample.ts
+[jobsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsGetSample.ts
+[jobslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsListByResourceGroupSample.ts
+[jobslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsListCredentialsSample.ts
+[jobslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsListSample.ts
+[jobsmarkdevicesshippedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsMarkDevicesShippedSample.ts
+[jobsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/jobsUpdateSample.ts
+[mitigatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/mitigateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/operationsListSample.ts
+[servicelistavailableskusbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceListAvailableSkusByResourceGroupSample.ts
+[serviceregionconfigurationbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceRegionConfigurationByResourceGroupSample.ts
+[serviceregionconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceRegionConfigurationSample.ts
+[servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceValidateAddressSample.ts
+[servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceValidateInputsByResourceGroupSample.ts
+[servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v6/typescript/src/serviceValidateInputsSample.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementContext } from "../../api/dataBoxManagementContext.js";
+import type { DataBoxManagementContext } from "../../api/dataBoxManagementContext.js";
 import {
   validateInputsByResourceGroup,
   regionConfigurationByResourceGroup,
@@ -10,7 +10,7 @@ import {
   validateAddress,
   regionConfiguration,
 } from "../../api/service/operations.js";
-import {
+import type {
   ServiceValidateInputsByResourceGroupOptionalParams,
   ServiceRegionConfigurationByResourceGroupOptionalParams,
   ServiceListAvailableSkusByResourceGroupOptionalParams,
@@ -18,7 +18,7 @@ import {
   ServiceValidateAddressOptionalParams,
   ServiceRegionConfigurationOptionalParams,
 } from "../../api/service/options.js";
-import {
+import type {
   RegionConfigurationRequest,
   RegionConfigurationResponse,
   ValidateAddress,
@@ -28,7 +28,7 @@ import {
   AvailableSkuRequest,
   SkuInformation,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {

@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementContext as Client } from "../index.js";
-import {
-  apiErrorDeserializer,
+import type { DataBoxManagementContext as Client } from "../index.js";
+import type {
   RegionConfigurationRequest,
-  regionConfigurationRequestSerializer,
   RegionConfigurationResponse,
-  regionConfigurationResponseDeserializer,
   ValidateAddress,
-  validateAddressSerializer,
   AddressValidationOutput,
-  addressValidationOutputDeserializer,
-  validationRequestUnionSerializer,
   ValidationRequestUnion,
   ValidationResponse,
-  validationResponseDeserializer,
   AvailableSkuRequest,
-  availableSkuRequestSerializer,
   _AvailableSkusResult,
-  _availableSkusResultDeserializer,
   SkuInformation,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  apiErrorDeserializer,
+  regionConfigurationRequestSerializer,
+  regionConfigurationResponseDeserializer,
+  validateAddressSerializer,
+  addressValidationOutputDeserializer,
+  validationRequestUnionSerializer,
+  validationResponseDeserializer,
+  availableSkuRequestSerializer,
+  _availableSkusResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ServiceValidateInputsByResourceGroupOptionalParams,
   ServiceRegionConfigurationByResourceGroupOptionalParams,
   ServiceListAvailableSkusByResourceGroupOptionalParams,
@@ -35,12 +35,8 @@ import {
   ServiceValidateAddressOptionalParams,
   ServiceRegionConfigurationOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _validateInputsByResourceGroupSend(
   context: Client,
@@ -75,7 +71,9 @@ export async function _validateInputsByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -134,7 +132,9 @@ export async function _regionConfigurationByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -193,7 +193,9 @@ export async function _listAvailableSkusByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -256,7 +258,9 @@ export async function _validateInputsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -306,7 +310,9 @@ export async function _validateAddressDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -356,7 +362,9 @@ export async function _regionConfigurationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }

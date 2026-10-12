@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DataBoxManagementContext,
   DataBoxManagementClientOptionalParams,
-  createDataBoxManagement,
 } from "./api/index.js";
+import { createDataBoxManagement } from "./api/index.js";
 import { mitigate } from "./api/operations.js";
-import { MitigateOptionalParams } from "./api/options.js";
-import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { ServiceOperations, _getServiceOperations } from "./classic/service/index.js";
-import { MitigateJobRequest } from "./models/models.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { MitigateOptionalParams } from "./api/options.js";
+import type { JobsOperations } from "./classic/jobs/index.js";
+import { _getJobsOperations } from "./classic/jobs/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ServiceOperations } from "./classic/service/index.js";
+import { _getServiceOperations } from "./classic/service/index.js";
+import type { MitigateJobRequest } from "./models/models.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DataBoxManagementClientOptionalParams } from "./api/dataBoxManagementContext.js";
 
@@ -42,14 +45,7 @@ export class DataBoxManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDataBoxManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDataBoxManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.service = _getServiceOperations(this._client);
     this.jobs = _getJobsOperations(this._client);

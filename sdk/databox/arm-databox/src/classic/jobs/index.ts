@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementContext } from "../../api/dataBoxManagementContext.js";
+import type { DataBoxManagementContext } from "../../api/dataBoxManagementContext.js";
 import {
   markDevicesShipped,
   listCredentials,
@@ -14,7 +14,7 @@ import {
   create,
   get,
 } from "../../api/jobs/operations.js";
-import {
+import type {
   JobsMarkDevicesShippedOptionalParams,
   JobsListCredentialsOptionalParams,
   JobsCancelOptionalParams,
@@ -26,7 +26,7 @@ import {
   JobsCreateOptionalParams,
   JobsGetOptionalParams,
 } from "../../api/jobs/options.js";
-import {
+import type {
   JobResource,
   JobResourceUpdateParameter,
   ShipmentPickUpRequest,
@@ -35,9 +35,10 @@ import {
   UnencryptedCredentials,
   MarkDevicesShippedRequest,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {

@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementContext as Client } from "./index.js";
-import {
-  MitigateJobRequest,
-  mitigateJobRequestSerializer,
-  apiErrorDeserializer,
-} from "../models/models.js";
+import type { DataBoxManagementContext as Client } from "./index.js";
+import type { MitigateJobRequest } from "../models/models.js";
+import { mitigateJobRequestSerializer, apiErrorDeserializer } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { MitigateOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { MitigateOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _mitigateSend(
   context: Client,
@@ -46,7 +39,9 @@ export async function _mitigateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }

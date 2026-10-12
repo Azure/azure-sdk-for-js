@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-databox-ts-beta",
+  "name": "@azure-samples/arm-databox-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-databox client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-databox client library samples for TypeScript",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox",
   "dependencies": {
-    "@azure/arm-databox": "beta",
+    "@azure/arm-databox": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
