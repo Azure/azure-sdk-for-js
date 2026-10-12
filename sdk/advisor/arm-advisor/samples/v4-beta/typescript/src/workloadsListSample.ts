@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get list of Workloads.
  *
  * @summary get list of Workloads.
- * x-ms-original-file: 2026-02-01-preview/ListWorkloads.json
+ * x-ms-original-file: 2026-08-01-preview/ListWorkloads.json
  */
 async function getWorkloads(): Promise<void> {
   const credential = new DefaultAzureCredential();

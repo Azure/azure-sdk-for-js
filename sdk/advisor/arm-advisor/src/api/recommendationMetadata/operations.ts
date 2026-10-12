@@ -24,9 +24,10 @@ export function _listSend(
   options: RecommendationMetadataListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/providers/Microsoft.Advisor/metadata{?api%2Dversion}",
+    "/providers/Microsoft.Advisor/metadata{?api%2Dversion,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "%24filter": options?.filter,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +68,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -81,7 +82,7 @@ export function _getSend(
     "/providers/Microsoft.Advisor/metadata/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

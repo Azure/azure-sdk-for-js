@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get list of Azure Advisor resiliency reviews.
  *
  * @summary get list of Azure Advisor resiliency reviews.
- * x-ms-original-file: 2026-02-01-preview/ResiliencyReviewsList.json
+ * x-ms-original-file: 2026-08-01-preview/ResiliencyReviewsList.json
  */
 async function listResiliencyReviews() {
   const credential = new DefaultAzureCredential();

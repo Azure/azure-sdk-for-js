@@ -10,6 +10,4 @@ export type { RecommendationMetadataOperations } from "./recommendationMetadata/
 export type { RecommendationsOperations } from "./recommendations/index.js";
 export type { ResiliencyReviewsOperations } from "./resiliencyReviews/index.js";
 export type { SuppressionsOperations } from "./suppressions/index.js";
-export type { TriageRecommendationsOperations } from "./triageRecommendations/index.js";
-export type { TriageResourcesOperations } from "./triageResources/index.js";
 export type { WorkloadsOperations } from "./workloads/index.js";

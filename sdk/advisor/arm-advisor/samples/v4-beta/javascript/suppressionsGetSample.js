@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to obtains the details of a suppression.
  *
  * @summary obtains the details of a suppression.
- * x-ms-original-file: 2026-02-01-preview/GetSuppressionDetail.json
+ * x-ms-original-file: 2026-08-01-preview/GetSuppressionDetail.json
  */
 async function getSuppressionDetail() {
   const credential = new DefaultAzureCredential();
