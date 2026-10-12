@@ -439,7 +439,8 @@ A file or directory in an SMB file share can be addressed by its file ID, the `f
 `ShareClient.getShareDirectoryClient()` to create such a client. A file client supports `getProperties()`,
 `getFileLinks()` (which returns the file's properties and its hard links) and `withShareSnapshot()`; a directory
 client supports only `getProperties()`. Their other methods throw an error, and `getFileLinks()` throws on a client
-that addresses the file by its path.
+that addresses the file by its path. In an SMB file share, a file has a single link: its own name in the directory
+that contains it.
 
 ```ts snippet:ReadmeSampleGetFileByFileId
 import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
