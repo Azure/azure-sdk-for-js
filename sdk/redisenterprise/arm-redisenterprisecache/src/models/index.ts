@@ -53,6 +53,8 @@ export type {
   SourceType,
   MigrationProvisioningState,
   AzureCacheForRedisMigrationProperties,
+  MigrationUndoRequest,
+  MigrationRollbackReason,
   MigrationValidationRequest,
   MigrationValidationResponse,
   MigrationValidationError,
@@ -89,7 +91,6 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
-  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
   OperationStatus,
 } from "./models.js";

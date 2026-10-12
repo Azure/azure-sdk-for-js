@@ -84,6 +84,7 @@ export interface AccessPolicyAssignmentOperations {
     options?: AccessPolicyAssignmentGetOptionalParams,
   ) => Promise<AccessPolicyAssignment>;
 }
+
 function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
   return {
     list: (
@@ -213,6 +214,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       ),
   };
 }
+
 export function _getAccessPolicyAssignmentOperations(
   context: RedisEnterpriseManagementContext,
 ): AccessPolicyAssignmentOperations {

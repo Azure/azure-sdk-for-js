@@ -8,6 +8,8 @@ import type {
 import { createRedisEnterpriseManagement } from "./api/index.js";
 import type { AccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
 import { _getAccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
 import type { MigrationsOperations } from "./classic/migrations/index.js";
@@ -47,6 +49,7 @@ export class RedisEnterpriseManagementClient {
     this.migrations = _getMigrationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.databases = _getDatabasesOperations(this._client);
+    this.clusters = _getClustersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
@@ -64,6 +67,8 @@ export class RedisEnterpriseManagementClient {
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for databases */
   public readonly databases: DatabasesOperations;
+  /** The operation groups for clusters */
+  public readonly clusters: ClustersOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

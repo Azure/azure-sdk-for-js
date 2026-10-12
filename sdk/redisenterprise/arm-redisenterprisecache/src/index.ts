@@ -65,6 +65,8 @@ export type {
   SourceType,
   MigrationProvisioningState,
   AzureCacheForRedisMigrationProperties,
+  MigrationUndoRequest,
+  MigrationRollbackReason,
   MigrationValidationRequest,
   MigrationValidationResponse,
   MigrationValidationError,
@@ -101,7 +103,6 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
-  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
   OperationStatus,
 } from "./models/index.js";
@@ -142,6 +143,7 @@ export type {
   AccessPolicyAssignmentCreateUpdateOptionalParams,
   AccessPolicyAssignmentGetOptionalParams,
 } from "./api/accessPolicyAssignment/index.js";
+export type { ClustersUnlinkMigratedEndpointOptionalParams } from "./api/clusters/index.js";
 export type {
   DatabasesUpgradeDBRedisVersionOptionalParams,
   DatabasesFlushOptionalParams,
@@ -159,7 +161,8 @@ export type {
 } from "./api/databases/index.js";
 export type {
   MigrationsValidateOptionalParams,
-  MigrationsCancelOptionalParams,
+  MigrationsUnlinkMigratedEndpointOptionalParams,
+  MigrationsUndoOptionalParams,
   MigrationsListOptionalParams,
   MigrationsStartOptionalParams,
   MigrationsGetOptionalParams,
@@ -184,6 +187,7 @@ export type {
 } from "./api/redisEnterprise/index.js";
 export type {
   AccessPolicyAssignmentOperations,
+  ClustersOperations,
   DatabasesOperations,
   MigrationsOperations,
   OperationsOperations,

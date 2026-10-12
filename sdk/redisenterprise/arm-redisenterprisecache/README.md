@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redisenterprise/arm-redisenterprisecache)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-redisenterprisecache)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-redisenterprisecache?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-redisenterprisecache)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redisenterprise/arm-redisenterprisecache/samples)
 
 ## Getting started

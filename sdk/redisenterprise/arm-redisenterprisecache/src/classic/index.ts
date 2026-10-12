@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export type { AccessPolicyAssignmentOperations } from "./accessPolicyAssignment/index.js";
+export type { ClustersOperations } from "./clusters/index.js";
 export type { DatabasesOperations } from "./databases/index.js";
 export type { MigrationsOperations } from "./migrations/index.js";
 export type { OperationsOperations } from "./operations/index.js";

@@ -11,6 +11,7 @@ exports:
   "./api/migrations": "./src/api/migrations/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/databases": "./src/api/databases/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 

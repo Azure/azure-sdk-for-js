@@ -1,5 +1,158 @@
 # Release History
 
+## 5.0.0 (2026-10-12)
+
+### Features Added
+  - Added operation group ClustersOperations
+  - Added operation group MigrationsOperations
+  - Added operation AccessPolicyAssignmentOperations.createUpdate
+  - Added operation AccessPolicyAssignmentOperations.delete
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation DatabasesOperations.export
+  - Added operation DatabasesOperations.flush
+  - Added operation DatabasesOperations.forceLinkToReplicationGroup
+  - Added operation DatabasesOperations.forceUnlink
+  - Added operation DatabasesOperations.import
+  - Added operation DatabasesOperations.regenerateKey
+  - Added operation DatabasesOperations.update
+  - Added operation DatabasesOperations.upgradeDBRedisVersion
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.put
+  - Added operation RedisEnterpriseOperations.create
+  - Added operation RedisEnterpriseOperations.delete
+  - Added operation RedisEnterpriseOperations.update
+  - Added Interface AccessPolicyAssignmentProperties
+  - Added Interface AzureCacheForRedisMigrationProperties
+  - Added Interface ClustersUnlinkMigratedEndpointOptionalParams
+  - Added Interface MaintenanceConfiguration
+  - Added Interface MaintenanceWindow
+  - Added Interface MaintenanceWindowSchedule
+  - Added Interface Migration
+  - Added Interface MigrationProperties
+  - Added Interface MigrationsGetOptionalParams
+  - Added Interface MigrationsListOptionalParams
+  - Added Interface MigrationsStartOptionalParams
+  - Added Interface MigrationsUndoOptionalParams
+  - Added Interface MigrationsUnlinkMigratedEndpointOptionalParams
+  - Added Interface MigrationsValidateOptionalParams
+  - Added Interface MigrationUndoRequest
+  - Added Interface MigrationValidationDisparity
+  - Added Interface MigrationValidationError
+  - Added Interface MigrationValidationRequest
+  - Added Interface MigrationValidationResponse
+  - Added Interface MigrationValidationWarning
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface AccessPolicyAssignment has a new optional parameter systemData
+  - Interface AccessPolicyAssignmentGetOptionalParams has a new optional parameter abortSignal
+  - Interface AccessPolicyAssignmentGetOptionalParams has a new optional parameter requestOptions
+  - Interface AccessPolicyAssignmentGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessPolicyAssignmentGetOptionalParams has a new optional parameter onResponse
+  - Interface AccessPolicyAssignmentListOptionalParams has a new optional parameter abortSignal
+  - Interface AccessPolicyAssignmentListOptionalParams has a new optional parameter requestOptions
+  - Interface AccessPolicyAssignmentListOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessPolicyAssignmentListOptionalParams has a new optional parameter onResponse
+  - Interface Cluster has a new optional parameter maintenanceConfiguration
+  - Interface Cluster has a new optional parameter migratedEndpoint
+  - Interface Cluster has a new optional parameter systemData
+  - Interface ClusterCommonProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterCommonProperties has a new optional parameter migratedEndpoint
+  - Interface ClusterCreateProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterCreateProperties has a new optional parameter migratedEndpoint
+  - Interface ClusterUpdate has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdate has a new optional parameter migratedEndpoint
+  - Interface ClusterUpdateProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdateProperties has a new optional parameter migratedEndpoint
+  - Interface Database has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseCommonProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseCreateProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabasesGetOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesGetOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesListKeysOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesListKeysOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesListKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesListKeysOptionalParams has a new optional parameter onResponse
+  - Interface DatabaseUpdate has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseUpdateProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface OperationsStatusGetOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsStatusGetOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsStatusGetOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsStatusGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface PrivateLinkResourcesListByClusterOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesListByClusterOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesListByClusterOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesListByClusterOptionalParams has a new optional parameter onResponse
+  - Interface RedisEnterpriseGetOptionalParams has a new optional parameter abortSignal
+  - Interface RedisEnterpriseGetOptionalParams has a new optional parameter requestOptions
+  - Interface RedisEnterpriseGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RedisEnterpriseGetOptionalParams has a new optional parameter onResponse
+  - Interface RedisEnterpriseListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface RedisEnterpriseListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface RedisEnterpriseListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface RedisEnterpriseListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface RedisEnterpriseListOptionalParams has a new optional parameter abortSignal
+  - Interface RedisEnterpriseListOptionalParams has a new optional parameter requestOptions
+  - Interface RedisEnterpriseListOptionalParams has a new optional parameter tracingOptions
+  - Interface RedisEnterpriseListOptionalParams has a new optional parameter onResponse
+  - Interface RedisEnterpriseListSkusForScalingOptionalParams has a new optional parameter abortSignal
+  - Interface RedisEnterpriseListSkusForScalingOptionalParams has a new optional parameter requestOptions
+  - Interface RedisEnterpriseListSkusForScalingOptionalParams has a new optional parameter tracingOptions
+  - Interface RedisEnterpriseListSkusForScalingOptionalParams has a new optional parameter onResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias MaintenanceDayOfWeek
+  - Added Type Alias MaintenanceWindowType
+  - Added Type Alias MigrationPropertiesUnion
+  - Added Type Alias MigrationProvisioningState
+  - Added Type Alias MigrationRollbackReason
+  - Added Type Alias SourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownMaintenanceDayOfWeek
+  - Added Enum KnownMaintenanceWindowType
+  - Added Enum KnownMigrationProvisioningState
+  - Added Enum KnownSourceType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation AccessPolicyAssignment.beginDeleteAndWait has a new signature
+  - Operation Databases.beginForceLinkToReplicationGroupAndWait has a new signature
+  - Operation Databases.beginUpgradeDBRedisVersionAndWait has a new signature
+  - Class RedisEnterpriseManagementClient no longer has parameter accessPolicyAssignmentOperations
+  - Removed Interface AccessPolicyAssignmentList
+  - Removed Interface ClusterList
+  - Removed Interface DatabaseList
+  - Removed Interface ErrorDetailAutoGenerated
+  - Removed Interface ErrorResponseAutoGenerated
+  - Removed Interface ProxyResourceAutoGenerated
+  - Removed Interface ResourceAutoGenerated
+
 ## 5.0.0-beta.3 (2026-08-03)
 Compared with version 4.0.0
 
