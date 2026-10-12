@@ -129,9 +129,6 @@ the public internet. A Managed HSM may have up to two EKM proxy private endpoint
 one, set the connection's `host` to the private endpoint's name and its `connectivityMode` to
 `KnownEkmConnectivityMode.PrivateEndpoint`.
 
-```ts snippet:ReadmeSampleManageEkmPrivateEndpoint
-```
-
 ### Long running operations
 
 The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize, and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].

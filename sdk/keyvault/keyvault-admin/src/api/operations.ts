@@ -222,6 +222,7 @@ export function deleteEkmPrivateEndpoint(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteEkmPrivateEndpointSend(context, peName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
 }
 
