@@ -127,7 +127,10 @@ An EKM connection represents the connection of an Azure Managed HSM resource wit
 An EKM proxy private endpoint lets a Managed HSM reach an EKM proxy through an Azure Private Link Service instead of
 the public internet. A Managed HSM may have up to two EKM proxy private endpoints. To route an EKM connection through
 one, set the connection's `host` to the private endpoint's name and its `connectivityMode` to
-`"PrivateEndpoint"`.
+`KnownEkmConnectivityMode.PrivateEndpoint`.
+
+```ts snippet:ReadmeSampleManageEkmPrivateEndpoint
+```
 
 ### Long running operations
 
