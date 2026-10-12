@@ -147,29 +147,6 @@ describe("ContainerClient", () => {
     // delete() with default parameters has been tested in afterEach
   });
 
-  it("listBlobsFlat with default parameters", async () => {
-    const blobClients = [];
-    for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob/${i}`),
-      );
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload("", 0);
-      blobClients.push(blobClient);
-    }
-
-    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
-    assert.isAbove(result.serviceEndpoint.length, 0);
-    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
-
-    for (const blob of blobClients) {
-      await blob.delete();
-    }
-  });
-
   it("listBlobsFlat to list uncommitted blobs", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -184,6 +161,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           includeUncommitedBlobs: true,
         })
         .byPage()
@@ -206,7 +184,10 @@ describe("ContainerClient", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
 
-    const iteratorResult = await containerClient.listBlobsFlat().byPage().next();
+    const iteratorResult = await containerClient
+      .listBlobsFlat({ responseFormat: StorageResponseFormat.Xml })
+      .byPage()
+      .next();
     assert.isFalse(iteratorResult.done);
     if (!iteratorResult.done) {
       const result = iteratorResult.value;
@@ -263,6 +244,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -284,6 +266,7 @@ describe("ContainerClient", () => {
     const result2 = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -318,6 +301,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           includeDeletedWithVersions: true,
         })
         .byPage()
@@ -353,6 +337,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -388,6 +373,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           startFrom: startFrom,
         })
         .byPage()
@@ -422,6 +408,7 @@ describe("ContainerClient", () => {
     let i = 1;
     let iter = containerClient
       .listBlobsFlat({
+        responseFormat: StorageResponseFormat.Xml,
         startFrom: startFrom,
       })
       .byPage({ maxPageSize: 2 });
@@ -433,7 +420,9 @@ describe("ContainerClient", () => {
     // Gets next marker
     const marker = response.continuationToken;
     // Passing next marker as continuationToken
-    iter = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 2 });
+    iter = containerClient
+      .listBlobsFlat({ responseFormat: StorageResponseFormat.Xml })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
     // Gets 2 blobs
     for (const blob of response.segment.blobItems) {
@@ -466,6 +455,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
+          responseFormat: StorageResponseFormat.Xml,
           startFrom: startFrom,
         })
         .byPage()
@@ -502,6 +492,7 @@ describe("ContainerClient", () => {
 
     let i = 0;
     for await (const blob of containerClient.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Xml,
       includeCopy: true,
       includeDeleted: true,
       includeMetadata: true,
@@ -538,6 +529,7 @@ describe("ContainerClient", () => {
     }
 
     const iterator = containerClient.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Xml,
       includeCopy: true,
       includeDeleted: true,
       includeMetadata: true,
@@ -580,6 +572,7 @@ describe("ContainerClient", () => {
     let i = 0;
     for await (const response of containerClient
       .listBlobsFlat({
+        responseFormat: StorageResponseFormat.Xml,
         includeCopy: true,
         includeDeleted: true,
         includeMetadata: true,
@@ -621,6 +614,7 @@ describe("ContainerClient", () => {
     let i = 0;
     let iter = containerClient
       .listBlobsFlat({
+        responseFormat: StorageResponseFormat.Xml,
         includeCopy: true,
         includeDeleted: true,
         includeMetadata: true,
@@ -640,6 +634,7 @@ describe("ContainerClient", () => {
     // Passing next marker as continuationToken
     iter = containerClient
       .listBlobsFlat({
+        responseFormat: StorageResponseFormat.Xml,
         includeCopy: true,
         includeDeleted: true,
         includeMetadata: true,
@@ -654,35 +649,6 @@ describe("ContainerClient", () => {
       assert.notStrictEqual(blobClients[i].url.indexOf(blob.name), -1);
       assert.isTrue(isSuperSet(blob.metadata, metadata));
       i++;
-    }
-
-    for (const blob of blobClients) {
-      await blob.delete();
-    }
-  });
-
-  it("listBlobsByHierarchy with default parameters", async () => {
-    const blobClients = [];
-    for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`),
-      );
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload("", 0);
-      blobClients.push(blobClient);
-    }
-
-    const delimiter = "/";
-    const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
-
-    assert.isAbove(result.serviceEndpoint.length, 0);
-    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.delimiter, delimiter);
-    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
-
-    for (let i = 0; i < 3; i++) {
-      assert.notStrictEqual(blobClients[i].url.indexOf(result.segment.blobPrefixes![i].name), -1);
     }
 
     for (const blob of blobClients) {
@@ -705,6 +671,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsByHierarchy(delimiter, {
+          responseFormat: StorageResponseFormat.Xml,
           includeUncommitedBlobs: true,
         })
         .byPage()
@@ -740,7 +707,12 @@ describe("ContainerClient", () => {
     }
 
     const delimiter = "/";
-    const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, { responseFormat: StorageResponseFormat.Xml })
+        .byPage()
+        .next()
+    ).value;
     assert.isAbove(result.serviceEndpoint.length, 0);
     assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
@@ -815,6 +787,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsByHierarchy(delimiter, {
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -835,6 +808,7 @@ describe("ContainerClient", () => {
     const result2 = (
       await containerClient
         .listBlobsByHierarchy(delimiter, {
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -855,6 +829,7 @@ describe("ContainerClient", () => {
     const result3 = (
       await containerClient
         .listBlobsByHierarchy(delimiter, {
+          responseFormat: StorageResponseFormat.Xml,
           includeCopy: true,
           includeDeleted: true,
           includeMetadata: true,
@@ -898,6 +873,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsByHierarchy(delimiter, {
+          responseFormat: StorageResponseFormat.Xml,
           startFrom: startFrom,
         })
         .byPage()
@@ -939,6 +915,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsByHierarchy("/", {
+          responseFormat: StorageResponseFormat.Xml,
           startFrom: startFrom,
         })
         .byPage()
@@ -973,6 +950,7 @@ describe("ContainerClient", () => {
     let i = 1;
     let iter = containerClient
       .listBlobsByHierarchy("/", {
+        responseFormat: StorageResponseFormat.Xml,
         startFrom: startFrom,
       })
       .byPage({ maxPageSize: 2 });
@@ -985,7 +963,7 @@ describe("ContainerClient", () => {
     const marker = response.continuationToken;
     // Passing next marker as continuationToken
     iter = containerClient
-      .listBlobsByHierarchy("/")
+      .listBlobsByHierarchy("/", { responseFormat: StorageResponseFormat.Xml })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
     // Gets 2 blobs
@@ -1018,6 +996,7 @@ describe("ContainerClient", () => {
 
     let i = 0;
     for await (const item of containerClient.listBlobsByHierarchy("/", {
+      responseFormat: StorageResponseFormat.Xml,
       includeMetadata: true,
     })) {
       if (item.kind === "prefix") {
@@ -1217,7 +1196,7 @@ describe("ContainerClient", () => {
     );
 
     const iterator = newContainerClient
-      .listBlobsFlat({ includeMetadata: true })
+      .listBlobsFlat({ responseFormat: StorageResponseFormat.Xml, includeMetadata: true })
       .byPage({ maxPageSize: 5 });
     const page = await iterator.next();
     assert.isFalse(page.done);
@@ -1482,6 +1461,8 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
         .next()
     ).value;
 
+    assert.equal(response._response.status, 200);
+    assert.equal(response._response.headers.get("content-type"), response.contentType);
     assert.isAbove(response.serviceEndpoint.length, 0);
     assert.notStrictEqual(containerClient.url.indexOf(response.containerName), -1);
     assert.strictEqual(response.segment.blobItems.length, 1);
@@ -1766,6 +1747,8 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
       .listBlobsByHierarchy("/", { responseFormat: StorageResponseFormat.Arrow })
       .byPage({ maxPageSize: 2 })) {
       pages++;
+      assert.equal(page._response.status, 200);
+      assert.equal(page._response.headers.get("content-type"), page.contentType);
       assert.strictEqual(page.delimiter, "/");
       for (const prefix of page.segment.blobPrefixes ?? []) {
         prefixes.push(prefix.name);
@@ -1846,15 +1829,11 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
 
 describe("ContainerClient List Blobs endBefore validation", () => {
   // `endBefore` is only valid with the Apache Arrow response format; the client rejects
-  // it up front for the default and XML formats. No service call is made.
+  // it up front for the XML format. No service call is made.
   const client = new ContainerClient("https://fakeaccount.blob.core.windows.net/fakecontainer");
 
-  it("listBlobsFlat rejects endBefore with the default (XML) format", () => {
-    assert.throws(
-      () => client.listBlobsFlat({ endBefore: "ccc" }),
-      RangeError,
-      /StorageResponseFormat.Arrow/,
-    );
+  it("listBlobsFlat accepts endBefore with the default (Apache Arrow) format", () => {
+    assert.doesNotThrow(() => client.listBlobsFlat({ endBefore: "ccc" }));
   });
 
   it("listBlobsFlat rejects endBefore with an explicit XML format", () => {
@@ -1865,12 +1844,8 @@ describe("ContainerClient List Blobs endBefore validation", () => {
     );
   });
 
-  it("listBlobsByHierarchy rejects endBefore with the default (XML) format", () => {
-    assert.throws(
-      () => client.listBlobsByHierarchy("/", { endBefore: "ccc" }),
-      RangeError,
-      /StorageResponseFormat.Arrow/,
-    );
+  it("listBlobsByHierarchy accepts endBefore with the default (Apache Arrow) format", () => {
+    assert.doesNotThrow(() => client.listBlobsByHierarchy("/", { endBefore: "ccc" }));
   });
 
   it("listBlobsByHierarchy rejects endBefore with an explicit XML format", () => {
