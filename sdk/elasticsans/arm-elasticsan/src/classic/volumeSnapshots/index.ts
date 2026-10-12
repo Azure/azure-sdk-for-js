@@ -25,11 +25,6 @@ export interface VolumeSnapshotsOperations {
     options?: VolumeSnapshotsListByVolumeGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Snapshot>;
   /** Delete a Volume Snapshot. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     elasticSanName: string,
