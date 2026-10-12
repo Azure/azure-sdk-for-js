@@ -1,5 +1,11 @@
 # Release History
 
+## 3.4.2 (Unreleased)
+
+### Bugs Fixed
+
+- Bound polling intervals to the range supported by the platform timer, preventing oversized caller intervals and server `Retry-After` values from overflowing into near-continuous polling. Unparseable, non-positive, or non-finite server delays fall back to the configured interval instead of reusing a stale delay. Date conversion uses the runtime parser, with timezone-less asctime HTTP dates interpreted as GMT. [#39793](https://github.com/Azure/azure-sdk-for-js/issues/39793)
+
 ## 3.4.1 (2026-09-03)
 
 ### Other Changes

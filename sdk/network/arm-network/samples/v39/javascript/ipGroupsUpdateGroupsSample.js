@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates tags of an IpGroups resource.
  *
  * @summary updates tags of an IpGroups resource.
- * x-ms-original-file: 2026-01-01/IpGroupsUpdateTags.json
+ * x-ms-original-file: 2026-03-01/IpGroupsUpdateTags.json
  */
 async function updateIpGroups() {
   const credential = new DefaultAzureCredential();

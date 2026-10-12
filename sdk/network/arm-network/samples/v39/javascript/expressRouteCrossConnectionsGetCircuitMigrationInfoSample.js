@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets migration health information for an express route circuit cross connection.
  *
  * @summary gets migration health information for an express route circuit cross connection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionGetCircuitMigrationInfo.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionGetCircuitMigrationInfo.json
  */
 async function getExpressRouteCircuitMigrationInfo() {
   const credential = new DefaultAzureCredential();

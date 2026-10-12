@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all public IP prefixes in a resource group.
  *
  * @summary gets all public IP prefixes in a resource group.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixList.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixList.json
  */
 async function listResourceGroupPublicIPPrefixes() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a network manager connection on this subscription.
  *
  * @summary create a network manager connection on this subscription.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectionSubscriptionPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectionSubscriptionPut.json
  */
 async function createOrUpdateSubscriptionNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

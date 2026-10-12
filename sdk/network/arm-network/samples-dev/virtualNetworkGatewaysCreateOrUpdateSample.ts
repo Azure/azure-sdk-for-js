@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a virtual network gateway in the specified resource group.
  *
  * @summary creates or updates a virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayUpdate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayUpdate.json
  */
 async function updateVirtualNetworkGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,7 +86,7 @@ async function updateVirtualNetworkGateway(): Promise<void> {
  * This sample demonstrates how to creates or updates a virtual network gateway in the specified resource group.
  *
  * @summary creates or updates a virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkScalableGatewayUpdate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkScalableGatewayUpdate.json
  */
 async function updateVirtualNetworkScalableGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

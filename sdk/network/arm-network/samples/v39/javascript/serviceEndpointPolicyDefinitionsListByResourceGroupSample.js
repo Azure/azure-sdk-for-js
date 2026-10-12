@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all service endpoint policy definitions in a service end point policy.
  *
  * @summary gets all service endpoint policy definitions in a service end point policy.
- * x-ms-original-file: 2026-01-01/ServiceEndpointPolicyDefinitionList.json
+ * x-ms-original-file: 2026-03-01/ServiceEndpointPolicyDefinitionList.json
  */
 async function listServiceEndpointDefinitionsInServiceEndPointPolicy() {
   const credential = new DefaultAzureCredential();
