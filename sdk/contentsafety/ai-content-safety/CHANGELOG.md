@@ -4,19 +4,19 @@
 
 ### Features Added
 
-- Regenerated the client for `2026-10-15-preview`, including all eight Agent Hooks context variants and native Verdict responses.
+- Regenerated the client for `2026-10-15-preview`, including all eight Agent Hooks context variants and native Verdict responses. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Breaking Changes
 
-- `unifiedModerate` now accepts an `AgentContext` and returns a native `Verdict`. Policy and resource selectors move to the operation options and are sent as query parameters.
-- The default API version is now `2026-10-15-preview`. The September Unified Moderate request and response format requires the earlier SDK contract.
+- `unifiedModerate` now accepts an `AgentContext` and returns a native `Verdict`. Policy and resource selectors move to the operation options and are sent as query parameters. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- The default API version is now `2026-10-15-preview`. The September Unified Moderate request and response format requires the earlier SDK contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Bugs Fixed
 
-- Preserve blocklist paging customizations when regenerating the client with a new default API version.
-- Resolve regeneration conflicts in Unified Moderate request serialization and model exports while retaining the existing provenance and blocklist customizations.
-- Preserve native JSON member names such as `__proto__` as own properties in tool arguments and opaque response metadata.
-- Include explicit null in Verdict, warning and evidence property types where the Agent Hooks wire contract permits it.
+- Preserve blocklist paging customizations when regenerating the client with a new default API version. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Resolve regeneration conflicts in Unified Moderate request serialization and model exports while retaining the existing provenance and blocklist customizations. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Preserve native JSON member names such as `__proto__` as own properties in tool arguments and opaque response metadata. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Include explicit null in Verdict, warning and evidence property types where the Agent Hooks wire contract permits it. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ## 1.0.0-beta.1 (2026-09-18)
 

@@ -72,7 +72,8 @@ describe("pagination customization regeneration", () => {
         merged,
         'target: agentInitializationSerializer(item["target"] as AgentInitialization)',
       );
-      assert.include(merged, 'item["target"] === item["toolCall"].args');
+      assert.include(merged, 'target: agentJsonObjectSerializer(item["toolCall"].args)');
+      assert.include(merged, 'target: item["toolResult"].value');
       assert.include(merged, "Generated refresh.");
     } finally {
       rmSync(directory, { recursive: true, force: true });

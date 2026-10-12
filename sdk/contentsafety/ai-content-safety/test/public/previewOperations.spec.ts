@@ -26,6 +26,10 @@ import {
 const endpoint = "https://example.cognitiveservices.azure.com";
 const credential = new AzureKeyCredential("fake-key");
 
+function sha256Fixture(hexDigit: string): string {
+  return `sha256:${hexDigit.repeat(64)}`;
+}
+
 function createJsonResponse(
   request: PipelineRequest,
   status: number,
@@ -77,8 +81,8 @@ function createNamedPolicyReceipt(
         kind: "namedPolicy",
         policyResourceId: "/policies/policy-1",
         policyRevision: '"revision-1"',
-        policySemanticDigest: "sha256:semantic",
-        manifestRegoDigest: "sha256:artifact",
+        policySemanticDigest: sha256Fixture("a"),
+        manifestRegoDigest: sha256Fixture("b"),
         decision: "deny",
       },
     ],
@@ -101,16 +105,16 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         kind: "project",
         policyResourceId: "/policies/project-policy",
         policyRevision: '"project-revision"',
-        policySemanticDigest: "sha256:project-semantic",
-        manifestRegoDigest: "sha256:project-artifact",
+        policySemanticDigest: sha256Fixture("c"),
+        manifestRegoDigest: sha256Fixture("d"),
         decision: "deny",
       },
       {
         kind: "developer",
         policyResourceId: "/policies/developer-policy",
         policyRevision: '"developer-revision"',
-        policySemanticDigest: "sha256:developer-semantic",
-        manifestRegoDigest: "sha256:developer-artifact",
+        policySemanticDigest: sha256Fixture("e"),
+        manifestRegoDigest: sha256Fixture("f"),
         decision: "deny",
       },
     ],
@@ -180,7 +184,7 @@ describe("preview operations", () => {
       httpClient,
     });
 
-    const target = { value: { temperature: 72 }, is_error: false, duration_ms: 25 };
+    const toolResultValue = { temperature: 72 };
     const result = await client.unifiedModerate(
       {
         spec: "agent-hooks/0.1",
@@ -194,15 +198,15 @@ describe("preview operations", () => {
           name: "get_weather",
           args: { additionalProperties: { city: "Seattle" } },
         },
-        toolResult: { value: { temperature: 72 }, isError: false, durationMs: 25 },
-        target,
+        toolResult: { value: toolResultValue, isError: false, durationMs: 25 },
+        target: toolResultValue,
       },
       {
         targetResourceId:
           "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
         developerPolicyId: "/policies/developer-policy",
         developerPolicyRevision: '"developer-revision"',
-        developerPolicySemanticDigest: "sha256:developer-semantic",
+        developerPolicySemanticDigest: sha256Fixture("e"),
       },
     );
 
@@ -218,10 +222,7 @@ describe("preview operations", () => {
     );
     assert.equal(requestUrl.searchParams.get("developerPolicyId"), "/policies/developer-policy");
     assert.equal(requestUrl.searchParams.get("developerPolicyRevision"), '"developer-revision"');
-    assert.equal(
-      requestUrl.searchParams.get("developerPolicySemanticDigest"),
-      "sha256:developer-semantic",
-    );
+    assert.equal(requestUrl.searchParams.get("developerPolicySemanticDigest"), sha256Fixture("e"));
     assert.equal(requests[0].headers.get("content-type"), "application/json");
     assert.deepEqual(parseRequestBody(requests[0]), {
       spec: "agent-hooks/0.1",
@@ -231,8 +232,8 @@ describe("preview operations", () => {
       agent: { id: "agent-1", framework: "test" },
       session: { id: "session-1" },
       tool_call: { id: "call-1", name: "get_weather", args: { city: "Seattle" } },
-      tool_result: target,
-      target,
+      tool_result: { value: toolResultValue, is_error: false, duration_ms: 25 },
+      target: toolResultValue,
     });
     assert.deepInclude(result.verdict, {
       decision: "deny",
@@ -292,8 +293,8 @@ describe("preview operations", () => {
       kind: "tenantOverlay",
       policyResourceId: "/policies/tenant-overlay",
       policyRevision: '"revision-2"',
-      policySemanticDigest: "sha256:semantic",
-      manifestRegoDigest: "sha256:artifact",
+      policySemanticDigest: sha256Fixture("a"),
+      manifestRegoDigest: sha256Fixture("b"),
       decision: "allow",
     };
     const knownServiceCodes: AgentEvaluationErrorCode[] = ["Unauthorized", "Forbidden"];

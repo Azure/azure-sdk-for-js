@@ -978,10 +978,7 @@ export function agentPreToolCallContextSerializer(item: AgentPreToolCallContext)
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target:
-      item["target"] === item["toolCall"].args
-        ? agentJsonObjectSerializer(item["target"] as AgentJsonObject)
-        : item["target"],
+    target: agentJsonObjectSerializer(item["toolCall"].args),
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
@@ -1023,7 +1020,7 @@ export function agentPostToolCallContextSerializer(item: AgentPostToolCallContex
     sequence: item["sequence"],
     agent: agentDefinitionSerializer(item["agent"]),
     session: agentSessionSerializer(item["session"]),
-    target: item["target"],
+    target: item["toolResult"].value,
     agent_init: !item["agentInit"]
       ? item["agentInit"]
       : agentInitializationSerializer(item["agentInit"]),
