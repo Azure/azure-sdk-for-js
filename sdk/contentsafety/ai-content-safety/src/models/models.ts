@@ -1133,15 +1133,15 @@ export interface AgentVerdict {
   /** The discriminator possible values: allow, deny, transform */
   decision: AgentDecision;
   /** Optional machine-readable reason. host_error: is reserved for host-synthesized failures. */
-  reason?: string;
+  reason?: string | null;
   /** Optional human-readable message. */
-  message?: string;
+  message?: string | null;
   /** Optional structured, non-blocking warnings. */
-  warnings?: AgentWarning[];
+  warnings?: AgentWarning[] | null;
   /** Optional opaque evidence pointer. */
   evidence?: AgentEvidence;
   /** Optional labels. The host persists labels with produced data only if the action proceeds and resurfaces them on later derived contexts. */
-  resultLabels?: string[];
+  resultLabels?: string[] | null;
 }
 
 export function agentVerdictDeserializer(item: any): AgentVerdict {
@@ -1193,9 +1193,9 @@ export function agentWarningArrayDeserializer(result: Array<AgentWarning>): any[
 /** A non-blocking concern. Both reason and message are preserved when present. */
 export interface AgentWarning {
   /** Optional machine-readable reason, excluding the host_error: namespace. */
-  reason?: string;
+  reason?: string | null;
   /** Optional human-readable message. */
-  message?: string;
+  message?: string | null;
 }
 
 export function agentWarningDeserializer(item: any): AgentWarning {
@@ -1208,7 +1208,7 @@ export function agentWarningDeserializer(item: any): AgentWarning {
 /** An opaque offline-verifiable evidence pointer. The host must not automatically dereference verification pointers. Its canonical JSON representation is limited to 10,240 UTF-8 bytes. */
 export interface AgentEvidence {
   /** Optional content address or URI of an evidence artefact. */
-  artefact?: string;
+  artefact?: string | null;
   /** Optional named verification pointers. */
   verificationPointers?: Record<string, string>;
 }

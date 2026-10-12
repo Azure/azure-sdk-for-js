@@ -15,6 +15,8 @@
 
 - Preserve blocklist paging customizations when regenerating the client with a new default API version.
 - Resolve regeneration conflicts in Unified Moderate request serialization and model exports while retaining the existing provenance and blocklist customizations.
+- Preserve native JSON member names such as `__proto__` as own properties in tool arguments and opaque response metadata.
+- Include explicit null in Verdict, warning and evidence property types where the Agent Hooks wire contract permits it.
 
 ## 1.0.0-beta.1 (2026-09-18)
 

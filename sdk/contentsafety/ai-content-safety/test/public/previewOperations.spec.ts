@@ -6,7 +6,11 @@ import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, expect, it } from "vitest";
-import type { AgentInputContext, DetectProvenanceResult } from "../../src/index.js";
+import type {
+  AgentAllowVerdict,
+  AgentInputContext,
+  DetectProvenanceResult,
+} from "../../src/index.js";
 import {
   BlocklistClient,
   ContentProvenanceClient,
@@ -169,6 +173,69 @@ describe("preview operations", () => {
     await expect(
       client.unifiedModerate(createInputContext(), { policyId: "missing-policy" }),
     ).rejects.toMatchObject({ statusCode: 400, code: "InvalidRequest" });
+  });
+
+  it("preserves own native JSON keys in tool arguments and opaque approval metadata", async () => {
+    const opaque: Record<string, unknown> = JSON.parse(
+      '{"__proto__":{"approved":true},"constructor":"customer-value","city":"Seattle"}',
+    );
+    let wire: Record<string, unknown> | undefined;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        wire = parseRequestBody(request);
+        return createJsonResponse(request, 200, { decision: "deny", approval: opaque });
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+    const result = await client.unifiedModerate(
+      {
+        ...createInputContext(),
+        interceptionPoint: "pre_tool_call",
+        toolCall: { id: "call-1", name: "weather", args: { additionalProperties: opaque } },
+        target: opaque,
+      },
+      { policyId: "policy-1" },
+    );
+
+    assert.deepInclude(wire, {
+      target: opaque,
+      tool_call: { id: "call-1", name: "weather", args: opaque },
+    });
+    assert.deepEqual(JSON.parse(JSON.stringify(result)), {
+      decision: "deny",
+      approval: { additionalProperties: opaque },
+    });
+  });
+
+  it("accepts nullable Verdict fields in both the public types and decoded responses", async () => {
+    for (const warnings of [null, [{ reason: null, message: null }]]) {
+      const expected: AgentAllowVerdict = {
+        decision: "allow",
+        reason: null,
+        message: null,
+        warnings,
+        evidence: { artefact: null, verificationPointers: undefined },
+        resultLabels: null,
+      };
+      const httpClient: HttpClient = {
+        async sendRequest(request) {
+          return createJsonResponse(request, 200, {
+            decision: "allow",
+            reason: null,
+            message: null,
+            warnings,
+            evidence: { artefact: null },
+            result_labels: null,
+          });
+        },
+      };
+      const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+      const result = await client.unifiedModerate(createInputContext(), { policyId: "policy-1" });
+
+      assert.deepInclude(result, expected);
+    }
   });
 
   it("deserializes native transforms with null or omitted values", async () => {

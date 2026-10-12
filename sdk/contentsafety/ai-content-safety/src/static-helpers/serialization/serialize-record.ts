@@ -13,11 +13,13 @@ export function serializeRecord<T, U = T>(
     if (propertiesToExclude.includes(key) || value === undefined) {
       continue;
     }
-    if (serializer) {
-      res[key] = serializer(value);
-    } else {
-      res[key] = value;
-    }
+    // Native JSON keys must remain own properties, including __proto__.
+    Object.defineProperty(res, key, {
+      value: serializer ? serializer(value) : value,
+      enumerable: true,
+      writable: true,
+      configurable: true,
+    });
   }
   return res;
 }

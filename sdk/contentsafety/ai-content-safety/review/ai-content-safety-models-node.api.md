@@ -109,7 +109,7 @@ export interface AgentEvaluationError {
 
 // @public
 export interface AgentEvidence {
-    artefact?: string;
+    artefact?: string | null;
     verificationPointers?: Record<string, string>;
 }
 
@@ -312,10 +312,10 @@ export interface AgentTransformVerdict extends AgentVerdict {
 export interface AgentVerdict {
     decision: AgentDecision;
     evidence?: AgentEvidence;
-    message?: string;
-    reason?: string;
-    resultLabels?: string[];
-    warnings?: AgentWarning[];
+    message?: string | null;
+    reason?: string | null;
+    resultLabels?: string[] | null;
+    warnings?: AgentWarning[] | null;
 }
 
 // @public
@@ -323,8 +323,8 @@ export type AgentVerdictUnion = AgentAllowVerdict | AgentDenyVerdict | AgentTran
 
 // @public
 export interface AgentWarning {
-    message?: string;
-    reason?: string;
+    message?: string | null;
+    reason?: string | null;
 }
 
 // @public
