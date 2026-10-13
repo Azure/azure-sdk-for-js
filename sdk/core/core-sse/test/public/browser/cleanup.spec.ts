@@ -96,7 +96,7 @@ describe.each(["single connection", "reconnecting"] as const)(
       const stream =
         kind === "single connection"
           ? createSseStream(body)
-          : await createReconnectingSseStream(connect, { retryDelayInMs: 0, maxRetries: 1 });
+          : await createReconnectingSseStream(connect, { retryDelayInMs: 0, maxRetries: 3 });
       const values: string[] = [];
       for await (const event of stream) {
         values.push(event.data);

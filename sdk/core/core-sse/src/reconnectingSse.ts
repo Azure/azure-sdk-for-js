@@ -120,7 +120,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
     return cancellation;
   };
   const abort = (): void => {
-    void cancelConnection();
+    cancelConnection();
   };
   options.abortSignal?.addEventListener("abort", abort);
 
