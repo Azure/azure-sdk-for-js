@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByVolumeGroup, $delete, create, get } from "./operations.js";
-export {
-  type VolumeSnapshotsListByVolumeGroupOptionalParams,
-  type VolumeSnapshotsDeleteOptionalParams,
-  type VolumeSnapshotsCreateOptionalParams,
-  type VolumeSnapshotsGetOptionalParams,
+export type {
+  VolumeSnapshotsListByVolumeGroupOptionalParams,
+  VolumeSnapshotsDeleteOptionalParams,
+  VolumeSnapshotsCreateOptionalParams,
+  VolumeSnapshotsGetOptionalParams,
 } from "./options.js";

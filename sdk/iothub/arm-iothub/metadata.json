@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Devices": "2026-05-01-preview"
+    "Microsoft.Devices": "2026-10-01-preview"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {
@@ -48,7 +48,11 @@
       "@azure/arm-iothub!KeyVaultKeyProperties:interface": "Microsoft.Devices.KeyVaultKeyProperties",
       "@azure/arm-iothub!IotHubLocationDescription:interface": "Microsoft.Devices.IotHubLocationDescription",
       "@azure/arm-iothub!RootCertificateProperties:interface": "Microsoft.Devices.RootCertificateProperties",
+      "@azure/arm-iothub!MqttV5Settings:interface": "Microsoft.Devices.MqttV5Settings",
+      "@azure/arm-iothub!TopicGroup:interface": "Microsoft.Devices.TopicGroup",
       "@azure/arm-iothub!DeviceRegistry:interface": "Microsoft.Devices.DeviceRegistry",
+      "@azure/arm-iothub!DeviceRegistryIdentity:interface": "Microsoft.Devices.DeviceRegistryIdentity",
+      "@azure/arm-iothub!DeviceRegistryLinkingProperties:interface": "Microsoft.Devices.DeviceRegistryLinkingProperties",
       "@azure/arm-iothub!IotHubDetails:interface": "Microsoft.Devices.IotHubDetails",
       "@azure/arm-iothub!IotHubSkuInfo:interface": "Microsoft.Devices.IotHubSkuInfo",
       "@azure/arm-iothub!ArmIdentity:interface": "Microsoft.Devices.ArmIdentity",
@@ -109,12 +113,16 @@
       "@azure/arm-iothub!KnownDefaultAction:enum": "Microsoft.Devices.DefaultAction",
       "@azure/arm-iothub!KnownNetworkRuleIPAction:enum": "Microsoft.Devices.NetworkRuleIPAction",
       "@azure/arm-iothub!KnownAuthenticationType:enum": "Microsoft.Devices.AuthenticationType",
+      "@azure/arm-iothub!KnownMessagePayloadFormat:enum": "Microsoft.Devices.MessagePayloadFormat",
       "@azure/arm-iothub!KnownRoutingStorageContainerPropertiesEncoding:enum": "Microsoft.Devices.RoutingStorageContainerPropertiesEncoding",
       "@azure/arm-iothub!KnownEventStreamAuthenticationType:enum": "Microsoft.Devices.EventStreamAuthenticationType",
       "@azure/arm-iothub!KnownRoutingSource:enum": "Microsoft.Devices.RoutingSource",
       "@azure/arm-iothub!KnownCapabilities:enum": "Microsoft.Devices.Capabilities",
       "@azure/arm-iothub!KnownIotHubReplicaRoleType:enum": "Microsoft.Devices.IotHubReplicaRoleType",
       "@azure/arm-iothub!KnownIpVersion:enum": "Microsoft.Devices.IpVersion",
+      "@azure/arm-iothub!KnownConnectionProfile:enum": "Microsoft.Devices.ConnectionProfile",
+      "@azure/arm-iothub!KnownDeviceRegistryIdentityType:enum": "Microsoft.Devices.DeviceRegistryIdentityType",
+      "@azure/arm-iothub!KnownDeviceRegistryLinkingState:enum": "Microsoft.Devices.DeviceRegistryLinkingState",
       "@azure/arm-iothub!KnownGatewayVersion:enum": "Microsoft.Devices.GatewayVersion",
       "@azure/arm-iothub!KnownIotHubSku:enum": "Microsoft.Devices.IotHubSku",
       "@azure/arm-iothub!KnownIotHubSkuTier:enum": "Microsoft.Devices.IotHubSkuTier",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the NSP logging configuration.
  *
  * @summary lists the NSP logging configuration.
- * x-ms-original-file: 2026-01-01/NspLoggingConfigurationList.json
+ * x-ms-original-file: 2026-03-01/NspLoggingConfigurationList.json
  */
 async function nspLoggingConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

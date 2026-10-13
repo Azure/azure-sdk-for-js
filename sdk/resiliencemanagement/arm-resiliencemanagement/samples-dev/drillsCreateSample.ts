@@ -8,15 +8,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Drill
  *
  * @summary create a Drill
- * x-ms-original-file: 2026-08-31-preview/Drills_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Drills_Create_MaximumSet_Gen.json
  */
 async function drillsCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const result = await client.drills.create("sampleServiceGroupName", "drill1", {
     properties: {
+      executionState: "NotRunning",
       rbacSetupMode: "AutomatedCustomRole",
-      drillType: "DrillProperties",
+      systemMetadata: { initialConfig: "Pending" },
+      drillType: "Zonal",
+      lastRunProperties: {},
+      executionReadinessState: "Ready",
       recoveryPlanProperties: {
         identity: {
           type: "UserAssigned",
@@ -54,8 +58,8 @@ async function drillsCreateMaximumSet(): Promise<void> {
           userAssignedIdentity:
             "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
         },
-        discoveryRuleId:
-          "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourceGroups/contoso-health/providers/Microsoft.CloudHealth/healthmodels/contoso-payments-hm/discoveryrules/payments-frontend-rule",
+        healthModelId:
+          "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourceGroups/contoso-health/providers/Microsoft.CloudHealth/healthmodels/contoso-payments-hm",
       },
       sliMonitoringProperties: {
         identity: {
@@ -75,6 +79,13 @@ async function drillsCreateMaximumSet(): Promise<void> {
             type: "Latency",
           },
         ],
+      },
+      goalAssignmentProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
       },
     },
     identity: { type: "None", userAssignedIdentities: {} },

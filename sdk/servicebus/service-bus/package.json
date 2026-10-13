@@ -124,7 +124,7 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "events": "^3.0.0",
-    "https-proxy-agent": "^7.0.0",
+    "https-proxy-agent": "^9.1.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "react-native": "catalog:testing",

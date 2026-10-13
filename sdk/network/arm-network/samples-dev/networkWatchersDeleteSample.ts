@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified network watcher resource.
  *
  * @summary deletes the specified network watcher resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherDelete.json
  */
 async function deleteNetworkWatcher(): Promise<void> {
   const credential = new DefaultAzureCredential();

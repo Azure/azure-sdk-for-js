@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags of the specified connection monitor.
  *
  * @summary update tags of the specified connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorUpdateTags.json
  */
 async function updateConnectionMonitorTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

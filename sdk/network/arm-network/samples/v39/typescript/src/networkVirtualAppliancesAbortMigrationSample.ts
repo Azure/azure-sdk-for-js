@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aborts an in-progress migration of the specified Network Virtual Appliance and rolls back to the previous state.
  *
  * @summary aborts an in-progress migration of the specified Network Virtual Appliance and rolls back to the previous state.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceAbortMigration.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceAbortMigration.json
  */
 async function abortMigrationOfANetworkVirtualApplianceToTheNewILBArchitecture(): Promise<void> {
   const credential = new DefaultAzureCredential();

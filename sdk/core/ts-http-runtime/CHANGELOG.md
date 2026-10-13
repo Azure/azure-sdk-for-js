@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
 - Added opt-in `Expect: 100-continue` negotiation to the built-in Node HTTP/1 transport, including lazy uploads, a fixed 1,000 ms fallback, readable early final responses, and one-shot stream replay protection. HTTP 417 returns normally without automatic recovery. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
 
 ### Breaking Changes
@@ -13,6 +14,8 @@
 - Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
 
 ### Other Changes
+
+- Upgraded the `http-proxy-agent` dependency to version `9.1.0`. [Issue #37669](https://github.com/Azure/azure-sdk-for-js/issues/37669)
 
 ## 0.3.9 (2026-09-03)
 

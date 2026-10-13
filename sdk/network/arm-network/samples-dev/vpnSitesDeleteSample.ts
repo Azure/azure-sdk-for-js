@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a VpnSite.
  *
  * @summary deletes a VpnSite.
- * x-ms-original-file: 2026-01-01/VpnSiteDelete.json
+ * x-ms-original-file: 2026-03-01/VpnSiteDelete.json
  */
 async function vpnSiteDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
