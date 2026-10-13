@@ -17,9 +17,6 @@
   `KeyVaultEkmConnectivityMode.PRIVATE_ENDPOINT` to reach the EKM proxy through an EKM proxy private endpoint, in which
   case `host` is the name of the private endpoint instead of a DNS name or IP address.
 
-### Bugs Fixed
-
-
 ### Other Changes
 
 - Key Vault API version `2026-07-01-preview` is now the default.
