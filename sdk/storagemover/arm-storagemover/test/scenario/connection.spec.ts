@@ -8,9 +8,9 @@
 // `Q:\source\azure-sdk-for-python\sdk\storagemover\azure-mgmt-storagemover\tests\test_storage_mover_mgmt_connections_operations_test.py`.
 //
 // Exercises Storage Mover Connection CRUD (create / get / list / update / delete)
-// against the **real** shared PrivateLinkService `test-pls-wcs` in the shared
-// XDataMove-Synthetics subscription. The PLS lives in `westcentralus`, so the
-// storage mover must too.
+// against a shared PrivateLinkService in the XDataMove-Synthetics subscription.
+// Defaults match the recorded `test-pls-wcs` in `westcentralus`; live runs can
+// select an approved replacement using the settings documented in sample.env.
 //
 // Intentionally does NOT assert on `connectionStatus` — it'll be `Pending`
 // immediately after create because the PLS-side PE provisioning is async.
@@ -23,7 +23,7 @@ import type { StorageMoverClient } from "../../src/index.js";
 import {
   PLS_NAME,
   REAL_PRIVATE_LINK_SERVICE_ID,
-  WCUS_LOCATION,
+  C2C_TEST_LOCATION,
   createStorageMover,
   deleteResourceGroup,
   getSubscriptionId,
@@ -33,8 +33,7 @@ import {
 } from "./testHelper.js";
 
 // Per-spec hardcoded RG name — stable across record/playback like the other
-// scenario specs in this directory. WCUS so the mover can attach to the
-// westcentralus PLS.
+// scenario specs in this directory.
 const RESOURCE_GROUP_NAME = "testsmrg-js-conn";
 
 // Suffix used to assert on the returned PLS resource ID. Recorder sanitization
@@ -51,7 +50,7 @@ describe("ConnectionTests", () => {
 
   beforeAll(async () => {
     subscriptionId = getSubscriptionId();
-    await provisionResourceGroup(subscriptionId, RESOURCE_GROUP_NAME, WCUS_LOCATION);
+    await provisionResourceGroup(subscriptionId, RESOURCE_GROUP_NAME, C2C_TEST_LOCATION);
   });
 
   afterAll(async () => {
@@ -83,7 +82,7 @@ describe("ConnectionTests", () => {
       storageMoverName,
       "scenario-test storage mover (Connection CRUD)",
       undefined,
-      WCUS_LOCATION,
+      C2C_TEST_LOCATION,
     );
 
     // Create.
