@@ -4,6 +4,7 @@
 import http from "node:http";
 import https from "node:https";
 import zlib from "node:zlib";
+import { types } from "node:util";
 import { Transform } from "node:stream";
 import { AbortError } from "./abort-controller/AbortError.js";
 import type {
@@ -54,8 +55,12 @@ function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   });
 }
 
-function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
-  return body && typeof body.byteLength === "number";
+function isArrayBuffer(body: any): body is ArrayBuffer {
+  return types.isArrayBuffer(body);
+}
+
+function isArrayBufferView(body: any): body is ArrayBufferView {
+  return ArrayBuffer.isView(body);
 }
 
 function isHeaderObject(
@@ -402,10 +407,10 @@ class NodeHttpClient implements HttpClient {
             if (sourceOwned && isReadableStream(body)) disposeBodyStream(body);
             return;
           }
-          if (body && isArrayBuffer(body) && !Buffer.isBuffer(body)) {
-            body = ArrayBuffer.isView(body)
-              ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
-              : Buffer.from(body);
+          if (body && isArrayBuffer(body)) {
+            body = Buffer.from(body);
+          } else if (isArrayBufferView(body)) {
+            body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
           }
           if (isReadableStream(body)) {
             source = body;
@@ -606,7 +611,7 @@ export function getBodyLength(body: RequestBodyType): number | null {
     return body.length;
   } else if (isReadableStream(body)) {
     return null;
-  } else if (isArrayBuffer(body)) {
+  } else if (isArrayBuffer(body) || isArrayBufferView(body)) {
     return body.byteLength;
   } else if (typeof body === "string") {
     return Buffer.from(body).length;
