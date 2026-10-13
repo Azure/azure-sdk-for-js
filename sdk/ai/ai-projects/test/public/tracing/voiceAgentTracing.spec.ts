@@ -1,0 +1,849 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { afterEach, beforeEach, describe, expect, expectTypeOf, it, vi } from "vitest";
+import { trace, SpanStatusCode } from "@opentelemetry/api";
+import type {
+  Attributes,
+  Context,
+  Link,
+  Span,
+  SpanContext,
+  SpanOptions,
+  SpanStatus,
+  TimeInput,
+  Tracer,
+} from "@opentelemetry/api";
+import { AIProjectClient, VoiceAgentRealtimeClient } from "@azure/ai-projects";
+import type { GenAITracingOptions, VoiceAgentRealtimeClientOptions } from "@azure/ai-projects";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
+  VoiceAgentWebSocketConnectOptions,
+  VoiceAgentWebSocketFactory,
+  VoiceAgentWebSocketHandlers,
+  VoiceAgentWebSocketTransport,
+} from "$internal/realtime/webSocketTransportLike.js";
+import { resolveTracingConfig } from "$internal/tracing/configuration.js";
+import * as metricHelpers from "$internal/tracing/metrics.js";
+
+vi.mock("$internal/tracing/metrics.js", () => ({
+  recordOperationDuration: vi.fn(),
+  recordTokenUsage: vi.fn(),
+}));
+
+let spans: RecordedSpan[] = [];
+
+class RecordedSpan implements Span {
+  public attributes: Attributes = {};
+  public events: { name: string; attributes?: Attributes }[] = [];
+  public status: SpanStatus = { code: SpanStatusCode.UNSET };
+  public endCount = 0;
+  public readonly id: string;
+  public readonly parentId?: string;
+
+  public constructor(
+    public name: string,
+    parent?: Context,
+  ) {
+    this.id = String(spans.length + 1).padStart(16, "0");
+    this.parentId = parent ? trace.getSpan(parent)?.spanContext().spanId : undefined;
+    spans.push(this);
+  }
+  public spanContext(): SpanContext {
+    return { traceId: "00000000000000000000000000000001", spanId: this.id, traceFlags: 1 };
+  }
+  public setAttribute(key: string, value: Attributes[string]): this {
+    this.attributes[key] = value;
+    return this;
+  }
+  public setAttributes(values: Attributes): this {
+    Object.assign(this.attributes, values);
+    return this;
+  }
+  public addEvent(name: string, attributes?: Attributes | TimeInput): this {
+    this.events.push({
+      name,
+      attributes:
+        typeof attributes === "object" &&
+        !Array.isArray(attributes) &&
+        !(attributes instanceof Date)
+          ? attributes
+          : undefined,
+    });
+    return this;
+  }
+  public addLink(_link: Link): this {
+    return this;
+  }
+  public addLinks(_links: Link[]): this {
+    return this;
+  }
+  public setStatus(status: SpanStatus): this {
+    this.status = status;
+    return this;
+  }
+  public updateName(name: string): this {
+    this.name = name;
+    return this;
+  }
+  public end(): void {
+    this.endCount++;
+  }
+  public isRecording(): boolean {
+    return this.endCount === 0;
+  }
+  public recordException(): void {}
+}
+
+const tracer: Tracer = {
+  startSpan: (name: string, _options?: SpanOptions, parent?: Context) =>
+    new RecordedSpan(name, parent),
+  startActiveSpan: () => {
+    throw new Error("Not used by this suite.");
+  },
+};
+const endpoint = "https://example.services.ai.azure.com/api/projects/test";
+const credential = {
+  getToken: async () => ({ token: "PRIVATE_TOKEN", expiresOnTimestamp: Infinity }),
+};
+const enabled: GenAITracingOptions = { experimental: true };
+
+class MockTransport implements VoiceAgentWebSocketTransport {
+  public handlers?: VoiceAgentWebSocketHandlers;
+  public options?: VoiceAgentWebSocketConnectOptions;
+  public connectError?: Error;
+  public sendError?: Error;
+  public setHandlers(handlers: VoiceAgentWebSocketHandlers): void {
+    this.handlers = handlers;
+  }
+  public async connect(options: VoiceAgentWebSocketConnectOptions): Promise<void> {
+    this.options = options;
+    if (this.connectError) throw this.connectError;
+    if (options.abortSignal?.aborted) throw new Error("aborted");
+  }
+  public async send(): Promise<void> {
+    if (this.sendError) throw this.sendError;
+  }
+  public async close(code: number, reason: string): Promise<void> {
+    this.handlers?.onClose(code, reason, code === 1000);
+  }
+  public receive(value: unknown): void {
+    this.handlers?.onMessage(JSON.stringify(value));
+  }
+}
+
+function client(tracingOptions: GenAITracingOptions | undefined = enabled): {
+  realtime: VoiceAgentRealtimeClient;
+  transport: MockTransport;
+} {
+  const transport = new MockTransport();
+  const factory: VoiceAgentWebSocketFactory = { create: () => transport };
+  const realtime = new AIProjectClient(endpoint, credential, {
+    realtimeOptions: { webSocketFactory: factory },
+    tracingOptions,
+  }).beta.voiceAgents.realtime;
+  return { realtime, transport };
+}
+
+function session(transport: MockTransport): void {
+  transport.receive({
+    type: "session.created",
+    event_id: "event-session",
+    conversation_id: "conv-1",
+    session: {
+      id: "sess-1",
+      object: "realtime.session",
+      type: "realtime",
+      model: "voice-model",
+      instructions: "PRIVATE_INSTRUCTIONS",
+    },
+  });
+}
+
+function created(transport: MockTransport, id = "resp-1"): void {
+  transport.receive({
+    type: "response.created",
+    event_id: `event-${id}`,
+    response: { id, status: "in_progress", conversation_id: "conv-1" },
+  });
+}
+
+function done(transport: MockTransport, status = "completed", id = "resp-1"): void {
+  transport.receive({
+    type: "response.done",
+    event_id: `event-done-${id}`,
+    response: {
+      id,
+      status,
+      conversation_id: "conv-1",
+      output_modalities: ["audio"],
+      usage: { input_tokens: 7, output_tokens: 12 },
+    },
+  });
+}
+
+function span(name: string): RecordedSpan {
+  const found = spans.find((value) => value.name === name);
+  if (!found) throw new Error(`No span ${name}`);
+  return found;
+}
+
+describe("Voice Agents tracing", () => {
+  beforeEach(() => {
+    spans = [];
+    vi.spyOn(trace, "getTracer").mockReturnValue(tracer);
+    vi.mocked(metricHelpers.recordOperationDuration).mockClear();
+    vi.mocked(metricHelpers.recordTokenUsage).mockClear();
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("uses the existing experimental tracing gate", async () => {
+    vi.stubEnv("AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING", "false");
+    for (const options of [{}, { experimental: false }]) {
+      const { realtime } = client(options);
+      await (await realtime.connect("voice")).close();
+    }
+    expect(spans).toHaveLength(0);
+    expect(resolveTracingConfig({ experimental: true }).enabled).toBe(true);
+    expect(resolveTracingConfig({ experimental: false }).enabled).toBe(false);
+  });
+
+  it("inherits project tracing for connection and response parentage", async () => {
+    const { realtime, transport } = client(enabled);
+    expect(spans).toHaveLength(0);
+    const connection = await realtime.connect("voice", {
+      structuredInputs: { secret: "PRIVATE_INPUT" },
+      query: { custom: "PRIVATE_QUERY" },
+    });
+    session(transport);
+    created(transport);
+    done(transport);
+    await connection.close(1000, "PRIVATE_CLOSE_REASON");
+    expect(span("voice_agents.realtime.connect").parentId).toBe(
+      span("voice_agents.realtime.session").id,
+    );
+    expect(span("invoke_agent").parentId).toBe(span("voice_agents.realtime.session").id);
+    expect(span("invoke_agent").attributes).toMatchObject({
+      "gen_ai.provider.name": "microsoft.foundry",
+      "gen_ai.operation.name": "invoke_agent",
+      "gen_ai.request.model": "voice-model",
+      "gen_ai.response.id": "resp-1",
+      "gen_ai.usage.input_tokens": 7,
+      "gen_ai.usage.output_tokens": 12,
+      "az.ai.voice_agents.response.status": "completed",
+    });
+    expect(metricHelpers.recordTokenUsage).toHaveBeenCalledWith(
+      7,
+      12,
+      expect.objectContaining({ operationName: "invoke_agent", responseModel: "voice-model" }),
+    );
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("keeps tracing configuration private to each project", async () => {
+    const withoutTracing = client({ experimental: false });
+    const withTracing = client(enabled);
+    await (await withoutTracing.realtime.connect("voice")).close();
+    expect(spans).toHaveLength(0);
+    await (await withTracing.realtime.connect("voice")).close();
+    expect(spans).toHaveLength(2);
+    spans = [];
+    const transport = new MockTransport();
+    const standalone = new VoiceAgentRealtimeClient(endpoint, credential, {
+      webSocketFactory: { create: () => transport },
+    });
+    await (await standalone.connect("voice")).close();
+    expect(spans).toHaveLength(0);
+  });
+
+  it("preserves the existing public realtime options", () => {
+    expectTypeOf<VoiceAgentRealtimeClientOptions>().not.toHaveProperty("tracingOptions");
+  });
+
+  it("captures text/audio/tool structure without contents and without chunk events", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    session(transport);
+    await connection.sendText("PRIVATE_TEXT", { createResponse: false });
+    expect(
+      JSON.parse(String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"])),
+    ).toEqual([{ role: "user", parts: [{ type: "text" }] }]);
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    await connection.sendAudio(new Uint8Array([4]));
+    created(transport);
+    for (let i = 0; i < 100; i++) {
+      transport.receive({
+        type: "response.output_audio.delta",
+        event_id: `audio-${i}`,
+        response_id: "resp-1",
+        item_id: "item-1",
+        delta: "AQID",
+        output_index: 0,
+        content_index: 0,
+      });
+    }
+    transport.receive({
+      type: "response.output_text.done",
+      event_id: "text-done",
+      response_id: "resp-1",
+      item_id: "item-1",
+      text: "PRIVATE_RESPONSE",
+      output_index: 0,
+      content_index: 0,
+    });
+    transport.receive({
+      type: "response.function_call_arguments.done",
+      event_id: "tool-done",
+      response_id: "resp-1",
+      call_id: "tool-1",
+      item_id: "item-2",
+      name: "PRIVATE_TOOL",
+      arguments: '{"secret":"PRIVATE_ARGUMENT"}',
+      output_index: 1,
+    });
+    transport.receive({
+      type: "response.output_audio.done",
+      event_id: "audio-done",
+      response_id: "resp-1",
+      item_id: "item-1",
+      output_index: 0,
+      content_index: 0,
+    });
+    done(transport);
+    await connection.sendToolOutput("tool-1", "PRIVATE_TOOL_RESULT", { createResponse: false });
+    await connection.close();
+    expect(spans).toHaveLength(3);
+    expect(span("invoke_agent").attributes["az.ai.voice_agents.output.audio.bytes"]).toBe(300);
+    expect(
+      span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.audio.bytes"],
+    ).toBe(4);
+    expect(span("invoke_agent").events).toHaveLength(1);
+    expect(span("invoke_agent").attributes["gen_ai.output.messages"]).toBeDefined();
+    expect(String(span("invoke_agent").attributes["gen_ai.output.messages"])).toContain(
+      '"type":"audio"',
+    );
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("records bounded text/transcript/tool content only when explicitly enabled", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendText("recorded text", { createResponse: false });
+    created(transport);
+    transport.receive({
+      type: "response.output_audio_transcript.done",
+      event_id: "transcript-done",
+      response_id: "resp-1",
+      item_id: "item-1",
+      transcript: "recorded transcript",
+      output_index: 0,
+      content_index: 0,
+    });
+    done(transport);
+    await connection.close();
+    expect(
+      String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+    ).toContain("recorded text");
+    expect(String(span("invoke_agent").attributes["gen_ai.output.messages"])).toContain(
+      "recorded transcript",
+    );
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE_TOKEN");
+  });
+
+  it("bounds captured content and includes a local tool result only with content opt-in", async () => {
+    const { realtime } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendText("x".repeat(10_000), { createResponse: false });
+    const summary = String(
+      span("voice_agents.realtime.session").attributes["gen_ai.input.messages"],
+    );
+    expect(summary.length).toBeLessThan(4200);
+    await connection.sendToolOutput("tool-1", "recorded result", { createResponse: false });
+    expect(
+      String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+    ).toContain("recorded result");
+    await connection.close();
+  });
+
+  it.each([false, true])(
+    "merges audio completion and transcript for the same part (transcriptFirst=%s)",
+    async (transcriptFirst) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      created(transport);
+      const audio = {
+        type: "response.output_audio.done",
+        event_id: "audio-done",
+        response_id: "resp-1",
+        item_id: "item-1",
+        output_index: 0,
+        content_index: 0,
+      };
+      const transcript = {
+        ...audio,
+        type: "response.output_audio_transcript.done",
+        event_id: "transcript-done",
+        transcript: "Hello.",
+      };
+      for (const event of transcriptFirst ? [transcript, audio] : [audio, transcript]) {
+        transport.receive(event);
+      }
+      done(transport);
+      await connection.close();
+      expect(JSON.parse(String(span("invoke_agent").attributes["gen_ai.output.messages"]))).toEqual(
+        [{ role: "assistant", parts: [{ type: "audio", content: "Hello." }] }],
+      );
+    },
+  );
+
+  it("ends tracing on authentication and malformed-event failures", async () => {
+    const transport = new MockTransport();
+    const badCredential = {
+      getToken: async () => {
+        throw new Error("PRIVATE_AUTH_FAILURE");
+      },
+    };
+    const realtime = new AIProjectClient(endpoint, badCredential, {
+      tracingOptions: enabled,
+      realtimeOptions: { webSocketFactory: { create: () => transport } },
+    }).beta.voiceAgents.realtime;
+    await expect(realtime.connect("voice")).rejects.toMatchObject({ code: "authenticationFailed" });
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    spans = [];
+    const next = client();
+    const connection = await next.realtime.connect("voice");
+    created(next.transport);
+    next.transport.handlers?.onMessage("{");
+    await connection.closed;
+    expect(span("invoke_agent").status.code).toBe(SpanStatusCode.ERROR);
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+  });
+
+  it("preserves distinct items with identical content-free summaries", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    created(transport);
+    const output = ["item-1", "item-2"].map((id) => ({
+      id,
+      type: "message",
+      role: "assistant",
+      content: [{ type: "output_text", text: "PRIVATE_TEXT" }],
+    }));
+    for (const item of output) {
+      transport.receive({
+        type: "response.output_text.done",
+        event_id: `done-${item.id}`,
+        response_id: "resp-1",
+        item_id: item.id,
+        output_index: 0,
+        content_index: 0,
+        text: "PRIVATE_TEXT",
+      });
+    }
+    transport.receive({
+      type: "response.done",
+      event_id: "response-done",
+      response: { id: "resp-1", status: "completed", output },
+    });
+    await connection.close();
+    expect(JSON.parse(String(span("invoke_agent").attributes["gen_ai.output.messages"]))).toEqual([
+      { role: "assistant", parts: [{ type: "text" }] },
+      { role: "assistant", parts: [{ type: "text" }] },
+    ]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("uses final multipart output once, reconciling observed parts by item identity", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    created(transport);
+    for (const content_index of [1, 0]) {
+      transport.receive({
+        type: "response.output_text.done",
+        event_id: `done-${content_index}`,
+        response_id: "resp-1",
+        item_id: "item-1",
+        output_index: 0,
+        content_index,
+        text: `part-${content_index}`,
+      });
+    }
+    transport.receive({
+      type: "response.done",
+      event_id: "response-done",
+      response: {
+        id: "resp-1",
+        status: "completed",
+        output: [
+          {
+            id: "item-1",
+            type: "message",
+            role: "assistant",
+            content: [
+              { type: "output_text", text: "part-0" },
+              { type: "output_text", text: "part-1" },
+            ],
+          },
+        ],
+      },
+    });
+    await connection.close();
+    expect(JSON.parse(String(span("invoke_agent").attributes["gen_ai.output.messages"]))).toEqual([
+      {
+        role: "assistant",
+        parts: [
+          { type: "text", content: "part-0" },
+          { type: "text", content: "part-1" },
+        ],
+      },
+    ]);
+  });
+
+  it("reconciles final function output by call ID when the item ID is omitted", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    created(transport);
+    transport.receive({
+      type: "response.function_call_arguments.done",
+      event_id: "tool-request",
+      response_id: "resp-1",
+      item_id: "item-1",
+      output_index: 0,
+      call_id: "tool-1",
+      name: "PRIVATE_TOOL",
+      arguments: "{}",
+    });
+    transport.receive({
+      type: "response.done",
+      event_id: "response-done",
+      response: {
+        id: "resp-1",
+        status: "completed",
+        output: [
+          { type: "function_call", call_id: "tool-1", name: "PRIVATE_TOOL", arguments: "{}" },
+        ],
+      },
+    });
+    await connection.close();
+    expect(JSON.parse(String(span("invoke_agent").attributes["gen_ai.output.messages"]))).toEqual([
+      { role: "assistant", parts: [{ type: "tool_call", id: "tool-1" }] },
+    ]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it.each([false, true])(
+    "retains known audio measurements on interruption (unexpected=%s)",
+    async (unexpected) => {
+      let now = 0;
+      vi.spyOn(performance, "now").mockImplementation(() => now);
+      const { realtime, transport } = client();
+      const connection = await realtime.connect("voice");
+      created(transport);
+      now = 100;
+      transport.receive({
+        type: "response.output_audio.delta",
+        event_id: "audio",
+        response_id: "resp-1",
+        item_id: "item-1",
+        delta: "AQID",
+        output_index: 0,
+        content_index: 0,
+      });
+      now = 200;
+      if (unexpected) transport.handlers?.onClose(1006, "PRIVATE_ERROR", false);
+      else await connection.close();
+      await connection.closed;
+      expect(span("invoke_agent").attributes).toMatchObject({
+        "az.ai.voice_agents.response.status": "interrupted",
+        "az.ai.voice_agents.output.audio.bytes": 3,
+        "az.ai.voice_agents.response.time_to_first_audio_seconds": 0.1,
+      });
+      expect(span("invoke_agent").endCount).toBe(1);
+      expect(metricHelpers.recordTokenUsage).not.toHaveBeenCalled();
+      expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    },
+  );
+
+  it("keeps send failures recoverable while recording their safe category", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    transport.sendError = new Error("PRIVATE_SEND_ERROR");
+    await expect(connection.sendText("PRIVATE_TEXT")).rejects.toMatchObject({ code: "sendFailed" });
+    expect(connection.state).toBe("connected");
+    transport.sendError = undefined;
+    await connection.close();
+    expect(span("voice_agents.realtime.session").events).toContainEqual({
+      name: "voice_agents.send.failed",
+      attributes: { "error.type": "Error" },
+    });
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("does not change REST results or create spans when tracing is disabled", async () => {
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return { request, status: 204, headers: createHttpHeaders() };
+      },
+    };
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: { experimental: false },
+      httpClient,
+    });
+    await project.beta.voiceAgents.telephony.deleteBinding("voice", "binding", "*");
+    await project.beta.voiceAgents.conversations.delete("voice", "conversation");
+    expect(spans).toHaveLength(0);
+  });
+
+  it("records REST failures without recording service error messages", async () => {
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return {
+          request,
+          status: 400,
+          headers: createHttpHeaders({ "content-type": "application/json" }),
+          bodyAsText: JSON.stringify({
+            error: { code: "invalid_request", message: "PRIVATE_REST_ERROR" },
+          }),
+        };
+      },
+    };
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: enabled,
+      httpClient,
+      retryOptions: { maxRetries: 0 },
+    });
+    await expect(
+      project.beta.agents.createFromPrompt({ kind: "voice", name: "voice" }),
+    ).rejects.toMatchObject({ statusCode: 400 });
+    expect(span("create_agent").attributes["http.response.status_code"]).toBe(400);
+    expect(span("create_agent").status.code).toBe(SpanStatusCode.ERROR);
+    expect(span("create_agent").endCount).toBe(1);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("measures received-first-audio from response.created without assuming playback time", async () => {
+    let now = 0;
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    created(transport);
+    now = 100;
+    transport.receive({
+      type: "response.output_audio.delta",
+      event_id: "empty-audio",
+      response_id: "resp-1",
+      item_id: "item-1",
+      delta: "",
+      output_index: 0,
+      content_index: 0,
+    });
+    now = 200;
+    transport.receive({
+      type: "response.output_audio.delta",
+      event_id: "audio",
+      response_id: "resp-1",
+      item_id: "item-1",
+      delta: "AQID",
+      output_index: 0,
+      content_index: 0,
+    });
+    now = 500;
+    done(transport);
+    await connection.close();
+    expect(
+      span("invoke_agent").attributes["az.ai.voice_agents.response.time_to_first_audio_seconds"],
+    ).toBe(0.2);
+    expect(metricHelpers.recordOperationDuration).toHaveBeenCalledWith(
+      0.5,
+      expect.objectContaining({ operationName: "invoke_agent" }),
+    );
+  });
+
+  it.each(["completed", "cancelled", "incomplete", "failed"])(
+    "preserves terminal response status %s",
+    async (status) => {
+      const { realtime, transport } = client();
+      const connection = await realtime.connect("voice");
+      created(transport);
+      done(transport, status);
+      done(transport, status);
+      await connection.close();
+      expect(span("invoke_agent").endCount).toBe(1);
+      expect(span("invoke_agent").status.code).toBe(
+        status === "failed"
+          ? SpanStatusCode.ERROR
+          : status === "completed"
+            ? SpanStatusCode.OK
+            : SpanStatusCode.UNSET,
+      );
+      expect(span("voice_agents.realtime.session").status.code).toBe(SpanStatusCode.UNSET);
+      expect(metricHelpers.recordTokenUsage).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it("records recoverable errors and MCP/subagent milestones without payloads", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    transport.receive({
+      type: "error",
+      event_id: "error",
+      error: {
+        type: "invalid_request_error",
+        code: "PRIVATE_ERROR_CODE",
+        message: "PRIVATE_ERROR",
+      },
+    });
+    transport.receive({
+      type: "response.mcp_call.completed",
+      event_id: "mcp",
+      item_id: "mcp-1",
+      output_index: 0,
+    });
+    transport.receive({
+      type: "session.subagent.completed",
+      event_id: "sub",
+      consultation_id: "consult-1",
+      call_id: "tool-1",
+      subagent_name: "PRIVATE_SUBAGENT",
+    });
+    expect(connection.state).toBe("connected");
+    await connection.close();
+    expect(span("voice_agents.realtime.session").events.map((event) => event.name)).toEqual([
+      "voice_agents.server_error",
+      "response.mcp_call.completed",
+      "session.subagent.completed",
+    ]);
+    expect(span("voice_agents.realtime.session").status.code).toBe(SpanStatusCode.UNSET);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("ends all active spans once on unexpected disconnect", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    created(transport);
+    transport.handlers?.onClose(1006, "PRIVATE_ERROR", false);
+    await connection.closed;
+    await connection.close();
+    expect(span("invoke_agent").attributes["az.ai.voice_agents.response.status"]).toBe(
+      "interrupted",
+    );
+    expect(span("invoke_agent").status.code).toBe(SpanStatusCode.ERROR);
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("ends connection spans on authentication/handshake failure and aborted connect", async () => {
+    const { realtime, transport } = client();
+    transport.connectError = new Error("PRIVATE_HANDSHAKE");
+    await expect(realtime.connect("voice")).rejects.toMatchObject({ code: "connectionFailed" });
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+    expect(span("voice_agents.realtime.connect").status.code).toBe(SpanStatusCode.ERROR);
+    spans = [];
+    const next = client();
+    const controller = new AbortController();
+    controller.abort();
+    await expect(
+      next.realtime.connect("voice", { abortSignal: controller.signal }),
+    ).rejects.toMatchObject({ code: "operationCancelled" });
+    expect(span("voice_agents.realtime.session").status.code).toBe(SpanStatusCode.UNSET);
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+  });
+
+  it("does not invent spans for missing response.created or unknown events", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    done(transport);
+    transport.receive({ type: "PRIVATE_UNKNOWN_TYPE", secret: "PRIVATE_BODY" });
+    await connection.close();
+    expect(spans).toHaveLength(2);
+    expect(metricHelpers.recordTokenUsage).not.toHaveBeenCalled();
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("bounds pending response state and still closes all tracked spans", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    for (let i = 0; i < 100; i++) created(transport, `resp-${i}`);
+    await connection.close();
+    expect(spans.filter((value) => value.name === "invoke_agent")).toHaveLength(64);
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+  });
+
+  it("does not break SDK operations when a tracing provider throws", async () => {
+    vi.mocked(trace.getTracer).mockImplementation(() => {
+      throw new Error("PRIVATE_PROVIDER_ERROR");
+    });
+    const { realtime } = client();
+    await (await realtime.connect("voice")).close();
+  });
+
+  it("traces beta generation and telephony acceptance without bodies", async () => {
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        const generate = request.url.includes("agents:generate");
+        return {
+          request,
+          status: generate ? 200 : 202,
+          headers: createHttpHeaders({ "content-type": "application/json" }),
+          bodyAsText: JSON.stringify(
+            generate
+              ? {
+                  id: "agent-1",
+                  name: "voice",
+                  object: "agent",
+                  versions: {
+                    latest: {
+                      id: "version-1",
+                      name: "voice",
+                      version: "1",
+                      created_at: 1,
+                      definition: { kind: "voice", model_type: "managed" },
+                    },
+                  },
+                }
+              : {
+                  id: "job-1",
+                  object: "telephony.call_job",
+                  status: "accepted",
+                  destination: { type: "phone_number", value: "+15555550100" },
+                  source: "+15555550200",
+                  agent_name: "voice",
+                  created_at: 1,
+                  updated_at: 1,
+                  retry_policy: { type: "none" },
+                },
+          ),
+        };
+      },
+    };
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: enabled,
+      httpClient,
+      retryOptions: { maxRetries: 0 },
+    });
+    await project.beta.agents.createFromPrompt({
+      kind: "voice",
+      name: "voice",
+      goal: "PRIVATE_GOAL",
+    });
+    await project.beta.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
+      connection_name: "PRIVATE_CONNECTION",
+      source: "+15555550200",
+      destination: { type: "phone_number", value: "+15555550100" },
+    });
+    expect(span("create_agent").attributes["gen_ai.operation.name"]).toBe("create_agent");
+    expect(span("voice_agents.telephony.create_call_job").attributes).toMatchObject({
+      "az.ai.voice_agents.call_job.status": "accepted",
+      "az.ai.voice_agents.telephony.call_job.id": "job-1",
+    });
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    expect(JSON.stringify(spans)).not.toContain("+1555");
+  });
+});
