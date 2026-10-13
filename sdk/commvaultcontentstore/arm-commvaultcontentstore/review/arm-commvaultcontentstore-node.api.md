@@ -102,13 +102,6 @@ export interface CloudAccountPropertiesCreateOrUpdate {
 }
 
 // @public
-export interface CloudAccountPropertiesUpdate {
-    company?: CompanyProfile;
-    marketplace: MarketplaceDetailsUpdate;
-    user: UserDetails;
-}
-
-// @public
 export interface CloudAccountsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -148,7 +141,7 @@ export interface CloudAccountsOperations {
     linkSaaS: (resourceGroupName: string, cloudAccountName: string, body: SaaSData, options?: CloudAccountsLinkSaaSOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
     listByResourceGroup: (resourceGroupName: string, options?: CloudAccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
     listBySubscription: (options?: CloudAccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
-    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
+    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdateUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
 // @public
@@ -157,9 +150,31 @@ export interface CloudAccountsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudAccountUpdate extends TrackedResourceUpdate {
+export interface CloudAccountUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: CloudAccountUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudAccountUpdateProperties {
+    company?: CompanyProfile;
+    marketplace?: MarketplaceDetails;
+    user?: UserDetails;
+}
+
+// @public
+export interface CloudAccountUpdatePropertiesUpdate {
+    company?: CompanyProfile;
+    marketplace?: MarketplaceDetailsUpdate;
+    user?: UserDetails;
+}
+
+// @public
+export interface CloudAccountUpdateUpdate {
     identity?: ManagedServiceIdentityUpdate;
-    properties?: CloudAccountPropertiesUpdate;
+    properties?: CloudAccountUpdatePropertiesUpdate;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -809,10 +824,6 @@ export interface ResourceCreateOrUpdate {
 // @public
 export type ResourceProvisioningState = string;
 
-// @public
-export interface ResourceUpdate {
-}
-
 export { RestError }
 
 // @public
@@ -1066,11 +1077,6 @@ export interface TrackedResource extends Resource {
 // @public
 export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
     location: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface TrackedResourceUpdate extends ResourceUpdate {
     tags?: Record<string, string>;
 }
 

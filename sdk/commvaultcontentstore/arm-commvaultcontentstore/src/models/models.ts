@@ -610,6 +610,48 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** The type used for update operations of the CloudAccount. */
+export interface CloudAccountUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountUpdateProperties;
+}
+
+export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the CloudAccount. */
+export interface CloudAccountUpdateProperties {
+  /** Marketplace details of the resource. */
+  marketplace?: MarketplaceDetails;
+  /** Details of the user. */
+  user?: UserDetails;
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
+}
+
+export function cloudAccountUpdatePropertiesSerializer(item: CloudAccountUpdateProperties): any {
+  return {
+    marketplace: !item["marketplace"]
+      ? item["marketplace"]
+      : marketplaceDetailsSerializer(item["marketplace"]),
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+  };
+}
+
 /** The response of a CloudAccount list operation. */
 export interface _CloudAccountListResult {
   /** The CloudAccount items on this page */
@@ -2398,41 +2440,25 @@ export function trackedResourceCreateOrUpdateSerializer(item: TrackedResourceCre
   return { tags: item["tags"], location: item["location"] };
 }
 
-/** A Commvault Cloud Account Resource */
-export interface CloudAccountUpdate extends TrackedResourceUpdate {
-  /** The resource-specific properties for this resource. */
-  properties?: CloudAccountPropertiesUpdate;
+/** The type used for update operations of the CloudAccount. */
+export interface CloudAccountUpdateUpdate {
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentityUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountUpdatePropertiesUpdate;
 }
 
-export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
+export function cloudAccountUpdateUpdateSerializer(item: CloudAccountUpdateUpdate): any {
   return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : cloudAccountPropertiesUpdateSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityUpdateSerializer(item["identity"]),
-  };
-}
-
-/** Properties specific to Commvault Cloud Account resource */
-export interface CloudAccountPropertiesUpdate {
-  /** Marketplace details of the resource. */
-  marketplace: MarketplaceDetailsUpdate;
-  /** Details of the user. */
-  user: UserDetails;
-  /** Optional company details for the cloud account */
-  company?: CompanyProfile;
-}
-
-export function cloudAccountPropertiesUpdateSerializer(item: CloudAccountPropertiesUpdate): any {
-  return {
-    marketplace: marketplaceDetailsUpdateSerializer(item["marketplace"]),
-    user: userDetailsSerializer(item["user"]),
-    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountUpdatePropertiesUpdateSerializer(item["properties"]),
   };
 }
 
@@ -2455,21 +2481,26 @@ export function userAssignedIdentityUpdateSerializer(_item: UserAssignedIdentity
   return {};
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResourceUpdate extends ResourceUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
+/** The updatable properties of the CloudAccount. */
+export interface CloudAccountUpdatePropertiesUpdate {
+  /** Marketplace details of the resource. */
+  marketplace?: MarketplaceDetailsUpdate;
+  /** Details of the user. */
+  user?: UserDetails;
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
 }
 
-export function trackedResourceUpdateSerializer(item: TrackedResourceUpdate): any {
-  return { tags: item["tags"] };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceUpdate {}
-
-export function resourceUpdateSerializer(_item: ResourceUpdate): any {
-  return {};
+export function cloudAccountUpdatePropertiesUpdateSerializer(
+  item: CloudAccountUpdatePropertiesUpdate,
+): any {
+  return {
+    marketplace: !item["marketplace"]
+      ? item["marketplace"]
+      : marketplaceDetailsUpdateSerializer(item["marketplace"]),
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+  };
 }
 
 /** Supported API versions for the Commvault.ContentStore resource provider. */

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-commvaultcontentstore",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for ContentStoreClient.",
   "engines": {
     "node": ">=22.0.0"

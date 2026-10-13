@@ -8,7 +8,7 @@ import type {
   SaaSData,
   LatestLinkedSaaSResponse,
   CloudAccountCreateOrUpdate,
-  CloudAccountUpdate,
+  CloudAccountUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -17,7 +17,7 @@ import {
   saaSDataSerializer,
   latestLinkedSaaSResponseDeserializer,
   cloudAccountCreateOrUpdateSerializer,
-  cloudAccountUpdateSerializer,
+  cloudAccountUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -305,7 +305,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  properties: CloudAccountUpdate,
+  properties: CloudAccountUpdateUpdate,
   options: CloudAccountsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -324,7 +324,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cloudAccountUpdateSerializer(properties),
+    body: cloudAccountUpdateUpdateSerializer(properties),
   });
 }
 
@@ -347,7 +347,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  properties: CloudAccountUpdate,
+  properties: CloudAccountUpdateUpdate,
   options: CloudAccountsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudAccount>, CloudAccount> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {

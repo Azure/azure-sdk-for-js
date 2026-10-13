@@ -24,6 +24,8 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  CloudAccountUpdate,
+  CloudAccountUpdateProperties,
   SaaSData,
   LatestLinkedSaaSResponse,
   ActivateSaaSParameterRequest,
@@ -92,12 +94,10 @@ export type {
   ManagedServiceIdentityCreateOrUpdate,
   UserAssignedIdentityCreateOrUpdate,
   TrackedResourceCreateOrUpdate,
-  CloudAccountUpdate,
-  CloudAccountPropertiesUpdate,
+  CloudAccountUpdateUpdate,
   ManagedServiceIdentityUpdate,
   UserAssignedIdentityUpdate,
-  TrackedResourceUpdate,
-  ResourceUpdate,
+  CloudAccountUpdatePropertiesUpdate,
 } from "./models.js";
 export {
   KnownOrigin,
