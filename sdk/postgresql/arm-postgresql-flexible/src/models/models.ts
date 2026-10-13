@@ -1591,7 +1591,7 @@ export interface Server extends TrackedResource {
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
   administratorLoginPassword?: string;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion;
+  version?: string;
   /** Minor version of PostgreSQL database engine. */
   readonly minorVersion?: string;
   /** Possible states of a server. */
@@ -1696,7 +1696,7 @@ export interface ServerProperties {
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
   administratorLoginPassword?: string;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion;
+  version?: string;
   /** Minor version of PostgreSQL database engine. */
   readonly minorVersion?: string;
   /** Possible states of a server. */
@@ -1809,45 +1809,6 @@ export function serverPropertiesDeserializer(item: any): ServerProperties {
     fipsMode: item["fipsMode"],
   };
 }
-
-/** Major version of PostgreSQL database engine. */
-export enum KnownPostgresMajorVersion {
-  /** PostgreSQL 19. */
-  PostgresMajorVersion19 = "19",
-  /** PostgreSQL 18. */
-  Eighteen = "18",
-  /** PostgreSQL 17. */
-  Seventeen = "17",
-  /** PostgreSQL 16. */
-  Sixteen = "16",
-  /** PostgreSQL 15. */
-  Fifteen = "15",
-  /** PostgreSQL 14. */
-  Fourteen = "14",
-  /** PostgreSQL 13. */
-  Thirteen = "13",
-  /** PostgreSQL 12. */
-  Twelve = "12",
-  /** PostgreSQL 11. */
-  Eleven = "11",
-}
-
-/**
- * Major version of PostgreSQL database engine. \
- * {@link KnownPostgresMajorVersion} can be used interchangeably with PostgresMajorVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **19**: PostgreSQL 19. \
- * **18**: PostgreSQL 18. \
- * **17**: PostgreSQL 17. \
- * **16**: PostgreSQL 16. \
- * **15**: PostgreSQL 15. \
- * **14**: PostgreSQL 14. \
- * **13**: PostgreSQL 13. \
- * **12**: PostgreSQL 12. \
- * **11**: PostgreSQL 11.
- */
-export type PostgresMajorVersion = string;
 
 /** State of a server. */
 export enum KnownServerState {
@@ -2901,7 +2862,7 @@ export interface ServerForPatch {
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
   administratorLoginPassword?: string;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion;
+  version?: string;
   /** Storage properties of a server. */
   storage?: Storage;
   /** Backup properties of a server. */
@@ -2981,7 +2942,7 @@ export interface ServerPropertiesForPatch {
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
   administratorLoginPassword?: string;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion;
+  version?: string;
   /** Storage properties of a server. */
   storage?: Storage;
   /** Backup properties of a server. */
@@ -3248,7 +3209,7 @@ export type NetworkMigrationState = string;
 /** Request model for starting a major version upgrade precheck. */
 export interface StartMajorVersionUpgradePrecheckRequest {
   /** The target major version to upgrade to. */
-  targetVersion: PostgresMajorVersion;
+  targetVersion: string;
 }
 
 export function startMajorVersionUpgradePrecheckRequestSerializer(
@@ -4082,7 +4043,7 @@ export interface MajorVersionUpgradePrecheckResourceProperties {
   /** The detailed result of the precheck operation. */
   precheckResult?: PrecheckResult;
   /** The target PostgreSQL major version for the upgrade. */
-  targetVersion?: PostgresMajorVersion;
+  targetVersion?: string;
   /** Array of policy validation details. */
   policyDetails?: PolicyDetail[];
 }
@@ -4128,9 +4089,9 @@ export function precheckResultDeserializer(item: any): PrecheckResult {
 /** Upgrade sequence information. */
 export interface UpgradeSequence {
   /** The source PostgreSQL version. */
-  sourceVersion?: PostgresMajorVersion;
+  sourceVersion?: string;
   /** The target PostgreSQL version. */
-  targetVersion?: PostgresMajorVersion;
+  targetVersion?: string;
 }
 
 export function upgradeSequenceDeserializer(item: any): UpgradeSequence {
@@ -4215,141 +4176,6 @@ export function majorVersionUpgradePrecheckResourceArrayDeserializer(
     return majorVersionUpgradePrecheckResourceDeserializer(item);
   });
 }
-
-/** The response of a DbAgent list operation. */
-export interface _DbAgentListResult {
-  /** The DbAgent items on this page */
-  value: DbAgent[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _dbAgentListResultDeserializer(item: any): _DbAgentListResult {
-  return {
-    value: dbAgentArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function dbAgentArrayDeserializer(result: Array<DbAgent>): any[] {
-  return result.map((item) => {
-    return dbAgentDeserializer(item);
-  });
-}
-
-/** The database agent configuration for a PostgreSQL flexible server. */
-export interface DbAgent extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DbAgentProperties;
-}
-
-export function dbAgentDeserializer(item: any): DbAgent {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : dbAgentPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of the database agent configuration. */
-export interface DbAgentProperties {
-  /** The state of the database agent. */
-  readonly state: DbAgentState;
-  /** The provisioning state of the database agent resource. */
-  readonly provisioningState?: DbAgentProvisioningState;
-  /** The time when the database agent configuration was last modified. */
-  readonly lastModifiedTime?: Date;
-}
-
-export function dbAgentPropertiesDeserializer(item: any): DbAgentProperties {
-  return {
-    state: item["state"],
-    provisioningState: item["provisioningState"],
-    lastModifiedTime: !item["lastModifiedTime"]
-      ? item["lastModifiedTime"]
-      : new Date(item["lastModifiedTime"]),
-  };
-}
-
-/** The state of the database agent. */
-export enum KnownDbAgentState {
-  /** The database agent is being enabled. */
-  Enabling = "Enabling",
-  /** The database agent is enabled. */
-  Enabled = "Enabled",
-  /** The database agent is being disabled. */
-  Disabling = "Disabling",
-  /** The database agent is disabled. */
-  Disabled = "Disabled",
-  /** The database agent lifecycle operation failed. */
-  Failed = "Failed",
-}
-
-/**
- * The state of the database agent. \
- * {@link KnownDbAgentState} can be used interchangeably with DbAgentState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabling**: The database agent is being enabled. \
- * **Enabled**: The database agent is enabled. \
- * **Disabling**: The database agent is being disabled. \
- * **Disabled**: The database agent is disabled. \
- * **Failed**: The database agent lifecycle operation failed.
- */
-export type DbAgentState = string;
-
-/** The provisioning state of the database agent resource. */
-export enum KnownDbAgentProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-  /** The database agent lifecycle operation is in progress. */
-  InProgress = "InProgress",
-}
-
-/**
- * The provisioning state of the database agent resource. \
- * {@link KnownDbAgentProvisioningState} can be used interchangeably with DbAgentProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled. \
- * **InProgress**: The database agent lifecycle operation is in progress.
- */
-export type DbAgentProvisioningState = string;
-
-/** A request to enable or disable the database agent. */
-export interface DbAgentForUpdate {
-  /** The requested database agent properties. */
-  properties: DbAgentForUpdateProperties;
-}
-
-export function dbAgentForUpdateSerializer(item: DbAgentForUpdate): any {
-  return { properties: dbAgentForUpdatePropertiesSerializer(item["properties"]) };
-}
-
-/** Writable properties of the database agent configuration. */
-export interface DbAgentForUpdateProperties {
-  /** The requested state of the database agent. */
-  state: DbAgentForUpdateState;
-}
-
-export function dbAgentForUpdatePropertiesSerializer(item: DbAgentForUpdateProperties): any {
-  return { state: item["state"] };
-}
-
-/** The database agent states accepted in a write request. */
-export type DbAgentForUpdateState = "Enabled" | "Disabled";
 
 /** Server administrator associated to a Microsoft Entra principal. */
 export interface AdministratorMicrosoftEntra extends ProxyResource {
@@ -6105,12 +5931,8 @@ export type RecommendationTypeParameterEnum = string;
 export enum KnownVersions {
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
-  /** The 2026-01-01-preview API version. */
-  V20260101 = "2026-01-01-preview",
-  /** The 2026-04-01-preview API version. */
-  V20260401 = "2026-04-01-preview",
-  /** The 2026-07-01-preview API version. */
-  V20260701 = "2026-07-01-preview",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }
 
 export function _migrationPropertiesSerializer(item: Migration): any {

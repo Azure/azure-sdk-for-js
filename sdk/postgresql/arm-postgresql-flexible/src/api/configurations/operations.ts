@@ -39,7 +39,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,11 +79,7 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -102,7 +98,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +140,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, configurationName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Configuration>, Configuration>;
 }
 
@@ -163,7 +159,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +201,7 @@ export function put(
     getInitialResponse: () =>
       _putSend(context, resourceGroupName, serverName, configurationName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Configuration>, Configuration>;
 }
 
@@ -223,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
