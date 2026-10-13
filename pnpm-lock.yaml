@@ -26114,6 +26114,85 @@ importers:
         specifier: catalog:testing
         version: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-istanbul@5.0.3)(@vitest/ui@5.0.3)(vite@8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/privatetrafficmanager/arm-privatetrafficmanager:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.7.0
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@10.2.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.3(playwright@1.64.0)(vite@8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.3)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.3(vitest@5.0.3)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 18.0.5
+      eslint:
+        specifier: 'catalog:'
+        version: 10.12.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.9
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-istanbul@5.0.3)(@vitest/ui@5.0.3)(vite@8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/programenrollment/arm-programenrollment:
     dependencies:
       '@azure-rest/core-client':
@@ -38665,11 +38744,6 @@ packages:
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  acorn@8.18.0:
-    resolution: {integrity: sha1-T68BstbTJr/u2XrqH1IiC19MGUA=}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
   acorn@8.19.0:
     resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
     engines: {node: '>=0.4.0'}
@@ -40747,9 +40821,6 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha1-VnY+wJoPqAkd8nh5/ZTRkHjADZE=}
-
-  magic-string@1.4.2:
-    resolution: {integrity: sha512-vG+rjFRj1PqdIBozIxAGMjPlOhaVe+GXpbttY/iSK7rGcJRMlwNJO7dcUwmUqkymsFLJiNGI06t4D7Fr7yRC9g==}
 
   magic-string@1.4.3:
     resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
@@ -45862,7 +45933,7 @@ snapshots:
       '@vitest/mocker': 5.0.3(vite@8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@vitest/ui': 5.0.3(vitest@5.0.3)
       '@vitest/utils': 5.0.3
-      magic-string: 1.4.2
+      magic-string: 1.4.3
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.2.0
@@ -45921,7 +45992,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.3
       estree-walker: 3.0.3
-      magic-string: 1.4.2
+      magic-string: 1.4.3
     optionalDependencies:
       vite: 8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
@@ -45969,8 +46040,6 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.19.0):
     dependencies:
       acorn: 8.19.0
-
-  acorn@8.18.0: {}
 
   acorn@8.19.0: {}
 
@@ -48286,10 +48355,6 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  magic-string@1.4.2:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.6.0
-
   magic-string@1.4.3:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -49918,7 +49983,7 @@ snapshots:
   terser@5.51.2:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.18.0
+      acorn: 8.19.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
