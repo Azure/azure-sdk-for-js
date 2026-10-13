@@ -176,11 +176,6 @@ export function _deleteEkmPrivateEndpointSend(
   peName: string,
   options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  if (!/^(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,22}[a-zA-Z0-9])$/.test(peName)) {
-    throw new TypeError(
-      "peName must be 1-24 characters, start and end with an alphanumeric character, and contain only alphanumeric characters and hyphens.",
-    );
-  }
   const path = expandUrlTemplate(
     "/ekm/privateendpoint/{peName}{?api%2Dversion}",
     {
