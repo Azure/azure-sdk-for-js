@@ -4,10 +4,11 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   EvaluationRule,
-  evaluationRuleSerializer,
   evaluationRuleDeserializer,
   _PagedEvaluationRule,
   _pagedEvaluationRuleDeserializer,
+  EvaluationRuleCreateOrUpdate,
+  evaluationRuleCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -79,7 +80,7 @@ export function list(
 export function _createOrUpdateSend(
   context: Client,
   id: string,
-  evaluationRule: EvaluationRule,
+  evaluationRule: EvaluationRuleCreateOrUpdate,
   options: EvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -104,7 +105,7 @@ export function _createOrUpdateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationRuleSerializer(evaluationRule),
+      body: evaluationRuleCreateOrUpdateSerializer(evaluationRule),
     });
 }
 
@@ -123,7 +124,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   id: string,
-  evaluationRule: EvaluationRule,
+  evaluationRule: EvaluationRuleCreateOrUpdate,
   options: EvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationRule> {
   const result = await _createOrUpdateSend(context, id, evaluationRule, options);

@@ -25,7 +25,7 @@ import {
   CreateVersionOptionalParams,
 } from "../../api/toolboxes/options.js";
 import {
-  ToolboxToolUnion,
+  ToolboxToolCreateUnion,
   ToolboxVersionObject,
   ToolboxObject,
   ToolboxesInvokeLatestToolboxMcpResponse,
@@ -73,7 +73,7 @@ export interface ToolboxesOperations {
   /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
   createVersion: (
     name: string,
-    tools: ToolboxToolUnion[],
+    tools: ToolboxToolCreateUnion[],
     options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
@@ -100,7 +100,7 @@ function _getToolboxes(context: AIProjectContext) {
     get: (name: string, options?: ToolboxesGetOptionalParams) => get(context, name, options),
     createVersion: (
       name: string,
-      tools: ToolboxToolUnion[],
+      tools: ToolboxToolCreateUnion[],
       options?: CreateVersionOptionalParams,
     ) => createVersion(context, name, tools, options),
   };

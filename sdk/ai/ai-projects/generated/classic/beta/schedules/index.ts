@@ -18,7 +18,7 @@ import {
   BetaSchedulesGetOptionalParams,
   BetaSchedulesDeleteOptionalParams,
 } from "../../../api/beta/schedules/options.js";
-import { Schedule, ScheduleRun } from "../../../models/models.js";
+import { Schedule, ScheduleRun, ScheduleCreateOrUpdate } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaSchedules operations. */
@@ -40,7 +40,7 @@ export interface BetaSchedulesOperations {
   createOrUpdate: (
     scheduleId: string,
     foundryFeatures: "Schedules=V1Preview",
-    schedule: Schedule,
+    schedule: ScheduleCreateOrUpdate,
     options?: BetaSchedulesCreateOrUpdateOptionalParams,
   ) => Promise<Schedule>;
   /** Returns schedules that match the supplied type and enabled filters. */
@@ -78,7 +78,7 @@ function _getBetaSchedules(context: AIProjectContext) {
     createOrUpdate: (
       scheduleId: string,
       foundryFeatures: "Schedules=V1Preview",
-      schedule: Schedule,
+      schedule: ScheduleCreateOrUpdate,
       options?: BetaSchedulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scheduleId, foundryFeatures, schedule, options),
     list: (foundryFeatures: "Schedules=V1Preview", options?: BetaSchedulesListOptionalParams) =>

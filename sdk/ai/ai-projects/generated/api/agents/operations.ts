@@ -7,12 +7,12 @@ import {
   agentDeserializer,
   AgentVersion,
   agentVersionDeserializer,
-  agentDefinitionUnionSerializer,
-  AgentDefinitionUnion,
   agentBlueprintReferenceUnionSerializer,
-  agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
+  agentDefinitionCreateUnionSerializer,
+  AgentDefinitionCreateUnion,
+  agentEndpointConfigCreateSerializer,
   DeleteAgentResponse,
   deleteAgentResponseDeserializer,
   _AgentsPagedResultAgentObject,
@@ -21,8 +21,7 @@ import {
   deleteAgentVersionResponseDeserializer,
   _AgentsPagedResultAgentVersionObject,
   _agentsPagedResultAgentVersionObjectDeserializer,
-  CreateAgentVersionFromCodeContent,
-  createAgentVersionFromCodeContentSerializer,
+  agentEndpointConfigUpdateSerializer,
   versionIndicatorUnionSerializer,
   VersionIndicatorUnion,
   AgentSessionResource,
@@ -32,7 +31,6 @@ import {
   SessionLogEvent,
   sessionLogEventDeserializer,
   AgentOptimizationJob,
-  agentOptimizationJobSerializer,
   agentOptimizationJobDeserializer,
   AgentOptimizationJobResult,
   agentOptimizationJobResultDeserializer,
@@ -57,6 +55,10 @@ import {
   _SessionDirectoryListResponse,
   _sessionDirectoryListResponseDeserializer,
   SessionDirectoryEntry,
+  CreateAgentVersionFromCodeContentCreate,
+  createAgentVersionFromCodeContentCreateSerializer,
+  AgentOptimizationJobCreate,
+  agentOptimizationJobCreateSerializer,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
@@ -987,7 +989,7 @@ export async function estimateOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: AgentOptimizationJob,
+  job: AgentOptimizationJobCreate,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1009,7 +1011,7 @@ export function _createOptimizationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: agentOptimizationJobSerializer(job),
+      body: agentOptimizationJobCreateSerializer(job),
     });
 }
 
@@ -1039,7 +1041,7 @@ export async function _createOptimizationJobDeserialize(
 /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
 export function createOptimizationJob(
   context: Client,
-  job: AgentOptimizationJob,
+  job: AgentOptimizationJobCreate,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult> {
   return getLongRunningPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
@@ -1557,7 +1559,7 @@ export function _createVersionFromCodeSend(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  content: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContentCreate,
   options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1580,7 +1582,7 @@ export function _createVersionFromCodeSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: createAgentVersionFromCodeContentSerializer(content),
+      body: createAgentVersionFromCodeContentCreateSerializer(content),
     });
 }
 
@@ -1611,7 +1613,7 @@ export async function createVersionFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  content: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContentCreate,
   options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createVersionFromCodeSend(
@@ -1648,7 +1650,7 @@ export function _patchAgentObjectSend(
       body: {
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint
-          : agentEndpointConfigSerializer(options?.agentEndpoint),
+          : agentEndpointConfigUpdateSerializer(options?.agentEndpoint),
         agent_card: !options?.agentCard
           ? options?.agentCard
           : agentCardSerializer(options?.agentCard),
@@ -1921,7 +1923,7 @@ export async function createAgentVersionFromManifest(
 export function _createVersionSend(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1949,7 +1951,7 @@ export function _createVersionSend(
       body: {
         metadata: options?.metadata,
         description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
+        definition: agentDefinitionCreateUnionSerializer(definition),
         blueprint_reference: !options?.blueprintReference
           ? options?.blueprintReference
           : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
@@ -1979,7 +1981,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createVersionSend(context, agentName, definition, options);
@@ -2234,7 +2236,7 @@ export async function createAgentFromManifest(
 export function _updateAgentSend(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2262,7 +2264,7 @@ export function _updateAgentSend(
       body: {
         metadata: options?.metadata,
         description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
+        definition: agentDefinitionCreateUnionSerializer(definition),
         blueprint_reference: !options?.blueprintReference
           ? options?.blueprintReference
           : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
@@ -2291,7 +2293,7 @@ export async function _updateAgentDeserialize(result: PathUncheckedResponse): Pr
 export async function updateAgent(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _updateAgentSend(context, agentName, definition, options);
@@ -2301,7 +2303,7 @@ export async function updateAgent(
 export function _createAgentSend(
   context: Client,
   name: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2330,7 +2332,7 @@ export function _createAgentSend(
         state: options?.state,
         metadata: options?.metadata,
         description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
+        definition: agentDefinitionCreateUnionSerializer(definition),
         blueprint_reference: !options?.blueprintReference
           ? options?.blueprintReference
           : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
@@ -2338,7 +2340,7 @@ export function _createAgentSend(
         draft: options?.draft,
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint
-          : agentEndpointConfigSerializer(options?.agentEndpoint),
+          : agentEndpointConfigCreateSerializer(options?.agentEndpoint),
         agent_card: !options?.agentCard
           ? options?.agentCard
           : agentCardSerializer(options?.agentCard),
@@ -2364,7 +2366,7 @@ export async function _createAgentDeserialize(result: PathUncheckedResponse): Pr
 export async function createAgent(
   context: Client,
   name: string,
-  definition: AgentDefinitionUnion,
+  definition: AgentDefinitionCreateUnion,
   options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _createAgentSend(context, name, definition, options);

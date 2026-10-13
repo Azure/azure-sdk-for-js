@@ -5,7 +5,14 @@ import type { AIProjectContext as Client } from "../index.js";
 import {
   apiErrorResponseDeserializer,
   _pagedEvaluatorVersionDeserializer,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluators/operations.ts
+  EvaluatorVersion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  EvaluatorVersion,
   evaluatorVersionSerializer,
+=======
+  evaluatorVersionSerializer,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
   evaluatorVersionDeserializer,
   evaluatorGenerationJobDeserializer,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
@@ -16,7 +23,17 @@ import type {
   EvaluatorVersion,
   EvaluatorGenerationJob,
   _AgentsPagedResultEvaluatorGenerationJob,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluators/operations.ts
+  _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  EvaluatorVersionCreate,
+  evaluatorVersionCreateSerializer,
+  EvaluatorVersionUpdate,
+  evaluatorVersionUpdateSerializer,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  _agentsPagedResultEvaluatorGenerationJobDeserializer,
+=======
   EvaluatorGenerationInputs,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -336,7 +353,7 @@ export function _updateVersionSend(
   context: Client,
   name: string,
   version: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionUpdate,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -350,6 +367,25 @@ export function _updateVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: evaluatorVersionUpdateSerializer(evaluatorVersion),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: evaluatorVersionSerializer(evaluatorVersion),
+    });
+=======
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -359,6 +395,7 @@ export function _updateVersionSend(
     },
     body: evaluatorVersionSerializer(evaluatorVersion),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
 }
 
 export async function _updateVersionDeserialize(
@@ -377,7 +414,7 @@ export async function updateVersion(
   context: Client,
   name: string,
   version: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionUpdate,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
   const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
@@ -387,7 +424,7 @@ export async function updateVersion(
 export function _createVersionSend(
   context: Client,
   name: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionCreate,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -400,6 +437,25 @@ export function _createVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: evaluatorVersionCreateSerializer(evaluatorVersion),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluators/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: evaluatorVersionSerializer(evaluatorVersion),
+    });
+=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -409,6 +465,7 @@ export function _createVersionSend(
     },
     body: evaluatorVersionSerializer(evaluatorVersion),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluators/operations.ts
 }
 
 export async function _createVersionDeserialize(
@@ -426,7 +483,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionCreate,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
   const result = await _createVersionSend(context, name, evaluatorVersion, options);

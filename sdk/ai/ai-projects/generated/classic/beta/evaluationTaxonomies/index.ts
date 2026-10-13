@@ -16,7 +16,11 @@ import {
   BetaEvaluationTaxonomiesListOptionalParams,
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "../../../api/beta/evaluationTaxonomies/options.js";
-import { EvaluationTaxonomy } from "../../../models/models.js";
+import {
+  EvaluationTaxonomy,
+  EvaluationTaxonomyCreateOrUpdate,
+  EvaluationTaxonomyUpdate,
+} from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
@@ -25,14 +29,14 @@ export interface BetaEvaluationTaxonomiesOperations {
   update: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,
-    taxonomy: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomyUpdate,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
   create: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,
-    taxonomy: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomyCreateOrUpdate,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Removes the specified evaluation taxonomy from the project. */
@@ -59,13 +63,13 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
     update: (
       foundryFeatures: "Evaluations=V1Preview",
       name: string,
-      taxonomy: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomyUpdate,
       options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
     ) => update(context, foundryFeatures, name, taxonomy, options),
     create: (
       foundryFeatures: "Evaluations=V1Preview",
       name: string,
-      taxonomy: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomyCreateOrUpdate,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
     ) => create(context, foundryFeatures, name, taxonomy, options),
     delete: (

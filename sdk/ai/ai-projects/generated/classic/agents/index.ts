@@ -87,10 +87,9 @@ import {
 import {
   Agent,
   AgentVersion,
-  AgentDefinitionUnion,
+  AgentDefinitionCreateUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
-  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionLogEvent,
@@ -104,6 +103,8 @@ import {
   Microsoft365PublishDefaults,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  CreateAgentVersionFromCodeContentCreate,
+  AgentOptimizationJobCreate,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
@@ -222,7 +223,7 @@ export interface AgentsOperations {
   ) => Promise<AgentOptimizationEstimateResult>;
   /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
   createOptimizationJob: (
-    job: AgentOptimizationJob,
+    job: AgentOptimizationJobCreate,
     options?: AgentsCreateOptimizationJobOptionalParams,
   ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
   /**
@@ -330,7 +331,7 @@ export interface AgentsOperations {
   createVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
-    content: CreateAgentVersionFromCodeContent,
+    content: CreateAgentVersionFromCodeContentCreate,
     options?: AgentsCreateVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
   /** Applies a merge-patch update to the specified agent endpoint configuration. */
@@ -369,7 +370,7 @@ export interface AgentsOperations {
   /** Creates a new version for the specified agent and returns the created version resource. */
   createVersion: (
     agentName: string,
-    definition: AgentDefinitionUnion,
+    definition: AgentDefinitionCreateUnion,
     options?: AgentsCreateVersionOptionalParams,
   ) => Promise<AgentVersion>;
   /** Returns a paged collection of agent resources. */
@@ -403,13 +404,13 @@ export interface AgentsOperations {
    */
   updateAgent: (
     agentName: string,
-    definition: AgentDefinitionUnion,
+    definition: AgentDefinitionCreateUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
     name: string,
-    definition: AgentDefinitionUnion,
+    definition: AgentDefinitionCreateUnion,
     options?: AgentsCreateAgentOptionalParams,
   ) => Promise<Agent>;
   /** Retrieves an agent definition by its unique name. */
@@ -483,7 +484,7 @@ function _getAgents(context: AIProjectContext) {
       options?: AgentsEstimateOptimizationJobOptionalParams,
     ) => estimateOptimizationJob(context, inputs, options),
     createOptimizationJob: (
-      job: AgentOptimizationJob,
+      job: AgentOptimizationJobCreate,
       options?: AgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
     getSessionLogStream: (
@@ -520,7 +521,7 @@ function _getAgents(context: AIProjectContext) {
     createVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
-      content: CreateAgentVersionFromCodeContent,
+      content: CreateAgentVersionFromCodeContentCreate,
       options?: AgentsCreateVersionFromCodeOptionalParams,
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
@@ -545,7 +546,7 @@ function _getAgents(context: AIProjectContext) {
     ) => createAgentVersionFromManifest(context, agentName, manifestId, parameterValues, options),
     createVersion: (
       agentName: string,
-      definition: AgentDefinitionUnion,
+      definition: AgentDefinitionCreateUnion,
       options?: AgentsCreateVersionOptionalParams,
     ) => createVersion(context, agentName, definition, options),
     list: (options?: AgentsListOptionalParams) => list(context, options),
@@ -565,12 +566,12 @@ function _getAgents(context: AIProjectContext) {
     ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
     updateAgent: (
       agentName: string,
-      definition: AgentDefinitionUnion,
+      definition: AgentDefinitionCreateUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
     createAgent: (
       name: string,
-      definition: AgentDefinitionUnion,
+      definition: AgentDefinitionCreateUnion,
       options?: AgentsCreateAgentOptionalParams,
     ) => createAgent(context, name, definition, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),

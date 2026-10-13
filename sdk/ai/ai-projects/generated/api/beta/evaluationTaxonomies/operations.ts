@@ -4,10 +4,13 @@
 import { AIProjectContext as Client } from "../../index.js";
 import {
   EvaluationTaxonomy,
-  evaluationTaxonomySerializer,
   evaluationTaxonomyDeserializer,
   _PagedEvaluationTaxonomy,
   _pagedEvaluationTaxonomyDeserializer,
+  EvaluationTaxonomyCreateOrUpdate,
+  evaluationTaxonomyCreateOrUpdateSerializer,
+  EvaluationTaxonomyUpdate,
+  evaluationTaxonomyUpdateSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -32,7 +35,7 @@ export function _updateSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  taxonomy: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomyUpdate,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -55,7 +58,7 @@ export function _updateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(taxonomy),
+      body: evaluationTaxonomyUpdateSerializer(taxonomy),
     });
 }
 
@@ -75,7 +78,7 @@ export async function update(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  taxonomy: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomyUpdate,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
   const result = await _updateSend(context, foundryFeatures, name, taxonomy, options);
@@ -86,7 +89,7 @@ export function _createSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  taxonomy: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomyCreateOrUpdate,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -109,7 +112,7 @@ export function _createSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(taxonomy),
+      body: evaluationTaxonomyCreateOrUpdateSerializer(taxonomy),
     });
 }
 
@@ -129,7 +132,7 @@ export async function create(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  taxonomy: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomyCreateOrUpdate,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
   const result = await _createSend(context, foundryFeatures, name, taxonomy, options);

@@ -8,7 +8,7 @@ import {
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
 } from "../../../api/beta/insights/options.js";
-import { Insight } from "../../../models/models.js";
+import { Insight, InsightCreate } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaInsights operations. */
@@ -18,7 +18,10 @@ export interface BetaInsightsOperations {
   /** Retrieves the specified insight report and its results. */
   get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generates an insights report from the provided evaluation configuration. */
-  generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+  generate: (
+    insight: InsightCreate,
+    options?: BetaInsightsGenerateOptionalParams,
+  ) => Promise<Insight>;
 }
 
 function _getBetaInsights(context: AIProjectContext) {
@@ -26,7 +29,7 @@ function _getBetaInsights(context: AIProjectContext) {
     list: (options?: BetaInsightsListOptionalParams) => list(context, options),
     get: (insightId: string, options?: BetaInsightsGetOptionalParams) =>
       get(context, insightId, options),
-    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) =>
+    generate: (insight: InsightCreate, options?: BetaInsightsGenerateOptionalParams) =>
       generate(context, insight, options),
   };
 }

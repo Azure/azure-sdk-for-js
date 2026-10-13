@@ -38,6 +38,7 @@ import {
   DataGenerationJobUnion,
   DataGenerationJobResult,
   DataGenerationJobInputsUnion,
+  DatasetVersionUpdateUnion,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -84,7 +85,7 @@ export interface DatasetsOperations {
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
-    datasetVersion: DatasetVersionUnion,
+    datasetVersion: DatasetVersionUpdateUnion,
     version: string,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
@@ -132,7 +133,7 @@ function _getDatasets(context: AIProjectContext) {
     ) => pendingUpload(context, name, pendingUploadRequest, version, options),
     createOrUpdate: (
       name: string,
-      datasetVersion: DatasetVersionUnion,
+      datasetVersion: DatasetVersionUpdateUnion,
       version: string,
       options?: DatasetsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, datasetVersion, version, options),

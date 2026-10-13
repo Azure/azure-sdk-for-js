@@ -5,8 +5,15 @@ import type { AIProjectContext as Client } from "../index.js";
 import type { _PagedIndex, IndexUnion } from "../../models/models.js";
 import {
   _pagedIndexDeserializer,
-  indexUnionSerializer,
   indexUnionDeserializer,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/indexes/operations.ts
+  IndexUnion,
+  indexUpdateUnionSerializer,
+  IndexUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/indexes/operations.ts
+  IndexUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/indexes/operations.ts
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -24,6 +31,12 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _createOrUpdateSend(
   context: Client,
   name: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/indexes/operations.ts
+  index: IndexUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/indexes/operations.ts
+  index: IndexUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/indexes/operations.ts
   version: string,
   index: IndexUnion,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -39,6 +52,25 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/indexes/operations.ts
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: indexUpdateUnionSerializer(index),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/indexes/operations.ts
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: indexUnionSerializer(index),
+    });
+=======
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
@@ -48,6 +80,7 @@ export function _createOrUpdateSend(
     },
     body: indexUnionSerializer(index),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/indexes/operations.ts
 }
 
 export async function _createOrUpdateDeserialize(
@@ -65,7 +98,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  index: IndexUnion,
+  index: IndexUpdateUnion,
   version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {

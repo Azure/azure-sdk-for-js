@@ -10,14 +10,28 @@ import type {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "../../api/indexes/options.js";
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/indexes/index.ts
+import { IndexUnion, IndexUpdateUnion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/indexes/index.ts
+import { IndexUnion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+=======
 import type { IndexUnion } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/indexes/index.ts
 
 /** Interface representing a Indexes operations. */
 export interface IndexesOperations {
   /** Create a new or update an existing Index with the given version id */
   createOrUpdate: (
     name: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/indexes/index.ts
+    index: IndexUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/indexes/index.ts
+    index: IndexUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/indexes/index.ts
     version: string,
     index: IndexUnion,
     options?: IndexesCreateOrUpdateOptionalParams,
@@ -39,6 +53,12 @@ function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
       name: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/indexes/index.ts
+      index: IndexUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/indexes/index.ts
+      index: IndexUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/indexes/index.ts
       version: string,
       index: IndexUnion,
       options?: IndexesCreateOrUpdateOptionalParams,

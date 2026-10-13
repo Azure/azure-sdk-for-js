@@ -6,6 +6,10 @@ import type {
   DatasetCredential,
   _PagedModelVersion,
   ModelVersion,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/models/operations.ts
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/models/operations.ts
+  modelVersionSerializer,
+=======
   UpdateModelVersionRequest,
   ModelPendingUploadRequest,
   ModelPendingUploadResponse,
@@ -15,12 +19,15 @@ import {
   datasetCredentialDeserializer,
   _pagedModelVersionDeserializer,
   modelVersionSerializer,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/models/operations.ts
   modelVersionDeserializer,
   updateModelVersionRequestSerializer,
   _createAsyncResponseDeserializer,
   modelPendingUploadRequestSerializer,
   modelPendingUploadResponseDeserializer,
   modelCredentialRequestSerializer,
+  ModelVersionCreate,
+  modelVersionCreateSerializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -150,7 +157,7 @@ export function _pendingCreateVersionSend(
   context: Client,
   name: string,
   version: string,
-  modelVersion: ModelVersion,
+  modelVersion: ModelVersionCreate,
   options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
@@ -165,6 +172,33 @@ export function _pendingCreateVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/models/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: modelVersionCreateSerializer(modelVersion),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/models/operations.ts
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: modelVersionSerializer(modelVersion),
+    });
+=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -175,6 +209,7 @@ export function _pendingCreateVersionSend(
     },
     body: modelVersionSerializer(modelVersion),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/models/operations.ts
 }
 
 export async function _pendingCreateVersionDeserialize(result: PathUncheckedResponse): Promise<{
@@ -194,7 +229,7 @@ export async function pendingCreateVersion(
   context: Client,
   name: string,
   version: string,
-  modelVersion: ModelVersion,
+  modelVersion: ModelVersionCreate,
   options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<{
   location?: string;

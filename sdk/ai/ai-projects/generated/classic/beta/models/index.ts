@@ -29,6 +29,7 @@ import {
   ModelPendingUploadRequest,
   ModelPendingUploadResponse,
   ModelCredentialRequest,
+  ModelVersionCreate,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
@@ -55,7 +56,7 @@ export interface BetaModelsOperations {
     foundryFeatures: "Models=V1Preview",
     name: string,
     version: string,
-    modelVersion: ModelVersion,
+    modelVersion: ModelVersionCreate,
     options?: BetaModelsPendingCreateVersionOptionalParams,
   ) => Promise<{
     location?: string;
@@ -116,7 +117,7 @@ function _getBetaModels(context: AIProjectContext) {
       foundryFeatures: "Models=V1Preview",
       name: string,
       version: string,
-      modelVersion: ModelVersion,
+      modelVersion: ModelVersionCreate,
       options?: BetaModelsPendingCreateVersionOptionalParams,
     ) => pendingCreateVersion(context, foundryFeatures, name, version, modelVersion, options),
     update: (

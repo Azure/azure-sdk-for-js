@@ -42,6 +42,7 @@ import type {
   DataGenerationJobUnion,
   DataGenerationJobResult,
   DataGenerationJobInputsUnion,
+  DatasetVersionUpdateUnion,
 } from "../../models/models.js";
 import type { DatasetUploadOptions } from "../../api/index.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -89,6 +90,12 @@ export interface DatasetsOperations {
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/datasets/index.ts
+    datasetVersion: DatasetVersionUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/datasets/index.ts
+    datasetVersion: DatasetVersionUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/datasets/index.ts
     version: string,
     datasetVersion: DatasetVersionUnion,
     options?: DatasetsCreateOrUpdateOptionalParams,
@@ -154,6 +161,12 @@ function _getDatasets(
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     createOrUpdate: (
       name: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/datasets/index.ts
+      datasetVersion: DatasetVersionUpdateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/datasets/index.ts
+      datasetVersion: DatasetVersionUnion,
+=======
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/datasets/index.ts
       version: string,
       datasetVersion: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,

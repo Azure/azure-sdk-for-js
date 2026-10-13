@@ -6,7 +6,6 @@ import {
   apiErrorResponseDeserializer,
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
-  datasetVersionUnionSerializer,
   datasetVersionUnionDeserializer,
   DatasetVersionUnion,
   PendingUploadRequest,
@@ -23,6 +22,8 @@ import {
   _agentsPagedResultDataGenerationJobDeserializer,
   dataGenerationJobInputsUnionSerializer,
   DataGenerationJobInputsUnion,
+  datasetVersionUpdateUnionSerializer,
+  DatasetVersionUpdateUnion,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -447,7 +448,7 @@ export async function pendingUpload(
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  datasetVersion: DatasetVersionUnion,
+  datasetVersion: DatasetVersionUpdateUnion,
   version: string,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -468,7 +469,7 @@ export function _createOrUpdateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: datasetVersionUnionSerializer(datasetVersion),
+      body: datasetVersionUpdateUnionSerializer(datasetVersion),
     });
 }
 
@@ -487,7 +488,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  datasetVersion: DatasetVersionUnion,
+  datasetVersion: DatasetVersionUpdateUnion,
   version: string,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatasetVersionUnion> {

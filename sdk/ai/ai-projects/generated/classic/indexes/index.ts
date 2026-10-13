@@ -10,7 +10,7 @@ import {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "../../api/indexes/options.js";
-import { IndexUnion } from "../../models/models.js";
+import { IndexUnion, IndexUpdateUnion } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Indexes operations. */
@@ -18,7 +18,7 @@ export interface IndexesOperations {
   /** Create a new or update an existing Index with the given version id */
   createOrUpdate: (
     name: string,
-    index: IndexUnion,
+    index: IndexUpdateUnion,
     version: string,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
@@ -39,7 +39,7 @@ function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
       name: string,
-      index: IndexUnion,
+      index: IndexUpdateUnion,
       version: string,
       options?: IndexesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, index, version, options),

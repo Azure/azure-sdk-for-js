@@ -7,7 +7,6 @@ import {
   _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
   EvaluatorVersion,
-  evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
   EvaluatorGenerationInputs,
   evaluatorGenerationInputsSerializer,
@@ -15,6 +14,10 @@ import {
   evaluatorGenerationJobDeserializer,
   _AgentsPagedResultEvaluatorGenerationJob,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  EvaluatorVersionCreate,
+  evaluatorVersionCreateSerializer,
+  EvaluatorVersionUpdate,
+  evaluatorVersionUpdateSerializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -321,7 +324,7 @@ export function _updateVersionSend(
   context: Client,
   name: string,
   version: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionUpdate,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -341,7 +344,7 @@ export function _updateVersionSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: evaluatorVersionSerializer(evaluatorVersion),
+      body: evaluatorVersionUpdateSerializer(evaluatorVersion),
     });
 }
 
@@ -361,7 +364,7 @@ export async function updateVersion(
   context: Client,
   name: string,
   version: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionUpdate,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
   const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
@@ -371,7 +374,7 @@ export async function updateVersion(
 export function _createVersionSend(
   context: Client,
   name: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionCreate,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -390,7 +393,7 @@ export function _createVersionSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: evaluatorVersionSerializer(evaluatorVersion),
+      body: evaluatorVersionCreateSerializer(evaluatorVersion),
     });
 }
 
@@ -409,7 +412,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  evaluatorVersion: EvaluatorVersion,
+  evaluatorVersion: EvaluatorVersionCreate,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
   const result = await _createVersionSend(context, name, evaluatorVersion, options);

@@ -5,9 +5,10 @@ import { AIProjectContext as Client } from "../index.js";
 import {
   _PagedIndex,
   _pagedIndexDeserializer,
-  indexUnionSerializer,
   indexUnionDeserializer,
   IndexUnion,
+  indexUpdateUnionSerializer,
+  IndexUpdateUnion,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -31,7 +32,7 @@ import {
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  index: IndexUnion,
+  index: IndexUpdateUnion,
   version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -52,7 +53,7 @@ export function _createOrUpdateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: indexUnionSerializer(index),
+      body: indexUpdateUnionSerializer(index),
     });
 }
 
@@ -71,7 +72,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  index: IndexUnion,
+  index: IndexUpdateUnion,
   version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {

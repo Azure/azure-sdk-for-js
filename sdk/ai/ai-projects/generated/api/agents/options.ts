@@ -5,10 +5,11 @@ import {
   AgentState,
   AgentKind,
   AgentBlueprintReferenceUnion,
-  AgentEndpointConfig,
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  AgentEndpointConfigCreate,
+  AgentEndpointConfigUpdate,
   JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
@@ -337,7 +338,7 @@ export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOpti
 /** Optional parameters. */
 export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
   /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpointConfig;
+  agentEndpoint?: AgentEndpointConfigUpdate;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
@@ -526,7 +527,7 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
   draft?: boolean;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
-  agentEndpoint?: AgentEndpointConfig;
+  agentEndpoint?: AgentEndpointConfigCreate;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

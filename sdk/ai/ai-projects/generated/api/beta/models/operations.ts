@@ -8,7 +8,6 @@ import {
   _PagedModelVersion,
   _pagedModelVersionDeserializer,
   ModelVersion,
-  modelVersionSerializer,
   modelVersionDeserializer,
   UpdateModelVersionRequest,
   updateModelVersionRequestSerializer,
@@ -19,6 +18,8 @@ import {
   modelPendingUploadResponseDeserializer,
   ModelCredentialRequest,
   modelCredentialRequestSerializer,
+  ModelVersionCreate,
+  modelVersionCreateSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -175,7 +176,7 @@ export function _pendingCreateVersionSend(
   foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
-  modelVersion: ModelVersion,
+  modelVersion: ModelVersionCreate,
   options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -199,7 +200,7 @@ export function _pendingCreateVersionSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: modelVersionSerializer(modelVersion),
+      body: modelVersionCreateSerializer(modelVersion),
     });
 }
 
@@ -221,7 +222,7 @@ export async function pendingCreateVersion(
   foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
-  modelVersion: ModelVersion,
+  modelVersion: ModelVersionCreate,
   options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<{
   location?: string;

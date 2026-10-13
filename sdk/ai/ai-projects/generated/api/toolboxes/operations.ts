@@ -4,8 +4,8 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   apiErrorResponseDeserializer,
-  toolboxToolUnionArraySerializer,
-  ToolboxToolUnion,
+  toolboxToolCreateUnionArraySerializer,
+  ToolboxToolCreateUnion,
   toolboxSkillUnionArraySerializer,
   toolboxPoliciesSerializer,
   ToolboxVersionObject,
@@ -449,7 +449,7 @@ export async function get(
 export function _createVersionSend(
   context: Client,
   name: string,
-  tools: ToolboxToolUnion[],
+  tools: ToolboxToolCreateUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -471,7 +471,7 @@ export function _createVersionSend(
       body: {
         description: options?.description,
         metadata: options?.metadata,
-        tools: toolboxToolUnionArraySerializer(tools),
+        tools: toolboxToolCreateUnionArraySerializer(tools),
         skills: !options?.skills
           ? options?.skills
           : toolboxSkillUnionArraySerializer(options?.skills),
@@ -502,7 +502,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  tools: ToolboxToolUnion[],
+  tools: ToolboxToolCreateUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _createVersionSend(context, name, tools, options);

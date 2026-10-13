@@ -5,10 +5,11 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
   RedTeam,
-  redTeamSerializer,
   redTeamDeserializer,
   _PagedRedTeam,
   _pagedRedTeamDeserializer,
+  RedTeamCreate,
+  redTeamCreateSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -30,7 +31,7 @@ import {
 export function _createSend(
   context: Client,
   foundryFeatures: "RedTeams=V1Preview",
-  redTeam: RedTeam,
+  redTeam: RedTeamCreate,
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -52,7 +53,7 @@ export function _createSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: redTeamSerializer(redTeam),
+      body: redTeamCreateSerializer(redTeam),
     });
 }
 
@@ -74,7 +75,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   foundryFeatures: "RedTeams=V1Preview",
-  redTeam: RedTeam,
+  redTeam: RedTeamCreate,
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): Promise<RedTeam> {
   const result = await _createSend(context, foundryFeatures, redTeam, options);

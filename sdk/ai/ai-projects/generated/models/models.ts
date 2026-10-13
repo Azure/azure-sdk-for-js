@@ -56,6 +56,10 @@ import {
   realtimeFunctionToolParametersDeserializer,
   ApiError,
   apiErrorDeserializer,
+  toolCreateUnionArraySerializer,
+  ToolCreate,
+  ToolCreateUnion,
+  AutoCodeInterpreterToolParamCreate,
   chatCompletionToolArraySerializer,
   chatCompletionToolArrayDeserializer,
   ChatCompletionTool,
@@ -66,16 +70,19 @@ import {
   RealtimeResponseUsage,
   realtimeResponseUsageSerializer,
   realtimeResponseUsageDeserializer,
+  RealtimeResponseStatusDetails,
+  realtimeResponseStatusDetailsSerializer,
+  realtimeResponseStatusDetailsDeserializer,
   realtimeConversationItemUnionArraySerializer,
   realtimeConversationItemUnionArrayDeserializer,
   realtimeConversationItemUnionSerializer,
   realtimeConversationItemUnionDeserializer,
   RealtimeConversationItemUnion,
-  RealtimeResponseStatusDetails,
-  realtimeResponseStatusDetailsSerializer,
-  realtimeResponseStatusDetailsDeserializer,
-  _voiceResponseBaseMaxOutputTokensSerializer,
-  _voiceResponseBaseMaxOutputTokensDeserializer,
+  Metadata,
+  metadataSerializer,
+  metadataDeserializer,
+  _voiceResponseMaxOutputTokensSerializer,
+  _voiceResponseMaxOutputTokensDeserializer,
   RealtimeReasoning,
   realtimeReasoningSerializer,
   realtimeReasoningDeserializer,
@@ -98,9 +105,6 @@ import {
   ToolChoiceOptions,
   _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
   _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
-  Metadata,
-  metadataSerializer,
-  metadataDeserializer,
   RealtimeServerEvent,
   RealtimeServerEventConversationItemCreated,
   RealtimeServerEventConversationItemDeleted,
@@ -144,6 +148,13 @@ import {
   RealtimeServerEventResponseMCPCallCompleted,
   RealtimeServerEventResponseMCPCallFailed,
   RealtimeServerEventError,
+  toolCreateOrUpdateUnionArraySerializer,
+  ToolCreateOrUpdate,
+  ToolCreateOrUpdateUnion,
+  AutoCodeInterpreterToolParamCreateOrUpdate,
+  toolUpdateUnionArraySerializer,
+  ToolUpdate,
+  ToolUpdateUnion,
 } from "./openAI/models.js";
 import {
   PickPropertiesVoiceAgentAudioConfig,
@@ -519,6 +530,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -543,6 +556,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -574,6 +588,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -4384,10 +4399,15 @@ export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctio
   };
 }
 
-/** An MCP tool available to a voice agent. */
+/** An MCP tool available to a voice agent. Server endpoints use `server_url`; connector and tunnel identifiers are not supported. */
 export interface VoiceAgentMcpTool extends VoiceAgentTool {
   /** A label for this MCP server, used to identify it in tool calls. */
   server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
   /**
    * An OAuth access token that can be used with a remote MCP server, either
    *   with a custom MCP server URL or a service connector. Your application
@@ -4407,8 +4427,6 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   tool_configs?: Record<string, ToolConfig>;
   type: "mcp";
-  /** The URL for the MCP server. */
-  server_url?: string;
   /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
   response_scheduling?: VoiceAgentToolResponseScheduling;
 }
@@ -4417,6 +4435,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
   return {
     type: item["type"],
     server_label: item["server_label"],
+    server_url: item["server_url"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: item["headers"],
@@ -4436,7 +4455,6 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
-    server_url: item["server_url"],
     response_scheduling: item["response_scheduling"],
   };
 }
@@ -4445,6 +4463,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
   return {
     type: item["type"],
     server_label: item["server_label"],
+    server_url: item["server_url"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: !item["headers"]
@@ -4468,7 +4487,6 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
-    server_url: item["server_url"],
     response_scheduling: item["response_scheduling"],
   };
 }
@@ -5373,6 +5391,854 @@ export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   };
 }
 
+/** model interface AgentDefinitionCreate */
+export interface AgentDefinitionCreate {
+  kind: AgentKind;
+  /** Configuration for Responsible AI (RAI) content filtering and safety features. */
+  rai_config?: RaiConfig;
+}
+
+export function agentDefinitionCreateSerializer(item: AgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+  };
+}
+
+/** Alias for AgentDefinitionCreateUnion */
+export type AgentDefinitionCreateUnion =
+  | HostedAgentDefinitionCreate
+  | PromptAgentDefinitionCreate
+  | WorkflowAgentDefinitionCreate
+  | ExternalAgentDefinitionCreate
+  | VoiceAgentDefinitionCreate
+  | AgentDefinitionCreate;
+
+export function agentDefinitionCreateUnionSerializer(item: AgentDefinitionCreateUnion): any {
+  switch (item.kind) {
+    case "hosted":
+      return hostedAgentDefinitionCreateSerializer(item as HostedAgentDefinitionCreate);
+
+    case "prompt":
+      return promptAgentDefinitionCreateSerializer(item as PromptAgentDefinitionCreate);
+
+    case "workflow":
+      return workflowAgentDefinitionCreateSerializer(item as WorkflowAgentDefinitionCreate);
+
+    case "external":
+      return externalAgentDefinitionCreateSerializer(item as ExternalAgentDefinitionCreate);
+
+    case "voice":
+      return voiceAgentDefinitionCreateSerializer(item as VoiceAgentDefinitionCreate);
+
+    default:
+      return agentDefinitionCreateSerializer(item);
+  }
+}
+
+/** The hosted agent definition. */
+export interface HostedAgentDefinitionCreate extends AgentDefinitionCreate {
+  kind: "hosted";
+  /** The CPU configuration for the hosted agent. */
+  cpu: string;
+  /** The memory configuration for the hosted agent. */
+  memory: string;
+  /** Environment variables to set in the hosted agent container. */
+  environment_variables?: Record<string, string>;
+  /** Container-based deployment configuration. Provide this for image-based deployments. Mutually exclusive with code_configuration — the service validates that exactly one is set. */
+  container_configuration?: ContainerConfiguration;
+  /** The protocols that the agent supports for ingress communication. */
+  protocol_versions?: ProtocolVersionRecord[];
+  /** Code-based deployment configuration. Provide this for code-based deployments. Mutually exclusive with container_configuration — the service validates that exactly one is set. */
+  code_configuration?: CodeConfigurationCreate;
+  /** Optional customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
+  telemetry_config?: TelemetryConfig;
+  /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
+  session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
+}
+
+export function hostedAgentDefinitionCreateSerializer(item: HostedAgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    cpu: item["cpu"],
+    memory: item["memory"],
+    environment_variables: item["environment_variables"],
+    container_configuration: !item["container_configuration"]
+      ? item["container_configuration"]
+      : containerConfigurationSerializer(item["container_configuration"]),
+    protocol_versions: !item["protocol_versions"]
+      ? item["protocol_versions"]
+      : protocolVersionRecordArraySerializer(item["protocol_versions"]),
+    code_configuration: !item["code_configuration"]
+      ? item["code_configuration"]
+      : codeConfigurationCreateSerializer(item["code_configuration"]),
+    telemetry_config: !item["telemetry_config"]
+      ? item["telemetry_config"]
+      : telemetryConfigSerializer(item["telemetry_config"]),
+    session_configuration: !item["session_configuration"]
+      ? item["session_configuration"]
+      : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
+  };
+}
+
+/** Code-based deployment configuration for a hosted agent. */
+export interface CodeConfigurationCreate {
+  /** The runtime identifier for code execution (e.g., 'python_3_11', 'python_3_12', 'python_3_13'). */
+  runtime: string;
+  /** The entry point command and arguments for the code execution. */
+  entry_point: string[];
+  /**
+   * How package dependencies are resolved at deployment time. Defaults to `bundled`,
+   * where the caller bundles all dependencies into the uploaded zip and the service
+   * performs no remote build. `remote_build` instructs the service to build
+   * dependencies remotely from the manifest included in the uploaded zip.
+   */
+  dependency_resolution: CodeDependencyResolution;
+}
+
+export function codeConfigurationCreateSerializer(item: CodeConfigurationCreate): any {
+  return {
+    runtime: item["runtime"],
+    entry_point: item["entry_point"].map((p: any) => {
+      return p;
+    }),
+    dependency_resolution: item["dependency_resolution"],
+  };
+}
+
+/** The prompt agent definition */
+export interface PromptAgentDefinitionCreate extends AgentDefinitionCreate {
+  kind: "prompt";
+  /** The managed runtime and agent loop used to execute this prompt agent. */
+  harness?: AgentHarnessUnion;
+  /** The model deployment to use for this agent. */
+  model: string;
+  /** A system (or developer) message inserted into the model's context. */
+  instructions?: string;
+  /** The Foundry skills available to this prompt agent. An omitted skill version is resolved and pinned when the agent version is created. */
+  skills?: SkillReference[];
+  /**
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature, called nucleus sampling,
+   * where the model considers the results of the tokens with top_p probability
+   * mass. So 0.1 means only the tokens comprising the top 10% probability mass
+   * are considered. We generally recommend altering this or `temperature` but not both.
+   * Defaults to `1`.
+   */
+  top_p?: number;
+  reasoning?: Reasoning;
+  /**
+   * An array of tools the model may call while generating a response. You
+   * can specify which tool to use by setting the `tool_choice` parameter.
+   */
+  tools?: ToolCreateUnion[];
+  /**
+   * How the model should select which tool (or tools) to use when generating a response.
+   * See the `tools` parameter to see how to specify which tools the model can call.
+   */
+  tool_choice?: string | ToolChoiceParamUnion;
+  /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+  text?: PromptAgentDefinitionTextOptions;
+  /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+}
+
+export function promptAgentDefinitionCreateSerializer(item: PromptAgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionSerializer(item["harness"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    skills: !item["skills"] ? item["skills"] : skillReferenceArraySerializer(item["skills"]),
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolCreateUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceSerializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsSerializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+  };
+}
+
+/** Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreviewCreate extends ToolCreate {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewCreateSerializer(
+  item: GitHubCopilotToolsetPreviewCreate,
+): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+/** The input definition information for a bing grounding search tool as used to configure an agent. */
+export interface BingGroundingToolCreate extends ToolCreate {
+  /** The object type, which is always 'bing_grounding'. */
+  type: "bing_grounding";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The bing grounding search tool parameters. */
+  bing_grounding: BingGroundingSearchToolParameters;
+}
+
+export function bingGroundingToolCreateSerializer(item: BingGroundingToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
+  };
+}
+
+/** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
+export interface MicrosoftFabricPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'fabric_dataagent_preview'. */
+  type: "fabric_dataagent_preview";
+  /** The fabric data agent tool parameters. */
+  fabric_dataagent_preview: FabricDataAgentToolParameters;
+}
+
+export function microsoftFabricPreviewToolCreateSerializer(
+  item: MicrosoftFabricPreviewToolCreate,
+): any {
+  return {
+    type: item["type"],
+    fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
+      item["fabric_dataagent_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a sharepoint tool as used to configure an agent. */
+export interface SharepointPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'sharepoint_grounding_preview'. */
+  type: "sharepoint_grounding_preview";
+  /** The sharepoint grounding tool parameters. */
+  sharepoint_grounding_preview: SharepointGroundingToolParameters;
+}
+
+export function sharepointPreviewToolCreateSerializer(item: SharepointPreviewToolCreate): any {
+  return {
+    type: item["type"],
+    sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
+      item["sharepoint_grounding_preview"],
+    ),
+  };
+}
+
+/** The input definition information for an Azure AI search tool as used to configure an agent. */
+export interface AzureAISearchToolCreate extends ToolCreate {
+  /** The object type, which is always 'azure_ai_search'. */
+  type: "azure_ai_search";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The azure ai search index resource. */
+  azure_ai_search: AzureAISearchToolResource;
+}
+
+export function azureAISearchToolCreateSerializer(item: AzureAISearchToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
+  };
+}
+
+/** The input definition information for an OpenAPI tool as used to configure an agent. */
+export interface OpenApiToolCreate extends ToolCreate {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinitionCreate;
+}
+
+export function openApiToolCreateSerializer(item: OpenApiToolCreate): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    openapi: openApiFunctionDefinitionCreateSerializer(item["openapi"]),
+  };
+}
+
+/** The input definition information for an openapi function. */
+export interface OpenApiFunctionDefinitionCreate {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The openapi function shape, described as a JSON Schema object. */
+  spec: Record<string, any>;
+  /** Open API authentication details */
+  auth: OpenApiAuthDetailsUnion;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
+}
+
+export function openApiFunctionDefinitionCreateSerializer(
+  item: OpenApiFunctionDefinitionCreate,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    spec: item["spec"],
+    auth: openApiAuthDetailsUnionSerializer(item["auth"]),
+    default_params: !item["default_params"]
+      ? item["default_params"]
+      : item["default_params"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'bing_custom_search_preview'. */
+  type: "bing_custom_search_preview";
+  /** The bing custom search tool parameters. */
+  bing_custom_search_preview: BingCustomSearchToolParameters;
+}
+
+export function bingCustomSearchPreviewToolCreateSerializer(
+  item: BingCustomSearchPreviewToolCreate,
+): any {
+  return {
+    type: item["type"],
+    bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
+      item["bing_custom_search_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'browser_automation_preview'. */
+  type: "browser_automation_preview";
+  /** The Browser Automation Tool parameters. */
+  browser_automation_preview: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationPreviewToolCreateSerializer(
+  item: BrowserAutomationPreviewToolCreate,
+): any {
+  return {
+    type: item["type"],
+    browser_automation_preview: browserAutomationToolParametersSerializer(
+      item["browser_automation_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationToolCreate extends ToolCreate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolCreateSerializer(item: BrowserAutomationToolCreate): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+/** The input definition information for an Azure Function Tool, as used to configure an Agent. */
+export interface AzureFunctionToolCreate extends ToolCreate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "azure_function";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The Azure Function Tool definition. */
+  azure_function: AzureFunctionDefinition;
+}
+
+export function azureFunctionToolCreateSerializer(item: AzureFunctionToolCreate): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_function: azureFunctionDefinitionSerializer(item["azure_function"]),
+  };
+}
+
+/** A tool for capturing structured outputs */
+export interface CaptureStructuredOutputsToolCreate extends ToolCreate {
+  /** The type of the tool. Always `capture_structured_outputs`. */
+  type: "capture_structured_outputs";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The structured outputs to capture from the model. */
+  outputs: StructuredOutputDefinition;
+}
+
+export function captureStructuredOutputsToolCreateSerializer(
+  item: CaptureStructuredOutputsToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    outputs: structuredOutputDefinitionSerializer(item["outputs"]),
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2APreviewToolCreate extends ToolCreate {
+  /** The type of the tool. Always `"a2a_preview`. */
+  type: "a2a_preview";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+}
+
+export function a2APreviewToolCreateSerializer(item: A2APreviewToolCreate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2AToolCreate extends ToolCreate {
+  /** The type of the tool. Always `"a2a"`. */
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolCreateSerializer(item: A2AToolCreate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** A WorkIQ server-side tool. */
+export interface WorkIQPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'work_iq_preview'. */
+  type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
+}
+
+export function workIQPreviewToolCreateSerializer(item: WorkIQPreviewToolCreate): any {
+  return { type: item["type"], project_connection_id: item["project_connection_id"] };
+}
+
+/** A FabricIQ server-side tool. */
+export interface FabricIQPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'fabric_iq_preview'. */
+  type: "fabric_iq_preview";
+  /** The ID of the FabricIQ project connection. */
+  project_connection_id: string;
+  /** (Optional) The label of the FabricIQ MCP server to connect to. */
+  server_label?: string;
+  /** (Optional) The URL of the FabricIQ MCP server. If not provided, the URL from the project connection will be used. */
+  server_url?: string;
+  /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function fabricIQPreviewToolCreateSerializer(item: FabricIQPreviewToolCreate): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A WebIQ server-side tool. */
+export interface WebIQPreviewToolCreate extends ToolCreate {
+  /** The object type, which is always 'web_iq_preview'. */
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolCreateSerializer(item: WebIQPreviewToolCreate): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A tool for integrating memories into the agent. */
+export interface MemorySearchPreviewToolCreate extends ToolCreate {
+  /** The type of the tool. Always `memory_search_preview`. */
+  type: "memory_search_preview";
+  /** The name of the memory store to use. */
+  memory_store_name: string;
+  /**
+   * The namespace used to group and isolate memories, such as a user ID.
+   * Limits which memories can be retrieved or updated.
+   * Use special variable `{{$userId}}` to scope memories to the current signed-in user.
+   */
+  scope: string;
+  /** Options for searching the memory store. */
+  search_options?: MemorySearchOptions;
+  /** Time to wait before updating memories after inactivity (seconds). Default 300. */
+  update_delay?: number;
+}
+
+export function memorySearchPreviewToolCreateSerializer(item: MemorySearchPreviewToolCreate): any {
+  return {
+    type: item["type"],
+    memory_store_name: item["memory_store_name"],
+    scope: item["scope"],
+    search_options: !item["search_options"]
+      ? item["search_options"]
+      : memorySearchOptionsSerializer(item["search_options"]),
+    update_delay: item["update_delay"],
+  };
+}
+
+/** Alias for _CodeInterpreterToolContainer */
+export type _CodeInterpreterToolContainer_1 = string | AutoCodeInterpreterToolParamCreate;
+
+export function _codeInterpreterToolContainerSerializer_1(
+  item: _CodeInterpreterToolContainer_1,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolContainerDeserializer_1(
+  item: any,
+): _CodeInterpreterToolContainer_1 {
+  return item;
+}
+
+/**
+ * The workflow agent definition. Microsoft Foundry is retiring workflows on December 1, 2026.
+ * If you're looking to build new workflows, use Microsoft Agent Framework. To migrate existing workflows,
+ * see the [Migration guide](https://learn.microsoft.com/azure/foundry/agents/concepts/workflow#migration-guide).
+ */
+export interface WorkflowAgentDefinitionCreate extends AgentDefinitionCreate {
+  kind: "workflow";
+  /** The CSDL YAML definition of the workflow. */
+  workflow?: string;
+}
+
+export function workflowAgentDefinitionCreateSerializer(item: WorkflowAgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    workflow: item["workflow"],
+  };
+}
+
+/**
+ * The external agent definition. Represents a third-party agent hosted outside Foundry (for example, on GCP or AWS).
+ * Registration is metadata-only: Foundry records the agent definition to light up observability experiences (traces, evaluations)
+ * over customer-emitted OpenTelemetry data.
+ */
+export interface ExternalAgentDefinitionCreate extends AgentDefinitionCreate {
+  kind: "external";
+  /**
+   * The OpenTelemetry agent identifier used to attribute customer-emitted spans to this Foundry agent.
+   * Spans must include the attribute `gen_ai.agent.id = <otel_agent_id>` to appear under this registration.
+   * Defaults to the top-level agent name when omitted. Provide an explicit value only for migration scenarios
+   * where the running external agent already emits a stable id that differs from the Foundry agent name.
+   * The resolved value is always echoed on read.
+   */
+  otel_agent_id?: string;
+}
+
+export function externalAgentDefinitionCreateSerializer(item: ExternalAgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    otel_agent_id: item["otel_agent_id"],
+  };
+}
+
+/**
+ * The voice agent definition. Its configuration (model, instructions, audio, tools, and optional avatar) drives a
+ * managed speech-to-speech experience. Establish realtime voice sessions through
+ * `GET /agents/{agent_name}/endpoint/protocols/voice`. Every create or update produces a new immutable version.
+ */
+export interface VoiceAgentDefinitionCreate extends AgentDefinitionCreate {
+  /** The kind discriminator for a voice agent definition. Always `voice`. */
+  kind: "voice";
+  /** How the model backing this voice agent is served. Required with `model` for a model-backed voice agent and omitted when `conversation_engine` is provided. This is independent of the architecture (realtime or cascaded), which the service derives from the selected model. */
+  model_type?: VoiceModelType;
+  /** The model to use for this agent. Required with `model_type` for a model-backed voice agent and omitted when `conversation_engine` is provided. The model must support realtime or cascaded voice. */
+  model?: string;
+  /** The engine that owns conversation handling for this voice agent. Exactly one of this property and the model-backed configuration (`model_type` with `model`) must be provided. When this property is provided, `model_type`, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the engine owns the conversation logic. The initial implementation supports a hosted-agent engine. */
+  conversation_engine?: VoiceConversationEngineUnion;
+  /** A system (or developer) message inserted into the model's context. Supports template substitution via `structured_inputs`, rendered per session before the live session starts. */
+  instructions?: string;
+  /** Optional session-start greeting. Template mode speaks exact rendered text; LLM-generated mode asks the session model to author the opening response and may use configured tools. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+  /**
+   * The audio configuration, including input and output formats, voice, turn detection, noise reduction, and
+   * transcription. These values are session defaults; a client may override supported fields when connecting.
+   */
+  audio?: VoiceAgentAudioConfig;
+  /**
+   * The output modalities the agent produces. Defaults to `["audio"]`. `animation` and `avatar` are available
+   * when an avatar is configured.
+   */
+  output_modalities?: VoiceOutputModality[];
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** Optional avatar configuration. These values are session defaults and may be overridden when connecting. */
+  avatar?: VoiceAgentAvatarConfig;
+  /**
+   * The tools the voice agent may use. Supported tool kinds are `function` (executed by the client), `mcp`,
+   * `system` (service-managed session controls), and `toolbox`. Server-side tools such as `web_search`,
+   * `azure_ai_search`, and `openapi` are provided through a toolbox rather than declared directly.
+   */
+  tools?: VoiceAgentToolUnion[];
+  /**
+   * How the model chooses tools for generated responses. `none` prevents tool calls, `auto` lets the model decide,
+   * `required` requires at least one tool call, and a specific function or MCP tool can be selected with an object.
+   * Defaults to `auto`.
+   */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Set of structured inputs that participate in prompt template substitution, rendered per session before the live session starts. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+  /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
+  subagent_config?: VoiceAgentSubagentConfig;
+  /**
+   * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
+   * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
+   * timeline and raw audio. When `false`, nothing is persisted and no conversation is surfaced. There is no separate
+   * audio-logging control; audio is persisted only as part of this switch. Latency/performance telemetry (e.g.
+   * time-to-first-audio, inter-token latency, interruption) is observability-only (customer trace / App Insights) and
+   * is not part of the persisted conversation content.
+   */
+  store?: boolean;
+}
+
+export function voiceAgentDefinitionCreateSerializer(item: VoiceAgentDefinitionCreate): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    conversation_engine: !item["conversation_engine"]
+      ? item["conversation_engine"]
+      : voiceConversationEngineUnionSerializer(item["conversation_engine"]),
+    instructions: item["instructions"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    avatar: !item["avatar"] ? item["avatar"] : voiceAgentAvatarConfigSerializer(item["avatar"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    subagent_config: !item["subagent_config"]
+      ? item["subagent_config"]
+      : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
+    store: item["store"],
+  };
+}
+
+/** model interface AgentEndpointConfigCreate */
+export interface AgentEndpointConfigCreate {
+  /** The version selector of the agent endpoint determines how traffic is routed to different versions of the agent. */
+  version_selector?: VersionSelector;
+  /** Per-protocol configuration for the agent endpoint. */
+  protocol_configuration?: ProtocolConfigurationCreate;
+  /** The authorization schemes supported by the agent endpoint */
+  authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
+}
+
+export function agentEndpointConfigCreateSerializer(item: AgentEndpointConfigCreate): any {
+  return {
+    version_selector: !item["version_selector"]
+      ? item["version_selector"]
+      : versionSelectorSerializer(item["version_selector"]),
+    protocol_configuration: !item["protocol_configuration"]
+      ? item["protocol_configuration"]
+      : protocolConfigurationCreateSerializer(item["protocol_configuration"]),
+    authorization_schemes: !item["authorization_schemes"]
+      ? item["authorization_schemes"]
+      : agentEndpointAuthorizationSchemeUnionArraySerializer(item["authorization_schemes"]),
+  };
+}
+
+/** Per-protocol configuration for the agent endpoint. */
+export interface ProtocolConfigurationCreate {
+  /** Configuration for the activity protocol. */
+  activity?: ActivityProtocolConfigurationCreate;
+  /** Configuration for the responses protocol. */
+  responses?: ResponsesProtocolConfiguration;
+  /** Configuration for the A2A protocol. */
+  a2a?: A2AProtocolConfiguration;
+  /** Configuration for the MCP protocol. */
+  mcp?: McpProtocolConfiguration;
+  /** Configuration for the invocations protocol. */
+  invocations?: InvocationsProtocolConfiguration;
+  /** Configuration for the WebSocket-based invocations protocol. */
+  invocations_ws?: InvocationsWsProtocolConfiguration;
+}
+
+export function protocolConfigurationCreateSerializer(item: ProtocolConfigurationCreate): any {
+  return {
+    activity: !item["activity"]
+      ? item["activity"]
+      : activityProtocolConfigurationCreateSerializer(item["activity"]),
+    responses: !item["responses"]
+      ? item["responses"]
+      : responsesProtocolConfigurationSerializer(item["responses"]),
+    a2a: !item["a2a"] ? item["a2a"] : a2AProtocolConfigurationSerializer(item["a2a"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpProtocolConfigurationSerializer(item["mcp"]),
+    invocations: !item["invocations"]
+      ? item["invocations"]
+      : invocationsProtocolConfigurationSerializer(item["invocations"]),
+    invocations_ws: !item["invocations_ws"]
+      ? item["invocations_ws"]
+      : invocationsWsProtocolConfigurationSerializer(item["invocations_ws"]),
+  };
+}
+
+/** Configuration specific to the activity protocol. */
+export interface ActivityProtocolConfigurationCreate {
+  /** Whether to enable the M365 public endpoint for the activity protocol. */
+  enable_m365_public_endpoint?: boolean;
+}
+
+export function activityProtocolConfigurationCreateSerializer(
+  item: ActivityProtocolConfigurationCreate,
+): any {
+  return { enable_m365_public_endpoint: item["enable_m365_public_endpoint"] };
+}
+
 /** A deleted agent Object */
 export interface DeleteAgentResponse {
   /** The object type. Always 'agent.deleted'. */
@@ -5468,6 +6334,77 @@ export function agentVersionArrayDeserializer(result: Array<AgentVersion>): any[
   return result.map((item) => {
     return agentVersionDeserializer(item);
   });
+}
+
+/** model interface AgentEndpointConfigUpdate */
+export interface AgentEndpointConfigUpdate {
+  /** The version selector of the agent endpoint determines how traffic is routed to different versions of the agent. */
+  version_selector?: VersionSelector;
+  /** Per-protocol configuration for the agent endpoint. */
+  protocol_configuration?: ProtocolConfigurationUpdate;
+  /** The authorization schemes supported by the agent endpoint */
+  authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
+}
+
+export function agentEndpointConfigUpdateSerializer(item: AgentEndpointConfigUpdate): any {
+  return {
+    version_selector: !item["version_selector"]
+      ? item["version_selector"]
+      : versionSelectorSerializer(item["version_selector"]),
+    protocol_configuration: !item["protocol_configuration"]
+      ? item["protocol_configuration"]
+      : protocolConfigurationUpdateSerializer(item["protocol_configuration"]),
+    authorization_schemes: !item["authorization_schemes"]
+      ? item["authorization_schemes"]
+      : agentEndpointAuthorizationSchemeUnionArraySerializer(item["authorization_schemes"]),
+  };
+}
+
+/** Per-protocol configuration for the agent endpoint. */
+export interface ProtocolConfigurationUpdate {
+  /** Configuration for the activity protocol. */
+  activity?: ActivityProtocolConfigurationUpdate;
+  /** Configuration for the responses protocol. */
+  responses?: ResponsesProtocolConfiguration;
+  /** Configuration for the A2A protocol. */
+  a2a?: A2AProtocolConfiguration;
+  /** Configuration for the MCP protocol. */
+  mcp?: McpProtocolConfiguration;
+  /** Configuration for the invocations protocol. */
+  invocations?: InvocationsProtocolConfiguration;
+  /** Configuration for the WebSocket-based invocations protocol. */
+  invocations_ws?: InvocationsWsProtocolConfiguration;
+}
+
+export function protocolConfigurationUpdateSerializer(item: ProtocolConfigurationUpdate): any {
+  return {
+    activity: !item["activity"]
+      ? item["activity"]
+      : activityProtocolConfigurationUpdateSerializer(item["activity"]),
+    responses: !item["responses"]
+      ? item["responses"]
+      : responsesProtocolConfigurationSerializer(item["responses"]),
+    a2a: !item["a2a"] ? item["a2a"] : a2AProtocolConfigurationSerializer(item["a2a"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpProtocolConfigurationSerializer(item["mcp"]),
+    invocations: !item["invocations"]
+      ? item["invocations"]
+      : invocationsProtocolConfigurationSerializer(item["invocations"]),
+    invocations_ws: !item["invocations_ws"]
+      ? item["invocations_ws"]
+      : invocationsWsProtocolConfigurationSerializer(item["invocations_ws"]),
+  };
+}
+
+/** Configuration specific to the activity protocol. */
+export interface ActivityProtocolConfigurationUpdate {
+  /** Whether to enable the M365 public endpoint for the activity protocol. */
+  enable_m365_public_endpoint?: boolean;
+}
+
+export function activityProtocolConfigurationUpdateSerializer(
+  item: ActivityProtocolConfigurationUpdate,
+): any {
+  return { enable_m365_public_endpoint: item["enable_m365_public_endpoint"] };
 }
 
 /** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
@@ -8150,20 +9087,10 @@ export interface DatasetVersion {
   readonly name: string;
   /** The version of the resource */
   readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
 }
 
 export function datasetVersionSerializer(item: DatasetVersion): any {
-  return {
-    dataUri: item["dataUri"],
-    type: item["type"],
-    connectionName: item["connectionName"],
-    description: item["description"],
-    tags: item["tags"],
-  };
+  return { dataUri: item["dataUri"], type: item["type"], connectionName: item["connectionName"] };
 }
 
 export function datasetVersionDeserializer(item: any): DatasetVersion {
@@ -8175,10 +9102,6 @@ export function datasetVersionDeserializer(item: any): DatasetVersion {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -8221,13 +9144,7 @@ export interface FileDatasetVersion extends DatasetVersion {
 }
 
 export function fileDatasetVersionSerializer(item: FileDatasetVersion): any {
-  return {
-    dataUri: item["dataUri"],
-    type: item["type"],
-    connectionName: item["connectionName"],
-    description: item["description"],
-    tags: item["tags"],
-  };
+  return { dataUri: item["dataUri"], type: item["type"], connectionName: item["connectionName"] };
 }
 
 export function fileDatasetVersionDeserializer(item: any): FileDatasetVersion {
@@ -8239,10 +9156,6 @@ export function fileDatasetVersionDeserializer(item: any): FileDatasetVersion {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -8253,13 +9166,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 export function folderDatasetVersionSerializer(item: FolderDatasetVersion): any {
-  return {
-    dataUri: item["dataUri"],
-    type: item["type"],
-    connectionName: item["connectionName"],
-    description: item["description"],
-    tags: item["tags"],
-  };
+  return { dataUri: item["dataUri"], type: item["type"], connectionName: item["connectionName"] };
 }
 
 export function folderDatasetVersionDeserializer(item: any): FolderDatasetVersion {
@@ -8271,10 +9178,6 @@ export function folderDatasetVersionDeserializer(item: any): FolderDatasetVersio
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -9753,14 +10656,10 @@ export interface Index {
   readonly name: string;
   /** The version of the resource */
   readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
 }
 
 export function indexSerializer(item: Index): any {
-  return { type: item["type"], description: item["description"], tags: item["tags"] };
+  return { type: item["type"] };
 }
 
 export function indexDeserializer(item: any): Index {
@@ -9769,10 +10668,6 @@ export function indexDeserializer(item: any): Index {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -9818,25 +10713,10 @@ export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzu
 export interface AzureAISearchIndex extends Index {
   /** Type of index */
   type: "AzureSearch";
-  /** Name of connection to Azure AI Search */
-  connectionName: string;
-  /** Name of index in Azure AI Search resource to attach */
-  indexName: string;
-  /** Field mapping configuration */
-  fieldMapping?: FieldMapping;
 }
 
 export function azureAISearchIndexSerializer(item: AzureAISearchIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    connectionName: item["connectionName"],
-    indexName: item["indexName"],
-    fieldMapping: !item["fieldMapping"]
-      ? item["fieldMapping"]
-      : fieldMappingSerializer(item["fieldMapping"]),
-  };
+  return { type: item["type"] };
 }
 
 export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
@@ -9845,73 +10725,6 @@ export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    connectionName: item["connectionName"],
-    indexName: item["indexName"],
-    fieldMapping: !item["fieldMapping"]
-      ? item["fieldMapping"]
-      : fieldMappingDeserializer(item["fieldMapping"]),
-  };
-}
-
-/** Field mapping configuration class */
-export interface FieldMapping {
-  /** List of fields with text content */
-  contentFields: string[];
-  /** Path of file to be used as a source of text content */
-  filepathField?: string;
-  /** Field containing the title of the document */
-  titleField?: string;
-  /** Field containing the url of the document */
-  urlField?: string;
-  /** List of fields with vector content */
-  vectorFields?: string[];
-  /** List of fields with metadata content */
-  metadataFields?: string[];
-}
-
-export function fieldMappingSerializer(item: FieldMapping): any {
-  return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
-    filepathField: item["filepathField"],
-    titleField: item["titleField"],
-    urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function fieldMappingDeserializer(item: any): FieldMapping {
-  return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
-    filepathField: item["filepathField"],
-    titleField: item["titleField"],
-    urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -9919,17 +10732,10 @@ export function fieldMappingDeserializer(item: any): FieldMapping {
 export interface ManagedAzureAISearchIndex extends Index {
   /** Type of index */
   type: "ManagedAzureSearch";
-  /** Vector store id of managed index */
-  vectorStoreId: string;
 }
 
 export function managedAzureAISearchIndexSerializer(item: ManagedAzureAISearchIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    vectorStoreId: item["vectorStoreId"],
-  };
+  return { type: item["type"] };
 }
 
 export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAISearchIndex {
@@ -9938,11 +10744,6 @@ export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAI
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    vectorStoreId: item["vectorStoreId"],
   };
 }
 
@@ -9950,29 +10751,10 @@ export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAI
 export interface CosmosDBIndex extends Index {
   /** Type of index */
   type: "CosmosDBNoSqlVectorStore";
-  /** Name of connection to CosmosDB */
-  connectionName: string;
-  /** Name of the CosmosDB Database */
-  databaseName: string;
-  /** Name of CosmosDB Container */
-  containerName: string;
-  /** Embedding model configuration */
-  embeddingConfiguration: EmbeddingConfiguration;
-  /** Field mapping configuration */
-  fieldMapping: FieldMapping;
 }
 
 export function cosmosDBIndexSerializer(item: CosmosDBIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    connectionName: item["connectionName"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationSerializer(item["embeddingConfiguration"]),
-    fieldMapping: fieldMappingSerializer(item["fieldMapping"]),
-  };
+  return { type: item["type"] };
 }
 
 export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
@@ -9981,38 +10763,29 @@ export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    connectionName: item["connectionName"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationDeserializer(item["embeddingConfiguration"]),
-    fieldMapping: fieldMappingDeserializer(item["fieldMapping"]),
   };
+}
+
+/** Field mapping configuration class */
+export interface FieldMapping {}
+
+export function fieldMappingSerializer(_item: FieldMapping): any {
+  return {};
+}
+
+export function fieldMappingDeserializer(item: any): FieldMapping {
+  return item;
 }
 
 /** Embedding configuration class */
-export interface EmbeddingConfiguration {
-  /** Deployment name of embedding model. It can point to a model deployment either in the parent AIServices or a connection. */
-  modelDeploymentName: string;
-  /** Embedding field */
-  embeddingField: string;
-}
+export interface EmbeddingConfiguration {}
 
-export function embeddingConfigurationSerializer(item: EmbeddingConfiguration): any {
-  return {
-    modelDeploymentName: item["modelDeploymentName"],
-    embeddingField: item["embeddingField"],
-  };
+export function embeddingConfigurationSerializer(_item: EmbeddingConfiguration): any {
+  return {};
 }
 
 export function embeddingConfigurationDeserializer(item: any): EmbeddingConfiguration {
-  return {
-    modelDeploymentName: item["modelDeploymentName"],
-    embeddingField: item["embeddingField"],
-  };
+  return item;
 }
 
 /** Paged collection of EvaluatorVersion items */
@@ -10074,10 +10847,6 @@ export interface EvaluatorVersion {
   readonly name: string;
   /** The version of the resource */
   readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
 }
 
 export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
@@ -10094,8 +10863,6 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
           return p;
         }),
     definition: evaluatorDefinitionUnionSerializer(item["definition"]),
-    description: item["description"],
-    tags: item["tags"],
   };
 }
 
@@ -10130,10 +10897,6 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -10973,16 +11736,963 @@ export function evaluatorGenerationJobArrayDeserializer(
   });
 }
 
-export function toolboxToolUnionArraySerializer(result: Array<ToolboxToolUnion>): any[] {
+export function toolboxToolCreateUnionArraySerializer(
+  result: Array<ToolboxToolCreateUnion>,
+): any[] {
   return result.map((item) => {
-    return toolboxToolUnionSerializer(item);
+    return toolboxToolCreateUnionSerializer(item);
   });
 }
 
-export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion>): any[] {
+/** An abstract representation of a tool stored in a toolbox. */
+export interface ToolboxToolCreate {
+  /** The type of tool. */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, browser_automation, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
+  type: ToolboxToolType;
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function toolboxToolCreateSerializer(item: ToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+/** Alias for ToolboxToolCreateUnion */
+export type ToolboxToolCreateUnion =
+  | CodeInterpreterToolboxToolCreate
+  | FileSearchToolboxToolCreate
+  | WebSearchToolboxToolCreate
+  | ShellToolboxToolCreate
+  | MCPToolboxToolCreate
+  | AzureAISearchToolboxToolCreate
+  | OpenApiToolboxToolCreate
+  | A2AToolboxToolCreate
+  | A2APreviewToolboxToolCreate
+  | BrowserAutomationPreviewToolboxToolCreate
+  | BrowserAutomationToolboxToolCreate
+  | ReminderPreviewToolboxToolCreate
+  | WorkIQPreviewToolboxToolCreate
+  | FabricIQPreviewToolboxToolCreate
+  | WebIQPreviewToolboxToolCreate
+  | ToolboxSearchPreviewToolboxToolCreate
+  | ToolSearchToolboxToolCreate
+  | ToolboxToolCreate;
+
+export function toolboxToolCreateUnionSerializer(item: ToolboxToolCreateUnion): any {
+  switch (item.type) {
+    case "code_interpreter":
+      return codeInterpreterToolboxToolCreateSerializer(item as CodeInterpreterToolboxToolCreate);
+
+    case "file_search":
+      return fileSearchToolboxToolCreateSerializer(item as FileSearchToolboxToolCreate);
+
+    case "web_search":
+      return webSearchToolboxToolCreateSerializer(item as WebSearchToolboxToolCreate);
+
+    case "shell":
+      return shellToolboxToolCreateSerializer(item as ShellToolboxToolCreate);
+
+    case "mcp":
+      return mcpToolboxToolCreateSerializer(item as MCPToolboxToolCreate);
+
+    case "azure_ai_search":
+      return azureAISearchToolboxToolCreateSerializer(item as AzureAISearchToolboxToolCreate);
+
+    case "openapi":
+      return openApiToolboxToolCreateSerializer(item as OpenApiToolboxToolCreate);
+
+    case "a2a":
+      return a2AToolboxToolCreateSerializer(item as A2AToolboxToolCreate);
+
+    case "a2a_preview":
+      return a2APreviewToolboxToolCreateSerializer(item as A2APreviewToolboxToolCreate);
+
+    case "browser_automation_preview":
+      return browserAutomationPreviewToolboxToolCreateSerializer(
+        item as BrowserAutomationPreviewToolboxToolCreate,
+      );
+
+    case "browser_automation":
+      return browserAutomationToolboxToolCreateSerializer(
+        item as BrowserAutomationToolboxToolCreate,
+      );
+
+    case "reminder_preview":
+      return reminderPreviewToolboxToolCreateSerializer(item as ReminderPreviewToolboxToolCreate);
+
+    case "work_iq_preview":
+      return workIQPreviewToolboxToolCreateSerializer(item as WorkIQPreviewToolboxToolCreate);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolboxToolCreateSerializer(item as FabricIQPreviewToolboxToolCreate);
+
+    case "web_iq_preview":
+      return webIQPreviewToolboxToolCreateSerializer(item as WebIQPreviewToolboxToolCreate);
+
+    case "toolbox_search_preview":
+      return toolboxSearchPreviewToolboxToolCreateSerializer(
+        item as ToolboxSearchPreviewToolboxToolCreate,
+      );
+
+    case "toolbox_search":
+      return toolSearchToolboxToolCreateSerializer(item as ToolSearchToolboxToolCreate);
+
+    default:
+      return toolboxToolCreateSerializer(item);
+  }
+}
+
+/** Supported tool types for tools stored in a toolbox. */
+export type ToolboxToolType =
+  | "code_interpreter"
+  | "file_search"
+  | "web_search"
+  | "mcp"
+  | "azure_ai_search"
+  | "openapi"
+  | "a2a_preview"
+  | "browser_automation_preview"
+  | "reminder_preview"
+  | "work_iq_preview"
+  | "fabric_iq_preview"
+  | "toolbox_search"
+  | "toolbox_search_preview"
+  | "a2a"
+  | "shell"
+  | "web_iq_preview"
+  | "browser_automation";
+
+/** A code interpreter tool stored in a toolbox. */
+export interface CodeInterpreterToolboxToolCreate extends ToolboxToolCreate {
+  type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
+  /**
+   * The code interpreter container. Can be a container ID or an object that
+   * specifies uploaded file IDs to make available to your code, along with an
+   * optional `memory_limit` setting.
+   * If not provided, the service assumes auto.
+   */
+  container?: string | AutoCodeInterpreterToolParamCreate;
+}
+
+export function codeInterpreterToolboxToolCreateSerializer(
+  item: CodeInterpreterToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    container: !item["container"]
+      ? item["container"]
+      : _codeInterpreterToolContainerSerializer_2(item["container"]),
+  };
+}
+
+/** Alias for _CodeInterpreterToolContainer */
+export type _CodeInterpreterToolContainer_2 = string | AutoCodeInterpreterToolParamCreate;
+
+export function _codeInterpreterToolContainerSerializer_2(
+  item: _CodeInterpreterToolContainer_2,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolContainerDeserializer_2(
+  item: any,
+): _CodeInterpreterToolContainer_2 {
+  return item;
+}
+
+/** A file search tool stored in a toolbox. */
+export interface FileSearchToolboxToolCreate extends ToolboxToolCreate {
+  type: "file_search";
+  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
+  max_num_results?: number;
+  /** Ranking options for search. */
+  ranking_options?: RankingOptions;
+  filters?: Filters;
+  /** The IDs of the vector stores to search. */
+  vector_store_ids?: string[];
+}
+
+export function fileSearchToolboxToolCreateSerializer(item: FileSearchToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    max_num_results: item["max_num_results"],
+    ranking_options: !item["ranking_options"]
+      ? item["ranking_options"]
+      : rankingOptionsSerializer(item["ranking_options"]),
+    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
+    vector_store_ids: !item["vector_store_ids"]
+      ? item["vector_store_ids"]
+      : item["vector_store_ids"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A web search tool stored in a toolbox. */
+export interface WebSearchToolboxToolCreate extends ToolboxToolCreate {
+  type: "web_search";
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
+  filters?: WebSearchToolFilters;
+  user_location?: WebSearchApproximateLocation;
+  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
+  search_context_size?: "low" | "medium" | "high";
+  /**
+   * The project connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  custom_search_configuration?: WebSearchConfiguration;
+}
+
+export function webSearchToolboxToolCreateSerializer(item: WebSearchToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    external_web_access: item["external_web_access"],
+    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
+    user_location: !item["user_location"]
+      ? item["user_location"]
+      : webSearchApproximateLocationSerializer(item["user_location"]),
+    search_context_size: item["search_context_size"],
+    custom_search_configuration: !item["custom_search_configuration"]
+      ? item["custom_search_configuration"]
+      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+  };
+}
+
+/** A shell tool stored in a toolbox. This model is additive to toolbox configuration and does not modify the OpenAI tool contract or existing toolbox tool definitions. */
+export interface ShellToolboxToolCreate extends ToolboxToolCreate {
+  /** The type of the tool. Always `shell`. */
+  type: "shell";
+  allowed_callers?: CallableToolAllowedCaller[];
+  /** The environment in which shell commands are executed. Specify an automatically provisioned container or an existing container. */
+  environment: ToolboxShellEnvironmentUnion;
+}
+
+export function shellToolboxToolCreateSerializer(item: ShellToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    environment: toolboxShellEnvironmentUnionSerializer(item["environment"]),
+  };
+}
+
+/** An execution environment for a shell tool stored in a toolbox. This environment model is scoped to toolbox configuration and does not modify the OpenAI shell environment contract. */
+export interface ToolboxShellEnvironment {
+  /** The type of the shell execution environment. */
+  /** The discriminator possible values: container_auto, container_reference */
+  type: string;
+}
+
+export function toolboxShellEnvironmentSerializer(item: ToolboxShellEnvironment): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellEnvironmentDeserializer(item: any): ToolboxShellEnvironment {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolboxShellEnvironmentUnion */
+export type ToolboxShellEnvironmentUnion =
+  | ToolboxShellContainerAutoEnvironment
+  | ToolboxShellContainerReferenceEnvironment
+  | ToolboxShellEnvironment;
+
+export function toolboxShellEnvironmentUnionSerializer(item: ToolboxShellEnvironmentUnion): any {
+  switch (item.type) {
+    case "container_auto":
+      return toolboxShellContainerAutoEnvironmentSerializer(
+        item as ToolboxShellContainerAutoEnvironment,
+      );
+
+    case "container_reference":
+      return toolboxShellContainerReferenceEnvironmentSerializer(
+        item as ToolboxShellContainerReferenceEnvironment,
+      );
+
+    default:
+      return toolboxShellEnvironmentSerializer(item);
+  }
+}
+
+export function toolboxShellEnvironmentUnionDeserializer(item: any): ToolboxShellEnvironmentUnion {
+  switch (item["type"]) {
+    case "container_auto":
+      return toolboxShellContainerAutoEnvironmentDeserializer(
+        item as ToolboxShellContainerAutoEnvironment,
+      );
+
+    case "container_reference":
+      return toolboxShellContainerReferenceEnvironmentDeserializer(
+        item as ToolboxShellContainerReferenceEnvironment,
+      );
+
+    default:
+      return toolboxShellEnvironmentDeserializer(item);
+  }
+}
+
+/** An automatically provisioned container environment for a shell tool stored in a toolbox. */
+export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
+  /** The type of the shell execution environment. Always `container_auto`. */
+  type: "container_auto";
+  /** An optional list of uploaded files to make available to your code. */
+  file_ids?: string[];
+  memory_limit?: ContainerMemoryLimit;
+  /** An optional list of skills referenced by id or inline data. */
+  skills?: ContainerSkillUnion[];
+  /** The network access policy for the container. When omitted, the service defaults to disabled outbound network access. */
+  network_policy?: ToolboxShellNetworkPolicyUnion;
+}
+
+export function toolboxShellContainerAutoEnvironmentSerializer(
+  item: ToolboxShellContainerAutoEnvironment,
+): any {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+    memory_limit: item["memory_limit"],
+    skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : toolboxShellNetworkPolicyUnionSerializer(item["network_policy"]),
+  };
+}
+
+export function toolboxShellContainerAutoEnvironmentDeserializer(
+  item: any,
+): ToolboxShellContainerAutoEnvironment {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+    memory_limit: item["memory_limit"],
+    skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : toolboxShellNetworkPolicyUnionDeserializer(item["network_policy"]),
+  };
+}
+
+/** Network access policy for an automatically provisioned toolbox shell container. */
+export interface ToolboxShellNetworkPolicy {
+  /** The type of network access policy. */
+  /** The discriminator possible values: disabled */
+  type: string;
+}
+
+export function toolboxShellNetworkPolicySerializer(item: ToolboxShellNetworkPolicy): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellNetworkPolicyDeserializer(item: any): ToolboxShellNetworkPolicy {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolboxShellNetworkPolicyUnion */
+export type ToolboxShellNetworkPolicyUnion =
+  ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
+
+export function toolboxShellNetworkPolicyUnionSerializer(
+  item: ToolboxShellNetworkPolicyUnion,
+): any {
+  switch (item.type) {
+    case "disabled":
+      return toolboxShellNetworkPolicyDisabledSerializer(item as ToolboxShellNetworkPolicyDisabled);
+
+    default:
+      return toolboxShellNetworkPolicySerializer(item);
+  }
+}
+
+export function toolboxShellNetworkPolicyUnionDeserializer(
+  item: any,
+): ToolboxShellNetworkPolicyUnion {
+  switch (item["type"]) {
+    case "disabled":
+      return toolboxShellNetworkPolicyDisabledDeserializer(
+        item as ToolboxShellNetworkPolicyDisabled,
+      );
+
+    default:
+      return toolboxShellNetworkPolicyDeserializer(item);
+  }
+}
+
+/** A network policy that disables outbound access from a toolbox shell container. */
+export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
+  /** The type of network access policy. Always `disabled`. */
+  type: "disabled";
+}
+
+export function toolboxShellNetworkPolicyDisabledSerializer(
+  item: ToolboxShellNetworkPolicyDisabled,
+): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellNetworkPolicyDisabledDeserializer(
+  item: any,
+): ToolboxShellNetworkPolicyDisabled {
+  return {
+    type: item["type"],
+  };
+}
+
+/** An existing container environment for a shell tool stored in a toolbox. */
+export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
+  /** The type of the shell execution environment. Always `container_reference`. */
+  type: "container_reference";
+  /** The ID of the referenced container. */
+  container_id: string;
+}
+
+export function toolboxShellContainerReferenceEnvironmentSerializer(
+  item: ToolboxShellContainerReferenceEnvironment,
+): any {
+  return { type: item["type"], container_id: item["container_id"] };
+}
+
+export function toolboxShellContainerReferenceEnvironmentDeserializer(
+  item: any,
+): ToolboxShellContainerReferenceEnvironment {
+  return {
+    type: item["type"],
+    container_id: item["container_id"],
+  };
+}
+
+/** An MCP tool stored in a toolbox. */
+export interface MCPToolboxToolCreate extends ToolboxToolCreate {
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+}
+
+export function mcpToolboxToolCreateSerializer(item: MCPToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+  };
+}
+
+/** An Azure AI Search tool stored in a toolbox. */
+export interface AzureAISearchToolboxToolCreate extends ToolboxToolCreate {
+  type: "azure_ai_search";
+  /** The azure ai search index resource. */
+  azure_ai_search: AzureAISearchToolResource;
+}
+
+export function azureAISearchToolboxToolCreateSerializer(
+  item: AzureAISearchToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
+  };
+}
+
+/** An OpenAPI tool stored in a toolbox. */
+export interface OpenApiToolboxToolCreate extends ToolboxToolCreate {
+  type: "openapi";
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinitionCreate;
+}
+
+export function openApiToolboxToolCreateSerializer(item: OpenApiToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    openapi: openApiFunctionDefinitionCreateSerializer(item["openapi"]),
+  };
+}
+
+/** An A2A tool stored in a toolbox. */
+export interface A2AToolboxToolCreate extends ToolboxToolCreate {
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolboxToolCreateSerializer(item: A2AToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** An A2A tool stored in a toolbox. */
+export interface A2APreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "a2a_preview";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+}
+
+export function a2APreviewToolboxToolCreateSerializer(item: A2APreviewToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+  };
+}
+
+/** A browser automation tool stored in a toolbox. */
+export interface BrowserAutomationPreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "browser_automation_preview";
+  /** The Browser Automation Tool parameters. */
+  browser_automation_preview: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationPreviewToolboxToolCreateSerializer(
+  item: BrowserAutomationPreviewToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    browser_automation_preview: browserAutomationToolParametersSerializer(
+      item["browser_automation_preview"],
+    ),
+  };
+}
+
+/** A browser automation tool stored in a toolbox. */
+export interface BrowserAutomationToolboxToolCreate extends ToolboxToolCreate {
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolboxToolCreateSerializer(
+  item: BrowserAutomationToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+/** A reminder tool stored in a toolbox. */
+export interface ReminderPreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "reminder_preview";
+}
+
+export function reminderPreviewToolboxToolCreateSerializer(
+  item: ReminderPreviewToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+/** A WorkIQ tool stored in a toolbox. */
+export interface WorkIQPreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
+}
+
+export function workIQPreviewToolboxToolCreateSerializer(
+  item: WorkIQPreviewToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    project_connection_id: item["project_connection_id"],
+  };
+}
+
+/** A FabricIQ tool stored in a toolbox. */
+export interface FabricIQPreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "fabric_iq_preview";
+  /** The ID of the FabricIQ project connection. */
+  project_connection_id: string;
+  /** (Optional) The label of the FabricIQ MCP server to connect to. */
+  server_label?: string;
+  /** (Optional) The URL of the FabricIQ MCP server. If not provided, the URL from the project connection will be used. */
+  server_url?: string;
+  /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function fabricIQPreviewToolboxToolCreateSerializer(
+  item: FabricIQPreviewToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A WebIQ tool stored in a toolbox. */
+export interface WebIQPreviewToolboxToolCreate extends ToolboxToolCreate {
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolboxToolCreateSerializer(item: WebIQPreviewToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A toolbox search tool stored in a toolbox. */
+export interface ToolboxSearchPreviewToolboxToolCreate extends ToolboxToolCreate {
+  /** The type of the tool. Always `toolbox_search_preview`. */
+  type: "toolbox_search_preview";
+}
+
+export function toolboxSearchPreviewToolboxToolCreateSerializer(
+  item: ToolboxSearchPreviewToolboxToolCreate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+/** A toolbox search tool stored in a toolbox. */
+export interface ToolSearchToolboxToolCreate extends ToolboxToolCreate {
+  /** The type of the tool. Always `toolbox_search`. */
+  type: "toolbox_search";
+}
+
+export function toolSearchToolboxToolCreateSerializer(item: ToolSearchToolboxToolCreate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolboxSkillUnionArraySerializer(result: Array<ToolboxSkillUnion>): any[] {
   return result.map((item) => {
-    return toolboxToolUnionDeserializer(item);
+    return toolboxSkillUnionSerializer(item);
   });
+}
+
+export function toolboxSkillUnionArrayDeserializer(result: Array<ToolboxSkillUnion>): any[] {
+  return result.map((item) => {
+    return toolboxSkillUnionDeserializer(item);
+  });
+}
+
+/** A skill source included in a toolbox. */
+export interface ToolboxSkill {
+  /** The type of skill source. */
+  /** The discriminator possible values: skill_reference */
+  type: string;
+}
+
+export function toolboxSkillSerializer(item: ToolboxSkill): any {
+  return { type: item["type"] };
+}
+
+export function toolboxSkillDeserializer(item: any): ToolboxSkill {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolboxSkillUnion */
+export type ToolboxSkillUnion = ToolboxSkillReference | ToolboxSkill;
+
+export function toolboxSkillUnionSerializer(item: ToolboxSkillUnion): any {
+  switch (item.type) {
+    case "skill_reference":
+      return toolboxSkillReferenceSerializer(item as ToolboxSkillReference);
+
+    default:
+      return toolboxSkillSerializer(item);
+  }
+}
+
+export function toolboxSkillUnionDeserializer(item: any): ToolboxSkillUnion {
+  switch (item["type"]) {
+    case "skill_reference":
+      return toolboxSkillReferenceDeserializer(item as ToolboxSkillReference);
+
+    default:
+      return toolboxSkillDeserializer(item);
+  }
+}
+
+/** A reference to an existing skill to include in a toolbox. */
+export interface ToolboxSkillReference extends ToolboxSkill {
+  /** The type of skill source. */
+  type: "skill_reference";
+  /** The name of the skill. */
+  name: string;
+  /** The version of the skill. If not specified, the skill's default version is used. When a version is specified, the reference is pinned to that immutable version. */
+  version?: string;
+}
+
+export function toolboxSkillReferenceSerializer(item: ToolboxSkillReference): any {
+  return { type: item["type"], name: item["name"], version: item["version"] };
+}
+
+export function toolboxSkillReferenceDeserializer(item: any): ToolboxSkillReference {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Policy configuration for a toolbox, including content safety and other governance settings. */
+export interface ToolboxPolicies {
+  /** Responsible AI content filtering configuration. */
+  rai_config?: RaiConfig;
+}
+
+export function toolboxPoliciesSerializer(item: ToolboxPolicies): any {
+  return {
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+  };
+}
+
+export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
+  return {
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+  };
 }
 
 /** An abstract representation of a tool stored in a toolbox. */
@@ -11164,26 +12874,6 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
       return toolboxToolDeserializer(item);
   }
 }
-
-/** Supported tool types for tools stored in a toolbox. */
-export type ToolboxToolType =
-  | "code_interpreter"
-  | "file_search"
-  | "web_search"
-  | "mcp"
-  | "azure_ai_search"
-  | "openapi"
-  | "a2a_preview"
-  | "browser_automation_preview"
-  | "reminder_preview"
-  | "work_iq_preview"
-  | "fabric_iq_preview"
-  | "toolbox_search"
-  | "toolbox_search_preview"
-  | "a2a"
-  | "shell"
-  | "web_iq_preview"
-  | "browser_automation";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -11386,202 +13076,6 @@ export function shellToolboxToolDeserializer(item: any): ShellToolboxTool {
           return p1;
         }),
     environment: toolboxShellEnvironmentUnionDeserializer(item["environment"]),
-  };
-}
-
-/** An execution environment for a shell tool stored in a toolbox. This environment model is scoped to toolbox configuration and does not modify the OpenAI shell environment contract. */
-export interface ToolboxShellEnvironment {
-  /** The type of the shell execution environment. */
-  /** The discriminator possible values: container_auto, container_reference */
-  type: string;
-}
-
-export function toolboxShellEnvironmentSerializer(item: ToolboxShellEnvironment): any {
-  return { type: item["type"] };
-}
-
-export function toolboxShellEnvironmentDeserializer(item: any): ToolboxShellEnvironment {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ToolboxShellEnvironmentUnion */
-export type ToolboxShellEnvironmentUnion =
-  | ToolboxShellContainerAutoEnvironment
-  | ToolboxShellContainerReferenceEnvironment
-  | ToolboxShellEnvironment;
-
-export function toolboxShellEnvironmentUnionSerializer(item: ToolboxShellEnvironmentUnion): any {
-  switch (item.type) {
-    case "container_auto":
-      return toolboxShellContainerAutoEnvironmentSerializer(
-        item as ToolboxShellContainerAutoEnvironment,
-      );
-
-    case "container_reference":
-      return toolboxShellContainerReferenceEnvironmentSerializer(
-        item as ToolboxShellContainerReferenceEnvironment,
-      );
-
-    default:
-      return toolboxShellEnvironmentSerializer(item);
-  }
-}
-
-export function toolboxShellEnvironmentUnionDeserializer(item: any): ToolboxShellEnvironmentUnion {
-  switch (item["type"]) {
-    case "container_auto":
-      return toolboxShellContainerAutoEnvironmentDeserializer(
-        item as ToolboxShellContainerAutoEnvironment,
-      );
-
-    case "container_reference":
-      return toolboxShellContainerReferenceEnvironmentDeserializer(
-        item as ToolboxShellContainerReferenceEnvironment,
-      );
-
-    default:
-      return toolboxShellEnvironmentDeserializer(item);
-  }
-}
-
-/** An automatically provisioned container environment for a shell tool stored in a toolbox. */
-export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
-  /** The type of the shell execution environment. Always `container_auto`. */
-  type: "container_auto";
-  /** An optional list of uploaded files to make available to your code. */
-  file_ids?: string[];
-  memory_limit?: ContainerMemoryLimit;
-  /** An optional list of skills referenced by id or inline data. */
-  skills?: ContainerSkillUnion[];
-  /** The network access policy for the container. When omitted, the service defaults to disabled outbound network access. */
-  network_policy?: ToolboxShellNetworkPolicyUnion;
-}
-
-export function toolboxShellContainerAutoEnvironmentSerializer(
-  item: ToolboxShellContainerAutoEnvironment,
-): any {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : toolboxShellNetworkPolicyUnionSerializer(item["network_policy"]),
-  };
-}
-
-export function toolboxShellContainerAutoEnvironmentDeserializer(
-  item: any,
-): ToolboxShellContainerAutoEnvironment {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : toolboxShellNetworkPolicyUnionDeserializer(item["network_policy"]),
-  };
-}
-
-/** Network access policy for an automatically provisioned toolbox shell container. */
-export interface ToolboxShellNetworkPolicy {
-  /** The type of network access policy. */
-  /** The discriminator possible values: disabled */
-  type: string;
-}
-
-export function toolboxShellNetworkPolicySerializer(item: ToolboxShellNetworkPolicy): any {
-  return { type: item["type"] };
-}
-
-export function toolboxShellNetworkPolicyDeserializer(item: any): ToolboxShellNetworkPolicy {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ToolboxShellNetworkPolicyUnion */
-export type ToolboxShellNetworkPolicyUnion =
-  ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
-
-export function toolboxShellNetworkPolicyUnionSerializer(
-  item: ToolboxShellNetworkPolicyUnion,
-): any {
-  switch (item.type) {
-    case "disabled":
-      return toolboxShellNetworkPolicyDisabledSerializer(item as ToolboxShellNetworkPolicyDisabled);
-
-    default:
-      return toolboxShellNetworkPolicySerializer(item);
-  }
-}
-
-export function toolboxShellNetworkPolicyUnionDeserializer(
-  item: any,
-): ToolboxShellNetworkPolicyUnion {
-  switch (item["type"]) {
-    case "disabled":
-      return toolboxShellNetworkPolicyDisabledDeserializer(
-        item as ToolboxShellNetworkPolicyDisabled,
-      );
-
-    default:
-      return toolboxShellNetworkPolicyDeserializer(item);
-  }
-}
-
-/** A network policy that disables outbound access from a toolbox shell container. */
-export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
-  /** The type of network access policy. Always `disabled`. */
-  type: "disabled";
-}
-
-export function toolboxShellNetworkPolicyDisabledSerializer(
-  item: ToolboxShellNetworkPolicyDisabled,
-): any {
-  return { type: item["type"] };
-}
-
-export function toolboxShellNetworkPolicyDisabledDeserializer(
-  item: any,
-): ToolboxShellNetworkPolicyDisabled {
-  return {
-    type: item["type"],
-  };
-}
-
-/** An existing container environment for a shell tool stored in a toolbox. */
-export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
-  /** The type of the shell execution environment. Always `container_reference`. */
-  type: "container_reference";
-  /** The ID of the referenced container. */
-  container_id: string;
-}
-
-export function toolboxShellContainerReferenceEnvironmentSerializer(
-  item: ToolboxShellContainerReferenceEnvironment,
-): any {
-  return { type: item["type"], container_id: item["container_id"] };
-}
-
-export function toolboxShellContainerReferenceEnvironmentDeserializer(
-  item: any,
-): ToolboxShellContainerReferenceEnvironment {
-  return {
-    type: item["type"],
-    container_id: item["container_id"],
   };
 }
 
@@ -12157,100 +13651,6 @@ export function toolSearchToolboxToolDeserializer(item: any): ToolSearchToolboxT
   };
 }
 
-export function toolboxSkillUnionArraySerializer(result: Array<ToolboxSkillUnion>): any[] {
-  return result.map((item) => {
-    return toolboxSkillUnionSerializer(item);
-  });
-}
-
-export function toolboxSkillUnionArrayDeserializer(result: Array<ToolboxSkillUnion>): any[] {
-  return result.map((item) => {
-    return toolboxSkillUnionDeserializer(item);
-  });
-}
-
-/** A skill source included in a toolbox. */
-export interface ToolboxSkill {
-  /** The type of skill source. */
-  /** The discriminator possible values: skill_reference */
-  type: string;
-}
-
-export function toolboxSkillSerializer(item: ToolboxSkill): any {
-  return { type: item["type"] };
-}
-
-export function toolboxSkillDeserializer(item: any): ToolboxSkill {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ToolboxSkillUnion */
-export type ToolboxSkillUnion = ToolboxSkillReference | ToolboxSkill;
-
-export function toolboxSkillUnionSerializer(item: ToolboxSkillUnion): any {
-  switch (item.type) {
-    case "skill_reference":
-      return toolboxSkillReferenceSerializer(item as ToolboxSkillReference);
-
-    default:
-      return toolboxSkillSerializer(item);
-  }
-}
-
-export function toolboxSkillUnionDeserializer(item: any): ToolboxSkillUnion {
-  switch (item["type"]) {
-    case "skill_reference":
-      return toolboxSkillReferenceDeserializer(item as ToolboxSkillReference);
-
-    default:
-      return toolboxSkillDeserializer(item);
-  }
-}
-
-/** A reference to an existing skill to include in a toolbox. */
-export interface ToolboxSkillReference extends ToolboxSkill {
-  /** The type of skill source. */
-  type: "skill_reference";
-  /** The name of the skill. */
-  name: string;
-  /** The version of the skill. If not specified, the skill's default version is used. When a version is specified, the reference is pinned to that immutable version. */
-  version?: string;
-}
-
-export function toolboxSkillReferenceSerializer(item: ToolboxSkillReference): any {
-  return { type: item["type"], name: item["name"], version: item["version"] };
-}
-
-export function toolboxSkillReferenceDeserializer(item: any): ToolboxSkillReference {
-  return {
-    type: item["type"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** Policy configuration for a toolbox, including content safety and other governance settings. */
-export interface ToolboxPolicies {
-  /** Responsible AI content filtering configuration. */
-  rai_config?: RaiConfig;
-}
-
-export function toolboxPoliciesSerializer(item: ToolboxPolicies): any {
-  return {
-    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
-  };
-}
-
-export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
-  return {
-    rai_config: !item["rai_config"]
-      ? item["rai_config"]
-      : raiConfigDeserializer(item["rai_config"]),
-  };
-}
-
 /** A specific version of a toolbox. */
 export interface ToolboxVersionObject {
   /**
@@ -12296,6 +13696,18 @@ export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObjec
     skills: !item["skills"] ? item["skills"] : toolboxSkillUnionArrayDeserializer(item["skills"]),
     policies: !item["policies"] ? item["policies"] : toolboxPoliciesDeserializer(item["policies"]),
   };
+}
+
+export function toolboxToolUnionArraySerializer(result: Array<ToolboxToolUnion>): any[] {
+  return result.map((item) => {
+    return toolboxToolUnionSerializer(item);
+  });
+}
+
+export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion>): any[] {
+  return result.map((item) => {
+    return toolboxToolUnionDeserializer(item);
+  });
 }
 
 /** A toolbox that stores reusable tool definitions for agents. */
@@ -13075,10 +14487,6 @@ export interface EvaluationTaxonomy {
   readonly name: string;
   /** The version of the resource */
   readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
   /** Input configuration for the evaluation taxonomy. */
   taxonomyInput: EvaluationTaxonomyInputUnion;
   /** List of taxonomy categories. */
@@ -13089,8 +14497,6 @@ export interface EvaluationTaxonomy {
 
 export function evaluationTaxonomySerializer(item: EvaluationTaxonomy): any {
   return {
-    description: item["description"],
-    tags: item["tags"],
     taxonomyInput: evaluationTaxonomyInputUnionSerializer(item["taxonomyInput"]),
     taxonomyCategories: !item["taxonomyCategories"]
       ? item["taxonomyCategories"]
@@ -13104,10 +14510,6 @@ export function evaluationTaxonomyDeserializer(item: any): EvaluationTaxonomy {
     id: item["id"],
     name: item["name"],
     version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     taxonomyInput: evaluationTaxonomyInputUnionDeserializer(item["taxonomyInput"]),
     taxonomyCategories: !item["taxonomyCategories"]
       ? item["taxonomyCategories"]
@@ -16653,17 +18055,50 @@ export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): an
  * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
  * durable ordering extensions.
  */
-export interface VoiceResponse extends VoiceResponseBase {
-  /** The unique id of the response. */
-  id: string;
-  /** The output items produced by the response. May be omitted in list results; retrieve the full response (GET .../responses/{response_id}) or use the paged response-items route (GET .../responses/{response_id}/items) for its output items. Each item's `response_id` also links it back to this response in the conversation-level items list. */
+export interface VoiceResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
   output?: RealtimeConversationItemUnion[];
-  /** The id of the conversation this response belongs to. */
-  conversation_id: string;
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
   /** The audio configuration used for the response, including the voice and audio format used for output. */
   audio?: VoiceResponseAudio;
-  /** A set of key-value pairs attached to the response. */
-  metadata?: Record<string, string>;
   /** The sampling temperature used for the response. */
   temperature?: number;
   /** The Unix timestamp (in seconds) for when the response was created. */
@@ -16674,12 +18109,18 @@ export interface VoiceResponse extends VoiceResponseBase {
 
 export function voiceResponseDeserializer(item: any): VoiceResponse {
   return {
+    id: item["id"],
     object: item["object"],
     status: item["status"],
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -16687,16 +18128,8 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
-    id: item["id"],
-    output: !item["output"]
-      ? item["output"]
-      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
-    conversation_id: item["conversation_id"],
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     temperature: item["temperature"],
     created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
     completed_at: !item["completed_at"]
@@ -16752,56 +18185,6 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
     format: !item["format"]
       ? item["format"]
       : realtimeAudioFormatsUnionDeserializer(item["format"]),
-  };
-}
-
-/** Properties shared by persisted voice responses. */
-export interface VoiceResponseBase {
-  /** The object type, must be `realtime.response`. */
-  object?: "realtime.response";
-  /**
-   * The final status of the response (`completed`, `cancelled`, `failed`, or
-   *   `incomplete`, `in_progress`).
-   */
-  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-  /** Additional details about the status. */
-  status_details?: RealtimeResponseStatusDetails;
-  /**
-   * Usage statistics for the Response, this will correspond to billing. A
-   *   Realtime API session will maintain a conversation context and append new
-   *   Items to the Conversation, thus output from previous turns (text and
-   *   audio tokens) will become the input for later turns.
-   */
-  usage?: RealtimeResponseUsage;
-  /**
-   * The set of modalities the model used to respond, currently the only possible values are
-   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
-   *   output to mode `text` will disable audio output from the model.
-   */
-  output_modalities?: ("text" | "audio")[];
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   *   inclusive of tool calls, that was used in this response.
-   */
-  max_output_tokens?: number | "inf";
-}
-
-export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
-  return {
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
   };
 }
 
@@ -18671,12 +20054,18 @@ export interface VoiceAgentResponseCreateParams {
    */
   conversation?: "auto" | "none";
   metadata?: Metadata;
+  /**
+   * Input items to include in the prompt for the model. Using this field
+   *   creates a new context for this Response instead of using the default
+   *   conversation. An empty array `[]` will clear the context for this Response.
+   *   Note that this can include references to items that previously appeared in the session
+   *   using their id.
+   */
+  input?: RealtimeConversationItemUnion[];
   /** Modalities that the response may return. */
   output_modalities?: VoiceOutputModality[];
   /** Response-specific audio settings. */
   audio?: PickPropertiesVoiceAgentAudioConfig;
-  /** Conversation items used as inline response input. */
-  input?: RealtimeConversationItemUnion[];
   /** A pre-generated assistant message used to begin the response. */
   pre_generated_assistant_message?: RealtimeConversationItemUnion;
   /** Interim-response settings for this response. */
@@ -18703,6 +20092,9 @@ export function voiceAgentResponseCreateParamsSerializer(
       : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
     conversation: item["conversation"],
     metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArraySerializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -18711,9 +20103,6 @@ export function voiceAgentResponseCreateParamsSerializer(
     audio: !item["audio"]
       ? item["audio"]
       : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeConversationItemUnionArraySerializer(item["input"]),
     pre_generated_assistant_message: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
@@ -18743,6 +20132,9 @@ export function voiceAgentResponseCreateParamsDeserializer(
       : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
     conversation: item["conversation"],
     metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -18751,9 +20143,6 @@ export function voiceAgentResponseCreateParamsDeserializer(
     audio: !item["audio"]
       ? item["audio"]
       : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
     pre_generated_assistant_message: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
@@ -18983,11 +20372,50 @@ export function voiceAgentTranscriptionWordDeserializer(item: any): VoiceAgentTr
 }
 
 /** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
-export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+export interface VoiceAgentRealtimeResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
+  output?: RealtimeConversationItemUnion[];
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
   /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
   audio?: VoiceResponseAudio;
-  /** The items produced by the live response. */
-  output?: RealtimeConversationItemUnion[];
 }
 
 export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeResponse): any {
@@ -18998,6 +20426,9 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArraySerializer(item["output"]),
     metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
     conversation_id: item["conversation_id"],
@@ -19008,11 +20439,8 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+      : _voiceResponseMaxOutputTokensSerializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
-    output: !item["output"]
-      ? item["output"]
-      : realtimeConversationItemUnionArraySerializer(item["output"]),
   };
 }
 
@@ -19024,6 +20452,9 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
     metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
     conversation_id: item["conversation_id"],
@@ -19034,11 +20465,8 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
-    output: !item["output"]
-      ? item["output"]
-      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
   };
 }
 
@@ -19630,97 +21058,6 @@ export function voiceAgentServerEventResponseVideoDeltaDeserializer(
   };
 }
 
-/** Properties shared by realtime responses returned by the voice-agent service. */
-export interface VoiceAgentRealtimeResponseBase {
-  /** The unique ID of the response, will look like `resp_1234`. */
-  id?: string;
-  /** The object type, must be `realtime.response`. */
-  object?: "realtime.response";
-  /**
-   * The final status of the response (`completed`, `cancelled`, `failed`, or
-   *   `incomplete`, `in_progress`).
-   */
-  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-  /** Additional details about the status. */
-  status_details?: RealtimeResponseStatusDetails;
-  metadata?: Metadata;
-  /**
-   * Usage statistics for the Response, this will correspond to billing. A
-   *   Realtime API session will maintain a conversation context and append new
-   *   Items to the Conversation, thus output from previous turns (text and
-   *   audio tokens) will become the input for later turns.
-   */
-  usage?: RealtimeResponseUsage;
-  /**
-   * Which conversation the response is added to, determined by the `conversation`
-   *   field in the `response.create` event. If `auto`, the response will be added to
-   *   the default conversation and the value of `conversation_id` will be an id like
-   *   `conv_1234`. If `none`, the response will not be added to any conversation and
-   *   the value of `conversation_id` will be `null`. If responses are being triggered
-   *   automatically by VAD the response will be added to the default conversation
-   */
-  conversation_id?: string;
-  /**
-   * The set of modalities the model used to respond, currently the only possible values are
-   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
-   *   output to mode `text` will disable audio output from the model.
-   */
-  output_modalities?: ("text" | "audio")[];
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   *   inclusive of tool calls, that was used in this response.
-   */
-  max_output_tokens?: number | "inf";
-}
-
-export function voiceAgentRealtimeResponseBaseSerializer(
-  item: VoiceAgentRealtimeResponseBase,
-): any {
-  return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
-    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
-    conversation_id: item["conversation_id"],
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
-  };
-}
-
-export function voiceAgentRealtimeResponseBaseDeserializer(
-  item: any,
-): VoiceAgentRealtimeResponseBase {
-  return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
-    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    conversation_id: item["conversation_id"],
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
-  };
-}
-
 /** model interface UpdateToolboxRequest */
 export interface UpdateToolboxRequest {
   /** The name of the toolbox to update. */
@@ -19731,6 +21068,1719 @@ export interface UpdateToolboxRequest {
 
 export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any {
   return { default_version: item["default_version"] };
+}
+
+/** Evaluator Definition */
+export interface EvaluatorVersionCreate {
+  /** Display Name for evaluator. It helps to find the evaluator easily in AI Foundry. It does not need to be unique. */
+  display_name?: string;
+  /** Metadata about the evaluator */
+  metadata?: Record<string, string>;
+  /** The type of the evaluator */
+  evaluator_type: EvaluatorType;
+  /** The categories of the evaluator */
+  categories: EvaluatorCategory[];
+  /** Evaluation levels this evaluator supports (e.g., `turn`, `conversation`). When omitted on create, the service defaults to `["turn"]`. On update, omitting this field leaves it unchanged; an empty list is rejected. Custom code-based evaluators support only `turn`; custom prompt-based evaluators support exactly one level (`turn` or `conversation`). */
+  supported_evaluation_levels?: EvaluationLevel[];
+  /** Definition of the evaluator */
+  definition: EvaluatorDefinitionUnion;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function evaluatorVersionCreateSerializer(item: EvaluatorVersionCreate): any {
+  return {
+    display_name: item["display_name"],
+    metadata: item["metadata"],
+    evaluator_type: item["evaluator_type"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    supported_evaluation_levels: !item["supported_evaluation_levels"]
+      ? item["supported_evaluation_levels"]
+      : item["supported_evaluation_levels"].map((p: any) => {
+          return p;
+        }),
+    definition: evaluatorDefinitionUnionSerializer(item["definition"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+/** Evaluator Definition */
+export interface EvaluatorVersionUpdate {
+  /** Display Name for evaluator. It helps to find the evaluator easily in AI Foundry. It does not need to be unique. */
+  display_name?: string;
+  /** Metadata about the evaluator */
+  metadata?: Record<string, string>;
+  /** The categories of the evaluator */
+  categories: EvaluatorCategory[];
+  /** Evaluation levels this evaluator supports (e.g., `turn`, `conversation`). When omitted on create, the service defaults to `["turn"]`. On update, omitting this field leaves it unchanged; an empty list is rejected. Custom code-based evaluators support only `turn`; custom prompt-based evaluators support exactly one level (`turn` or `conversation`). */
+  supported_evaluation_levels?: EvaluationLevel[];
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function evaluatorVersionUpdateSerializer(item: EvaluatorVersionUpdate): any {
+  return {
+    display_name: item["display_name"],
+    metadata: item["metadata"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    supported_evaluation_levels: !item["supported_evaluation_levels"]
+      ? item["supported_evaluation_levels"]
+      : item["supported_evaluation_levels"].map((p: any) => {
+          return p;
+        }),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+/** Index resource Definition */
+export interface IndexUpdate {
+  /** Type of index */
+  /** The discriminator possible values: AzureSearch, ManagedAzureSearch, CosmosDBNoSqlVectorStore */
+  type: IndexType;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function indexUpdateSerializer(item: IndexUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** Alias for IndexUpdateUnion */
+export type IndexUpdateUnion =
+  AzureAISearchIndexUpdate | ManagedAzureAISearchIndexUpdate | CosmosDBIndexUpdate | IndexUpdate;
+
+export function indexUpdateUnionSerializer(item: IndexUpdateUnion): any {
+  switch (item.type) {
+    case "AzureSearch":
+      return azureAISearchIndexUpdateSerializer(item as AzureAISearchIndexUpdate);
+
+    case "ManagedAzureSearch":
+      return managedAzureAISearchIndexUpdateSerializer(item as ManagedAzureAISearchIndexUpdate);
+
+    case "CosmosDBNoSqlVectorStore":
+      return cosmosDBIndexUpdateSerializer(item as CosmosDBIndexUpdate);
+
+    default:
+      return indexUpdateSerializer(item);
+  }
+}
+
+/** Azure AI Search Index Definition */
+export interface AzureAISearchIndexUpdate extends IndexUpdate {
+  /** Type of index */
+  type: "AzureSearch";
+}
+
+export function azureAISearchIndexUpdateSerializer(item: AzureAISearchIndexUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** Managed Azure AI Search Index Definition */
+export interface ManagedAzureAISearchIndexUpdate extends IndexUpdate {
+  /** Type of index */
+  type: "ManagedAzureSearch";
+}
+
+export function managedAzureAISearchIndexUpdateSerializer(
+  item: ManagedAzureAISearchIndexUpdate,
+): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** CosmosDB Vector Store Index Definition */
+export interface CosmosDBIndexUpdate extends IndexUpdate {
+  /** Type of index */
+  type: "CosmosDBNoSqlVectorStore";
+}
+
+export function cosmosDBIndexUpdateSerializer(item: CosmosDBIndexUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** DatasetVersion Definition */
+export interface DatasetVersionUpdate {
+  /** Dataset type */
+  /** The discriminator possible values: uri_file, uri_folder */
+  type: DatasetType;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function datasetVersionUpdateSerializer(item: DatasetVersionUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** Alias for DatasetVersionUpdateUnion */
+export type DatasetVersionUpdateUnion =
+  FileDatasetVersionUpdate | FolderDatasetVersionUpdate | DatasetVersionUpdate;
+
+export function datasetVersionUpdateUnionSerializer(item: DatasetVersionUpdateUnion): any {
+  switch (item.type) {
+    case "uri_file":
+      return fileDatasetVersionUpdateSerializer(item as FileDatasetVersionUpdate);
+
+    case "uri_folder":
+      return folderDatasetVersionUpdateSerializer(item as FolderDatasetVersionUpdate);
+
+    default:
+      return datasetVersionUpdateSerializer(item);
+  }
+}
+
+/** FileDatasetVersion Definition */
+export interface FileDatasetVersionUpdate extends DatasetVersionUpdate {
+  /** Dataset type */
+  type: "uri_file";
+}
+
+export function fileDatasetVersionUpdateSerializer(item: FileDatasetVersionUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** FileDatasetVersion Definition */
+export interface FolderDatasetVersionUpdate extends DatasetVersionUpdate {
+  /** Dataset type */
+  type: "uri_folder";
+}
+
+export function folderDatasetVersionUpdateSerializer(item: FolderDatasetVersionUpdate): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+/** Evaluation rule model. */
+export interface EvaluationRuleCreateOrUpdate {
+  /** Display Name for the evaluation rule. */
+  displayName?: string;
+  /** Description for the evaluation rule. */
+  description?: string;
+  /** Definition of the evaluation rule action. */
+  action: EvaluationRuleActionUnion;
+  /** Filter condition of the evaluation rule. */
+  filter?: EvaluationRuleFilter;
+  /** Event type that the evaluation rule applies to. */
+  eventType: EvaluationRuleEventType;
+  /** Indicates whether the evaluation rule is enabled. Default is true. */
+  enabled: boolean;
+}
+
+export function evaluationRuleCreateOrUpdateSerializer(item: EvaluationRuleCreateOrUpdate): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    action: evaluationRuleActionUnionSerializer(item["action"]),
+    filter: !item["filter"] ? item["filter"] : evaluationRuleFilterSerializer(item["filter"]),
+    eventType: item["eventType"],
+    enabled: item["enabled"],
+  };
+}
+
+/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
+export interface CreateAgentVersionFromCodeContentCreate {
+  /** JSON metadata including description and hosted definition. */
+  metadata: CreateAgentVersionFromCodeMetadataCreate;
+  /** The code zip file (max 250 MB). */
+  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function createAgentVersionFromCodeContentCreateSerializer(
+  item: CreateAgentVersionFromCodeContentCreate,
+): any {
+  return [
+    {
+      name: "metadata",
+      body: createAgentVersionFromCodeMetadataCreateSerializer(item["metadata"]),
+    },
+    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
+  ];
+}
+
+/**
+ * JSON metadata for code-based agent operations (create, update, create version).
+ * The agent name comes from the URL path parameter or the `x-ms-agent-name` header,
+ * so it is not included in this model.
+ * The content hash (SHA-256 of the zip) is carried in the `x-ms-code-zip-sha256` header.
+ */
+export interface CreateAgentVersionFromCodeMetadataCreate {
+  /** A human-readable description of the agent. */
+  description?: string;
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
+  metadata?: Record<string, string>;
+  /** The hosted agent definition including code_configuration (runtime, entry_point), cpu, memory, and protocol_versions. */
+  definition: HostedAgentDefinitionCreate;
+}
+
+export function createAgentVersionFromCodeMetadataCreateSerializer(
+  item: CreateAgentVersionFromCodeMetadataCreate,
+): any {
+  return {
+    description: item["description"],
+    metadata: item["metadata"],
+    definition: hostedAgentDefinitionCreateSerializer(item["definition"]),
+  };
+}
+
+/** Agent optimization job resource — a long-running job that produces candidate changes to a Foundry agent configuration. */
+export interface AgentOptimizationJobCreate {
+  /** Human-readable label. Omitted when no label is needed; it has no uniqueness, routing, or idempotency semantics. */
+  display_name?: string;
+  /** Foundry agent whose configuration is optimized. Omitted when the workflow does not target a registered Foundry agent. */
+  target_configuration?: AgentOptimizationTargetConfigurationUnion;
+  /** Model used to generate candidate changes. An existing deployment name is also accepted. */
+  optimization_model_configuration: AgentOptimizationModelConfiguration;
+  /** Type-specific optimization configuration. */
+  optimization_configuration: AgentOptimizationConfigurationBaseUnion;
+}
+
+export function agentOptimizationJobCreateSerializer(item: AgentOptimizationJobCreate): any {
+  return {
+    display_name: item["display_name"],
+    target_configuration: !item["target_configuration"]
+      ? item["target_configuration"]
+      : agentOptimizationTargetConfigurationUnionSerializer(item["target_configuration"]),
+    optimization_model_configuration: agentOptimizationModelConfigurationSerializer(
+      item["optimization_model_configuration"],
+    ),
+    optimization_configuration: agentOptimizationConfigurationBaseUnionSerializer(
+      item["optimization_configuration"],
+    ),
+  };
+}
+
+/** Schedule model. */
+export interface ScheduleCreateOrUpdate {
+  /** Name of the schedule. */
+  displayName?: string;
+  /** Description of the schedule. */
+  description?: string;
+  /** Enabled status of the schedule. */
+  enabled: boolean;
+  /** Trigger for the schedule. */
+  trigger: TriggerUnion;
+  /** Task for the schedule. */
+  task: ScheduleTaskCreateOrUpdateUnion;
+  /** Schedule's tags. Unlike properties, tags are fully mutable. */
+  tags?: Record<string, string>;
+  /** Schedule's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
+  properties?: Record<string, string>;
+}
+
+export function scheduleCreateOrUpdateSerializer(item: ScheduleCreateOrUpdate): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    enabled: item["enabled"],
+    trigger: triggerUnionSerializer(item["trigger"]),
+    task: scheduleTaskCreateOrUpdateUnionSerializer(item["task"]),
+    tags: item["tags"],
+    properties: item["properties"],
+  };
+}
+
+/** Schedule task model. */
+export interface ScheduleTaskCreateOrUpdate {
+  /** Type of the task. */
+  /** The discriminator possible values: Evaluation, Insight */
+  type: ScheduleTaskType;
+  /** Configuration for the task. */
+  configuration?: Record<string, string>;
+}
+
+export function scheduleTaskCreateOrUpdateSerializer(item: ScheduleTaskCreateOrUpdate): any {
+  return { type: item["type"], configuration: item["configuration"] };
+}
+
+/** Alias for ScheduleTaskCreateOrUpdateUnion */
+export type ScheduleTaskCreateOrUpdateUnion =
+  | EvaluationScheduleTaskCreateOrUpdate
+  | InsightScheduleTaskCreateOrUpdate
+  | ScheduleTaskCreateOrUpdate;
+
+export function scheduleTaskCreateOrUpdateUnionSerializer(
+  item: ScheduleTaskCreateOrUpdateUnion,
+): any {
+  switch (item.type) {
+    case "Evaluation":
+      return evaluationScheduleTaskCreateOrUpdateSerializer(
+        item as EvaluationScheduleTaskCreateOrUpdate,
+      );
+
+    case "Insight":
+      return insightScheduleTaskCreateOrUpdateSerializer(item as InsightScheduleTaskCreateOrUpdate);
+
+    default:
+      return scheduleTaskCreateOrUpdateSerializer(item);
+  }
+}
+
+/** Evaluation task for the schedule. */
+export interface EvaluationScheduleTaskCreateOrUpdate extends ScheduleTaskCreateOrUpdate {
+  type: "Evaluation";
+  /** Identifier of the evaluation group. */
+  evalId: string;
+  /** The evaluation run payload. */
+  evalRun: Record<string, any>;
+}
+
+export function evaluationScheduleTaskCreateOrUpdateSerializer(
+  item: EvaluationScheduleTaskCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    configuration: item["configuration"],
+    evalId: item["evalId"],
+    evalRun: item["evalRun"],
+  };
+}
+
+/** Insight task for the schedule. */
+export interface InsightScheduleTaskCreateOrUpdate extends ScheduleTaskCreateOrUpdate {
+  type: "Insight";
+  /** The insight payload. */
+  insight: InsightCreateOrUpdate;
+}
+
+export function insightScheduleTaskCreateOrUpdateSerializer(
+  item: InsightScheduleTaskCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    configuration: item["configuration"],
+    insight: insightCreateOrUpdateSerializer(item["insight"]),
+  };
+}
+
+/** The response body for cluster insights. */
+export interface InsightCreateOrUpdate {
+  /** User friendly display name for the insight. */
+  displayName: string;
+  /** Request for the insights analysis. */
+  request: InsightRequestUnion;
+}
+
+export function insightCreateOrUpdateSerializer(item: InsightCreateOrUpdate): any {
+  return {
+    displayName: item["displayName"],
+    request: insightRequestUnionSerializer(item["request"]),
+  };
+}
+
+/** Red team details. */
+export interface RedTeamCreate {
+  /** Name of the red-team run. */
+  displayName?: string;
+  /** Number of simulation rounds. */
+  numTurns?: number;
+  /** List of attack strategies or nested lists of attack strategies. */
+  attackStrategies?: AttackStrategy[];
+  /** Simulation-only or Simulation + Evaluation. If `true` the scan outputs conversation not evaluation result. The service defaults to `false` if a value is not specified by the caller. */
+  simulationOnly?: boolean;
+  /** List of risk categories to generate attack objectives for. */
+  riskCategories?: RiskCategory[];
+  /** Application scenario for the red team operation, to generate scenario specific attacks. */
+  applicationScenario?: string;
+  /** Red team's tags. Unlike properties, tags are fully mutable. */
+  tags?: Record<string, string>;
+  /** Red team's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
+  properties?: Record<string, string>;
+  /** Target configuration for the red-team run. */
+  target: RedTeamTargetConfigUnion;
+}
+
+export function redTeamCreateSerializer(item: RedTeamCreate): any {
+  return {
+    displayName: item["displayName"],
+    numTurns: item["numTurns"],
+    attackStrategies: !item["attackStrategies"]
+      ? item["attackStrategies"]
+      : item["attackStrategies"].map((p: any) => {
+          return p;
+        }),
+    simulationOnly: item["simulationOnly"],
+    riskCategories: !item["riskCategories"]
+      ? item["riskCategories"]
+      : item["riskCategories"].map((p: any) => {
+          return p;
+        }),
+    applicationScenario: item["applicationScenario"],
+    tags: item["tags"],
+    properties: item["properties"],
+    target: redTeamTargetConfigUnionSerializer(item["target"]),
+  };
+}
+
+/** Model Version Definition */
+export interface ModelVersionCreate {
+  /** URI of the model artifact in blob storage */
+  blobUri: string;
+  /** The weight type of the model */
+  weightType?: FoundryModelWeightType;
+  /** Base model asset ID */
+  baseModel?: string;
+  /** The source of the model */
+  source?: ModelSourceData;
+  /** Adapter-specific configuration. Required when weight_type is lora; ignored otherwise. May be auto-populated from adapter_config.json when present in the uploaded files — user-provided values take precedence over auto-detected values. */
+  loraConfig?: LoraConfig;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function modelVersionCreateSerializer(item: ModelVersionCreate): any {
+  return {
+    blobUri: item["blobUri"],
+    weightType: item["weightType"],
+    baseModel: item["baseModel"],
+    source: !item["source"] ? item["source"] : modelSourceDataSerializer(item["source"]),
+    loraConfig: !item["loraConfig"] ? item["loraConfig"] : loraConfigSerializer(item["loraConfig"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+/** The response body for cluster insights. */
+export interface InsightCreate {
+  /** User friendly display name for the insight. */
+  displayName: string;
+  /** Request for the insights analysis. */
+  request: InsightRequestUnion;
+}
+
+export function insightCreateSerializer(item: InsightCreate): any {
+  return {
+    displayName: item["displayName"],
+    request: insightRequestUnionSerializer(item["request"]),
+  };
+}
+
+/** Evaluation Taxonomy Definition */
+export interface EvaluationTaxonomyCreateOrUpdate {
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+  /** Input configuration for the evaluation taxonomy. */
+  taxonomyInput: EvaluationTaxonomyInputCreateOrUpdateUnion;
+  /** List of taxonomy categories. */
+  taxonomyCategories?: TaxonomyCategory[];
+  /** Additional properties for the evaluation taxonomy. */
+  properties?: Record<string, string>;
+}
+
+export function evaluationTaxonomyCreateOrUpdateSerializer(
+  item: EvaluationTaxonomyCreateOrUpdate,
+): any {
+  return {
+    description: item["description"],
+    tags: item["tags"],
+    taxonomyInput: evaluationTaxonomyInputCreateOrUpdateUnionSerializer(item["taxonomyInput"]),
+    taxonomyCategories: !item["taxonomyCategories"]
+      ? item["taxonomyCategories"]
+      : taxonomyCategoryArraySerializer(item["taxonomyCategories"]),
+    properties: item["properties"],
+  };
+}
+
+/** Input configuration for the evaluation taxonomy. */
+export interface EvaluationTaxonomyInputCreateOrUpdate {
+  /** Input type of the evaluation taxonomy. */
+  /** The discriminator possible values: agent */
+  type: EvaluationTaxonomyInputType;
+}
+
+export function evaluationTaxonomyInputCreateOrUpdateSerializer(
+  item: EvaluationTaxonomyInputCreateOrUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+/** Alias for EvaluationTaxonomyInputCreateOrUpdateUnion */
+export type EvaluationTaxonomyInputCreateOrUpdateUnion =
+  AgentTaxonomyInputCreateOrUpdate | EvaluationTaxonomyInputCreateOrUpdate;
+
+export function evaluationTaxonomyInputCreateOrUpdateUnionSerializer(
+  item: EvaluationTaxonomyInputCreateOrUpdateUnion,
+): any {
+  switch (item.type) {
+    case "agent":
+      return agentTaxonomyInputCreateOrUpdateSerializer(item as AgentTaxonomyInputCreateOrUpdate);
+
+    default:
+      return evaluationTaxonomyInputCreateOrUpdateSerializer(item);
+  }
+}
+
+/** Input configuration for the evaluation taxonomy when the input type is agent. */
+export interface AgentTaxonomyInputCreateOrUpdate extends EvaluationTaxonomyInputCreateOrUpdate {
+  /** Input type of the evaluation taxonomy. */
+  type: "agent";
+  /** Target configuration for the agent. */
+  target: EvaluationTargetCreateOrUpdateUnion;
+  /** List of risk categories to evaluate against. */
+  riskCategories: RiskCategory[];
+}
+
+export function agentTaxonomyInputCreateOrUpdateSerializer(
+  item: AgentTaxonomyInputCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    target: evaluationTargetCreateOrUpdateUnionSerializer(item["target"]),
+    riskCategories: item["riskCategories"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Base class for targets with discriminator support. */
+export interface EvaluationTargetCreateOrUpdate {
+  /** The type of target. */
+  /** The discriminator possible values: azure_ai_model, azure_ai_agent */
+  type: string;
+}
+
+export function evaluationTargetCreateOrUpdateSerializer(
+  item: EvaluationTargetCreateOrUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+/** Alias for EvaluationTargetCreateOrUpdateUnion */
+export type EvaluationTargetCreateOrUpdateUnion =
+  | AzureAIModelTargetCreateOrUpdate
+  | AzureAIAgentTargetCreateOrUpdate
+  | EvaluationTargetCreateOrUpdate;
+
+export function evaluationTargetCreateOrUpdateUnionSerializer(
+  item: EvaluationTargetCreateOrUpdateUnion,
+): any {
+  switch (item.type) {
+    case "azure_ai_model":
+      return azureAIModelTargetCreateOrUpdateSerializer(item as AzureAIModelTargetCreateOrUpdate);
+
+    case "azure_ai_agent":
+      return azureAIAgentTargetCreateOrUpdateSerializer(item as AzureAIAgentTargetCreateOrUpdate);
+
+    default:
+      return evaluationTargetCreateOrUpdateSerializer(item);
+  }
+}
+
+/**
+ * A target that identifies an Azure AI model.
+ *
+ * See [evaluate administrator-connected models](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-admin-connected-models?tabs=python).
+ */
+export interface AzureAIModelTargetCreateOrUpdate extends EvaluationTargetCreateOrUpdate {
+  /** The type of target, always `azure_ai_model`. */
+  type: "azure_ai_model";
+  /** The name of the model deployment to invoke as the evaluation target. */
+  model?: string;
+  /** The parameters used to control the sampling behavior of the model during text generation. */
+  sampling_params?: ModelSamplingParams;
+}
+
+export function azureAIModelTargetCreateOrUpdateSerializer(
+  item: AzureAIModelTargetCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    model: item["model"],
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : modelSamplingParamsSerializer(item["sampling_params"]),
+  };
+}
+
+/**
+ * A target that identifies an Azure AI agent.
+ *
+ * See [evaluate model or agent targets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-targets?tabs=python).
+ */
+export interface AzureAIAgentTargetCreateOrUpdate extends EvaluationTargetCreateOrUpdate {
+  /** The type of target, always `azure_ai_agent`. */
+  type: "azure_ai_agent";
+  /** The name of the Azure AI agent to invoke as the evaluation target. */
+  name: string;
+  /** The version of the Azure AI agent. When omitted, the latest version is used. */
+  version?: string;
+  /** Optional descriptions of tools available to the agent. */
+  tool_descriptions?: ToolDescription[];
+  /** Tool definitions made available when invoking the agent. */
+  tools?: ToolCreateOrUpdateUnion[];
+}
+
+export function azureAIAgentTargetCreateOrUpdateSerializer(
+  item: AzureAIAgentTargetCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+    tool_descriptions: !item["tool_descriptions"]
+      ? item["tool_descriptions"]
+      : toolDescriptionArraySerializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolCreateOrUpdateUnionArraySerializer(item["tools"]),
+  };
+}
+
+/** Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreviewCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewCreateOrUpdateSerializer(
+  item: GitHubCopilotToolsetPreviewCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+/** The input definition information for a bing grounding search tool as used to configure an agent. */
+export interface BingGroundingToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'bing_grounding'. */
+  type: "bing_grounding";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The bing grounding search tool parameters. */
+  bing_grounding: BingGroundingSearchToolParameters;
+}
+
+export function bingGroundingToolCreateOrUpdateSerializer(
+  item: BingGroundingToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
+  };
+}
+
+/** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
+export interface MicrosoftFabricPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'fabric_dataagent_preview'. */
+  type: "fabric_dataagent_preview";
+  /** The fabric data agent tool parameters. */
+  fabric_dataagent_preview: FabricDataAgentToolParameters;
+}
+
+export function microsoftFabricPreviewToolCreateOrUpdateSerializer(
+  item: MicrosoftFabricPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
+      item["fabric_dataagent_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a sharepoint tool as used to configure an agent. */
+export interface SharepointPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'sharepoint_grounding_preview'. */
+  type: "sharepoint_grounding_preview";
+  /** The sharepoint grounding tool parameters. */
+  sharepoint_grounding_preview: SharepointGroundingToolParameters;
+}
+
+export function sharepointPreviewToolCreateOrUpdateSerializer(
+  item: SharepointPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
+      item["sharepoint_grounding_preview"],
+    ),
+  };
+}
+
+/** The input definition information for an Azure AI search tool as used to configure an agent. */
+export interface AzureAISearchToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'azure_ai_search'. */
+  type: "azure_ai_search";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The azure ai search index resource. */
+  azure_ai_search: AzureAISearchToolResource;
+}
+
+export function azureAISearchToolCreateOrUpdateSerializer(
+  item: AzureAISearchToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
+  };
+}
+
+/** The input definition information for an OpenAPI tool as used to configure an agent. */
+export interface OpenApiToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinitionCreateOrUpdate;
+}
+
+export function openApiToolCreateOrUpdateSerializer(item: OpenApiToolCreateOrUpdate): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    openapi: openApiFunctionDefinitionCreateOrUpdateSerializer(item["openapi"]),
+  };
+}
+
+/** The input definition information for an openapi function. */
+export interface OpenApiFunctionDefinitionCreateOrUpdate {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The openapi function shape, described as a JSON Schema object. */
+  spec: Record<string, any>;
+  /** Open API authentication details */
+  auth: OpenApiAuthDetailsUnion;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
+}
+
+export function openApiFunctionDefinitionCreateOrUpdateSerializer(
+  item: OpenApiFunctionDefinitionCreateOrUpdate,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    spec: item["spec"],
+    auth: openApiAuthDetailsUnionSerializer(item["auth"]),
+    default_params: !item["default_params"]
+      ? item["default_params"]
+      : item["default_params"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'bing_custom_search_preview'. */
+  type: "bing_custom_search_preview";
+  /** The bing custom search tool parameters. */
+  bing_custom_search_preview: BingCustomSearchToolParameters;
+}
+
+export function bingCustomSearchPreviewToolCreateOrUpdateSerializer(
+  item: BingCustomSearchPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
+      item["bing_custom_search_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'browser_automation_preview'. */
+  type: "browser_automation_preview";
+  /** The Browser Automation Tool parameters. */
+  browser_automation_preview: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationPreviewToolCreateOrUpdateSerializer(
+  item: BrowserAutomationPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    browser_automation_preview: browserAutomationToolParametersSerializer(
+      item["browser_automation_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolCreateOrUpdateSerializer(
+  item: BrowserAutomationToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+/** The input definition information for an Azure Function Tool, as used to configure an Agent. */
+export interface AzureFunctionToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "azure_function";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The Azure Function Tool definition. */
+  azure_function: AzureFunctionDefinition;
+}
+
+export function azureFunctionToolCreateOrUpdateSerializer(
+  item: AzureFunctionToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_function: azureFunctionDefinitionSerializer(item["azure_function"]),
+  };
+}
+
+/** A tool for capturing structured outputs */
+export interface CaptureStructuredOutputsToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The type of the tool. Always `capture_structured_outputs`. */
+  type: "capture_structured_outputs";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The structured outputs to capture from the model. */
+  outputs: StructuredOutputDefinition;
+}
+
+export function captureStructuredOutputsToolCreateOrUpdateSerializer(
+  item: CaptureStructuredOutputsToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    outputs: structuredOutputDefinitionSerializer(item["outputs"]),
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2APreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The type of the tool. Always `"a2a_preview`. */
+  type: "a2a_preview";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+}
+
+export function a2APreviewToolCreateOrUpdateSerializer(item: A2APreviewToolCreateOrUpdate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2AToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The type of the tool. Always `"a2a"`. */
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolCreateOrUpdateSerializer(item: A2AToolCreateOrUpdate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** A WorkIQ server-side tool. */
+export interface WorkIQPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'work_iq_preview'. */
+  type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
+}
+
+export function workIQPreviewToolCreateOrUpdateSerializer(
+  item: WorkIQPreviewToolCreateOrUpdate,
+): any {
+  return { type: item["type"], project_connection_id: item["project_connection_id"] };
+}
+
+/** A FabricIQ server-side tool. */
+export interface FabricIQPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'fabric_iq_preview'. */
+  type: "fabric_iq_preview";
+  /** The ID of the FabricIQ project connection. */
+  project_connection_id: string;
+  /** (Optional) The label of the FabricIQ MCP server to connect to. */
+  server_label?: string;
+  /** (Optional) The URL of the FabricIQ MCP server. If not provided, the URL from the project connection will be used. */
+  server_url?: string;
+  /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function fabricIQPreviewToolCreateOrUpdateSerializer(
+  item: FabricIQPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A WebIQ server-side tool. */
+export interface WebIQPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The object type, which is always 'web_iq_preview'. */
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolCreateOrUpdateSerializer(
+  item: WebIQPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A tool for integrating memories into the agent. */
+export interface MemorySearchPreviewToolCreateOrUpdate extends ToolCreateOrUpdate {
+  /** The type of the tool. Always `memory_search_preview`. */
+  type: "memory_search_preview";
+  /** The name of the memory store to use. */
+  memory_store_name: string;
+  /**
+   * The namespace used to group and isolate memories, such as a user ID.
+   * Limits which memories can be retrieved or updated.
+   * Use special variable `{{$userId}}` to scope memories to the current signed-in user.
+   */
+  scope: string;
+  /** Options for searching the memory store. */
+  search_options?: MemorySearchOptions;
+  /** Time to wait before updating memories after inactivity (seconds). Default 300. */
+  update_delay?: number;
+}
+
+export function memorySearchPreviewToolCreateOrUpdateSerializer(
+  item: MemorySearchPreviewToolCreateOrUpdate,
+): any {
+  return {
+    type: item["type"],
+    memory_store_name: item["memory_store_name"],
+    scope: item["scope"],
+    search_options: !item["search_options"]
+      ? item["search_options"]
+      : memorySearchOptionsSerializer(item["search_options"]),
+    update_delay: item["update_delay"],
+  };
+}
+
+/** Alias for _CodeInterpreterToolContainer */
+export type _CodeInterpreterToolContainer_3 = string | AutoCodeInterpreterToolParamCreateOrUpdate;
+
+export function _codeInterpreterToolContainerSerializer_3(
+  item: _CodeInterpreterToolContainer_3,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolContainerDeserializer_3(
+  item: any,
+): _CodeInterpreterToolContainer_3 {
+  return item;
+}
+
+/** Evaluation Taxonomy Definition */
+export interface EvaluationTaxonomyUpdate {
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+  /** Input configuration for the evaluation taxonomy. */
+  taxonomyInput: EvaluationTaxonomyInputUpdateUnion;
+  /** List of taxonomy categories. */
+  taxonomyCategories?: TaxonomyCategory[];
+  /** Additional properties for the evaluation taxonomy. */
+  properties?: Record<string, string>;
+}
+
+export function evaluationTaxonomyUpdateSerializer(item: EvaluationTaxonomyUpdate): any {
+  return {
+    description: item["description"],
+    tags: item["tags"],
+    taxonomyInput: evaluationTaxonomyInputUpdateUnionSerializer(item["taxonomyInput"]),
+    taxonomyCategories: !item["taxonomyCategories"]
+      ? item["taxonomyCategories"]
+      : taxonomyCategoryArraySerializer(item["taxonomyCategories"]),
+    properties: item["properties"],
+  };
+}
+
+/** Input configuration for the evaluation taxonomy. */
+export interface EvaluationTaxonomyInputUpdate {
+  /** Input type of the evaluation taxonomy. */
+  /** The discriminator possible values: agent */
+  type: EvaluationTaxonomyInputType;
+}
+
+export function evaluationTaxonomyInputUpdateSerializer(item: EvaluationTaxonomyInputUpdate): any {
+  return { type: item["type"] };
+}
+
+/** Alias for EvaluationTaxonomyInputUpdateUnion */
+export type EvaluationTaxonomyInputUpdateUnion =
+  AgentTaxonomyInputUpdate | EvaluationTaxonomyInputUpdate;
+
+export function evaluationTaxonomyInputUpdateUnionSerializer(
+  item: EvaluationTaxonomyInputUpdateUnion,
+): any {
+  switch (item.type) {
+    case "agent":
+      return agentTaxonomyInputUpdateSerializer(item as AgentTaxonomyInputUpdate);
+
+    default:
+      return evaluationTaxonomyInputUpdateSerializer(item);
+  }
+}
+
+/** Input configuration for the evaluation taxonomy when the input type is agent. */
+export interface AgentTaxonomyInputUpdate extends EvaluationTaxonomyInputUpdate {
+  /** Input type of the evaluation taxonomy. */
+  type: "agent";
+  /** Target configuration for the agent. */
+  target: EvaluationTargetUpdateUnion;
+  /** List of risk categories to evaluate against. */
+  riskCategories: RiskCategory[];
+}
+
+export function agentTaxonomyInputUpdateSerializer(item: AgentTaxonomyInputUpdate): any {
+  return {
+    type: item["type"],
+    target: evaluationTargetUpdateUnionSerializer(item["target"]),
+    riskCategories: item["riskCategories"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Base class for targets with discriminator support. */
+export interface EvaluationTargetUpdate {
+  /** The type of target. */
+  /** The discriminator possible values: azure_ai_model, azure_ai_agent */
+  type: string;
+}
+
+export function evaluationTargetUpdateSerializer(item: EvaluationTargetUpdate): any {
+  return { type: item["type"] };
+}
+
+/** Alias for EvaluationTargetUpdateUnion */
+export type EvaluationTargetUpdateUnion =
+  AzureAIModelTargetUpdate | AzureAIAgentTargetUpdate | EvaluationTargetUpdate;
+
+export function evaluationTargetUpdateUnionSerializer(item: EvaluationTargetUpdateUnion): any {
+  switch (item.type) {
+    case "azure_ai_model":
+      return azureAIModelTargetUpdateSerializer(item as AzureAIModelTargetUpdate);
+
+    case "azure_ai_agent":
+      return azureAIAgentTargetUpdateSerializer(item as AzureAIAgentTargetUpdate);
+
+    default:
+      return evaluationTargetUpdateSerializer(item);
+  }
+}
+
+/**
+ * A target that identifies an Azure AI model.
+ *
+ * See [evaluate administrator-connected models](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-admin-connected-models?tabs=python).
+ */
+export interface AzureAIModelTargetUpdate extends EvaluationTargetUpdate {
+  /** The type of target, always `azure_ai_model`. */
+  type: "azure_ai_model";
+  /** The name of the model deployment to invoke as the evaluation target. */
+  model?: string;
+  /** The parameters used to control the sampling behavior of the model during text generation. */
+  sampling_params?: ModelSamplingParams;
+}
+
+export function azureAIModelTargetUpdateSerializer(item: AzureAIModelTargetUpdate): any {
+  return {
+    type: item["type"],
+    model: item["model"],
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : modelSamplingParamsSerializer(item["sampling_params"]),
+  };
+}
+
+/**
+ * A target that identifies an Azure AI agent.
+ *
+ * See [evaluate model or agent targets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-targets?tabs=python).
+ */
+export interface AzureAIAgentTargetUpdate extends EvaluationTargetUpdate {
+  /** The type of target, always `azure_ai_agent`. */
+  type: "azure_ai_agent";
+  /** The name of the Azure AI agent to invoke as the evaluation target. */
+  name: string;
+  /** The version of the Azure AI agent. When omitted, the latest version is used. */
+  version?: string;
+  /** Optional descriptions of tools available to the agent. */
+  tool_descriptions?: ToolDescription[];
+  /** Tool definitions made available when invoking the agent. */
+  tools?: ToolUpdateUnion[];
+}
+
+export function azureAIAgentTargetUpdateSerializer(item: AzureAIAgentTargetUpdate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+    tool_descriptions: !item["tool_descriptions"]
+      ? item["tool_descriptions"]
+      : toolDescriptionArraySerializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolUpdateUnionArraySerializer(item["tools"]),
+  };
+}
+
+/** Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreviewUpdate extends ToolUpdate {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewUpdateSerializer(
+  item: GitHubCopilotToolsetPreviewUpdate,
+): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+/** The input definition information for a bing grounding search tool as used to configure an agent. */
+export interface BingGroundingToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'bing_grounding'. */
+  type: "bing_grounding";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The bing grounding search tool parameters. */
+  bing_grounding: BingGroundingSearchToolParameters;
+}
+
+export function bingGroundingToolUpdateSerializer(item: BingGroundingToolUpdate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
+  };
+}
+
+/** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
+export interface MicrosoftFabricPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'fabric_dataagent_preview'. */
+  type: "fabric_dataagent_preview";
+  /** The fabric data agent tool parameters. */
+  fabric_dataagent_preview: FabricDataAgentToolParameters;
+}
+
+export function microsoftFabricPreviewToolUpdateSerializer(
+  item: MicrosoftFabricPreviewToolUpdate,
+): any {
+  return {
+    type: item["type"],
+    fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
+      item["fabric_dataagent_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a sharepoint tool as used to configure an agent. */
+export interface SharepointPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'sharepoint_grounding_preview'. */
+  type: "sharepoint_grounding_preview";
+  /** The sharepoint grounding tool parameters. */
+  sharepoint_grounding_preview: SharepointGroundingToolParameters;
+}
+
+export function sharepointPreviewToolUpdateSerializer(item: SharepointPreviewToolUpdate): any {
+  return {
+    type: item["type"],
+    sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
+      item["sharepoint_grounding_preview"],
+    ),
+  };
+}
+
+/** The input definition information for an Azure AI search tool as used to configure an agent. */
+export interface AzureAISearchToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'azure_ai_search'. */
+  type: "azure_ai_search";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The azure ai search index resource. */
+  azure_ai_search: AzureAISearchToolResource;
+}
+
+export function azureAISearchToolUpdateSerializer(item: AzureAISearchToolUpdate): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
+  };
+}
+
+/** The input definition information for an OpenAPI tool as used to configure an agent. */
+export interface OpenApiToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinitionUpdate;
+}
+
+export function openApiToolUpdateSerializer(item: OpenApiToolUpdate): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    openapi: openApiFunctionDefinitionUpdateSerializer(item["openapi"]),
+  };
+}
+
+/** The input definition information for an openapi function. */
+export interface OpenApiFunctionDefinitionUpdate {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The openapi function shape, described as a JSON Schema object. */
+  spec: Record<string, any>;
+  /** Open API authentication details */
+  auth: OpenApiAuthDetailsUnion;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
+}
+
+export function openApiFunctionDefinitionUpdateSerializer(
+  item: OpenApiFunctionDefinitionUpdate,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    spec: item["spec"],
+    auth: openApiAuthDetailsUnionSerializer(item["auth"]),
+    default_params: !item["default_params"]
+      ? item["default_params"]
+      : item["default_params"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'bing_custom_search_preview'. */
+  type: "bing_custom_search_preview";
+  /** The bing custom search tool parameters. */
+  bing_custom_search_preview: BingCustomSearchToolParameters;
+}
+
+export function bingCustomSearchPreviewToolUpdateSerializer(
+  item: BingCustomSearchPreviewToolUpdate,
+): any {
+  return {
+    type: item["type"],
+    bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
+      item["bing_custom_search_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'browser_automation_preview'. */
+  type: "browser_automation_preview";
+  /** The Browser Automation Tool parameters. */
+  browser_automation_preview: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationPreviewToolUpdateSerializer(
+  item: BrowserAutomationPreviewToolUpdate,
+): any {
+  return {
+    type: item["type"],
+    browser_automation_preview: browserAutomationToolParametersSerializer(
+      item["browser_automation_preview"],
+    ),
+  };
+}
+
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolUpdateSerializer(item: BrowserAutomationToolUpdate): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+/** The input definition information for an Azure Function Tool, as used to configure an Agent. */
+export interface AzureFunctionToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'browser_automation'. */
+  type: "azure_function";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The Azure Function Tool definition. */
+  azure_function: AzureFunctionDefinition;
+}
+
+export function azureFunctionToolUpdateSerializer(item: AzureFunctionToolUpdate): any {
+  return {
+    type: item["type"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    azure_function: azureFunctionDefinitionSerializer(item["azure_function"]),
+  };
+}
+
+/** A tool for capturing structured outputs */
+export interface CaptureStructuredOutputsToolUpdate extends ToolUpdate {
+  /** The type of the tool. Always `capture_structured_outputs`. */
+  type: "capture_structured_outputs";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /** The structured outputs to capture from the model. */
+  outputs: StructuredOutputDefinition;
+}
+
+export function captureStructuredOutputsToolUpdateSerializer(
+  item: CaptureStructuredOutputsToolUpdate,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    outputs: structuredOutputDefinitionSerializer(item["outputs"]),
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2APreviewToolUpdate extends ToolUpdate {
+  /** The type of the tool. Always `"a2a_preview`. */
+  type: "a2a_preview";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+}
+
+export function a2APreviewToolUpdateSerializer(item: A2APreviewToolUpdate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+  };
+}
+
+/** An agent implementing the A2A protocol. */
+export interface A2AToolUpdate extends ToolUpdate {
+  /** The type of the tool. Always `"a2a"`. */
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolUpdateSerializer(item: A2AToolUpdate): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** A WorkIQ server-side tool. */
+export interface WorkIQPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'work_iq_preview'. */
+  type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
+}
+
+export function workIQPreviewToolUpdateSerializer(item: WorkIQPreviewToolUpdate): any {
+  return { type: item["type"], project_connection_id: item["project_connection_id"] };
+}
+
+/** A FabricIQ server-side tool. */
+export interface FabricIQPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'fabric_iq_preview'. */
+  type: "fabric_iq_preview";
+  /** The ID of the FabricIQ project connection. */
+  project_connection_id: string;
+  /** (Optional) The label of the FabricIQ MCP server to connect to. */
+  server_label?: string;
+  /** (Optional) The URL of the FabricIQ MCP server. If not provided, the URL from the project connection will be used. */
+  server_url?: string;
+  /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function fabricIQPreviewToolUpdateSerializer(item: FabricIQPreviewToolUpdate): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A WebIQ server-side tool. */
+export interface WebIQPreviewToolUpdate extends ToolUpdate {
+  /** The object type, which is always 'web_iq_preview'. */
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolUpdateSerializer(item: WebIQPreviewToolUpdate): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+/** A tool for integrating memories into the agent. */
+export interface MemorySearchPreviewToolUpdate extends ToolUpdate {
+  /** The type of the tool. Always `memory_search_preview`. */
+  type: "memory_search_preview";
+  /** The name of the memory store to use. */
+  memory_store_name: string;
+  /**
+   * The namespace used to group and isolate memories, such as a user ID.
+   * Limits which memories can be retrieved or updated.
+   * Use special variable `{{$userId}}` to scope memories to the current signed-in user.
+   */
+  scope: string;
+  /** Options for searching the memory store. */
+  search_options?: MemorySearchOptions;
+  /** Time to wait before updating memories after inactivity (seconds). Default 300. */
+  update_delay?: number;
+}
+
+export function memorySearchPreviewToolUpdateSerializer(item: MemorySearchPreviewToolUpdate): any {
+  return {
+    type: item["type"],
+    memory_store_name: item["memory_store_name"],
+    scope: item["scope"],
+    search_options: !item["search_options"]
+      ? item["search_options"]
+      : memorySearchOptionsSerializer(item["search_options"]),
+    update_delay: item["update_delay"],
+  };
 }
 
 /** Alias for _ListVersionsRequestType */

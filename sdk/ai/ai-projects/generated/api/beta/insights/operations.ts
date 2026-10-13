@@ -5,10 +5,11 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
   Insight,
-  insightSerializer,
   insightDeserializer,
   _PagedInsight,
   _pagedInsightDeserializer,
+  InsightCreate,
+  insightCreateSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -143,7 +144,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  insight: Insight,
+  insight: InsightCreate,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -177,7 +178,7 @@ export function _generateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: insightSerializer(insight),
+      body: insightCreateSerializer(insight),
     });
 }
 
@@ -198,7 +199,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generates an insights report from the provided evaluation configuration. */
 export async function generate(
   context: Client,
-  insight: Insight,
+  insight: InsightCreate,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
   const result = await _generateSend(context, insight, options);

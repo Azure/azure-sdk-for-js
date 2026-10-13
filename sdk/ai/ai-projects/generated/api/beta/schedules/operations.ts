@@ -5,7 +5,6 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
   Schedule,
-  scheduleSerializer,
   scheduleDeserializer,
   _PagedSchedule,
   _pagedScheduleDeserializer,
@@ -13,6 +12,8 @@ import {
   scheduleRunDeserializer,
   _PagedScheduleRun,
   _pagedScheduleRunDeserializer,
+  ScheduleCreateOrUpdate,
+  scheduleCreateOrUpdateSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -151,7 +152,7 @@ export function _createOrUpdateSend(
   context: Client,
   scheduleId: string,
   foundryFeatures: "Schedules=V1Preview",
-  schedule: Schedule,
+  schedule: ScheduleCreateOrUpdate,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -174,7 +175,7 @@ export function _createOrUpdateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: scheduleSerializer(schedule),
+      body: scheduleCreateOrUpdateSerializer(schedule),
     });
 }
 
@@ -192,7 +193,7 @@ export async function createOrUpdate(
   context: Client,
   scheduleId: string,
   foundryFeatures: "Schedules=V1Preview",
-  schedule: Schedule,
+  schedule: ScheduleCreateOrUpdate,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
   const result = await _createOrUpdateSend(context, scheduleId, foundryFeatures, schedule, options);

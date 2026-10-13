@@ -10,11 +10,20 @@ import type {
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/schedules/operations.ts
+  Schedule,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+  Schedule,
   scheduleSerializer,
+=======
+  scheduleSerializer,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
   scheduleDeserializer,
   _pagedScheduleDeserializer,
   scheduleRunDeserializer,
   _pagedScheduleRunDeserializer,
+  ScheduleCreateOrUpdate,
+  scheduleCreateOrUpdateSerializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -149,7 +158,15 @@ export async function getRun(
 export function _createOrUpdateSend(
   context: Client,
   scheduleId: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/schedules/operations.ts
+  foundryFeatures: "Schedules=V1Preview",
+  schedule: ScheduleCreateOrUpdate,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+  foundryFeatures: "Schedules=V1Preview",
   schedule: Schedule,
+=======
+  schedule: Schedule,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
@@ -163,6 +180,33 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/schedules/operations.ts
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: scheduleCreateOrUpdateSerializer(schedule),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: scheduleSerializer(schedule),
+    });
+=======
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -173,6 +217,7 @@ export function _createOrUpdateSend(
     },
     body: scheduleSerializer(schedule),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Schedule> {
@@ -188,7 +233,15 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 export async function createOrUpdate(
   context: Client,
   scheduleId: string,
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/schedules/operations.ts
+  foundryFeatures: "Schedules=V1Preview",
+  schedule: ScheduleCreateOrUpdate,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+  foundryFeatures: "Schedules=V1Preview",
   schedule: Schedule,
+=======
+  schedule: Schedule,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
   const result = await _createOrUpdateSend(context, scheduleId, schedule, options);

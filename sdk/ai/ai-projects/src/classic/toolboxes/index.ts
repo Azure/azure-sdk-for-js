@@ -24,8 +24,16 @@ import type {
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "../../api/toolboxes/options.js";
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/toolboxes/index.ts
+import {
+  ToolboxToolCreateUnion,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/toolboxes/index.ts
+import {
+  ToolboxToolUnion,
+=======
 import type {
   ToolboxToolUnion,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/toolboxes/index.ts
   ToolboxVersionObject,
   ToolboxObject,
   ToolboxesInvokeLatestToolboxMcpResponse,
@@ -73,7 +81,7 @@ export interface ToolboxesOperations {
   /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
   createVersion: (
     name: string,
-    tools: ToolboxToolUnion[],
+    tools: ToolboxToolCreateUnion[],
     options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
@@ -100,7 +108,7 @@ function _getToolboxes(context: AIProjectContext) {
     get: (name: string, options?: ToolboxesGetOptionalParams) => get(context, name, options),
     createVersion: (
       name: string,
-      tools: ToolboxToolUnion[],
+      tools: ToolboxToolCreateUnion[],
       options?: CreateVersionOptionalParams,
     ) => createVersion(context, name, tools, options),
   };

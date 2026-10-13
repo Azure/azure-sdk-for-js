@@ -9,7 +9,7 @@ import {
   EvaluationRulesDeleteOptionalParams,
   EvaluationRulesGetOptionalParams,
 } from "../../api/evaluationRules/options.js";
-import { EvaluationRule } from "../../models/models.js";
+import { EvaluationRule, EvaluationRuleCreateOrUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EvaluationRules operations. */
@@ -19,7 +19,7 @@ export interface EvaluationRulesOperations {
   /** Creates a new evaluation rule, or replaces the existing rule when the identifier matches. */
   createOrUpdate: (
     id: string,
-    evaluationRule: EvaluationRule,
+    evaluationRule: EvaluationRuleCreateOrUpdate,
     options?: EvaluationRulesCreateOrUpdateOptionalParams,
   ) => Promise<EvaluationRule>;
   /** Removes the specified evaluation rule from the project. */
@@ -33,7 +33,7 @@ function _getEvaluationRules(context: AIProjectContext) {
     list: (options?: EvaluationRulesListOptionalParams) => list(context, options),
     createOrUpdate: (
       id: string,
-      evaluationRule: EvaluationRule,
+      evaluationRule: EvaluationRuleCreateOrUpdate,
       options?: EvaluationRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, id, evaluationRule, options),
     delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) =>

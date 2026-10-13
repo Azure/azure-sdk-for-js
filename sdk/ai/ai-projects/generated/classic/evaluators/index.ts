@@ -32,6 +32,8 @@ import {
   EvaluatorVersion,
   EvaluatorGenerationInputs,
   EvaluatorGenerationJob,
+  EvaluatorVersionCreate,
+  EvaluatorVersionUpdate,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -77,13 +79,13 @@ export interface EvaluatorsOperations {
   updateVersion: (
     name: string,
     version: string,
-    evaluatorVersion: EvaluatorVersion,
+    evaluatorVersion: EvaluatorVersionUpdate,
     options?: EvaluatorsUpdateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Creates a new evaluator version with an auto-incremented version identifier. */
   createVersion: (
     name: string,
-    evaluatorVersion: EvaluatorVersion,
+    evaluatorVersion: EvaluatorVersionCreate,
     options?: EvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
@@ -124,12 +126,12 @@ function _getEvaluators(context: AIProjectContext) {
     updateVersion: (
       name: string,
       version: string,
-      evaluatorVersion: EvaluatorVersion,
+      evaluatorVersion: EvaluatorVersionUpdate,
       options?: EvaluatorsUpdateVersionOptionalParams,
     ) => updateVersion(context, name, version, evaluatorVersion, options),
     createVersion: (
       name: string,
-      evaluatorVersion: EvaluatorVersion,
+      evaluatorVersion: EvaluatorVersionCreate,
       options?: EvaluatorsCreateVersionOptionalParams,
     ) => createVersion(context, name, evaluatorVersion, options),
     deleteVersion: (

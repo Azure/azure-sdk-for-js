@@ -8,7 +8,7 @@ import {
   BetaRedTeamsListOptionalParams,
   BetaRedTeamsGetOptionalParams,
 } from "../../../api/beta/redTeams/options.js";
-import { RedTeam } from "../../../models/models.js";
+import { RedTeam, RedTeamCreate } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaRedTeams operations. */
@@ -16,7 +16,7 @@ export interface BetaRedTeamsOperations {
   /** Submits a new redteam run for execution with the provided configuration. */
   create: (
     foundryFeatures: "RedTeams=V1Preview",
-    redTeam: RedTeam,
+    redTeam: RedTeamCreate,
     options?: BetaRedTeamsCreateOptionalParams,
   ) => Promise<RedTeam>;
   /** Returns the redteams available in the current project. */
@@ -36,7 +36,7 @@ function _getBetaRedTeams(context: AIProjectContext) {
   return {
     create: (
       foundryFeatures: "RedTeams=V1Preview",
-      redTeam: RedTeam,
+      redTeam: RedTeamCreate,
       options?: BetaRedTeamsCreateOptionalParams,
     ) => create(context, foundryFeatures, redTeam, options),
     list: (foundryFeatures: "RedTeams=V1Preview", options?: BetaRedTeamsListOptionalParams) =>

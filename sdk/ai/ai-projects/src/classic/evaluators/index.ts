@@ -23,6 +23,23 @@ import type {
 } from "../../api/evaluators/options.js";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
 import {
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/evaluators/index.ts
+  EvaluatorVersion,
+  EvaluatorGenerationInputs,
+  EvaluatorGenerationJob,
+  EvaluatorVersionCreate,
+  EvaluatorVersionUpdate,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/evaluators/index.ts
+  EvaluatorVersion,
+  EvaluatorGenerationInputs,
+  EvaluatorGenerationJob,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+=======
   deleteGenerationJob,
   cancelGenerationJob,
   listGenerationJobs,
@@ -35,6 +52,7 @@ import {
   list,
   listVersions,
 } from "../../api/evaluators/operations.js";
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/evaluators/index.ts
 
 /** Operations for EvaluatorsOperations. */
 export interface EvaluatorsOperations {
@@ -77,13 +95,13 @@ export interface EvaluatorsOperations {
   updateVersion: (
     name: string,
     version: string,
-    evaluatorVersion: EvaluatorVersion,
+    evaluatorVersion: EvaluatorVersionUpdate,
     options?: EvaluatorsUpdateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Creates a new evaluator version with an auto-incremented version identifier. */
   createVersion: (
     name: string,
-    evaluatorVersion: EvaluatorVersion,
+    evaluatorVersion: EvaluatorVersionCreate,
     options?: EvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
@@ -124,12 +142,12 @@ export function _getEvaluatorsOperations(context: AIProjectContext): EvaluatorsO
     updateVersion: (
       name: string,
       version: string,
-      evaluatorVersion: EvaluatorVersion,
+      evaluatorVersion: EvaluatorVersionUpdate,
       options?: EvaluatorsUpdateVersionOptionalParams,
     ) => updateVersion(context, name, version, evaluatorVersion, options),
     createVersion: (
       name: string,
-      evaluatorVersion: EvaluatorVersion,
+      evaluatorVersion: EvaluatorVersionCreate,
       options?: EvaluatorsCreateVersionOptionalParams,
     ) => createVersion(context, name, evaluatorVersion, options),
     deleteVersion: (

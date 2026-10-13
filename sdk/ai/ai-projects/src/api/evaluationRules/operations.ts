@@ -4,9 +4,18 @@
 import type { AIProjectContext as Client } from "../index.js";
 import type { EvaluationRule, _PagedEvaluationRule } from "../../models/models.js";
 import {
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluationRules/operations.ts
+  EvaluationRule,
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluationRules/operations.ts
+  EvaluationRule,
   evaluationRuleSerializer,
+=======
+  evaluationRuleSerializer,
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluationRules/operations.ts
   evaluationRuleDeserializer,
   _pagedEvaluationRuleDeserializer,
+  EvaluationRuleCreateOrUpdate,
+  evaluationRuleCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -77,7 +86,7 @@ export function list(
 export function _createOrUpdateSend(
   context: Client,
   id: string,
-  evaluationRule: EvaluationRule,
+  evaluationRule: EvaluationRuleCreateOrUpdate,
   options: EvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -90,6 +99,37 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/evaluationRules/operations.ts
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationRuleCreateOrUpdateSerializer(evaluationRule),
+    });
+||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/evaluationRules/operations.ts
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationRuleSerializer(evaluationRule),
+    });
+=======
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -102,6 +142,7 @@ export function _createOrUpdateSend(
     },
     body: evaluationRuleSerializer(evaluationRule),
   });
+>>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/evaluationRules/operations.ts
 }
 
 export async function _createOrUpdateDeserialize(
@@ -119,7 +160,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   id: string,
-  evaluationRule: EvaluationRule,
+  evaluationRule: EvaluationRuleCreateOrUpdate,
   options: EvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationRule> {
   const result = await _createOrUpdateSend(context, id, evaluationRule, options);
