@@ -22555,7 +22555,7 @@ importers:
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.46
+        specifier: 1.0.0-beta.47
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.1.0-beta.1
