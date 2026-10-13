@@ -90,6 +90,13 @@ matching event is still yielded before the stream closes. The reconnecting
 stream does not reconnect afterward. Without this option, terminal markers are
 ordinary events; match the event type as well as the data if the service requires it.
 
+Without `isTerminalEvent`, `createSseStream` reads only when a consumer requests
+an event. It does not prefetch the next event while the consumer inspects the
+current one, so a consumer can stop iteration without an extra source read.
+This does not prevent buffering by the input stream or network transport.
+Streams with `isTerminalEvent` and reconnecting streams retain their read-ahead
+behavior described above.
+
 When `validateResponse` is omitted, the connection must return an HTTP status
 and headers. The default accepts HTTP 200 with a `text/event-stream` content type,
 stops on HTTP 204, and rejects other statuses or content types. Supply an async
