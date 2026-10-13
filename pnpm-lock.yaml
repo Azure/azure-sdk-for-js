@@ -1209,13 +1209,13 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
       ws:
-        specifier: ^8.18.3
+        specifier: ^8.21.0
         version: 8.22.0
     devDependencies:
       '@azure-rest/ai-inference':
@@ -24396,8 +24396,8 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -29330,8 +29330,8 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -38665,11 +38665,6 @@ packages:
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  acorn@8.18.0:
-    resolution: {integrity: sha1-T68BstbTJr/u2XrqH1IiC19MGUA=}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
   acorn@8.19.0:
     resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
     engines: {node: '>=0.4.0'}
@@ -40745,9 +40740,6 @@ packages:
   lunr@2.3.9:
     resolution: {integrity: sha1-GLEjFCgyM33W6WTfGlp3B7JdNeE=}
 
-  magic-string@1.4.2:
-    resolution: {integrity: sha512-vG+rjFRj1PqdIBozIxAGMjPlOhaVe+GXpbttY/iSK7rGcJRMlwNJO7dcUwmUqkymsFLJiNGI06t4D7Fr7yRC9g==}
-
   magic-string@1.4.3:
     resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
 
@@ -41151,14 +41143,15 @@ packages:
     resolution: {integrity: sha1-uBR+Jtzz5CYxbHMAif1x7dKcIyE=}
     engines: {node: '>=8'}
 
-  openai@6.49.0:
-    resolution: {integrity: sha1-bp95jhRpNe042VW0PVfWeWzuXms=}
-    hasBin: true
+  openai@7.28.0:
+    resolution: {integrity: sha512-HSY4fFLflQGYe2kvO0atm6/GzhD61gpyiOZZUvO4nptMUhuB1to2K3wwFpFqc5gfEK0SxyIIFiu1yE2MtygWcA==}
+    engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
       '@smithy/signature-v4': '>=5.4.0 <6'
-      ws: ^8.18.0
+      undici: '>=5 <9'
+      ws: ^8.21.0
       zod: ^3.25 || ^4.0
     peerDependenciesMeta:
       '@aws-sdk/credential-provider-node':
@@ -41166,6 +41159,8 @@ packages:
       '@smithy/hash-node':
         optional: true
       '@smithy/signature-v4':
+        optional: true
+      undici:
         optional: true
       ws:
         optional: true
@@ -45859,7 +45854,7 @@ snapshots:
       '@vitest/mocker': 5.0.3(vite@8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@vitest/ui': 5.0.3(vitest@5.0.3)
       '@vitest/utils': 5.0.3
-      magic-string: 1.4.2
+      magic-string: 1.4.3
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.2.0
@@ -45918,7 +45913,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.3
       estree-walker: 3.0.3
-      magic-string: 1.4.2
+      magic-string: 1.4.3
     optionalDependencies:
       vite: 8.3.2(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
@@ -45966,8 +45961,6 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.19.0):
     dependencies:
       acorn: 8.19.0
-
-  acorn@8.18.0: {}
 
   acorn@8.19.0: {}
 
@@ -48279,10 +48272,6 @@ snapshots:
 
   lunr@2.3.9: {}
 
-  magic-string@1.4.2:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.6.0
-
   magic-string@1.4.3:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -48825,8 +48814,9 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@6.49.0(ws@8.22.0)(zod@4.6.5):
+  openai@7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5):
     optionalDependencies:
+      undici: 8.11.2
       ws: 8.22.0
       zod: 4.6.5
 
@@ -49911,7 +49901,7 @@ snapshots:
   terser@5.51.2:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.18.0
+      acorn: 8.19.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
