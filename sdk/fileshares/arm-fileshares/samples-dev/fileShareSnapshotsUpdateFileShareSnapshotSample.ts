@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FileShareSnapshot.
  *
  * @summary update a FileShareSnapshot.
- * x-ms-original-file: 2026-06-01/FileShareSnapshot_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShareSnapshot_Update_MaximumSet_Gen.json
  */
 async function fileShareSnapshotUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
