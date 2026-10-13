@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets associated load balancer network interfaces.
  *
  * @summary gets associated load balancer network interfaces.
- * x-ms-original-file: 2026-01-01/LoadBalancerNetworkInterfaceListSimple.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerNetworkInterfaceListSimple.json
  */
 async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
  * This sample demonstrates how to gets associated load balancer network interfaces.
  *
  * @summary gets associated load balancer network interfaces.
- * x-ms-original-file: 2026-01-01/LoadBalancerNetworkInterfaceListVmss.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerNetworkInterfaceListVmss.json
  */
 async function loadBalancerNetworkInterfaceListVmss(): Promise<void> {
   const credential = new DefaultAzureCredential();

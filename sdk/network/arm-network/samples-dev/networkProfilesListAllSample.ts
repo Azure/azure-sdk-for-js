@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the network profiles in a subscription.
  *
  * @summary gets all the network profiles in a subscription.
- * x-ms-original-file: 2026-01-01/NetworkProfileListAll.json
+ * x-ms-original-file: 2026-03-01/NetworkProfileListAll.json
  */
 async function listAllNetworkProfiles(): Promise<void> {
   const credential = new DefaultAzureCredential();

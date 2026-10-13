@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Pool Usage.
  *
  * @summary get the Pool Usage.
- * x-ms-original-file: 2026-01-01/IpamPools_GetPoolUsage.json
+ * x-ms-original-file: 2026-03-01/IpamPools_GetPoolUsage.json
  */
 async function ipamPoolsGetPoolUsage(): Promise<void> {
   const credential = new DefaultAzureCredential();

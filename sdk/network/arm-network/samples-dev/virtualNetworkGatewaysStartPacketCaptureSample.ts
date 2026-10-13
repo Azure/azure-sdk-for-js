@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayStartPacketCapture.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter(): Promise
  * This sample demonstrates how to starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

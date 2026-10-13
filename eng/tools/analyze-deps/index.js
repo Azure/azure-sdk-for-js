@@ -14,7 +14,7 @@ import argparse from "argparse";
 import Handlebars from "handlebars";
 import json5 from "json5";
 import * as tar from "tar";
-import yaml from "js-yaml";
+import { loadAll as yamlLoadAll } from "js-yaml";
 import { getPackageJsons } from "@azure-tools/eng-package-utils";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -124,7 +124,7 @@ async function getRepoPackages(workspaceDir) {
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
-  return /** @type {PnpmLock} */ (yaml.loadAll(data)[1]);
+  return /** @type {PnpmLock} */ (yamlLoadAll(data)[1]);
 }
 
 /**

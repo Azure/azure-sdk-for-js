@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts the specified application gateway.
  *
  * @summary starts the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayStart.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayStart.json
  */
 async function startApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

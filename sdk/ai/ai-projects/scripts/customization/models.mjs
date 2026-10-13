@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { retainedModelBases } from "./model-retention.mjs";
+import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { canonicalize } from "./ast-merge.mjs";
 import {
   edit,
@@ -230,6 +231,27 @@ function simpleRecord(type) {
     type.typeArguments[0].kind === ts.SyntaxKind.StringKeyword &&
     [ts.SyntaxKind.AnyKeyword, ts.SyntaxKind.UnknownKeyword].includes(type.typeArguments[1].kind)
   );
+}
+
+// Explicitly approved for the configuration-schema migration (#46941).
+// Only this discriminator adopts the upstream values; unrelated legacy models
+// and their dispatch registrations still use the normal retention policy.
+function upstreamDiscriminators(before, custom, incoming, diagnostics) {
+  const name = "DataGenerationJobType";
+  const entries = [before, custom, incoming].map((declarations) => declarations.get(name));
+  if (entries.every((entry) => !entry)) return new Set();
+  const valid = entries.every((entry, index) =>
+    !entry && index < 2 ? true : isUpstreamDataGenerationType(entry?.node, index === 1),
+  );
+  if (!valid) {
+    diagnostics.push({
+      file: canonicalFile,
+      declaration: name,
+      message: "Data generation discriminator changed beyond the approved upstream-values policy.",
+    });
+    return new Set();
+  }
+  return new Set([name]);
 }
 
 function policyText(name, text, context, diagnostics) {
@@ -687,7 +709,13 @@ function mergedImports(references, base, custom, incoming, diagnostics) {
  */
 export function reconcileModels({ baseGenerated, baseSource, generated, mergeDeclaration }) {
   const diagnostics = [];
-  const result = { files: new Map(), diagnostics, exports: [], renames: new Map() };
+  const result = {
+    files: new Map(),
+    reexportModules: new Map(),
+    diagnostics,
+    exports: [],
+    renames: new Map(),
+  };
   const old = inventory(baseGenerated, diagnostics);
   const custom = inventory(baseSource, diagnostics);
   const next = inventory(generated, diagnostics);
@@ -701,11 +729,18 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
   const customPublic = publicEntries(custom, diagnostics);
   const nextPublic = publicEntries(incoming, diagnostics);
   if (diagnostics.length) return result;
+  const adoptedDiscriminators = upstreamDiscriminators(
+    before.declarations,
+    custom.declarations,
+    incoming.declarations,
+    diagnostics,
+  );
   const retentionBases = retainedModelBases(
     before.declarations,
     custom.declarations,
     incoming.declarations,
     diagnostics,
+    adoptedDiscriminators,
   );
   if (diagnostics.length) return result;
   const merged = new Map();
@@ -724,7 +759,12 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
       context,
       diagnostics,
     );
-    const customText = policyText(name, ours?.text ?? null, context, diagnostics);
+    const customText = policyText(
+      name,
+      (adoptedDiscriminators.has(name) ? theirs?.text : ours?.text) ?? null,
+      context,
+      diagnostics,
+    );
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(
       name,
@@ -829,6 +869,8 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
   );
   result.exports = [...publicModels.values()].map(({ name, isTypeOnly }) => ({ name, isTypeOnly }));
 
+  // Re-export modules for other model paths are only candidates; the planner keeps one
+  // while another source file imports that path.
   for (const file of new Set([...custom.modules.keys(), ...incoming.modules.keys()])) {
     if (file === canonicalFile || file === modelBarrel) continue;
     const entries = new Map();
@@ -857,7 +899,7 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
         }
       }
     }
-    result.files.set(file, `${header}${renderExports([...entries.values()])}\n`);
+    result.reexportModules.set(file, `${header}${renderExports([...entries.values()])}\n`);
   }
   return result;
 }

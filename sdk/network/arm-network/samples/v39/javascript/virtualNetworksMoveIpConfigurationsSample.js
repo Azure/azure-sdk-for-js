@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to move IP configurations from one virtual network to another.
  *
  * @summary move IP configurations from one virtual network to another.
- * x-ms-original-file: 2026-01-01/VirtualNetworkMoveIpConfigurations.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkMoveIpConfigurations.json
  */
 async function moveIPConfigurations() {
   const credential = new DefaultAzureCredential();

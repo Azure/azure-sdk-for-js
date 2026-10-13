@@ -1,5 +1,20 @@
 # Release History
 
+## 5.1.0-beta.1 (2026-09-28)
+Compared with version 5.0.0
+
+### Features Added
+  - Added Interface ImmutabilityConfiguration
+  - Added Interface PostgreSqlFlexibleServerBackupDatasourceParameters
+  - Added Interface RecoveryPointImmutabilityProperties
+  - Interface AzureBackupDiscreteRecoveryPoint has a new optional parameter immutabilityProperties
+  - Interface ImmutabilitySettings has a new optional parameter configuration
+  - Added Type Alias BackupSolutionType
+  - Added Type Alias ImmutabilityType
+  - Added Enum KnownBackupSolutionType
+  - Added Enum KnownImmutabilityType
+  - Enum KnownVersions has a new value V20260701
+
 ## 5.0.0 (2026-09-04)
 
 ### Features Added

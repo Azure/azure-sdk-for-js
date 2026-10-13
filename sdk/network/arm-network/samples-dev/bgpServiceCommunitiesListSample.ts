@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the available bgp service communities.
  *
  * @summary gets all the available bgp service communities.
- * x-ms-original-file: 2026-01-01/ServiceCommunityList.json
+ * x-ms-original-file: 2026-03-01/ServiceCommunityList.json
  */
 async function serviceCommunityList(): Promise<void> {
   const credential = new DefaultAzureCredential();
