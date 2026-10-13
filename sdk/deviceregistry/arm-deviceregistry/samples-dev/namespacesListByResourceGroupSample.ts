@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Namespace resources by resource group
  *
  * @summary list Namespace resources by resource group
- * x-ms-original-file: 2026-03-01-preview/List_Namespace_ByResourceGroup.json
+ * x-ms-original-file: 2026-11-01/List_Namespace_ByResourceGroup.json
  */
-async function listNamespacesByResourceGroup(): Promise<void> {
+async function listTheNamespacesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listNamespacesByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listNamespacesByResourceGroup();
+  await listTheNamespacesInAResourceGroup();
 }
 
 main().catch(console.error);
