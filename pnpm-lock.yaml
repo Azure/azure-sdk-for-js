@@ -15678,8 +15678,8 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       magic-string:
-        specifier: ~0.30.10
-        version: 0.30.21
+        specifier: ^1.4.3
+        version: 1.4.3
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -40745,9 +40745,6 @@ packages:
   lunr@2.3.9:
     resolution: {integrity: sha1-GLEjFCgyM33W6WTfGlp3B7JdNeE=}
 
-  magic-string@0.30.21:
-    resolution: {integrity: sha1-VnY+wJoPqAkd8nh5/ZTRkHjADZE=}
-
   magic-string@1.4.2:
     resolution: {integrity: sha512-vG+rjFRj1PqdIBozIxAGMjPlOhaVe+GXpbttY/iSK7rGcJRMlwNJO7dcUwmUqkymsFLJiNGI06t4D7Fr7yRC9g==}
 
@@ -48281,10 +48278,6 @@ snapshots:
       yallist: 4.0.0
 
   lunr@2.3.9: {}
-
-  magic-string@0.30.21:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.6.0
 
   magic-string@1.4.2:
     dependencies:
