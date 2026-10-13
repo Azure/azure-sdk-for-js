@@ -364,6 +364,10 @@ export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {
 // @public
 export interface ClientEncryptionOptions {
     encryptionKeyTimeToLiveInSeconds?: number;
+    experimental?: {
+        encryptedValueFormat?: "legacy" | "authenticatedType";
+        legacyValueReadPolicy?: "allow" | "reject";
+    };
     keyEncryptionKeyResolver: EncryptionKeyResolver;
 }
 

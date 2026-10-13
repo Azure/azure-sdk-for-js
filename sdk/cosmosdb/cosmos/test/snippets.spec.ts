@@ -775,6 +775,42 @@ describe("snippets", () => {
     const { resource: offer } = await client.database("<db id>").readOffer();
   });
 
+  it("ReadmeSampleExperimentalAuthenticatedType", () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(new DefaultAzureCredential());
+    // @ts-ignore
+    const client = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+        experimental: {
+          encryptedValueFormat: "authenticatedType",
+          legacyValueReadPolicy: "reject",
+        },
+      },
+    });
+  });
+
+  it("ReadmeSampleExperimentalMigrationClient", () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(new DefaultAzureCredential());
+    // @ts-ignore
+    const migrationClient = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+        experimental: {
+          encryptedValueFormat: "authenticatedType",
+          legacyValueReadPolicy: "allow",
+        },
+      },
+    });
+  });
+
   it("DatabaseCreateClientEncryptionKey", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";

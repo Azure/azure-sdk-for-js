@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+- Added opt-in, experimental JS-only authenticated type markers through `ClientEncryptionOptions.experimental.encryptedValueFormat: "authenticatedType"`. Selecting this format rejects legacy encrypted values by default; explicit `legacyValueReadPolicy: "allow"` is available for controlled migration and retains the legacy integrity limitation. Clients without the format opt-in preserve legacy ciphertext bytes and allow legacy reads. Combining legacy writes with strict reads fails at client construction. This prototype is not a production or cross-language format and does not change container encryption policies.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
