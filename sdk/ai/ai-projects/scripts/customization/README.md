@@ -37,6 +37,15 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Type unions and unique literal switch cases that terminate without fallthrough
   merge by identity even when their display order changes. Conflicting bodies,
   dynamic cases, and order-sensitive runtime lists still require resolution.
+- An object literal whose members are all emitter-generated converter mappings
+  (plain data reads plus generated `*Serializer`/`*Deserializer` calls, the
+  conversions the emitter wraps around them, and no spreads, methods, or
+  computed names) has presentation-only member order. Its members merge by
+  identity; when the customized and emitted orders contradict, for example a
+  customized converter that kept an older emission's order while the emitter
+  reordered the same members, the customized order is kept and emitted-only
+  members follow it. A member outside that vocabulary, or a baseline member both
+  sides replaced, keeps the strict ordering rule and still requires resolution.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
   Ambiguous matches are errors.

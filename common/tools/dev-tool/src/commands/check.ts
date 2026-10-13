@@ -7,8 +7,7 @@ import { createPrinter } from "../util/printer.ts";
 import { leafCommand } from "../framework/command.ts";
 import { makeCommandInfo } from "../framework/command.ts";
 import fs from "node:fs/promises";
-import type { Check } from "../framework/check.ts";
-import { isCheckFailedError } from "../framework/check.ts";
+import { isCheck, isCheckFailedError } from "../framework/check.ts";
 
 const log = createPrinter("check");
 
@@ -42,9 +41,17 @@ export default leafCommand(commandInfo, async (options) => {
   let checksSkipped = 0;
 
   for (const checkFile of checkFileNames) {
-    const checks = (await import(path.posix.join("../checks", checkFile))) as Record<string, Check>;
+    const checks = (await import(path.posix.join("../checks", checkFile))) as Record<
+      string,
+      unknown
+    >;
     log(checkFile);
     for (const [exportName, check] of Object.entries(checks)) {
+      if (!isCheck(check)) {
+        // Not a check, e.g. a helper exported for unit tests.
+        continue;
+      }
+
       if (options.tag) {
         // --tag specified, run checks which match that tag (including checks with wildcard "*")
         if (!check.tags) {

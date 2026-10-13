@@ -674,16 +674,13 @@ export type {
   CreateTelephonyBindingRequest,
   CreateTelephonyBindingRequestUnion,
   TelephonyProvider,
-  CreateTeamsPhoneExtensionTelephonyBindingRequest,
   CreateTwilioTelephonyBindingRequest,
   TelephonyBinding,
   TelephonyBindingUnion,
   TelephonyBindingStatus,
-  TeamsPhoneExtensionTelephonyBinding,
   TwilioTelephonyBinding,
   TelephonyBindingListItem,
   TelephonyBindingListItemUnion,
-  TeamsPhoneExtensionTelephonyBindingListItem,
   TwilioTelephonyBindingListItem,
   UpdateTelephonyBindingRequest,
   TelephonyCallSummary,
@@ -984,6 +981,9 @@ export type {
   EvaluationDataGenerationJobOutputConfiguration,
   SupervisedFineTuningDataGenerationJobOutputConfiguration,
   ReinforcementFineTuningDataGenerationJobOutputConfiguration,
+  CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
+  TeamsPhoneExtensibilityTelephonyBinding,
+  TeamsPhoneExtensibilityTelephonyBindingListItem,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";

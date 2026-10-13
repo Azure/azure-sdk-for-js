@@ -1,5 +1,20 @@
 # Release History
 
+## 2.9.0 (Unreleased)
+
+### Breaking Changes
+
+- Rename Teams Phone binding models from `*TeamsPhoneExtension*` to `*TeamsPhoneExtensibility*` and replace `teams_phone_extension` with `teams_phone_extensibility` in `TelephonyProvider`, binding discriminators, and `TelephonyCallLifecycleEventSource`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+
+### Features Added
+
+- Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `9224f3baca6db983469634f3e7ff723697f76d92` and update `SessionConfiguration.idle_timeout_seconds` documentation to reflect the increased maximum of 14,400 seconds (4 hours), retaining the 120-second minimum and 900-second server default. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/9224f3baca6db983469634f3e7ff723697f76d92). [#40224](https://github.com/Azure/azure-sdk-for-js/issues/40224)
+- Regenerate the client from azure-rest-api-specs commit `98d958ad0d13deafa0d66119bc99301324cd86bd`, keeping the existing `VoiceAgentTransport` contract reachable in emitted code. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/98d958ad0d13deafa0d66119bc99301324cd86bd). [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+
 ## 2.8.0 (2026-10-05)
 
 ### Breaking Changes
