@@ -11,9 +11,8 @@ export class InvalidSseChunkError extends TypeError {}
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
-  highWaterMark = 1,
 ): ReadableStream<T> & AsyncDisposable & AsyncIterable<T> {
-  const stream = iteratorToStream(asyncIter, cancel, highWaterMark);
+  const stream = iteratorToStream(asyncIter, cancel);
   /** TODO: remove these polyfills once all supported runtimes support them */
   return polyfillStream(stream, cancel);
 }
@@ -52,22 +51,18 @@ function makeAsyncIterable<T>(
 function iteratorToStream<T>(
   iterator: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
-  highWaterMark: number,
 ): ReadableStream<T> {
-  return new ReadableStream(
-    {
-      async pull(controller: ReadableStreamDefaultController<T>) {
-        const { value, done } = await iterator.next();
-        if (done) {
-          controller.close();
-        } else {
-          controller.enqueue(value);
-        }
-      },
-      cancel,
+  return new ReadableStream({
+    async pull(controller: ReadableStreamDefaultController<T>) {
+      const { value, done } = await iterator.next();
+      if (done) {
+        controller.close();
+      } else {
+        controller.enqueue(value);
+      }
     },
-    { highWaterMark },
-  );
+    cancel,
+  });
 }
 
 export function ensureAsyncIterable(

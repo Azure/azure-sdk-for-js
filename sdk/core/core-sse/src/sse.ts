@@ -60,8 +60,6 @@ export function createSseStream(
       ? stopAtTerminalEvent(iterable, options.isTerminalEvent, cancel)
       : iterable,
     cancel,
-    // Plain streams let consumers inspect an event before requesting the next one.
-    options.isTerminalEvent ? 1 : 0,
   );
 }
 
