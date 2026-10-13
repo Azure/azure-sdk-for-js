@@ -396,6 +396,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -420,6 +422,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -447,6 +450,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -17001,10 +17005,12 @@ export function realtimeFunctionToolParametersDeserializer(
   return item;
 }
 
-/** An MCP tool available to a voice agent. */
+/** An MCP tool available to a voice agent. Server endpoints use `server_url`; connector and tunnel identifiers are not supported. */
 export interface VoiceAgentMcpTool extends VoiceAgentTool {
   /** A label for this MCP server, used to identify it in tool calls. */
   server_label: string;
+  /** The URL for the MCP server. */
+  server_url?: string;
   /**
    * An OAuth access token that can be used with a remote MCP server, either
    *   with a custom MCP server URL or a service connector. Your application
@@ -17032,8 +17038,6 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   tool_configs?: Record<string, ToolConfig>;
   /** The tool type. Always `mcp` for tools exposed by an MCP server. */
   type: "mcp";
-  /** The URL for the MCP server. */
-  server_url?: string;
   /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
   response_scheduling?: VoiceAgentToolResponseScheduling;
 }
@@ -17042,6 +17046,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
   return {
     type: item["type"],
     server_label: item["server_label"],
+    server_url: item["server_url"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: item["headers"],
@@ -17061,7 +17066,6 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
-    server_url: item["server_url"],
     response_scheduling: item["response_scheduling"],
   };
 }
@@ -17070,6 +17074,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
   return {
     type: item["type"],
     server_label: item["server_label"],
+    server_url: item["server_url"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: !item["headers"]
@@ -17093,7 +17098,6 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
-    server_url: item["server_url"],
     response_scheduling: item["response_scheduling"],
   };
 }
@@ -18535,17 +18539,50 @@ export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): an
  * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
  * durable ordering extensions.
  */
-export interface VoiceResponse extends VoiceResponseBase {
-  /** The unique id of the response. */
-  id: string;
-  /** The output items produced by the response. May be omitted in list results; retrieve the full response (GET .../responses/{response_id}) or use the paged response-items route (GET .../responses/{response_id}/items) for its output items. Each item's `response_id` also links it back to this response in the conversation-level items list. */
+export interface VoiceResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
   output?: RealtimeConversationItemUnion[];
-  /** The id of the conversation this response belongs to. */
-  conversation_id: string;
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
   /** The audio configuration used for the response, including the voice and audio format used for output. */
   audio?: VoiceResponseAudio;
-  /** A set of key-value pairs attached to the response. */
-  metadata?: Record<string, string>;
   /** The sampling temperature used for the response. */
   temperature?: number;
   /** The Unix timestamp (in seconds) for when the response was created. */
@@ -18571,14 +18608,12 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     output: !item["output"]
       ? item["output"]
       : realtimeConversationItemUnionArrayDeserializer(item["output"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
     temperature: item["temperature"],
     created_at:
       item["created_at"] === undefined || item["created_at"] === null
@@ -19624,56 +19659,6 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
     format: !item["format"]
       ? item["format"]
       : realtimeAudioFormatsUnionDeserializer(item["format"]),
-  };
-}
-
-/** Properties shared by persisted voice responses. */
-export interface VoiceResponseBase {
-  /** The object type, must be `realtime.response`. */
-  object?: "realtime.response";
-  /**
-   * The final status of the response (`completed`, `cancelled`, `failed`, or
-   *   `incomplete`, `in_progress`).
-   */
-  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-  /** Additional details about the status. */
-  status_details?: RealtimeResponseStatusDetails;
-  /**
-   * Usage statistics for the Response, this will correspond to billing. A
-   *   Realtime API session will maintain a conversation context and append new
-   *   Items to the Conversation, thus output from previous turns (text and
-   *   audio tokens) will become the input for later turns.
-   */
-  usage?: RealtimeResponseUsage;
-  /**
-   * The set of modalities the model used to respond, currently the only possible values are
-   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
-   *   output to mode `text` will disable audio output from the model.
-   */
-  output_modalities?: ("text" | "audio")[];
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   *   inclusive of tool calls, that was used in this response.
-   */
-  max_output_tokens?: number | "inf";
-}
-
-export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
-  return {
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
   };
 }
 
@@ -21256,12 +21241,18 @@ export interface VoiceAgentResponseCreateParams {
   conversation?: "auto" | "none";
   /** Custom string key-value pairs to associate with the response. */
   metadata?: Metadata;
+  /**
+   * Input items to include in the prompt for the model. Using this field
+   *   creates a new context for this Response instead of using the default
+   *   conversation. An empty array `[]` will clear the context for this Response.
+   *   Note that this can include references to items that previously appeared in the session
+   *   using their id.
+   */
+  input?: RealtimeConversationItemUnion[];
   /** Modalities that the response may return. */
   output_modalities?: VoiceOutputModality[];
   /** Response-specific audio settings. */
   audio?: PickPropertiesVoiceAgentAudioConfig;
-  /** Conversation items used as inline response input. */
-  input?: RealtimeConversationItemUnion[];
   /** A pre-generated assistant message used to begin the response. */
   pre_generated_assistant_message?: RealtimeConversationItemUnion;
   /** Interim-response settings for this response. */
@@ -21288,6 +21279,9 @@ export function voiceAgentResponseCreateParamsSerializer(
       : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
     conversation: item["conversation"],
     metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArraySerializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -21296,9 +21290,6 @@ export function voiceAgentResponseCreateParamsSerializer(
     audio: !item["audio"]
       ? item["audio"]
       : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeConversationItemUnionArraySerializer(item["input"]),
     pre_generated_assistant_message: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
@@ -21328,6 +21319,9 @@ export function voiceAgentResponseCreateParamsDeserializer(
       : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
     conversation: item["conversation"],
     metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -21336,9 +21330,6 @@ export function voiceAgentResponseCreateParamsDeserializer(
     audio: !item["audio"]
       ? item["audio"]
       : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
     pre_generated_assistant_message: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
@@ -23608,11 +23599,50 @@ export function realtimeServerEventResponseCreatedDeserializer(
 }
 
 /** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
-export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+export interface VoiceAgentRealtimeResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
+  output?: RealtimeConversationItemUnion[];
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
   /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
   audio?: VoiceResponseAudio;
-  /** The items produced by the live response. */
-  output?: RealtimeConversationItemUnion[];
 }
 
 export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeResponse): any {
@@ -23623,6 +23653,9 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArraySerializer(item["output"]),
     metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
     conversation_id: item["conversation_id"],
@@ -23633,11 +23666,8 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+      : _voiceResponseMaxOutputTokensSerializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
-    output: !item["output"]
-      ? item["output"]
-      : realtimeConversationItemUnionArraySerializer(item["output"]),
   };
 }
 
@@ -23649,6 +23679,9 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
     metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
     conversation_id: item["conversation_id"],
@@ -23659,11 +23692,8 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
-    output: !item["output"]
-      ? item["output"]
-      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
   };
 }
 
@@ -25235,98 +25265,6 @@ export function createTranscriptionResponseJsonUsageUnionDeserializer(
 
 /** Type of CreateTranscriptionResponseJsonUsageType */
 export type CreateTranscriptionResponseJsonUsageType = "tokens" | "duration";
-
-/** Properties shared by realtime responses returned by the voice-agent service. */
-export interface VoiceAgentRealtimeResponseBase {
-  /** The unique ID of the response, will look like `resp_1234`. */
-  id?: string;
-  /** The object type, must be `realtime.response`. */
-  object?: "realtime.response";
-  /**
-   * The final status of the response (`completed`, `cancelled`, `failed`, or
-   *   `incomplete`, `in_progress`).
-   */
-  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-  /** Additional details about the status. */
-  status_details?: RealtimeResponseStatusDetails;
-  /** Custom string key-value pairs associated with the response. */
-  metadata?: Metadata;
-  /**
-   * Usage statistics for the Response, this will correspond to billing. A
-   *   Realtime API session will maintain a conversation context and append new
-   *   Items to the Conversation, thus output from previous turns (text and
-   *   audio tokens) will become the input for later turns.
-   */
-  usage?: RealtimeResponseUsage;
-  /**
-   * Which conversation the response is added to, determined by the `conversation`
-   *   field in the `response.create` event. If `auto`, the response will be added to
-   *   the default conversation and the value of `conversation_id` will be an id like
-   *   `conv_1234`. If `none`, the response will not be added to any conversation and
-   *   the value of `conversation_id` will be `null`. If responses are being triggered
-   *   automatically by VAD the response will be added to the default conversation
-   */
-  conversation_id?: string;
-  /**
-   * The set of modalities the model used to respond, currently the only possible values are
-   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
-   *   output to mode `text` will disable audio output from the model.
-   */
-  output_modalities?: ("text" | "audio")[];
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   *   inclusive of tool calls, that was used in this response.
-   */
-  max_output_tokens?: number | "inf";
-}
-
-export function voiceAgentRealtimeResponseBaseSerializer(
-  item: VoiceAgentRealtimeResponseBase,
-): any {
-  return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
-    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
-    conversation_id: item["conversation_id"],
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
-  };
-}
-
-export function voiceAgentRealtimeResponseBaseDeserializer(
-  item: any,
-): VoiceAgentRealtimeResponseBase {
-  return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    status_details: !item["status_details"]
-      ? item["status_details"]
-      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
-    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
-    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    conversation_id: item["conversation_id"],
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
-  };
-}
 
 /** model interface RealtimeServerEventErrorError */
 export interface RealtimeServerEventErrorError {
@@ -28182,4 +28120,17 @@ export function teamsPhoneExtensibilityTelephonyBindingListItemDeserializer(
     phone_number: item["phone_number"],
     resource_account_object_id: item["resource_account_object_id"],
   };
+}
+
+/** Alias for _VoiceResponseMaxOutputTokens */
+export type _VoiceResponseMaxOutputTokens = number | "inf";
+
+export function _voiceResponseMaxOutputTokensSerializer(item: _VoiceResponseMaxOutputTokens): any {
+  return item;
+}
+
+export function _voiceResponseMaxOutputTokensDeserializer(
+  item: any,
+): _VoiceResponseMaxOutputTokens {
+  return item;
 }
