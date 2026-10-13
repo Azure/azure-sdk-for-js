@@ -13,7 +13,299 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import {
+  Reasoning,
+  reasoningSerializer,
+  reasoningDeserializer,
+  toolUnionArraySerializer,
+  toolUnionArrayDeserializer,
+  Tool,
+  ToolUnion,
+  MCPToolRequireApproval,
+  MCPToolFilter,
+  MCPTool,
+  _mcpToolAllowedToolsSerializer,
+  _mcpToolAllowedToolsDeserializer,
+  CallableToolAllowedCaller,
+  _mcpToolRequireApprovalSerializer,
+  _mcpToolRequireApprovalDeserializer,
+  AutoCodeInterpreterToolParam,
+  ContainerMemoryLimit,
+  RankingOptions,
+  rankingOptionsSerializer,
+  rankingOptionsDeserializer,
+  Filters,
+  filtersSerializer,
+  filtersDeserializer,
+  WebSearchToolFilters,
+  webSearchToolFiltersSerializer,
+  webSearchToolFiltersDeserializer,
+  WebSearchApproximateLocation,
+  webSearchApproximateLocationSerializer,
+  webSearchApproximateLocationDeserializer,
+  containerSkillUnionArraySerializer,
+  containerSkillUnionArrayDeserializer,
+  ContainerSkillUnion,
+  ToolChoiceParamUnion,
+  ToolChoiceFunction,
+  ToolChoiceMCP,
+  textResponseFormatUnionSerializer,
+  textResponseFormatUnionDeserializer,
+  TextResponseFormatUnion,
+  realtimeAudioFormatsUnionSerializer,
+  realtimeAudioFormatsUnionDeserializer,
+  RealtimeAudioFormatsUnion,
+  RealtimeFunctionToolParameters,
+  realtimeFunctionToolParametersSerializer,
+  realtimeFunctionToolParametersDeserializer,
+  ApiError,
+  apiErrorDeserializer,
+  chatCompletionToolArraySerializer,
+  chatCompletionToolArrayDeserializer,
+  ChatCompletionTool,
+  ResponseUsageInputTokensDetails,
+  responseUsageInputTokensDetailsDeserializer,
+  ResponseUsageOutputTokensDetails,
+  responseUsageOutputTokensDetailsDeserializer,
+  RealtimeResponseUsage,
+  realtimeResponseUsageSerializer,
+  realtimeResponseUsageDeserializer,
+  RealtimeResponseStatusDetails,
+  realtimeResponseStatusDetailsSerializer,
+  realtimeResponseStatusDetailsDeserializer,
+  realtimeConversationItemUnionArraySerializer,
+  realtimeConversationItemUnionArrayDeserializer,
+  realtimeConversationItemUnionSerializer,
+  realtimeConversationItemUnionDeserializer,
+  RealtimeConversationItemUnion,
+  Metadata,
+  metadataSerializer,
+  metadataDeserializer,
+  _voiceResponseMaxOutputTokensSerializer,
+  _voiceResponseMaxOutputTokensDeserializer,
+  RealtimeReasoning,
+  realtimeReasoningSerializer,
+  realtimeReasoningDeserializer,
+  RealtimeClientEvent,
+  RealtimeClientEventConversationItemCreate,
+  RealtimeClientEventConversationItemDelete,
+  RealtimeClientEventConversationItemRetrieve,
+  RealtimeClientEventConversationItemTruncate,
+  RealtimeClientEventInputAudioBufferAppend,
+  RealtimeClientEventInputAudioBufferClear,
+  RealtimeClientEventOutputAudioBufferClear,
+  RealtimeClientEventInputAudioBufferCommit,
+  RealtimeClientEventResponseCancel,
+  RealtimeClientEventResponseCreate,
+  _voiceAgentResponseCreateParamsToolArraySerializer,
+  _voiceAgentResponseCreateParamsToolArrayDeserializer,
+  RealtimeFunctionTool,
+  _voiceAgentResponseCreateParamsToolChoiceSerializer,
+  _voiceAgentResponseCreateParamsToolChoiceDeserializer,
+  ToolChoiceOptions,
+  _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
+  _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
+  RealtimeServerEvent,
+  RealtimeServerEventConversationItemCreated,
+  RealtimeServerEventConversationItemDeleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
+  RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+  RealtimeServerEventConversationItemRetrieved,
+  RealtimeServerEventConversationItemTruncated,
+  RealtimeServerEventInputAudioBufferCleared,
+  RealtimeServerEventInputAudioBufferCommitted,
+  RealtimeServerEventInputAudioBufferSpeechStarted,
+  RealtimeServerEventInputAudioBufferSpeechStopped,
+  RealtimeServerEventRateLimitsUpdated,
+  RealtimeServerEventResponseAudioDelta,
+  RealtimeServerEventResponseAudioDone,
+  RealtimeServerEventResponseAudioTranscriptDelta,
+  RealtimeServerEventResponseAudioTranscriptDone,
+  RealtimeServerEventResponseContentPartAdded,
+  RealtimeServerEventResponseContentPartDone,
+  RealtimeServerEventResponseCreated,
+  RealtimeServerEventResponseDone,
+  RealtimeServerEventResponseFunctionCallArgumentsDelta,
+  RealtimeServerEventResponseFunctionCallArgumentsDone,
+  RealtimeServerEventResponseOutputItemAdded,
+  RealtimeServerEventResponseOutputItemDone,
+  RealtimeServerEventResponseTextDelta,
+  RealtimeServerEventResponseTextDone,
+  RealtimeServerEventSessionCreated,
+  RealtimeServerEventSessionUpdated,
+  RealtimeServerEventOutputAudioBufferCleared,
+  RealtimeServerEventConversationItemAdded,
+  RealtimeServerEventConversationItemDone,
+  RealtimeServerEventInputAudioBufferTimeoutTriggered,
+  RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
+  RealtimeServerEventMCPListToolsInProgress,
+  RealtimeServerEventMCPListToolsCompleted,
+  RealtimeServerEventMCPListToolsFailed,
+  RealtimeServerEventResponseMCPCallArgumentsDelta,
+  RealtimeServerEventResponseMCPCallArgumentsDone,
+  RealtimeServerEventResponseMCPCallInProgress,
+  RealtimeServerEventResponseMCPCallCompleted,
+  RealtimeServerEventResponseMCPCallFailed,
+  RealtimeServerEventError,
+} from "./openAI/models.js";
+import {
+  PickPropertiesVoiceAgentAudioConfig,
+  pickPropertiesVoiceAgentAudioConfigSerializer,
+  pickPropertiesVoiceAgentAudioConfigDeserializer,
+} from "./typeSpec/models.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import {
+  Reasoning,
+  reasoningSerializer,
+  reasoningDeserializer,
+  toolUnionArraySerializer,
+  toolUnionArrayDeserializer,
+  Tool,
+  ToolUnion,
+  MCPToolRequireApproval,
+  MCPToolFilter,
+  MCPTool,
+  _mcpToolAllowedToolsSerializer,
+  _mcpToolAllowedToolsDeserializer,
+  CallableToolAllowedCaller,
+  _mcpToolRequireApprovalSerializer,
+  _mcpToolRequireApprovalDeserializer,
+  AutoCodeInterpreterToolParam,
+  ContainerMemoryLimit,
+  RankingOptions,
+  rankingOptionsSerializer,
+  rankingOptionsDeserializer,
+  Filters,
+  filtersSerializer,
+  filtersDeserializer,
+  WebSearchToolFilters,
+  webSearchToolFiltersSerializer,
+  webSearchToolFiltersDeserializer,
+  WebSearchApproximateLocation,
+  webSearchApproximateLocationSerializer,
+  webSearchApproximateLocationDeserializer,
+  containerSkillUnionArraySerializer,
+  containerSkillUnionArrayDeserializer,
+  ContainerSkillUnion,
+  ToolChoiceParamUnion,
+  ToolChoiceFunction,
+  ToolChoiceMCP,
+  textResponseFormatUnionSerializer,
+  textResponseFormatUnionDeserializer,
+  TextResponseFormatUnion,
+  realtimeAudioFormatsUnionSerializer,
+  realtimeAudioFormatsUnionDeserializer,
+  RealtimeAudioFormatsUnion,
+  RealtimeFunctionToolParameters,
+  realtimeFunctionToolParametersSerializer,
+  realtimeFunctionToolParametersDeserializer,
+  ApiError,
+  apiErrorDeserializer,
+  chatCompletionToolArraySerializer,
+  chatCompletionToolArrayDeserializer,
+  ChatCompletionTool,
+  ResponseUsageInputTokensDetails,
+  responseUsageInputTokensDetailsDeserializer,
+  ResponseUsageOutputTokensDetails,
+  responseUsageOutputTokensDetailsDeserializer,
+  RealtimeResponseUsage,
+  realtimeResponseUsageSerializer,
+  realtimeResponseUsageDeserializer,
+  realtimeConversationItemUnionArraySerializer,
+  realtimeConversationItemUnionArrayDeserializer,
+  realtimeConversationItemUnionSerializer,
+  realtimeConversationItemUnionDeserializer,
+  RealtimeConversationItemUnion,
+  RealtimeResponseStatusDetails,
+  realtimeResponseStatusDetailsSerializer,
+  realtimeResponseStatusDetailsDeserializer,
+  _voiceResponseBaseMaxOutputTokensSerializer,
+  _voiceResponseBaseMaxOutputTokensDeserializer,
+  RealtimeReasoning,
+  realtimeReasoningSerializer,
+  realtimeReasoningDeserializer,
+  RealtimeClientEvent,
+  RealtimeClientEventConversationItemCreate,
+  RealtimeClientEventConversationItemDelete,
+  RealtimeClientEventConversationItemRetrieve,
+  RealtimeClientEventConversationItemTruncate,
+  RealtimeClientEventInputAudioBufferAppend,
+  RealtimeClientEventInputAudioBufferClear,
+  RealtimeClientEventOutputAudioBufferClear,
+  RealtimeClientEventInputAudioBufferCommit,
+  RealtimeClientEventResponseCancel,
+  RealtimeClientEventResponseCreate,
+  _voiceAgentResponseCreateParamsToolArraySerializer,
+  _voiceAgentResponseCreateParamsToolArrayDeserializer,
+  RealtimeFunctionTool,
+  _voiceAgentResponseCreateParamsToolChoiceSerializer,
+  _voiceAgentResponseCreateParamsToolChoiceDeserializer,
+  ToolChoiceOptions,
+  _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
+  _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
+  Metadata,
+  metadataSerializer,
+  metadataDeserializer,
+  RealtimeServerEvent,
+  RealtimeServerEventConversationItemCreated,
+  RealtimeServerEventConversationItemDeleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
+  RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+  RealtimeServerEventConversationItemRetrieved,
+  RealtimeServerEventConversationItemTruncated,
+  RealtimeServerEventInputAudioBufferCleared,
+  RealtimeServerEventInputAudioBufferCommitted,
+  RealtimeServerEventInputAudioBufferSpeechStarted,
+  RealtimeServerEventInputAudioBufferSpeechStopped,
+  RealtimeServerEventRateLimitsUpdated,
+  RealtimeServerEventResponseAudioDelta,
+  RealtimeServerEventResponseAudioDone,
+  RealtimeServerEventResponseAudioTranscriptDelta,
+  RealtimeServerEventResponseAudioTranscriptDone,
+  RealtimeServerEventResponseContentPartAdded,
+  RealtimeServerEventResponseContentPartDone,
+  RealtimeServerEventResponseCreated,
+  RealtimeServerEventResponseDone,
+  RealtimeServerEventResponseFunctionCallArgumentsDelta,
+  RealtimeServerEventResponseFunctionCallArgumentsDone,
+  RealtimeServerEventResponseOutputItemAdded,
+  RealtimeServerEventResponseOutputItemDone,
+  RealtimeServerEventResponseTextDelta,
+  RealtimeServerEventResponseTextDone,
+  RealtimeServerEventSessionCreated,
+  RealtimeServerEventSessionUpdated,
+  RealtimeServerEventOutputAudioBufferCleared,
+  RealtimeServerEventConversationItemAdded,
+  RealtimeServerEventConversationItemDone,
+  RealtimeServerEventInputAudioBufferTimeoutTriggered,
+  RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
+  RealtimeServerEventMCPListToolsInProgress,
+  RealtimeServerEventMCPListToolsCompleted,
+  RealtimeServerEventMCPListToolsFailed,
+  RealtimeServerEventResponseMCPCallArgumentsDelta,
+  RealtimeServerEventResponseMCPCallArgumentsDone,
+  RealtimeServerEventResponseMCPCallInProgress,
+  RealtimeServerEventResponseMCPCallCompleted,
+  RealtimeServerEventResponseMCPCallFailed,
+  RealtimeServerEventError,
+} from "./openAI/models.js";
+import {
+  PickPropertiesVoiceAgentAudioConfig,
+  pickPropertiesVoiceAgentAudioConfigSerializer,
+  pickPropertiesVoiceAgentAudioConfigDeserializer,
+} from "./typeSpec/models.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
+=======
 /* eslint-disable tsdoc/syntax */
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 
 /** model interface Agent */
 export interface Agent {
@@ -396,6 +688,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -420,6 +714,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -447,6 +742,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -4230,6 +4526,66 @@ export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTeleme
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+/** An MCP tool available to a voice agent. Server endpoints use `server_url`; connector and tunnel identifiers are not supported. */
+export interface VoiceAgentMcpTool extends VoiceAgentTool {
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  type: "mcp";
+  /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+/** An MCP tool available to a voice agent. */
+export interface VoiceAgentMcpTool extends VoiceAgentTool {
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  type: "mcp";
+  /** The URL for the MCP server. */
+  server_url?: string;
+  /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
+=======
 /** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
 export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
@@ -4238,10 +4594,60 @@ export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   endpoint: string;
   /** The transport protocol for the OTLP endpoint. */
   protocol: TelemetryTransportProtocol;
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    response_scheduling: item["response_scheduling"],
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    type: item["type"],
+    server_label: item["server_label"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -4249,11 +4655,69 @@ export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): an
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
 export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    response_scheduling: item["response_scheduling"],
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    type: item["type"],
+    server_label: item["server_label"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -4261,6 +4725,7 @@ export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpo
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -15691,15 +16156,158 @@ export interface RealtimeAudioFormatsAudioPcma extends RealtimeAudioFormats {
   type: "audio/pcma";
 }
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+/**
+ * A persisted voice response representing one model inference turn within a conversation. In list results the
+ * `output` projection may be omitted; retrieve the
+ * full response (`GET .../responses/{response_id}`) or the paged response-items route
+ * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
+ * durable ordering extensions.
+ */
+export interface VoiceResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
+  output?: RealtimeConversationItemUnion[];
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+  /** The audio configuration used for the response, including the voice and audio format used for output. */
+  audio?: VoiceResponseAudio;
+  /** The sampling temperature used for the response. */
+  temperature?: number;
+  /** The Unix timestamp (in seconds) for when the response was created. */
+  created_at?: Date;
+  /** The Unix timestamp (in seconds) for when the response completed. */
+  completed_at?: Date;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+/**
+ * A persisted voice response representing one model inference turn within a conversation. In list results the
+ * `output` projection may be omitted; retrieve the
+ * full response (`GET .../responses/{response_id}`) or the paged response-items route
+ * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
+ * durable ordering extensions.
+ */
+export interface VoiceResponse extends VoiceResponseBase {
+  /** The unique id of the response. */
+  id: string;
+  /** The output items produced by the response. May be omitted in list results; retrieve the full response (GET .../responses/{response_id}) or use the paged response-items route (GET .../responses/{response_id}/items) for its output items. Each item's `response_id` also links it back to this response in the conversation-level items list. */
+  output?: RealtimeConversationItemUnion[];
+  /** The id of the conversation this response belongs to. */
+  conversation_id: string;
+  /** The audio configuration used for the response, including the voice and audio format used for output. */
+  audio?: VoiceResponseAudio;
+  /** A set of key-value pairs attached to the response. */
+  metadata?: Record<string, string>;
+  /** The sampling temperature used for the response. */
+  temperature?: number;
+  /** The Unix timestamp (in seconds) for when the response was created. */
+  created_at?: Date;
+  /** The Unix timestamp (in seconds) for when the response completed. */
+  completed_at?: Date;
+=======
 export function realtimeAudioFormatsAudioPcmaSerializer(item: RealtimeAudioFormatsAudioPcma): any {
   return { type: item["type"] };
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function realtimeAudioFormatsAudioPcmaDeserializer(
   item: any,
 ): RealtimeAudioFormatsAudioPcma {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+    temperature: item["temperature"],
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    id: item["id"],
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    conversation_id: item["conversation_id"],
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    temperature: item["temperature"],
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+=======
     type: item["type"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -15786,6 +16394,79 @@ export function voiceAgentTurnDetectionConfigUnionSerializer(
   }
 }
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRealtimeConversationItem {
+  /** The requested list of items. */
+  data: RealtimeConversationItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Properties shared by persisted voice responses. */
+export interface VoiceResponseBase {
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+}
+
+export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
+  return {
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRealtimeConversationItem {
+  /** The requested list of items. */
+  data: RealtimeConversationItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+=======
 export function voiceAgentTurnDetectionConfigUnionDeserializer(
   item: any,
 ): VoiceAgentTurnDetectionConfigUnion {
@@ -15893,6 +16574,7 @@ export function voiceAgentServerVadTurnDetectionDeserializer(
       ? item["end_of_utterance_detection"]
       : voiceAgentEndOfUtteranceDetectionDeserializer(item["end_of_utterance_detection"]),
   };
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 /** Semantic end-of-utterance detection configuration. */
@@ -17404,6 +18086,107 @@ export function createTelephonyBindingRequestUnionSerializer(
   }
 }
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+/** Parameters accepted by a voice-agent `response.create` event. */
+export interface VoiceAgentResponseCreateParams {
+  /**
+   * The default system instructions (i.e. system message) prepended to model calls. This field allows the client to guide the model on desired responses. The model can be instructed on response content and format, (e.g. "be extremely succinct", "act friendly", "here are examples of good responses") and on audio behavior (e.g. "talk quickly", "inject emotion into your voice", "laugh frequently"). The instructions are not guaranteed to be followed by the model, but they provide guidance to the model on the desired behavior.
+   *   Note that the server sets default instructions which will be used if this field is not set and are visible in the `session.created` event at the start of the session.
+   */
+  instructions?: string;
+  /** Tools available to the model. */
+  tools?: (RealtimeFunctionTool | MCPTool)[];
+  /**
+   * How the model chooses tools. Provide one of the string modes or force a specific
+   *   function/MCP tool.
+   */
+  tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
+  /**
+   * Whether the model may call multiple tools in parallel. Only supported by
+   *   reasoning Realtime models such as `gpt-realtime-2`.
+   */
+  parallel_tool_calls?: boolean;
+  reasoning?: RealtimeReasoning;
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls. Provide an integer between 1 and 4096 to
+   *   limit output tokens, or `inf` for the maximum available tokens for a
+   *   given model. Defaults to `inf`.
+   */
+  max_output_tokens?: number | "inf";
+  /**
+   * Controls which conversation the response is added to. Currently supports
+   *   `auto` and `none`, with `auto` as the default value. The `auto` value
+   *   means that the contents of the response will be added to the default
+   *   conversation. Set this to `none` to create an out-of-band response which
+   *   will not add items to default conversation.
+   */
+  conversation?: "auto" | "none";
+  metadata?: Metadata;
+  /**
+   * Input items to include in the prompt for the model. Using this field
+   *   creates a new context for this Response instead of using the default
+   *   conversation. An empty array `[]` will clear the context for this Response.
+   *   Note that this can include references to items that previously appeared in the session
+   *   using their id.
+   */
+  input?: RealtimeConversationItemUnion[];
+  /** Modalities that the response may return. */
+  output_modalities?: VoiceOutputModality[];
+  /** Response-specific audio settings. */
+  audio?: PickPropertiesVoiceAgentAudioConfig;
+  /** A pre-generated assistant message used to begin the response. */
+  pre_generated_assistant_message?: RealtimeConversationItemUnion;
+  /** Interim-response settings for this response. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Parameters accepted by a voice-agent `response.create` event. */
+export interface VoiceAgentResponseCreateParams {
+  /**
+   * The default system instructions (i.e. system message) prepended to model calls. This field allows the client to guide the model on desired responses. The model can be instructed on response content and format, (e.g. "be extremely succinct", "act friendly", "here are examples of good responses") and on audio behavior (e.g. "talk quickly", "inject emotion into your voice", "laugh frequently"). The instructions are not guaranteed to be followed by the model, but they provide guidance to the model on the desired behavior.
+   *   Note that the server sets default instructions which will be used if this field is not set and are visible in the `session.created` event at the start of the session.
+   */
+  instructions?: string;
+  /** Tools available to the model. */
+  tools?: (RealtimeFunctionTool | MCPTool)[];
+  /**
+   * How the model chooses tools. Provide one of the string modes or force a specific
+   *   function/MCP tool.
+   */
+  tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
+  /**
+   * Whether the model may call multiple tools in parallel. Only supported by
+   *   reasoning Realtime models such as `gpt-realtime-2`.
+   */
+  parallel_tool_calls?: boolean;
+  reasoning?: RealtimeReasoning;
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls. Provide an integer between 1 and 4096 to
+   *   limit output tokens, or `inf` for the maximum available tokens for a
+   *   given model. Defaults to `inf`.
+   */
+  max_output_tokens?: number | "inf";
+  /**
+   * Controls which conversation the response is added to. Currently supports
+   *   `auto` and `none`, with `auto` as the default value. The `auto` value
+   *   means that the contents of the response will be added to the default
+   *   conversation. Set this to `none` to create an out-of-band response which
+   *   will not add items to default conversation.
+   */
+  conversation?: "auto" | "none";
+  metadata?: Metadata;
+  /** Modalities that the response may return. */
+  output_modalities?: VoiceOutputModality[];
+  /** Response-specific audio settings. */
+  audio?: PickPropertiesVoiceAgentAudioConfig;
+  /** Conversation items used as inline response input. */
+  input?: RealtimeConversationItemUnion[];
+  /** A pre-generated assistant message used to begin the response. */
+  pre_generated_assistant_message?: RealtimeConversationItemUnion;
+  /** Interim-response settings for this response. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+=======
 /** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
 export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
 
@@ -17413,16 +18196,87 @@ export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBind
   provider: "twilio";
   /** The Twilio E.164 phone number. */
   phone_number: string;
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function createTwilioTelephonyBindingRequestSerializer(
   item: CreateTwilioTelephonyBindingRequest,
 ): any {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArraySerializer(item["input"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArraySerializer(item["input"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+=======
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
     phone_number: item["phone_number"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -17445,12 +18299,82 @@ export interface TelephonyBinding {
 
 export function telephonyBindingDeserializer(item: any): TelephonyBinding {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+=======
     id: item["id"],
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -17729,6 +18653,60 @@ export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummar
 /** The lifecycle status of an inbound telephony call. */
 export type TelephonyCallStatus = "in_progress" | "success" | "failed";
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+/** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
+export interface VoiceAgentRealtimeResponse {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /** The list of output items generated by the response. */
+  output?: RealtimeConversationItemUnion[];
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+  /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
+  audio?: VoiceResponseAudio;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
+export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+  /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
+  audio?: VoiceResponseAudio;
+  /** The items produced by the live response. */
+  output?: RealtimeConversationItemUnion[];
+=======
 /** The provider-neutral phase reached by an inbound telephony call. */
 export type TelephonyCallPhase =
   | "received"
@@ -17822,6 +18800,7 @@ export interface TelephonyCallRecord {
   events: TelephonyCallLifecycleEvent[];
   /** Whether older lifecycle events were omitted from the timeline. */
   events_truncated: boolean;
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord {
@@ -17832,6 +18811,45 @@ export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord 
     caller_number: item["caller_number"],
     provider_number: item["provider_number"],
     status: item["status"],
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArraySerializer(item["output"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseMaxOutputTokensSerializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArraySerializer(item["output"]),
+=======
     phase: item["phase"],
     started_at: new Date(item["started_at"] * 1000),
     answered_at:
@@ -17859,6 +18877,7 @@ export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord 
     trace: !item["trace"] ? item["trace"] : telephonyCallTraceDeserializer(item["trace"]),
     events: telephonyCallLifecycleEventArrayDeserializer(item["events"]),
     events_truncated: item["events_truncated"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -17892,6 +18911,51 @@ export interface TelephonyCallTiming {
 
 export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
   return {
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+=======
     received_at:
       item["received_at"] === undefined || item["received_at"] === null
         ? item["received_at"]
@@ -17934,6 +18998,7 @@ export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming 
         : new Date(item["ended_at"] * 1000),
     duration_basis: item["duration_basis"],
     timestamp_source: item["timestamp_source"],
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -18522,6 +19587,136 @@ export function _agentsPagedResultVoiceResponseDeserializer(
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolI9iseR/result/src/models/models.ts
+export function voiceAgentServerEventResponseVideoDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseVideoDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    output_index: item["output_index"],
+    codec: item["codec"],
+    delta: item["delta"],
+  };
+}
+
+/** model interface UpdateToolboxRequest */
+export interface UpdateToolboxRequest {
+  /** The name of the toolbox to update. */
+  name: string;
+  /** The version identifier that the toolbox should point to. When set, the toolbox's default version will resolve to this version instead of the latest. */
+  default_version: string;
+||||||| /tmp/azsdk-dev-toolI9iseR/base/sdk/ai/ai-projects/generated/models/models.ts
+export function voiceAgentServerEventResponseVideoDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseVideoDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    output_index: item["output_index"],
+    codec: item["codec"],
+    delta: item["delta"],
+  };
+}
+
+/** Properties shared by realtime responses returned by the voice-agent service. */
+export interface VoiceAgentRealtimeResponseBase {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+}
+
+export function voiceAgentRealtimeResponseBaseSerializer(
+  item: VoiceAgentRealtimeResponseBase,
+): any {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+  };
+}
+
+export function voiceAgentRealtimeResponseBaseDeserializer(
+  item: any,
+): VoiceAgentRealtimeResponseBase {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+  };
+}
+
+/** model interface UpdateToolboxRequest */
+export interface UpdateToolboxRequest {
+  /** The name of the toolbox to update. */
+  name: string;
+  /** The version identifier that the toolbox should point to. When set, the toolbox's default version will resolve to this version instead of the latest. */
+  default_version: string;
+=======
 export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): any[] {
   return result.map((item) => {
     return voiceResponseDeserializer(item);
@@ -18597,6 +19792,7 @@ export function realtimeConversationItemUnionArraySerializer(
   return result.map((item) => {
     return realtimeConversationItemUnionSerializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolI9iseR/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function realtimeConversationItemUnionArrayDeserializer(
