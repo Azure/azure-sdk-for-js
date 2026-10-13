@@ -27,6 +27,15 @@ describe("EKM connection operations", () => {
     const authentication = await authenticate(ctx);
     client = authentication.ekmClient;
     recorder = authentication.recorder;
+
+    await recorder.addSanitizers(
+      {
+        bodyKeySanitizers: [
+          { jsonPath: "$..privateLinkServiceId", value: "fake-private-link-service-id" },
+        ],
+      },
+      ["record", "playback"],
+    );
   });
 
   afterEach(async function () {
