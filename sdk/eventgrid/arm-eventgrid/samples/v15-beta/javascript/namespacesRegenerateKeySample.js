@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerate a shared access key for a namespace.
  *
  * @summary regenerate a shared access key for a namespace.
- * x-ms-original-file: 2025-07-15-preview/Namespaces_RegenerateKey.json
+ * x-ms-original-file: 2026-06-15-preview/Namespaces_RegenerateKey.json
  */
 async function namespacesRegenerateKey() {
   const credential = new DefaultAzureCredential();

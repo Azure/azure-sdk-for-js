@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of a partner destination.
  *
  * @summary get properties of a partner destination.
- * x-ms-original-file: 2025-07-15-preview/PartnerDestinations_Get.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerDestinations_Get.json
  */
 async function partnerDestinationsGet() {
   const credential = new DefaultAzureCredential();

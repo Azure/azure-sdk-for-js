@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of a nested event subscription for a domain topic.
  *
  * @summary get properties of a nested event subscription for a domain topic.
- * x-ms-original-file: 2025-07-15-preview/DomainTopicEventSubscriptions_Get.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopicEventSubscriptions_Get.json
  */
 async function domainTopicEventSubscriptionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

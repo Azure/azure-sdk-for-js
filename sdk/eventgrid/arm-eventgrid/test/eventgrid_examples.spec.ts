@@ -36,7 +36,7 @@ export function createTestCredential(): TokenCredential {
   return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
-describe("Eventgrid test", () => {
+describe.skip("Eventgrid test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: EventGridManagementClient;

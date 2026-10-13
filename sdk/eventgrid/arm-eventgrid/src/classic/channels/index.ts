@@ -44,11 +44,6 @@ export interface ChannelsOperations {
     options?: ChannelsListByPartnerNamespaceOptionalParams,
   ) => PagedAsyncIterableIterator<Channel>;
   /** Delete an existing channel. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     partnerNamespaceName: string,

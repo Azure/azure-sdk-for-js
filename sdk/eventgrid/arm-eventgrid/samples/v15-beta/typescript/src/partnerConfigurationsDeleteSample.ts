@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete existing partner configuration.
  *
  * @summary delete existing partner configuration.
- * x-ms-original-file: 2025-07-15-preview/PartnerConfigurations_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerConfigurations_Delete.json
  */
 async function partnerConfigurationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

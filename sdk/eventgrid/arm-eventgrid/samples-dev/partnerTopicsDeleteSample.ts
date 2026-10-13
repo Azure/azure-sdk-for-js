@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete existing partner topic.
  *
  * @summary delete existing partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_Delete.json
  */
 async function partnerTopicsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

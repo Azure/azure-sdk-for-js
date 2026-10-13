@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a partner registration with the specified parameters.
  *
  * @summary gets a partner registration with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerRegistrations_Get.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerRegistrations_Get.json
  */
 async function partnerRegistrationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

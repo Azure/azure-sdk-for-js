@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the full endpoint URL for a nested event subscription for domain topic.
  *
  * @summary get the full endpoint URL for a nested event subscription for domain topic.
- * x-ms-original-file: 2025-07-15-preview/DomainTopicEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopicEventSubscriptions_GetFullUrl.json
  */
 async function domainTopicEventSubscriptionsGetFullUrl() {
   const credential = new DefaultAzureCredential();

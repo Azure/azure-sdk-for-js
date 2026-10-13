@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of a topic.
  *
  * @summary get properties of a topic.
- * x-ms-original-file: 2025-07-15-preview/Topics_Get.json
+ * x-ms-original-file: 2026-06-15-preview/Topics_Get.json
  */
 async function topicsGet() {
   const credential = new DefaultAzureCredential();

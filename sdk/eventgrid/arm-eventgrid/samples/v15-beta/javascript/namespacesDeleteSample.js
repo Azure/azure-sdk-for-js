@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete existing namespace.
  *
  * @summary delete existing namespace.
- * x-ms-original-file: 2025-07-15-preview/Namespaces_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/Namespaces_Delete.json
  */
 async function namespacesDelete() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete existing namespace topic.
  *
  * @summary delete existing namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopics_Delete.json
  */
 async function namespaceTopicsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

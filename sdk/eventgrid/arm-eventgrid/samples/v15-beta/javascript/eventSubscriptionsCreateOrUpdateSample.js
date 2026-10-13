@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_AzureFunctionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination() {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestin
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination() {
   const credential = new DefaultAzureCredential();
@@ -104,7 +104,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination() {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDes
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination() {
   const credential = new DefaultAzureCredential();
@@ -172,7 +172,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDest
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusTopicDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination() {
   const credential = new DefaultAzureCredential();
@@ -206,7 +206,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDest
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination() {
   const credential = new DefaultAzureCredential();
@@ -242,7 +242,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestina
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination() {
   const credential = new DefaultAzureCredential();
@@ -270,7 +270,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForResource.json
  */
 async function eventSubscriptionsCreateOrUpdateForResource() {
   const credential = new DefaultAzureCredential();
@@ -294,7 +294,7 @@ async function eventSubscriptionsCreateOrUpdateForResource() {
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForResourceGroup.json
  */
 async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -318,7 +318,7 @@ async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
  * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
  * @summary asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_CreateOrUpdateForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_CreateOrUpdateForSubscription.json
  */
 async function eventSubscriptionsCreateOrUpdateForSubscription() {
   const credential = new DefaultAzureCredential();

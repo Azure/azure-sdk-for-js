@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all event subscriptions from the given location under a specific Azure subscription.
  *
  * @summary list all event subscriptions from the given location under a specific Azure subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListRegionalBySubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListRegionalBySubscription.json
  */
 async function eventSubscriptionsListRegionalBySubscription() {
   const credential = new DefaultAzureCredential();

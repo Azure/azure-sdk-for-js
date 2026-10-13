@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.EventGrid": "2025-07-15-preview"
+    "Microsoft.EventGrid": "2026-06-15-preview"
   },
-  "emitterVersion": "0.50.3",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.EventGrid",
     "CrossLanguageDefinitionId": {
@@ -42,6 +42,7 @@
       "@azure/arm-eventgrid!CustomWebhookAuthenticationManagedIdentity:interface": "Microsoft.EventGrid.CustomWebhookAuthenticationManagedIdentity",
       "@azure/arm-eventgrid!RoutingIdentityInfo:interface": "Microsoft.EventGrid.RoutingIdentityInfo",
       "@azure/arm-eventgrid!InboundIpRule:interface": "Microsoft.EventGrid.InboundIpRule",
+      "@azure/arm-eventgrid!AutoScaleConfiguration:interface": "Microsoft.EventGrid.AutoScaleConfiguration",
       "@azure/arm-eventgrid!NamespaceSku:interface": "Microsoft.EventGrid.NamespaceSku",
       "@azure/arm-eventgrid!IdentityInfo:interface": "Microsoft.EventGrid.IdentityInfo",
       "@azure/arm-eventgrid!UserIdentityProperties:interface": "Microsoft.EventGrid.UserIdentityProperties",
@@ -50,6 +51,7 @@
       "@azure/arm-eventgrid!NamespaceUpdateParameterProperties:interface": "Microsoft.EventGrid.NamespaceUpdateParameterProperties",
       "@azure/arm-eventgrid!UpdateTopicSpacesConfigurationInfo:interface": "Microsoft.EventGrid.UpdateTopicSpacesConfigurationInfo",
       "@azure/arm-eventgrid!UpdateTopicsConfigurationInfo:interface": "Microsoft.EventGrid.UpdateTopicsConfigurationInfo",
+      "@azure/arm-eventgrid!UpdateAutoScaleConfiguration:interface": "Microsoft.EventGrid.UpdateAutoScaleConfiguration",
       "@azure/arm-eventgrid!NamespacesListResult:interface": "Microsoft.EventGrid.NamespacesListResult",
       "@azure/arm-eventgrid!NamespaceSharedAccessKeys:interface": "Microsoft.EventGrid.NamespaceSharedAccessKeys",
       "@azure/arm-eventgrid!NamespaceRegenerateKeyRequest:interface": "Microsoft.EventGrid.NamespaceRegenerateKeyRequest",
@@ -285,6 +287,7 @@
       "@azure/arm-eventgrid!KnownPublicNetworkAccess:enum": "Microsoft.EventGrid.PublicNetworkAccess",
       "@azure/arm-eventgrid!KnownIpActionType:enum": "Microsoft.EventGrid.IpActionType",
       "@azure/arm-eventgrid!KnownTlsVersion:enum": "Microsoft.EventGrid.TlsVersion",
+      "@azure/arm-eventgrid!KnownIpAddressType:enum": "Microsoft.EventGrid.IpAddressType",
       "@azure/arm-eventgrid!KnownSkuName:enum": "Microsoft.EventGrid.SkuName",
       "@azure/arm-eventgrid!KnownIdentityType:enum": "Microsoft.EventGrid.IdentityType",
       "@azure/arm-eventgrid!KnownChannelType:enum": "Microsoft.EventGrid.ChannelType",

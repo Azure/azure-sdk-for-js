@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a specific network security perimeter configuration with a topic or domain.
  *
  * @summary get a specific network security perimeter configuration with a topic or domain.
- * x-ms-original-file: 2025-07-15-preview/NetworkSecurityPerimeterConfigurations_Get.json
+ * x-ms-original-file: 2026-06-15-preview/NetworkSecurityPerimeterConfigurations_Get.json
  */
 async function networkSecurityPerimeterConfigurationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

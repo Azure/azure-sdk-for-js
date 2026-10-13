@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerate a shared access key for a domain.
  *
  * @summary regenerate a shared access key for a domain.
- * x-ms-original-file: 2025-07-15-preview/Domains_RegenerateKey.json
+ * x-ms-original-file: 2026-06-15-preview/Domains_RegenerateKey.json
  */
 async function domainsRegenerateKey() {
   const credential = new DefaultAzureCredential();

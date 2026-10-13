@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an existing event subscription for a topic.
  *
  * @summary delete an existing event subscription for a topic.
- * x-ms-original-file: 2025-07-15-preview/TopicEventSubscriptions_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/TopicEventSubscriptions_Delete.json
  */
 async function topicEventSubscriptionsDelete() {
   const credential = new DefaultAzureCredential();

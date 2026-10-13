@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to synchronously updates a channel with the specified parameters.
  *
  * @summary synchronously updates a channel with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/Channels_Update.json
+ * x-ms-original-file: 2026-06-15-preview/Channels_Update.json
  */
 async function channelsUpdate() {
   const credential = new DefaultAzureCredential();

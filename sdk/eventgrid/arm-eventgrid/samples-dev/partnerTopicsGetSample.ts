@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of a partner topic.
  *
  * @summary get properties of a partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_Get.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_Get.json
  */
 async function partnerTopicsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

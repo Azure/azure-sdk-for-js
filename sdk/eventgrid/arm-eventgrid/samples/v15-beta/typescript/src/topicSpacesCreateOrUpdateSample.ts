@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a topic space with the specified parameters.
  *
  * @summary create or update a topic space with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/TopicSpaces_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/TopicSpaces_CreateOrUpdate.json
  */
 async function topicSpacesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

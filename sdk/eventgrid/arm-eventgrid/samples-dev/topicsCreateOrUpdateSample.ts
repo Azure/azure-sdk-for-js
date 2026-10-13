@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously creates a new topic with the specified parameters.
  *
  * @summary asynchronously creates a new topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/Topics_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/Topics_CreateOrUpdate.json
  */
 async function topicsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function topicsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new topic with the specified parameters.
  *
  * @summary asynchronously creates a new topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/Topics_CreateOrUpdateForAzureArc.json
+ * x-ms-original-file: 2026-06-15-preview/Topics_CreateOrUpdateForAzureArc.json
  */
 async function topicsCreateOrUpdateForAzureArc(): Promise<void> {
   const credential = new DefaultAzureCredential();

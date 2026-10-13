@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a partner registration with the specified parameters.
  *
  * @summary deletes a partner registration with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerRegistrations_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerRegistrations_Delete.json
  */
 async function partnerRegistrationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

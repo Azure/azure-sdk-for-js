@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete existing domain topic.
  *
  * @summary delete existing domain topic.
- * x-ms-original-file: 2025-07-15-preview/DomainTopics_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopics_Delete.json
  */
 async function domainTopicsDelete() {
   const credential = new DefaultAzureCredential();

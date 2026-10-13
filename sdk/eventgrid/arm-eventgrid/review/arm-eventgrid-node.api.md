@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -28,6 +30,13 @@ export type AdvancedFilterUnion = NumberInAdvancedFilter | NumberNotInAdvancedFi
 
 // @public
 export type AlternativeAuthenticationNameSource = string;
+
+// @public
+export interface AutoScaleConfiguration {
+    enableAutoScale?: boolean;
+    maximumThroughputUnits?: number;
+    minimumThroughputUnits?: number;
+}
 
 // @public
 export interface AzureADPartnerClientAuthentication extends PartnerClientAuthentication {
@@ -1237,6 +1246,9 @@ export type InputSchemaMappingUnion = JsonInputSchemaMapping | InputSchemaMappin
 export type IpActionType = string;
 
 // @public
+export type IpAddressType = string;
+
+// @public
 export interface IsNotNullAdvancedFilter extends AdvancedFilter {
     operatorType: "IsNotNull";
 }
@@ -1255,6 +1267,8 @@ export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
 export interface IsNullOrUndefinedFilter extends Filter {
     operatorType: "IsNullOrUndefined";
 }
+
+export { isRestError }
 
 // @public
 export interface IssuerCertificateInfo {
@@ -1594,6 +1608,12 @@ export enum KnownIpActionType {
 }
 
 // @public
+export enum KnownIpAddressType {
+    DualStack = "DualStack",
+    IPv4 = "IPv4"
+}
+
+// @public
 export enum KnownKeyEncryptionIdentityType {
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
@@ -1883,7 +1903,8 @@ export enum KnownSubscriptionProvisioningState {
 export enum KnownTlsVersion {
     One0 = "1.0",
     One1 = "1.1",
-    One2 = "1.2"
+    One2 = "1.2",
+    One3 = "1.3"
 }
 
 // @public
@@ -1943,7 +1964,8 @@ export enum KnownVerifiedPartnerProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250715Preview = "2025-07-15-preview"
+    V20251115Preview = "2025-11-15-preview",
+    V20260615Preview = "2026-06-15-preview"
 }
 
 // @public
@@ -1966,8 +1988,10 @@ export type MonitorAlertSeverity = string;
 
 // @public
 export interface Namespace extends TrackedResource {
+    autoScaleConfiguration?: AutoScaleConfiguration;
     identity?: IdentityInfo;
     inboundIpRules?: InboundIpRule[];
+    ipAddressType?: IpAddressType;
     isZoneRedundant?: boolean;
     minimumTlsVersionAllowed?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
@@ -1980,7 +2004,9 @@ export interface Namespace extends TrackedResource {
 
 // @public
 export interface NamespaceProperties {
+    autoScaleConfiguration?: AutoScaleConfiguration;
     inboundIpRules?: InboundIpRule[];
+    ipAddressType?: IpAddressType;
     isZoneRedundant?: boolean;
     minimumTlsVersionAllowed?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
@@ -2247,7 +2273,9 @@ export interface NamespaceTopicUpdateParameters {
 
 // @public
 export interface NamespaceUpdateParameterProperties {
+    autoScaleConfiguration?: UpdateAutoScaleConfiguration;
     inboundIpRules?: InboundIpRule[];
+    ipAddressType?: IpAddressType;
     publicNetworkAccess?: PublicNetworkAccess;
     topicsConfiguration?: UpdateTopicsConfigurationInfo;
     topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
@@ -2255,8 +2283,10 @@ export interface NamespaceUpdateParameterProperties {
 
 // @public
 export interface NamespaceUpdateParameters {
+    autoScaleConfiguration?: UpdateAutoScaleConfiguration;
     identity?: IdentityInfo;
     inboundIpRules?: InboundIpRule[];
+    ipAddressType?: IpAddressType;
     publicNetworkAccess?: PublicNetworkAccess;
     sku?: NamespaceSku;
     tags?: Record<string, string>;
@@ -2548,7 +2578,7 @@ export type PartnerClientAuthenticationType = string;
 export type PartnerClientAuthenticationUnion = AzureADPartnerClientAuthentication | PartnerClientAuthentication;
 
 // @public
-export interface PartnerConfiguration extends Resource {
+export interface PartnerConfiguration extends ProxyResource {
     location?: string;
     partnerAuthorization?: PartnerAuthorization;
     provisioningState?: PartnerConfigurationProvisioningState;
@@ -3099,7 +3129,7 @@ export interface PartnerTopicsOperations {
     get: (resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsGetOptionalParams) => Promise<PartnerTopic>;
     listByResourceGroup: (resourceGroupName: string, options?: PartnerTopicsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PartnerTopic>;
     listBySubscription: (options?: PartnerTopicsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PartnerTopic>;
-    update: (resourceGroupName: string, partnerTopicName: string, partnerTopicUpdateParameters: PartnerTopicUpdateParameters, options?: PartnerTopicsUpdateOptionalParams) => Promise<PartnerTopic>;
+    update: (resourceGroupName: string, partnerTopicName: string, partnerTopicUpdateParameters: PartnerTopicUpdateParameters, options?: PartnerTopicsUpdateOptionalParams) => Promise<PartnerTopic | void>;
 }
 
 // @public
@@ -3360,6 +3390,8 @@ export type ResourceRegionType = string;
 export interface ResourceSku {
     name?: Sku;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EventGridManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -4145,6 +4177,13 @@ export interface TopicUpdateParameters {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UpdateAutoScaleConfiguration {
+    enableAutoScale?: boolean;
+    maximumThroughputUnits?: number;
+    minimumThroughputUnits?: number;
 }
 
 // @public

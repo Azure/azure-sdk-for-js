@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously updates a namespace topic with the specified parameters.
  *
  * @summary asynchronously updates a namespace topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_Update.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopics_Update.json
  */
 async function namespaceTopicsUpdate() {
   const credential = new DefaultAzureCredential();

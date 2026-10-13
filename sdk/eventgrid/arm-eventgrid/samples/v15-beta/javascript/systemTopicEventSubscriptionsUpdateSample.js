@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an existing event subscription of a system topic.
  *
  * @summary update an existing event subscription of a system topic.
- * x-ms-original-file: 2025-07-15-preview/SystemTopicEventSubscriptions_Update.json
+ * x-ms-original-file: 2026-06-15-preview/SystemTopicEventSubscriptions_Update.json
  */
 async function systemTopicEventSubscriptionsUpdate() {
   const credential = new DefaultAzureCredential();
