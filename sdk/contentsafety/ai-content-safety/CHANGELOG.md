@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-- `unifiedModerate` now accepts an `AgentContextUnion` and returns a native `Verdict`. Policy and resource selectors move to the operation options and are sent as query parameters. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- `unifiedModerate` now accepts an `AgentContextUnion` and returns an `AgentEvaluationResult` envelope containing the native `verdict` and policy-evaluation `receipt`. Policy and resource selectors move to the operation options and are sent as query parameters. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - The default API version is now `2026-10-15-preview`. The September Unified Moderate request and response format requires the earlier SDK contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Bugs Fixed
