@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to for the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
  *
  * @summary for the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
- * x-ms-original-file: 2025-09-01/getQuotaRequestsHistory.json
+ * x-ms-original-file: 2026-09-01-preview/getQuotaRequestsHistory.json
  */
 async function quotaRequestHistory(): Promise<void> {
   const credential = new DefaultAzureCredential();

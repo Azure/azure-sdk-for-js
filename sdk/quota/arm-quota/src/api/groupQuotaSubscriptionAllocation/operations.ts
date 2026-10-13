@@ -18,9 +18,7 @@ export function _listSend(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaSubscriptionAllocationListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocations/{location}{?api%2Dversion}",
@@ -30,7 +28,7 @@ export function _listSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -38,10 +36,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -51,7 +46,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -65,9 +63,7 @@ export async function list(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaSubscriptionAllocationListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationListOptionalParams = { requestOptions: {} },
 ): Promise<SubscriptionQuotaAllocationsList> {
   const result = await _listSend(
     context,

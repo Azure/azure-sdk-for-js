@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the subscriptionIds along with its provisioning state for being associated with the GroupQuota. If the subscription is not a member of GroupQuota, it will return 404, else 200.
  *
  * @summary returns the subscriptionIds along with its provisioning state for being associated with the GroupQuota. If the subscription is not a member of GroupQuota, it will return 404, else 200.
- * x-ms-original-file: 2025-09-01/GroupQuotasSubscriptions/GetGroupQuotaSubscriptions.json
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasSubscriptions/GetGroupQuotaSubscriptions.json
  */
 async function groupQuotaSubscriptionsGetSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

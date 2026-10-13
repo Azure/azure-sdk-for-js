@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
  *
  * @summary get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
- * x-ms-original-file: 2025-09-01/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_List-Compute.json
+ * x-ms-original-file: 2026-09-01-preview/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_List-Compute.json
  */
 async function subscriptionQuotaAllocationListRequestForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -24,55 +24,50 @@ import type { GroupQuotaUsagesOperations } from "./classic/groupQuotaUsages/inde
 import { _getGroupQuotaUsagesOperations } from "./classic/groupQuotaUsages/index.js";
 import type { GroupQuotasOperations } from "./classic/groupQuotas/index.js";
 import { _getGroupQuotasOperations } from "./classic/groupQuotas/index.js";
+import type { IncomingQuotaTransfersOperations } from "./classic/incomingQuotaTransfers/index.js";
+import { _getIncomingQuotaTransfersOperations } from "./classic/incomingQuotaTransfers/index.js";
 import type { QuotaOperations } from "./classic/quota/index.js";
 import { _getQuotaOperations } from "./classic/quota/index.js";
 import type { QuotaOperationOperations } from "./classic/quotaOperation/index.js";
 import { _getQuotaOperationOperations } from "./classic/quotaOperation/index.js";
 import type { QuotaRequestStatusOperations } from "./classic/quotaRequestStatus/index.js";
 import { _getQuotaRequestStatusOperations } from "./classic/quotaRequestStatus/index.js";
+import type { QuotaTransfersOperations } from "./classic/quotaTransfers/index.js";
+import { _getQuotaTransfersOperations } from "./classic/quotaTransfers/index.js";
 import type { UsagesOperations } from "./classic/usages/index.js";
 import { _getUsagesOperations } from "./classic/usages/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AzureQuotaExtensionAPIOptionalParams } from "./api/azureQuotaExtensionAPIContext.js";
+export type { AzureQuotaExtensionAPIOptionalParams } from "./api/azureQuotaExtensionAPIContext.js";
 
 export class AzureQuotaExtensionAPI {
   private _client: AzureQuotaExtensionAPIContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Microsoft Azure Quota Resource Provider */
   constructor(credential: TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
     options?: AzureQuotaExtensionAPIOptionalParams,
   );
+  /** Microsoft Azure Quota Resource Provider */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | AzureQuotaExtensionAPIOptionalParams,
     options?: AzureQuotaExtensionAPIOptionalParams,
   ) {
     let subscriptionId: string | undefined;
-    let mergedOptions: AzureQuotaExtensionAPIOptionalParams | undefined;
 
     if (typeof subscriptionIdOrOptions === "string") {
       subscriptionId = subscriptionIdOrOptions;
-      mergedOptions = options;
-    } else {
-      subscriptionId = undefined;
-      mergedOptions = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
-    const prefixFromOptions = mergedOptions?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureQuotaExtensionAPI(credential, subscriptionId ?? "", {
-      ...mergedOptions,
-      userAgentOptions: { userAgentPrefix },
-    });
+    options = options ?? {};
+    this._client = createAzureQuotaExtensionAPI(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.quota = _getQuotaOperations(this._client);
     this.usages = _getUsagesOperations(this._client);
@@ -90,6 +85,8 @@ export class AzureQuotaExtensionAPI {
     this.groupQuotaUsages = _getGroupQuotaUsagesOperations(this._client);
     this.groupQuotaLimitsRequest = _getGroupQuotaLimitsRequestOperations(this._client);
     this.groupQuotas = _getGroupQuotasOperations(this._client);
+    this.incomingQuotaTransfers = _getIncomingQuotaTransfersOperations(this._client);
+    this.quotaTransfers = _getQuotaTransfersOperations(this._client);
     this.quotaRequestStatus = _getQuotaRequestStatusOperations(this._client);
     this.quotaOperation = _getQuotaOperationOperations(this._client);
   }
@@ -116,6 +113,10 @@ export class AzureQuotaExtensionAPI {
   public readonly groupQuotaLimitsRequest: GroupQuotaLimitsRequestOperations;
   /** The operation groups for groupQuotas */
   public readonly groupQuotas: GroupQuotasOperations;
+  /** The operation groups for incomingQuotaTransfers */
+  public readonly incomingQuotaTransfers: IncomingQuotaTransfersOperations;
+  /** The operation groups for quotaTransfers */
+  public readonly quotaTransfers: QuotaTransfersOperations;
   /** The operation groups for quotaRequestStatus */
   public readonly quotaRequestStatus: QuotaRequestStatusOperations;
   /** The operation groups for quotaOperation */
