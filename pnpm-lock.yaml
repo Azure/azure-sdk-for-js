@@ -15678,7 +15678,7 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       magic-string:
-        specifier: ~1.4.3
+        specifier: ^1.4.3
         version: 1.4.3
       playwright:
         specifier: catalog:testing
