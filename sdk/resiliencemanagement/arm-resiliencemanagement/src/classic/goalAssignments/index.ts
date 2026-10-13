@@ -34,12 +34,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GoalAssignments operations. */
 export interface GoalAssignmentsOperations {
-  /** List GoalAssignment resources by tenant */
+  /** Lists goal assignments in a service group. */
   list: (
     serviceGroupName: string,
     options?: GoalAssignmentsListOptionalParams,
   ) => PagedAsyncIterableIterator<GoalAssignment>;
-  /** Recommends capacity improvements for resources under the goal assignments scope. Returns AI-powered capacity assessments and recommendations. */
+  /** Recommends capacity improvements for resources under the goal assignment's scope. Returns AI-powered capacity assessments and recommendations. */
   recommendCapacity: (
     serviceGroupName: string,
     goalAssignmentName: string,
@@ -60,7 +60,7 @@ export interface GoalAssignmentsOperations {
     body: RecommendCapacityRequest,
     options?: GoalAssignmentsRecommendCapacityOptionalParams,
   ) => Promise<void>;
-  /** Delete a GoalAssignment */
+  /** Deletes a goal assignment. */
   delete: (
     serviceGroupName: string,
     goalAssignmentName: string,
@@ -96,7 +96,7 @@ export interface GoalAssignmentsOperations {
     goalAssignmentName: string,
     options?: GoalAssignmentsRefreshGoalResourcesOptionalParams,
   ) => Promise<void>;
-  /** Action to exclude a resource from goal assignment. */
+  /** Updates goal resources under a goal assignment. */
   updateGoalResources: (
     serviceGroupName: string,
     goalAssignmentName: string,
@@ -117,7 +117,7 @@ export interface GoalAssignmentsOperations {
     body: UpdateGoalResourceRequest,
     options?: GoalAssignmentsUpdateGoalResourcesOptionalParams,
   ) => Promise<void>;
-  /** Update a GoalAssignment */
+  /** Updates a goal assignment. */
   update: (
     serviceGroupName: string,
     goalAssignmentName: string,
@@ -138,7 +138,7 @@ export interface GoalAssignmentsOperations {
     properties: GoalAssignment,
     options?: GoalAssignmentsUpdateOptionalParams,
   ) => Promise<void>;
-  /** Create a GoalAssignment */
+  /** Creates or updates a goal assignment. */
   createOrUpdate: (
     serviceGroupName: string,
     goalAssignmentName: string,
@@ -159,7 +159,7 @@ export interface GoalAssignmentsOperations {
     resource: GoalAssignment,
     options?: GoalAssignmentsCreateOrUpdateOptionalParams,
   ) => Promise<void>;
-  /** Get a GoalAssignment */
+  /** Gets a goal assignment. */
   get: (
     serviceGroupName: string,
     goalAssignmentName: string,

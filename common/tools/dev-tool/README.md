@@ -50,6 +50,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `test:vitest`	runs tests using vitest with the default and the provided options; starts the proxy-tool in - record and playback modes
   - `check-api`	ensure API features are compatible with minimum supported TypeScript version
   - `extract-api`	Runs api-extractor multiple times for all exports.
+  - `generate-api-review`	generate `api.md` and `api.metadata.yml` for API review from the package's built declaration files.
   - `build-test` build a package for testing
   - `start-browser-relay`	Start the browser credential relay, used for authenticating browser tests.
   - `update-snippets`	find README and TSDoc snippets throughout the package and update their contents.

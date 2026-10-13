@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to schedules an AML file system for deletion.
  *
  * @summary schedules an AML file system for deletion.
- * x-ms-original-file: 2026-01-01/amlFilesystems_Delete.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_Delete.json
  */
 async function amlFilesystemsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

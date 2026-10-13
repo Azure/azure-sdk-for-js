@@ -1,14 +1,337 @@
 # Release History
 
-## 10.0.0-beta.3 (Unreleased)
+## 10.0.0-beta.3 (2026-09-29)
+Compared with version 9.0.0
 
 ### Features Added
+  - Added operation group DbAgentsOperations
+  - Added operation group MaintenanceEventsOperations
+  - Added operation group MajorVersionUpgradePrecheckOperations
+  - Added operation AdministratorsMicrosoftEntraOperations.createOrUpdate
+  - Added operation AdministratorsMicrosoftEntraOperations.delete
+  - Added operation BackupsAutomaticAndOnDemandOperations.create
+  - Added operation BackupsAutomaticAndOnDemandOperations.delete
+  - Added operation BackupsLongTermRetentionOperations.start
+  - Added operation ConfigurationsOperations.put
+  - Added operation ConfigurationsOperations.update
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation FirewallRulesOperations.createOrUpdate
+  - Added operation FirewallRulesOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Added operation ServersOperations.beginMigrateNetworkMode
+  - Added operation ServersOperations.beginMigrateNetworkModeAndWait
+  - Added operation ServersOperations.beginStartMajorVersionUpgradePrecheck
+  - Added operation ServersOperations.beginStartMajorVersionUpgradePrecheckAndWait
+  - Added operation ServersOperations.createOrUpdate
+  - Added operation ServersOperations.delete
+  - Added operation ServersOperations.migrateNetworkMode
+  - Added operation ServersOperations.restart
+  - Added operation ServersOperations.start
+  - Added operation ServersOperations.startMajorVersionUpgradePrecheck
+  - Added operation ServersOperations.stop
+  - Added operation ServersOperations.update
+  - Added operation ServerThreatProtectionSettingsOperations.createOrUpdate
+  - Added operation VirtualEndpointsOperations.create
+  - Added operation VirtualEndpointsOperations.delete
+  - Added operation VirtualEndpointsOperations.update
+  - Added Interface AdministratorMicrosoftEntraProperties
+  - Added Interface AdministratorMicrosoftEntraPropertiesForAdd
+  - Added Interface AdvancedThreatProtectionSettingsProperties
+  - Added Interface BackupAutomaticAndOnDemandProperties
+  - Added Interface BackupsLongTermRetentionResponseProperties
+  - Added Interface CapturedLogProperties
+  - Added Interface ConfigurationProperties
+  - Added Interface DatabaseProperties
+  - Added Interface DbAgent
+  - Added Interface DbAgentForUpdate
+  - Added Interface DbAgentForUpdateProperties
+  - Added Interface DbAgentProperties
+  - Added Interface DbAgentsCreateOrUpdateOptionalParams
+  - Added Interface DbAgentsGetOptionalParams
+  - Added Interface DbAgentsListOptionalParams
+  - Added Interface FirewallRuleProperties
+  - Added Interface LogSpecification
+  - Added Interface LtrBackupOperationResponseProperties
+  - Added Interface MaintenanceEventActionResponse
+  - Added Interface MaintenanceEventRescheduleRequest
+  - Added Interface MaintenanceEventResource
+  - Added Interface MaintenanceEventResourceProperties
+  - Added Interface MaintenanceEventsApplyNowOptionalParams
+  - Added Interface MaintenanceEventsGetOptionalParams
+  - Added Interface MaintenanceEventsListOptionalParams
+  - Added Interface MaintenanceEventsRescheduleOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckGetOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckListOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckResource
+  - Added Interface MajorVersionUpgradePrecheckResourceProperties
+  - Added Interface MetricSpecification
+  - Added Interface MigrateNetworkStatus
+  - Added Interface MigrationProperties
+  - Added Interface MigrationPropertiesForPatch
+  - Added Interface ObjectRecommendationProperties
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyDetail
+  - Added Interface PrecheckErrorInfo
+  - Added Interface PrecheckResult
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ServerProperties
+  - Added Interface ServerPropertiesForPatch
+  - Added Interface ServersMigrateNetworkModeOptionalParams
+  - Added Interface ServersStartMajorVersionUpgradePrecheckOptionalParams
+  - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
+  - Added Interface StartMajorVersionUpgradePrecheckRequest
+  - Added Interface StartMajorVersionUpgradePrecheckResponse
+  - Added Interface Storage_2
+  - Added Interface TuningOptionsOperationsGetOptionalParams
+  - Added Interface TuningOptionsOperationsListByServerOptionalParams
+  - Added Interface TuningOptionsOperationsListRecommendationsOptionalParams
+  - Added Interface TuningOptionsProperties
+  - Added Interface UpgradeSequence
+  - Added Interface VirtualEndpointResourceProperties
+  - Interface AdministratorsMicrosoftEntraGetOptionalParams has a new optional parameter abortSignal
+  - Interface AdministratorsMicrosoftEntraGetOptionalParams has a new optional parameter requestOptions
+  - Interface AdministratorsMicrosoftEntraGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AdministratorsMicrosoftEntraGetOptionalParams has a new optional parameter onResponse
+  - Interface AdministratorsMicrosoftEntraListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface AdministratorsMicrosoftEntraListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface AdministratorsMicrosoftEntraListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface AdministratorsMicrosoftEntraListByServerOptionalParams has a new optional parameter onResponse
+  - Interface AdvancedThreatProtectionSettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface AdvancedThreatProtectionSettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface AdvancedThreatProtectionSettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AdvancedThreatProtectionSettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface AdvancedThreatProtectionSettingsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface AdvancedThreatProtectionSettingsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface AdvancedThreatProtectionSettingsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface AdvancedThreatProtectionSettingsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface Backup has a new optional parameter immutableBackup
+  - Interface BackupForPatch has a new optional parameter immutableBackup
+  - Interface BackupsAutomaticAndOnDemandGetOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsAutomaticAndOnDemandGetOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsAutomaticAndOnDemandGetOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsAutomaticAndOnDemandGetOptionalParams has a new optional parameter onResponse
+  - Interface BackupsAutomaticAndOnDemandListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsAutomaticAndOnDemandListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsAutomaticAndOnDemandListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsAutomaticAndOnDemandListByServerOptionalParams has a new optional parameter onResponse
+  - Interface BackupsLongTermRetentionCheckPrerequisitesOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsLongTermRetentionCheckPrerequisitesOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsLongTermRetentionCheckPrerequisitesOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsLongTermRetentionCheckPrerequisitesOptionalParams has a new optional parameter onResponse
+  - Interface BackupsLongTermRetentionGetOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsLongTermRetentionGetOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsLongTermRetentionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsLongTermRetentionGetOptionalParams has a new optional parameter onResponse
+  - Interface BackupsLongTermRetentionListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface BackupsLongTermRetentionListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface BackupsLongTermRetentionListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface BackupsLongTermRetentionListByServerOptionalParams has a new optional parameter onResponse
+  - Interface CapabilitiesByLocationListOptionalParams has a new optional parameter abortSignal
+  - Interface CapabilitiesByLocationListOptionalParams has a new optional parameter requestOptions
+  - Interface CapabilitiesByLocationListOptionalParams has a new optional parameter tracingOptions
+  - Interface CapabilitiesByLocationListOptionalParams has a new optional parameter onResponse
+  - Interface CapabilitiesByServerListOptionalParams has a new optional parameter abortSignal
+  - Interface CapabilitiesByServerListOptionalParams has a new optional parameter requestOptions
+  - Interface CapabilitiesByServerListOptionalParams has a new optional parameter tracingOptions
+  - Interface CapabilitiesByServerListOptionalParams has a new optional parameter onResponse
+  - Interface CapturedLogsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface CapturedLogsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface CapturedLogsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface CapturedLogsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesGetOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesGetOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesGetOptionalParams has a new optional parameter onResponse
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter onResponse
+  - Interface DataEncryption has a new optional parameter geoBackupFederatedIdentityClientId
+  - Interface DataEncryption has a new optional parameter primaryFederatedIdentityClientId
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter abortSignal
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter requestOptions
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface FirewallRulesGetOptionalParams has a new optional parameter onResponse
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface FirewallRulesListByServerOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsCancelOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsCancelOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsCancelOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsCancelOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsCreateOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsCreateOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsCreateOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsGetOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsListByTargetServerOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsListByTargetServerOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsListByTargetServerOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsListByTargetServerOptionalParams has a new optional parameter onResponse
+  - Interface MigrationsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface MigrationsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface MigrationsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface MigrationsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface NameAvailabilityCheckGloballyOptionalParams has a new optional parameter abortSignal
+  - Interface NameAvailabilityCheckGloballyOptionalParams has a new optional parameter requestOptions
+  - Interface NameAvailabilityCheckGloballyOptionalParams has a new optional parameter tracingOptions
+  - Interface NameAvailabilityCheckGloballyOptionalParams has a new optional parameter onResponse
+  - Interface NameAvailabilityCheckWithLocationOptionalParams has a new optional parameter abortSignal
+  - Interface NameAvailabilityCheckWithLocationOptionalParams has a new optional parameter requestOptions
+  - Interface NameAvailabilityCheckWithLocationOptionalParams has a new optional parameter tracingOptions
+  - Interface NameAvailabilityCheckWithLocationOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface PrivateDnsZoneSuffixGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateDnsZoneSuffixGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateDnsZoneSuffixGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateDnsZoneSuffixGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesListByServerOptionalParams has a new optional parameter onResponse
+  - Interface QuotaUsagesListOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaUsagesListOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaUsagesListOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaUsagesListOptionalParams has a new optional parameter onResponse
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface ReplicasListByServerOptionalParams has a new optional parameter onResponse
+  - Interface Server has a new optional parameter fipsMode
+  - Interface ServerForPatch has a new optional parameter fipsMode
+  - Interface ServerForPatch has a new optional parameter sourceServerResourceId
+  - Interface ServersGetOptionalParams has a new optional parameter abortSignal
+  - Interface ServersGetOptionalParams has a new optional parameter requestOptions
+  - Interface ServersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersGetOptionalParams has a new optional parameter onResponse
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ServersListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ServersListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ServersListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ServersListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface TuningOptions has a new optional parameter properties
+  - Interface VirtualEndpointsGetOptionalParams has a new optional parameter abortSignal
+  - Interface VirtualEndpointsGetOptionalParams has a new optional parameter requestOptions
+  - Interface VirtualEndpointsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface VirtualEndpointsGetOptionalParams has a new optional parameter onResponse
+  - Interface VirtualEndpointsListByServerOptionalParams has a new optional parameter abortSignal
+  - Interface VirtualEndpointsListByServerOptionalParams has a new optional parameter requestOptions
+  - Interface VirtualEndpointsListByServerOptionalParams has a new optional parameter tracingOptions
+  - Interface VirtualEndpointsListByServerOptionalParams has a new optional parameter onResponse
+  - Interface VirtualNetworkSubnetUsageListOptionalParams has a new optional parameter abortSignal
+  - Interface VirtualNetworkSubnetUsageListOptionalParams has a new optional parameter requestOptions
+  - Interface VirtualNetworkSubnetUsageListOptionalParams has a new optional parameter tracingOptions
+  - Interface VirtualNetworkSubnetUsageListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DbAgentForUpdateState
+  - Added Type Alias DbAgentProvisioningState
+  - Added Type Alias DbAgentState
+  - Added Type Alias FipsMode
+  - Added Type Alias ImmutableBackup
+  - Added Type Alias MaintenanceEventStatus
+  - Added Type Alias MaintenanceEventStatusFilter
+  - Added Type Alias MaintenanceType
+  - Added Type Alias MajorVersionUpgradePrecheckStatus
+  - Added Type Alias NetworkMigrationState
+  - Added Type Alias PostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum AzureClouds
+  - Added Enum KnownDbAgentProvisioningState
+  - Added Enum KnownDbAgentState
+  - Added Enum KnownFipsMode
+  - Added Enum KnownImmutableBackup
+  - Added Enum KnownMaintenanceEventStatus
+  - Added Enum KnownMaintenanceEventStatusFilter
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownMajorVersionUpgradePrecheckStatus
+  - Added Enum KnownNetworkMigrationState
+  - Added Enum KnownPostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum KnownVersions
+  - Enum KnownHighAvailabilityState has a new value ComputeUpdatingByFailover
+  - Enum KnownHighAvailabilityState has a new value RecreatingStandby
+  - Enum KnownPostgresMajorVersion has a new value PostgresMajorVersion19
+  - Enum KnownRecommendationTypeEnum has a new value VacuumTable
+  - Enum KnownRecommendationTypeParameterEnum has a new value VacuumTable
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation AdministratorsMicrosoftEntra.beginDeleteAndWait has a new signature
+  - Operation BackupsAutomaticAndOnDemand.beginDeleteAndWait has a new signature
+  - Operation Databases.beginDeleteAndWait has a new signature
+  - Operation FirewallRules.beginDeleteAndWait has a new signature
+  - Operation Migrations.cancel has a new signature
+  - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Operation Servers.beginDeleteAndWait has a new signature
+  - Operation Servers.beginRestartAndWait has a new signature
+  - Operation Servers.beginStartAndWait has a new signature
+  - Operation Servers.beginStopAndWait has a new signature
+  - Operation VirtualEndpoints.beginDeleteAndWait has a new signature
+  - Removed Interface AdministratorMicrosoftEntraList
+  - Removed Interface AdvancedThreatProtectionSettingsList
+  - Removed Interface BackupAutomaticAndOnDemandList
+  - Removed Interface CapabilityList
+  - Removed Interface CapturedLogList
+  - Removed Interface ConfigurationList
+  - Removed Interface DatabaseList
+  - Removed Interface FirewallRuleList
+  - Removed Interface LtrServerBackupOperationList
+  - Removed Interface MigrationList
+  - Removed Interface ObjectRecommendationList
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface QuotaUsageList
+  - Removed Interface ServerList
+  - Removed Interface Storage
+  - Removed Interface TuningOptionsGetOptionalParams
+  - Removed Interface TuningOptionsList
+  - Removed Interface TuningOptionsListByServerOptionalParams
+  - Removed Interface TuningOptionsListRecommendationsOptionalParams
+  - Removed Interface VirtualEndpointsList
+  - Type of parameter properties of interface Operation is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to OperationProperties
+  - Removed Type Alias MigrationDetailsLevel
+  - Removed Enum KnownMigrationDetailsLevel
 
 ## 10.0.0-beta.2 (2026-06-08)
 Compared with version 9.0.0

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves a network manager routing configuration.
  *
  * @summary retrieves a network manager routing configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingConfigurationGet.json
  */
 async function getRoutingConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

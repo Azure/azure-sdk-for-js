@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified network interface ip configuration.
  *
  * @summary gets the specified network interface ip configuration.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceIPConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceIPConfigurationGet.json
  */
 async function networkInterfaceIPConfigurationGet() {
   const credential = new DefaultAzureCredential();

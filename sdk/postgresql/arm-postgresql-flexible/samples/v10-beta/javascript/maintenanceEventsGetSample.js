@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a maintenance event for a flexible server.
  *
  * @summary gets information about a maintenance event for a flexible server.
- * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsGet.json
+ * x-ms-original-file: 2026-07-01-preview/MaintenanceEventsGet.json
  */
 async function getInformationAboutAMaintenanceEventForAServer() {
   const credential = new DefaultAzureCredential();

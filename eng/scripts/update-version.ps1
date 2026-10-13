@@ -73,7 +73,7 @@ try {
   Push-Location $SdkRepoPath
   
   # Use the local internal source tree instead of a published package.
-  $releaseToolsPath = "eng\tools\js-sdk-release-tools"
+  $releaseToolsPath = Join-Path $SdkRepoPath "eng\tools\js-sdk-release-tools"
   $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
@@ -103,7 +103,7 @@ try {
   Write-Host ""
   
   # Build the command arguments string
-  $cmdArgs = "--sdkRepoPath $SdkRepoPath --packagePath $PackagePath"
+  $cmdArgs = "--sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   
   if ($ReleaseType) {
     $cmdArgs += " --releaseType $ReleaseType"
@@ -120,7 +120,8 @@ try {
   # Run the built update-version command from the local workspace package.
   Write-Host "Updating package version..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "node $releaseToolsPath\dist\updateBumpVersionCli.js $cmdArgs"
+  $releaseToolsCli = Join-Path $releaseToolsPath "dist\updateBumpVersionCli.js"
+  $command = "node `"$releaseToolsCli`" $cmdArgs"
   Invoke-LoggedCommand $command
   
   Write-Host ""
