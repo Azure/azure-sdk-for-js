@@ -11,7 +11,6 @@ import type {
   MarketplaceDetails,
   UserDetails,
   MarketplaceDetailsCreateOrUpdate,
-  MarketplaceDetailsUpdate,
 } from "./liftrBase/models.js";
 import {
   marketplaceDetailsSerializer,
@@ -19,7 +18,6 @@ import {
   userDetailsSerializer,
   userDetailsDeserializer,
   marketplaceDetailsCreateOrUpdateSerializer,
-  marketplaceDetailsUpdateSerializer,
 } from "./liftrBase/models.js";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -634,21 +632,94 @@ export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
 
 /** The updatable properties of the CloudAccount. */
 export interface CloudAccountUpdateProperties {
-  /** Marketplace details of the resource. */
-  marketplace?: MarketplaceDetails;
-  /** Details of the user. */
-  user?: UserDetails;
   /** Optional company details for the cloud account */
   company?: CompanyProfile;
+  /** Marketplace details of the resource. */
+  marketplace?: CloudAccountMarketplaceUpdate;
+  /** Details of the user. */
+  user?: CloudAccountUserUpdate;
 }
 
 export function cloudAccountUpdatePropertiesSerializer(item: CloudAccountUpdateProperties): any {
   return {
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
     marketplace: !item["marketplace"]
       ? item["marketplace"]
-      : marketplaceDetailsSerializer(item["marketplace"]),
-    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
-    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+      : cloudAccountMarketplaceUpdateSerializer(item["marketplace"]),
+    user: !item["user"] ? item["user"] : cloudAccountUserUpdateSerializer(item["user"]),
+  };
+}
+
+/** Marketplace details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountMarketplaceUpdate {
+  /** Marketplace SaaS Resource Id */
+  saasResourceId?: string;
+  /** Azure subscription id for the the marketplace offer is purchased from */
+  subscriptionId?: string;
+  /** Offer details for the marketplace that is selected by the user */
+  offerDetails?: CloudAccountOfferDetailsUpdate;
+}
+
+export function cloudAccountMarketplaceUpdateSerializer(item: CloudAccountMarketplaceUpdate): any {
+  return {
+    saasResourceId: item["saasResourceId"],
+    subscriptionId: item["subscriptionId"],
+    offerDetails: !item["offerDetails"]
+      ? item["offerDetails"]
+      : cloudAccountOfferDetailsUpdateSerializer(item["offerDetails"]),
+  };
+}
+
+/** Marketplace offer details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountOfferDetailsUpdate {
+  /** Publisher Id for the marketplace offer */
+  publisherId?: string;
+  /** Offer Id for the marketplace offer */
+  offerId?: string;
+  /** Plan Name for the marketplace offer */
+  planName?: string;
+  /** Plan Display Name for the marketplace offer */
+  termUnit?: string;
+  /** Plan Display Name for the marketplace offer */
+  termId?: string;
+  /** Plan Id for the marketplace offer */
+  planId?: string;
+}
+
+export function cloudAccountOfferDetailsUpdateSerializer(
+  item: CloudAccountOfferDetailsUpdate,
+): any {
+  return {
+    publisherId: item["publisherId"],
+    offerId: item["offerId"],
+    planName: item["planName"],
+    termUnit: item["termUnit"],
+    termId: item["termId"],
+    planId: item["planId"],
+  };
+}
+
+/** User details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountUserUpdate {
+  /** User's principal name */
+  upn?: string;
+  /** User's phone number */
+  phoneNumber?: string;
+  /** First name of the user */
+  firstName?: string;
+  /** Last name of the user */
+  lastName?: string;
+  /** Email address of the user */
+  emailAddress?: string;
+}
+
+export function cloudAccountUserUpdateSerializer(item: CloudAccountUserUpdate): any {
+  return {
+    upn: item["upn"],
+    phoneNumber: item["phoneNumber"],
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    emailAddress: item["emailAddress"],
   };
 }
 
@@ -2447,7 +2518,7 @@ export interface CloudAccountUpdateUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
-  properties?: CloudAccountUpdatePropertiesUpdate;
+  properties?: CloudAccountUpdateProperties;
 }
 
 export function cloudAccountUpdateUpdateSerializer(item: CloudAccountUpdateUpdate): any {
@@ -2458,7 +2529,7 @@ export function cloudAccountUpdateUpdateSerializer(item: CloudAccountUpdateUpdat
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : cloudAccountUpdatePropertiesUpdateSerializer(item["properties"]),
+      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -2479,28 +2550,6 @@ export interface UserAssignedIdentityUpdate {}
 
 export function userAssignedIdentityUpdateSerializer(_item: UserAssignedIdentityUpdate): any {
   return {};
-}
-
-/** The updatable properties of the CloudAccount. */
-export interface CloudAccountUpdatePropertiesUpdate {
-  /** Marketplace details of the resource. */
-  marketplace?: MarketplaceDetailsUpdate;
-  /** Details of the user. */
-  user?: UserDetails;
-  /** Optional company details for the cloud account */
-  company?: CompanyProfile;
-}
-
-export function cloudAccountUpdatePropertiesUpdateSerializer(
-  item: CloudAccountUpdatePropertiesUpdate,
-): any {
-  return {
-    marketplace: !item["marketplace"]
-      ? item["marketplace"]
-      : marketplaceDetailsUpdateSerializer(item["marketplace"]),
-    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
-    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
-  };
 }
 
 /** Supported API versions for the Commvault.ContentStore resource provider. */

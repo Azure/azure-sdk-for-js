@@ -85,6 +85,23 @@ export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdat
 }
 
 // @public
+export interface CloudAccountMarketplaceUpdate {
+    offerDetails?: CloudAccountOfferDetailsUpdate;
+    saasResourceId?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface CloudAccountOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
 export interface CloudAccountProperties {
     company?: CompanyProfile;
     marketplace: MarketplaceDetails;
@@ -159,22 +176,24 @@ export interface CloudAccountUpdate {
 // @public
 export interface CloudAccountUpdateProperties {
     company?: CompanyProfile;
-    marketplace?: MarketplaceDetails;
-    user?: UserDetails;
-}
-
-// @public
-export interface CloudAccountUpdatePropertiesUpdate {
-    company?: CompanyProfile;
-    marketplace?: MarketplaceDetailsUpdate;
-    user?: UserDetails;
+    marketplace?: CloudAccountMarketplaceUpdate;
+    user?: CloudAccountUserUpdate;
 }
 
 // @public
 export interface CloudAccountUpdateUpdate {
     identity?: ManagedServiceIdentityUpdate;
-    properties?: CloudAccountUpdatePropertiesUpdate;
+    properties?: CloudAccountUpdateProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudAccountUserUpdate {
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    upn?: string;
 }
 
 // @public
@@ -548,13 +567,6 @@ export interface MarketplaceDetails {
 
 // @public
 export interface MarketplaceDetailsCreateOrUpdate {
-    offerDetails: OfferDetails;
-    saasResourceId?: string;
-    subscriptionId?: string;
-}
-
-// @public
-export interface MarketplaceDetailsUpdate {
     offerDetails: OfferDetails;
     saasResourceId?: string;
     subscriptionId?: string;

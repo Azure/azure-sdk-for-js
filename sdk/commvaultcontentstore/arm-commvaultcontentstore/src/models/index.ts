@@ -26,6 +26,9 @@ export type {
   CreatedByType,
   CloudAccountUpdate,
   CloudAccountUpdateProperties,
+  CloudAccountMarketplaceUpdate,
+  CloudAccountOfferDetailsUpdate,
+  CloudAccountUserUpdate,
   SaaSData,
   LatestLinkedSaaSResponse,
   ActivateSaaSParameterRequest,
@@ -97,7 +100,6 @@ export type {
   CloudAccountUpdateUpdate,
   ManagedServiceIdentityUpdate,
   UserAssignedIdentityUpdate,
-  CloudAccountUpdatePropertiesUpdate,
 } from "./models.js";
 export {
   KnownOrigin,
