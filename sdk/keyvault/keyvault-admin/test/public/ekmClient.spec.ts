@@ -95,13 +95,20 @@ describe("EKM connection operations", () => {
       const existingEndpoints = await client.listEkmPrivateEndpoints();
       expect(existingEndpoints.value).toBeDefined();
 
-      const createPoller = client.createEkmPrivateEndpoint(
-        peName,
-        { privateLinkServiceId: getEnvironmentVariable("EKM_PRIVATE_LINK_SERVICE_ID") },
-        { updateIntervalInMs },
-      );
+      const createParameters = {
+        privateLinkServiceId: getEnvironmentVariable("EKM_PRIVATE_LINK_SERVICE_ID"),
+      };
+      const createPoller = client.createEkmPrivateEndpoint(peName, createParameters, {
+        updateIntervalInMs,
+      });
       privateEndpointCreated = true;
-      const createdOperation = await createPoller.pollUntilDone();
+      await createPoller.poll();
+      const serializedCreatePoller = await createPoller.serialize();
+      const resumedCreatePoller = client.createEkmPrivateEndpoint(peName, createParameters, {
+        resumeFrom: serializedCreatePoller,
+        updateIntervalInMs,
+      });
+      const createdOperation = await resumedCreatePoller.pollUntilDone();
 
       expect(createdOperation.privateEndpointName).toEqual(peName);
       expect(createdOperation.operationType).toEqual("Create");
