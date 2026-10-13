@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { generateTestNpmView } from "../utils/utils.js";
 import {
+  getCompatibleVersionCandidates,
   getLatestStableVersion,
   getNextBetaVersion,
   getUsedVersions,
@@ -71,6 +72,25 @@ describe("Get latest stable version after GA but beta version before GA", () => 
     };
 
     expect(getLatestStableVersion(npmView)).toBe("2.0.4");
+    expect(getCompatibleVersionCandidates(npmView)).toEqual(["2.0.4", "2.0.3"]);
+  });
+
+  test("returns beta candidates from newest to oldest", () => {
+    const npmView = {
+      "dist-tags": { latest: "2.0.0-beta.3", beta: "2.0.0-beta.3" },
+      versions: {
+        "1.0.0": {},
+        "2.0.0-beta.1": {},
+        "2.0.0-beta.2": {},
+        "2.0.0-beta.3": {},
+      },
+    };
+
+    expect(getCompatibleVersionCandidates(npmView)).toEqual([
+      "2.0.0-beta.3",
+      "2.0.0-beta.2",
+      "2.0.0-beta.1",
+    ]);
   });
 });
 

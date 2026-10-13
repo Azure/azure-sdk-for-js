@@ -10,6 +10,8 @@ import path, { relative, join } from "path";
 import { logger } from "../utils/logger.js";
 import { error } from "console";
 import fs from "fs";
+import os from "os";
+import { getCompatibleVersionCandidates } from "../utils/version.js";
 
 export function configureNpmFromRepo(sdkRepoPath: string): void {
   const npmConfigPath = path.resolve(sdkRepoPath, ".npmrc");
@@ -92,6 +94,44 @@ export async function tryGetNpmView(
     logger.warn(`[tryGetNpmView] Failed to fetch npm info for "${packageName}": ${err}`);
     return undefined;
   }
+}
+
+export function getLatestAvailableNpmPackageVersion(
+  packageName: string,
+  npmViewResult: Record<string, unknown>,
+): string | undefined {
+  const candidates = getCompatibleVersionCandidates(npmViewResult);
+  if (candidates.length === 0) return undefined;
+
+  const validationDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "npm-pack-validation-"));
+  try {
+    for (const version of candidates) {
+      const npmArgs = ["pack", `${packageName}@${version}`, "--dry-run", "--json"];
+      const command = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : "npm";
+      const commandArgs =
+        process.platform === "win32" ? ["/d", "/s", "/c", "npm", ...npmArgs] : npmArgs;
+      const result = spawnSync(command, commandArgs, {
+        cwd: validationDirectory,
+        encoding: "utf8",
+        env: process.env,
+      });
+      if (result.status === 0) {
+        logger.info(`Using available npm package version ${packageName}@${version}.`);
+        return version;
+      }
+
+      const details = result.error?.message ?? result.stderr?.trim() ?? result.stdout?.trim();
+      logger.warn(
+        `Skipping unavailable npm package version ${packageName}@${version}: ${details || `npm pack exited with code ${result.status}`}`,
+      );
+    }
+  } finally {
+    fs.rmSync(validationDirectory, { recursive: true, force: true });
+  }
+
+  throw new Error(
+    `None of the compatible npm package versions are available for ${packageName}: ${candidates.join(", ")}`,
+  );
 }
 
 export interface NpmViewParameters {

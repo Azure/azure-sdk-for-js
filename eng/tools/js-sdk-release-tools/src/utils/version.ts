@@ -1,5 +1,5 @@
 import { logger } from "./logger.js";
-import { inc as semverInc, prerelease, rcompare, valid } from "semver";
+import { inc as semverInc, lt, prerelease, rcompare, valid } from "semver";
 import { ApiVersionType } from "../common/types.js";
 
 function getDistTags(npmViewResult: Record<string, unknown>): Record<string, string> | undefined {
@@ -96,6 +96,28 @@ export function getLatestStableVersion(npmViewResult: Record<string, unknown>) {
   if (latestVersion) return latestVersion;
   logger.warn(`Failed to find latest or beta version found in dist-tags.`);
   return undefined;
+}
+
+export function getCompatibleVersionCandidates(npmViewResult: Record<string, unknown>): string[] {
+  const preferredVersion = getLatestStableVersion(npmViewResult);
+  if (!preferredVersion) return [];
+
+  const preferredPrerelease = prerelease(preferredVersion);
+  const isPreferredStable = preferredPrerelease === null;
+  const isPreferredBeta = preferredPrerelease?.includes("beta") ?? false;
+  if (!isPreferredStable && !isPreferredBeta) return [preferredVersion];
+
+  const compatibleVersions = getUsedVersions(npmViewResult)
+    .filter((version) => {
+      if (!valid(version) || !lt(version, preferredVersion)) return false;
+      const versionPrerelease = prerelease(version);
+      return isPreferredStable
+        ? versionPrerelease === null
+        : (versionPrerelease?.includes("beta") ?? false);
+    })
+    .sort(rcompare);
+
+  return [preferredVersion, ...compatibleVersions];
 }
 
 export function isBetaVersion(stableVersion: string) {
