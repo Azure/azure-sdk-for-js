@@ -8,7 +8,7 @@
 
 ### Features Added
 
-- Add OpenTelemetry tracing for Voice Agents generation, telephony mutations, conversation deletion, and realtime connection/response lifecycles using the existing experimental tracing configuration. Include content-free message summaries, response duration/token metrics, aggregate audio bytes, and SDK-observed first-audio latency. Message contents require `contentRecording: true`; raw media and credentials are never captured.
+- Add OpenTelemetry tracing for Voice Agents generation, telephony mutations, conversation deletion, and realtime connection/response lifecycles using the existing experimental tracing configuration. Include content-free message summaries, response duration/token metrics, aggregate audio bytes, and SDK-observed first-audio latency. Message contents require `contentRecording: true`; raw media and transport authentication fields are excluded. [#40320](https://github.com/Azure/azure-sdk-for-js/pull/40320)
 - Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
 
 ### Other Changes
