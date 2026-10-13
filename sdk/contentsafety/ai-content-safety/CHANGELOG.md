@@ -17,6 +17,7 @@
 - Resolve regeneration conflicts in Unified Moderate request serialization and model exports while retaining the existing provenance and blocklist customizations. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - Preserve native JSON member names such as `__proto__` as own properties in tool arguments and opaque response metadata. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - Include explicit null in Verdict, warning and evidence property types where the Agent Hooks wire contract permits it. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Keep AgentContext, Verdict and receipt discriminated unions closed so known variants cannot omit their required fields. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ## 1.0.0-beta.1 (2026-09-18)
 

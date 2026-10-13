@@ -74,6 +74,12 @@ describe("pagination customization regeneration", () => {
       );
       assert.include(merged, 'target: agentJsonObjectSerializer(item["toolCall"].args)');
       assert.include(merged, 'target: item["toolResult"].value');
+      assert.notMatch(merged, /\|\s*AgentContext;/);
+      assert.notMatch(merged, /\|\s*AgentVerdict;/);
+      assert.notMatch(merged, /\|\s*AgentPolicyEvaluationReceipt;/);
+      assert.include(merged, 'throw new TypeError("Unknown Agent Hooks interception point.")');
+      assert.include(merged, 'throw new TypeError("Unknown Agent Hooks decision.")');
+      assert.include(merged, 'throw new TypeError("Unknown Agent Hooks receipt profile.")');
       assert.include(merged, "Generated refresh.");
     } finally {
       rmSync(directory, { recursive: true, force: true });

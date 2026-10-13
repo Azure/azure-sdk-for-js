@@ -82,7 +82,7 @@ export interface AgentContextExtensions {
 }
 
 // @public
-export type AgentContextUnion = AgentStartupContext | AgentInputContext | AgentPreModelCallContext | AgentPostModelCallContext | AgentPreToolCallContext | AgentPostToolCallContext | AgentOutputContext | AgentShutdownContext | AgentContext;
+export type AgentContextUnion = AgentStartupContext | AgentInputContext | AgentPreModelCallContext | AgentPostModelCallContext | AgentPreToolCallContext | AgentPostToolCallContext | AgentOutputContext | AgentShutdownContext;
 
 // @public
 export type AgentDecision = "allow" | "deny" | "transform";
@@ -278,7 +278,7 @@ export interface AgentPolicyEvaluationReceipt {
 }
 
 // @public
-export type AgentPolicyEvaluationReceiptUnion = AgentFoundryProjectReceipt | AgentNamedPolicyReceipt | AgentPolicyEvaluationReceipt;
+export type AgentPolicyEvaluationReceiptUnion = AgentFoundryProjectReceipt | AgentNamedPolicyReceipt;
 
 // @public
 export type AgentPolicyLayerKind = "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn" | (string & {});
@@ -413,7 +413,7 @@ export interface AgentVerdict {
 }
 
 // @public
-export type AgentVerdictUnion = AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict | AgentVerdict;
+export type AgentVerdictUnion = AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict;
 
 // @public
 export interface AgentWarning {

@@ -404,8 +404,7 @@ export type AgentContextUnion =
   | AgentPreToolCallContext
   | AgentPostToolCallContext
   | AgentOutputContext
-  | AgentShutdownContext
-  | AgentContext;
+  | AgentShutdownContext;
 
 export function agentContextUnionSerializer(item: AgentContextUnion): any {
   switch (item.interceptionPoint) {
@@ -434,7 +433,7 @@ export function agentContextUnionSerializer(item: AgentContextUnion): any {
       return agentShutdownContextSerializer(item as AgentShutdownContext);
 
     default:
-      return agentContextSerializer(item);
+      throw new TypeError("Unknown Agent Hooks interception point.");
   }
 }
 
@@ -1177,8 +1176,7 @@ export function agentVerdictDeserializer(item: any): AgentVerdict {
 }
 
 /** Alias for AgentVerdictUnion */
-export type AgentVerdictUnion =
-  AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict | AgentVerdict;
+export type AgentVerdictUnion = AgentAllowVerdict | AgentDenyVerdict | AgentTransformVerdict;
 
 export function agentVerdictUnionDeserializer(item: any): AgentVerdictUnion {
   switch (item["decision"]) {
@@ -1192,7 +1190,7 @@ export function agentVerdictUnionDeserializer(item: any): AgentVerdictUnion {
       return agentTransformVerdictDeserializer(item as AgentTransformVerdict);
 
     default:
-      return agentVerdictDeserializer(item);
+      throw new TypeError("Unknown Agent Hooks decision.");
   }
 }
 
@@ -1377,7 +1375,7 @@ export function agentPolicyEvaluationReceiptDeserializer(item: any): AgentPolicy
 
 /** Alias for AgentPolicyEvaluationReceiptUnion */
 export type AgentPolicyEvaluationReceiptUnion =
-  AgentFoundryProjectReceipt | AgentNamedPolicyReceipt | AgentPolicyEvaluationReceipt;
+  AgentFoundryProjectReceipt | AgentNamedPolicyReceipt;
 
 export function agentPolicyEvaluationReceiptUnionDeserializer(
   item: any,
@@ -1390,7 +1388,7 @@ export function agentPolicyEvaluationReceiptUnionDeserializer(
       return agentNamedPolicyReceiptDeserializer(item as AgentNamedPolicyReceipt);
 
     default:
-      return agentPolicyEvaluationReceiptDeserializer(item);
+      throw new TypeError("Unknown Agent Hooks receipt profile.");
   }
 }
 
