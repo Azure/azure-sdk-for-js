@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes specified service.
- *
- * @summary Deletes specified service.
- * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_Delete.json
- */
-
-import { AzureAPICenter } from "@azure/arm-apicenter";
+import { ApiCenterClient } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes specified service.
+ *
+ * @summary deletes specified service.
+ * x-ms-original-file: 2024-06-01-preview/Services_Delete.json
+ */
 async function servicesDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
-  const serviceName = "contoso";
   const credential = new DefaultAzureCredential();
-  const client = new AzureAPICenter(credential, subscriptionId);
-  const result = await client.services.delete(resourceGroupName, serviceName);
-  console.log(result);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiCenterClient(credential, subscriptionId);
+  await client.services.delete("contoso-resources", "contoso");
 }
 
 async function main(): Promise<void> {

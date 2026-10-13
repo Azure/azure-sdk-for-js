@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes specified metadata schema.
- *
- * @summary Deletes specified metadata schema.
- * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_Delete.json
- */
-
-import { AzureAPICenter } from "@azure/arm-apicenter";
+import { ApiCenterClient } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes specified metadata schema.
+ *
+ * @summary deletes specified metadata schema.
+ * x-ms-original-file: 2024-06-01-preview/MetadataSchemas_Delete.json
+ */
 async function metadataSchemasDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
-  const serviceName = "contoso";
-  const metadataSchemaName = "author";
   const credential = new DefaultAzureCredential();
-  const client = new AzureAPICenter(credential, subscriptionId);
-  const result = await client.metadataSchemas.delete(
-    resourceGroupName,
-    serviceName,
-    metadataSchemaName,
-  );
-  console.log(result);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiCenterClient(credential, subscriptionId);
+  await client.metadataSchemas.delete("contoso-resources", "contoso", "author");
 }
 
 async function main(): Promise<void> {

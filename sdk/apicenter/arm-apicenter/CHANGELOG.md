@@ -1,21 +1,238 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0-beta.1 (2026-10-13)
+Compared with version 1.0.0
 
 ### Features Added
+  - Added operation group ApiSourcesOperations
+  - Added operation group DeletedServicesOperations
+  - Added operation ApiDefinitionsOperations.exportSpecification
+  - Added operation ApiDefinitionsOperations.importSpecification
+  - Added operation ServicesOperations.exportMetadataSchema
+  - Added Class ApiCenterClient
+  - Added Interface ApiCenterClientOptionalParams
+  - Added Interface ApiSource
+  - Added Interface ApiSourceProperties
+  - Added Interface ApiSourcesCreateOrUpdateOptionalParams
+  - Added Interface ApiSourcesDeleteOptionalParams
+  - Added Interface ApiSourcesGetOptionalParams
+  - Added Interface ApiSourcesHeadOptionalParams
+  - Added Interface ApiSourcesListOptionalParams
+  - Added Interface AzureApiManagementSource
+  - Added Interface CustomProperties
+  - Added Interface DeletedService
+  - Added Interface DeletedServiceProperties
+  - Added Interface DeletedServicesDeleteOptionalParams
+  - Added Interface DeletedServicesGetOptionalParams
+  - Added Interface DeletedServicesListBySubscriptionOptionalParams
+  - Added Interface DeletedServicesListOptionalParams
+  - Added Interface LinkState
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceUpdateProperties
+  - Added Interface SimplePollerLike
+  - Interface ApiDefinitionsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDefinitionsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDefinitionsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDefinitionsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiDefinitionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDefinitionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDefinitionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDefinitionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiDefinitionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDefinitionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDefinitionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDefinitionsGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiDefinitionsHeadOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDefinitionsHeadOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDefinitionsHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDefinitionsHeadOptionalParams has a new optional parameter onResponse
+  - Interface ApiDefinitionsListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDefinitionsListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDefinitionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDefinitionsListOptionalParams has a new optional parameter onResponse
+  - Interface ApisCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApisCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApisCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApisCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApisDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApisDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApisDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApisDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApisGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApisGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApisGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApisGetOptionalParams has a new optional parameter onResponse
+  - Interface ApisHeadOptionalParams has a new optional parameter abortSignal
+  - Interface ApisHeadOptionalParams has a new optional parameter requestOptions
+  - Interface ApisHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface ApisHeadOptionalParams has a new optional parameter onResponse
+  - Interface ApisListOptionalParams has a new optional parameter abortSignal
+  - Interface ApisListOptionalParams has a new optional parameter requestOptions
+  - Interface ApisListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApisListOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionsGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionsHeadOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionsHeadOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionsHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionsHeadOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionsListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionsListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionsListOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsHeadOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsHeadOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsHeadOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsListOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsListOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsListOptionalParams has a new optional parameter onResponse
+  - Interface EnvironmentsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EnvironmentsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EnvironmentsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EnvironmentsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface EnvironmentsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface EnvironmentsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface EnvironmentsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface EnvironmentsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface EnvironmentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface EnvironmentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface EnvironmentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface EnvironmentsGetOptionalParams has a new optional parameter onResponse
+  - Interface EnvironmentsHeadOptionalParams has a new optional parameter abortSignal
+  - Interface EnvironmentsHeadOptionalParams has a new optional parameter requestOptions
+  - Interface EnvironmentsHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface EnvironmentsHeadOptionalParams has a new optional parameter onResponse
+  - Interface EnvironmentsListOptionalParams has a new optional parameter abortSignal
+  - Interface EnvironmentsListOptionalParams has a new optional parameter requestOptions
+  - Interface EnvironmentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface EnvironmentsListOptionalParams has a new optional parameter onResponse
+  - Interface MetadataSchemasCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface MetadataSchemasCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface MetadataSchemasCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface MetadataSchemasCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface MetadataSchemasDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface MetadataSchemasDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface MetadataSchemasDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface MetadataSchemasDeleteOptionalParams has a new optional parameter onResponse
+  - Interface MetadataSchemasGetOptionalParams has a new optional parameter abortSignal
+  - Interface MetadataSchemasGetOptionalParams has a new optional parameter requestOptions
+  - Interface MetadataSchemasGetOptionalParams has a new optional parameter tracingOptions
+  - Interface MetadataSchemasGetOptionalParams has a new optional parameter onResponse
+  - Interface MetadataSchemasHeadOptionalParams has a new optional parameter abortSignal
+  - Interface MetadataSchemasHeadOptionalParams has a new optional parameter requestOptions
+  - Interface MetadataSchemasHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface MetadataSchemasHeadOptionalParams has a new optional parameter onResponse
+  - Interface MetadataSchemasListOptionalParams has a new optional parameter abortSignal
+  - Interface MetadataSchemasListOptionalParams has a new optional parameter requestOptions
+  - Interface MetadataSchemasListOptionalParams has a new optional parameter tracingOptions
+  - Interface MetadataSchemasListOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface ServiceProperties has a new optional parameter restore
+  - Interface ServicesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ServicesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ServicesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesGetOptionalParams has a new optional parameter onResponse
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ServicesUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ServiceUpdate has a new optional parameter properties
+  - Interface WorkspacesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacesGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacesGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacesGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacesHeadOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacesHeadOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacesHeadOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacesHeadOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacesListOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacesListOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacesListOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacesListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias ApiSourceLinkState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ImportSpecificationOptions
+  - Added Enum AzureClouds
+  - Added Enum KnownApiSourceLinkState
+  - Added Enum KnownImportSpecificationOptions
+  - Enum KnownVersions has a new value V20240315Preview
+  - Enum KnownVersions has a new value V20240601Preview
 
 ### Breaking Changes
+  - Operation ApiDefinitions.head has a new signature
+  - Operation Apis.createOrUpdate has a new signature
+  - Operation Apis.get has a new signature
+  - Operation Apis.head has a new signature
+  - Operation ApiVersions.head has a new signature
+  - Operation Deployments.createOrUpdate has a new signature
+  - Operation Deployments.get has a new signature
+  - Operation Deployments.head has a new signature
+  - Operation Environments.createOrUpdate has a new signature
+  - Operation Environments.get has a new signature
+  - Operation Environments.head has a new signature
+  - Operation MetadataSchemas.head has a new signature
+  - Operation Workspaces.head has a new signature
+  - Deleted Class AzureAPICenter
+  - Removed Interface AzureAPICenterOptionalParams
+  - Type of parameter customProperties of interface ApiProperties is changed from Record<string, unknown> to CustomProperties
+  - Type of parameter customProperties of interface DeploymentProperties is changed from Record<string, unknown> to CustomProperties
+  - Type of parameter customProperties of interface EnvironmentProperties is changed from Record<string, unknown> to CustomProperties
+  - Removed Type Alias Versions
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0 (2024-02-21)
 
-The package of @azure/arm-apicenter is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-apicenter is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
