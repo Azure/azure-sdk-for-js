@@ -32,18 +32,13 @@ export interface EdgeActionExecutionFiltersOperations {
     options?: EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeActionExecutionFilter>;
   /** Delete a EdgeActionExecutionFilter */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,
     executionFilter: string,
     options?: EdgeActionExecutionFiltersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update a EdgeActionExecutionFilter */
+  /** Updates the properties and tags of an Edge Action execution filter. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
   update: (
     resourceGroupName: string,
     edgeActionName: string,
