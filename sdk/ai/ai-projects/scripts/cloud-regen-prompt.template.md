@@ -95,17 +95,28 @@ and surface the failing diff plus the error message — do not loop.
 
 Read: `sdk/ai/ai-projects/.github/skills/author-samples/SKILL.md`
 
-Author samples for any non-trivial new public surface that landed in
-Step 2 of the previous skill. Validate with `npm run build:samples`.
+First reconcile existing samples with verified API-shape changes, including
+existing beta consumers, even if no new sample is needed. Then author samples
+for qualifying new public surface. Validate with `npm run build:samples`.
+Do not mark this step as a no-op if an existing sample changed.
 
 ### 4. author-tests
 
 Read: `sdk/ai/ai-projects/.github/skills/author-tests/SKILL.md`
 
-Generate `.skip`-ped Vitest specs for new GA (non-beta) features only.
-Do not attempt to record cassettes or run live tests. Validate with
-`npx tsc -p tsconfig.test.node.json --noEmit` and run ESLint on each new
-or edited spec as documented by the skill.
+First execute the skill's Step 0 to reconcile existing tests with verified
+API-shape changes, including existing beta tests. Follow its SDK `Metadata`
+recipe for TS2353 on direct metadata keys; preserve flat wire payloads and
+assertions. Then generate `.skip`-ped Vitest specs for new GA (non-beta) features
+only. Do not attempt to record cassettes or run live tests. Validate with
+`npx tsc -p tsconfig.test.node.json --noEmit` and run ESLint on each new or edited
+spec. These checks are required even when no new GA coverage is needed
+(targeted ESLint may be skipped when no files changed).
+
+For a verified consumer mismatch, make one focused correction using the
+finalized SDK types and rerun validation before stopping. Never suppress type
+errors, skip existing tests, weaken assertions, or revert an intentional SDK
+shape change. Do not mark this step as a no-op if an existing test changed.
 
 ### 5. update-changelog
 
@@ -144,6 +155,8 @@ commits are omitted when those skills are documented no-ops.
 - `npx dev-tool run build-package` is green for all four targets on the
   final commit.
 - `review/ai-projects-node.api.md` reflects every newly added public type.
+- Existing samples and tests compile against the final SDK, including maintained
+  beta consumers; documented no-ops have no consumer changes.
 - Print the PR URL as the final line of your output.
 
 ## When to STOP and surface to a human
@@ -154,7 +167,8 @@ commits are omitted when those skills are documented no-ops.
 - `apply-post-emitter-edits` Step 2 classification is genuinely ambiguous
   (i.e. you cannot tell if a missing export is a rename or a new type).
 - The `foundryFeatures` rule is violated in a shape not covered by Step 4.
-- The test TypeScript or targeted ESLint validation fails.
+- Sample or test validation remains unsuccessful after one focused
+  consumer-reconciliation attempt, or the mismatch is unexplained.
 - Any step's documented success criteria are not met after one focused
   remediation attempt.
 

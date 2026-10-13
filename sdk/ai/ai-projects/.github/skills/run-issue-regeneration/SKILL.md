@@ -63,7 +63,15 @@ Protected-file drift and diff3 conflict markers produced by customization are in
 
 On resumption after emitter output has already been committed, do not regenerate blindly or discard prior output. Record the clean pre-regeneration ref and use it for generated/source/API comparisons and guard `--base-ref` arguments instead of the partially integrated `HEAD`. Reuse verified completed setup/emission work, then finish every remaining skill and validation. If the logical-commit script cannot represent already-committed output or explicitly requested guidance edits, preserve the changes and report the grouping limitation; do not reset history or publish partial integration.
 
-Samples and GA tests are conditional. A step may be a documented no-op when the API diff contains no qualifying surface; state that explicitly in the pull request rather than creating placeholder files.
+New samples and GA test scaffolding are conditional. Existing sample/test
+maintenance and compilation are mandatory, including existing beta consumers.
+Reconcile verified method and model-shape changes using the authoring skills
+before treating validation as blocked; apply one focused remediation pass and
+stop if the error is unexplained or remains unresolved. A step may be a documented
+no-op only when no new files were needed, no existing consumers changed, and its
+compilation passed. State that explicitly in the pull request rather than creating
+placeholder files. Maintenance-only changes must be included in the sample/test
+commit groups, without the corresponding no-op switch.
 
 For the sixth skill, the issue assignment already owns the working branch and draft pull request. Prepare the logical commits without creating another branch, pushing manually, or opening another pull request:
 
