@@ -11,7 +11,7 @@ resources in your Microsoft Foundry Project. Use it to:
   - Azure AI Search
   - Bing Custom Search (Preview)
   - Bing Grounding
-  - Browser Automation (Preview)
+  - Browser Automation
   - Code Interpreter
   - Computer Use (Preview)
   - File Search
@@ -838,12 +838,13 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentSharepoint.ts).
 
-**Browser Automation (Preview)**
+**Browser Automation**
 
 Automate browser interactions for web scraping, testing, and interaction with web applications:
 
 ```ts snippet:agent-browser-automation
-const browserAutomationProjectConnectionId = process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+const browserAutomationProjectConnectionId =
+  process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
 const agent = await project.agents.createVersion("MyAgent", {
   kind: "prompt",
   model: deploymentName,
@@ -853,8 +854,8 @@ const agent = await project.agents.createVersion("MyAgent", {
   // Define Browser Automation tool
   tools: [
     {
-      type: "browser_automation_preview",
-      browser_automation_preview: {
+      type: "browser_automation",
+      browser_automation: {
         connection: {
           project_connection_id: browserAutomationProjectConnectionId,
         },
@@ -866,6 +867,18 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 ```
 
 See the full sample code in [agentBrowserAutomation.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBrowserAutomation.ts).
+
+Set `FOUNDRY_PROJECT_ENDPOINT`, `FOUNDRY_MODEL_NAME`, and
+`BROWSER_AUTOMATION_PROJECT_CONNECTION_ID` (the project connection resource ID for
+your Azure Playwright resource) before running the sample. It uses the GA
+`browser_automation` tool to visit `https://example.com` and report the page title
+and visible description based on browser results.
+
+The streaming sample prints each completed text message once, including the
+browser live-view URL, and logs remote function action names, call IDs, and
+arguments without `browserSessionId`. Treat the live-view URL as sensitive: do not
+share it or commit it to source control. Failed or incomplete responses exit with
+a nonzero status instead of reporting success.
 
 **MCP with Project Connection**
 
