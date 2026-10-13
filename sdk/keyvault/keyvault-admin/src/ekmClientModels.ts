@@ -19,6 +19,13 @@ export type {
   EkmPrivateEndpointConnectionState,
   EkmPrivateEndpointConnectionStatus,
   EkmPrivateEndpointListResult,
+  ErrorModel,
+} from "./models/models.js";
+export {
+  KnownEkmConnectivityMode,
+  KnownEkmPrivateEndpointConnectionStatus,
+  KnownEkmPrivateEndpointOperationType,
+  KnownEkmPrivateEndpointProvisioningState,
 } from "./models/models.js";
 
 /**
@@ -77,12 +84,16 @@ export interface GetEkmPrivateEndpointOptions extends OperationOptions {}
 export interface DeleteEkmPrivateEndpointOptions extends OperationOptions {
   /** Delay to wait until the next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Serialized poller state to resume a previously started operation. */
+  resumeFrom?: string;
 }
 
 /** Optional parameters for creating an EKM private endpoint. */
 export interface CreateEkmPrivateEndpointOptions extends OperationOptions {
   /** Delay to wait until the next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Serialized poller state to resume a previously started operation. */
+  resumeFrom?: string;
 }
 
 /** Optional parameters for getting an EKM private endpoint operation status. */

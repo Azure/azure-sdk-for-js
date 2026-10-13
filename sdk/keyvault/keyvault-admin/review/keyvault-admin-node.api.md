@@ -37,6 +37,7 @@ export interface CreateEkmConnectionOptions extends OperationOptions {
 
 // @public
 export interface CreateEkmPrivateEndpointOptions extends OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
@@ -50,6 +51,7 @@ export interface DeleteEkmConnectionOptions extends OperationOptions {
 
 // @public
 export interface DeleteEkmPrivateEndpointOptions extends OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
@@ -112,7 +114,6 @@ export interface EkmPrivateEndpointListResult {
 // @public
 export interface EkmPrivateEndpointOperation {
     endTime?: Date;
-    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
     error?: ErrorModel;
     jobId?: string;
     operationType?: EkmPrivateEndpointOperationType;
@@ -148,6 +149,13 @@ export interface EkmProxyInfo {
     proxyName: string;
     proxyVendor: string;
 }
+
+// @public
+export type ErrorModel = {
+    code?: string;
+    message?: string;
+    innerError?: ErrorModel;
+} | null;
 
 // @public
 export interface GetEkmCertificateOptions extends OperationOptions {
@@ -359,6 +367,34 @@ export class KeyVaultSettingsClient {
     getSettings(options?: ListSettingsOptions): Promise<ListSettingsResponse>;
     updateSetting(setting: KeyVaultSetting, options?: UpdateSettingOptions): Promise<KeyVaultSetting>;
     readonly vaultUrl: string;
+}
+
+// @public
+export enum KnownEkmConnectivityMode {
+    PrivateEndpoint = "PrivateEndpoint",
+    Public = "Public"
+}
+
+// @public
+export enum KnownEkmPrivateEndpointConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownEkmPrivateEndpointOperationType {
+    Create = "Create",
+    Delete = "Delete"
+}
+
+// @public
+export enum KnownEkmPrivateEndpointProvisioningState {
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public

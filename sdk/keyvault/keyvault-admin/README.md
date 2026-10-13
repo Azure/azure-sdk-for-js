@@ -129,6 +129,34 @@ the public internet. A Managed HSM may have up to two EKM proxy private endpoint
 one, set the connection's `host` to the private endpoint's name and its `connectivityMode` to
 `KnownEkmConnectivityMode.PrivateEndpoint`.
 
+```ts snippet:ReadmeSampleManageEkmPrivateEndpoint
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultEkmClient } from "@azure/keyvault-admin";
+
+const vaultUrl = `https://<MY KEY VAULT HERE>.managedhsm.azure.net`;
+const credentials = new DefaultAzureCredential();
+const client = new KeyVaultEkmClient(vaultUrl, credentials);
+
+// Private endpoint names must not be longer than 24 characters.
+const peName = "ekm-sample-pe";
+const privateLinkServiceId = "<private-link-service-id>";
+
+const createPoller = client.createEkmPrivateEndpoint(peName, { privateLinkServiceId });
+const createOperation = await createPoller.pollUntilDone();
+console.log("Create status:", createOperation.status);
+
+const privateEndpoint = await client.getEkmPrivateEndpoint(peName);
+console.log("Connection status:", privateEndpoint.privateLinkServiceConnectionState?.status);
+
+const privateEndpoints = await client.listEkmPrivateEndpoints();
+for (const endpoint of privateEndpoints.value ?? []) {
+  console.log("Private endpoint:", endpoint.name);
+}
+
+const deletePoller = client.deleteEkmPrivateEndpoint(peName);
+await deletePoller.pollUntilDone();
+```
+
 ### Long running operations
 
 The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize, and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].

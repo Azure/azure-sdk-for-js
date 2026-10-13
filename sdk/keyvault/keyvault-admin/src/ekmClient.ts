@@ -30,6 +30,7 @@ import type {
 } from "./ekmClientModels.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
+import { restorePoller } from "./restorePollerHelpers.js";
 
 /**
  * The KeyVaultEkmClient provides asynchronous methods to manage EKM connections and private endpoints
@@ -159,6 +160,14 @@ export class KeyVaultEkmClient {
     parameters: EkmPrivateEndpointCreateParameters,
     options: CreateEkmPrivateEndpointOptions = {},
   ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.createEkmPrivateEndpoint,
+        options,
+      );
+    }
     return this.client.createEkmPrivateEndpoint(peName, parameters, options);
   }
 
@@ -167,6 +176,14 @@ export class KeyVaultEkmClient {
     peName: string,
     options: DeleteEkmPrivateEndpointOptions = {},
   ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.deleteEkmPrivateEndpoint,
+        options,
+      );
+    }
     return this.client.deleteEkmPrivateEndpoint(peName, options);
   }
 
