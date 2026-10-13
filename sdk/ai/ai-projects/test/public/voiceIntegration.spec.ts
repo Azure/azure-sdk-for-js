@@ -9,12 +9,17 @@ import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
   BetaVoiceAgentsConversationsListOptionalParams,
+  HostedAgentDefinition,
   VoiceAgentDefinition,
+  VoiceResponseAudio,
   RealtimeServerEventResponseAudioDelta,
 } from "../../src/index.js";
 import {
   agentDefinitionUnionSerializer,
   agentDefinitionUnionDeserializer,
+  voiceResponseDeserializer,
+  voiceAgentRealtimeResponseSerializer,
+  voiceAgentRealtimeResponseDeserializer,
   realtimeServerEventResponseAudioDeltaSerializer,
   realtimeServerEventResponseAudioDeltaDeserializer,
 } from "../../src/models/models.js";
@@ -69,6 +74,58 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
+  it.each([true, false, undefined])("round-trips hosted memory snapshot opt-in %s", (enabled) => {
+    const definition: HostedAgentDefinition = {
+      kind: "hosted",
+      cpu: "1",
+      memory: "2Gi",
+      enable_memory_snapshot: enabled,
+    };
+    const wire = agentDefinitionUnionSerializer(definition);
+    expect(wire.enable_memory_snapshot).toBe(enabled);
+    expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+  });
+
+  it("composes voice responses without losing Foundry audio or metadata", () => {
+    const audio: VoiceResponseAudio = {
+      output: {
+        voice: "custom-voice",
+        voice_type: "azure-custom",
+        voice_locale: "en-US",
+        format: { type: "audio/pcm", rate: 24000 },
+      },
+    };
+    const wire = {
+      object: "realtime.response",
+      status: "completed",
+      max_output_tokens: "inf",
+      metadata: { purpose: "test" },
+      audio,
+      created_at: 0,
+      completed_at: 1,
+    };
+    const persisted = voiceResponseDeserializer(wire);
+    expect(persisted.id).toBeUndefined();
+    expect(persisted.conversation_id).toBeUndefined();
+    expect(persisted.metadata?.additionalProperties?.["purpose"]).toBe("test");
+    expect(persisted.audio).toEqual(wire.audio);
+    expect(persisted.created_at).toEqual(new Date(0));
+    expect(persisted.completed_at).toEqual(new Date(1000));
+    expect(persisted.max_output_tokens).toBe("inf");
+
+    const liveWire = {
+      object: wire.object,
+      status: wire.status,
+      max_output_tokens: wire.max_output_tokens,
+      metadata: wire.metadata,
+      audio,
+    };
+    const live = voiceAgentRealtimeResponseDeserializer(liveWire);
+    expect(live.audio).toEqual(wire.audio);
+    expect(live.metadata?.additionalProperties?.["purpose"]).toBe("test");
+    expect(voiceAgentRealtimeResponseSerializer(live)).toMatchObject(liveWire);
+  });
+
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
       body: {
