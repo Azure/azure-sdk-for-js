@@ -5,13 +5,17 @@
 ### Breaking Changes
 
 - Rename Teams Phone binding models from `*TeamsPhoneExtension*` to `*TeamsPhoneExtensibility*` and replace `teams_phone_extension` with `teams_phone_extensibility` in `TelephonyProvider`, binding discriminators, and `TelephonyCallLifecycleEventSource`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+- Remove `VoiceResponseBase` and `VoiceAgentRealtimeResponseBase`, composing their fields directly into `VoiceResponse` and `VoiceAgentRealtimeResponse` while preserving Foundry audio contracts. [#40324](https://github.com/Azure/azure-sdk-for-js/issues/40324)
+- Make `VoiceResponse.id` and `VoiceResponse.conversation_id` optional and replace its metadata map with `Metadata`; access custom keys through `metadata.additionalProperties`. [#40324](https://github.com/Azure/azure-sdk-for-js/issues/40324)
 
 ### Features Added
 
 - Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+- Add `HostedAgentDefinition.enable_memory_snapshot` to start hosted-agent sessions from a snapshot of the initialized process. [#40324](https://github.com/Azure/azure-sdk-for-js/issues/40324)
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `29a6d34f65206305d59b8a32c5f25c2eb9e4078f`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/29a6d34f65206305d59b8a32c5f25c2eb9e4078f). [#40324](https://github.com/Azure/azure-sdk-for-js/issues/40324)
 - Regenerate the client from azure-rest-api-specs commit `9224f3baca6db983469634f3e7ff723697f76d92` and update `SessionConfiguration.idle_timeout_seconds` documentation to reflect the increased maximum of 14,400 seconds (4 hours), retaining the 120-second minimum and 900-second server default. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/9224f3baca6db983469634f3e7ff723697f76d92). [#40224](https://github.com/Azure/azure-sdk-for-js/issues/40224)
 - Regenerate the client from azure-rest-api-specs commit `98d958ad0d13deafa0d66119bc99301324cd86bd`, keeping the existing `VoiceAgentTransport` contract reachable in emitted code. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/98d958ad0d13deafa0d66119bc99301324cd86bd). [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
 
