@@ -12,6 +12,9 @@ export function getUserAgent(
   hostFramework?: string,
 ): string {
   let ua = `${userAgentDetails()} ${Constants.SDKName}/${Constants.SDKVersion}`;
+  if (optionsOrConnectionString?.clientEncryptionOptions) {
+    ua = ua + ` ${Constants.SDKName}-encryption/${Constants.SDKVersion}`;
+  }
   if (hostFramework) {
     ua = ua + " " + hostFramework;
   }

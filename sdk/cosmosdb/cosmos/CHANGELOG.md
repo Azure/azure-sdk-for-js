@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Automatically identify clients configured for client-side encryption with an `azure-cosmos-js-encryption/<SDKVersion>` user-agent marker, preserving customer suffixes and applying to both encrypted-value formats. [#40328](https://github.com/Azure/azure-sdk-for-js/pull/40328)
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
