@@ -3,10 +3,10 @@
 
 /**
  * This sample demonstrates creating a Hosted Agent version from a container
- * image, polling until it is active, routing the agent endpoint to that
- * version, and then invoking it via the OpenAI Responses API.
+ * image with memory snapshots enabled, polling until it is active, routing
+ * the agent endpoint to that version, and then invoking it via the OpenAI Responses API.
  *
- * @summary Create a hosted agent version from a container image, then invoke it via the Responses API.
+ * @summary Create a snapshot-enabled hosted agent version from a container image, then invoke it via the Responses API.
  *
  * @azsdk-weight 90
  */
@@ -35,6 +35,9 @@ export async function main(): Promise<void> {
       cpu: "0.5",
       memory: "1Gi",
       container_configuration: { image },
+      // Opt in to starting sessions from a snapshot of the initialized process.
+      // Omit this property (or set it to false) to start from the image instead.
+      enable_memory_snapshot: true,
       protocol_versions: [{ protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord],
     } as HostedAgentDefinition,
     {

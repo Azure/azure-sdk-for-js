@@ -11,12 +11,18 @@ import type {
   BetaVoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
+  HostedAgentDefinition,
+  VoiceAgentRealtimeResponse,
+  VoiceResponse,
 } from "../../src/index.js";
 import {
   agentDefinitionUnionSerializer,
   agentDefinitionUnionDeserializer,
   realtimeServerEventResponseAudioDeltaSerializer,
   realtimeServerEventResponseAudioDeltaDeserializer,
+  voiceAgentRealtimeResponseSerializer,
+  voiceAgentRealtimeResponseDeserializer,
+  voiceResponseDeserializer,
 } from "../../src/models/models.js";
 
 const endpoint = "https://example.com/api/projects/test-project";
@@ -69,6 +75,94 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
+  it.each([true, false, undefined])(
+    "round-trips hosted-agent memory snapshot opt-in %s",
+    (enableMemorySnapshot) => {
+      const definition: HostedAgentDefinition = {
+        kind: "hosted",
+        cpu: "0.5",
+        memory: "1Gi",
+        container_configuration: { image: "example.com/agent:latest" },
+        enable_memory_snapshot: enableMemorySnapshot,
+      };
+      const wire = agentDefinitionUnionSerializer(definition);
+      expect(wire.enable_memory_snapshot).toBe(enableMemorySnapshot);
+      expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+      if (enableMemorySnapshot === undefined) {
+        expect(JSON.parse(JSON.stringify(wire))).not.toHaveProperty("enable_memory_snapshot");
+      }
+    },
+  );
+
+  it("accepts partial persisted voice responses without fabricated identifiers", () => {
+    const response: VoiceResponse = voiceResponseDeserializer({
+      object: "realtime.response",
+      status: "in_progress",
+      max_output_tokens: "inf",
+      output: [],
+      metadata: {},
+    });
+    expect(response.id).toBeUndefined();
+    expect(response.conversation_id).toBeUndefined();
+    expect(response).toMatchObject({
+      object: "realtime.response",
+      status: "in_progress",
+      max_output_tokens: "inf",
+      output: [],
+      metadata: {},
+    });
+  });
+
+  it("preserves persisted response timestamps and Foundry flat audio fields", () => {
+    const wire = {
+      id: "response",
+      conversation_id: "conversation",
+      created_at: 0,
+      completed_at: 123,
+      audio: {
+        output: {
+          voice: "custom-voice",
+          voice_type: "azure-custom",
+          voice_locale: "en-US",
+          format: { type: "audio/pcm", rate: 24000 },
+        },
+      },
+      metadata: { purpose: "unit-test" },
+    };
+    expect(voiceResponseDeserializer(wire)).toMatchObject({
+      ...wire,
+      created_at: new Date(0),
+      completed_at: new Date(123000),
+    });
+  });
+
+  it.each([0, 128, "inf"] as const)(
+    "round-trips composed live response fields with max_output_tokens %s",
+    (maxOutputTokens) => {
+      const response: VoiceAgentRealtimeResponse = {
+        id: "response",
+        object: "realtime.response",
+        status: "completed",
+        conversation_id: "conversation",
+        output: [],
+        output_modalities: ["audio"],
+        max_output_tokens: maxOutputTokens,
+        metadata: { purpose: "unit-test" },
+        audio: {
+          output: {
+            voice: "custom-voice",
+            voice_type: "azure-custom",
+            voice_locale: "en-US",
+            format: { type: "audio/pcm", rate: 24000 },
+          },
+        },
+      };
+      const wire = voiceAgentRealtimeResponseSerializer(response);
+      expect(wire).toMatchObject(response);
+      expect(voiceAgentRealtimeResponseDeserializer(wire)).toMatchObject(response);
+    },
+  );
+
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
       body: {
