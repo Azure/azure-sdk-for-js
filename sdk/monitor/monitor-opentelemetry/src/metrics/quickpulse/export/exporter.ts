@@ -28,6 +28,8 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   private etag: string;
   private getErrorsFn: () => CollectionConfigurationError[];
   private getDerivedMetricValuesFn: () => Map<string, number>;
+  private enabled = true;
+  private abortController = new AbortController();
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -60,8 +62,14 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
+    if (!this.enabled) {
+      resultCallback({ code: ExportResultCode.SUCCESS });
+      return;
+    }
+    const abortController = this.abortController;
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
     const optionalParams: PublishOptionalParams = {
+      abortSignal: abortController.signal,
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
@@ -75,11 +83,18 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
-        this.postCallback(await this.sender.publish(optionalParams));
+        const response = await this.sender.publish(optionalParams);
+        if (this.enabled && this.abortController === abortController) {
+          this.postCallback(response);
+        }
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {
-        this.postCallback(undefined);
-        resultCallback({ code: ExportResultCode.FAILED });
+        if (this.enabled && this.abortController === abortController) {
+          this.postCallback(undefined);
+          resultCallback({ code: ExportResultCode.FAILED });
+        } else {
+          resultCallback({ code: ExportResultCode.SUCCESS });
+        }
       }
     });
   }
@@ -121,5 +136,17 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
 
   public setEtag(etag: string): void {
     this.etag = etag;
+  }
+
+  public setEnabled(enabled: boolean): void {
+    if (this.enabled === enabled) {
+      return;
+    }
+    this.enabled = enabled;
+    if (enabled) {
+      this.abortController = new AbortController();
+    } else {
+      this.abortController.abort();
+    }
   }
 }

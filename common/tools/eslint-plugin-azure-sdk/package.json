@@ -84,13 +84,12 @@
     "@types/estree": "~1.0.0",
     "@typescript-eslint/typescript-estree": "~8.65.0",
     "eslint-config-prettier": "^10.0.1",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^5.4.2",
     "tslib": "^2.6.2",
     "typescript": "~6.0.2",
     "typescript-eslint": "catalog:"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "~8.65.0",
     "@typescript-eslint/parser": "~8.65.0",
