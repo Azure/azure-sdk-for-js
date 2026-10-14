@@ -7,6 +7,7 @@ import {
   generateChangelogAndBumpVersion,
   UpdateMode,
 } from "./common/changelog/automaticGenerateChangeLogAndBumpVersion.js";
+import { configureNpmFromRepo } from "./common/npmUtils.js";
 import { logger } from "./utils/logger.js";
 
 /**
@@ -41,6 +42,7 @@ const writeSdkChangesReport = async (packageFolderPath: string, reportFile: stri
     ? packageFolderPath
     : resolve(packageFolderPath);
   const sdkRepoPath = findSdkRepoRoot(absolutePackagePath);
+  configureNpmFromRepo(sdkRepoPath);
 
   const changelog = await generateChangelogAndBumpVersion(
     absolutePackagePath,
