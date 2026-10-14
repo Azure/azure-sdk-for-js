@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { runInNewContext } from "node:vm";
 import ts from "typescript";
-import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import { canonicalize, mergeDeclaration, retainCustomizedOnConflict } from "./ast-merge.mjs";
 
 const context = { file: "models\\models.ts", declaration: "Example" };
 
@@ -1442,4 +1442,53 @@ test("element-wise list merges keep comments without inserting blank lines", () 
   assert.match(text, /second: 20/);
   assert.match(text, /\/\/ Maintained note\./);
   assert.doesNotMatch(text, /\n[ \t]*\n/);
+});
+
+test("recovery keeps the customized declaration for a rejected merge and records it", () => {
+  const base = "interface Example { x: string; }";
+  const custom = "interface Example { x: number; }";
+  const incoming = "interface Example { x: boolean; }";
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = mergeDeclaration(base, custom, incoming, context);
+    assert.deepEqual(result, { text: custom, diagnostics: [] });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].file, context.file);
+    assert.equal(sink[0].declaration, context.declaration);
+    assert.deepEqual(
+      [sink[0].baseText, sink[0].customText, sink[0].incomingText],
+      [base, custom, incoming],
+    );
+    assert.match(sink[0].diagnostics.map((d) => d.message).join("\n"), /atomic|different/);
+    // Merges that succeed, and clean deletions, are never recorded.
+    assert.equal(merged(base, custom, base), custom);
+    assert.deepEqual(mergeDeclaration(base, null, base, context), {
+      text: null,
+      diagnostics: [],
+    });
+    assert.equal(sink.length, 1);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+  // Without recovery the same merge is rejected again.
+  rejected(base, custom, incoming, /atomic|different/);
+});
+
+test("recovery keeps a custom-side deletion that conflicts with an emitted edit, and records it", () => {
+  const base = "interface Example { x: string; }";
+  const incoming = "interface Example { x: number; }";
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    assert.deepEqual(mergeDeclaration(base, null, incoming, context), {
+      text: null,
+      diagnostics: [],
+    });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].customText, null);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+  rejected(base, null, incoming, /Deletion conflicts/);
 });

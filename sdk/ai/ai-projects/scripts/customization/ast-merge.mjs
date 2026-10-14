@@ -1197,6 +1197,33 @@ function mergeNode(base, custom, incoming, path, state) {
   return render(template.value, parts, custom, state, path);
 }
 
+let conflictSink = null;
+
+/**
+ * Keep the customized declaration whenever a merge is rejected, recording each
+ * rejection in `sink`, instead of reporting it as a diagnostic. This is the
+ * additions-only fallback for recovery runs; the caller owns reviewing every
+ * recorded entry. Pass `null` to restore the strict default.
+ *
+ * @param {object[] | null} sink
+ */
+export function retainCustomizedOnConflict(sink) {
+  conflictSink = sink;
+}
+
+/**
+ * Record an unresolved change whose customized form is kept. Returns false,
+ * recording nothing, when recovery is off and the caller must report it.
+ *
+ * @param {object} entry
+ * @returns {boolean}
+ */
+export function retainCustomized(entry) {
+  if (!conflictSink) return false;
+  conflictSink.push(entry);
+  return true;
+}
+
 /**
  * Merge one top-level TypeScript declaration or statement from each side.
  * Exported functions never read or write project files.
@@ -1208,6 +1235,20 @@ function mergeNode(base, custom, incoming, path, state) {
  * @returns {{ text: string | null, diagnostics: Diagnostic[] }}
  */
 export function mergeDeclaration(baseText, customText, incomingText, context = {}) {
+  const merged = mergeStrict(baseText, customText, incomingText, context);
+  if (merged.text !== null || !merged.diagnostics.length) return merged;
+  const retained = retainCustomized({
+    file: context.file,
+    declaration: context.declaration,
+    diagnostics: merged.diagnostics,
+    baseText,
+    customText,
+    incomingText,
+  });
+  return retained ? { text: customText, diagnostics: [] } : merged;
+}
+
+function mergeStrict(baseText, customText, incomingText, context) {
   /** @type {Diagnostic[]} */
   const diagnostics = [];
   const state = {

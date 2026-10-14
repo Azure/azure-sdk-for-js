@@ -146,6 +146,10 @@ try {
     throw "Uncategorized changes remain under ${pkg}:`n$($remaining -join "`n")"
   }
 
+  if (Test-Path -LiteralPath "$pkg/temp/customization-worklist.md") {
+    Write-Warning 'temp/customization-worklist.md exists: recovery mode kept customized code during this regeneration. The pull request description must include the judgement-call table from apply-post-emitter-edits Step 0a (one row per worklist entry: disposition and reason).'
+  }
+
   if ($ManagedAgentSession) {
     Write-Host "Prepared regeneration commits on $currentBranch."
     Write-Host 'Branch push and pull-request updates are owned by the Copilot agent session.'
