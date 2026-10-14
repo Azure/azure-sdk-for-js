@@ -14,7 +14,7 @@ import { EventEmitter } from "events";
 
 describe("Batch delete messages", function (): void {
   const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
-  const invalidCutoffs = [new Date(Number.NaN), "not-a-date", 0, {}];
+  const invalidCutoffs = [new Date(Number.NaN), "not-a-date", 0, {}, null];
 
   function stubDeleteMessages(
     context: any,
@@ -272,7 +272,7 @@ describe("Batch delete messages", function (): void {
         let initializationCount = 0;
         managementClient.initWithUniqueReplyTo = async (): Promise<any> => {
           initializationCount++;
-          return {};
+          throw new Error("Invalid input reached link initialization.");
         };
 
         for (const messageCount of [0, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 0x80000000]) {

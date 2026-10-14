@@ -19,7 +19,7 @@ import { translateServiceBusError } from "../serviceBusError.js";
 
 /** @internal */
 export function getDeleteMessagesCutoff(beforeEnqueueTime?: Date): Date {
-  const cutoff = beforeEnqueueTime ?? new Date();
+  const cutoff = beforeEnqueueTime === undefined ? new Date() : beforeEnqueueTime;
   if (!(cutoff instanceof Date) || !Number.isFinite(cutoff.getTime())) {
     throw new TypeError("'beforeEnqueueTime' must be a valid Date.");
   }
