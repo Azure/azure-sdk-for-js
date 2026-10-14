@@ -240,7 +240,8 @@ function serializeResourceProperties(
   }
 
   const dependsOn = (rawResource as unknown as Record<string, unknown>)["dependsOn"] as
-    readonly ResourceDeclaration[] | undefined;
+    | readonly ResourceDeclaration[]
+    | undefined;
   if (dependsOn !== undefined) {
     properties.dependsOn = {
       kind: "array",

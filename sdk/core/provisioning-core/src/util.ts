@@ -26,9 +26,11 @@ export function assertBicepIdentifier(name: string, kind: string): void {
 export function definedProps<T extends Record<string, unknown>>(
   obj: T,
 ): { [K in keyof T as undefined extends T[K] ? never : K]: T[K] } & {
-  [
-    K in keyof T as undefined extends T[K] ? (T[K] extends undefined ? never : K) : never
-  ]+?: Exclude<T[K], undefined>;
+  [K in keyof T as undefined extends T[K]
+    ? T[K] extends undefined
+      ? never
+      : K
+    : never]+?: Exclude<T[K], undefined>;
 } {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as any;
 }

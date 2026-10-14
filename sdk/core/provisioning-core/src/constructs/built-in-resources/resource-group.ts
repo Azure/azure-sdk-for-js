@@ -78,7 +78,8 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
   constructor(
     context: ProvisioningComponent,
     props:
-      (ResourceGroupProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+      | (ResourceGroupProps & { existing?: false })
+      | (ExistingResourceProps & { existing: true }),
   ) {
     super(context, {
       ...props,
@@ -119,10 +120,6 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
   }
   set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined) {
     this.setProperty("tags", value);
-    this._localDeploymentContext = {
-      ...this._localDeploymentContext,
-      tags: deref(this.tags),
-    };
   }
 
   add<T extends new (context: ProvisioningComponent, ...args: any[]) => ProvisioningComponent>(
