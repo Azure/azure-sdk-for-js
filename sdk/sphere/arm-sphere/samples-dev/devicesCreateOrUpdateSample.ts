@@ -1,37 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
- *
- * @summary Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PutDevice.json
- */
-
-import type { Device } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
+ *
+ * @summary create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
+ * x-ms-original-file: 2024-04-01/PutDevice.json
+ */
 async function devicesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const productName = "MyProduct1";
-  const deviceGroupName = "myDeviceGroup1";
-  const deviceName =
-    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-  const resource: Device = {};
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
-  const result = await client.devices.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    catalogName,
-    productName,
-    deviceGroupName,
-    deviceName,
-    resource,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
+  const result = await client.devices.createOrUpdate(
+    "MyResourceGroup1",
+    "MyCatalog1",
+    "MyProduct1",
+    "myDeviceGroup1",
+    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    {},
   );
   console.log(result);
 }

@@ -1,40 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Bulk claims the devices. Use '.unassigned' or '.default' for the device group and product names when bulk claiming devices to a catalog only.
- *
- * @summary Bulk claims the devices. Use '.unassigned' or '.default' for the device group and product names when bulk claiming devices to a catalog only.
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostClaimDevices.json
- */
-
-import type { ClaimDevicesRequest } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to bulk claims the devices. Use '.unassigned' or '.default' for the device group and product names when bulk claiming devices to a catalog only.
+ *
+ * @summary bulk claims the devices. Use '.unassigned' or '.default' for the device group and product names when bulk claiming devices to a catalog only.
+ * x-ms-original-file: 2024-04-01/PostClaimDevices.json
+ */
 async function deviceGroupsClaimDevices(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const productName = "MyProduct1";
-  const deviceGroupName = "MyDeviceGroup1";
-  const claimDevicesRequest: ClaimDevicesRequest = {
-    deviceIdentifiers: [
-      "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    ],
-  };
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
-  const result = await client.deviceGroups.beginClaimDevicesAndWait(
-    resourceGroupName,
-    catalogName,
-    productName,
-    deviceGroupName,
-    claimDevicesRequest,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
+  await client.deviceGroups.claimDevices(
+    "MyResourceGroup1",
+    "MyCatalog1",
+    "MyProduct1",
+    "MyDeviceGroup1",
+    {
+      deviceIdentifiers: [
+        "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      ],
+    },
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

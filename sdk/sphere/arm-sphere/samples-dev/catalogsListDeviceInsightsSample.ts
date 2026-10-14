@@ -1,35 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists device insights for catalog.
- *
- * @summary Lists device insights for catalog.
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostListDeviceInsightsCatalog.json
- */
-
-import type { CatalogsListDeviceInsightsOptionalParams } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists device insights for catalog.
+ *
+ * @summary lists device insights for catalog.
+ * x-ms-original-file: 2024-04-01/PostListDeviceInsightsCatalog.json
+ */
 async function catalogsListDeviceInsights(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const top = 10;
-  const catalogName = "MyCatalog1";
-  const options: CatalogsListDeviceInsightsOptionalParams = { top };
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.catalogs.listDeviceInsights(
-    resourceGroupName,
-    catalogName,
-    options,
-  )) {
+  for await (const item of client.catalogs.listDeviceInsights("MyResourceGroup1", "MyCatalog1", {
+    top: 10,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

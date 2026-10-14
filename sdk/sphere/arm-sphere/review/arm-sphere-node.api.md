@@ -4,11 +4,16 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -16,39 +21,35 @@ export type ActionType = string;
 // @public
 export type AllowCrashDumpCollection = string;
 
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
 // @public (undocumented)
-export class AzureSphereManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureSphereManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    catalogs: Catalogs;
-    // (undocumented)
-    certificates: Certificates;
-    // (undocumented)
-    deployments: Deployments;
-    // (undocumented)
-    deviceGroups: DeviceGroups;
-    // (undocumented)
-    devices: Devices;
-    // (undocumented)
-    images: Images;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    products: Products;
-    // (undocumented)
-    subscriptionId: string;
+export class AzureSphereClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureSphereClientOptionalParams);
+    readonly catalogs: CatalogsOperations;
+    readonly certificates: CertificatesOperations;
+    readonly deployments: DeploymentsOperations;
+    readonly deviceGroups: DeviceGroupsOperations;
+    readonly devices: DevicesOperations;
+    readonly images: ImagesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly products: ProductsOperations;
 }
 
 // @public
-export interface AzureSphereManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureSphereClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type CapabilityType = string;
@@ -59,113 +60,39 @@ export interface Catalog extends TrackedResource {
 }
 
 // @public
-export interface CatalogListResult {
-    readonly nextLink?: string;
-    value: Catalog[];
-}
-
-// @public
 export interface CatalogProperties {
     readonly provisioningState?: ProvisioningState;
     readonly tenantId?: string;
 }
 
 // @public
-export interface Catalogs {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, resource: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsCreateOrUpdateResponse>, CatalogsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, resource: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<CatalogsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<void>;
-    beginUploadImage(resourceGroupName: string, catalogName: string, uploadImageRequest: Image, options?: CatalogsUploadImageOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUploadImageResponse>, CatalogsUploadImageResponse>>;
-    beginUploadImageAndWait(resourceGroupName: string, catalogName: string, uploadImageRequest: Image, options?: CatalogsUploadImageOptionalParams): Promise<CatalogsUploadImageResponse>;
-    countDevices(resourceGroupName: string, catalogName: string, options?: CatalogsCountDevicesOptionalParams): Promise<CatalogsCountDevicesResponse>;
-    get(resourceGroupName: string, catalogName: string, options?: CatalogsGetOptionalParams): Promise<CatalogsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CatalogsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Catalog>;
-    listBySubscription(options?: CatalogsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Catalog>;
-    listDeployments(resourceGroupName: string, catalogName: string, options?: CatalogsListDeploymentsOptionalParams): PagedAsyncIterableIterator<Deployment>;
-    listDeviceGroups(resourceGroupName: string, catalogName: string, listDeviceGroupsRequest: ListDeviceGroupsRequest, options?: CatalogsListDeviceGroupsOptionalParams): PagedAsyncIterableIterator<DeviceGroup>;
-    listDeviceInsights(resourceGroupName: string, catalogName: string, options?: CatalogsListDeviceInsightsOptionalParams): PagedAsyncIterableIterator<DeviceInsight>;
-    listDevices(resourceGroupName: string, catalogName: string, options?: CatalogsListDevicesOptionalParams): PagedAsyncIterableIterator<Device>;
-    update(resourceGroupName: string, catalogName: string, properties: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<CatalogsUpdateResponse>;
+export interface CatalogsCountDevicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CatalogsCountDevicesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsCountDevicesResponse = CountDevicesResponse;
-
-// @public
-export interface CatalogsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface CatalogsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CatalogsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CatalogsCreateOrUpdateResponse = Catalog;
-
-// @public
-export interface CatalogsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CatalogsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CatalogsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CatalogsGetOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CatalogsGetResponse = Catalog;
-
-// @public
-export interface CatalogsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CatalogsListByResourceGroupNextResponse = CatalogListResult;
-
-// @public
-export interface CatalogsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CatalogsListByResourceGroupResponse = CatalogListResult;
-
-// @public
-export interface CatalogsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListBySubscriptionNextResponse = CatalogListResult;
-
-// @public
-export interface CatalogsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListBySubscriptionResponse = CatalogListResult;
-
-// @public
-export interface CatalogsListDeploymentsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListDeploymentsNextResponse = DeploymentListResult;
-
-// @public
-export interface CatalogsListDeploymentsOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListDeploymentsOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -173,17 +100,7 @@ export interface CatalogsListDeploymentsOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type CatalogsListDeploymentsResponse = DeploymentListResult;
-
-// @public
-export interface CatalogsListDeviceGroupsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListDeviceGroupsNextResponse = DeviceGroupListResult;
-
-// @public
-export interface CatalogsListDeviceGroupsOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListDeviceGroupsOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -191,17 +108,7 @@ export interface CatalogsListDeviceGroupsOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type CatalogsListDeviceGroupsResponse = DeviceGroupListResult;
-
-// @public
-export interface CatalogsListDeviceInsightsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListDeviceInsightsNextResponse = PagedDeviceInsight;
-
-// @public
-export interface CatalogsListDeviceInsightsOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListDeviceInsightsOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -209,17 +116,7 @@ export interface CatalogsListDeviceInsightsOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type CatalogsListDeviceInsightsResponse = PagedDeviceInsight;
-
-// @public
-export interface CatalogsListDevicesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CatalogsListDevicesNextResponse = DeviceListResult;
-
-// @public
-export interface CatalogsListDevicesOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsListDevicesOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -227,35 +124,33 @@ export interface CatalogsListDevicesOptionalParams extends coreClient.OperationO
 }
 
 // @public
-export type CatalogsListDevicesResponse = DeviceListResult;
-
-// @public
-export interface CatalogsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CatalogsOperations {
+    countDevices: (resourceGroupName: string, catalogName: string, options?: CatalogsCountDevicesOptionalParams) => Promise<CountDevicesResponse>;
+    createOrUpdate: (resourceGroupName: string, catalogName: string, resource: Catalog, options?: CatalogsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Catalog>, Catalog>;
+    delete: (resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, catalogName: string, options?: CatalogsGetOptionalParams) => Promise<Catalog>;
+    listByResourceGroup: (resourceGroupName: string, options?: CatalogsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Catalog>;
+    listBySubscription: (options?: CatalogsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Catalog>;
+    listDeployments: (resourceGroupName: string, catalogName: string, options?: CatalogsListDeploymentsOptionalParams) => PagedAsyncIterableIterator<Deployment>;
+    listDeviceGroups: (resourceGroupName: string, catalogName: string, listDeviceGroupsRequest: ListDeviceGroupsRequest, options?: CatalogsListDeviceGroupsOptionalParams) => PagedAsyncIterableIterator<DeviceGroup>;
+    listDeviceInsights: (resourceGroupName: string, catalogName: string, options?: CatalogsListDeviceInsightsOptionalParams) => PagedAsyncIterableIterator<DeviceInsight>;
+    listDevices: (resourceGroupName: string, catalogName: string, options?: CatalogsListDevicesOptionalParams) => PagedAsyncIterableIterator<Device>;
+    update: (resourceGroupName: string, catalogName: string, properties: CatalogUpdate, options?: CatalogsUpdateOptionalParams) => Promise<Catalog>;
+    uploadImage: (resourceGroupName: string, catalogName: string, uploadImageRequest: Image, options?: CatalogsUploadImageOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type CatalogsUpdateResponse = Catalog;
-
-// @public
-export interface CatalogsUploadImageHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface CatalogsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CatalogsUploadImageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CatalogsUploadImageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CatalogsUploadImageResponse = CatalogsUploadImageHeaders;
 
 // @public
 export interface CatalogUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -266,12 +161,6 @@ export interface Certificate extends ProxyResource {
 // @public
 export interface CertificateChainResponse {
     readonly certificateChain?: string;
-}
-
-// @public
-export interface CertificateListResult {
-    readonly nextLink?: string;
-    value: Certificate[];
 }
 
 // @public
@@ -286,29 +175,11 @@ export interface CertificateProperties {
 }
 
 // @public
-export interface Certificates {
-    get(resourceGroupName: string, catalogName: string, serialNumber: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
-    listByCatalog(resourceGroupName: string, catalogName: string, options?: CertificatesListByCatalogOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    retrieveCertChain(resourceGroupName: string, catalogName: string, serialNumber: string, options?: CertificatesRetrieveCertChainOptionalParams): Promise<CertificatesRetrieveCertChainResponse>;
-    retrieveProofOfPossessionNonce(resourceGroupName: string, catalogName: string, serialNumber: string, proofOfPossessionNonceRequest: ProofOfPossessionNonceRequest, options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams): Promise<CertificatesRetrieveProofOfPossessionNonceResponse>;
+export interface CertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificatesGetResponse = Certificate;
-
-// @public
-export interface CertificatesListByCatalogNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificatesListByCatalogNextResponse = CertificateListResult;
-
-// @public
-export interface CertificatesListByCatalogOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListByCatalogOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -316,21 +187,20 @@ export interface CertificatesListByCatalogOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type CertificatesListByCatalogResponse = CertificateListResult;
-
-// @public
-export interface CertificatesRetrieveCertChainOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesOperations {
+    get: (resourceGroupName: string, catalogName: string, serialNumber: string, options?: CertificatesGetOptionalParams) => Promise<Certificate>;
+    listByCatalog: (resourceGroupName: string, catalogName: string, options?: CertificatesListByCatalogOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    retrieveCertChain: (resourceGroupName: string, catalogName: string, serialNumber: string, options?: CertificatesRetrieveCertChainOptionalParams) => Promise<CertificateChainResponse>;
+    retrieveProofOfPossessionNonce: (resourceGroupName: string, catalogName: string, serialNumber: string, proofOfPossessionNonceRequest: ProofOfPossessionNonceRequest, options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams) => Promise<ProofOfPossessionNonceResponse>;
 }
 
 // @public
-export type CertificatesRetrieveCertChainResponse = CertificateChainResponse;
-
-// @public
-export interface CertificatesRetrieveProofOfPossessionNonceOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesRetrieveCertChainOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesRetrieveProofOfPossessionNonceResponse = ProofOfPossessionNonceResponse;
+export interface CertificatesRetrieveProofOfPossessionNonceOptionalParams extends OperationOptions {
+}
 
 // @public
 export type CertificateStatus = string;
@@ -341,8 +211,9 @@ export interface ClaimDevicesRequest {
 }
 
 // @public
-export interface CountDeviceResponse extends CountElementsResponse {
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CountDevicesResponse extends CountElementsResponse {
@@ -362,12 +233,6 @@ export interface Deployment extends ProxyResource {
 }
 
 // @public
-export interface DeploymentListResult {
-    readonly nextLink?: string;
-    value: Deployment[];
-}
-
-// @public
 export interface DeploymentProperties {
     deployedImages?: Image[];
     readonly deploymentDateUtc?: Date;
@@ -376,57 +241,21 @@ export interface DeploymentProperties {
 }
 
 // @public
-export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, resource: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, resource: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
-    listByDeviceGroup(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeploymentsListByDeviceGroupOptionalParams): PagedAsyncIterableIterator<Deployment>;
-}
-
-// @public
-export interface DeploymentsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateResponse = Deployment;
-
-// @public
-export interface DeploymentsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetResponse = Deployment;
-
-// @public
-export interface DeploymentsListByDeviceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListByDeviceGroupNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListByDeviceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListByDeviceGroupOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -434,7 +263,12 @@ export interface DeploymentsListByDeviceGroupOptionalParams extends coreClient.O
 }
 
 // @public
-export type DeploymentsListByDeviceGroupResponse = DeploymentListResult;
+export interface DeploymentsOperations {
+    createOrUpdate: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, resource: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Deployment>, Deployment>;
+    delete: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams) => Promise<Deployment>;
+    listByDeviceGroup: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeploymentsListByDeviceGroupOptionalParams) => PagedAsyncIterableIterator<Deployment>;
+}
 
 // @public
 export interface Device extends ProxyResource {
@@ -444,12 +278,6 @@ export interface Device extends ProxyResource {
 // @public
 export interface DeviceGroup extends ProxyResource {
     properties?: DeviceGroupProperties;
-}
-
-// @public
-export interface DeviceGroupListResult {
-    readonly nextLink?: string;
-    value: DeviceGroup[];
 }
 
 // @public
@@ -464,84 +292,30 @@ export interface DeviceGroupProperties {
 }
 
 // @public
-export interface DeviceGroups {
-    beginClaimDevices(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, claimDevicesRequest: ClaimDevicesRequest, options?: DeviceGroupsClaimDevicesOptionalParams): Promise<SimplePollerLike<OperationState<DeviceGroupsClaimDevicesResponse>, DeviceGroupsClaimDevicesResponse>>;
-    beginClaimDevicesAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, claimDevicesRequest: ClaimDevicesRequest, options?: DeviceGroupsClaimDevicesOptionalParams): Promise<DeviceGroupsClaimDevicesResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, resource: DeviceGroup, options?: DeviceGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeviceGroupsCreateOrUpdateResponse>, DeviceGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, resource: DeviceGroup, options?: DeviceGroupsCreateOrUpdateOptionalParams): Promise<DeviceGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, properties: DeviceGroupUpdate, options?: DeviceGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeviceGroupsUpdateResponse>, DeviceGroupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, properties: DeviceGroupUpdate, options?: DeviceGroupsUpdateOptionalParams): Promise<DeviceGroupsUpdateResponse>;
-    countDevices(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsCountDevicesOptionalParams): Promise<DeviceGroupsCountDevicesResponse>;
-    get(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsGetOptionalParams): Promise<DeviceGroupsGetResponse>;
-    listByProduct(resourceGroupName: string, catalogName: string, productName: string, options?: DeviceGroupsListByProductOptionalParams): PagedAsyncIterableIterator<DeviceGroup>;
-}
-
-// @public
-export interface DeviceGroupsClaimDevicesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DeviceGroupsClaimDevicesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeviceGroupsClaimDevicesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeviceGroupsClaimDevicesResponse = DeviceGroupsClaimDevicesHeaders;
-
-// @public
-export interface DeviceGroupsCountDevicesOptionalParams extends coreClient.OperationOptions {
+export interface DeviceGroupsCountDevicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeviceGroupsCountDevicesResponse = CountDevicesResponse;
-
-// @public
-export interface DeviceGroupsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface DeviceGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeviceGroupsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeviceGroupsCreateOrUpdateResponse = DeviceGroup;
-
-// @public
-export interface DeviceGroupsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DeviceGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeviceGroupsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeviceGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface DeviceGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeviceGroupsGetResponse = DeviceGroup;
-
-// @public
-export interface DeviceGroupsListByProductNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeviceGroupsListByProductNextResponse = DeviceGroupListResult;
-
-// @public
-export interface DeviceGroupsListByProductOptionalParams extends coreClient.OperationOptions {
+export interface DeviceGroupsListByProductOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -549,26 +323,28 @@ export interface DeviceGroupsListByProductOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type DeviceGroupsListByProductResponse = DeviceGroupListResult;
-
-// @public
-export interface DeviceGroupsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface DeviceGroupsOperations {
+    claimDevices: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, claimDevicesRequest: ClaimDevicesRequest, options?: DeviceGroupsClaimDevicesOptionalParams) => PollerLike<OperationState<void>, void>;
+    countDevices: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsCountDevicesOptionalParams) => Promise<CountDevicesResponse>;
+    createOrUpdate: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, resource: DeviceGroup, options?: DeviceGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeviceGroup>, DeviceGroup>;
+    delete: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DeviceGroupsGetOptionalParams) => Promise<DeviceGroup>;
+    listByProduct: (resourceGroupName: string, catalogName: string, productName: string, options?: DeviceGroupsListByProductOptionalParams) => PagedAsyncIterableIterator<DeviceGroup>;
+    update: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, properties: DeviceGroupUpdate, options?: DeviceGroupsUpdateOptionalParams) => PollerLike<OperationState<DeviceGroup>, DeviceGroup>;
 }
 
 // @public
-export interface DeviceGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeviceGroupsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeviceGroupsUpdateResponse = DeviceGroup;
-
-// @public
 export interface DeviceGroupUpdate {
-    properties?: DeviceGroupUpdateProperties;
+    allowCrashDumpsCollection?: AllowCrashDumpCollection;
+    description?: string;
+    osFeedType?: OSFeedType;
+    regionalDataBoundary?: RegionalDataBoundary;
+    updatePolicy?: UpdatePolicy;
 }
 
 // @public
@@ -593,12 +369,6 @@ export interface DeviceInsight {
 }
 
 // @public
-export interface DeviceListResult {
-    readonly nextLink?: string;
-    value: Device[];
-}
-
-// @public
 export interface DeviceProperties {
     readonly chipSku?: string;
     deviceId?: string;
@@ -610,98 +380,46 @@ export interface DeviceProperties {
 }
 
 // @public
-export interface Devices {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, resource: Device, options?: DevicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevicesCreateOrUpdateResponse>, DevicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, resource: Device, options?: DevicesCreateOrUpdateOptionalParams): Promise<DevicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, options?: DevicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, options?: DevicesDeleteOptionalParams): Promise<void>;
-    beginGenerateCapabilityImage(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, generateDeviceCapabilityRequest: GenerateCapabilityImageRequest, options?: DevicesGenerateCapabilityImageOptionalParams): Promise<SimplePollerLike<OperationState<DevicesGenerateCapabilityImageResponse>, DevicesGenerateCapabilityImageResponse>>;
-    beginGenerateCapabilityImageAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, generateDeviceCapabilityRequest: GenerateCapabilityImageRequest, options?: DevicesGenerateCapabilityImageOptionalParams): Promise<DevicesGenerateCapabilityImageResponse>;
-    beginUpdate(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, properties: DeviceUpdate, options?: DevicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevicesUpdateResponse>, DevicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, properties: DeviceUpdate, options?: DevicesUpdateOptionalParams): Promise<DevicesUpdateResponse>;
-    get(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, options?: DevicesGetOptionalParams): Promise<DevicesGetResponse>;
-    listByDeviceGroup(resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DevicesListByDeviceGroupOptionalParams): PagedAsyncIterableIterator<Device>;
-}
-
-// @public
-export interface DevicesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface DevicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DevicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DevicesCreateOrUpdateResponse = Device;
-
-// @public
-export interface DevicesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DevicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DevicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DevicesGenerateCapabilityImageHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DevicesGenerateCapabilityImageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DevicesGenerateCapabilityImageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DevicesGenerateCapabilityImageResponse = SignedCapabilityImageResponse;
-
-// @public
-export interface DevicesGetOptionalParams extends coreClient.OperationOptions {
+export interface DevicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DevicesGetResponse = Device;
-
-// @public
-export interface DevicesListByDeviceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DevicesListByDeviceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DevicesListByDeviceGroupNextResponse = DeviceListResult;
-
-// @public
-export interface DevicesListByDeviceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DevicesOperations {
+    createOrUpdate: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, resource: Device, options?: DevicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Device>, Device>;
+    delete: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, options?: DevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateCapabilityImage: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, generateDeviceCapabilityRequest: GenerateCapabilityImageRequest, options?: DevicesGenerateCapabilityImageOptionalParams) => PollerLike<OperationState<SignedCapabilityImageResponse>, SignedCapabilityImageResponse>;
+    get: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, options?: DevicesGetOptionalParams) => Promise<Device>;
+    listByDeviceGroup: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, options?: DevicesListByDeviceGroupOptionalParams) => PagedAsyncIterableIterator<Device>;
+    update: (resourceGroupName: string, catalogName: string, productName: string, deviceGroupName: string, deviceName: string, properties: DeviceUpdate, options?: DevicesUpdateOptionalParams) => PollerLike<OperationState<Device>, Device>;
 }
 
 // @public
-export type DevicesListByDeviceGroupResponse = DeviceListResult;
-
-// @public
-export interface DevicesUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface DevicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DevicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DevicesUpdateResponse = Device;
 
 // @public
 export interface DeviceUpdate {
-    properties?: DeviceUpdateProperties;
+    deviceGroupId?: string;
 }
 
 // @public
@@ -711,7 +429,7 @@ export interface DeviceUpdateProperties {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -735,17 +453,8 @@ export interface GenerateCapabilityImageRequest {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Image extends ProxyResource {
     properties?: ImageProperties;
-}
-
-// @public
-export interface ImageListResult {
-    readonly nextLink?: string;
-    value: Image[];
 }
 
 // @public
@@ -762,57 +471,21 @@ export interface ImageProperties {
 }
 
 // @public
-export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, imageName: string, resource: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, imageName: string, resource: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    listByCatalog(resourceGroupName: string, catalogName: string, options?: ImagesListByCatalogOptionalParams): PagedAsyncIterableIterator<Image>;
-}
-
-// @public
-export interface ImagesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImagesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image;
-
-// @public
-export interface ImagesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImagesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface ImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image;
-
-// @public
-export interface ImagesListByCatalogNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImagesListByCatalogNextResponse = ImageListResult;
-
-// @public
-export interface ImagesListByCatalogOptionalParams extends coreClient.OperationOptions {
+export interface ImagesListByCatalogOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
     skip?: number;
@@ -820,10 +493,17 @@ export interface ImagesListByCatalogOptionalParams extends coreClient.OperationO
 }
 
 // @public
-export type ImagesListByCatalogResponse = ImageListResult;
+export interface ImagesOperations {
+    createOrUpdate: (resourceGroupName: string, catalogName: string, imageName: string, resource: Image, options?: ImagesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Image>, Image>;
+    delete: (resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesGetOptionalParams) => Promise<Image>;
+    listByCatalog: (resourceGroupName: string, catalogName: string, options?: ImagesListByCatalogOptionalParams) => PagedAsyncIterableIterator<Image>;
+}
 
 // @public
 export type ImageType = string;
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -923,6 +603,11 @@ export enum KnownUpdatePolicy {
 }
 
 // @public
+export enum KnownVersions {
+    V20240401 = "2024-04-01"
+}
+
+// @public
 export interface ListDeviceGroupsRequest {
     deviceGroupName?: string;
 }
@@ -945,29 +630,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
@@ -976,20 +645,20 @@ export type Origin = string;
 export type OSFeedType = string;
 
 // @public
-export interface PagedDeviceInsight {
-    readonly nextLink?: string;
-    value: DeviceInsight[];
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
 export interface Product extends ProxyResource {
     properties?: ProductProperties;
-}
-
-// @public
-export interface ProductListResult {
-    readonly nextLink?: string;
-    value: Product[];
 }
 
 // @public
@@ -999,105 +668,50 @@ export interface ProductProperties {
 }
 
 // @public
-export interface Products {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, productName: string, resource: Product, options?: ProductsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProductsCreateOrUpdateResponse>, ProductsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, resource: Product, options?: ProductsCreateOrUpdateOptionalParams): Promise<ProductsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, catalogName: string, productName: string, options?: ProductsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, catalogName: string, productName: string, options?: ProductsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, catalogName: string, productName: string, properties: ProductUpdate, options?: ProductsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProductsUpdateResponse>, ProductsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, catalogName: string, productName: string, properties: ProductUpdate, options?: ProductsUpdateOptionalParams): Promise<ProductsUpdateResponse>;
-    countDevices(resourceGroupName: string, catalogName: string, productName: string, options?: ProductsCountDevicesOptionalParams): Promise<ProductsCountDevicesResponse>;
-    get(resourceGroupName: string, catalogName: string, productName: string, options?: ProductsGetOptionalParams): Promise<ProductsGetResponse>;
-    listByCatalog(resourceGroupName: string, catalogName: string, options?: ProductsListByCatalogOptionalParams): PagedAsyncIterableIterator<Product>;
-    listGenerateDefaultDeviceGroups(resourceGroupName: string, catalogName: string, productName: string, options?: ProductsGenerateDefaultDeviceGroupsOptionalParams): PagedAsyncIterableIterator<DeviceGroup>;
+export interface ProductsCountDevicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProductsCountDevicesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProductsCountDevicesResponse = CountDevicesResponse;
-
-// @public
-export interface ProductsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ProductsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProductsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ProductsCreateOrUpdateResponse = Product;
-
-// @public
-export interface ProductsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ProductsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProductsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ProductsGenerateDefaultDeviceGroupsNextOptionalParams extends coreClient.OperationOptions {
+export interface ProductsGenerateDefaultDeviceGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProductsGenerateDefaultDeviceGroupsNextResponse = DeviceGroupListResult;
-
-// @public
-export interface ProductsGenerateDefaultDeviceGroupsOptionalParams extends coreClient.OperationOptions {
+export interface ProductsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProductsGenerateDefaultDeviceGroupsResponse = DeviceGroupListResult;
-
-// @public
-export interface ProductsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProductsListByCatalogOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProductsGetResponse = Product;
-
-// @public
-export interface ProductsListByCatalogNextOptionalParams extends coreClient.OperationOptions {
+export interface ProductsOperations {
+    countDevices: (resourceGroupName: string, catalogName: string, productName: string, options?: ProductsCountDevicesOptionalParams) => Promise<CountDevicesResponse>;
+    createOrUpdate: (resourceGroupName: string, catalogName: string, productName: string, resource: Product, options?: ProductsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Product>, Product>;
+    delete: (resourceGroupName: string, catalogName: string, productName: string, options?: ProductsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateDefaultDeviceGroups: (resourceGroupName: string, catalogName: string, productName: string, options?: ProductsGenerateDefaultDeviceGroupsOptionalParams) => PagedAsyncIterableIterator<DeviceGroup>;
+    get: (resourceGroupName: string, catalogName: string, productName: string, options?: ProductsGetOptionalParams) => Promise<Product>;
+    listByCatalog: (resourceGroupName: string, catalogName: string, options?: ProductsListByCatalogOptionalParams) => PagedAsyncIterableIterator<Product>;
+    update: (resourceGroupName: string, catalogName: string, productName: string, properties: ProductUpdate, options?: ProductsUpdateOptionalParams) => PollerLike<OperationState<Product>, Product>;
 }
 
 // @public
-export type ProductsListByCatalogNextResponse = ProductListResult;
-
-// @public
-export interface ProductsListByCatalogOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProductsListByCatalogResponse = ProductListResult;
-
-// @public
-export interface ProductsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ProductsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProductsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ProductsUpdateResponse = Product;
 
 // @public
 export interface ProductUpdate {
-    properties?: ProductUpdateProperties;
+    description?: string;
 }
 
 // @public
@@ -1132,6 +746,18 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureSphereClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
 // @public
 export interface SignedCapabilityImageResponse {
     readonly image?: string;
@@ -1150,9 +776,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public

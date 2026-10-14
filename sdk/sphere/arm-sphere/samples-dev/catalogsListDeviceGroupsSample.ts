@@ -1,36 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the device groups for the catalog.
- *
- * @summary List the device groups for the catalog.
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostListDeviceGroupsCatalog.json
- */
-
-import type { ListDeviceGroupsRequest } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list the device groups for the catalog.
+ *
+ * @summary list the device groups for the catalog.
+ * x-ms-original-file: 2024-04-01/PostListDeviceGroupsCatalog.json
+ */
 async function catalogsListDeviceGroups(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const listDeviceGroupsRequest: ListDeviceGroupsRequest = {
-    deviceGroupName: "MyDeviceGroup1",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.catalogs.listDeviceGroups(
-    resourceGroupName,
-    catalogName,
-    listDeviceGroupsRequest,
-  )) {
+  for await (const item of client.catalogs.listDeviceGroups("MyResourceGroup1", "MyCatalog1", {
+    deviceGroupName: "MyDeviceGroup1",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

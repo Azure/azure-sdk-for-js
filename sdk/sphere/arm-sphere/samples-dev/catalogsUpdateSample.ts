@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update a Catalog
- *
- * @summary Update a Catalog
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PatchCatalog.json
- */
-
-import type { CatalogUpdate } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update a Catalog
+ *
+ * @summary update a Catalog
+ * x-ms-original-file: 2024-04-01/PatchCatalog.json
+ */
 async function catalogsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const properties: CatalogUpdate = {};
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
-  const result = await client.catalogs.update(resourceGroupName, catalogName, properties);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
+  const result = await client.catalogs.update("MyResourceGroup1", "MyCatalog1", {});
   console.log(result);
 }
 

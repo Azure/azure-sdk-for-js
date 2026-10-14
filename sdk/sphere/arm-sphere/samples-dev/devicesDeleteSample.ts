@@ -1,36 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a Device
- *
- * @summary Delete a Device
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/DeleteDevice.json
- */
-
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a Device
+ *
+ * @summary delete a Device
+ * x-ms-original-file: 2024-04-01/DeleteDevice.json
+ */
 async function devicesDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const productName = "MyProductName1";
-  const deviceGroupName = "DeviceGroupName1";
-  const deviceName =
-    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
-  const result = await client.devices.beginDeleteAndWait(
-    resourceGroupName,
-    catalogName,
-    productName,
-    deviceGroupName,
-    deviceName,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
+  await client.devices.delete(
+    "MyResourceGroup1",
+    "MyCatalog1",
+    "MyProductName1",
+    "DeviceGroupName1",
+    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

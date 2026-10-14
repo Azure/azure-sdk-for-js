@@ -1,31 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a Catalog
- *
- * @summary Create a Catalog
- * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PutCatalog.json
- */
-
-import type { Catalog } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { AzureSphereClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a Catalog
+ *
+ * @summary create a Catalog
+ * x-ms-original-file: 2024-04-01/PutCatalog.json
+ */
 async function catalogsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
-  const catalogName = "MyCatalog1";
-  const resource: Catalog = { location: "global" };
   const credential = new DefaultAzureCredential();
-  const client = new AzureSphereManagementClient(credential, subscriptionId);
-  const result = await client.catalogs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    catalogName,
-    resource,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureSphereClient(credential, subscriptionId);
+  const result = await client.catalogs.createOrUpdate("MyResourceGroup1", "MyCatalog1", {
+    location: "global",
+  });
   console.log(result);
 }
 

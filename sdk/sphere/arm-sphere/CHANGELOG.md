@@ -1,21 +1,200 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0 (2026-10-14)
 
 ### Features Added
+  - Added operation CatalogsOperations.createOrUpdate
+  - Added operation CatalogsOperations.delete
+  - Added operation CatalogsOperations.uploadImage
+  - Added operation DeploymentsOperations.createOrUpdate
+  - Added operation DeploymentsOperations.delete
+  - Added operation DeviceGroupsOperations.claimDevices
+  - Added operation DeviceGroupsOperations.createOrUpdate
+  - Added operation DeviceGroupsOperations.delete
+  - Added operation DeviceGroupsOperations.update
+  - Added operation DevicesOperations.createOrUpdate
+  - Added operation DevicesOperations.delete
+  - Added operation DevicesOperations.generateCapabilityImage
+  - Added operation DevicesOperations.update
+  - Added operation ImagesOperations.createOrUpdate
+  - Added operation ImagesOperations.delete
+  - Added operation ProductsOperations.createOrUpdate
+  - Added operation ProductsOperations.delete
+  - Added operation ProductsOperations.generateDefaultDeviceGroups
+  - Added operation ProductsOperations.update
+  - Added Class AzureSphereClient
+  - Added Interface AzureSphereClientOptionalParams
+  - Added Interface Image
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Interface CatalogsCountDevicesOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsCountDevicesOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsCountDevicesOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsCountDevicesOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsGetOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsGetOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsGetOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListDeploymentsOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListDeploymentsOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListDeploymentsOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListDeploymentsOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListDeviceGroupsOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListDeviceGroupsOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListDeviceGroupsOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListDeviceGroupsOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListDeviceInsightsOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListDeviceInsightsOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListDeviceInsightsOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListDeviceInsightsOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsListDevicesOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsListDevicesOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsListDevicesOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsListDevicesOptionalParams has a new optional parameter onResponse
+  - Interface CatalogsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CatalogsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CatalogsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CatalogsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesListByCatalogOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesListByCatalogOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesListByCatalogOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesListByCatalogOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesRetrieveCertChainOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesRetrieveCertChainOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesRetrieveCertChainOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesRetrieveCertChainOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesRetrieveProofOfPossessionNonceOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesRetrieveProofOfPossessionNonceOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesRetrieveProofOfPossessionNonceOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesRetrieveProofOfPossessionNonceOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsListByDeviceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsListByDeviceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsListByDeviceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsListByDeviceGroupOptionalParams has a new optional parameter onResponse
+  - Interface DeviceGroupsCountDevicesOptionalParams has a new optional parameter abortSignal
+  - Interface DeviceGroupsCountDevicesOptionalParams has a new optional parameter requestOptions
+  - Interface DeviceGroupsCountDevicesOptionalParams has a new optional parameter tracingOptions
+  - Interface DeviceGroupsCountDevicesOptionalParams has a new optional parameter onResponse
+  - Interface DeviceGroupsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DeviceGroupsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DeviceGroupsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DeviceGroupsGetOptionalParams has a new optional parameter onResponse
+  - Interface DeviceGroupsListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface DeviceGroupsListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface DeviceGroupsListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface DeviceGroupsListByProductOptionalParams has a new optional parameter onResponse
+  - Interface DeviceGroupUpdate has a new optional parameter allowCrashDumpsCollection
+  - Interface DeviceGroupUpdate has a new optional parameter description
+  - Interface DeviceGroupUpdate has a new optional parameter osFeedType
+  - Interface DeviceGroupUpdate has a new optional parameter regionalDataBoundary
+  - Interface DeviceGroupUpdate has a new optional parameter updatePolicy
+  - Interface DevicesGetOptionalParams has a new optional parameter abortSignal
+  - Interface DevicesGetOptionalParams has a new optional parameter requestOptions
+  - Interface DevicesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DevicesGetOptionalParams has a new optional parameter onResponse
+  - Interface DevicesListByDeviceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface DevicesListByDeviceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface DevicesListByDeviceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface DevicesListByDeviceGroupOptionalParams has a new optional parameter onResponse
+  - Interface DeviceUpdate has a new optional parameter deviceGroupId
+  - Interface ImagesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ImagesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ImagesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ImagesGetOptionalParams has a new optional parameter onResponse
+  - Interface ImagesListByCatalogOptionalParams has a new optional parameter abortSignal
+  - Interface ImagesListByCatalogOptionalParams has a new optional parameter requestOptions
+  - Interface ImagesListByCatalogOptionalParams has a new optional parameter tracingOptions
+  - Interface ImagesListByCatalogOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface ProductsCountDevicesOptionalParams has a new optional parameter abortSignal
+  - Interface ProductsCountDevicesOptionalParams has a new optional parameter requestOptions
+  - Interface ProductsCountDevicesOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductsCountDevicesOptionalParams has a new optional parameter onResponse
+  - Interface ProductsGenerateDefaultDeviceGroupsOptionalParams has a new optional parameter abortSignal
+  - Interface ProductsGenerateDefaultDeviceGroupsOptionalParams has a new optional parameter requestOptions
+  - Interface ProductsGenerateDefaultDeviceGroupsOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductsGenerateDefaultDeviceGroupsOptionalParams has a new optional parameter onResponse
+  - Interface ProductsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductsGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductsListByCatalogOptionalParams has a new optional parameter abortSignal
+  - Interface ProductsListByCatalogOptionalParams has a new optional parameter requestOptions
+  - Interface ProductsListByCatalogOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductsListByCatalogOptionalParams has a new optional parameter onResponse
+  - Interface ProductUpdate has a new optional parameter description
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation Catalogs.beginCreateOrUpdate
+  - Removed operation Catalogs.beginCreateOrUpdateAndWait
+  - Removed operation Catalogs.beginDelete
+  - Removed operation Catalogs.beginDeleteAndWait
+  - Removed operation Catalogs.beginUploadImage
+  - Removed operation Catalogs.beginUploadImageAndWait
+  - Removed operation Deployments.beginCreateOrUpdate
+  - Removed operation Deployments.beginCreateOrUpdateAndWait
+  - Removed operation Deployments.beginDelete
+  - Removed operation Deployments.beginDeleteAndWait
+  - Removed operation DeviceGroups.beginClaimDevices
+  - Removed operation DeviceGroups.beginClaimDevicesAndWait
+  - Removed operation DeviceGroups.beginCreateOrUpdate
+  - Removed operation DeviceGroups.beginCreateOrUpdateAndWait
+  - Removed operation DeviceGroups.beginDelete
+  - Removed operation DeviceGroups.beginDeleteAndWait
+  - Removed operation DeviceGroups.beginUpdate
+  - Removed operation DeviceGroups.beginUpdateAndWait
+  - Removed operation Devices.beginCreateOrUpdate
+  - Removed operation Devices.beginCreateOrUpdateAndWait
+  - Removed operation Devices.beginDelete
+  - Removed operation Devices.beginDeleteAndWait
+  - Removed operation Devices.beginGenerateCapabilityImage
+  - Removed operation Devices.beginGenerateCapabilityImageAndWait
+  - Removed operation Devices.beginUpdate
+  - Removed operation Devices.beginUpdateAndWait
+  - Removed operation Images.beginCreateOrUpdate
+  - Removed operation Images.beginCreateOrUpdateAndWait
+  - Removed operation Images.beginDelete
+  - Removed operation Images.beginDeleteAndWait
+  - Removed operation Products.beginCreateOrUpdate
+  - Removed operation Products.beginCreateOrUpdateAndWait
+  - Removed operation Products.beginDelete
+  - Removed operation Products.beginDeleteAndWait
+  - Removed operation Products.beginUpdate
+  - Removed operation Products.beginUpdateAndWait
+  - Removed operation Products.listGenerateDefaultDeviceGroups
+  - Deleted Class AzureSphereManagementClient
+  - Removed Interface AzureSphereManagementClientOptionalParams
+  - Removed Interface CountDeviceResponse
+  - Removed Interface Image_2
+  - Removed Interface PagedDeviceInsight
+  - Interface DeviceGroupUpdate no longer has parameter properties
+  - Interface DeviceUpdate no longer has parameter properties
+  - Interface ProductUpdate no longer has parameter properties
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0 (2024-03-26)
 
 The package of @azure/arm-sphere is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
