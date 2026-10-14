@@ -14,6 +14,7 @@ import { EventEmitter } from "events";
 
 describe("Batch delete messages", function (): void {
   const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
+  const invalidCutoffs = [new Date(Number.NaN), "not-a-date", 0, {}];
 
   function stubDeleteMessages(
     context: any,
@@ -277,10 +278,9 @@ describe("Batch delete messages", function (): void {
         for (const messageCount of [0, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 0x80000000]) {
           await assert.isRejected(managementClient.deleteMessages(messageCount), /integer between/);
         }
-        await assert.isRejected(
-          managementClient.deleteMessages(1, new Date(Number.NaN)),
-          /valid Date/,
-        );
+        for (const cutoff of invalidCutoffs) {
+          await assert.isRejected(managementClient.deleteMessages(1, cutoff), /valid Date/);
+        }
         assert.equal(initializationCount, 0);
       } finally {
         await client.close();
@@ -324,6 +324,22 @@ describe("Batch delete messages", function (): void {
           }),
           /'beforeEnqueueTime' must be a valid Date/,
         );
+      } finally {
+        await client.close();
+      }
+    });
+
+    it.each(invalidCutoffs)("rejects invalid purge cutoff %s before dispatch", async (cutoff) => {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = client.createReceiver("q");
+        const getCallCount = stubDeleteMessages(client["_connectionContext"], [0]);
+        await assert.isRejected(
+          // @ts-expect-error Verify runtime validation for JavaScript callers.
+          unitReceiver.purgeMessages({ beforeEnqueueTime: cutoff }),
+          /'beforeEnqueueTime' must be a valid Date/,
+        );
+        assert.equal(getCallCount(), 0);
       } finally {
         await client.close();
       }
@@ -463,6 +479,25 @@ describe("Batch delete messages", function (): void {
         {},
       );
     }
+
+    it.each(invalidCutoffs)(
+      "rejects invalid session purge cutoff %s before dispatch",
+      async (cutoff) => {
+        const client = new ServiceBusClient(connectionString);
+        try {
+          const unitReceiver = createSessionReceiver(client);
+          const getCallCount = stubDeleteMessages(client["_connectionContext"], [0]);
+          await assert.isRejected(
+            // @ts-expect-error Verify runtime validation for JavaScript callers.
+            unitReceiver.purgeMessages({ beforeEnqueueTime: cutoff }),
+            /'beforeEnqueueTime' must be a valid Date/,
+          );
+          assert.equal(getCallCount(), 0);
+        } finally {
+          await client.close();
+        }
+      },
+    );
 
     it("deleteMessages returns a DeleteMessagesResult with the deleted count", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);

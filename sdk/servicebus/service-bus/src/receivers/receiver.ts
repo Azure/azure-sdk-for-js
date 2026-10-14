@@ -43,7 +43,7 @@ import { Constants, RetryOperationType, retry } from "@azure/core-amqp";
 import { LockRenewer } from "../core/autoLockRenewer.js";
 import { receiverLogger as logger } from "../log.js";
 import { translateServiceBusError } from "../serviceBusError.js";
-import { ensureValidIdentifier } from "../util/utils.js";
+import { ensureValidIdentifier, getDeleteMessagesCutoff } from "../util/utils.js";
 import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
 import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 import type { TracingSpanLink } from "@azure/core-tracing";
@@ -527,7 +527,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
-    const beforeEnqueueTime = new Date((options?.beforeEnqueueTime ?? new Date()).getTime());
+    const beforeEnqueueTime = getDeleteMessagesCutoff(options?.beforeEnqueueTime);
     const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? defaultMaxMessagesPerBatch;
     validatePurgeMessageCount(maxMessagesPerBatch);
     let { deletedCount } = await this.deleteMessages(maxMessagesPerBatch, {

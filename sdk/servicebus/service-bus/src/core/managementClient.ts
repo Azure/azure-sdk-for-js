@@ -45,7 +45,7 @@ import type { RequestResponseLinkOptions } from "./linkEntity.js";
 import { LinkEntity } from "./linkEntity.js";
 import type { ServiceBusLogger } from "../log.js";
 import { managementClientLogger, receiverLogger, senderLogger } from "../log.js";
-import { toBuffer, waitForSendable } from "../util/utils.js";
+import { getDeleteMessagesCutoff, toBuffer, waitForSendable } from "../util/utils.js";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
@@ -1045,14 +1045,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       throw new TypeError("'maxMessageCount' must be an integer between 1 and 2147483647.");
     }
 
-    enqueueTimeUtcOlderThan ??= new Date();
-    if (
-      !(enqueueTimeUtcOlderThan instanceof Date) ||
-      !Number.isFinite(enqueueTimeUtcOlderThan.getTime())
-    ) {
-      throw new TypeError("'beforeEnqueueTime' must be a valid Date.");
-    }
-    const cutoff = new Date(enqueueTimeUtcOlderThan.getTime());
+    const cutoff = getDeleteMessagesCutoff(enqueueTimeUtcOlderThan);
 
     const config: RetryConfig<SendManagementRequestOptions> = {
       operation: async () => {

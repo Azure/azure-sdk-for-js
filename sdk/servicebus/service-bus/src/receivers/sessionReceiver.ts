@@ -53,6 +53,7 @@ import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMess
 import { tracingClient } from "../diagnostics/tracing.js";
 import { receiverLogger as logger } from "../log.js";
 import { translateServiceBusError } from "../serviceBusError.js";
+import { getDeleteMessagesCutoff } from "../util/utils.js";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -438,7 +439,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
-    const beforeEnqueueTime = new Date((options?.beforeEnqueueTime ?? new Date()).getTime());
+    const beforeEnqueueTime = getDeleteMessagesCutoff(options?.beforeEnqueueTime);
     const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? defaultMaxMessagesPerBatch;
     validatePurgeMessageCount(maxMessagesPerBatch);
     let { deletedCount } = await this.deleteMessages(maxMessagesPerBatch, {
