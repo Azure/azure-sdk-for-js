@@ -49,7 +49,7 @@ try {
   Push-Location $SdkRepoPath
   
   # Use the local internal source tree instead of a published package.
-  $releaseToolsPath = Join-Path $SdkRepoPath "eng\tools\js-sdk-release-tools"
+  $releaseToolsPath = Join-Path $SdkRepoPath "eng/tools/js-sdk-release-tools"
   $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
@@ -81,7 +81,7 @@ try {
   # Run the built generate-ci-yaml command from the local workspace package.
   Write-Host "Creating or updating CI files..." -ForegroundColor Cyan
   Write-Host ""
-  $releaseToolsCli = Join-Path $releaseToolsPath "dist\generateCiYamlCli.js"
+  $releaseToolsCli = Join-Path $releaseToolsPath "dist/generateCiYamlCli.js"
   $command = "node `"$releaseToolsCli`" --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
 

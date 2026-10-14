@@ -47,7 +47,7 @@ try {
   Push-Location $SdkRepoPath
   
   # Use the local internal source tree instead of a published package.
-  $releaseToolsPath = Join-Path $SdkRepoPath "eng\tools\js-sdk-release-tools"
+  $releaseToolsPath = Join-Path $SdkRepoPath "eng/tools/js-sdk-release-tools"
   $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
@@ -80,7 +80,7 @@ try {
   # Run the built update-changelog command from the local workspace package.
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Cyan
   Write-Host ""
-  $releaseToolsCli = Join-Path $releaseToolsPath "dist\generateChangelogCli.js"
+  $releaseToolsCli = Join-Path $releaseToolsPath "dist/generateChangelogCli.js"
   $command = "node `"$releaseToolsCli`" --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
   
