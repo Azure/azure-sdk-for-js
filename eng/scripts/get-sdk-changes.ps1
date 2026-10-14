@@ -69,6 +69,8 @@ try {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
 
+  Initialize-NpmCredentials -NpmConfigPath (Join-Path $SdkRepoPath ".npmrc")
+
   Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
   Invoke-LoggedCommand "npm --prefix `"$releaseToolsPath`" ci"
   Write-Host ""
