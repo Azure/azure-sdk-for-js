@@ -7062,18 +7062,14 @@ export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFa
 export type VoiceAgentRealtimeEvent = VoiceAgentServerEvent | VoiceAgentUnknownEvent;
 
 // @public
-export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+export interface VoiceAgentRealtimeResponse {
     audio?: VoiceResponseAudio;
-    output?: RealtimeConversationItemUnion[];
-}
-
-// @public
-export interface VoiceAgentRealtimeResponseBase {
     conversation_id?: string;
     id?: string;
     max_output_tokens?: number | "inf";
     metadata?: Metadata;
     object?: "realtime.response";
+    output?: RealtimeConversationItemUnion[];
     output_modalities?: ("text" | "audio")[];
     status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
     status_details?: RealtimeResponseStatusDetails;
@@ -7610,15 +7606,21 @@ export interface VoiceRecordingChannelLayout {
 }
 
 // @public
-export interface VoiceResponse extends VoiceResponseBase {
+export interface VoiceResponse {
     audio?: VoiceResponseAudio;
     completed_at?: Date;
-    conversation_id: string;
+    conversation_id?: string;
     created_at?: Date;
-    id: string;
-    metadata?: Record<string, string>;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    metadata?: Metadata;
+    object?: "realtime.response";
     output?: RealtimeConversationItemUnion[];
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
     temperature?: number;
+    usage?: RealtimeResponseUsage;
 }
 
 // @public
@@ -7632,16 +7634,6 @@ export interface VoiceResponseAudioOutput {
     voice?: string;
     voice_locale?: string;
     voice_type?: VoiceType;
-}
-
-// @public
-export interface VoiceResponseBase {
-    max_output_tokens?: number | "inf";
-    object?: "realtime.response";
-    output_modalities?: ("text" | "audio")[];
-    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-    status_details?: RealtimeResponseStatusDetails;
-    usage?: RealtimeResponseUsage;
 }
 
 // @public
