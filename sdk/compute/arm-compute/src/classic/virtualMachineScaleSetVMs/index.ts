@@ -377,6 +377,7 @@ export interface VirtualMachineScaleSetVMsOperations {
     options?: VirtualMachineScaleSetVMsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSetVM>;
 }
+
 function _getVirtualMachineScaleSetVMs(context: ComputeManagementContext) {
   return {
     runCommand: (
@@ -806,6 +807,7 @@ function _getVirtualMachineScaleSetVMs(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, vmScaleSetName, instanceId, options),
   };
 }
+
 export function _getVirtualMachineScaleSetVMsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMsOperations {

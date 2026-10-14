@@ -38,7 +38,7 @@ export function _listSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans{?api%2Dversion,%24skipToken,%24top}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -79,11 +79,7 @@ export function list(
     () => _listSend(context, serviceGroupName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-31-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -98,7 +94,7 @@ export function _$deleteSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +129,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, serviceGroupName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +145,7 @@ export function _updateSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +187,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, serviceGroupName, recoveryPlanName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -207,7 +203,7 @@ export function _createOrUpdateSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +247,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, serviceGroupName, recoveryPlanName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -266,7 +262,7 @@ export function _getSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

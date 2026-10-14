@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validates express route circuit migration for a cross connection.
  *
  * @summary validates express route circuit migration for a cross connection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionValidateCircuitMigration.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionValidateCircuitMigration.json
  */
 async function validateExpressRouteCircuitMigration() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostDeveloperPut.json
+ * x-ms-original-file: 2026-03-01/BastionHostDeveloperPut.json
  */
 async function createDeveloperBastionHost() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function createDeveloperBastionHost() {
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostPut.json
+ * x-ms-original-file: 2026-03-01/BastionHostPut.json
  */
 async function createBastionHost() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createBastionHost() {
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostPutWithPrivateOnly.json
+ * x-ms-original-file: 2026-03-01/BastionHostPutWithPrivateOnly.json
  */
 async function createBastionHostWithPrivateOnly() {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function createBastionHostWithPrivateOnly() {
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostPutWithSystemAssignedIdentityForSRConfig.json
+ * x-ms-original-file: 2026-03-01/BastionHostPutWithSystemAssignedIdentityForSRConfig.json
  */
 async function createOrUpdateBastionHostWithSystemAssignedIdentityForSessionRecordingConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function createOrUpdateBastionHostWithSystemAssignedIdentityForSessionReco
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostPutWithUserAssignedIdentityForSRConfig.json
+ * x-ms-original-file: 2026-03-01/BastionHostPutWithUserAssignedIdentityForSRConfig.json
  */
 async function createOrUpdateBastionHostWithUserAssignedIdentityForSessionRecordingConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -144,7 +144,7 @@ async function createOrUpdateBastionHostWithUserAssignedIdentityForSessionRecord
  * This sample demonstrates how to creates or updates the specified Bastion Host.
  *
  * @summary creates or updates the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostPutWithZones.json
+ * x-ms-original-file: 2026-03-01/BastionHostPutWithZones.json
  */
 async function createBastionHostWithZones() {
   const credential = new DefaultAzureCredential();

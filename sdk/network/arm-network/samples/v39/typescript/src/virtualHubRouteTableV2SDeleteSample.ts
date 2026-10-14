@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a VirtualHubRouteTableV2.
  *
  * @summary deletes a VirtualHubRouteTableV2.
- * x-ms-original-file: 2026-01-01/VirtualHubRouteTableV2Delete.json
+ * x-ms-original-file: 2026-03-01/VirtualHubRouteTableV2Delete.json
  */
 async function virtualHubRouteTableV2Delete(): Promise<void> {
   const credential = new DefaultAzureCredential();

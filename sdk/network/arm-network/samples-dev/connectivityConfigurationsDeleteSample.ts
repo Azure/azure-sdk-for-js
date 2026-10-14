@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
  *
  * @summary deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectivityConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectivityConfigurationDelete.json
  */
 async function connectivityConfigurationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

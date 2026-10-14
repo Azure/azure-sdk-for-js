@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops the specified application gateway in a resource group.
  *
  * @summary stops the specified application gateway in a resource group.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayStop.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayStop.json
  */
 async function stopApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -10,6 +10,7 @@ export type { CapabilitiesByServerOperations } from "./capabilitiesByServer/inde
 export type { CapturedLogsOperations } from "./capturedLogs/index.js";
 export type { ConfigurationsOperations } from "./configurations/index.js";
 export type { DatabasesOperations } from "./databases/index.js";
+export type { DbAgentsOperations } from "./dbAgents/index.js";
 export type { FirewallRulesOperations } from "./firewallRules/index.js";
 export type { MaintenanceEventsOperations } from "./maintenanceEvents/index.js";
 export type { MajorVersionUpgradePrecheckOperations } from "./majorVersionUpgradePrecheck/index.js";

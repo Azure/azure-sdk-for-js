@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL trigger
  *
  * @summary create or update an Azure Cosmos DB SQL trigger
- * x-ms-original-file: 2026-03-15/CosmosDBSqlTriggerCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlTriggerCreateUpdate.json
  */
 async function cosmosDBSqlTriggerCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,13 +21,13 @@ async function cosmosDBSqlTriggerCreateUpdate(): Promise<void> {
     "containerName",
     "triggerName",
     {
-      resource: {
-        id: "triggerName",
-        body: "body",
-        triggerType: "triggerType",
-        triggerOperation: "triggerOperation",
-      },
       options: {},
+      resource: {
+        body: "body",
+        id: "triggerName",
+        triggerOperation: "triggerOperation",
+        triggerType: "triggerType",
+      },
     },
   );
   console.log(result);

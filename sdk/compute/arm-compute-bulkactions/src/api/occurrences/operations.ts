@@ -267,7 +267,7 @@ export async function _listByScheduledActionDeserialize(
   return _occurrenceListResultDeserializer(result.body);
 }
 
-/** Lists occurrences for the specified scheduled action. */
+/** Lists occurrences for the specified recurring bulk action. */
 export function listByScheduledAction(
   context: Client,
   resourceGroupName: string,

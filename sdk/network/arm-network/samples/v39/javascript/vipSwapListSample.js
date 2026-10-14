@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
  *
  * @summary gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
- * x-ms-original-file: 2026-01-01/CloudServiceSwapList.json
+ * x-ms-original-file: 2026-03-01/CloudServiceSwapList.json
  */
 async function getSwapResourceList() {
   const credential = new DefaultAzureCredential();
