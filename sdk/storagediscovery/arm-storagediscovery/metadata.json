@@ -1,11 +1,17 @@
 {
-  "apiVersion": "2025-09-01",
-  "emitterVersion": "0.44.1",
+  "apiVersions": {
+    "Microsoft.StorageDiscovery": "2026-10-01-preview"
+  },
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageDiscovery",
     "CrossLanguageDefinitionId": {
       "@azure/arm-storagediscovery!StorageDiscoveryWorkspace:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspace",
       "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceProperties:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaceProperties",
+      "@azure/arm-storagediscovery!StorageDiscoveryCapabilities:interface": "Microsoft.StorageDiscovery.StorageDiscoveryCapabilities",
+      "@azure/arm-storagediscovery!AzureBlobStorageCapability:interface": "Microsoft.StorageDiscovery.AzureBlobStorageCapability",
+      "@azure/arm-storagediscovery!CapacityDetails:interface": "Microsoft.StorageDiscovery.CapacityDetails",
+      "@azure/arm-storagediscovery!PrefixConfiguration:interface": "Microsoft.StorageDiscovery.PrefixConfiguration",
       "@azure/arm-storagediscovery!StorageDiscoveryScope:interface": "Microsoft.StorageDiscovery.StorageDiscoveryScope",
       "@azure/arm-storagediscovery!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
       "@azure/arm-storagediscovery!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
@@ -15,11 +21,16 @@
       "@azure/arm-storagediscovery!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
       "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceUpdate:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspaceUpdate",
       "@azure/arm-storagediscovery!StorageDiscoveryWorkspacePropertiesUpdate:interface": "Microsoft.StorageDiscovery.StorageDiscoveryWorkspacePropertiesUpdate",
+      "@azure/arm-storagediscovery!StorageDiscoveryCapabilitiesUpdate:interface": "Microsoft.StorageDiscovery.StorageDiscoveryCapabilitiesUpdate",
+      "@azure/arm-storagediscovery!AzureBlobStorageCapabilityUpdate:interface": "Microsoft.StorageDiscovery.AzureBlobStorageCapabilityUpdate",
+      "@azure/arm-storagediscovery!CapacityDetailsUpdate:interface": "Microsoft.StorageDiscovery.CapacityDetailsUpdate",
+      "@azure/arm-storagediscovery!PrefixConfigurationUpdate:interface": "Microsoft.StorageDiscovery.PrefixConfigurationUpdate",
       "@azure/arm-storagediscovery!StorageDiscoveryWorkspaceListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-storagediscovery!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
       "@azure/arm-storagediscovery!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
       "@azure/arm-storagediscovery!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
       "@azure/arm-storagediscovery!KnownStorageDiscoverySku:enum": "Microsoft.StorageDiscovery.StorageDiscoverySku",
+      "@azure/arm-storagediscovery!KnownCapabilityStatus:enum": "Microsoft.StorageDiscovery.CapabilityStatus",
       "@azure/arm-storagediscovery!KnownStorageDiscoveryResourceType:enum": "Microsoft.StorageDiscovery.StorageDiscoveryResourceType",
       "@azure/arm-storagediscovery!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-storagediscovery!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
