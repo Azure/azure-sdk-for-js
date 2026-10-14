@@ -323,7 +323,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 /**
- * Options to configure messages deletion.
+ * Options to configure message deletion.
  */
 export interface DeleteMessagesOptions extends OperationOptionsBase {
   /**
