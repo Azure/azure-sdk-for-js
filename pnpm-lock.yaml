@@ -94,8 +94,8 @@ catalogs:
       specifier: ^1.60.0
       version: 1.64.0
     react-native:
-      specifier: ^0.84.1
-      version: 0.84.1
+      specifier: ^0.87.1
+      version: 0.87.1
     vitest:
       specifier: ^5.0.0
       version: 5.0.3
@@ -111,8 +111,8 @@ importers:
   .:
     devDependencies:
       '@arethetypeswrong/cli':
-        specifier: ^0.17.4
-        version: 0.17.4
+        specifier: ^0.18.5
+        version: 0.18.5
       cspell:
         specifier: ^10.3.6
         version: 10.3.6
@@ -996,7 +996,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1172,7 +1172,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1281,7 +1281,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1411,7 +1411,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2019,7 +2019,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2837,7 +2837,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3746,7 +3746,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3840,7 +3840,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4697,7 +4697,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4794,7 +4794,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5226,7 +5226,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5423,7 +5423,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5508,7 +5508,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5593,7 +5593,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5681,7 +5681,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5763,7 +5763,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5857,7 +5857,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5951,7 +5951,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6045,7 +6045,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6133,7 +6133,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6227,7 +6227,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6315,7 +6315,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6409,7 +6409,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6500,7 +6500,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8731,7 +8731,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8819,7 +8819,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8868,7 +8868,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8956,7 +8956,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9014,7 +9014,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9084,7 +9084,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9148,7 +9148,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9203,7 +9203,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9267,7 +9267,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9316,7 +9316,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9422,7 +9422,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9556,7 +9556,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9611,7 +9611,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9669,7 +9669,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9724,7 +9724,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9779,7 +9779,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9883,7 +9883,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10065,7 +10065,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11725,7 +11725,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12269,7 +12269,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12640,7 +12640,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13181,7 +13181,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13260,7 +13260,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13649,7 +13649,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14342,7 +14342,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14503,7 +14503,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14588,7 +14588,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14692,7 +14692,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14974,7 +14974,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15512,7 +15512,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15813,7 +15813,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16637,7 +16637,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17756,7 +17756,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17826,7 +17826,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18534,7 +18534,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18866,7 +18866,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19980,7 +19980,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21234,7 +21234,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21316,7 +21316,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21398,7 +21398,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21483,7 +21483,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21568,7 +21568,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21653,7 +21653,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22605,7 +22605,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23060,7 +23060,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23151,7 +23151,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24233,7 +24233,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24449,7 +24449,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24531,7 +24531,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26769,7 +26769,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26845,7 +26845,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26924,7 +26924,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27006,7 +27006,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27082,7 +27082,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29006,7 +29006,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29097,7 +29097,7 @@ importers:
         version: 0.11.10
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29231,7 +29231,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29465,7 +29465,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30182,7 +30182,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31556,7 +31556,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31650,7 +31650,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31766,7 +31766,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31872,7 +31872,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32018,7 +32018,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32119,7 +32119,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32216,7 +32216,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33262,7 +33262,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33338,7 +33338,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33420,7 +33420,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33496,7 +33496,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33566,7 +33566,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33639,7 +33639,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33730,7 +33730,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33852,7 +33852,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33925,7 +33925,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34315,7 +34315,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34379,7 +34379,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34446,7 +34446,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34531,7 +34531,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34793,7 +34793,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34951,7 +34951,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35106,7 +35106,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35337,7 +35337,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35741,7 +35741,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35820,7 +35820,7 @@ importers:
         version: 2.7.0(protobufjs@8.8.0)
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35887,7 +35887,7 @@ importers:
         version: 3.9.9
       react-native:
         specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+        version: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -36131,14 +36131,14 @@ packages:
   '@andrewbranch/untar.js@1.0.4':
     resolution: {integrity: sha1-rRyWu68qMAURBKGMqZj/V4Fi8MI=}
 
-  '@arethetypeswrong/cli@0.17.4':
-    resolution: {integrity: sha1-RUBfdQgXEMHPDatu20Mg/XXSFcg=}
-    engines: {node: '>=18'}
+  '@arethetypeswrong/cli@0.18.5':
+    resolution: {integrity: sha512-gM+8vRsQOD/Uc7EnBedUhkG5OCsDWE4uoak5QvomGpMpaky0Eh41p04nIMgrWb8EOmqZUJGc6zz9hsP6E56R7g==}
+    engines: {node: '>=20'}
     hasBin: true
 
-  '@arethetypeswrong/core@0.17.4':
-    resolution: {integrity: sha1-8/haqLvMptIVk4WAFl5HsiRMf0w=}
-    engines: {node: '>=18'}
+  '@arethetypeswrong/core@0.18.5':
+    resolution: {integrity: sha1-u1q/CD3Z1xileQ/rw6LhQusuOEY=}
+    engines: {node: '>=20'}
 
   '@azure-rest/core-client@1.4.0':
     resolution: {integrity: sha1-O+KMAsbCDknepzp/AS2u7aTqy44=}
@@ -36460,10 +36460,6 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
 
-  '@babel/helper-plugin-utils@7.29.7':
-    resolution: {integrity: sha1-wKB2bxoTYX2KF0B9erj51IYiXqQ=}
-    engines: {node: '>=6.9.0'}
-
   '@babel/helper-string-parser@7.29.7':
     resolution: {integrity: sha1-fwhx2Zgk0jE31g+G/PYTD9WhtR8=}
     engines: {node: '>=6.9.0'}
@@ -36505,85 +36501,6 @@ packages:
     resolution: {integrity: sha512-LpGDIYJAzc3Y3PT9x+FxBrGYu2PlWxLmyN7SwPTzaX0LSwEmFJBsRnPBqmaXF2r1v+Zhz6lNiEJ+7yKtM5+Ugg==}
     engines: {node: ^22.18.0 || >=24.11.0}
     hasBin: true
-
-  '@babel/plugin-syntax-async-generators@7.8.4':
-    resolution: {integrity: sha1-qYP7Gusuw/btBCohD2QOkOeG/g0=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-bigint@7.8.3':
-    resolution: {integrity: sha1-TJpvZp9dDN8bkKFnHpoUa+UwDOo=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-class-properties@7.12.13':
-    resolution: {integrity: sha1-tcmHJ0xKOoK4lxR5aTGmtTVErhA=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-class-static-block@7.14.5':
-    resolution: {integrity: sha1-GV34mxRrS3izv4l/16JXyEZZ1AY=}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-import-attributes@7.29.7':
-    resolution: {integrity: sha1-YRUmRRbpXq0PNaQXEJBmEuRH9gU=}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-import-meta@7.10.4':
-    resolution: {integrity: sha1-7mATSMNw+jNNIge+FYd3SWUh/VE=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-json-strings@7.8.3':
-    resolution: {integrity: sha1-AcohtmjNghjJ5kDLbdiMVBKyyWo=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-logical-assignment-operators@7.10.4':
-    resolution: {integrity: sha1-ypHvRjA1MESLkGZSusLp/plB9pk=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3':
-    resolution: {integrity: sha1-Fn7XA2iIYIH3S1w2xlqIwDtm0ak=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-numeric-separator@7.10.4':
-    resolution: {integrity: sha1-ubBws+M1cM2f0Hun+pHA3Te5r5c=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-object-rest-spread@7.8.3':
-    resolution: {integrity: sha1-YOIl7cvZimQDMqLnLdPmbxr1WHE=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-optional-catch-binding@7.8.3':
-    resolution: {integrity: sha1-YRGiZbz7Ag6579D9/X0mQCue1sE=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3':
-    resolution: {integrity: sha1-T2nCq5UWfgGAzVM2YT+MV4j31Io=}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-private-property-in-object@7.14.5':
-    resolution: {integrity: sha1-DcZnHsDqIrbpShEU+FeXDNOd4a0=}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-top-level-await@7.14.5':
-    resolution: {integrity: sha1-wc/a3DWmRiQAAfBhOCR7dBw02Uw=}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
 
   '@babel/runtime@7.29.7':
     resolution: {integrity: sha1-EgIkUMRaTabY2Ch7GKT/Ldsj92g=}
@@ -37225,32 +37142,12 @@ packages:
     resolution: {integrity: sha1-Ifsj2zTptiIMa6AjoBGKLdNGHqI=}
     engines: {node: '>=12'}
 
-  '@istanbuljs/load-nyc-config@1.1.0':
-    resolution: {integrity: sha1-/T2x1Z7PfPEh6AZQu4ZxL5tV7O0=}
-    engines: {node: '>=8'}
-
   '@istanbuljs/schema@0.1.6':
     resolution: {integrity: sha1-jcmvoqwVBssaWPiZQPHBJERsjfM=}
     engines: {node: '>=8'}
 
-  '@jest/create-cache-key-function@29.7.0':
-    resolution: {integrity: sha1-eTvjgUj6t45l9ArjDDZ4X0rYWfA=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  '@jest/environment@29.7.0':
-    resolution: {integrity: sha1-JNYfVP8feG881Ac7S5RBY4O68qc=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  '@jest/fake-timers@29.7.0':
-    resolution: {integrity: sha1-/ZG/H/+xbX0NJKQmqxpHpJiBpWU=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   '@jest/schemas@29.6.3':
     resolution: {integrity: sha1-Qwtc6KTgBEp+OBlmMwWnswkcjgM=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  '@jest/transform@29.7.0':
-    resolution: {integrity: sha1-3y3Zw0bH13aLigZjmZRkDGQuKEw=}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   '@jest/types@29.6.3':
@@ -38065,58 +37962,54 @@ packages:
   '@protobufjs/utf8@1.1.2':
     resolution: {integrity: sha1-eNR2Mz2F1bHHkuJXvKdLoIDaSaQ=}
 
-  '@react-native/assets-registry@0.84.1':
-    resolution: {integrity: sha1-PbzxMbZTBa82u6nfMHGGJkO8140=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/asset-utils@0.87.1':
+    resolution: {integrity: sha512-FeFnbn9ENPs7IVBzZt1bBWfiRGvT4q+CsWwXGFyKVW/1ol3ylBRuTtXBGHIAmcNN4fUR60nSXsCN19pzNHkPgA==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  '@react-native/codegen@0.84.1':
-    resolution: {integrity: sha1-kVCNrHPKKPkWgXZbvra3tNECDJk=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/codegen@0.87.1':
+    resolution: {integrity: sha1-IGn/LBeZaeZMbLmUukpkk+zhtuM=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     peerDependencies:
       '@babel/core': '*'
 
-  '@react-native/community-cli-plugin@0.84.1':
-    resolution: {integrity: sha1-/9LY/pDm4WAoPGO+O9Xn0BrBBZg=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/community-cli-plugin@0.87.1':
+    resolution: {integrity: sha1-GtDLCqb2mkQNiBH7SE06q9ZFO2o=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     peerDependencies:
       '@react-native-community/cli': '*'
-      '@react-native/metro-config': '*'
+      '@react-native/metro-config': 0.87.1
     peerDependenciesMeta:
       '@react-native-community/cli':
         optional: true
       '@react-native/metro-config':
         optional: true
 
-  '@react-native/debugger-frontend@0.84.1':
-    resolution: {integrity: sha1-oyOotoDFlnC18F8pyMCDpRHTmiw=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/debugger-frontend@0.87.1':
+    resolution: {integrity: sha1-1VfQ9hp4CPuvrBmjedZM4LfxcFk=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  '@react-native/debugger-shell@0.84.1':
-    resolution: {integrity: sha1-zKhRiIoDcfVK8mn1cp7qq/msUvk=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/debugger-shell@0.87.1':
+    resolution: {integrity: sha1-8WNvO91iWM/EJOlcsRzx7wpcrG8=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  '@react-native/dev-middleware@0.84.1':
-    resolution: {integrity: sha1-AdSAS0kLrWL+1PcEl+1NtvY5yjk=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/dev-middleware@0.87.1':
+    resolution: {integrity: sha1-1my3XBSpEDGk2SDguTLGeOZ7YY8=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  '@react-native/gradle-plugin@0.84.1':
-    resolution: {integrity: sha1-7Qr3U2hdajseSoz+yPvLFIHn9kg=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/gradle-plugin@0.87.1':
+    resolution: {integrity: sha1-WopLJEb6rNvttzb7lEXTz7tOPnc=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  '@react-native/js-polyfills@0.84.1':
-    resolution: {integrity: sha1-RBvtj15/ZB0YI31pOonGXsYa1Fk=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/normalize-colors@0.87.1':
+    resolution: {integrity: sha1-uR+orL2JJCsM761UV7G4M4T30/Y=}
 
-  '@react-native/normalize-colors@0.84.1':
-    resolution: {integrity: sha1-CApvzhkhZ2SewjzjO9DeKbI86f0=}
-
-  '@react-native/virtualized-lists@0.84.1':
-    resolution: {integrity: sha1-6UDf4NfoxdfF2HmbVBlwZOLt31w=}
-    engines: {node: '>= 20.19.4'}
+  '@react-native/virtualized-lists@0.87.1':
+    resolution: {integrity: sha1-yNodUEyB79vLKCjrx1VqU29WCH0=}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     peerDependencies:
       '@types/react': ^19.2.0
       react: '*'
-      react-native: '*'
+      react-native: 0.87.1
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -38445,12 +38338,6 @@ packages:
     resolution: {integrity: sha1-q7Edma620n8bVjw4FHpy1QBY4zk=}
     engines: {node: '>=18'}
 
-  '@sinonjs/commons@3.0.1':
-    resolution: {integrity: sha1-ECk1fkTKkBphVYX20nc428iQhM0=}
-
-  '@sinonjs/fake-timers@10.3.0':
-    resolution: {integrity: sha1-Vf3/Hsq581QBkSna9N8N1Nkj6mY=}
-
   '@so-ric/colorspace@1.1.6':
     resolution: {integrity: sha1-YlFdi58ndGt2lQqDveGvgS2Rkjs=}
 
@@ -38495,18 +38382,6 @@ packages:
 
   '@types/async-retry@1.4.9':
     resolution: {integrity: sha1-R9EY6DWGTWM7UginimkHsbROULw=}
-
-  '@types/babel__core@7.20.5':
-    resolution: {integrity: sha1-PfFfJ7qFMZyqB7oI0HIYibs5wBc=}
-
-  '@types/babel__generator@7.27.0':
-    resolution: {integrity: sha1-tYGSlMUReZV6+uw0FEL5NB5BCKk=}
-
-  '@types/babel__template@7.4.4':
-    resolution: {integrity: sha1-VnJRNwHBshmbxtrWNqnXSRWGdm8=}
-
-  '@types/babel__traverse@7.28.0':
-    resolution: {integrity: sha1-B9cT1szg0mXJhJ2wy+YtP2Hzb3Q=}
 
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha1-GFm+u4/X2smRikXVTBlxq4ta9HQ=}
@@ -38558,9 +38433,6 @@ packages:
 
   '@types/glob@7.2.0':
     resolution: {integrity: sha1-vBtb86qS8lvV3TnzXFc2G9zlsus=}
-
-  '@types/graceful-fs@4.1.9':
-    resolution: {integrity: sha1-Kga8D2iiCrN7PjaqI4vmq99J6LQ=}
 
   '@types/hast@3.0.5':
     resolution: {integrity: sha1-SAIN5MDmNJL0yp20IGjBCPaLf48=}
@@ -38692,9 +38564,6 @@ packages:
   '@types/ssri@7.1.5':
     resolution: {integrity: sha1-cUe1ukOVfLD2OaMwmjlD/Bgp1eg=}
 
-  '@types/stack-utils@2.0.3':
-    resolution: {integrity: sha1-YgkyHrLBcSp+dGZCK4yx/A2d1dg=}
-
   '@types/string-template@1.0.7':
     resolution: {integrity: sha1-WT/Zf9dRWubrqAoUJzjarclhyJU=}
 
@@ -38788,12 +38657,6 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
-  '@typescript-eslint/tsconfig-utils@8.71.1':
-    resolution: {integrity: sha512-oTvkml5SxXhgg+WWKhod5qWQICDXtOB+/Hi9VdPKFAANJ2b7YOgMffgvzXuqog7R6A/JtrzRf128dsxummyWhg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.1.0'
-
   '@typescript-eslint/type-utils@8.65.0':
     resolution: {integrity: sha1-0xbXUi2Tz/TNFPMF4C898tgE+cE=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -38807,6 +38670,10 @@ packages:
 
   '@typescript-eslint/types@8.65.0':
     resolution: {integrity: sha1-PoZzhBand8i4klq0Z0X0js+QTJ8=}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/types@8.71.0':
+    resolution: {integrity: sha512-cJ4OoxPGWvFnBTnSZyaU+qJzGTqPTGJY+gDchj6cRyLRdmIdt4rcsE4twj+zPfrNiWuVi38wijHzShL++Z9atQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/types@8.71.1':
@@ -38921,10 +38788,6 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  abort-controller@3.0.0:
-    resolution: {integrity: sha1-6vVNU7YrrkE46AnKIlyEOabvs5I=}
-    engines: {node: '>=6.5'}
-
   abstract-logging@2.0.1:
     resolution: {integrity: sha1-aww3HfIS23EptX0uf88oK4vxyDk=}
 
@@ -39009,10 +38872,6 @@ packages:
 
   any-promise@1.3.0:
     resolution: {integrity: sha1-q8av7tzqUugJzcA3au0845Y10X8=}
-
-  anymatch@3.1.3:
-    resolution: {integrity: sha1-eQxYsZuhcgqEIFtXxhjVrYUklz4=}
-    engines: {node: '>= 8'}
 
   anynum@1.0.1:
     resolution: {integrity: sha1-KqwA4I3603JsHUYuYNvC+DFlmkQ=}
@@ -39109,33 +38968,8 @@ packages:
   avvio@9.3.0:
     resolution: {integrity: sha1-5LwzzikakIhzrq1ybHOqtv82TxI=}
 
-  babel-jest@29.7.0:
-    resolution: {integrity: sha1-9DaZGSJbaExWCFmYrGPb0FvgINU=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@babel/core': ^7.8.0
-
-  babel-plugin-istanbul@6.1.1:
-    resolution: {integrity: sha1-+ojsWSMv2bTjbbvFQKjsmptH2nM=}
-    engines: {node: '>=8'}
-
-  babel-plugin-jest-hoist@29.6.3:
-    resolution: {integrity: sha1-qtvpQ0ZBgqiSLDySfDBn/0DSRiY=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  babel-plugin-syntax-hermes-parser@0.32.0:
-    resolution: {integrity: sha1-BvdFK/ka32yv18mOdGdATU62XOw=}
-
-  babel-preset-current-node-syntax@1.2.0:
-    resolution: {integrity: sha1-IHMNbNx92l2JQByrEKxqMgZ6zeY=}
-    peerDependencies:
-      '@babel/core': ^7.0.0 || ^8.0.0-0
-
-  babel-preset-jest@29.6.3:
-    resolution: {integrity: sha1-+gX6UQ59STiW17DdIDNgHIQPFxw=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@babel/core': ^7.0.0
+  babel-plugin-syntax-hermes-parser@0.36.1:
+    resolution: {integrity: sha1-lwJ3YY++xntAC/iwHk9hupbvWkA=}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha1-6D46fj8wCzTLnYf2FfoMvzV2kO4=}
@@ -39332,11 +39166,8 @@ packages:
     engines: {node: '>=12.13.0'}
     hasBin: true
 
-  chromium-edge-launcher@0.2.0:
-    resolution: {integrity: sha1-DDePKMma78NgcF+hVd4BE5l/Yvw=}
-
-  ci-info@2.0.0:
-    resolution: {integrity: sha1-Z6npZL4xpR4V5QENWObxKDQAL0Y=}
+  chromium-edge-launcher@0.3.0:
+    resolution: {integrity: sha1-NNXKgUL8BZ6itEgr3LGEOTo5n/4=}
 
   ci-info@3.9.0:
     resolution: {integrity: sha1-QnmmICinsfJi80c/yWBfXiGMWbQ=}
@@ -39986,10 +39817,6 @@ packages:
     resolution: {integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=}
     engines: {node: '>= 0.6'}
 
-  event-target-shim@5.0.1:
-    resolution: {integrity: sha1-XU0+vflYPWOlMzzi3rdICrKwV4k=}
-    engines: {node: '>=6'}
-
   eventemitter3@5.0.4:
     resolution: {integrity: sha1-qG1mFwQzcS3egUcHrFK1JxzrH+s=}
 
@@ -40144,10 +39971,6 @@ packages:
       '@75lb/nature':
         optional: true
 
-  find-up@4.1.0:
-    resolution: {integrity: sha1-l6/n1s3AvFkoWEt8jXsW6KmqXRk=}
-    engines: {node: '>=8'}
-
   find-up@5.0.0:
     resolution: {integrity: sha1-TJKBnstwg1YeT0okCoa+UZj1Nvw=}
     engines: {node: '>=10'}
@@ -40163,6 +39986,14 @@ packages:
 
   flow-enums-runtime@0.0.6:
     resolution: {integrity: sha1-W7DNGwo+RxMw9NEJA5t+ulyz54c=}
+
+  flow-estree@0.331.0:
+    resolution: {integrity: sha1-QGn2tehjN4BUE+5RHXhXU6AVzqo=}
+    engines: {node: '>=18'}
+
+  flow-parser@0.331.0:
+    resolution: {integrity: sha1-1LH/ACaTD7gniLAhc0Se/V57JcA=}
+    engines: {node: '>=0.4.0'}
 
   flru@1.0.2:
     resolution: {integrity: sha512-kWyh8ADvHBFz6ua5xYOPnUroZTT/bwWfrCeL0Wj1dzG4/YOmOcfJ99W8dOVyyynJN35rZ9aCOtHChqQovV7yog==}
@@ -40261,10 +40092,6 @@ packages:
   get-intrinsic@1.3.0:
     resolution: {integrity: sha1-dD8OO2lkqTpUke0b/6rgVNf5jQE=}
     engines: {node: '>= 0.4'}
-
-  get-package-type@0.1.0:
-    resolution: {integrity: sha1-jeLYA8/0TfO8bEVuZmizbDkm4Ro=}
-    engines: {node: '>=8.0.0'}
 
   get-proto@1.0.1:
     resolution: {integrity: sha1-FQs/J0OGnvPoUewMSdFbHRTQDuE=}
@@ -40402,20 +40229,14 @@ packages:
   help-me@5.0.0:
     resolution: {integrity: sha1-sevmO5Z7dAYAJ8KsYfm+EtNUpvY=}
 
-  hermes-compiler@250829098.0.9:
-    resolution: {integrity: sha1-Vyq+de+Zf4RlvilQbcCbhIcyKR8=}
+  hermes-compiler@250829098.0.17:
+    resolution: {integrity: sha1-IhxkjYaSkiP146xc7nYNagwqm6s=}
 
-  hermes-estree@0.32.0:
-    resolution: {integrity: sha1-u32mYTq45n4zShhU6h4gn0h9MHs=}
+  hermes-estree@0.36.1:
+    resolution: {integrity: sha1-cTaNnngjhyjhHvH0WKiSHQVkpXI=}
 
-  hermes-estree@0.35.0:
-    resolution: {integrity: sha1-dnzOCxSmi0vAbNXbfv6In2GIxWU=}
-
-  hermes-parser@0.32.0:
-    resolution: {integrity: sha1-eRaYTvb9zmLnQV01TPNTkgYc0wM=}
-
-  hermes-parser@0.35.0:
-    resolution: {integrity: sha1-diXsLzSriXwqF6e+qXiNE21f2Mk=}
+  hermes-parser@0.36.1:
+    resolution: {integrity: sha1-9hm5+ZvzToD7b3AkscYpRNK+sUo=}
 
   highlight.js@10.7.3:
     resolution: {integrity: sha1-aXJy45kTVuQMPKxWanTu9oF1ZTE=}
@@ -40776,36 +40597,8 @@ packages:
     resolution: {integrity: sha1-SPZXavjoehj+t5a37V4uWQO0Pco=}
     engines: {node: '>=20'}
 
-  istanbul-lib-coverage@3.2.2:
-    resolution: {integrity: sha1-LRZsSwZE1Do58Ev2wu3R5YXzF1Y=}
-    engines: {node: '>=8'}
-
-  istanbul-lib-instrument@5.2.1:
-    resolution: {integrity: sha1-0QyIhcISVXThwjHKyt+VVnXhzj0=}
-    engines: {node: '>=8'}
-
-  jest-environment-node@29.7.0:
-    resolution: {integrity: sha1-C5PhEd2o7BILyDAObR+5V24WQ3Y=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   jest-get-type@29.6.3:
     resolution: {integrity: sha1-NvSZ/c6hl8EEWhJzGcBIFyOQj9E=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-haste-map@29.7.0:
-    resolution: {integrity: sha1-PCOWUkSC9aBQY3bmyFjDu8wXsQQ=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-message-util@29.7.0:
-    resolution: {integrity: sha1-i8OS4gTpXf51ZKu+cqQE4o5R9/M=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-mock@29.7.0:
-    resolution: {integrity: sha1-ToNs9g6Zxvz6vp+Z0Bfz/dUKY0c=}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-regex-util@29.6.3:
-    resolution: {integrity: sha1-SlVtnHdq9o4cX0gZT00DJ9JOilI=}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   jest-util@29.7.0:
@@ -40835,10 +40628,6 @@ packages:
 
   js-tokens@4.0.0:
     resolution: {integrity: sha1-GSA/tZmR35jjoocFDUZHzerzJJk=}
-
-  js-yaml@3.15.2:
-    resolution: {integrity: sha1-P4OCOsa+F/Vw8jsuze83d/9eo2Q=}
-    hasBin: true
 
   js-yaml@4.3.2:
     resolution: {integrity: sha1-jkT7FKJkPFlya7FXh7XxUSyz0/s=}
@@ -41053,10 +40842,6 @@ packages:
   linkify-it@5.0.2:
     resolution: {integrity: sha1-074KaTrz2p3ziD8eNGoOl0YajBk=}
 
-  locate-path@5.0.0:
-    resolution: {integrity: sha1-Gvujlq/WdqbUJQTQpno6frn2KqA=}
-    engines: {node: '>=8'}
-
   locate-path@6.0.0:
     resolution: {integrity: sha1-VTIeswn+u8WcSAHZMackUqaB0oY=}
     engines: {node: '>=10'}
@@ -41114,9 +40899,6 @@ packages:
     resolution: {integrity: sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=}
     hasBin: true
 
-  lru-cache@10.4.3:
-    resolution: {integrity: sha1-QQ/IoXtw5ZgBPfJXwkRrfzOD8Rk=}
-
   lru-cache@11.5.3:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
@@ -41140,9 +40922,6 @@ packages:
   make-fetch-happen@16.0.1:
     resolution: {integrity: sha1-hsGL+cGHk7tOZKZTukMYTqHpOE4=}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
-
-  makeerror@1.0.12:
-    resolution: {integrity: sha1-Pl3SB5qC6BLpg8xmEMSiyw6qgBo=}
 
   map-obj@1.0.1:
     resolution: {integrity: sha1-2TPOuSBdgr3PSIb2dCvcK03qFG0=}
@@ -41225,62 +41004,62 @@ packages:
     resolution: {integrity: sha1-Q2iJL4hekHRVpv19xVwMnUBJkK4=}
     engines: {node: '>= 8'}
 
-  metro-babel-transformer@0.83.8:
-    resolution: {integrity: sha1-3+6VuOaL7i6kssoe6JeeKAI8AcI=}
-    engines: {node: '>=20.19.4'}
+  metro-babel-transformer@0.87.1:
+    resolution: {integrity: sha512-orvRIGpb0yK1yMbk5YP3dhVKjmoxUkRB9fdltGJxNppEqus/1tFpNuf9KnGFR3Qjg0izoUrJ4z6WgoBvdkXPrA==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-cache-key@0.83.8:
-    resolution: {integrity: sha1-OYE9gz/ig92eGN40bUdFWWARJFw=}
-    engines: {node: '>=20.19.4'}
+  metro-cache-key@0.87.1:
+    resolution: {integrity: sha512-scqVVPMA2c+RVO12I3wyMDp5xCkRPLsyrcG4Qc3xfU5JR0EW/0sz2tjty+5UjMUtG09uiM1KYQ8HjWg7OQXHtw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-cache@0.83.8:
-    resolution: {integrity: sha1-6MwdxqmAZzQ3dGkX4+sgdgriJkw=}
-    engines: {node: '>=20.19.4'}
+  metro-cache@0.87.1:
+    resolution: {integrity: sha512-juNPaj0Xi5tkLp8imXqvbSnEIijwKG36m7OiFFVJMqEkiURwAjkMFVek3/xpix1+LVQqO7kjVp3PvuvIM61mKQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-config@0.83.8:
-    resolution: {integrity: sha1-nfV5X+hGKzALLb3sfa9v+Yk7CIY=}
-    engines: {node: '>=20.19.4'}
+  metro-config@0.87.1:
+    resolution: {integrity: sha512-NmkDlc/qZAdo5gTkVTuO2AKE/khemRKRH5IA+SKfqUBJigI5GqZ5TOXhmEokhlkAqzjt8dyzKhzI6FHvXoXaTQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-core@0.83.8:
-    resolution: {integrity: sha1-q4I/RLhzrQcJJiW0P4GyfNt7+VI=}
-    engines: {node: '>=20.19.4'}
+  metro-core@0.87.1:
+    resolution: {integrity: sha512-xizzky/4+c/Mkznege8OW05j7bSdM39VPoEps61Se4+hf32UQujmbvLvIE9+UnP6kNEPVomk0Fw8NsBK9iRQmw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-file-map@0.83.8:
-    resolution: {integrity: sha1-47TtS1dlXaFbnlUcN1JOXQlvT6A=}
-    engines: {node: '>=20.19.4'}
+  metro-file-map@0.87.1:
+    resolution: {integrity: sha512-9sPuNCojC3pS4vj+ZPY7FXmHGpdJeckXuKXQrDAfJvZc60AF8owRFTkI8XdwlwrmPIB2w++KraK9FMEXvC4wJw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-minify-terser@0.83.8:
-    resolution: {integrity: sha1-5ccEUxWmyj6a+vVuFMnbZiHQOHs=}
-    engines: {node: '>=20.19.4'}
+  metro-minify-terser@0.87.1:
+    resolution: {integrity: sha512-YK4k1oO1wV48hfE+Nbw2rJCnAgeabzrgT/xH5ha5n9gbK4p3HYFC898cERUiyTl9vRh58CNTiXRc88f7y6PfKg==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-resolver@0.83.8:
-    resolution: {integrity: sha1-gjSr8z5Vl4KTxUzZWUZxbERzEnE=}
-    engines: {node: '>=20.19.4'}
+  metro-resolver@0.87.1:
+    resolution: {integrity: sha512-FXH/brY69wT6sPxaSW8BhMmDGD/6irmBr/cL4rUi+VWwqR3pbvdcfUOfyjcHucgQ7pe5IW3xJY21eHKLVKNumQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-runtime@0.83.8:
-    resolution: {integrity: sha1-MK6aqoQ4NIu4rFWoBphslnFEybc=}
-    engines: {node: '>=20.19.4'}
+  metro-runtime@0.87.1:
+    resolution: {integrity: sha512-kjeuSvInsM6OzBjkCQsWxnkrKZFMKtnkCl38oXWRI9lDGs2L9hGs9Tak9sQYJ9h3gtDujneB7wZio+irgqJKDw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-source-map@0.83.8:
-    resolution: {integrity: sha1-E6Gj1lPVzOXQMFnO2lnCJdRtIuc=}
-    engines: {node: '>=20.19.4'}
+  metro-source-map@0.87.1:
+    resolution: {integrity: sha512-Bqpm0PBGdy53pigIJb4HRF7QxD2pUOdgSmVh/4AWbP635kSCv+Y6ltVxUZgSnzS/QbSmzyCGijmRPlXMj2/qHw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-symbolicate@0.83.8:
-    resolution: {integrity: sha1-7uz+jCAKObc7sAoZ5AR18LAm3rU=}
-    engines: {node: '>=20.19.4'}
+  metro-symbolicate@0.87.1:
+    resolution: {integrity: sha512-rcGvwabrg0lbXGRGRKl14PY3My3+dkno2jZYhdJEuH2DmjTtTkV5bYwgto4JtV/Lbe+sXE6GO1UGg654430uow==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     hasBin: true
 
-  metro-transform-plugins@0.83.8:
-    resolution: {integrity: sha1-VI7R66u92fyKGvS4ueyXYt8arBo=}
-    engines: {node: '>=20.19.4'}
+  metro-transform-plugins@0.87.1:
+    resolution: {integrity: sha512-qMiJ/x+VfqumFJJSefKS6nj8uojzC29b2/aK8vlMuFABIqGjDucICEOXd2Yt6k/XMFAgAcaJvShUOT0HLyYaPw==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro-transform-worker@0.83.8:
-    resolution: {integrity: sha1-KchPjiOU+Ooq++UPhkf+f0L/DiA=}
-    engines: {node: '>=20.19.4'}
+  metro-transform-worker@0.87.1:
+    resolution: {integrity: sha512-VOzs3OV405FuOLYdAhqA2wsn1F9lvueDVxMDLvCKaQ44U+yknIqphJ9eMjjsGwLDZiJq9sW3DMLhjD27JxQgqQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
-  metro@0.83.8:
-    resolution: {integrity: sha1-TUemBn+M7+dLan5eyVWge4FhX8o=}
-    engines: {node: '>=20.19.4'}
+  metro@0.87.1:
+    resolution: {integrity: sha512-1oyLU9elM7hPAsKIqKooEekwxiuWr27+MZBhUROPhzcbXhMDxK64GPF/hCXwBZVp1F89ODavCrBmJtLx9WtBoQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     hasBin: true
 
   micromatch@4.0.8:
@@ -41511,10 +41290,6 @@ packages:
     resolution: {integrity: sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=}
     engines: {node: '>=0.10.0'}
 
-  normalize-path@3.0.0:
-    resolution: {integrity: sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=}
-    engines: {node: '>=0.10.0'}
-
   normalize-registry-url@2.0.1:
     resolution: {integrity: sha1-xjCbPumoA65wfHXmOKKmG9qXQNk=}
 
@@ -41545,9 +41320,9 @@ packages:
   nullthrows@1.1.1:
     resolution: {integrity: sha1-eBgliEOFaulx6uQgitfX6xmkMbE=}
 
-  ob1@0.83.8:
-    resolution: {integrity: sha1-h0JClCwYGLo/bs35frC7pGiCBpY=}
-    engines: {node: '>=20.19.4'}
+  ob1@0.87.1:
+    resolution: {integrity: sha512-i8iA8uij0g1YQzS8uOJPSRCgwDjO9warIHUAu1Fqj877Wc3wlfxDYBioYWgKTBF2+URVJttyDWSEpmd99nlvtQ==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
 
   object-assign@4.1.1:
     resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
@@ -41666,17 +41441,9 @@ packages:
     resolution: {integrity: sha1-/gqnlOLfrY7PWVo5okVIT80JxuQ=}
     engines: {node: '>=18'}
 
-  p-limit@2.3.0:
-    resolution: {integrity: sha1-PdM8ZHohT9//2DWTPrCG2g3CHbE=}
-    engines: {node: '>=6'}
-
   p-limit@3.1.0:
     resolution: {integrity: sha1-4drMvnjQ0TiMoYxk/qOOPlfjcGs=}
     engines: {node: '>=10'}
-
-  p-locate@4.1.0:
-    resolution: {integrity: sha1-o0KLtwiLOmApL2aRkni3wpetTwc=}
-    engines: {node: '>=8'}
 
   p-locate@5.0.0:
     resolution: {integrity: sha1-g8gxXGeFAF470CGDlBHJ4RDm2DQ=}
@@ -41693,10 +41460,6 @@ packages:
   p-timeout@6.1.4:
     resolution: {integrity: sha1-QY4fTdgz+pai4/UyVH3Sq9sI28I=}
     engines: {node: '>=14.16'}
-
-  p-try@2.2.0:
-    resolution: {integrity: sha1-yyhoVA4xPWHeWPr741zpAE1VQOY=}
-    engines: {node: '>=6'}
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha1-TxRxoBCCeob5TP2bByfjbSZ95QU=}
@@ -41837,10 +41600,6 @@ packages:
   pino@10.4.0:
     resolution: {integrity: sha512-bk1ZMTwG/Vymx+zPoa28MhNzucFvXJWp3csrSuxuHPSMeUettaCoQ5Jvg07mtC4JGNpcfTwz41oVCnNgBK9+vA==}
     hasBin: true
-
-  pirates@4.0.7:
-    resolution: {integrity: sha1-ZDtKGMQlfIplEEtz8wSc6aChXiI=}
-    engines: {node: '>= 6'}
 
   pkce-challenge@5.0.1:
     resolution: {integrity: sha1-O0RGhlsXsXRems4gFqMfSN32Iw0=}
@@ -42036,9 +41795,9 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha1-6DVX3BLq5jqZ4AOkY4ix3LtE234=}
 
-  react-native@0.84.1:
-    resolution: {integrity: sha1-vF6CeEhcXGsBFtzK9mI0ee0fO4g=}
-    engines: {node: '>= 20.19.4'}
+  react-native@0.87.1:
+    resolution: {integrity: sha512-DJKG6ANoD7BtrE4z9DewiSD7/RxCX73lK5Pu49aUr85P3333Dm2roTiP0rRjQNDZdVizHSOmstWfwF/o9EjCRA==}
+    engines: {node: ^22.13.0 || ^24.3.0 || >= 26.0.0}
     hasBin: true
     peerDependencies:
       '@types/react': ^19.1.1
@@ -42168,11 +41927,6 @@ packages:
 
   rimraf@2.4.5:
     resolution: {integrity: sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ==}
-    deprecated: Rimraf versions prior to v4 are no longer supported
-    hasBin: true
-
-  rimraf@3.0.2:
-    resolution: {integrity: sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=}
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
@@ -42493,10 +42247,6 @@ packages:
   stack-trace@0.0.10:
     resolution: {integrity: sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=}
 
-  stack-utils@2.0.6:
-    resolution: {integrity: sha1-qvB0gWnAL8M8gjKrzPkz9Uocw08=}
-    engines: {node: '>=10'}
-
   stackframe@1.3.4:
     resolution: {integrity: sha1-uIGgBMjBSaXo7+831RsW5BKUMxA=}
 
@@ -42662,10 +42412,6 @@ packages:
   tersify@3.12.1:
     resolution: {integrity: sha1-GqWnCaAtq6JNaU8IlvuKIz9II2E=}
 
-  test-exclude@6.0.0:
-    resolution: {integrity: sha1-BKhphmHYBepvopO2y55jrARO8V4=}
-    engines: {node: '>=8'}
-
   text-hex@1.0.0:
     resolution: {integrity: sha1-adycGxdEbueakr9biEu0uRJ1BvU=}
 
@@ -42711,9 +42457,6 @@ packages:
   tmp@0.2.7:
     resolution: {integrity: sha1-JvTbEdFgHOgBLcuKeY7OHAapkFk=}
     engines: {node: '>=14.14'}
-
-  tmpl@1.0.5:
-    resolution: {integrity: sha1-hoPguQK7nCDE9ybjwLafNlGMB8w=}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha1-FkjESq58jZiKMmAY7XL1tN0DkuQ=}
@@ -42793,10 +42536,6 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha1-B7ggO/pwVsBlcFDjzNLDdzC6uPE=}
     engines: {node: '>= 0.8.0'}
-
-  type-detect@4.0.8:
-    resolution: {integrity: sha1-dkb7XxiHHPu3dJ5pvTmmOI63RQw=}
-    engines: {node: '>=4'}
 
   type-fest@0.7.1:
     resolution: {integrity: sha1-jdpl/q8D7Xjwo/lnjxhpFH98XEg=}
@@ -43093,9 +42832,6 @@ packages:
   vscode-uri@3.2.0:
     resolution: {integrity: sha1-HLH9PO50JrZnMq/D+4Y0PVltX7Q=}
 
-  walker@1.0.8:
-    resolution: {integrity: sha1-vUmNtHev5XPcBBhfAR06uKjXZT8=}
-
   webidl-conversions@3.0.1:
     resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
 
@@ -43164,10 +42900,6 @@ packages:
 
   wrappy@1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
-
-  write-file-atomic@4.0.2:
-    resolution: {integrity: sha1-qd8Brlt3hYoCf9LoB2juQzVV/P0=}
-    engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
   write-file-atomic@5.0.1:
     resolution: {integrity: sha1-aN9HF8Vcb6QoGnhgtMK6Cm0rEec=}
@@ -43287,9 +43019,9 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.4': {}
 
-  '@arethetypeswrong/cli@0.17.4':
+  '@arethetypeswrong/cli@0.18.5':
     dependencies:
-      '@arethetypeswrong/core': 0.17.4
+      '@arethetypeswrong/core': 0.18.5
       chalk: 4.1.2
       cli-table3: 0.6.5
       commander: 10.0.1
@@ -43297,13 +43029,13 @@ snapshots:
       marked-terminal: 7.3.0(marked@9.1.6)
       semver: 7.8.5
 
-  '@arethetypeswrong/core@0.17.4':
+  '@arethetypeswrong/core@0.18.5':
     dependencies:
       '@andrewbranch/untar.js': 1.0.4
       '@loaderkit/resolve': 1.0.6
       cjs-module-lexer: 1.4.3
       fflate: 0.8.3
-      lru-cache: 10.4.3
+      lru-cache: 11.5.3
       semver: 7.8.5
       typescript: 5.6.1-rc
       validate-npm-package-name: 5.0.1
@@ -44100,8 +43832,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/helper-plugin-utils@7.29.7': {}
-
   '@babel/helper-string-parser@7.29.7': {}
 
   '@babel/helper-string-parser@8.0.6': {}
@@ -44131,81 +43861,6 @@ snapshots:
   '@babel/parser@8.0.6':
     dependencies:
       '@babel/types': 8.0.6
-
-  '@babel/plugin-syntax-async-generators@7.8.4(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-bigint@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-import-attributes@7.29.7(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@7.29.7(supports-color@10.2.2))':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/helper-plugin-utils': 7.29.7
 
   '@babel/runtime@7.29.7': {}
 
@@ -44769,59 +44424,11 @@ snapshots:
 
   '@isaacs/ttlcache@1.4.1': {}
 
-  '@istanbuljs/load-nyc-config@1.1.0':
-    dependencies:
-      camelcase: 5.3.1
-      find-up: 4.1.0
-      get-package-type: 0.1.0
-      js-yaml: 3.15.2
-      resolve-from: 5.0.0
-
   '@istanbuljs/schema@0.1.6': {}
-
-  '@jest/create-cache-key-function@29.7.0':
-    dependencies:
-      '@jest/types': 29.6.3
-
-  '@jest/environment@29.7.0':
-    dependencies:
-      '@jest/fake-timers': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/node': 22.20.5
-      jest-mock: 29.7.0
-
-  '@jest/fake-timers@29.7.0':
-    dependencies:
-      '@jest/types': 29.6.3
-      '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.20.5
-      jest-message-util: 29.7.0
-      jest-mock: 29.7.0
-      jest-util: 29.7.0
 
   '@jest/schemas@29.6.3':
     dependencies:
       '@sinclair/typebox': 0.27.12
-
-  '@jest/transform@29.7.0(supports-color@10.2.2)':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@jest/types': 29.6.3
-      '@jridgewell/trace-mapping': 0.3.31
-      babel-plugin-istanbul: 6.1.1(supports-color@10.2.2)
-      chalk: 4.1.2
-      convert-source-map: 2.0.0
-      fast-json-stable-stringify: 2.1.0
-      graceful-fs: 4.2.11
-      jest-haste-map: 29.7.0
-      jest-regex-util: 29.6.3
-      jest-util: 29.7.0
-      micromatch: 4.0.8
-      pirates: 4.0.7
-      slash: 3.0.0
-      write-file-atomic: 4.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   '@jest/types@29.6.3':
     dependencies:
@@ -45824,35 +45431,34 @@ snapshots:
 
   '@protobufjs/utf8@1.1.2': {}
 
-  '@react-native/assets-registry@0.84.1': {}
+  '@react-native/asset-utils@0.87.1': {}
 
-  '@react-native/codegen@0.84.1(@babel/core@7.29.7(supports-color@10.2.2))':
+  '@react-native/codegen@0.87.1(@babel/core@8.0.6)':
     dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
+      '@babel/core': 8.0.6
       '@babel/parser': 7.29.9
-      hermes-parser: 0.32.0
+      hermes-parser: 0.36.1
       invariant: 2.2.4
       nullthrows: 1.1.1
       tinyglobby: 0.2.17
       yargs: 17.7.3
 
-  '@react-native/community-cli-plugin@0.84.1(supports-color@10.2.2)':
+  '@react-native/community-cli-plugin@0.87.1(supports-color@10.2.2)':
     dependencies:
-      '@react-native/dev-middleware': 0.84.1(supports-color@10.2.2)
+      '@react-native/asset-utils': 0.87.1
+      '@react-native/dev-middleware': 0.87.1(supports-color@10.2.2)
       debug: 4.4.3(supports-color@10.2.2)
       invariant: 2.2.4
-      metro: 0.83.8(supports-color@10.2.2)
-      metro-config: 0.83.8(supports-color@10.2.2)
-      metro-core: 0.83.8
+      metro: 0.87.1(supports-color@10.2.2)
       semver: 7.8.5
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  '@react-native/debugger-frontend@0.84.1': {}
+  '@react-native/debugger-frontend@0.87.1': {}
 
-  '@react-native/debugger-shell@0.84.1(supports-color@10.2.2)':
+  '@react-native/debugger-shell@0.87.1(supports-color@10.2.2)':
     dependencies:
       cross-spawn: 7.0.6
       debug: 4.4.3(supports-color@10.2.2)
@@ -45860,13 +45466,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@react-native/dev-middleware@0.84.1(supports-color@10.2.2)':
+  '@react-native/dev-middleware@0.87.1(supports-color@10.2.2)':
     dependencies:
       '@isaacs/ttlcache': 1.4.1
-      '@react-native/debugger-frontend': 0.84.1
-      '@react-native/debugger-shell': 0.84.1(supports-color@10.2.2)
+      '@react-native/debugger-frontend': 0.87.1
+      '@react-native/debugger-shell': 0.87.1(supports-color@10.2.2)
       chrome-launcher: 0.15.2(supports-color@10.2.2)
-      chromium-edge-launcher: 0.2.0(supports-color@10.2.2)
+      chromium-edge-launcher: 0.3.0(supports-color@10.2.2)
       connect: 3.7.0(supports-color@10.2.2)
       debug: 4.4.3(supports-color@10.2.2)
       invariant: 2.2.4
@@ -45879,18 +45485,16 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@react-native/gradle-plugin@0.84.1': {}
+  '@react-native/gradle-plugin@0.87.1': {}
 
-  '@react-native/js-polyfills@0.84.1': {}
+  '@react-native/normalize-colors@0.87.1': {}
 
-  '@react-native/normalize-colors@0.84.1': {}
-
-  '@react-native/virtualized-lists@0.84.1(@types/react@19.3.0)(react-native@0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2))(react@19.2.4)':
+  '@react-native/virtualized-lists@0.87.1(@types/react@19.3.0)(react-native@0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2))(react@19.2.4)':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
       react: 19.2.4
-      react-native: 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
+      react-native: 0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
     optionalDependencies:
       '@types/react': 19.3.0
 
@@ -46107,14 +45711,6 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@sinonjs/commons@3.0.1':
-    dependencies:
-      type-detect: 4.0.8
-
-  '@sinonjs/fake-timers@10.3.0':
-    dependencies:
-      '@sinonjs/commons': 3.0.1
-
   '@so-ric/colorspace@1.1.6':
     dependencies:
       color: 5.0.3
@@ -46151,27 +45747,6 @@ snapshots:
   '@types/async-retry@1.4.9':
     dependencies:
       '@types/retry': 0.12.5
-
-  '@types/babel__core@7.20.5':
-    dependencies:
-      '@babel/parser': 7.29.9
-      '@babel/types': 7.29.8
-      '@types/babel__generator': 7.27.0
-      '@types/babel__template': 7.4.4
-      '@types/babel__traverse': 7.28.0
-
-  '@types/babel__generator@7.27.0':
-    dependencies:
-      '@babel/types': 7.29.8
-
-  '@types/babel__template@7.4.4':
-    dependencies:
-      '@babel/parser': 7.29.9
-      '@babel/types': 7.29.8
-
-  '@types/babel__traverse@7.28.0':
-    dependencies:
-      '@babel/types': 7.29.8
 
   '@types/body-parser@1.19.6':
     dependencies:
@@ -46238,10 +45813,6 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 22.20.5
-
-  '@types/graceful-fs@4.1.9':
-    dependencies:
       '@types/node': 22.20.5
 
   '@types/hast@3.0.5':
@@ -46389,8 +45960,6 @@ snapshots:
     dependencies:
       '@types/node': 22.20.5
 
-  '@types/stack-utils@2.0.3': {}
-
   '@types/string-template@1.0.7': {}
 
   '@types/triple-beam@1.3.5': {}
@@ -46450,7 +46019,7 @@ snapshots:
   '@typescript-eslint/project-service@8.56.1(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.71.0(typescript@6.0.3)
-      '@typescript-eslint/types': 8.71.1
+      '@typescript-eslint/types': 8.71.0
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -46458,7 +46027,7 @@ snapshots:
 
   '@typescript-eslint/project-service@8.65.0(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.71.1(typescript@6.0.3)
+      '@typescript-eslint/tsconfig-utils': 8.71.0(typescript@6.0.3)
       '@typescript-eslint/types': 8.71.1
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
@@ -46501,10 +46070,6 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@typescript-eslint/tsconfig-utils@8.71.1(typescript@6.0.3)':
-    dependencies:
-      typescript: 6.0.3
-
   '@typescript-eslint/type-utils@8.65.0(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/types': 8.65.0
@@ -46520,6 +46085,8 @@ snapshots:
   '@typescript-eslint/types@8.56.1': {}
 
   '@typescript-eslint/types@8.65.0': {}
+
+  '@typescript-eslint/types@8.71.0': {}
 
   '@typescript-eslint/types@8.71.1': {}
 
@@ -46725,10 +46292,6 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  abort-controller@3.0.0:
-    dependencies:
-      event-target-shim: 5.0.1
-
   abstract-logging@2.0.1: {}
 
   accepts@2.0.0:
@@ -46798,11 +46361,6 @@ snapshots:
   ansi-styles@6.2.3: {}
 
   any-promise@1.3.0: {}
-
-  anymatch@3.1.3:
-    dependencies:
-      normalize-path: 3.0.0
-      picomatch: 2.3.2
 
   anynum@1.0.1: {}
 
@@ -46908,64 +46466,9 @@ snapshots:
       '@fastify/error': 4.2.0
       fastq: 1.20.3
 
-  babel-jest@29.7.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2):
+  babel-plugin-syntax-hermes-parser@0.36.1:
     dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@jest/transform': 29.7.0(supports-color@10.2.2)
-      '@types/babel__core': 7.20.5
-      babel-plugin-istanbul: 6.1.1(supports-color@10.2.2)
-      babel-preset-jest: 29.6.3(@babel/core@7.29.7(supports-color@10.2.2))
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-
-  babel-plugin-istanbul@6.1.1(supports-color@10.2.2):
-    dependencies:
-      '@babel/helper-plugin-utils': 7.29.7
-      '@istanbuljs/load-nyc-config': 1.1.0
-      '@istanbuljs/schema': 0.1.6
-      istanbul-lib-instrument: 5.2.1(supports-color@10.2.2)
-      test-exclude: 6.0.0
-    transitivePeerDependencies:
-      - supports-color
-
-  babel-plugin-jest-hoist@29.6.3:
-    dependencies:
-      '@babel/template': 7.29.7
-      '@babel/types': 7.29.8
-      '@types/babel__core': 7.20.5
-      '@types/babel__traverse': 7.28.0
-
-  babel-plugin-syntax-hermes-parser@0.32.0:
-    dependencies:
-      hermes-parser: 0.32.0
-
-  babel-preset-current-node-syntax@1.2.0(@babel/core@7.29.7(supports-color@10.2.2)):
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/plugin-syntax-async-generators': 7.8.4(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-bigint': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-class-properties': 7.12.13(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-class-static-block': 7.14.5(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-import-attributes': 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-import-meta': 7.10.4(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-json-strings': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-logical-assignment-operators': 7.10.4(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-numeric-separator': 7.10.4(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-optional-catch-binding': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.29.7(supports-color@10.2.2))
-      '@babel/plugin-syntax-top-level-await': 7.14.5(@babel/core@7.29.7(supports-color@10.2.2))
-
-  babel-preset-jest@29.6.3(@babel/core@7.29.7(supports-color@10.2.2)):
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      babel-plugin-jest-hoist: 29.6.3
-      babel-preset-current-node-syntax: 1.2.0(@babel/core@7.29.7(supports-color@10.2.2))
+      hermes-parser: 0.36.1
 
   balanced-match@1.0.2: {}
 
@@ -47185,18 +46688,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  chromium-edge-launcher@0.2.0(supports-color@10.2.2):
+  chromium-edge-launcher@0.3.0(supports-color@10.2.2):
     dependencies:
       '@types/node': 22.20.5
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2(supports-color@10.2.2)
       mkdirp: 1.0.4
-      rimraf: 3.0.2
     transitivePeerDependencies:
       - supports-color
-
-  ci-info@2.0.0: {}
 
   ci-info@3.9.0: {}
 
@@ -47976,8 +47476,6 @@ snapshots:
 
   etag@1.8.1: {}
 
-  event-target-shim@5.0.1: {}
-
   eventemitter3@5.0.4: {}
 
   events@3.3.0: {}
@@ -48187,11 +47685,6 @@ snapshots:
 
   find-replace@5.0.2: {}
 
-  find-up@4.1.0:
-    dependencies:
-      locate-path: 5.0.0
-      path-exists: 4.0.0
-
   find-up@5.0.0:
     dependencies:
       locate-path: 6.0.0
@@ -48208,6 +47701,12 @@ snapshots:
   flatted@3.4.4: {}
 
   flow-enums-runtime@0.0.6: {}
+
+  flow-estree@0.331.0: {}
+
+  flow-parser@0.331.0:
+    dependencies:
+      flow-estree: 0.331.0
 
   flru@1.0.2: {}
 
@@ -48310,8 +47809,6 @@ snapshots:
       has-symbols: 1.1.0
       hasown: 2.0.4
       math-intrinsics: 1.1.0
-
-  get-package-type@0.1.0: {}
 
   get-proto@1.0.1:
     dependencies:
@@ -48461,19 +47958,13 @@ snapshots:
 
   help-me@5.0.0: {}
 
-  hermes-compiler@250829098.0.9: {}
+  hermes-compiler@250829098.0.17: {}
 
-  hermes-estree@0.32.0: {}
+  hermes-estree@0.36.1: {}
 
-  hermes-estree@0.35.0: {}
-
-  hermes-parser@0.32.0:
+  hermes-parser@0.36.1:
     dependencies:
-      hermes-estree: 0.32.0
-
-  hermes-parser@0.35.0:
-    dependencies:
-      hermes-estree: 0.35.0
+      hermes-estree: 0.36.1
 
   highlight.js@10.7.3: {}
 
@@ -48793,64 +48284,7 @@ snapshots:
 
   isexe@4.0.0: {}
 
-  istanbul-lib-coverage@3.2.2: {}
-
-  istanbul-lib-instrument@5.2.1(supports-color@10.2.2):
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@10.2.2)
-      '@babel/parser': 7.29.9
-      '@istanbuljs/schema': 0.1.6
-      istanbul-lib-coverage: 3.2.2
-      semver: 6.3.1
-    transitivePeerDependencies:
-      - supports-color
-
-  jest-environment-node@29.7.0:
-    dependencies:
-      '@jest/environment': 29.7.0
-      '@jest/fake-timers': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/node': 22.20.5
-      jest-mock: 29.7.0
-      jest-util: 29.7.0
-
   jest-get-type@29.6.3: {}
-
-  jest-haste-map@29.7.0:
-    dependencies:
-      '@jest/types': 29.6.3
-      '@types/graceful-fs': 4.1.9
-      '@types/node': 22.20.5
-      anymatch: 3.1.3
-      fb-watchman: 2.0.2
-      graceful-fs: 4.2.11
-      jest-regex-util: 29.6.3
-      jest-util: 29.7.0
-      jest-worker: 29.7.0
-      micromatch: 4.0.8
-      walker: 1.0.8
-    optionalDependencies:
-      fsevents: 2.3.3
-
-  jest-message-util@29.7.0:
-    dependencies:
-      '@babel/code-frame': 7.29.7
-      '@jest/types': 29.6.3
-      '@types/stack-utils': 2.0.3
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      micromatch: 4.0.8
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      stack-utils: 2.0.6
-
-  jest-mock@29.7.0:
-    dependencies:
-      '@jest/types': 29.6.3
-      '@types/node': 22.20.5
-      jest-util: 29.7.0
-
-  jest-regex-util@29.6.3: {}
 
   jest-util@29.7.0:
     dependencies:
@@ -48886,11 +48320,6 @@ snapshots:
   js-tokens@10.0.0: {}
 
   js-tokens@4.0.0: {}
-
-  js-yaml@3.15.2:
-    dependencies:
-      argparse: 1.0.10
-      esprima: 4.0.1
 
   js-yaml@4.3.2:
     dependencies:
@@ -49092,10 +48521,6 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
-  locate-path@5.0.0:
-    dependencies:
-      p-locate: 4.1.0
-
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -49143,8 +48568,6 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lru-cache@10.4.3: {}
-
   lru-cache@11.5.3: {}
 
   lru-cache@5.1.1:
@@ -49184,10 +48607,6 @@ snapshots:
     transitivePeerDependencies:
       - kerberos
       - supports-color
-
-  makeerror@1.0.12:
-    dependencies:
-      tmpl: 1.0.5
 
   map-obj@1.0.1: {}
 
@@ -49276,51 +48695,50 @@ snapshots:
 
   merge2@1.4.1: {}
 
-  metro-babel-transformer@0.83.8(supports-color@10.2.2):
+  metro-babel-transformer@0.87.1(supports-color@10.2.2):
     dependencies:
       '@babel/core': 7.29.7(supports-color@10.2.2)
       flow-enums-runtime: 0.0.6
-      hermes-parser: 0.35.0
-      metro-cache-key: 0.83.8
+      flow-parser: 0.331.0
+      metro-cache-key: 0.87.1
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - supports-color
 
-  metro-cache-key@0.83.8:
+  metro-cache-key@0.87.1:
     dependencies:
       flow-enums-runtime: 0.0.6
 
-  metro-cache@0.83.8(supports-color@10.2.2):
+  metro-cache@0.87.1(supports-color@10.2.2):
     dependencies:
       exponential-backoff: 3.1.3
       flow-enums-runtime: 0.0.6
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
-      metro-core: 0.83.8
+      metro-core: 0.87.1
     transitivePeerDependencies:
       - supports-color
 
-  metro-config@0.83.8(supports-color@10.2.2):
+  metro-config@0.87.1(supports-color@10.2.2):
     dependencies:
       connect: 3.7.0(supports-color@10.2.2)
       flow-enums-runtime: 0.0.6
       jest-validate: 29.7.0
-      metro: 0.83.8(supports-color@10.2.2)
-      metro-cache: 0.83.8(supports-color@10.2.2)
-      metro-core: 0.83.8
-      metro-runtime: 0.83.8
-      yaml: 2.9.1
+      metro: 0.87.1(supports-color@10.2.2)
+      metro-cache: 0.87.1(supports-color@10.2.2)
+      metro-core: 0.87.1
+      metro-runtime: 0.87.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  metro-core@0.83.8:
+  metro-core@0.87.1:
     dependencies:
       flow-enums-runtime: 0.0.6
       lodash.throttle: 4.1.1
-      metro-resolver: 0.83.8
+      metro-resolver: 0.87.1
 
-  metro-file-map@0.83.8(supports-color@10.2.2):
+  metro-file-map@0.87.1(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       fb-watchman: 2.0.2
@@ -49330,50 +48748,49 @@ snapshots:
       jest-worker: 29.7.0
       micromatch: 4.0.8
       nullthrows: 1.1.1
-      walker: 1.0.8
     transitivePeerDependencies:
       - supports-color
 
-  metro-minify-terser@0.83.8:
+  metro-minify-terser@0.87.1:
     dependencies:
       flow-enums-runtime: 0.0.6
       terser: 5.51.2
 
-  metro-resolver@0.83.8:
+  metro-resolver@0.87.1:
     dependencies:
       flow-enums-runtime: 0.0.6
 
-  metro-runtime@0.83.8:
+  metro-runtime@0.87.1:
     dependencies:
       '@babel/runtime': 7.29.7
       flow-enums-runtime: 0.0.6
 
-  metro-source-map@0.83.8(supports-color@10.2.2):
+  metro-source-map@0.87.1(supports-color@10.2.2):
     dependencies:
       '@babel/traverse': 7.29.8(supports-color@10.2.2)
       '@babel/types': 7.29.8
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
-      metro-symbolicate: 0.83.8(supports-color@10.2.2)
+      metro-symbolicate: 0.87.1(supports-color@10.2.2)
       nullthrows: 1.1.1
-      ob1: 0.83.8
+      ob1: 0.87.1
       source-map: 0.5.7
       vlq: 1.0.1
     transitivePeerDependencies:
       - supports-color
 
-  metro-symbolicate@0.83.8(supports-color@10.2.2):
+  metro-symbolicate@0.87.1(supports-color@10.2.2):
     dependencies:
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
-      metro-source-map: 0.83.8(supports-color@10.2.2)
+      metro-source-map: 0.87.1(supports-color@10.2.2)
       nullthrows: 1.1.1
       source-map: 0.5.7
       vlq: 1.0.1
     transitivePeerDependencies:
       - supports-color
 
-  metro-transform-plugins@0.83.8(supports-color@10.2.2):
+  metro-transform-plugins@0.87.1(supports-color@10.2.2):
     dependencies:
       '@babel/core': 7.29.7(supports-color@10.2.2)
       '@babel/generator': 7.29.8
@@ -49384,27 +48801,27 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  metro-transform-worker@0.83.8(supports-color@10.2.2):
+  metro-transform-worker@0.87.1(supports-color@10.2.2):
     dependencies:
       '@babel/core': 7.29.7(supports-color@10.2.2)
       '@babel/generator': 7.29.8
       '@babel/parser': 7.29.9
       '@babel/types': 7.29.8
       flow-enums-runtime: 0.0.6
-      metro: 0.83.8(supports-color@10.2.2)
-      metro-babel-transformer: 0.83.8(supports-color@10.2.2)
-      metro-cache: 0.83.8(supports-color@10.2.2)
-      metro-cache-key: 0.83.8
-      metro-minify-terser: 0.83.8
-      metro-source-map: 0.83.8(supports-color@10.2.2)
-      metro-transform-plugins: 0.83.8(supports-color@10.2.2)
+      metro: 0.87.1(supports-color@10.2.2)
+      metro-babel-transformer: 0.87.1(supports-color@10.2.2)
+      metro-cache: 0.87.1(supports-color@10.2.2)
+      metro-cache-key: 0.87.1
+      metro-minify-terser: 0.87.1
+      metro-source-map: 0.87.1(supports-color@10.2.2)
+      metro-transform-plugins: 0.87.1(supports-color@10.2.2)
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  metro@0.83.8(supports-color@10.2.2):
+  metro@0.87.1(supports-color@10.2.2):
     dependencies:
       '@babel/code-frame': 7.29.7
       '@babel/core': 7.29.7(supports-color@10.2.2)
@@ -49414,29 +48831,28 @@ snapshots:
       '@babel/traverse': 7.29.8(supports-color@10.2.2)
       '@babel/types': 7.29.8
       accepts: 2.0.0
-      ci-info: 2.0.0
       connect: 3.7.0(supports-color@10.2.2)
       debug: 4.4.3(supports-color@10.2.2)
       error-stack-parser: 2.1.4
       flow-enums-runtime: 0.0.6
+      flow-parser: 0.331.0
       graceful-fs: 4.2.11
-      hermes-parser: 0.35.0
       invariant: 2.2.4
       jest-worker: 29.7.0
       jsc-safe-url: 0.2.4
       lodash.throttle: 4.1.1
-      metro-babel-transformer: 0.83.8(supports-color@10.2.2)
-      metro-cache: 0.83.8(supports-color@10.2.2)
-      metro-cache-key: 0.83.8
-      metro-config: 0.83.8(supports-color@10.2.2)
-      metro-core: 0.83.8
-      metro-file-map: 0.83.8(supports-color@10.2.2)
-      metro-resolver: 0.83.8
-      metro-runtime: 0.83.8
-      metro-source-map: 0.83.8(supports-color@10.2.2)
-      metro-symbolicate: 0.83.8(supports-color@10.2.2)
-      metro-transform-plugins: 0.83.8(supports-color@10.2.2)
-      metro-transform-worker: 0.83.8(supports-color@10.2.2)
+      metro-babel-transformer: 0.87.1(supports-color@10.2.2)
+      metro-cache: 0.87.1(supports-color@10.2.2)
+      metro-cache-key: 0.87.1
+      metro-config: 0.87.1(supports-color@10.2.2)
+      metro-core: 0.87.1
+      metro-file-map: 0.87.1(supports-color@10.2.2)
+      metro-resolver: 0.87.1
+      metro-runtime: 0.87.1
+      metro-source-map: 0.87.1(supports-color@10.2.2)
+      metro-symbolicate: 0.87.1(supports-color@10.2.2)
+      metro-transform-plugins: 0.87.1(supports-color@10.2.2)
+      metro-transform-worker: 0.87.1(supports-color@10.2.2)
       mime-types: 3.0.2
       nullthrows: 1.1.1
       serialize-error: 2.1.0
@@ -49666,8 +49082,6 @@ snapshots:
     dependencies:
       remove-trailing-separator: 1.1.0
 
-  normalize-path@3.0.0: {}
-
   normalize-registry-url@2.0.1: {}
 
   npm-install-checks@9.0.0:
@@ -49710,7 +49124,7 @@ snapshots:
 
   nullthrows@1.1.1: {}
 
-  ob1@0.83.8:
+  ob1@0.87.1:
     dependencies:
       flow-enums-runtime: 0.0.6
 
@@ -49837,17 +49251,9 @@ snapshots:
     dependencies:
       p-map: 7.0.8
 
-  p-limit@2.3.0:
-    dependencies:
-      p-try: 2.2.0
-
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
-
-  p-locate@4.1.0:
-    dependencies:
-      p-limit: 2.3.0
 
   p-locate@5.0.0:
     dependencies:
@@ -49858,8 +49264,6 @@ snapshots:
   p-map@7.0.8: {}
 
   p-timeout@6.1.4: {}
-
-  p-try@2.2.0: {}
 
   package-json-from-dist@1.0.1: {}
 
@@ -50002,8 +49406,6 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.2.0
-
-  pirates@4.0.7: {}
 
   pkce-challenge@5.0.1: {}
 
@@ -50183,30 +49585,25 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-native@0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2):
+  react-native@0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2):
     dependencies:
-      '@jest/create-cache-key-function': 29.7.0
-      '@react-native/assets-registry': 0.84.1
-      '@react-native/codegen': 0.84.1(@babel/core@7.29.7(supports-color@10.2.2))
-      '@react-native/community-cli-plugin': 0.84.1(supports-color@10.2.2)
-      '@react-native/gradle-plugin': 0.84.1
-      '@react-native/js-polyfills': 0.84.1
-      '@react-native/normalize-colors': 0.84.1
-      '@react-native/virtualized-lists': 0.84.1(@types/react@19.3.0)(react-native@0.84.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2))(react@19.2.4)
-      abort-controller: 3.0.0
+      '@react-native/asset-utils': 0.87.1
+      '@react-native/codegen': 0.87.1(@babel/core@8.0.6)
+      '@react-native/community-cli-plugin': 0.87.1(supports-color@10.2.2)
+      '@react-native/gradle-plugin': 0.87.1
+      '@react-native/normalize-colors': 0.87.1
+      '@react-native/virtualized-lists': 0.87.1(@types/react@19.3.0)(react-native@0.87.1(@babel/core@8.0.6)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2))(react@19.2.4)
       anser: 1.4.10
       ansi-regex: 5.0.1
-      babel-jest: 29.7.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
-      babel-plugin-syntax-hermes-parser: 0.32.0
+      babel-plugin-syntax-hermes-parser: 0.36.1
       base64-js: 1.5.1
       commander: 12.1.0
       flow-enums-runtime: 0.0.6
-      hermes-compiler: 250829098.0.9
+      hermes-compiler: 250829098.0.17
       invariant: 2.2.4
-      jest-environment-node: 29.7.0
       memoize-one: 5.2.1
-      metro-runtime: 0.83.8
-      metro-source-map: 0.83.8(supports-color@10.2.2)
+      metro-runtime: 0.87.1
+      metro-source-map: 0.87.1(supports-color@10.2.2)
       nullthrows: 1.1.1
       pretty-format: 29.7.0
       promise: 8.3.0
@@ -50379,10 +49776,6 @@ snapshots:
     dependencies:
       glob: 6.0.4
     optional: true
-
-  rimraf@3.0.2:
-    dependencies:
-      glob: 7.2.3
 
   rimraf@6.1.3:
     dependencies:
@@ -50789,10 +50182,6 @@ snapshots:
 
   stack-trace@0.0.10: {}
 
-  stack-utils@2.0.6:
-    dependencies:
-      escape-string-regexp: 2.0.0
-
   stackframe@1.3.4: {}
 
   stacktrace-parser@0.1.11:
@@ -50965,12 +50354,6 @@ snapshots:
       is-buffer: 2.0.5
       unpartial: 1.0.8
 
-  test-exclude@6.0.0:
-    dependencies:
-      '@istanbuljs/schema': 0.1.6
-      glob: 7.2.3
-      minimatch: 3.1.5
-
   text-hex@1.0.0: {}
 
   thenify-all@1.6.0:
@@ -51008,8 +50391,6 @@ snapshots:
   tinyrainbow@3.2.0: {}
 
   tmp@0.2.7: {}
-
-  tmpl@1.0.5: {}
 
   to-regex-range@5.0.1:
     dependencies:
@@ -51082,8 +50463,6 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
-
-  type-detect@4.0.8: {}
 
   type-fest@0.7.1: {}
 
@@ -51314,10 +50693,6 @@ snapshots:
 
   vscode-uri@3.2.0: {}
 
-  walker@1.0.8:
-    dependencies:
-      makeerror: 1.0.12
-
   webidl-conversions@3.0.1: {}
 
   whatwg-fetch@3.6.20: {}
@@ -51419,11 +50794,6 @@ snapshots:
       strip-ansi: 7.2.0
 
   wrappy@1.0.2: {}
-
-  write-file-atomic@4.0.2:
-    dependencies:
-      imurmurhash: 0.1.4
-      signal-exit: 3.0.7
 
   write-file-atomic@5.0.1:
     dependencies:
