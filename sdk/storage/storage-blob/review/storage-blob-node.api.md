@@ -2290,6 +2290,16 @@ export type DownloadHint = "layout";
 export type EncryptionAlgorithmType = string;
 
 // @public
+export type ExpectContinueMode = "auto" | "always" | "never";
+
+// @public
+export interface ExpectContinueOptions {
+    autoIntervalInMs?: number;
+    minBodySizeInBytes?: number;
+    mode?: ExpectContinueMode;
+}
+
+// @public
 export type FileShareTokenIntent = string;
 
 // @public
@@ -3002,16 +3012,6 @@ export { Range_2 as Range }
 export type RehydratePriority = "High" | "Standard";
 
 // @public
-export type Request100ContinueMode = "auto" | "always" | "never";
-
-// @public
-export interface Request100ContinueOptions {
-    autoIntervalInMs?: number;
-    contentLengthThreshold?: number;
-    mode?: Request100ContinueMode;
-}
-
-// @public
 export type RequestHeaders = Record<string, string>;
 
 export { RequestPolicy as IHttpClient }
@@ -3370,10 +3370,10 @@ export const StorageOAuthScopes: string | string[];
 // @public
 export interface StoragePipelineOptions {
     audience?: string | string[];
+    expectContinueOptions?: ExpectContinueOptions;
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
-    request100ContinueOptions?: Request100ContinueOptions;
     retryOptions?: StorageRetryOptions;
     sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;

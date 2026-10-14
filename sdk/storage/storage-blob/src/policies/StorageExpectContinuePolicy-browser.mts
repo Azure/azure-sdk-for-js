@@ -7,7 +7,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import type { Request100ContinueMode, Request100ContinueOptions } from "../Pipeline.js";
+import type { ExpectContinueMode, ExpectContinueOptions } from "../Pipeline.js";
 
 /**
  * The programmatic identifier of the storageExpectContinuePolicy.
@@ -18,8 +18,8 @@ export const storageExpectContinuePolicyName = "storageExpectContinuePolicy";
  * Browsers don't allow the `Expect` request header, so this policy sends requests unchanged.
  */
 export function storageExpectContinuePolicy(
-  _options?: Request100ContinueOptions,
-  _defaultMode?: Request100ContinueMode,
+  _options?: ExpectContinueOptions,
+  _defaultMode?: ExpectContinueMode,
 ): PipelinePolicy {
   return {
     name: storageExpectContinuePolicyName,

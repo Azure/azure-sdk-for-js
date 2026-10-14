@@ -7,7 +7,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import type { Request100ContinueMode, Request100ContinueOptions } from "../Pipeline.js";
+import type { ExpectContinueMode, ExpectContinueOptions } from "../Pipeline.js";
 import { HeaderConstants } from "../utils/constants.js";
 
 /**
@@ -27,9 +27,9 @@ function isDisabledByEnvironment(): boolean {
 }
 
 function resolveMode(
-  mode: Request100ContinueMode | undefined,
-  defaultMode: Request100ContinueMode,
-): Request100ContinueMode {
+  mode: ExpectContinueMode | undefined,
+  defaultMode: ExpectContinueMode,
+): ExpectContinueMode {
   if (isDisabledByEnvironment()) {
     return "never";
   }
@@ -43,11 +43,11 @@ function resolveMode(
  * phase so that the retry of a throttled attempt already carries the header.
  */
 export function storageExpectContinuePolicy(
-  options?: Request100ContinueOptions,
-  defaultMode: Request100ContinueMode = "auto",
+  options?: ExpectContinueOptions,
+  defaultMode: ExpectContinueMode = "auto",
 ): PipelinePolicy {
   const mode = resolveMode(options?.mode, defaultMode);
-  const contentLengthThreshold = options?.contentLengthThreshold ?? 0;
+  const minBodySizeInBytes = options?.minBodySizeInBytes ?? 0;
   const autoIntervalInMs = options?.autoIntervalInMs ?? DEFAULT_AUTO_INTERVAL_IN_MS;
   let lastThrottledAt: number | undefined;
 
@@ -72,7 +72,7 @@ export function storageExpectContinuePolicy(
       return true;
     }
     const length = Number(contentLength);
-    return length > 0 && length >= contentLengthThreshold;
+    return length > 0 && length >= minBodySizeInBytes;
   }
 
   return {

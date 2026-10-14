@@ -40,7 +40,7 @@ describe("Expect: 100-continue in the browser", () => {
     const { httpClient, seen } = recordingHttpClient();
     const client = new BlockBlobClient(BLOB_URL, new AnonymousCredential(), {
       httpClient,
-      request100ContinueOptions: { mode: "always" },
+      expectContinueOptions: { mode: "always" },
     });
 
     await client.upload("hello", 5);
