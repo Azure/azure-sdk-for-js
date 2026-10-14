@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to adds resources to the specified scheduled action.
+ * This sample demonstrates how to adds resources to the specified recurring bulk action.
  *
- * @summary adds resources to the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_AttachResources_BasicSuccess.json
+ * @summary adds resources to the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_AttachResources_BasicSuccess.json
  */
-async function _01AttachResourcesToARecurringScheduledAction(): Promise<void> {
+async function _01AttachResourcesToARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -30,12 +30,12 @@ async function _01AttachResourcesToARecurringScheduledAction(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to adds resources to the specified scheduled action.
+ * This sample demonstrates how to adds resources to the specified recurring bulk action.
  *
- * @summary adds resources to the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_AttachResources_ComprehensiveSuccess.json
+ * @summary adds resources to the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_AttachResources_ComprehensiveSuccess.json
  */
-async function _02AttachResourcesToARecurringScheduledActionWithIndividualNotificationSettings(): Promise<void> {
+async function _02AttachResourcesToARecurringBulkActionWithIndividualNotificationSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -72,12 +72,12 @@ async function _02AttachResourcesToARecurringScheduledActionWithIndividualNotifi
 }
 
 /**
- * This sample demonstrates how to adds resources to the specified scheduled action.
+ * This sample demonstrates how to adds resources to the specified recurring bulk action.
  *
- * @summary adds resources to the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_AttachResources_PartialSuccess.json
+ * @summary adds resources to the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_AttachResources_PartialSuccess.json
  */
-async function _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringScheduledAction(): Promise<void> {
+async function _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -89,7 +89,7 @@ async function _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringSc
       },
       {
         resourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
       },
     ],
   });
@@ -97,9 +97,9 @@ async function _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringSc
 }
 
 async function main(): Promise<void> {
-  await _01AttachResourcesToARecurringScheduledAction();
-  await _02AttachResourcesToARecurringScheduledActionWithIndividualNotificationSettings();
-  await _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringScheduledAction();
+  await _01AttachResourcesToARecurringBulkAction();
+  await _02AttachResourcesToARecurringBulkActionWithIndividualNotificationSettings();
+  await _03ResponseWithPartialResultsWhenAttachingResourcesToARecurringBulkAction();
 }
 
 main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
  *
  * @summary gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlStoredProcedureGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlStoredProcedureGet.json
  */
 async function cosmosDBSqlStoredProcedureGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

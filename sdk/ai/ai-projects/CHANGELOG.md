@@ -1,5 +1,11 @@
 # Release History
 
+## 2.8.1 (Unreleased)
+
+### Other Changes
+
+- Upgrade `openai` dependency to `^7.28.0` and `ws` to `^8.21.0`. [#39489](https://github.com/Azure/azure-sdk-for-js/issues/39489)
+
 ## 2.8.0 (2026-10-05)
 
 ### Breaking Changes

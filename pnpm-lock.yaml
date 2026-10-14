@@ -470,8 +470,8 @@ importers:
         specifier: workspace:^
         version: link:../eng-package-utils
       argparse:
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: ^3.0.2
+        version: 3.0.2
       handlebars:
         specifier: ^4.7.9
         version: 4.7.9
@@ -485,9 +485,6 @@ importers:
         specifier: ^7.5.20
         version: 7.5.22
     devDependencies:
-      '@types/argparse':
-        specifier: ^2.0.17
-        version: 2.0.17
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.5
@@ -1337,13 +1334,13 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
       ws:
-        specifier: ^8.18.3
+        specifier: ^8.21.0
         version: 8.22.0
     devDependencies:
       '@azure-rest/ai-inference':
@@ -9903,7 +9900,7 @@ importers:
   sdk/cosmosdb/arm-cosmosdb:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -22683,7 +22680,7 @@ importers:
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.46
+        specifier: 1.0.0-beta.47
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.1.0-beta.1
@@ -24524,8 +24521,8 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -29458,8 +29455,8 @@ importers:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.22.0)(zod@4.6.5)
+        specifier: ^7.28.0
+        version: 7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5)
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -38496,9 +38493,6 @@ packages:
   '@types/argparse@1.0.38':
     resolution: {integrity: sha1-qB/YYG1IH4c6OADG665PHXaKVqk=}
 
-  '@types/argparse@2.0.17':
-    resolution: {integrity: sha1-OJW09x8jnHs3UeRlG1bxKSyZmIU=}
-
   '@types/async-retry@1.4.9':
     resolution: {integrity: sha1-R9EY6DWGTWM7UginimkHsbROULw=}
 
@@ -38794,6 +38788,12 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
+  '@typescript-eslint/tsconfig-utils@8.71.1':
+    resolution: {integrity: sha512-oTvkml5SxXhgg+WWKhod5qWQICDXtOB+/Hi9VdPKFAANJ2b7YOgMffgvzXuqog7R6A/JtrzRf128dsxummyWhg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
   '@typescript-eslint/type-utils@8.65.0':
     resolution: {integrity: sha1-0xbXUi2Tz/TNFPMF4C898tgE+cE=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -38807,6 +38807,10 @@ packages:
 
   '@typescript-eslint/types@8.65.0':
     resolution: {integrity: sha1-PoZzhBand8i4klq0Z0X0js+QTJ8=}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/types@8.71.1':
+    resolution: {integrity: sha512-ybYnPTUwg3VQQOFEiBPLs8Jxl1ry2vXdn1kVKguomBbvxpetdu3MKTNDqFNUrlG8ylP9MpZosmXMFYlGQHk1oQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/typescript-estree@8.56.1':
@@ -39022,6 +39026,9 @@ packages:
 
   argparse@2.0.1:
     resolution: {integrity: sha1-JG9Q88p4oyQPbJl+ipvR6sSeSzg=}
+
+  argparse@3.0.2:
+    resolution: {integrity: sha512-mFdDM6WqWKraGLsVb+C9CahPnzTXOefAOLq3jYcca2YZ8bEWpr++Tzj+zSaKW9+X9L5uSxcm1AZ3Y6aZJ09OhQ==}
 
   array-back@6.2.3:
     resolution: {integrity: sha1-1B5nWYgF5hTyOzGbnllg37zXKuI=}
@@ -41612,14 +41619,15 @@ packages:
     resolution: {integrity: sha1-uBR+Jtzz5CYxbHMAif1x7dKcIyE=}
     engines: {node: '>=8'}
 
-  openai@6.49.0:
-    resolution: {integrity: sha1-bp95jhRpNe042VW0PVfWeWzuXms=}
-    hasBin: true
+  openai@7.28.0:
+    resolution: {integrity: sha512-HSY4fFLflQGYe2kvO0atm6/GzhD61gpyiOZZUvO4nptMUhuB1to2K3wwFpFqc5gfEK0SxyIIFiu1yE2MtygWcA==}
+    engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
       '@smithy/signature-v4': '>=5.4.0 <6'
-      ws: ^8.18.0
+      undici: '>=5 <9'
+      ws: ^8.21.0
       zod: ^3.25 || ^4.0
     peerDependenciesMeta:
       '@aws-sdk/credential-provider-node':
@@ -41627,6 +41635,8 @@ packages:
       '@smithy/hash-node':
         optional: true
       '@smithy/signature-v4':
+        optional: true
+      undici:
         optional: true
       ws:
         optional: true
@@ -46138,8 +46148,6 @@ snapshots:
 
   '@types/argparse@1.0.38': {}
 
-  '@types/argparse@2.0.17': {}
-
   '@types/async-retry@1.4.9':
     dependencies:
       '@types/retry': 0.12.5
@@ -46442,7 +46450,7 @@ snapshots:
   '@typescript-eslint/project-service@8.56.1(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.71.0(typescript@6.0.3)
-      '@typescript-eslint/types': 8.65.0
+      '@typescript-eslint/types': 8.71.1
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -46450,8 +46458,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.65.0(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.71.0(typescript@6.0.3)
-      '@typescript-eslint/types': 8.65.0
+      '@typescript-eslint/tsconfig-utils': 8.71.1(typescript@6.0.3)
+      '@typescript-eslint/types': 8.71.1
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -46493,6 +46501,10 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
+  '@typescript-eslint/tsconfig-utils@8.71.1(typescript@6.0.3)':
+    dependencies:
+      typescript: 6.0.3
+
   '@typescript-eslint/type-utils@8.65.0(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/types': 8.65.0
@@ -46508,6 +46520,8 @@ snapshots:
   '@typescript-eslint/types@8.56.1': {}
 
   '@typescript-eslint/types@8.65.0': {}
+
+  '@typescript-eslint/types@8.71.1': {}
 
   '@typescript-eslint/typescript-estree@8.56.1(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
@@ -46804,6 +46818,8 @@ snapshots:
       sprintf-js: 1.0.3
 
   argparse@2.0.1: {}
+
+  argparse@3.0.2: {}
 
   array-back@6.2.3: {}
 
@@ -49785,8 +49801,9 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@6.49.0(ws@8.22.0)(zod@4.6.5):
+  openai@7.28.0(undici@8.11.2)(ws@8.22.0)(zod@4.6.5):
     optionalDependencies:
+      undici: 8.11.2
       ws: 8.22.0
       zod: 4.6.5
 
