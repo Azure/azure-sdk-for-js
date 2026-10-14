@@ -34,6 +34,7 @@ import {
 
 const prefix = "az.ai.voice_agents.";
 const maxResponses = 64;
+const maxInputItems = 64;
 const maxParts = 32;
 const maxContentLength = 4096;
 const safeErrorTypes = new Set([
@@ -150,6 +151,18 @@ interface TrackedResponse {
   outputParts: Map<string, { itemId: string; contentIndex: number; part: Record<string, unknown> }>;
 }
 
+interface TrackedInputAudio {
+  sequence: number;
+  itemId?: string;
+  pendingQueue?: PendingInputAudio;
+  pendingSkipped?: boolean;
+}
+
+interface PendingInputAudio {
+  items: TrackedInputAudio[];
+  skipped: number;
+}
+
 interface MessageSummary {
   role: "system" | "user" | "assistant" | "tool";
   parts: Record<string, unknown>[];
@@ -227,8 +240,13 @@ export class VoiceAgentRealtimeTracing {
   private connected = false;
   private model?: string;
   private inputAudioBytes = 0;
-  private audioInputSummaryRecorded = false;
-  private inputItemId?: string;
+  private inputSequence = 0;
+  private inputAudioBuffer?: TrackedInputAudio;
+  private readonly inputAudioItems = new Map<string, TrackedInputAudio>();
+  private readonly pendingAudioCommits: PendingInputAudio = { items: [], skipped: 0 };
+  private readonly pendingAudioMessages: PendingInputAudio = { items: [], skipped: 0 };
+  private pendingAudioClears = 0;
+  private untrackedInputItems = 0;
   private finishedResponses = 0;
   private untrackedResponses = 0;
 
@@ -266,23 +284,35 @@ export class VoiceAgentRealtimeTracing {
           Math.floor((event.audio.length * 3) / 4) -
             (event.audio.endsWith("==") ? 2 : event.audio.endsWith("=") ? 1 : 0),
         );
-        if (!this.audioInputSummaryRecorded) {
+        if (!this.inputAudioBuffer) {
+          this.inputAudioBuffer = this.startInputAudio();
+        } else if (this.inputAudioBuffer.sequence !== this.inputSequence) {
+          this.inputAudioBuffer.sequence = ++this.inputSequence;
           this.setInputAudioSummary();
-          this.audioInputSummaryRecorded = true;
         }
-      } else if (
-        event.type === "input_audio_buffer.commit" ||
-        event.type === "input_audio_buffer.clear"
-      ) {
-        this.audioInputSummaryRecorded = false;
+      } else if (event.type === "input_audio_buffer.commit") {
+        if (this.inputAudioBuffer) {
+          this.enqueueInputAudio(this.pendingAudioCommits, this.inputAudioBuffer);
+          this.inputAudioBuffer = undefined;
+        }
+      } else if (event.type === "input_audio_buffer.clear") {
+        this.inputAudioBuffer = undefined;
+        this.pendingAudioClears++;
       } else if (event.type === "conversation.item.create") {
-        this.audioInputSummaryRecorded = false;
         const summary = messages(event.item, this.config.contentRecording);
+        const item = asRecord(event.item);
         if (summary) {
+          const sequence = ++this.inputSequence;
+          if (summary.role === "user" && summary.parts.some((part) => part.type === "audio")) {
+            const input: TrackedInputAudio = { sequence };
+            if (typeof item?.id === "string") {
+              this.rememberInputAudio(item.id, input);
+            } else {
+              this.enqueueInputAudio(this.pendingAudioMessages, input);
+            }
+          }
           this.session.span.setAttribute(GEN_AI_INPUT_MESSAGES, JSON.stringify([summary]));
         }
-        const item = asRecord(event.item);
-        this.inputItemId = typeof item?.id === "string" ? item.id : undefined;
         if (item?.type === "function_call_output" && typeof item.call_id === "string") {
           this.session.span.addEvent("voice_agents.tool.output_sent", {
             [GEN_AI_TOOL_CALL_ID]: item.call_id,
@@ -319,16 +349,42 @@ export class VoiceAgentRealtimeTracing {
           if (this.model) this.session.span.setAttribute(GEN_AI_REQUEST_MODEL, this.model);
           break;
         case "input_audio_buffer.speech_started":
-        case "input_audio_buffer.committed":
-          if (this.inputItemId !== event.item_id) {
-            this.inputItemId = event.item_id;
-            this.setInputAudioSummary();
+          if (!this.inputAudioItems.has(event.item_id)) {
+            const buffer = this.inputAudioBuffer;
+            const input = buffer && buffer.itemId === undefined ? buffer : this.startInputAudio();
+            this.rememberInputAudio(event.item_id, input);
+            this.inputAudioBuffer = input;
           }
-          this.audioInputSummaryRecorded = event.type === "input_audio_buffer.speech_started";
           break;
+        case "input_audio_buffer.committed": {
+          const pending =
+            this.pendingAudioCommits.items.length > 0 || this.pendingAudioCommits.skipped > 0;
+          let input = this.matchInputAudio(this.pendingAudioCommits, event.item_id);
+          if (!input) {
+            if (pending) break;
+            input = this.inputAudioBuffer ?? this.startInputAudio();
+            this.rememberInputAudio(event.item_id, input);
+          }
+          if (this.inputAudioBuffer === input) this.inputAudioBuffer = undefined;
+          break;
+        }
         case "input_audio_buffer.cleared":
-          this.audioInputSummaryRecorded = false;
+          if (this.pendingAudioClears > 0) this.pendingAudioClears--;
+          else this.inputAudioBuffer = undefined;
           break;
+        case "conversation.item.added":
+        case "conversation.item.created": {
+          const item = asRecord(event.item);
+          const summary = messages(event.item, false);
+          if (
+            typeof item?.id === "string" &&
+            summary?.role === "user" &&
+            summary.parts.some((part) => part.type === "audio")
+          ) {
+            this.matchInputAudio(this.pendingAudioMessages, item.id);
+          }
+          break;
+        }
         case "response.created":
           this.beginResponse(event.response);
           break;
@@ -435,21 +491,77 @@ export class VoiceAgentRealtimeTracing {
             serverErrorAttributes(event.error.type, event.error.code),
           );
           break;
-        case "conversation.item.input_audio_transcription.completed":
-          // Transcription may finish after a newer audio turn has started.
-          if (this.inputItemId === undefined || this.inputItemId === event.item_id) {
+        case "conversation.item.input_audio_transcription.completed": {
+          const input = this.inputAudioItems.get(event.item_id);
+          if (input?.sequence === this.inputSequence) {
             this.setInputAudioSummary(event.transcript);
           }
           this.session.span.addEvent("voice_agents.transcription.completed");
           break;
-        case "conversation.item.input_audio_transcription.failed":
-          if (this.inputItemId === undefined || this.inputItemId === event.item_id) {
+        }
+        case "conversation.item.input_audio_transcription.failed": {
+          const input = this.inputAudioItems.get(event.item_id);
+          if (input?.sequence === this.inputSequence) {
             this.setInputAudioSummary();
           }
           this.session.span.addEvent("voice_agents.transcription.failed");
           break;
+        }
       }
     });
+  }
+
+  private startInputAudio(): TrackedInputAudio {
+    const input = { sequence: ++this.inputSequence };
+    this.setInputAudioSummary();
+    return input;
+  }
+
+  private enqueueInputAudio(queue: PendingInputAudio, input: TrackedInputAudio): void {
+    input.pendingQueue = queue;
+    if (queue.items.length >= maxInputItems || queue.skipped > 0) {
+      input.pendingSkipped = true;
+      queue.skipped++;
+      this.untrackedInputItems++;
+    } else {
+      queue.items.push(input);
+    }
+  }
+
+  private matchInputAudio(queue: PendingInputAudio, itemId: string): TrackedInputAudio | undefined {
+    const known = this.inputAudioItems.get(itemId);
+    if (known) {
+      if (known.pendingQueue === queue) {
+        const index = queue.items.indexOf(known);
+        if (index !== -1) queue.items.splice(index, 1);
+        else if (known.pendingSkipped && queue.skipped > 0) queue.skipped--;
+        known.pendingQueue = undefined;
+        known.pendingSkipped = undefined;
+      }
+      return known;
+    }
+    // Match ordered commit/create acknowledgements, never asynchronous ASR completion order.
+    const input = queue.items.shift();
+    if (input) {
+      input.pendingQueue = undefined;
+      this.rememberInputAudio(itemId, input);
+      return input;
+    }
+    if (queue.skipped > 0) queue.skipped--;
+    return undefined;
+  }
+
+  private rememberInputAudio(itemId: string, input: TrackedInputAudio): void {
+    input.itemId = itemId;
+    this.inputAudioItems.set(itemId, input);
+    if (this.inputAudioItems.size > maxInputItems) {
+      for (const [id, tracked] of this.inputAudioItems) {
+        if (tracked.sequence !== this.inputSequence || id !== tracked.itemId) {
+          this.inputAudioItems.delete(id);
+          break;
+        }
+      }
+    }
   }
 
   private setInputAudioSummary(transcript?: string): void {
@@ -624,12 +736,19 @@ export class VoiceAgentRealtimeTracing {
         });
       }
       this.responses.clear();
+      this.inputAudioItems.clear();
+      this.pendingAudioCommits.items.length = 0;
+      this.pendingAudioMessages.items.length = 0;
+      this.inputAudioBuffer = undefined;
       if (!this.session) return;
       if (error && !cancelled) fail(this.session.span, error);
       if (cancelled) this.session.span.setAttribute(`${prefix}cancelled`, true);
       if (code !== undefined) this.session.span.setAttribute(`${prefix}close.code`, code);
       this.session.span.setAttribute(`${prefix}close.was_clean`, wasClean);
       this.session.span.setAttribute(`${prefix}input.audio.bytes`, this.inputAudioBytes);
+      if (this.untrackedInputItems) {
+        this.session.span.setAttribute(`${prefix}input.items.untracked`, this.untrackedInputItems);
+      }
       this.session.span.setAttribute(`${prefix}responses.finished`, this.finishedResponses);
       if (this.untrackedResponses) {
         this.session.span.setAttribute(`${prefix}responses.untracked`, this.untrackedResponses);

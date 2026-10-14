@@ -180,6 +180,19 @@ function inputTranscribed(transport: MockTransport, itemId: string, transcript: 
   });
 }
 
+function inputAudioCreated(transport: MockTransport, itemId: string): void {
+  transport.receive({
+    type: "conversation.item.created",
+    event_id: `created-${itemId}`,
+    item: {
+      id: itemId,
+      type: "message",
+      role: "user",
+      content: [{ type: "input_audio" }],
+    },
+  });
+}
+
 function created(transport: MockTransport, id = "resp-1"): void {
   transport.receive({
     type: "response.created",
@@ -206,6 +219,12 @@ function span(name: string): RecordedSpan {
   const found = spans.find((value) => value.name === name);
   if (!found) throw new Error(`No span ${name}`);
   return found;
+}
+
+function inputSummary(): unknown {
+  return JSON.parse(
+    String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+  );
 }
 
 describe("Voice Agents tracing", () => {
@@ -421,6 +440,7 @@ describe("Voice Agents tracing", () => {
           content: [{ type: "input_audio", audio: "AQID" }],
         },
       });
+      inputAudioCreated(transport, "turn-2");
       inputTranscribed(transport, "turn-2", "Explicit audio transcript.");
       await connection.close();
       expect(
@@ -432,6 +452,279 @@ describe("Voice Agents tracing", () => {
       ]);
     },
   );
+
+  it.each([
+    { committed: false, contentRecording: false },
+    { committed: false, contentRecording: true },
+    { committed: true, contentRecording: false },
+    { committed: true, contentRecording: true },
+  ])(
+    "keeps newer pending audio when an older transcript arrives (committed=$committed, recording=$contentRecording)",
+    async ({ committed, contentRecording }) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      await connection.commitAudio();
+      inputAudioCommitted(transport, "turn-A");
+      await connection.sendAudio(new Uint8Array([4, 5, 6]));
+      if (committed) await connection.commitAudio();
+      inputTranscribed(transport, "turn-A", "PRIVATE_OLDER_TRANSCRIPT");
+      await connection.close();
+      expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+      expect(
+        span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.audio.bytes"],
+      ).toBe(6);
+      expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    },
+  );
+
+  it("correlates overlapping commit acknowledgements to the input that was sent", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    for (let turn = 0; turn < 3; turn++) {
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      await connection.commitAudio();
+    }
+    for (const id of ["item-A", "item-B"]) {
+      inputAudioCommitted(transport, id);
+      inputTranscribed(transport, id, "PRIVATE_OLDER_TRANSCRIPT");
+      expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    }
+    inputAudioCommitted(transport, "item-C");
+    inputTranscribed(transport, "item-C", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("does not associate an older acknowledgement with a newer uncommitted buffer", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    await connection.commitAudio();
+    await connection.sendAudio(new Uint8Array([4, 5, 6]));
+    inputAudioCommitted(transport, "item-A");
+    inputTranscribed(transport, "item-A", "PRIVATE_OLDER_TRANSCRIPT");
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "item-B");
+    inputTranscribed(transport, "item-B", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("does not consume a newer pending commit for a repeated older acknowledgement", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "item-A");
+    await connection.sendAudio(new Uint8Array([4, 5, 6]));
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "item-A");
+    inputTranscribed(transport, "item-A", "PRIVATE_OLDER_TRANSCRIPT");
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    inputAudioCommitted(transport, "item-B");
+    inputTranscribed(transport, "item-B", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+  });
+
+  it.each([
+    { input: "text", outcome: "completed" },
+    { input: "text", outcome: "failed" },
+    { input: "tool", outcome: "completed" },
+    { input: "tool", outcome: "failed" },
+  ])(
+    "keeps newer non-audio input when older transcription finishes ($input, $outcome)",
+    async ({ input, outcome }) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      await connection.commitAudio();
+      inputAudioCommitted(transport, "item-A");
+      if (input === "text") {
+        await connection.sendText("Latest text.", { createResponse: false });
+      } else {
+        await connection.sendToolOutput("tool-B", "Latest result.", { createResponse: false });
+      }
+      const latest = inputSummary();
+      if (outcome === "completed") {
+        inputTranscribed(transport, "item-A", "PRIVATE_OLDER_TRANSCRIPT");
+      } else {
+        transport.receive({
+          type: "conversation.item.input_audio_transcription.failed",
+          event_id: "failed-A",
+          item_id: "item-A",
+          content_index: 0,
+          error: { type: "server_error" },
+        });
+      }
+      await connection.close();
+      expect(inputSummary()).toEqual(latest);
+      expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    },
+  );
+
+  it("correlates server-assigned IDs for overlapping explicit audio messages", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    for (let turn = 0; turn < 2; turn++) {
+      await connection.sendEvent({
+        type: "conversation.item.create",
+        item: { type: "message", role: "user", content: [{ type: "input_audio", audio: "AQID" }] },
+      });
+    }
+    inputAudioCreated(transport, "item-A");
+    inputTranscribed(transport, "item-A", "PRIVATE_OLDER_TRANSCRIPT");
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    inputAudioCreated(transport, "item-B");
+    inputTranscribed(transport, "item-B", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("does not clear a newer audio buffer when an earlier clear is acknowledged", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    await connection.clearInputAudio();
+    await connection.sendAudio(new Uint8Array([4, 5, 6]));
+    transport.receive({ type: "input_audio_buffer.cleared", event_id: "cleared-A" });
+    await connection.sendAudio(new Uint8Array([7, 8, 9]));
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "item-B");
+    inputTranscribed(transport, "item-B", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+  });
+
+  it("keeps a newer VAD item when an older commit arrives later", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    for (const id of ["item-A", "item-B"]) {
+      transport.receive({
+        type: "input_audio_buffer.speech_started",
+        event_id: `speech-${id}`,
+        item_id: id,
+        audio_start_ms: 0,
+      });
+    }
+    inputAudioCommitted(transport, "item-A");
+    inputTranscribed(transport, "item-A", "PRIVATE_OLDER_TRANSCRIPT");
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    inputAudioCommitted(transport, "item-B");
+    inputTranscribed(transport, "item-B", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+  });
+
+  it("does not guess which pending audio item an uncorrelated transcript belongs to", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendAudio(new Uint8Array([1, 2, 3]));
+    await connection.commitAudio();
+    inputTranscribed(transport, "unknown-item", "PRIVATE_UNCORRELATED_TRANSCRIPT");
+    await connection.close();
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("bounds pending input correlation without assigning dropped acknowledgements to newer input", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    for (let turn = 0; turn < 65; turn++) {
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      await connection.commitAudio();
+    }
+    for (let turn = 0; turn < 65; turn++) {
+      inputAudioCommitted(transport, `item-${turn}`);
+      inputTranscribed(transport, `item-${turn}`, "PRIVATE_OLDER_TRANSCRIPT");
+    }
+    expect(inputSummary()).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    await connection.sendAudio(new Uint8Array([4, 5, 6]));
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "latest-item");
+    inputTranscribed(transport, "latest-item", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+    expect(
+      span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.items.untracked"],
+    ).toBe(1);
+    expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("retains the latest input identity when older delayed acknowledgements fill the cache", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    for (let turn = 0; turn < 64; turn++) {
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      await connection.commitAudio();
+    }
+    await connection.sendEvent({
+      type: "conversation.item.create",
+      item: {
+        type: "message",
+        role: "user",
+        id: "latest-item",
+        content: [{ type: "input_audio", audio: "AQID" }],
+      },
+    });
+    for (let turn = 0; turn < 64; turn++) {
+      inputAudioCommitted(transport, `item-${turn}`);
+    }
+    inputTranscribed(transport, "latest-item", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+  });
+
+  it("recovers the pending queue after overflowing VAD-identified commits are acknowledged", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    for (let turn = 0; turn < 65; turn++) {
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      transport.receive({
+        type: "input_audio_buffer.speech_started",
+        event_id: `speech-${turn}`,
+        item_id: `item-${turn}`,
+        audio_start_ms: 0,
+      });
+      await connection.commitAudio();
+    }
+    for (let turn = 0; turn < 65; turn++) {
+      inputAudioCommitted(transport, `item-${turn}`);
+    }
+    await connection.sendAudio(new Uint8Array([4, 5, 6]));
+    await connection.commitAudio();
+    inputAudioCommitted(transport, "latest-item");
+    inputTranscribed(transport, "latest-item", "Latest transcript.");
+    await connection.close();
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
+    expect(
+      span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.items.untracked"],
+    ).toBe(1);
+  });
 
   it.each(["client", "server"])(
     "refreshes the audio summary after clearing the input buffer (%s)",

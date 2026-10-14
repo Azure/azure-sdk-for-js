@@ -1485,6 +1485,11 @@ REST and `project.beta.voiceAgents.realtime` use the same existing project-level
 The independently constructed `VoiceAgentRealtimeClient` keeps its existing API
 and does not receive the project's tracing configuration.
 
+The session's input message summary represents the latest observed input, not
+the full conversation history. New audio replaces an older transcript with audio
+metadata while its item ID is pending. A completed transcript replaces that
+metadata only when its item ID is correlated to the current input.
+
 Message summaries omit content by default. Explicit `contentRecording: true` allows
 bounded text/transcripts and tool arguments/results; it may expose sensitive user
 information. Raw media, credentials, query values, telephone numbers, SDP, and raw
