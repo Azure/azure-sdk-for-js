@@ -111,12 +111,14 @@ export class KeyVaultClient {
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
   }
 
+  /** Lists the EKM proxy private endpoints on the Managed HSM. This operation requires the ekm/read permission. */
   listEkmPrivateEndpoints(
     options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
   ): Promise<EkmPrivateEndpointListResult> {
     return listEkmPrivateEndpoints(this._client, options);
   }
 
+  /** Gets an EKM proxy private endpoint. This operation requires the ekm/read permission. */
   getEkmPrivateEndpoint(
     peName: string,
     options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
@@ -124,13 +126,7 @@ export class KeyVaultClient {
     return getEkmPrivateEndpoint(this._client, peName, options);
   }
 
-  deleteEkmPrivateEndpoint(
-    peName: string,
-    options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
-    return deleteEkmPrivateEndpoint(this._client, peName, options);
-  }
-
+  /** Creates a private endpoint to the EKM proxy Private Link Service. This operation requires the ekm/write permission. */
   createEkmPrivateEndpoint(
     peName: string,
     parameters: EkmPrivateEndpointCreateParameters,
@@ -139,6 +135,15 @@ export class KeyVaultClient {
     return createEkmPrivateEndpoint(this._client, peName, parameters, options);
   }
 
+  /** Deletes an EKM proxy private endpoint. This operation requires the ekm/write permission. */
+  deleteEkmPrivateEndpoint(
+    peName: string,
+    options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    return deleteEkmPrivateEndpoint(this._client, peName, options);
+  }
+
+  /** Gets the status of a private endpoint create or delete operation. This operation requires the ekm/read permission. */
   getEkmPrivateEndpointOperationStatus(
     operationId: string,
     options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },

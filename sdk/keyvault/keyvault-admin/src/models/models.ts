@@ -1051,8 +1051,16 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
   /** The 2026-01-01-preview API version. */
   V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-07-01-preview API version. */
+  V20260701Preview = "2026-07-01-preview",
 }
