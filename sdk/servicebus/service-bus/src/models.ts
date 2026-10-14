@@ -335,7 +335,7 @@ export interface DeleteMessagesOptions extends OperationOptionsBase {
 }
 
 /**
- * Options to configure deletion of all messages in an entity.
+ * Options to configure deletion of eligible messages in an entity.
  */
 export interface PurgeMessagesOptions extends OperationOptionsBase {
   /**
