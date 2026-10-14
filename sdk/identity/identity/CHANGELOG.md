@@ -1,12 +1,8 @@
 # Release History
 
-## 4.14.0-beta.6 (Unreleased)
+## 4.14.0 (2026-10-14)
 
-### Features Added
-
-- Added `GitHubActionsCredential` for authenticating to Microsoft Entra ID using GitHub Actions OIDC federated identity credentials. This credential reads `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `ACTIONS_ID_TOKEN_REQUEST_URL`, and `ACTIONS_ID_TOKEN_REQUEST_TOKEN` from the environment and exchanges the GitHub OIDC token for an Azure access token. Sovereign cloud audience is derived automatically from `authorityHost`. [#38581](https://github.com/Azure/azure-sdk-for-js/pull/38581)
-
-### Breaking Changes
+This release includes all changes introduced in versions 4.14.0-beta.1 through 4.14.0-beta.5.
 
 ### Bugs Fixed
 
@@ -19,6 +15,13 @@
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
 - Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
 
+## 4.14.0-beta.5 (2026-08-12)
+
+### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39425](https://github.com/Azure/azure-sdk-for-js/pull/39425)
+- Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
 ## 4.13.2 (2026-08-12)
 
 ### Other Changes
@@ -26,13 +29,6 @@
 - Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39569](https://github.com/Azure/azure-sdk-for-js/pull/39569)
 - Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 - Migrated platform-specific module resolution to `#platform/*` imports. [#38309](https://github.com/Azure/azure-sdk-for-js/pull/38309)
-
-## 4.14.0-beta.5 (2026-08-12)
-
-### Other Changes
-
-- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39425](https://github.com/Azure/azure-sdk-for-js/pull/39425)
-- Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 
 ## 4.14.0-beta.4 (2026-06-08)
 

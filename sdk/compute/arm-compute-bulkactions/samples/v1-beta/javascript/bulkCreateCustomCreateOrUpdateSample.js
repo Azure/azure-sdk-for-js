@@ -22,9 +22,6 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet() {
       properties: {
         capacity: 2,
         capacityType: "VM",
-        minCapacity: 1,
-        partialFulfillmentPolicy: { mode: "Enabled" },
-        priorityProfile: { type: "Spot", maxPricePerVM: 0.2, evictionPolicy: "Delete" },
         computeProfile: {
           virtualMachineProfile: {
             storageProfile: {
@@ -82,6 +79,9 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet() {
                 },
               ],
             },
+            priority: "Spot",
+            evictionPolicy: "Deallocate",
+            billingProfile: { maxPrice: 0.05 },
           },
           computeApiVersion: "2024-11-01",
         },
@@ -90,9 +90,17 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet() {
           overrides: [
             {
               virtualMachineName: "bulkvm-payments-0",
+              zone: "1",
+              extendedLocation: { name: "microsoftlosangeles1", type: "EdgeZone" },
               tags: { workload: "payments", env: "prod" },
+              placement: { zonePlacementPolicy: "Any", includeZones: ["1"] },
             },
-            { tags: { workload: "batch" } },
+            {
+              tags: { workload: "batch" },
+              zone: "2",
+              extendedLocation: { name: "microsoftlosangeles2", type: "EdgeZone" },
+              placement: { zonePlacementPolicy: "Auto", excludeZones: ["3"] },
+            },
           ],
         },
         executionParameters: {
@@ -100,6 +108,8 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet() {
         },
       },
       zones: ["1", "2"],
+      extendedLocation: { name: "microsoftlosangeles1", type: "EdgeZone" },
+      placement: { zonePlacementPolicy: "Auto", includeZones: ["1", "2"], excludeZones: ["3"] },
       tags: { workload: "batch-render", env: "prod" },
       identity: { type: "SystemAssigned" },
     },
