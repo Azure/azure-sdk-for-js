@@ -29,7 +29,6 @@ function getOctokit(): Octokit {
 
 export async function uploadResultToGitHubJsRepo(csvPath: string) {
   const octokit = getOctokit();
-  await octokit.rest.users.getAuthenticated();
 
   const owner = "Azure";
   const repo = "azure-sdk-for-js";
