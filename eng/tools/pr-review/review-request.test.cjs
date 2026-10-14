@@ -191,6 +191,31 @@ function dispatchFixture(automatic = true, reviewerId = "archie") {
   return state;
 }
 
+function automaticMgmtFixture() {
+  const state = fixture("mgmt-review");
+  state.pr.title = "[AutoPR @azure-arm-example]-generated-from-SDK Generation - JS-1234567";
+  state.pr.draft = false;
+  state.pr.labels = [{ name: "Mgmt" }];
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = [];
+  return state;
+}
+
+function automaticMgmtDispatchFixture() {
+  const state = automaticMgmtFixture();
+  state.context.eventName = "workflow_dispatch";
+  state.context.actor = workflowBot.login;
+  state.context.payload.sender = workflowBot;
+  state.context.payload.inputs = {
+    item_number: "42",
+    head_sha: headSha,
+    request_run_id: "100",
+    request_event_id: "",
+    request_kind: "sdk_autopr",
+  };
+  return state;
+}
+
 test("routes a fork PR with empty run.pull_requests using API-owned commit metadata", async () => {
   const state = fixture();
   await routeReviewRequest(state);
@@ -336,7 +361,9 @@ test("a PR-controlled successful intake cannot authorize labels absent from GitH
   assert.equal(state.calls.dispatches.length, 0);
   assert.deepEqual(state.calls.actors, []);
   assert.ok(
-    state.calls.messages.some((message) => message.includes("No attributable label events")),
+    state.calls.messages.some((message) =>
+      message.includes("No current automatic or attributable label request"),
+    ),
   );
 });
 
@@ -605,6 +632,135 @@ test("management automation retains direct dispatch access", async () => {
   state.context.actor = automationBot.login;
   state.context.payload.sender = automationBot;
   assert.deepEqual(await prepareReview(state, "mgmt-review"), { number: 42, headSha });
+});
+
+test("routes an eligible management AutoPR without a review-needed label", async () => {
+  const state = automaticMgmtFixture();
+  state.run.actor = { id: 4, login: "outsider", type: "User" };
+  await routeReviewRequest(state);
+  assert.deepEqual(state.calls.dispatches, [
+    {
+      owner: "Azure",
+      repo: "azure-sdk-for-js",
+      workflow_id: "mgmt-review.lock.yml",
+      ref: "main",
+      inputs: {
+        aw_context: JSON.stringify({ item_type: "pull_request", item_number: 42 }),
+        item_number: "42",
+        head_sha: headSha,
+        request_run_id: "100",
+        request_event_id: "",
+        request_kind: "sdk_autopr",
+      },
+    },
+  ]);
+  assert.deepEqual(state.calls.actors, []);
+});
+
+for (const [name, change] of [
+  ["draft", (pr) => (pr.draft = true)],
+  ["title without the prefix", (pr) => (pr.title = "Update management SDK")],
+  ["missing Mgmt label", (pr) => (pr.labels = [])],
+  [
+    "review already in progress",
+    (pr) => pr.labels.push({ name: "mgmt-review-in-progress" }),
+  ],
+  ["completed review", (pr) => pr.labels.push({ name: "mgmt-review-added" })],
+]) {
+  test(`does not automatically route a management AutoPR with ${name}`, async () => {
+    const state = automaticMgmtFixture();
+    change(state.pr);
+    state.associatedPRs = [structuredClone(state.pr)];
+    await routeReviewRequest(state);
+    assert.equal(state.calls.dispatches.length, 0);
+  });
+}
+
+test("a review-needed label takes precedence over automatic management routing", async () => {
+  const state = automaticMgmtFixture();
+  state.pr.labels.push({ name: "mgmt-review-needed" });
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = recordedLabels(state, [{ name: "mgmt-review-needed" }]);
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 1);
+  assert.equal(state.calls.dispatches[0].inputs.request_kind, undefined);
+  assert.equal(state.calls.dispatches[0].inputs.request_event_id, "1003");
+});
+
+test("automatic management routing records a bot-added request label for safe cleanup", async () => {
+  const state = automaticMgmtFixture();
+  state.pr.labels.push({ name: "mgmt-review-needed" });
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = recordedLabels(state, [{ name: "mgmt-review-needed" }]);
+  state.labelEvents[0].actor = workflowBot;
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 1);
+  assert.equal(state.calls.dispatches[0].inputs.request_kind, "sdk_autopr");
+  assert.equal(state.calls.dispatches[0].inputs.request_event_id, "1003");
+});
+
+test("management reviewer independently validates and claims an automatic AutoPR", async () => {
+  const state = automaticMgmtDispatchFixture();
+  assert.deepEqual(await prepareReview(state, "mgmt-review"), { number: 42, headSha });
+  assert.deepEqual(state.calls.additions[0].labels, ["mgmt-review-in-progress"]);
+  assert.equal(state.calls.removals.length, 0);
+  assert.deepEqual(state.calls.actors, []);
+});
+
+test("automatic management review safely consumes its recorded bot-added request label", async () => {
+  const state = automaticMgmtDispatchFixture();
+  state.pr.labels.push({ name: "mgmt-review-needed" });
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = recordedLabels(state, [{ name: "mgmt-review-needed" }]);
+  state.labelEvents[0].actor = workflowBot;
+  state.context.payload.inputs.request_event_id = "1003";
+  assert.deepEqual(await prepareReview(state, "mgmt-review"), { number: 42, headSha });
+  assert.equal(state.calls.removals[0].name, "mgmt-review-needed");
+  assert.ok(!state.pr.labels.some(({ name }) => name === "mgmt-review-needed"));
+});
+
+for (const [name, change] of [
+  ["draft state", (pr) => (pr.draft = true)],
+  ["title", (pr) => (pr.title = "Not an automatic SDK PR")],
+  ["Mgmt label", (pr) => (pr.labels = [])],
+  ["in-progress label", (pr) => pr.labels.push({ name: "mgmt-review-in-progress" })],
+  ["completion label", (pr) => pr.labels.push({ name: "mgmt-review-added" })],
+]) {
+  test(`automatic management worker rechecks the ${name}`, async () => {
+    const state = automaticMgmtDispatchFixture();
+    change(state.pr);
+    assert.equal(await prepareReview(state, "mgmt-review"), undefined);
+    assert.equal(state.calls.additions.length, 0);
+  });
+}
+
+test("automatic management requests reject stale label-cleanup provenance", async () => {
+  const state = automaticMgmtDispatchFixture();
+  state.pr.labels.push({ name: "mgmt-review-needed" });
+  state.associatedPRs = [structuredClone(state.pr)];
+  state.labelEvents = recordedLabels(state, [{ name: "mgmt-review-needed" }]);
+  state.labelEvents[0].actor = workflowBot;
+  state.context.payload.inputs.request_event_id = "1003";
+  state.labelEvents[0].id = 2000;
+  assert.equal(await prepareReview(state, "mgmt-review"), undefined);
+  assert.equal(state.calls.additions.length, 0);
+});
+
+test("automatic request kinds cannot invoke an unconfigured reviewer", async () => {
+  const state = automaticMgmtDispatchFixture();
+  await assert.rejects(
+    prepareReview(state, "archie"),
+    /archie is not configured for automatic request kind: sdk_autopr/,
+  );
+});
+
+test("reviewers reject unknown automatic request kinds", async () => {
+  const state = automaticMgmtDispatchFixture();
+  state.context.payload.inputs.request_kind = "unknown";
+  await assert.rejects(
+    prepareReview(state, "mgmt-review"),
+    /mgmt-review is not configured for automatic request kind: unknown/,
+  );
 });
 
 for (const reviewerId of Object.keys(reviewFlows).filter((id) => id !== "mgmt-review")) {
@@ -1115,6 +1271,8 @@ test("the shared intake and router preserve the trust boundary", () => {
   assert.match(intake, /permissions: \{\}/);
   assert.doesNotMatch(intake, /uses:|secrets\./);
   assert.doesNotMatch(intake, /concurrency:/);
+  assert.match(intake, /types: \[opened, reopened, synchronize, ready_for_review, labeled\]/);
+  assert.match(intake, /startsWith\(github\.event\.pull_request\.title, '\[AutoPR'\)/);
   const labels = JSON.parse(intake.match(/fromJSON\('([^']+)'\)/)[1]);
   assert.deepEqual(
     labels.sort(),
@@ -1185,6 +1343,7 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
       assert.equal(config[handler].target, "${{ needs.validate_request.outputs.pr_number }}");
       assert.equal(config[handler].commit_id, "${{ needs.validate_request.outputs.head_sha }}");
     }
+
     assert.deepEqual(config.submit_pull_request_review.allowed_events, ["COMMENT"]);
     assert.deepEqual(config.add_labels.allowed, [`${prefix}-review-added`]);
     assert.deepEqual(config.remove_labels.allowed, [`${prefix}-review-in-progress`]);
@@ -1270,6 +1429,25 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
     });
   }
 }
+
+test("management review accepts only trusted automatic request kinds", () => {
+  const source = workflowText("mgmt-review.md");
+  assert.match(source, /request_kind:\n\s+description: Trusted automatic request kind/);
+  const compiled = workflowText("mgmt-review.lock.yml");
+  assert.match(compiled, /request_kind:\n\s+description: Trusted automatic request kind/);
+});
+
+test("automatic eligibility is configured per reviewer instead of embedded in routing logic", () => {
+  const helper = readFileSync(
+    path.join(repoRoot, "eng", "tools", "pr-review", "review-request.cjs"),
+    "utf8",
+  );
+  assert.match(
+    helper,
+    /"mgmt-review": \{[\s\S]*?completedLabel: "mgmt-review-added",[\s\S]*?automatic: \{[\s\S]*?kind: "sdk_autopr",[\s\S]*?titlePrefix: "\[AutoPR",[\s\S]*?requiredLabels: \["Mgmt"\]/,
+  );
+  assert.doesNotMatch(helper, /automaticMgmt|isAutomaticMgmt|reviewerId === "mgmt-review"/);
+});
 
 test("Dash requires external benchmark evidence instead of executing PR-derived benchmarks", () => {
   const dash = workflowText("dash.md");

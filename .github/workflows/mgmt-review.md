@@ -18,6 +18,10 @@ on:
         description: GitHub label-event ID (set by the trusted router)
         required: false
         type: string
+      request_kind:
+        description: Trusted automatic request kind (set by the trusted router)
+        required: false
+        type: string
   bots: [github-actions, azure-sdk-automation]
 jobs:
   safe_outputs:

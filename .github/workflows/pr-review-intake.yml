@@ -2,14 +2,15 @@ name: PR Review Intake
 
 on:
   pull_request:
-    types: [labeled]
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
 
 permissions: {}
 
 jobs:
   request:
     if: >-
-      contains(fromJSON('["architecture-review-needed","performance-review-needed","dependency-review-needed","mgmt-review-needed","docs-review-needed","security-review-needed","test-review-needed"]'), github.event.label.name)
+      contains(fromJSON('["architecture-review-needed","performance-review-needed","dependency-review-needed","mgmt-review-needed","docs-review-needed","security-review-needed","test-review-needed"]'), github.event.label.name) ||
+      (!github.event.pull_request.draft && startsWith(github.event.pull_request.title, '[AutoPR'))
     runs-on: ubuntu-slim
     timeout-minutes: 5
     steps:
