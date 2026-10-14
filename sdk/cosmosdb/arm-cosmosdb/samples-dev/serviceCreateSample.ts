@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBDataTransferServiceCreate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDataTransferServiceCreate.json
  */
 async function dataTransferServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.service.create("rg1", "ddb1", "DataTransfer", {
-    properties: { instanceSize: "Cosmos.D4s", instanceCount: 1, serviceType: "DataTransfer" },
+    properties: { instanceCount: 1, instanceSize: "Cosmos.D4s", serviceType: "DataTransfer" },
   });
   console.log(result);
 }
@@ -24,14 +24,14 @@ async function dataTransferServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBGraphAPIComputeServiceCreate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGraphAPIComputeServiceCreate.json
  */
 async function graphAPIComputeServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.service.create("rg1", "ddb1", "GraphAPICompute", {
-    properties: { instanceSize: "Cosmos.D4s", instanceCount: 1, serviceType: "GraphAPICompute" },
+    properties: { instanceCount: 1, instanceSize: "Cosmos.D4s", serviceType: "GraphAPICompute" },
   });
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function graphAPIComputeServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBMaterializedViewsBuilderServiceCreate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMaterializedViewsBuilderServiceCreate.json
  */
 async function materializedViewsBuilderServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,8 +48,8 @@ async function materializedViewsBuilderServiceCreate(): Promise<void> {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.service.create("rg1", "ddb1", "MaterializedViewsBuilder", {
     properties: {
-      instanceSize: "Cosmos.D4s",
       instanceCount: 1,
+      instanceSize: "Cosmos.D4s",
       serviceType: "MaterializedViewsBuilder",
     },
   });
@@ -60,7 +60,7 @@ async function materializedViewsBuilderServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceCreate.json
+ * x-ms-original-file: 2026-04-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceCreate.json
  */
 async function sqlDedicatedGatewayServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,10 +68,10 @@ async function sqlDedicatedGatewayServiceCreate(): Promise<void> {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.service.create("rg1", "ddb1", "SqlDedicatedGateway", {
     properties: {
-      instanceSize: "Cosmos.D4s",
-      instanceCount: 1,
-      serviceType: "SqlDedicatedGateway",
       dedicatedGatewayType: "IntegratedCache",
+      instanceCount: 1,
+      instanceSize: "Cosmos.D4s",
+      serviceType: "SqlDedicatedGateway",
     },
   });
   console.log(result);

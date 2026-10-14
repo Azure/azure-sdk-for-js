@@ -30,7 +30,7 @@ export function _listMetricsSend(
       region: region,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24filter": filter,
     },
     {
@@ -85,6 +85,10 @@ export function listMetrics(
       ),
     _listMetricsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
