@@ -161,6 +161,25 @@ function session(transport: MockTransport): void {
   });
 }
 
+function inputAudioCommitted(transport: MockTransport, itemId: string): void {
+  transport.receive({
+    type: "input_audio_buffer.committed",
+    event_id: `committed-${itemId}`,
+    item_id: itemId,
+  });
+}
+
+function inputTranscribed(transport: MockTransport, itemId: string, transcript: string): void {
+  transport.receive({
+    type: "conversation.item.input_audio_transcription.completed",
+    event_id: `transcribed-${itemId}`,
+    item_id: itemId,
+    content_index: 0,
+    transcript,
+    usage: { type: "duration", seconds: 1 },
+  });
+}
+
 function created(transport: MockTransport, id = "resp-1"): void {
   transport.receive({
     type: "response.created",
@@ -263,6 +282,198 @@ describe("Voice Agents tracing", () => {
 
   it("preserves the existing public realtime options", () => {
     expectTypeOf<VoiceAgentRealtimeClientOptions>().not.toHaveProperty("tracingOptions");
+  });
+
+  it.each([false, true])(
+    "preserves system-message roles (contentRecording=%s)",
+    async (contentRecording) => {
+      const { realtime } = client({ ...enabled, contentRecording });
+      const connection = await realtime.connect("voice");
+      await connection.sendEvent({
+        type: "conversation.item.create",
+        item: {
+          type: "message",
+          role: "system",
+          content: [{ type: "input_text", text: "Recorded system instructions." }],
+        },
+      });
+      await connection.close();
+      expect(
+        JSON.parse(
+          String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+        ),
+      ).toEqual([
+        {
+          role: "system",
+          parts: [
+            contentRecording
+              ? { type: "text", content: "Recorded system instructions." }
+              : { type: "text" },
+          ],
+        },
+      ]);
+    },
+  );
+
+  it.each([
+    { mode: "manual", failed: false },
+    { mode: "manual", failed: true },
+    { mode: "vad", failed: false },
+    { mode: "vad", failed: true },
+  ])(
+    "refreshes audio summaries between turns ($mode, failed=$failed)",
+    async ({ mode, failed }) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      if (mode === "manual") await connection.commitAudio();
+      inputAudioCommitted(transport, "turn-1");
+      // Continuous input can arrive before the previous turn's transcription.
+      await connection.sendAudio(new Uint8Array([4, 5, 6]));
+      inputTranscribed(transport, "turn-1", "First turn transcript.");
+      await connection.sendAudio(new Uint8Array([7, 8, 9]));
+      if (mode === "manual") {
+        await connection.commitAudio();
+      } else {
+        transport.receive({
+          type: "input_audio_buffer.speech_started",
+          event_id: "speech-started-2",
+          item_id: "turn-2",
+          audio_start_ms: 1000,
+        });
+        expect(
+          JSON.parse(
+            String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+          ),
+        ).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+      }
+      inputAudioCommitted(transport, "turn-2");
+      if (failed) {
+        transport.receive({
+          type: "conversation.item.input_audio_transcription.failed",
+          event_id: "transcription-failed-2",
+          item_id: "turn-2",
+          content_index: 0,
+          error: { type: "server_error" },
+        });
+      }
+      await connection.close();
+      expect(
+        JSON.parse(
+          String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+        ),
+      ).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+      expect(
+        span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.audio.bytes"],
+      ).toBe(9);
+      if (failed) {
+        expect(span("voice_agents.realtime.session").events).toContainEqual({
+          name: "voice_agents.transcription.failed",
+          attributes: undefined,
+        });
+      }
+    },
+  );
+
+  it.each(["completed", "failed"])(
+    "does not replace the latest audio transcript with an older turn (%s)",
+    async (outcome) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      inputAudioCommitted(transport, "turn-1");
+      await connection.sendAudio(new Uint8Array([4, 5, 6]));
+      inputAudioCommitted(transport, "turn-2");
+      inputTranscribed(transport, "turn-2", "Latest turn transcript.");
+      if (outcome === "completed") {
+        inputTranscribed(transport, "turn-1", "Older turn transcript.");
+      } else {
+        transport.receive({
+          type: "conversation.item.input_audio_transcription.failed",
+          event_id: "transcription-failed-1",
+          item_id: "turn-1",
+          content_index: 0,
+          error: { type: "server_error" },
+        });
+      }
+      await connection.close();
+      expect(
+        JSON.parse(
+          String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+        ),
+      ).toEqual([{ role: "user", parts: [{ type: "audio", content: "Latest turn transcript." }] }]);
+    },
+  );
+
+  it.each([false, true])(
+    "records explicit audio-message transcripts after buffered turns (hasItemId=%s)",
+    async (hasItemId) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      inputAudioCommitted(transport, "turn-1");
+      await connection.sendEvent({
+        type: "conversation.item.create",
+        item: {
+          type: "message",
+          role: "user",
+          id: hasItemId ? "turn-2" : undefined,
+          content: [{ type: "input_audio", audio: "AQID" }],
+        },
+      });
+      inputTranscribed(transport, "turn-2", "Explicit audio transcript.");
+      await connection.close();
+      expect(
+        JSON.parse(
+          String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+        ),
+      ).toEqual([
+        { role: "user", parts: [{ type: "audio", content: "Explicit audio transcript." }] },
+      ]);
+    },
+  );
+
+  it.each(["client", "server"])(
+    "refreshes the audio summary after clearing the input buffer (%s)",
+    async (source) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      inputAudioCommitted(transport, "turn-1");
+      await connection.sendAudio(new Uint8Array([4, 5, 6]));
+      inputTranscribed(transport, "turn-1", "First turn transcript.");
+      if (source === "client") {
+        await connection.clearInputAudio();
+      } else {
+        transport.receive({ type: "input_audio_buffer.cleared", event_id: "cleared" });
+      }
+      await connection.sendAudio(new Uint8Array([7, 8, 9]));
+      await connection.close();
+      expect(
+        JSON.parse(
+          String(span("voice_agents.realtime.session").attributes["gen_ai.input.messages"]),
+        ),
+      ).toEqual([{ role: "user", parts: [{ type: "audio" }] }]);
+    },
+  );
+
+  it("updates audio summaries once per input buffer, not for every chunk", async () => {
+    const { realtime } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    const setAttribute = vi.spyOn(span("voice_agents.realtime.session"), "setAttribute");
+    for (let buffer = 0; buffer < 2; buffer++) {
+      for (let chunk = 0; chunk < 20; chunk++) {
+        await connection.sendAudio(new Uint8Array([1, 2, 3]));
+      }
+      await connection.commitAudio();
+    }
+    await connection.close();
+    expect(
+      setAttribute.mock.calls.filter(([name]) => name === "gen_ai.input.messages"),
+    ).toHaveLength(2);
+    expect(
+      span("voice_agents.realtime.session").attributes["az.ai.voice_agents.input.audio.bytes"],
+    ).toBe(120);
   });
 
   it("captures text/audio/tool structure without contents and without chunk events", async () => {

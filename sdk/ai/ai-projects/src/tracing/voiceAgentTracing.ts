@@ -151,7 +151,7 @@ interface TrackedResponse {
 }
 
 interface MessageSummary {
-  role: "user" | "assistant" | "tool";
+  role: "system" | "user" | "assistant" | "tool";
   parts: Record<string, unknown>[];
 }
 
@@ -214,7 +214,8 @@ function messages(item: unknown, contentRecording: boolean): MessageSummary | un
       if (summary) parts.push(summary);
     }
   }
-  return parts.length ? { role: record.role === "user" ? "user" : "assistant", parts } : undefined;
+  const role = record.role === "system" || record.role === "user" ? record.role : "assistant";
+  return parts.length ? { role, parts } : undefined;
 }
 
 /** Tracks SDK-observed realtime work, independently of the user's event iterator. @internal */
@@ -227,6 +228,7 @@ export class VoiceAgentRealtimeTracing {
   private model?: string;
   private inputAudioBytes = 0;
   private audioInputSummaryRecorded = false;
+  private inputItemId?: string;
   private finishedResponses = 0;
   private untrackedResponses = 0;
 
@@ -265,12 +267,14 @@ export class VoiceAgentRealtimeTracing {
             (event.audio.endsWith("==") ? 2 : event.audio.endsWith("=") ? 1 : 0),
         );
         if (!this.audioInputSummaryRecorded) {
-          this.session.span.setAttribute(
-            GEN_AI_INPUT_MESSAGES,
-            JSON.stringify([{ role: "user", parts: [{ type: "audio" }] }]),
-          );
+          this.setInputAudioSummary();
           this.audioInputSummaryRecorded = true;
         }
+      } else if (
+        event.type === "input_audio_buffer.commit" ||
+        event.type === "input_audio_buffer.clear"
+      ) {
+        this.audioInputSummaryRecorded = false;
       } else if (event.type === "conversation.item.create") {
         this.audioInputSummaryRecorded = false;
         const summary = messages(event.item, this.config.contentRecording);
@@ -278,6 +282,7 @@ export class VoiceAgentRealtimeTracing {
           this.session.span.setAttribute(GEN_AI_INPUT_MESSAGES, JSON.stringify([summary]));
         }
         const item = asRecord(event.item);
+        this.inputItemId = typeof item?.id === "string" ? item.id : undefined;
         if (item?.type === "function_call_output" && typeof item.call_id === "string") {
           this.session.span.addEvent("voice_agents.tool.output_sent", {
             [GEN_AI_TOOL_CALL_ID]: item.call_id,
@@ -312,6 +317,17 @@ export class VoiceAgentRealtimeTracing {
             this.session.span.setAttribute(GEN_AI_CONVERSATION_ID, event.conversation_id);
           }
           if (this.model) this.session.span.setAttribute(GEN_AI_REQUEST_MODEL, this.model);
+          break;
+        case "input_audio_buffer.speech_started":
+        case "input_audio_buffer.committed":
+          if (this.inputItemId !== event.item_id) {
+            this.inputItemId = event.item_id;
+            this.setInputAudioSummary();
+          }
+          this.audioInputSummaryRecorded = event.type === "input_audio_buffer.speech_started";
+          break;
+        case "input_audio_buffer.cleared":
+          this.audioInputSummaryRecorded = false;
           break;
         case "response.created":
           this.beginResponse(event.response);
@@ -419,21 +435,32 @@ export class VoiceAgentRealtimeTracing {
             serverErrorAttributes(event.error.type, event.error.code),
           );
           break;
-        case "conversation.item.input_audio_transcription.completed": {
-          const parts: Record<string, unknown>[] = [{ type: "audio" }];
-          if (this.config.contentRecording) parts[0].content = limitedContent(event.transcript);
-          this.session.span.setAttribute(
-            GEN_AI_INPUT_MESSAGES,
-            JSON.stringify([{ role: "user", parts }]),
-          );
+        case "conversation.item.input_audio_transcription.completed":
+          // Transcription may finish after a newer audio turn has started.
+          if (this.inputItemId === undefined || this.inputItemId === event.item_id) {
+            this.setInputAudioSummary(event.transcript);
+          }
           this.session.span.addEvent("voice_agents.transcription.completed");
           break;
-        }
         case "conversation.item.input_audio_transcription.failed":
+          if (this.inputItemId === undefined || this.inputItemId === event.item_id) {
+            this.setInputAudioSummary();
+          }
           this.session.span.addEvent("voice_agents.transcription.failed");
           break;
       }
     });
+  }
+
+  private setInputAudioSummary(transcript?: string): void {
+    const parts: Record<string, unknown>[] = [{ type: "audio" }];
+    if (this.config.contentRecording && transcript !== undefined) {
+      parts[0].content = limitedContent(transcript);
+    }
+    this.session?.span.setAttribute(
+      GEN_AI_INPUT_MESSAGES,
+      JSON.stringify([{ role: "user", parts }]),
+    );
   }
 
   private recordOutputPart(
