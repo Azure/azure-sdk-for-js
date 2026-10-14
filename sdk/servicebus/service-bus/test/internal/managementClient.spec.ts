@@ -76,7 +76,7 @@ describe("ManagementClient unit tests", () => {
     };
 
     await assert.isRejected(
-      mgmtClient.deleteMessages(1),
+      mgmtClient.deleteMessages(1, undefined, undefined, { retryOptions: { maxRetries: 0 } }),
       /batch delete operation timed out before dispatch/i,
     );
     assert.equal(dispatchAttempts, 0);

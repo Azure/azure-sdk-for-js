@@ -59,10 +59,10 @@ import type { TracingSpanLink } from "@azure/core-tracing";
 export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
 
 /**
- * The maximum number of messages to delete in a single batch.  This cap is established and enforced by the service.
+ * The portable default number of messages to request per purge batch, supported by every tier.
  * @internal
  */
-export const MaxDeleteMessageCount = 500;
+export const defaultMaxMessagesPerBatch = 500;
 
 /** @internal */
 export function validatePurgeMessageCount(maxMessageCount: number): void {
@@ -527,8 +527,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
-    const beforeEnqueueTime = options?.beforeEnqueueTime ?? new Date();
-    const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? MaxDeleteMessageCount;
+    const beforeEnqueueTime = new Date((options?.beforeEnqueueTime ?? new Date()).getTime());
+    const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? defaultMaxMessagesPerBatch;
     validatePurgeMessageCount(maxMessagesPerBatch);
     let { deletedCount } = await this.deleteMessages(maxMessagesPerBatch, {
       ...options,

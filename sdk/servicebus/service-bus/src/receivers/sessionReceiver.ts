@@ -40,7 +40,7 @@ import {
 import type { ServiceBusReceiver } from "./receiver.js";
 import {
   defaultMaxTimeAfterFirstMessageForBatchingMs,
-  MaxDeleteMessageCount,
+  defaultMaxMessagesPerBatch,
   validatePurgeMessageCount,
 } from "./receiver.js";
 import type Long from "long";
@@ -438,8 +438,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
-    const beforeEnqueueTime = options?.beforeEnqueueTime ?? new Date();
-    const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? MaxDeleteMessageCount;
+    const beforeEnqueueTime = new Date((options?.beforeEnqueueTime ?? new Date()).getTime());
+    const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? defaultMaxMessagesPerBatch;
     validatePurgeMessageCount(maxMessagesPerBatch);
     let { deletedCount } = await this.deleteMessages(maxMessagesPerBatch, {
       ...options,

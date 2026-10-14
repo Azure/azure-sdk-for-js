@@ -1046,14 +1046,25 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
 
     enqueueTimeUtcOlderThan ??= new Date();
-    if (!Number.isFinite(enqueueTimeUtcOlderThan.getTime())) {
+    if (
+      !(enqueueTimeUtcOlderThan instanceof Date) ||
+      !Number.isFinite(enqueueTimeUtcOlderThan.getTime())
+    ) {
       throw new TypeError("'beforeEnqueueTime' must be a valid Date.");
     }
+    const cutoff = new Date(enqueueTimeUtcOlderThan.getTime());
 
     const config: RetryConfig<SendManagementRequestOptions> = {
       operation: async () => {
         const initializedOptions = await this.initWithUniqueReplyTo(options);
-        return this._waitForManagementRequestSendable(receiverLogger, initializedOptions);
+        const preparedOptions = await this._waitForManagementRequestSendable(
+          receiverLogger,
+          initializedOptions,
+        );
+        if (preparedOptions.timeoutInMs !== undefined && preparedOptions.timeoutInMs <= 0) {
+          throw new OperationTimeoutError("The batch delete operation timed out before dispatch.");
+        }
+        return preparedOptions;
       },
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
@@ -1061,11 +1072,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       abortSignal: options.abortSignal,
     };
     const updatedOptions = await retry<SendManagementRequestOptions>(config);
-    if (updatedOptions.timeoutInMs !== undefined && updatedOptions.timeoutInMs <= 0) {
-      throw new OperationTimeoutError("The batch delete operation timed out before dispatch.");
-    }
-
-    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, updatedOptions);
+    return this._deleteMessages(messageCount, cutoff, sessionId, updatedOptions);
   }
 
   /**

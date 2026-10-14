@@ -8,6 +8,9 @@ import type { MessageSession } from "../../../src/session/messageSession.js";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 import type { Message as RheaMessage } from "rhea-promise";
+import type { Delivery, Receiver, Sender, Session } from "rhea-promise";
+import { RequestResponseLink } from "@azure/core-amqp";
+import { EventEmitter } from "events";
 
 describe("Batch delete messages", function (): void {
   const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
@@ -65,7 +68,7 @@ describe("Batch delete messages", function (): void {
         );
         assert.equal(capturedRequest!.application_properties!["associated-link-name"], "link-1");
         assert.equal(capturedRequest!.body["message-count"].value, 500);
-        assert.equal(capturedRequest!.body["enqueued-time-utc"], cutoff);
+        assert.deepEqual(capturedRequest!.body["enqueued-time-utc"], cutoff);
         assert.equal(capturedRequest!.body["session-id"], "session-1");
       } finally {
         await client.close();
@@ -90,6 +93,98 @@ describe("Batch delete messages", function (): void {
         await client.close();
       }
     });
+
+    it("snapshots the cutoff before asynchronous preparation", async () => {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const managementClient = client["_connectionContext"].getManagementClient("q");
+        const cutoff = new Date("2026-08-27T12:30:00.000Z");
+        const timestamp = cutoff.getTime();
+        managementClient["initWithUniqueReplyTo"] = async (options = {}) => {
+          cutoff.setTime(timestamp + 60000);
+          return options;
+        };
+        managementClient["_waitForManagementRequestSendable"] = async (_, options = {}) => options;
+        managementClient["_sendManagementRequest"] = async (request) => {
+          assert.equal(request.body["enqueued-time-utc"].getTime(), timestamp);
+          return { application_properties: { statusCode: 200 }, body: { "message-count": 0 } };
+        };
+        await managementClient.deleteMessages(1, cutoff);
+      } finally {
+        await client.close();
+      }
+    });
+
+    it("retries an exhausted preparation budget without retrying dispatch", async () => {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const managementClient = client["_connectionContext"].getManagementClient("q");
+        let attempts = 0;
+        let dispatches = 0;
+        managementClient["initWithUniqueReplyTo"] = async (options = {}) => options;
+        managementClient["_waitForManagementRequestSendable"] = async (_, options = {}) => ({
+          ...options,
+          timeoutInMs: ++attempts === 1 ? 0 : 1000,
+        });
+        managementClient["_sendManagementRequest"] = async () => {
+          dispatches++;
+          return { application_properties: { statusCode: 200 }, body: { "message-count": 0 } };
+        };
+        await managementClient.deleteMessages(1, undefined, undefined, {
+          retryOptions: { maxRetries: 1, retryDelayInMs: 0 },
+        });
+        assert.equal(attempts, 2);
+        assert.equal(dispatches, 1);
+      } finally {
+        await client.close();
+      }
+    });
+
+    it.each(["preparation", "pending"] as const)(
+      "cancels during %s without retrying a delete",
+      async (phase) => {
+        const client = new ServiceBusClient(connectionString);
+        try {
+          const managementClient = client["_connectionContext"].getManagementClient("q");
+          const controller = new AbortController();
+          let preparations = 0;
+          let dispatches = 0;
+          const sender: Partial<Sender> = {
+            on: () => sender as Sender,
+            send: () => {
+              dispatches++;
+              controller.abort();
+              return {} as Delivery;
+            },
+          };
+          const receiver = Object.assign(new EventEmitter(), {
+            address: "$management",
+          }) as Receiver;
+          const session = { connection: client["_connectionContext"].connection } as Session;
+          const link = new RequestResponseLink(session, sender as Sender, receiver);
+          managementClient["_link"] = link;
+          managementClient["initWithUniqueReplyTo"] = async (options = {}) => options;
+          managementClient["_waitForManagementRequestSendable"] = async (_, options = {}) => {
+            preparations++;
+            if (phase === "preparation") controller.abort();
+            return options;
+          };
+          await assert.isRejected(
+            managementClient.deleteMessages(1, undefined, undefined, {
+              abortSignal: controller.signal,
+              retryOptions: { maxRetries: 2, retryDelayInMs: 0 },
+            }),
+            /aborted|cancelled/i,
+          );
+          assert.equal(preparations, 1);
+          assert.equal(dispatches, phase === "pending" ? 1 : 0);
+          assert.equal(link["_responsesMap"].size, 0);
+          managementClient["_link"] = undefined;
+        } finally {
+          await client.close();
+        }
+      },
+    );
 
     it("supports the Premium count range", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
@@ -276,6 +371,28 @@ describe("Batch delete messages", function (): void {
       }
     });
 
+    it("purgeMessages snapshots a caller-owned cutoff across batches", async () => {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = client.createReceiver("q") as ServiceBusReceiverImpl;
+        const cutoff = new Date("2026-08-27T12:30:00.000Z");
+        const timestamp = cutoff.getTime();
+        let calls = 0;
+        unitReceiver.deleteMessages = async (_, options = {}) => {
+          await Promise.resolve();
+          cutoff.setTime(timestamp + 60000);
+          assert.equal(options.beforeEnqueueTime!.getTime(), timestamp);
+          return { deletedCount: calls++ === 0 ? 1 : 0 };
+        };
+        assert.deepEqual(await unitReceiver.purgeMessages({ beforeEnqueueTime: cutoff }), {
+          deletedCount: 1,
+        });
+        assert.equal(calls, 2);
+      } finally {
+        await client.close();
+      }
+    });
+
     it("purgeMessages allows the service to enforce its batch-size limit", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
@@ -381,6 +498,28 @@ describe("Batch delete messages", function (): void {
           calls.map(({ sessionId }) => sessionId),
           ["session-1", "session-1", "session-1"],
         );
+      } finally {
+        await client.close();
+      }
+    });
+
+    it("purgeMessages snapshots a caller-owned cutoff across session batches", async () => {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = createSessionReceiver(client);
+        const cutoff = new Date("2026-08-27T12:30:00.000Z");
+        const timestamp = cutoff.getTime();
+        let calls = 0;
+        unitReceiver.deleteMessages = async (_, options = {}) => {
+          await Promise.resolve();
+          cutoff.setTime(timestamp + 60000);
+          assert.equal(options.beforeEnqueueTime!.getTime(), timestamp);
+          return { deletedCount: calls++ === 0 ? 1 : 0 };
+        };
+        assert.deepEqual(await unitReceiver.purgeMessages({ beforeEnqueueTime: cutoff }), {
+          deletedCount: 1,
+        });
+        assert.equal(calls, 2);
       } finally {
         await client.close();
       }
