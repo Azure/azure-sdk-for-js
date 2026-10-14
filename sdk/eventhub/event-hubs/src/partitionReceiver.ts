@@ -241,7 +241,12 @@ export function createReceiver(
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
                 })
                 .then(() => {
-                  addCredits(state.link, Math.max(prefetchCount, maxMessageCount) - queue.length);
+                  addCredits(
+                    state.link,
+                    Math.max(prefetchCount, maxMessageCount) -
+                      queue.length -
+                      (state.link?.credit ?? 0),
+                  );
                   logger.verbose(`setting the max wait time to ${maxWaitTimeInSeconds} seconds`);
                   return waitForEvents(
                     maxMessageCount,
