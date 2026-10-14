@@ -1227,6 +1227,157 @@ describe("Voice Agents tracing", () => {
     expect(JSON.stringify(spans)).not.toContain("PRIVATE");
   });
 
+  it.each(
+    [
+      {
+        name: "warning",
+        event: {
+          type: "warning",
+          event_id: "warning-1",
+          warning: { message: "PRIVATE_WARNING", code: "PRIVATE_CODE", param: "PRIVATE_PARAM" },
+        },
+        expectedName: "voice_agents.warning",
+        attributes: undefined,
+      },
+      ...["completed", "failed"].map((status) => ({
+        name: `MCP ${status}`,
+        event: {
+          type: `response.mcp_call.${status}`,
+          event_id: `mcp-${status}`,
+          item_id: "mcp-1",
+          output_index: 0,
+        },
+        expectedName: `response.mcp_call.${status}`,
+        attributes: { "az.ai.voice_agents.item.id": "mcp-1" },
+      })),
+      ...["started", "completed"].map((status) => ({
+        name: `subagent ${status}`,
+        event: {
+          type: `session.subagent.${status}`,
+          event_id: `subagent-${status}`,
+          consultation_id: "consult-1",
+          call_id: "call-1",
+          subagent_name: "PRIVATE_SUBAGENT",
+        },
+        expectedName: `session.subagent.${status}`,
+        attributes: { "az.ai.voice_agents.subagent.consultation.id": "consult-1" },
+      })),
+      {
+        name: "safe RTC error",
+        event: {
+          type: "rtc.call.error",
+          operation: "PRIVATE_OPERATION",
+          rtc_call_id: "PRIVATE_RTC_CALL",
+          error: {
+            type: "rate_limit_error",
+            code: "rate_limit_exceeded",
+            message: "PRIVATE_ERROR",
+            param: "PRIVATE_PARAM",
+          },
+        },
+        expectedName: "rtc.call.error",
+        attributes: {
+          "error.type": "rate_limit_error",
+          "az.ai.voice_agents.error.code": "rate_limit_exceeded",
+        },
+      },
+      {
+        name: "unknown RTC error category",
+        event: {
+          type: "rtc.call.error",
+          error: { type: "PRIVATE_TYPE", code: "PRIVATE_CODE", message: "PRIVATE_ERROR" },
+        },
+        expectedName: "rtc.call.error",
+        attributes: { "error.type": "Error" },
+      },
+      {
+        name: "failed input transcription",
+        event: {
+          type: "conversation.item.input_audio_transcription.failed",
+          event_id: "transcription-failed",
+          item_id: "audio-1",
+          content_index: 0,
+          error: { type: "PRIVATE_TYPE", code: "PRIVATE_CODE", message: "PRIVATE_ERROR" },
+        },
+        expectedName: "voice_agents.transcription.failed",
+        attributes: undefined,
+      },
+    ].flatMap((testCase) =>
+      [false, true].map((contentRecording) => ({ ...testCase, contentRecording })),
+    ),
+  )(
+    "records safe $name telemetry without failing the session (contentRecording=$contentRecording)",
+    async ({ event, expectedName, attributes, contentRecording }) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording });
+      const connection = await realtime.connect("voice");
+      transport.receive(event);
+      expect(connection.state).toBe("connected");
+      await connection.close();
+      expect(span("voice_agents.realtime.session").events).toEqual([
+        { name: expectedName, attributes },
+      ]);
+      expect(span("voice_agents.realtime.session").status.code).toBe(SpanStatusCode.UNSET);
+      expect(spans.every((value) => value.endCount === 1)).toBe(true);
+      expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    },
+  );
+
+  it.each(
+    [
+      "unknown_target",
+      "timeout",
+      "cancelled",
+      "stopped_by_user",
+      "superseded",
+      "failed",
+      "PRIVATE_REASON",
+    ].flatMap((reason) => [false, true].map((contentRecording) => ({ reason, contentRecording }))),
+  )(
+    "records only safe subagent abort reasons ($reason, contentRecording=$contentRecording)",
+    async ({ reason, contentRecording }) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording });
+      const connection = await realtime.connect("voice");
+      transport.receive({
+        type: "session.subagent.aborted",
+        event_id: "subagent-aborted",
+        consultation_id: "consult-1",
+        call_id: "call-1",
+        subagent_name: "PRIVATE_SUBAGENT",
+        reason,
+      });
+      await connection.close();
+      expect(span("voice_agents.realtime.session").events).toEqual([
+        {
+          name: "session.subagent.aborted",
+          attributes: {
+            "az.ai.voice_agents.subagent.consultation.id": "consult-1",
+            ...(reason === "PRIVATE_REASON"
+              ? {}
+              : { "az.ai.voice_agents.subagent.abort_reason": reason }),
+          },
+        },
+      ]);
+      expect(span("voice_agents.realtime.session").status.code).toBe(SpanStatusCode.UNSET);
+      expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+    },
+  );
+
+  it("records response cancellation requests without ending the active response", async () => {
+    const { realtime, transport } = client();
+    const connection = await realtime.connect("voice");
+    created(transport);
+    await connection.cancelResponse({ responseId: "resp-1" });
+    expect(span("invoke_agent").endCount).toBe(0);
+    expect(span("voice_agents.realtime.session").events).toEqual([
+      { name: "voice_agents.response.cancel_requested", attributes: undefined },
+    ]);
+    done(transport, "cancelled");
+    await connection.close();
+    expect(span("invoke_agent").attributes["az.ai.voice_agents.response.status"]).toBe("cancelled");
+    expect(span("invoke_agent").status.code).toBe(SpanStatusCode.UNSET);
+    expect(spans.every((value) => value.endCount === 1)).toBe(true);
+  });
+
   it("ends all active spans once on unexpected disconnect", async () => {
     const { realtime, transport } = client();
     const connection = await realtime.connect("voice");
