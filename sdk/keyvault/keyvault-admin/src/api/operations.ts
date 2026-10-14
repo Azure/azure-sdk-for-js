@@ -222,6 +222,7 @@ export function deleteEkmPrivateEndpoint(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteEkmPrivateEndpointSend(context, peName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion,
   }) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
 }
 
@@ -284,6 +285,7 @@ export function createEkmPrivateEndpoint(
       abortSignal: options?.abortSignal,
       getInitialResponse: () => _createEkmPrivateEndpointSend(context, peName, parameters, options),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion,
     },
   ) as PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation>;
 }
