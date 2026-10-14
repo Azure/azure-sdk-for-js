@@ -72,7 +72,6 @@
     "@modelcontextprotocol/sdk": "^1.25.1",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/instrumentation": "^0.220.0",
-    "@opentelemetry/sdk-trace-base": "^2.11.0",
     "@opentelemetry/sdk-trace-node": "^2.9.0",
     "@types/node": "catalog:",
     "@types/ws": "^8.18.1",
