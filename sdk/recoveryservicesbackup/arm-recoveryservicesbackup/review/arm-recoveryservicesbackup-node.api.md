@@ -556,7 +556,7 @@ export interface AzureVmWorkloadSQLInstanceProtectableItem extends AzureVmWorklo
 
 // @public
 export interface AzureVmWorkloadSQLInstanceProtectedItem extends AzureVmWorkloadProtectedItem {
-    childDBNames?: string[];
+    childDatabaseNameList?: string[];
     instanceProtectionReadiness?: InstanceProtectionReadiness;
     protectedItemType: "AzureVmWorkloadSQLInstance";
 }
@@ -1814,6 +1814,14 @@ export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreReques
 }
 
 // @public
+export interface IaasVmrpExtendedInfo extends RPExtendedInfo {
+    dataDisks?: DiskInformation[];
+    // (undocumented)
+    objectType: "IaasVMRPExtendedInfo";
+    osDisk?: DiskInformation;
+}
+
+// @public
 export type IaasVMSnapshotConsistencyType = string;
 
 // @public
@@ -2025,6 +2033,7 @@ export enum KnownBackupItemType {
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
+    SQLInstance = "SQLInstance",
     SystemState = "SystemState",
     VM = "VM",
     VMwareVM = "VMwareVM"
@@ -2101,6 +2110,7 @@ export enum KnownDataSourceType {
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
+    SQLInstance = "SQLInstance",
     SystemState = "SystemState",
     VM = "VM",
     VMwareVM = "VMwareVM"
@@ -2590,6 +2600,7 @@ export enum KnownWorkloadType {
     Sharepoint = "Sharepoint",
     SQLDataBase = "SQLDataBase",
     Sqldb = "SQLDB",
+    SQLInstance = "SQLInstance",
     SystemState = "SystemState",
     VM = "VM",
     VMwareVM = "VMwareVM"
@@ -3399,7 +3410,6 @@ export interface RecoveryPointsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3416,16 +3426,12 @@ export interface RecoveryPointsListOptionalParams extends OperationOptions {
 // @public
 export interface RecoveryPointsOperations {
     // @deprecated (undocumented)
-    beginGetRPExtendedInfo: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginGetRPExtendedInfo: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => Promise<SimplePollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>>;
     // @deprecated (undocumented)
-    beginGetRPExtendedInfoAndWait: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginGetRPExtendedInfoOperationResult: (resourceGroupName: string, vaultName: string, fabricName: string, operationId: string, options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginGetRPExtendedInfoOperationResultAndWait: (resourceGroupName: string, vaultName: string, fabricName: string, operationId: string, options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams) => Promise<void>;
+    beginGetRPExtendedInfoAndWait: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => Promise<RPExtendedInfoResourceList>;
     get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: RecoveryPointsGetOptionalParams) => Promise<RecoveryPointResource>;
-    getRPExtendedInfo: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => PollerLike<OperationState<void>, void>;
-    getRPExtendedInfoOperationResult: (resourceGroupName: string, vaultName: string, fabricName: string, operationId: string, options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams) => PollerLike<OperationState<void>, void>;
+    getRPExtendedInfo: (resourceGroupName: string, vaultName: string, fabricName: string, parameters: GetRPExtendedInfoRequestResource, options?: RecoveryPointsGetRPExtendedInfoOptionalParams) => PollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>;
+    getRPExtendedInfoOperationResult: (resourceGroupName: string, vaultName: string, fabricName: string, operationId: string, options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams) => Promise<RPExtendedInfoResourceList | void>;
     list: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: RecoveryPointsListOptionalParams) => PagedAsyncIterableIterator<RecoveryPointResource>;
 }
 
@@ -3711,6 +3717,27 @@ export type RetentionPolicyUnion = LongTermRetentionPolicy | SimpleRetentionPoli
 
 // @public
 export type RetentionScheduleFormat = string;
+
+// @public
+export interface RPExtendedInfo {
+    objectType: string;
+}
+
+// @public
+export interface RPExtendedInfoResource extends Resource {
+    eTag?: string;
+    location?: string;
+    properties?: RPExtendedInfoUnion;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface RPExtendedInfoResourceList extends ResourceList {
+    value?: RPExtendedInfoResource[];
+}
+
+// @public
+export type RPExtendedInfoUnion = IaasVmrpExtendedInfo | RPExtendedInfo;
 
 // @public
 export interface SchedulePolicy {

@@ -1535,6 +1535,8 @@ export enum KnownDataSourceType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -1557,7 +1559,8 @@ export enum KnownDataSourceType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type DataSourceType = string;
 
@@ -3650,7 +3653,7 @@ export interface AzureVmWorkloadSQLInstanceProtectedItem extends AzureVmWorkload
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   protectedItemType: "AzureVmWorkloadSQLInstance";
   /** Name of Child Dbs protected under this parent. */
-  childDBNames?: string[];
+  childDatabaseNameList?: string[];
   /** The state of instance protection. */
   instanceProtectionReadiness?: InstanceProtectionReadiness;
 }
@@ -3708,9 +3711,9 @@ export function azureVmWorkloadSQLInstanceProtectedItemSerializer(
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
       : sourceSideScanInfoSerializer(item["sourceSideScanInfo"]),
-    childDBNames: !item["childDBNames"]
-      ? item["childDBNames"]
-      : item["childDBNames"].map((p: any) => {
+    childDatabaseNameList: !item["childDatabaseNameList"]
+      ? item["childDatabaseNameList"]
+      : item["childDatabaseNameList"].map((p: any) => {
           return p;
         }),
     instanceProtectionReadiness: item["instanceProtectionReadiness"],
@@ -3776,9 +3779,9 @@ export function azureVmWorkloadSQLInstanceProtectedItemDeserializer(
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
       : sourceSideScanInfoDeserializer(item["sourceSideScanInfo"]),
-    childDBNames: !item["childDBNames"]
-      ? item["childDBNames"]
-      : item["childDBNames"].map((p: any) => {
+    childDatabaseNameList: !item["childDatabaseNameList"]
+      ? item["childDatabaseNameList"]
+      : item["childDatabaseNameList"].map((p: any) => {
           return p;
         }),
     instanceProtectionReadiness: item["instanceProtectionReadiness"],
@@ -6727,6 +6730,8 @@ export enum KnownWorkloadType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -6749,7 +6754,8 @@ export enum KnownWorkloadType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type WorkloadType = string;
 
@@ -7262,6 +7268,8 @@ export enum KnownBackupItemType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -7284,7 +7292,8 @@ export enum KnownBackupItemType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type BackupItemType = string;
 
@@ -7729,6 +7738,109 @@ export function getRPExtendedInfoRequestSerializer(item: GetRPExtendedInfoReques
     recoveryPointIds: item["recoveryPointIds"].map((p: any) => {
       return p;
     }),
+  };
+}
+
+/** List of the additional details of recovery points. */
+export interface RPExtendedInfoResourceList extends ResourceList {
+  /** List of resources. */
+  value?: RPExtendedInfoResource[];
+}
+
+export function rpExtendedInfoResourceListDeserializer(item: any): RPExtendedInfoResourceList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : rpExtendedInfoResourceArrayDeserializer(item["value"]),
+  };
+}
+
+export function rpExtendedInfoResourceArrayDeserializer(
+  result: Array<RPExtendedInfoResource>,
+): any[] {
+  return result.map((item) => {
+    return rpExtendedInfoResourceDeserializer(item);
+  });
+}
+
+/** Additional details of a recovery point, wrapped in a resource envelope. */
+export interface RPExtendedInfoResource extends Resource {
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Optional ETag. */
+  eTag?: string;
+  /** RPExtendedInfoResource properties */
+  properties?: RPExtendedInfoUnion;
+}
+
+export function rpExtendedInfoResourceDeserializer(item: any): RPExtendedInfoResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    eTag: item["eTag"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : rpExtendedInfoUnionDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Base class for additional details of a recovery point. Workload-specific additional details are derived from
+ * this class.
+ */
+export interface RPExtendedInfo {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  /** The discriminator possible values: IaasVMRPExtendedInfo */
+  objectType: string;
+}
+
+export function rpExtendedInfoDeserializer(item: any): RPExtendedInfo {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for RPExtendedInfoUnion */
+export type RPExtendedInfoUnion = IaasVmrpExtendedInfo | RPExtendedInfo;
+
+export function rpExtendedInfoUnionDeserializer(item: any): RPExtendedInfoUnion {
+  switch (item["objectType"]) {
+    case "IaasVMRPExtendedInfo":
+      return iaasVmrpExtendedInfoDeserializer(item as IaasVmrpExtendedInfo);
+
+    default:
+      return rpExtendedInfoDeserializer(item);
+  }
+}
+
+/** Additional details of an IaaS VM recovery point. */
+export interface IaasVmrpExtendedInfo extends RPExtendedInfo {
+  /**
+   * OS disk of the backed up virtual machine. The lun of the OS disk is always -1, since a logical unit number is
+   * only assigned to data disks.
+   */
+  osDisk?: DiskInformation;
+  /** Data disks of the backed up virtual machine. */
+  dataDisks?: DiskInformation[];
+  objectType: "IaasVMRPExtendedInfo";
+}
+
+export function iaasVmrpExtendedInfoDeserializer(item: any): IaasVmrpExtendedInfo {
+  return {
+    objectType: item["objectType"],
+    osDisk: !item["osDisk"] ? item["osDisk"] : diskInformationDeserializer(item["osDisk"]),
+    dataDisks: !item["dataDisks"]
+      ? item["dataDisks"]
+      : diskInformationArrayDeserializer(item["dataDisks"]),
   };
 }
 

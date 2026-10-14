@@ -6,12 +6,14 @@ import type {
   _RecoveryPointResourceList,
   RecoveryPointResource,
   GetRPExtendedInfoRequestResource,
+  RPExtendedInfoResourceList,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   _recoveryPointResourceListDeserializer,
   recoveryPointResourceDeserializer,
   getRPExtendedInfoRequestResourceSerializer,
+  rpExtendedInfoResourceListDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -57,7 +59,7 @@ export function _getRPExtendedInfoOperationResultSend(
 
 export async function _getRPExtendedInfoOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<RPExtendedInfoResourceList | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -68,41 +70,34 @@ export async function _getRPExtendedInfoOperationResultDeserialize(
     throw error;
   }
 
-  return;
+  if (!result.body) {
+    return;
+  }
+
+  return rpExtendedInfoResourceListDeserializer(result.body);
 }
 
 /**
  * Returns the additional details of the recovery points fetched by a prior getRPExtendedInfo operation. Returns
  * 202 Accepted while the operation is still running.
  */
-export function getRPExtendedInfoOperationResult(
+export async function getRPExtendedInfoOperationResult(
   context: Client,
   resourceGroupName: string,
   vaultName: string,
   fabricName: string,
   operationId: string,
   options: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
+): Promise<RPExtendedInfoResourceList | void> {
+  const result = await _getRPExtendedInfoOperationResultSend(
     context,
-    _getRPExtendedInfoOperationResultDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _getRPExtendedInfoOperationResultSend(
-          context,
-          resourceGroupName,
-          vaultName,
-          fabricName,
-          operationId,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-10-01",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+    resourceGroupName,
+    vaultName,
+    fabricName,
+    operationId,
+    options,
+  );
+  return _getRPExtendedInfoOperationResultDeserialize(result);
 }
 
 export function _getRPExtendedInfoSend(
@@ -134,7 +129,9 @@ export function _getRPExtendedInfoSend(
   });
 }
 
-export async function _getRPExtendedInfoDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _getRPExtendedInfoDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RPExtendedInfoResourceList> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -145,7 +142,7 @@ export async function _getRPExtendedInfoDeserialize(result: PathUncheckedRespons
     throw error;
   }
 
-  return;
+  return rpExtendedInfoResourceListDeserializer(result.body);
 }
 
 /**
@@ -160,7 +157,7 @@ export function getRPExtendedInfo(
   fabricName: string,
   parameters: GetRPExtendedInfoRequestResource,
   options: RecoveryPointsGetRPExtendedInfoOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList> {
   return getLongRunningPoller(context, _getRPExtendedInfoDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -175,7 +172,7 @@ export function getRPExtendedInfo(
       ),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-10-01",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>;
 }
 
 export function _listSend(

@@ -16,12 +16,13 @@ async function getRPExtendedInfoOperationResult() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  await client.recoveryPoints.getRPExtendedInfoOperationResult(
+  const result = await client.recoveryPoints.getRPExtendedInfoOperationResult(
     "testRG",
     "testVault",
     "Azure",
     "00000000-0000-0000-0000-000000000000",
   );
+  console.log(result);
 }
 
 async function main() {

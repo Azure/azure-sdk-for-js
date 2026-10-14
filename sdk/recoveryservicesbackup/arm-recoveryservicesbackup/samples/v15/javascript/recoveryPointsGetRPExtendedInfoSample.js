@@ -18,13 +18,14 @@ async function triggerGetRPExtendedInfo() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  await client.recoveryPoints.getRPExtendedInfo("testRG", "testVault", "Azure", {
+  const result = await client.recoveryPoints.getRPExtendedInfo("testRG", "testVault", "Azure", {
     properties: {
       recoveryPointIds: [
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
       ],
     },
   });
+  console.log(result);
 }
 
 async function main() {

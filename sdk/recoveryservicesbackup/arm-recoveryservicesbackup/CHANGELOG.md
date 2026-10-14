@@ -1,13 +1,11 @@
 # Release History
 
-## 15.0.0 (2026-10-08)
+## 15.0.0 (2026-10-14)
 
 ### Features Added
   - Added operation group ProtectionContainerRefreshOperationStatusesOperations
   - Added operation RecoveryPointsOperations.beginGetRPExtendedInfo
   - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoAndWait
-  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoOperationResult
-  - Added operation RecoveryPointsOperations.beginGetRPExtendedInfoOperationResultAndWait
   - Added operation RecoveryPointsOperations.getRPExtendedInfo
   - Added operation RecoveryPointsOperations.getRPExtendedInfoOperationResult
   - Added Interface AzureVmWorkloadSQLInstanceProtectedItem
@@ -16,9 +14,13 @@
   - Added Interface FilesystemInfo
   - Added Interface GetRPExtendedInfoRequest
   - Added Interface GetRPExtendedInfoRequestResource
+  - Added Interface IaasVmrpExtendedInfo
   - Added Interface ProtectionContainerRefreshOperationStatusesGetOptionalParams
   - Added Interface RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams
   - Added Interface RecoveryPointsGetRPExtendedInfoOptionalParams
+  - Added Interface RPExtendedInfo
+  - Added Interface RPExtendedInfoResource
+  - Added Interface RPExtendedInfoResourceList
   - Added Interface SnapshotRecoveryPointInfo
   - Added Interface StorageSpaceInfo
   - Added Interface ValidateAzureWorkloadRestoreOperationRequest
@@ -38,13 +40,17 @@
   - Added Type Alias ExistingBasicVMProtection
   - Added Type Alias InstanceProtectionReadiness
   - Added Type Alias ProtectionLevel
+  - Added Type Alias RPExtendedInfoUnion
   - Added Type Alias VMWorkloadPolicyType
   - Added Enum KnownExistingBasicVMProtection
   - Added Enum KnownInstanceProtectionReadiness
   - Added Enum KnownProtectionLevel
   - Added Enum KnownRecoveryPointTierType
   - Added Enum KnownVMWorkloadPolicyType
+  - Enum KnownBackupItemType has a new value SQLInstance
+  - Enum KnownDataSourceType has a new value SQLInstance
   - Enum KnownVersions has a new value V20261001
+  - Enum KnownWorkloadType has a new value SQLInstance
 
 ### Breaking Changes
   - Operation FetchTieringCostOperations.beginPost has a new signature

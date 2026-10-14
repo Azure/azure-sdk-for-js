@@ -17,6 +17,7 @@ import type {
 import type {
   RecoveryPointResource,
   GetRPExtendedInfoRequestResource,
+  RPExtendedInfoResourceList,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -35,23 +36,7 @@ export interface RecoveryPointsOperations {
     fabricName: string,
     operationId: string,
     options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use getRPExtendedInfoOperationResult instead */
-  beginGetRPExtendedInfoOperationResult: (
-    resourceGroupName: string,
-    vaultName: string,
-    fabricName: string,
-    operationId: string,
-    options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use getRPExtendedInfoOperationResult instead */
-  beginGetRPExtendedInfoOperationResultAndWait: (
-    resourceGroupName: string,
-    vaultName: string,
-    fabricName: string,
-    operationId: string,
-    options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<RPExtendedInfoResourceList | void>;
   /**
    * Triggers fetching the additional details of a recovery point, which are not returned by the recovery point GET
    * API. This is an asynchronous operation. Returns tracking headers which can be tracked using the
@@ -63,7 +48,7 @@ export interface RecoveryPointsOperations {
     fabricName: string,
     parameters: GetRPExtendedInfoRequestResource,
     options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>;
   /** @deprecated use getRPExtendedInfo instead */
   beginGetRPExtendedInfo: (
     resourceGroupName: string,
@@ -71,7 +56,9 @@ export interface RecoveryPointsOperations {
     fabricName: string,
     parameters: GetRPExtendedInfoRequestResource,
     options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>
+  >;
   /** @deprecated use getRPExtendedInfo instead */
   beginGetRPExtendedInfoAndWait: (
     resourceGroupName: string,
@@ -79,7 +66,7 @@ export interface RecoveryPointsOperations {
     fabricName: string,
     parameters: GetRPExtendedInfoRequestResource,
     options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<RPExtendedInfoResourceList>;
   /** Lists the backup copies for the backed up item. */
   list: (
     vaultName: string,
@@ -121,40 +108,6 @@ function _getRecoveryPoints(context: RecoveryServicesBackupContext) {
         operationId,
         options,
       ),
-    beginGetRPExtendedInfoOperationResult: async (
-      resourceGroupName: string,
-      vaultName: string,
-      fabricName: string,
-      operationId: string,
-      options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
-    ) => {
-      const poller = getRPExtendedInfoOperationResult(
-        context,
-        resourceGroupName,
-        vaultName,
-        fabricName,
-        operationId,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginGetRPExtendedInfoOperationResultAndWait: async (
-      resourceGroupName: string,
-      vaultName: string,
-      fabricName: string,
-      operationId: string,
-      options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
-    ) => {
-      return await getRPExtendedInfoOperationResult(
-        context,
-        resourceGroupName,
-        vaultName,
-        fabricName,
-        operationId,
-        options,
-      );
-    },
     getRPExtendedInfo: (
       resourceGroupName: string,
       vaultName: string,
