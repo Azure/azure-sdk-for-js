@@ -61,7 +61,7 @@ steps:
 
   - pwsh: |
       # Typed linting needs built declarations for workspace dependencies.
-      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/identity... --filter @azure/monitor-opentelemetry-exporter... --filter @azure/opentelemetry-instrumentation-azure-sdk...
+      pnpm build --filter @azure/monitor-opentelemetry...
       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
