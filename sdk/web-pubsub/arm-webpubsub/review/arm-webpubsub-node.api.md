@@ -37,6 +37,12 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface ChatSettings {
+    mode?: string;
+    persistentStorage?: ResourceReference;
+}
+
+// @public
 export interface ClientConnectionCountRule {
     // (undocumented)
     type: ClientConnectionCountRuleDiscriminator;
@@ -311,7 +317,8 @@ export enum KnownUpstreamAuthType {
 // @public
 export enum KnownVersions {
     V20250101Preview = "2025-01-01-preview",
-    V20250801Preview = "2025-08-01-preview"
+    V20250801Preview = "2025-08-01-preview",
+    V20251201Preview = "2025-12-01-preview"
 }
 
 // @public
@@ -436,6 +443,18 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+}
+
+// @public
+export interface PersistentStorage extends ProxyResource {
+    readonly provisioningState?: ProvisioningState;
+    storageAccount: ResourceReference;
+}
+
+// @public
+export interface PersistentStorageProperties {
+    readonly provisioningState?: ProvisioningState;
+    storageAccount: ResourceReference;
 }
 
 // @public
@@ -845,6 +864,7 @@ export interface WebPubSubHub extends ProxyResource {
 // @public
 export interface WebPubSubHubProperties {
     anonymousConnectPolicy?: string;
+    chat?: ChatSettings;
     eventHandlers?: EventHandler[];
     eventListeners?: EventListener[];
     webSocketKeepAliveIntervalInSeconds?: number;
@@ -923,6 +943,7 @@ export class WebPubSubManagementClient {
     readonly webPubSubCustomCertificates: WebPubSubCustomCertificatesOperations;
     readonly webPubSubCustomDomains: WebPubSubCustomDomainsOperations;
     readonly webPubSubHubs: WebPubSubHubsOperations;
+    readonly webPubSubPersistentStorages: WebPubSubPersistentStoragesOperations;
     readonly webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnectionsOperations;
     readonly webPubSubPrivateLinkResources: WebPubSubPrivateLinkResourcesOperations;
     readonly webPubSubReplicas: WebPubSubReplicasOperations;
@@ -978,6 +999,40 @@ export interface WebPubSubOperations {
     regenerateKey: (resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams) => PollerLike<OperationState<WebPubSubKeys>, WebPubSubKeys>;
     restart: (resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams) => PollerLike<OperationState<WebPubSubResource>, WebPubSubResource>;
+}
+
+// @public
+export interface WebPubSubPersistentStoragesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WebPubSubPersistentStoragesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WebPubSubPersistentStoragesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebPubSubPersistentStoragesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebPubSubPersistentStoragesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: PersistentStorage, options?: WebPubSubPersistentStoragesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PersistentStorage>, PersistentStorage>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, name: string, parameters: PersistentStorage, options?: WebPubSubPersistentStoragesCreateOrUpdateOptionalParams) => Promise<PersistentStorage>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubPersistentStoragesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubPersistentStoragesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: PersistentStorage, options?: WebPubSubPersistentStoragesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PersistentStorage>, PersistentStorage>;
+    delete: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubPersistentStoragesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubPersistentStoragesGetOptionalParams) => Promise<PersistentStorage>;
+    list: (resourceGroupName: string, resourceName: string, options?: WebPubSubPersistentStoragesListOptionalParams) => PagedAsyncIterableIterator<PersistentStorage>;
 }
 
 // @public

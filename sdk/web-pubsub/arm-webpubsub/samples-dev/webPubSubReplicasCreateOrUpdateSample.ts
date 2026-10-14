@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a replica.
  *
  * @summary create or update a replica.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicas_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicas_CreateOrUpdate.json
  */
 async function webPubSubReplicasCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,9 +19,9 @@ async function webPubSubReplicasCreateOrUpdate(): Promise<void> {
     "myWebPubSubService",
     "myWebPubSubService-eastus",
     {
-      location: "eastus",
+      sku: { name: "Premium_P1", tier: "Premium", capacity: 1 },
       resourceStopped: "false",
-      sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
+      location: "eastus",
       tags: { key1: "value1" },
     },
   );

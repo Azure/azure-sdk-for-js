@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the private link resources that need to be created for a resource.
  *
  * @summary get the private link resources that need to be created for a resource.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubPrivateLinkResources_List.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubPrivateLinkResources_List.json
  */
 async function webPubSubPrivateLinkResourcesList() {
   const credential = new DefaultAzureCredential();

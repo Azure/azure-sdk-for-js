@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a custom domain.
  *
  * @summary delete a custom domain.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomDomains_Delete.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomDomains_Delete.json
  */
 async function webPubSubCustomDomainsDelete() {
   const credential = new DefaultAzureCredential();

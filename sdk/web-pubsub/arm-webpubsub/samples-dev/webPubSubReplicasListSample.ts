@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all replicas belong to this resource
  *
  * @summary list all replicas belong to this resource
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicas_List.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicas_List.json
  */
 async function webPubSubReplicasList(): Promise<void> {
   const credential = new DefaultAzureCredential();

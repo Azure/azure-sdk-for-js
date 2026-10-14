@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to handles requests to list all resources in a resource group.
  *
  * @summary handles requests to list all resources in a resource group.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_ListByResourceGroup.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_ListByResourceGroup.json
  */
 async function webPubSubListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

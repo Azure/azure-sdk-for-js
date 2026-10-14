@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a hub setting.
  *
  * @summary get a hub setting.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubHubs_Get.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubHubs_Get.json
  */
 async function webPubSubHubsGet() {
   const credential = new DefaultAzureCredential();

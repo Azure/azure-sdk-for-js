@@ -5,6 +5,7 @@ exports:
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/usages": "./src/api/usages/index.ts"
+  "./api/webPubSubPersistentStorages": "./src/api/webPubSubPersistentStorages/index.ts"
   "./api/webPubSubReplicaSharedPrivateLinkResources": "./src/api/webPubSubReplicaSharedPrivateLinkResources/index.ts"
   "./api/webPubSubReplicas": "./src/api/webPubSubReplicas/index.ts"
   "./api/webPubSubPrivateEndpointConnections": "./src/api/webPubSubPrivateEndpointConnections/index.ts"

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to handles requests to list all resources in a subscription.
  *
  * @summary handles requests to list all resources in a subscription.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_ListBySubscription.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_ListBySubscription.json
  */
 async function webPubSubListBySubscription() {
   const credential = new DefaultAzureCredential();

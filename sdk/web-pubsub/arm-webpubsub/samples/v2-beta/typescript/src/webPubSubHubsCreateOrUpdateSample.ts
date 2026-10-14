@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a hub setting.
  *
  * @summary create or update a hub setting.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubHubs_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubHubs_CreateOrUpdate.json
  */
 async function webPubSubHubsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,34 +20,37 @@ async function webPubSubHubsCreateOrUpdate(): Promise<void> {
     "myWebPubSubService",
     {
       properties: {
-        anonymousConnectPolicy: "allow",
         eventHandlers: [
           {
-            auth: { type: "ManagedIdentity", managedIdentity: { resource: "abc" } },
-            systemEvents: ["connect", "connected"],
             urlTemplate: "http://host.com",
             userEventPattern: "*",
-            groupPresenceEvents: {
-              eventNames: ["joined", "left"],
-              groupFilters: ["group1", "group2*"],
-            },
+            systemEvents: ["connect", "connected"],
+            auth: { type: "ManagedIdentity", managedIdentity: { resource: "abc" } },
+            groupPresenceEvents: { eventNames: ["joined", "left"], groupFilters: ["chat*"] },
           },
         ],
         eventListeners: [
           {
-            endpoint: {
-              type: "EventHub",
-              eventHubName: "eventHubName1",
-              fullyQualifiedNamespace: "example.servicebus.windows.net",
-            },
             filter: {
               type: "EventName",
               systemEvents: ["connected", "disconnected"],
               userEventPattern: "*",
             },
+            endpoint: {
+              type: "EventHub",
+              fullyQualifiedNamespace: "example.servicebus.windows.net",
+              eventHubName: "eventHubName1",
+            },
           },
         ],
+        anonymousConnectPolicy: "allow",
         webSocketKeepAliveIntervalInSeconds: 50,
+        chat: {
+          mode: "Enabled",
+          persistentStorage: {
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/persistentStorages/myStor",
+          },
+        },
       },
     },
   );

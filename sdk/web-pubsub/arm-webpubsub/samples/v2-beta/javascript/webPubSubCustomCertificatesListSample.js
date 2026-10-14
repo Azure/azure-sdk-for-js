@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all custom certificates.
  *
  * @summary list all custom certificates.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomCertificates_List.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomCertificates_List.json
  */
 async function webPubSubCustomCertificatesList() {
   const credential = new DefaultAzureCredential();

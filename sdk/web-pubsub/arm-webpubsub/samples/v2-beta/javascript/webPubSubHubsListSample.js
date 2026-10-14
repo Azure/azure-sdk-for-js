@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list hub settings.
  *
  * @summary list hub settings.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubHubs_List.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubHubs_List.json
  */
 async function webPubSubHubsList() {
   const credential = new DefaultAzureCredential();

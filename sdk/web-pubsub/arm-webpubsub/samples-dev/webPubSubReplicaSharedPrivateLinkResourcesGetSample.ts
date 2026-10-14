@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified shared private link resource
  *
  * @summary get the specified shared private link resource
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicaSharedPrivateLinkResources_Get.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicaSharedPrivateLinkResources_Get.json
  */
 async function webPubSubReplicaSharedPrivateLinkResourcesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
