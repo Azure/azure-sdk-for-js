@@ -1,6 +1,6 @@
 # Release History
 
-## 21.0.0 (2026-10-13)
+## 21.0.0 (2026-10-14)
 
 ### Features Added
   - Added operation group BlobAccessPointConfigurationsOperations
