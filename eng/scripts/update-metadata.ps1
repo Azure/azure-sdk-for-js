@@ -54,7 +54,14 @@ try {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
   
-  Initialize-NpmCredentials -NpmConfigPath (Join-Path $SdkRepoPath ".npmrc")
+  $npmConfigPath = Join-Path $SdkRepoPath ".npmrc"
+  if (-not (Test-Path $npmConfigPath)) {
+    throw "npm configuration file does not exist: $npmConfigPath"
+  }
+
+  Write-Host "Authenticating to the Azure Artifacts npm feed..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "npx --yes artifacts-npm-credprovider -c `"$npmConfigPath`""
+  Write-Host ""
 
   Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
   Invoke-LoggedCommand "npm --prefix `"$releaseToolsPath`" ci"

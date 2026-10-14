@@ -138,22 +138,6 @@ function Invoke-LoggedCommand
     }
 }
 
-function Initialize-NpmCredentials {
-  [CmdletBinding()]
-  param (
-    [Parameter(Mandatory = $true)]
-    [string]$NpmConfigPath
-  )
-
-  if (-not (Test-Path $NpmConfigPath)) {
-    throw "npm configuration file does not exist: $NpmConfigPath"
-  }
-
-  Write-Host "Authenticating to the Azure Artifacts npm feed..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npx --yes artifacts-npm-credprovider -c `"$NpmConfigPath`""
-  Write-Host ""
-}
-
 function Set-ConsoleEncoding
 {
     [CmdletBinding()]
