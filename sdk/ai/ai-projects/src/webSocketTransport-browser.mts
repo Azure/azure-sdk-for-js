@@ -23,7 +23,7 @@ interface NativeCloseEvent {
  * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. This transport sends
  * the Microsoft Entra bearer token as the `authorization.bearer.<token>` WebSocket subprotocol,
  * which the service converts back into an `Authorization` header before forwarding the request.
- * Only preview features, client request IDs, and structured inputs are mapped to query parameters.
+ * Only preview features and client request IDs are mapped to query parameters.
  */
 export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
@@ -220,9 +220,6 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
         break;
       case "x-ms-client-request-id":
         target.searchParams.set("client-request-id", value);
-        break;
-      case "x-ms-voice-structured-inputs":
-        target.searchParams.set("structured_input", value);
         break;
     }
   }

@@ -264,9 +264,6 @@ export class VoiceAgentRealtimeClient {
       this.options.apiVersion,
       options,
     );
-    const serializedStructuredInputs = options.structuredInputs
-      ? JSON.stringify(options.structuredInputs)
-      : undefined;
     const factory =
       this.options.webSocketFactory ??
       (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
@@ -276,7 +273,6 @@ export class VoiceAgentRealtimeClient {
       this.credential,
       this.options,
       options,
-      serializedStructuredInputs,
       factory,
     );
     await connection.open();
@@ -302,7 +298,6 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       apiVersion: string;
     },
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
-    private readonly serializedStructuredInputs: string | undefined,
     factory: VoiceAgentWebSocketFactory,
   ) {
     this.events = new AsyncQueue<VoiceAgentRealtimeEvent>(10_000, {
@@ -363,7 +358,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       await this.transport.connect({
         url: this.url,
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.serializedStructuredInputs),
+        headers: buildHeaders(token, this.clientOptions),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -712,16 +707,18 @@ function buildWebSocketUrl(
   if (options.transport) {
     url.searchParams.set("transport", options.transport);
   }
+  if (options.structuredInputs !== undefined) {
+    url.searchParams.set("structured_inputs", JSON.stringify(options.structuredInputs));
+  }
   return url.toString();
 }
 
 function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  serializedStructuredInputs: string | undefined,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
-  const headers: Record<string, string> = {
+  return {
     authorization: `Bearer ${token}`,
     "foundry-features": voiceAgentsPreview,
     "x-ms-client-request-id": createRequestId(),
@@ -730,10 +727,6 @@ function buildHeaders(
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
-  if (serializedStructuredInputs !== undefined) {
-    headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
-  }
-  return headers;
 }
 
 function createRequestId(): string {
