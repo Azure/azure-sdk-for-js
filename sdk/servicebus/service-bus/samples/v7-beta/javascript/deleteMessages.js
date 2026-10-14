@@ -20,7 +20,7 @@ const messages = [
   { body: "Albert Einstein" },
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
-  { body: "Steven Hawking" },
+  { body: "Stephen Hawking" },
   { body: "Isaac Newton" },
   { body: "Niels Bohr" },
   { body: "Michael Faraday" },
