@@ -77,53 +77,53 @@ async function main() {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  console.log("\nSending browser automation request with streaming...");
-  const streamResponse = await openAIClient.responses.create(
-    {
-      input:
-        "Use the Browser Automation tool to visit https://example.com. Read the page and report its title and the visible description paragraph. Base your answer on the browser results, not on prior knowledge.",
-      stream: true,
-    },
-    {
-      body: {
-        agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
+  try {
+    console.log("\nSending browser automation request with streaming...");
+    const streamResponse = await openAIClient.responses.create(
+      {
+        input:
+          "Use the Browser Automation tool to visit https://example.com. Read the page and report its title and the visible description paragraph. Base your answer on the browser results, not on prior knowledge.",
+        stream: true,
       },
-    },
-  );
+      {
+        body: {
+          agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
+        },
+      },
+    );
 
-  console.log(
-    "The browser live-view URL is sensitive. Do not share it or commit it to source control.",
-  );
-  let responseCompleted = false;
-  for await (const event of streamResponse) {
-    if (event.type === "response.created") {
-      console.log(`Follow-up response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.done") {
-      console.log(event.text);
-    } else if (event.type === "response.output_item.done") {
-      handleBrowserCall(event.item);
-    } else if (event.type === "response.failed") {
-      throw new Error(event.response.error?.message ?? "Browser Automation response failed.");
-    } else if (event.type === "response.incomplete") {
-      throw new Error(
-        `Browser Automation response incomplete: ${event.response.incomplete_details?.reason}`,
-      );
-    } else if (event.type === "error") {
-      throw new Error(event.message);
-    } else if (event.type === "response.completed") {
-      responseCompleted = true;
-      console.log("\nFollow-up completed!");
+    console.log(
+      "The browser live-view URL is sensitive. Do not share it or commit it to source control.",
+    );
+    let responseCompleted = false;
+    for await (const event of streamResponse) {
+      if (event.type === "response.created") {
+        console.log(`Follow-up response created with ID: ${event.response.id}`);
+      } else if (event.type === "response.output_text.done") {
+        console.log(event.text);
+      } else if (event.type === "response.output_item.done") {
+        handleBrowserCall(event.item);
+      } else if (event.type === "response.failed") {
+        throw new Error(event.response.error?.message ?? "Browser Automation response failed.");
+      } else if (event.type === "response.incomplete") {
+        throw new Error(
+          `Browser Automation response incomplete: ${event.response.incomplete_details?.reason}`,
+        );
+      } else if (event.type === "error") {
+        throw new Error(event.message);
+      } else if (event.type === "response.completed") {
+        responseCompleted = true;
+        console.log("\nFollow-up completed!");
+      }
     }
+    if (!responseCompleted) {
+      throw new Error("Browser Automation stream ended without a completed response.");
+    }
+  } finally {
+    console.log("\nCleaning up resources...");
+    await project.agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   }
-  if (!responseCompleted) {
-    throw new Error("Browser Automation stream ended without a completed response.");
-  }
-
-  // Clean up resources by deleting the agent version
-  // This prevents accumulation of unused resources in your project
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
 
   console.log("\nBrowser Automation sample completed!");
 }

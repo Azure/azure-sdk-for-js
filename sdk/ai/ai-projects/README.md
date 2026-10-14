@@ -878,7 +878,8 @@ The streaming sample prints each completed text message once, including the
 browser live-view URL, and logs remote function action names, call IDs, and
 arguments without `browserSessionId`. Treat the live-view URL as sensitive: do not
 share it or commit it to source control. Failed or incomplete responses exit with
-a nonzero status instead of reporting success.
+a nonzero status instead of reporting success. The sample deletes the agent version
+it created in a `finally` block, whether response processing succeeds or fails.
 
 **MCP with Project Connection**
 
