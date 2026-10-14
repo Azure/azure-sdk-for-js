@@ -127,21 +127,10 @@ describe("Batch Receiver - batch delete messages", function (): void {
     async function (): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
 
-      const numMessages = 3;
-      const toSend = [];
-      for (let i = 0; i < numMessages; i++) {
-        toSend.push(getMessage());
-      }
-      await sender.sendMessages(toSend);
-
-      await testPeekMsgsLength(receiver, numMessages);
-
-      try {
-        await receiver.deleteMessages(0);
-        throw new Error("Test failure");
-      } catch (err: any) {
-        err.message.should.equal("'maxMessageCount' must be an integer between 1 and 2147483647.");
-      }
+      await assert.isRejected(
+        receiver.deleteMessages(0),
+        /'maxMessageCount' must be an integer between 1 and 2147483647/,
+      );
     },
   );
 
