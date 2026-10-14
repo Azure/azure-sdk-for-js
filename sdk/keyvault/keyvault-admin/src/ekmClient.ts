@@ -139,14 +139,24 @@ export class KeyVaultEkmClient {
     return this.client.getEkmCertificate(options);
   }
 
-  /** Lists the EKM proxy private endpoints on the Managed HSM. This operation requires the ekm/read permission. */
+  /**
+   * Lists the EKM proxy private endpoints on the Managed HSM.
+   * This operation requires the ekm/read permission.
+   *
+   * @param options - the optional parameters.
+   */
   listEkmPrivateEndpoints(
     options: ListEkmPrivateEndpointsOptions = {},
   ): Promise<EkmPrivateEndpointListResult> {
     return this.client.listEkmPrivateEndpoints(options);
   }
 
-  /** Gets an EKM proxy private endpoint. This operation requires the ekm/read permission. */
+  /**
+   * Gets an EKM proxy private endpoint. This operation requires the ekm/read permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param options - the optional parameters.
+   */
   getEkmPrivateEndpoint(
     peName: string,
     options: GetEkmPrivateEndpointOptions = {},
@@ -154,7 +164,14 @@ export class KeyVaultEkmClient {
     return this.client.getEkmPrivateEndpoint(peName, options);
   }
 
-  /** Creates a private endpoint to the EKM proxy Private Link Service. This operation requires the ekm/write permission. */
+  /**
+   * Creates a private endpoint to the EKM proxy Private Link Service.
+   * This operation requires the ekm/write permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param parameters - the parameters used to create the private endpoint.
+   * @param options - the optional parameters.
+   */
   createEkmPrivateEndpoint(
     peName: string,
     parameters: EkmPrivateEndpointCreateParameters,
@@ -171,7 +188,12 @@ export class KeyVaultEkmClient {
     return this.client.createEkmPrivateEndpoint(peName, parameters, options);
   }
 
-  /** Deletes an EKM proxy private endpoint. This operation requires the ekm/write permission. */
+  /**
+   * Deletes an EKM proxy private endpoint. This operation requires the ekm/write permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param options - the optional parameters.
+   */
   deleteEkmPrivateEndpoint(
     peName: string,
     options: DeleteEkmPrivateEndpointOptions = {},
@@ -187,7 +209,13 @@ export class KeyVaultEkmClient {
     return this.client.deleteEkmPrivateEndpoint(peName, options);
   }
 
-  /** Gets the status of a private endpoint create or delete operation. This operation requires the ekm/read permission. */
+  /**
+   * Gets the status of a private endpoint create or delete operation.
+   * This operation requires the ekm/read permission.
+   *
+   * @param operationId - the ID of the private endpoint operation.
+   * @param options - the optional parameters.
+   */
   getEkmPrivateEndpointOperationStatus(
     operationId: string,
     options: GetEkmPrivateEndpointOperationStatusOptions = {},

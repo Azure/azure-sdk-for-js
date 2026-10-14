@@ -442,6 +442,15 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
+export enum KnownOperationState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export const LATEST_API_VERSION = "2026-07-01-preview";
 
 // @public

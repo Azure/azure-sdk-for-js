@@ -26,6 +26,7 @@ export {
   KnownEkmPrivateEndpointConnectionStatus,
   KnownEkmPrivateEndpointOperationType,
   KnownEkmPrivateEndpointProvisioningState,
+  KnownOperationState,
 } from "./models/models.js";
 
 /**
