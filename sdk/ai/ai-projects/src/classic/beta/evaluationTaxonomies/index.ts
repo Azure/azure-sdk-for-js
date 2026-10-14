@@ -16,33 +16,21 @@ import type {
   BetaEvaluationTaxonomiesListOptionalParams,
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "../../../api/beta/evaluationTaxonomies/options.js";
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/evaluationTaxonomies/index.ts
-import {
-  EvaluationTaxonomy,
-  EvaluationTaxonomyCreateOrUpdate,
-  EvaluationTaxonomyUpdate,
-} from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/evaluationTaxonomies/index.ts
-import { EvaluationTaxonomy } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
-=======
 import type { EvaluationTaxonomy } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/evaluationTaxonomies/index.ts
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {
   /** Modifies the specified evaluation taxonomy with the provided changes. */
   update: (
     name: string,
-    taxonomy: EvaluationTaxonomyUpdate,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
   create: (
     name: string,
-    taxonomy: EvaluationTaxonomyCreateOrUpdate,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Removes the specified evaluation taxonomy from the project. */
@@ -62,12 +50,12 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
   return {
     update: (
       name: string,
-      taxonomy: EvaluationTaxonomyUpdate,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
     ) => update(context, name, taxonomy, options),
     create: (
       name: string,
-      taxonomy: EvaluationTaxonomyCreateOrUpdate,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
     ) => create(context, name, taxonomy, options),
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) =>

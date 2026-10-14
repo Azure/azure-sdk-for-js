@@ -29,7 +29,6 @@ import type {
   ModelPendingUploadRequest,
   ModelPendingUploadResponse,
   ModelCredentialRequest,
-  ModelVersionCreate,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -55,28 +54,10 @@ export interface BetaModelsOperations {
   create: (
     name: string,
     version: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/models/index.ts
-    modelVersion: ModelVersionCreate,
-    options?: BetaModelsPendingCreateVersionOptionalParams,
-  ) => Promise<{
-    location?: string;
-    operationResult?: string | null;
-  }>;
-  /** Updates an existing model version identified by its version ID. */
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/models/index.ts
-    modelVersion: ModelVersion,
-    options?: BetaModelsPendingCreateVersionOptionalParams,
-  ) => Promise<{
-    location?: string;
-    operationResult?: string | null;
-  }>;
-  /** Updates an existing model version identified by its version ID. */
-=======
     source: string,
     options?: BetaModelsCreateFromSourceOptions,
   ) => Promise<ModelVersion>;
   /** Update an existing ModelVersion with the given version id */
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/models/index.ts
   update: (
     name: string,
     modelVersionUpdate: UpdateModelVersionRequest,
@@ -121,19 +102,9 @@ function _getBetaModels(context: AIProjectContext) {
     create: (
       name: string,
       version: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/models/index.ts
-      modelVersion: ModelVersionCreate,
-      options?: BetaModelsPendingCreateVersionOptionalParams,
-    ) => pendingCreateVersion(context, foundryFeatures, name, version, modelVersion, options),
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/models/index.ts
-      modelVersion: ModelVersion,
-      options?: BetaModelsPendingCreateVersionOptionalParams,
-    ) => pendingCreateVersion(context, foundryFeatures, name, version, modelVersion, options),
-=======
       source: string,
       options?: BetaModelsCreateFromSourceOptions,
     ) => createFromSource(context, name, version, source, options),
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/models/index.ts
     update: (
       name: string,
       modelVersionUpdate: UpdateModelVersionRequest,

@@ -9,6 +9,7 @@ import {
   _agentsPagedResultDataGenerationJobDeserializer,
   dataGenerationJobInputsUnionSerializer,
   _pagedDatasetVersionDeserializer,
+  datasetVersionUnionSerializer,
   datasetVersionUnionDeserializer,
   pendingUploadRequestSerializer,
   pendingUploadResponseDeserializer,
@@ -19,17 +20,11 @@ import type {
   DataGenerationJobResult,
   _AgentsPagedResultDataGenerationJob,
   DataGenerationJobInputsUnion,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/datasets/operations.ts
-  datasetVersionUpdateUnionSerializer,
-  DatasetVersionUpdateUnion,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
-=======
   _PagedDatasetVersion,
   DatasetVersionUnion,
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -450,12 +445,6 @@ export async function pendingUpload(
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/datasets/operations.ts
-  datasetVersion: DatasetVersionUpdateUnion,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
-  datasetVersion: DatasetVersionUnion,
-=======
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
   version: string,
   datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -471,25 +460,6 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/datasets/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: datasetVersionUpdateUnionSerializer(datasetVersion),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: datasetVersionUnionSerializer(datasetVersion),
-    });
-=======
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
@@ -499,7 +469,6 @@ export function _createOrUpdateSend(
     },
     body: datasetVersionUnionSerializer(datasetVersion),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
 }
 
 export async function _createOrUpdateDeserialize(
@@ -517,12 +486,6 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/datasets/operations.ts
-  datasetVersion: DatasetVersionUpdateUnion,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
-  datasetVersion: DatasetVersionUnion,
-=======
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
   version: string,
   datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },

@@ -34,57 +34,25 @@ import type {
 import {
   agentDeserializer,
   agentVersionDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
   agentDefinitionUnionSerializer,
-  AgentDefinitionUnion,
-=======
-  agentDefinitionUnionSerializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
   agentBlueprintReferenceUnionSerializer,
+  agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  agentDefinitionCreateUnionSerializer,
-  AgentDefinitionCreateUnion,
-  agentEndpointConfigCreateSerializer,
-  DeleteAgentResponse,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  DeleteAgentResponse,
-=======
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
   deleteAgentResponseDeserializer,
   _agentsPagedResultAgentObjectDeserializer,
   deleteAgentVersionResponseDeserializer,
   _agentsPagedResultAgentVersionObjectDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  agentEndpointConfigUpdateSerializer,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  CreateAgentVersionFromCodeContent,
   createAgentVersionFromCodeContentSerializer,
-=======
-  createAgentVersionFromCodeContentSerializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  SessionLogEvent,
-  sessionLogEventDeserializer,
-  AgentOptimizationJob,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  SessionLogEvent,
-  sessionLogEventDeserializer,
-  AgentOptimizationJob,
-  agentOptimizationJobSerializer,
-=======
   microsoft365PermissionScopesArraySerializer,
   microsoft365PublishResponseDeserializer,
   microsoft365PublishDefaultsDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
   agentOptimizationJobSerializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
   agentOptimizationJobDeserializer,
   agentOptimizationJobResultDeserializer,
   agentOptimizationEstimateInputsSerializer,
@@ -92,42 +60,6 @@ import {
   _agentsPagedResultAgentOptimizationJobDeserializer,
   _agentsPagedResultAgentOptimizationCandidateDeserializer,
   agentOptimizationCandidateDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  microsoft365PermissionScopesArraySerializer,
-  Microsoft365PublishScope,
-  Microsoft365PublishResponse,
-  microsoft365PublishResponseDeserializer,
-  Microsoft365PublishDefaults,
-  microsoft365PublishDefaultsDeserializer,
-  SessionFileWriteResponse,
-  sessionFileWriteResponseDeserializer,
-  _SessionDirectoryListResponse,
-  _sessionDirectoryListResponseDeserializer,
-  SessionDirectoryEntry,
-  CreateAgentVersionFromCodeContentCreate,
-  createAgentVersionFromCodeContentCreateSerializer,
-  AgentOptimizationJobCreate,
-  agentOptimizationJobCreateSerializer,
-  AgentsDownloadSessionFileResponse,
-  GetMicrosoft365PackageResponse,
-  AgentsDownloadAgentCodeResponse,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  microsoft365PermissionScopesArraySerializer,
-  Microsoft365PublishScope,
-  Microsoft365PublishResponse,
-  microsoft365PublishResponseDeserializer,
-  Microsoft365PublishDefaults,
-  microsoft365PublishDefaultsDeserializer,
-  SessionFileWriteResponse,
-  sessionFileWriteResponseDeserializer,
-  _SessionDirectoryListResponse,
-  _sessionDirectoryListResponseDeserializer,
-  SessionDirectoryEntry,
-  AgentsDownloadSessionFileResponse,
-  GetMicrosoft365PackageResponse,
-  AgentsDownloadAgentCodeResponse,
-=======
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -1074,7 +1006,7 @@ export async function estimateOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: AgentOptimizationJobCreate,
+  job: AgentOptimizationJob,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1086,33 +1018,6 @@ export function _createOptimizationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentOptimizationJobCreateSerializer(job),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentOptimizationJobSerializer(job),
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -1123,7 +1028,6 @@ export function _createOptimizationJobSend(
     },
     body: agentOptimizationJobSerializer(job),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _createOptimizationJobDeserialize(
@@ -1152,7 +1056,7 @@ export async function _createOptimizationJobDeserialize(
 /** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
 export function createOptimizationJob(
   context: Client,
-  job: AgentOptimizationJobCreate,
+  job: AgentOptimizationJob,
   options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<AgentOptimizationJobResult> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
@@ -1685,7 +1589,7 @@ export function _createVersionFromCodeSend(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  content: CreateAgentVersionFromCodeContentCreate,
+  content: CreateAgentVersionFromCodeContent,
   options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1698,33 +1602,6 @@ export function _createVersionFromCodeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "multipart/form-data",
-      headers: {
-        "x-ms-code-zip-sha256": codeZipSha256,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: createAgentVersionFromCodeContentCreateSerializer(content),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "multipart/form-data",
-      headers: {
-        "x-ms-code-zip-sha256": codeZipSha256,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: createAgentVersionFromCodeContentSerializer(content),
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
@@ -1735,7 +1612,6 @@ export function _createVersionFromCodeSend(
     },
     body: createAgentVersionFromCodeContentSerializer(content),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _createVersionFromCodeDeserialize(
@@ -1765,7 +1641,7 @@ export async function createVersionFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  content: CreateAgentVersionFromCodeContentCreate,
+  content: CreateAgentVersionFromCodeContent,
   options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createVersionFromCodeSend(
@@ -1793,39 +1669,6 @@ export function _patchAgentObjectSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        agent_endpoint: !options?.agentEndpoint
-          ? options?.agentEndpoint
-          : agentEndpointConfigUpdateSerializer(options?.agentEndpoint),
-        agent_card: !options?.agentCard
-          ? options?.agentCard
-          : agentCardSerializer(options?.agentCard),
-      },
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        agent_endpoint: !options?.agentEndpoint
-          ? options?.agentEndpoint
-          : agentEndpointConfigSerializer(options?.agentEndpoint),
-        agent_card: !options?.agentCard
-          ? options?.agentCard
-          : agentCardSerializer(options?.agentCard),
-      },
-    });
-=======
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
@@ -1839,7 +1682,6 @@ export function _patchAgentObjectSend(
         : agentCardSerializer(options?.agentCard),
     },
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -2117,7 +1959,7 @@ export async function createAgentVersionFromManifest(
 export function _createVersionSend(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionCreateUnion,
+  definition: AgentDefinitionUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2130,55 +1972,6 @@ export function _createVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionCreateUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-        digital_worker_type: options?.digitalWorkerType,
-        draft: options?.draft,
-      },
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-        digital_worker_type: options?.digitalWorkerType,
-        draft: options?.draft,
-      },
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -2200,7 +1993,6 @@ export function _createVersionSend(
       draft: options?.draft,
     },
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _createVersionDeserialize(
@@ -2223,7 +2015,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   agentName: string,
-  definition: AgentDefinitionCreateUnion,
+  definition: AgentDefinitionUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
@@ -2482,16 +2274,8 @@ export async function createAgentFromManifest(
 export function _updateSend(
   context: Client,
   agentName: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  definition: AgentDefinitionCreateUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
-=======
   definition: AgentDefinitionUnion,
   options: AgentsUpdateOptionalParams = { requestOptions: {} },
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
@@ -2503,51 +2287,6 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionCreateUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-      },
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-      },
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -2567,7 +2306,6 @@ export function _updateSend(
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -2591,17 +2329,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 export async function update(
   context: Client,
   agentName: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  definition: AgentDefinitionCreateUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
-=======
   definition: AgentDefinitionUnion,
   options: AgentsUpdateOptionalParams = { requestOptions: {} },
   _tracingConfig?: ResolvedTracingConfig,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
@@ -2610,16 +2340,8 @@ export async function update(
 export function _createSend(
   context: Client,
   name: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  definition: AgentDefinitionCreateUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
-=======
   definition: AgentDefinitionUnion,
   options: AgentsCreateOptionalParams = { requestOptions: {} },
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents{?api-version}",
@@ -2630,71 +2352,6 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: name,
-        state: options?.state,
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionCreateUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-        digital_worker_type: options?.digitalWorkerType,
-        draft: options?.draft,
-        agent_endpoint: !options?.agentEndpoint
-          ? options?.agentEndpoint
-          : agentEndpointConfigCreateSerializer(options?.agentEndpoint),
-        agent_card: !options?.agentCard
-          ? options?.agentCard
-          : agentCardSerializer(options?.agentCard),
-      },
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: name,
-        state: options?.state,
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-        blueprint_reference: !options?.blueprintReference
-          ? options?.blueprintReference
-          : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
-        digital_worker_type: options?.digitalWorkerType,
-        draft: options?.draft,
-        agent_endpoint: !options?.agentEndpoint
-          ? options?.agentEndpoint
-          : agentEndpointConfigSerializer(options?.agentEndpoint),
-        agent_card: !options?.agentCard
-          ? options?.agentCard
-          : agentCardSerializer(options?.agentCard),
-      },
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -2724,7 +2381,6 @@ export function _createSend(
         : agentCardSerializer(options?.agentCard),
     },
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -2745,17 +2401,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   name: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/operations.ts
-  definition: AgentDefinitionCreateUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/operations.ts
-  definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
-=======
   definition: AgentDefinitionUnion,
   options: AgentsCreateOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/operations.ts
 ): Promise<Agent> {
   return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
     const result = await _createSend(context, name, definition, options);

@@ -5,18 +5,9 @@ import type { AIProjectContext as Client } from "../../index.js";
 import type { RedTeam, _PagedRedTeam } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/redTeams/operations.ts
-  RedTeam,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/redTeams/operations.ts
-  RedTeam,
   redTeamSerializer,
-=======
-  redTeamSerializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/redTeams/operations.ts
   redTeamDeserializer,
   _pagedRedTeamDeserializer,
-  RedTeamCreate,
-  redTeamCreateSerializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -31,15 +22,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _createSend(
   context: Client,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/redTeams/operations.ts
-  foundryFeatures: "RedTeams=V1Preview",
-  redTeam: RedTeamCreate,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/redTeams/operations.ts
-  foundryFeatures: "RedTeams=V1Preview",
   redTeam: RedTeam,
-=======
-  redTeam: RedTeam,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/redTeams/operations.ts
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "RedTeams=V1Preview";
@@ -52,33 +35,6 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/redTeams/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: redTeamCreateSerializer(redTeam),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/redTeams/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: redTeamSerializer(redTeam),
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -89,7 +45,6 @@ export function _createSend(
     },
     body: redTeamSerializer(redTeam),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/redTeams/operations.ts
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<RedTeam> {
@@ -109,15 +64,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 /** Submits a new redteam run for execution with the provided configuration. */
 export async function create(
   context: Client,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/redTeams/operations.ts
-  foundryFeatures: "RedTeams=V1Preview",
-  redTeam: RedTeamCreate,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/redTeams/operations.ts
-  foundryFeatures: "RedTeams=V1Preview",
   redTeam: RedTeam,
-=======
-  redTeam: RedTeam,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/redTeams/operations.ts
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): Promise<RedTeam> {
   const result = await _createSend(context, redTeam, options);

@@ -4,20 +4,9 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type { EvaluationTaxonomy, _PagedEvaluationTaxonomy } from "../../../models/models.js";
 import {
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/evaluationTaxonomies/operations.ts
-  EvaluationTaxonomy,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/evaluationTaxonomies/operations.ts
-  EvaluationTaxonomy,
   evaluationTaxonomySerializer,
-=======
-  evaluationTaxonomySerializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/evaluationTaxonomies/operations.ts
   evaluationTaxonomyDeserializer,
   _pagedEvaluationTaxonomyDeserializer,
-  EvaluationTaxonomyCreateOrUpdate,
-  evaluationTaxonomyCreateOrUpdateSerializer,
-  EvaluationTaxonomyUpdate,
-  evaluationTaxonomyUpdateSerializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -35,7 +24,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _updateSend(
   context: Client,
   name: string,
-  taxonomy: EvaluationTaxonomyUpdate,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
@@ -49,33 +38,6 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/evaluationTaxonomies/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationTaxonomyUpdateSerializer(taxonomy),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/evaluationTaxonomies/operations.ts
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationTaxonomySerializer(taxonomy),
-    });
-=======
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -86,7 +48,6 @@ export function _updateSend(
     },
     body: evaluationTaxonomySerializer(taxonomy),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/evaluationTaxonomies/operations.ts
 }
 
 export async function _updateDeserialize(
@@ -104,7 +65,7 @@ export async function _updateDeserialize(
 export async function update(
   context: Client,
   name: string,
-  taxonomy: EvaluationTaxonomyUpdate,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
   const result = await _updateSend(context, name, taxonomy, options);
@@ -114,7 +75,7 @@ export async function update(
 export function _createSend(
   context: Client,
   name: string,
-  taxonomy: EvaluationTaxonomyCreateOrUpdate,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
@@ -128,33 +89,6 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/beta/evaluationTaxonomies/operations.ts
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationTaxonomyCreateOrUpdateSerializer(taxonomy),
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/beta/evaluationTaxonomies/operations.ts
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationTaxonomySerializer(taxonomy),
-    });
-=======
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -165,7 +99,6 @@ export function _createSend(
     },
     body: evaluationTaxonomySerializer(taxonomy),
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/beta/evaluationTaxonomies/operations.ts
 }
 
 export async function _createDeserialize(
@@ -183,7 +116,7 @@ export async function _createDeserialize(
 export async function create(
   context: Client,
   name: string,
-  taxonomy: EvaluationTaxonomyCreateOrUpdate,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
   const result = await _createSend(context, name, taxonomy, options);

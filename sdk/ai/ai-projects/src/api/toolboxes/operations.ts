@@ -11,18 +11,8 @@ import type {
   ToolboxesInvokeLatestToolboxMcpResponse,
 } from "../../models/models.js";
 import {
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/toolboxes/operations.ts
-  apiErrorResponseDeserializer,
-  toolboxToolCreateUnionArraySerializer,
-  ToolboxToolCreateUnion,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/toolboxes/operations.ts
-  apiErrorResponseDeserializer,
-  toolboxToolUnionArraySerializer,
-  ToolboxToolUnion,
-=======
   toolboxToolUnionArraySerializer,
   apiErrorResponseDeserializer,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/toolboxes/operations.ts
   toolboxSkillUnionArraySerializer,
   toolboxPoliciesSerializer,
   toolboxVersionObjectDeserializer,
@@ -462,7 +452,7 @@ export async function get(
 export function _createVersionSend(
   context: Client,
   name: string,
-  tools: ToolboxToolCreateUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -475,45 +465,6 @@ export function _createVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/toolboxes/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        description: options?.description,
-        metadata: options?.metadata,
-        tools: toolboxToolCreateUnionArraySerializer(tools),
-        skills: !options?.skills
-          ? options?.skills
-          : toolboxSkillUnionArraySerializer(options?.skills),
-        policies: !options?.policies
-          ? options?.policies
-          : toolboxPoliciesSerializer(options?.policies),
-      },
-    });
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/toolboxes/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        description: options?.description,
-        metadata: options?.metadata,
-        tools: toolboxToolUnionArraySerializer(tools),
-        skills: !options?.skills
-          ? options?.skills
-          : toolboxSkillUnionArraySerializer(options?.skills),
-        policies: !options?.policies
-          ? options?.policies
-          : toolboxPoliciesSerializer(options?.policies),
-      },
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -530,7 +481,6 @@ export function _createVersionSend(
         : toolboxPoliciesSerializer(options?.policies),
     },
   });
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/toolboxes/operations.ts
 }
 
 export async function _createVersionDeserialize(
@@ -553,7 +503,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  tools: ToolboxToolCreateUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _createVersionSend(context, name, tools, options);

@@ -5,17 +5,10 @@ import type {
   AgentState,
   AgentKind,
   AgentBlueprintReferenceUnion,
+  AgentEndpointConfig,
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/api/agents/options.ts
-  AgentEndpointConfigCreate,
-  AgentEndpointConfigUpdate,
-  JobStatus,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/api/agents/options.ts
-  JobStatus,
-=======
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/api/agents/options.ts
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
@@ -347,7 +340,7 @@ export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOpti
 /** Optional parameters. */
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
   /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpointConfigUpdate;
+  agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
@@ -536,7 +529,7 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
   draft?: boolean;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
-  agentEndpoint?: AgentEndpointConfigCreate;
+  agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

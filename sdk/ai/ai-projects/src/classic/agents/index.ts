@@ -90,15 +90,14 @@ import type {
 import type {
   Agent,
   AgentVersion,
-  AgentDefinitionCreateUnion,
+  AgentDefinitionUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
+  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
-  CreateAgentVersionFromCodeContentCreate,
-  AgentOptimizationJobCreate,
   AgentsDownloadSessionFileResponse,
   Microsoft365PublishDefaults,
   Microsoft365PublishScope,
@@ -225,7 +224,7 @@ export interface AgentsOperations {
   ) => Promise<AgentOptimizationEstimateResult>;
   /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
   createOptimizationJob: (
-    job: AgentOptimizationJobCreate,
+    job: AgentOptimizationJob,
     options?: AgentsCreateOptimizationJobOptionalParams,
   ) => JobPoller<AgentOptimizationJobResult>;
   /**
@@ -333,7 +332,7 @@ export interface AgentsOperations {
   createVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
-    content: CreateAgentVersionFromCodeContentCreate,
+    content: CreateAgentVersionFromCodeContent,
     options?: AgentsCreateVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
   /** Applies a merge-patch update to the specified agent endpoint configuration. */
@@ -370,7 +369,7 @@ export interface AgentsOperations {
   /** Create a new agent version. */
   createVersion(
     agentName: string,
-    definition: AgentDefinitionCreateUnion,
+    definition: AgentDefinitionUnion,
     options?: AgentsCreateVersionOptionalParams,
   ): Promise<AgentVersion>;
   /** Create a new agent version from a manifest. */
@@ -404,37 +403,12 @@ export interface AgentsOperations {
    */
   update(
     agentName: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/agents/index.ts
-    definition: AgentDefinitionCreateUnion,
-    options?: AgentsUpdateAgentOptionalParams,
-  ) => Promise<Agent>;
-  /** Creates a new agent or a new version of an existing agent. */
-  createAgent: (
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
-    definition: AgentDefinitionUnion,
-    options?: AgentsUpdateAgentOptionalParams,
-  ) => Promise<Agent>;
-  /** Creates a new agent or a new version of an existing agent. */
-  createAgent: (
-=======
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateOptionalParams,
   ): Promise<Agent>;
   /** Creates the agent. */
   create(
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
     name: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/agents/index.ts
-    definition: AgentDefinitionCreateUnion,
-    options?: AgentsCreateAgentOptionalParams,
-  ) => Promise<Agent>;
-  /** Retrieves an agent definition by its unique name. */
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
-    definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentOptionalParams,
-  ) => Promise<Agent>;
-  /** Retrieves an agent definition by its unique name. */
-=======
     definition: AgentDefinitionUnion,
     options?: AgentsCreateOptionalParams,
   ): Promise<Agent>;
@@ -446,7 +420,6 @@ export interface AgentsOperations {
     options?: AgentsCreateAgentFromManifestOptionalParams,
   ): Promise<Agent>;
   /** Retrieves the agent. */
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
 
@@ -517,7 +490,7 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       options?: AgentsEstimateOptimizationJobOptionalParams,
     ) => estimateOptimizationJob(context, inputs, options),
     createOptimizationJob: (
-      job: AgentOptimizationJobCreate,
+      job: AgentOptimizationJob,
       options?: AgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
     getSessionLogStream: (
@@ -554,7 +527,7 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     createVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
-      content: CreateAgentVersionFromCodeContentCreate,
+      content: CreateAgentVersionFromCodeContent,
       options?: AgentsCreateVersionFromCodeOptionalParams,
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
@@ -578,21 +551,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       definitionOrManifestId: AgentDefinitionUnion | string,
       optionsOrParameterValues?: AgentsCreateVersionOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentVersionFromManifestOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/agents/index.ts
-    ) => createAgentVersionFromManifest(context, agentName, manifestId, parameterValues, options),
-    createVersion: (
-      agentName: string,
-      definition: AgentDefinitionCreateUnion,
-      options?: AgentsCreateVersionOptionalParams,
-    ) => createVersion(context, agentName, definition, options),
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
-    ) => createAgentVersionFromManifest(context, agentName, manifestId, parameterValues, options),
-    createVersion: (
-      agentName: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsCreateVersionOptionalParams,
-    ) => createVersion(context, agentName, definition, options),
-=======
     ): Promise<AgentVersion> {
       // If second param is a string, it's the manifest case (4 params)
       if (typeof definitionOrManifestId === "string") {
@@ -614,7 +572,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
         tracingConfig,
       );
     },
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
     list: (options?: AgentsListOptionalParams) => list(context, options),
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) =>
       $delete(context, agentName, options),
@@ -649,31 +606,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       definitionOrManifestId: AgentDefinitionUnion | string,
       optionsOrParameterValues?: AgentsCreateOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/agents/index.ts
-    ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
-    updateAgent: (
-      agentName: string,
-      definition: AgentDefinitionCreateUnion,
-      options?: AgentsUpdateAgentOptionalParams,
-    ) => updateAgent(context, agentName, definition, options),
-    createAgent: (
-      name: string,
-      definition: AgentDefinitionCreateUnion,
-      options?: AgentsCreateAgentOptionalParams,
-    ) => createAgent(context, name, definition, options),
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
-    ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
-    updateAgent: (
-      agentName: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsUpdateAgentOptionalParams,
-    ) => updateAgent(context, agentName, definition, options),
-    createAgent: (
-      name: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsCreateAgentOptionalParams,
-    ) => createAgent(context, name, definition, options),
-=======
     ): Promise<Agent> {
       // If second param is a string, it's the manifest case (4 params)
       if (typeof definitionOrManifestId === "string") {
@@ -695,7 +627,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
         tracingConfig,
       );
     },
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }

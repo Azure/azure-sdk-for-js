@@ -18,16 +18,8 @@ import type {
   BetaSchedulesGetOptionalParams,
   BetaSchedulesDeleteOptionalParams,
 } from "../../../api/beta/schedules/options.js";
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/schedules/index.ts
-import { Schedule, ScheduleRun, ScheduleCreateOrUpdate } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/schedules/index.ts
-import { Schedule, ScheduleRun } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
-=======
 import type { Schedule, ScheduleRun } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/schedules/index.ts
 
 /** Interface representing a BetaSchedules operations. */
 export interface BetaSchedulesOperations {
@@ -45,15 +37,7 @@ export interface BetaSchedulesOperations {
   /** Create or update operation template. */
   createOrUpdate: (
     scheduleId: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/schedules/index.ts
-    foundryFeatures: "Schedules=V1Preview",
-    schedule: ScheduleCreateOrUpdate,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/schedules/index.ts
-    foundryFeatures: "Schedules=V1Preview",
     schedule: Schedule,
-=======
-    schedule: Schedule,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/schedules/index.ts
     options?: BetaSchedulesCreateOrUpdateOptionalParams,
   ) => Promise<Schedule>;
   /** List all schedules. */
@@ -72,15 +56,7 @@ function _getBetaSchedules(context: AIProjectContext) {
       getRun(context, scheduleId, runId, options),
     createOrUpdate: (
       scheduleId: string,
-<<<<<<< /tmp/azsdk-dev-toolCDQwXJ/result/src/classic/beta/schedules/index.ts
-      foundryFeatures: "Schedules=V1Preview",
-      schedule: ScheduleCreateOrUpdate,
-||||||| /tmp/azsdk-dev-toolCDQwXJ/base/sdk/ai/ai-projects/generated/classic/beta/schedules/index.ts
-      foundryFeatures: "Schedules=V1Preview",
       schedule: Schedule,
-=======
-      schedule: Schedule,
->>>>>>> /tmp/azsdk-dev-toolCDQwXJ/custom/sdk/ai/ai-projects/src/classic/beta/schedules/index.ts
       options?: BetaSchedulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scheduleId, schedule, options),
     list: (options?: BetaSchedulesListOptionalParams) => list(context, options),
