@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a flow log resource by name.
  *
  * @summary gets a flow log resource by name.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogGet.json
  */
 async function getFlowLog(): Promise<void> {
   const credential = new DefaultAzureCredential();

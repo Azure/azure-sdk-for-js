@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the current filter values for the signatures overrides
  *
  * @summary retrieves the current filter values for the signatures overrides
- * x-ms-original-file: 2026-01-01/FirewallPolicyQuerySignatureOverridesFilterValues.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyQuerySignatureOverridesFilterValues.json
  */
 async function querySignatureOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of specified NVA connection.
  *
  * @summary retrieves the details of specified NVA connection.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceConnectionGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceConnectionGet.json
  */
 async function networkVirtualApplianceConnectionGet() {
   const credential = new DefaultAzureCredential();

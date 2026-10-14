@@ -26,7 +26,7 @@ export function _countByProtectionGroupsSend(
   const path = expandUrlTemplate(
     "/providers/Commvault.ContentStore/protectedItemCount{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

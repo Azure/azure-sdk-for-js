@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringCreate.json
  */
 async function createPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createPeering(): Promise<void> {
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
  */
 async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> 
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringSync.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringSync.json
  */
 async function syncPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function syncPeering(): Promise<void> {
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkSubnetPeeringCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkSubnetPeeringCreate.json
  */
 async function createSubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function createSubnetPeering(): Promise<void> {
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkSubnetPeeringSync.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkSubnetPeeringSync.json
  */
 async function syncSubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +136,7 @@ async function syncSubnetPeering(): Promise<void> {
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkV6SubnetPeeringCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkV6SubnetPeeringCreate.json
  */
 async function createV6SubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -162,7 +162,7 @@ async function createV6SubnetPeering(): Promise<void> {
  * This sample demonstrates how to creates or updates a peering in the specified virtual network.
  *
  * @summary creates or updates a peering in the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkV6SubnetPeeringSync.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkV6SubnetPeeringSync.json
  */
 async function syncV6SubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();

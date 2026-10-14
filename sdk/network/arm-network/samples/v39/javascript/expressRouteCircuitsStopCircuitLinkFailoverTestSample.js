@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops link failover simulation on the express route circuit.
  *
  * @summary stops link failover simulation on the express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitStopCircuitLinkFailoverTest.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitStopCircuitLinkFailoverTest.json
  */
 async function expressRouteCircuitStopCircuitLinkFailoverTest() {
   const credential = new DefaultAzureCredential();
