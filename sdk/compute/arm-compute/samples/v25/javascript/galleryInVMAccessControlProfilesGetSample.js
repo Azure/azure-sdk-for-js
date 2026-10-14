@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a gallery inVMAccessControlProfile.
  *
  * @summary retrieves information about a gallery inVMAccessControlProfile.
- * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Get.json
+ * x-ms-original-file: 2026-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Get.json
  */
 async function getAGalleryInVMAccessControlProfile() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a gallery Application Version.
  *
  * @summary delete a gallery Application Version.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplicationVersion_Delete.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_Delete.json
  */
 async function deleteAGalleryApplicationVersion() {
   const credential = new DefaultAzureCredential();

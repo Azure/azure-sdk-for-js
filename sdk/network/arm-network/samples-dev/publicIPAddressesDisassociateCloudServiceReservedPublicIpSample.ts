@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
  *
  * @summary disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
- * x-ms-original-file: 2026-01-01/PublicIpAddressDisassociateCloudServiceReservedPublicIp.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressDisassociateCloudServiceReservedPublicIp.json
  */
 async function disassociatePublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();

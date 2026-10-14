@@ -5,8 +5,6 @@ jobs:
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
-      # Provides $(azuresdk-github-pat) for uploading the report to GitHub
-      - group: Release Secrets for GitHub
 
     pool:
       name: azsdk-pool
@@ -15,6 +13,7 @@ jobs:
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
       - template: /eng/pipelines/templates/steps/install-pnpm.yml
+      - template: /eng/common/pipelines/templates/steps/login-to-github.yml
 
       - script: |
           pnpm install
@@ -29,6 +28,6 @@ jobs:
           pnpm run run-tool
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-          GITHUB_TOKEN: $(azuresdk-github-pat)
+          GH_TOKEN: $(GH_TOKEN)
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
         displayName: "Run repo-health-status-report tool"

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Virtual Router Peering.
  *
  * @summary creates or updates the specified Virtual Router Peering.
- * x-ms-original-file: 2026-01-01/VirtualRouterPeeringPut.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPeeringPut.json
  */
 async function createVirtualRouterPeering() {
   const credential = new DefaultAzureCredential();

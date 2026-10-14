@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates tags of a route filter.
  *
  * @summary updates tags of a route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterUpdateTags.json
+ * x-ms-original-file: 2026-03-01/RouteFilterUpdateTags.json
  */
 async function updateRouteFilterTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

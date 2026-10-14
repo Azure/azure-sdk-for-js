@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the VpnSites in a subscription.
  *
  * @summary lists all the VpnSites in a subscription.
- * x-ms-original-file: 2026-01-01/VpnSiteList.json
+ * x-ms-original-file: 2026-03-01/VpnSiteList.json
  */
 async function vpnSiteList() {
   const credential = new DefaultAzureCredential();

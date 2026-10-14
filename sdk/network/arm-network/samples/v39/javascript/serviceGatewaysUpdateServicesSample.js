@@ -16,7 +16,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * Full update replaces all existing services with the new list provided in the request.
  * Partial update modifies only the specified services.
- * x-ms-original-file: 2026-01-01/ServiceGatewayUpdateServicesRequest.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayUpdateServicesRequest.json
  */
 async function createOrFullUpdateServicesInServiceGateway() {
   const credential = new DefaultAzureCredential();

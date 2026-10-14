@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all network watchers by subscription.
  *
  * @summary gets all network watchers by subscription.
- * x-ms-original-file: 2026-01-01/NetworkWatcherListAll.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherListAll.json
  */
 async function listAllNetworkWatchers(): Promise<void> {
   const credential = new DefaultAzureCredential();

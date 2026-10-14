@@ -14,9 +14,9 @@ export type CustomerIssue = Awaited<
 let octokit: Octokit | undefined;
 function getOctokit(): Octokit {
   if (octokit === undefined) {
-    const gitHubToken = process.env.GITHUB_TOKEN;
+    const gitHubToken = process.env.GH_TOKEN;
     if (!gitHubToken) {
-      throw new Error("GITHUB_TOKEN is not set. Please set it in your environment variables.");
+      throw new Error("GH_TOKEN is not set. Please set it in your environment variables.");
     }
 
     octokit = new Octokit({

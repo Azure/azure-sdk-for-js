@@ -20,7 +20,7 @@ describe("getCustomerIssues", () => {
   });
 
   it("excludes pull requests returned by the issues endpoint", async () => {
-    vi.stubEnv("GITHUB_TOKEN", "token");
+    vi.stubEnv("GH_TOKEN", "token");
     iterator.mockReturnValue(
       (async function* () {
         yield {

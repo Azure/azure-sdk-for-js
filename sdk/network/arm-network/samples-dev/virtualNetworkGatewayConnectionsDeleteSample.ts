@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified virtual network Gateway connection.
  *
  * @summary deletes the specified virtual network Gateway connection.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionDelete.json
  */
 async function deleteVirtualNetworkGatewayConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

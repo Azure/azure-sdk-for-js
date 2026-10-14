@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a packet capture session by name.
  *
  * @summary gets a packet capture session by name.
- * x-ms-original-file: 2026-01-01/NetworkWatcherPacketCaptureGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherPacketCaptureGet.json
  */
 async function getPacketCapture(): Promise<void> {
   const credential = new DefaultAzureCredential();

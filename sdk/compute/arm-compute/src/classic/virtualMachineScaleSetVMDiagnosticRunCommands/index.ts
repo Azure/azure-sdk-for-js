@@ -121,6 +121,7 @@ export interface VirtualMachineScaleSetVMDiagnosticRunCommandsOperations {
     options?: VirtualMachineScaleSetVMDiagnosticRunCommandsGetOptionalParams,
   ) => Promise<VirtualMachineDiagnosticRunCommand>;
 }
+
 function _getVirtualMachineScaleSetVMDiagnosticRunCommands(context: ComputeManagementContext) {
   return {
     diagnosticList: (
@@ -289,6 +290,7 @@ function _getVirtualMachineScaleSetVMDiagnosticRunCommands(context: ComputeManag
     ) => get(context, resourceGroupName, vmScaleSetName, instanceId, runCommandName, options),
   };
 }
+
 export function _getVirtualMachineScaleSetVMDiagnosticRunCommandsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMDiagnosticRunCommandsOperations {

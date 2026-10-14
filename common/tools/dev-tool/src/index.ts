@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { baseCommand } from "./commands/index.ts";
 
@@ -21,9 +21,9 @@ baseCommand(...process.argv.slice(2)).catch((err) => {
     return String(value);
   };
 
-  console.error(chalk.red("[Internal Error]", format(err)));
+  console.error(styleText("red", ["[Internal Error]", format(err)].join(" ")));
   if (err && typeof err === "object" && "cause" in err && err.cause !== undefined) {
-    console.error(chalk.red("[Internal Error Cause]", format(err.cause)));
+    console.error(styleText("red", ["[Internal Error Cause]", format(err.cause)].join(" ")));
   }
   process.exit(255);
 });

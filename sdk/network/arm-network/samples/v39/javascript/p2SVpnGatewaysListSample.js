@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the P2SVpnGateways in a subscription.
  *
  * @summary lists all the P2SVpnGateways in a subscription.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayList.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayList.json
  */
 async function p2SVpnGatewayListBySubscription() {
   const credential = new DefaultAzureCredential();
