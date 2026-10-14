@@ -1,0 +1,4 @@
+directory: specification/apicenter/resource-manager/Microsoft.ApiCenter/ApiCenter
+commit: 7507c3df4b8bf6c5887d8571f929b6e393479f2f
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

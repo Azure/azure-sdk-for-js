@@ -1,37 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes specified API definition.
- *
- * @summary Deletes specified API definition.
- * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiDefinitions_Delete.json
- */
-
-import { AzureAPICenter } from "@azure/arm-apicenter";
+import { ApiCenterClient } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes specified API definition.
+ *
+ * @summary deletes specified API definition.
+ * x-ms-original-file: 2024-06-01-preview/ApiDefinitions_Delete.json
+ */
 async function apiDefinitionsDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
-  const serviceName = "contoso";
-  const workspaceName = "default";
-  const apiName = "echo-api";
-  const versionName = "2023-01-01";
-  const definitionName = "openapi";
   const credential = new DefaultAzureCredential();
-  const client = new AzureAPICenter(credential, subscriptionId);
-  const result = await client.apiDefinitions.delete(
-    resourceGroupName,
-    serviceName,
-    workspaceName,
-    apiName,
-    versionName,
-    definitionName,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiCenterClient(credential, subscriptionId);
+  await client.apiDefinitions.delete(
+    "contoso-resources",
+    "contoso",
+    "default",
+    "echo-api",
+    "2023-01-01",
+    "openapi",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

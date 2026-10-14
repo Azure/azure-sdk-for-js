@@ -1,35 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a collection of API versions.
- *
- * @summary Returns a collection of API versions.
- * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiVersions_List.json
- */
-
-import { AzureAPICenter } from "@azure/arm-apicenter";
+import { ApiCenterClient } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a collection of API versions.
+ *
+ * @summary returns a collection of API versions.
+ * x-ms-original-file: 2024-06-01-preview/ApiVersions_List.json
+ */
 async function apiVersionsListByApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
-  const serviceName = "contoso";
-  const workspaceName = "default";
-  const apiName = "echo-api";
   const credential = new DefaultAzureCredential();
-  const client = new AzureAPICenter(credential, subscriptionId);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiCenterClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.apiVersions.list(
-    resourceGroupName,
-    serviceName,
-    workspaceName,
-    apiName,
+    "contoso-resources",
+    "contoso",
+    "default",
+    "echo-api",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
