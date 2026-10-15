@@ -40,6 +40,25 @@ describe("snippets", function () {
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("ReadmeSampleVoiceAgentTracing", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+      },
+    });
+
+    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    try {
+      await connection.sendText("Hello.");
+      for await (const event of connection) {
+        if (event.type === "response.done") break;
+      }
+    } finally {
+      await connection.close();
+    }
+  });
+
   it("previewflag", async function () {
     await project.agents.createVersion(
       "preview-agent",
