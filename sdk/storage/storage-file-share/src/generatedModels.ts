@@ -714,8 +714,9 @@ export interface FileItem {
   linkCount?: number;
   /**
    * The type of the entry: `Regular`, `SymLink`, `BlockDevice`, `CharacterDevice`, `Fifo` or `Socket`.
-   * Intended to be used only for NFS shares. The service only tells these types apart when
-   * `includeExtendedInfo` or another `include*` option is set; otherwise every file is listed as `Regular`.
+   * Intended to be used only for NFS shares; it is set on SMB shares too, where every file is `Regular`.
+   * The service only tells these types apart when `includeExtendedInfo` or another `include*` option is
+   * set; otherwise every file is listed as `Regular`.
    */
   fileType?: NfsFileType;
   /** NFS only. The path that the symbolic link points to. Returned when `includeNfsAttributes` or `includeAll` is set. */
@@ -736,7 +737,7 @@ export interface DirectoryItem {
   permissionKey?: string;
   /** NFS only. The number of hard links to the directory. Returned when `includeLinkCount` or `includeAll` is set. */
   linkCount?: number;
-  /** The type of the entry, always `Directory`. Intended to be used only for NFS shares. */
+  /** The type of the entry, always `Directory`, on SMB shares too. Intended to be used only for NFS shares. */
   fileType?: NfsFileType;
 }
 
