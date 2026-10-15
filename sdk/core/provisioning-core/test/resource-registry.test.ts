@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { ResourceGroup, Resource, Stack, namingRequiredPolicy } from "../src/index.js";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { describe, expect, it } from "vitest";
 import { isExpression, Resource, Stack } from "@azure/provisioning-core";
 import { symbolicValueExpressionNode } from "../../../src/expression/ast-nodes.js";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { describe, expect, it } from "vitest";
 import { createFlatModelShape } from "../src/shape/shape.js";
 import { getShape, registerShape } from "../src/shape/shape-registry.js";

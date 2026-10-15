@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { renderBicepFiles } from "@azure/provisioning-bicep";
 import { serialize } from "@azure/provisioning-core/serialization";
 import { describe, expect, it } from "vitest";

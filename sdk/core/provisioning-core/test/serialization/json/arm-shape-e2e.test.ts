@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * End-to-end coverage for the ARM-shape serialization pipeline
  * (Phases 3-6). Hand-crafted ModelShapes stand in for emitter

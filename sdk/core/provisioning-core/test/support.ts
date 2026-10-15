@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Resource } from "../src/constructs/resource/resource.js";
 import type { ProvisioningComponent } from "../src/constructs/provisioning-component.js";
 import type { Expression } from "../src/expression/expressions.js";
