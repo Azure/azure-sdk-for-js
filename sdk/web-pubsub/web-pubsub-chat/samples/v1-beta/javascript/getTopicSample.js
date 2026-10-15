@@ -3,6 +3,7 @@
 
 const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * Retrieve an existing topic and its entity tag.

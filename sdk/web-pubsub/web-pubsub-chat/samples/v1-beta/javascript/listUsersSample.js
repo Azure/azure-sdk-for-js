@@ -3,6 +3,7 @@
 
 const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * List user profiles in a Chat-enabled hub.

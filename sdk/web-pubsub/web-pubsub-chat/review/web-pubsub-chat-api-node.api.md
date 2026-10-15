@@ -112,9 +112,6 @@ export interface DeleteUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export function generateClientToken(context: WebPubSubChatServiceContext, options?: GenerateClientTokenOptionalParams): Promise<GenerateClientTokenResponse>;
-
-// @public
 export function getConversation(context: WebPubSubChatServiceContext, conversationId: string, options?: GetConversationOptionalParams): Promise<ChatConversation>;
 
 // @public

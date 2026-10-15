@@ -3,6 +3,7 @@
 
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * Create a topic in an existing room only if its identifier is not already used.

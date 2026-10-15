@@ -3,6 +3,7 @@
 
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * List rooms in a Chat-enabled hub using asynchronous iteration.

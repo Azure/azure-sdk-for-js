@@ -3,6 +3,7 @@
 
 const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * Create a topic in an existing room only if its identifier is not already used.

@@ -3,6 +3,7 @@
 
 import { KnownChatTopicState, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * Archive an existing topic without changing its title.

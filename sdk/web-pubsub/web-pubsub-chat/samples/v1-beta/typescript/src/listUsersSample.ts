@@ -3,6 +3,7 @@
 
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * List user profiles in a Chat-enabled hub.

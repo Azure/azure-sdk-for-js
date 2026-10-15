@@ -3,6 +3,7 @@
 
 const { KnownChatTopicState, WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * Archive an existing topic without changing its title.

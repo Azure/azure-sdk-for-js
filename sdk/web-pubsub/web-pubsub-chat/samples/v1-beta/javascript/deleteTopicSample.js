@@ -3,6 +3,7 @@
 
 const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * Soft delete an existing topic. Subsequent get requests return HTTP 404.

@@ -3,6 +3,7 @@
 
 const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * List rooms associated with an existing user, one page at a time.
