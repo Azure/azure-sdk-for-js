@@ -5,6 +5,8 @@
  * This sample demonstrates how to create an AI agent with Browser Automation capabilities
  * using the GA BrowserAutomationTool and Azure AI Projects client. The agent can
  * perform automated web browsing tasks and provide responses based on web interactions.
+ * The agent shares a live-view URL so you can watch the browser session.
+ * Treat that URL as sensitive and do not share it.
  *
  * @summary This sample demonstrates how to create an agent with Browser Automation tool,
  * perform web browsing tasks, and process completed text and remote function call events.
@@ -18,6 +20,7 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const browserAutomationProjectConnectionId =
   process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
   "<browser automation project connection id>";
@@ -42,9 +45,9 @@ const handleBrowserCall = (item: unknown): void => {
     const argumentsStr = JSON.stringify(argumentsObj, (key, value: unknown) =>
       key === "browserSessionId" ? undefined : value,
     );
-    console.log(`Browser action: ${item.name}`);
-    console.log(`Call ID: ${item.call_id}`);
-    console.log(`Arguments: ${argumentsStr}`);
+    console.log(
+      `Browser action: ${item.name} (call ID: ${item.call_id}), arguments: ${argumentsStr}`,
+    );
   } else if (item.type === "remote_function_call_output") {
     if (!("call_id" in item) || typeof item.call_id !== "string") {
       throw new Error("Invalid Browser Automation remote function call output.");
@@ -59,7 +62,7 @@ export async function main(): Promise<void> {
 
   console.log("Creating agent with Browser Automation tool...");
 
-  const agent = await project.agents.createVersion("MyAgent", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: `You are an Agent helping with browser automation tasks. 
@@ -100,9 +103,9 @@ export async function main(): Promise<void> {
     let responseCompleted = false;
     for await (const event of streamResponse) {
       if (event.type === "response.created") {
-        console.log(`Follow-up response created with ID: ${event.response.id}`);
+        console.log(`Response created with ID: ${event.response.id}`);
       } else if (event.type === "response.output_text.done") {
-        console.log(event.text);
+        console.log(`\nAgent message: ${event.text}`);
       } else if (event.type === "response.output_item.done") {
         handleBrowserCall(event.item);
       } else if (event.type === "response.failed") {
@@ -115,7 +118,7 @@ export async function main(): Promise<void> {
         throw new Error(event.message);
       } else if (event.type === "response.completed") {
         responseCompleted = true;
-        console.log("\nFollow-up completed!");
+        console.log("\nResponse completed!");
       }
     }
     if (!responseCompleted) {

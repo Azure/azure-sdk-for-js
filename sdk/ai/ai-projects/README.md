@@ -872,7 +872,8 @@ Set `FOUNDRY_PROJECT_ENDPOINT`, `FOUNDRY_MODEL_NAME`, and
 `BROWSER_AUTOMATION_PROJECT_CONNECTION_ID` (the project connection resource ID for
 your Azure Playwright resource) before running the sample. It uses the GA
 `browser_automation` tool to visit `https://example.com` and report the page title
-and visible description based on browser results.
+and visible description based on browser results. Optionally set `FOUNDRY_AGENT_NAME`
+to choose the agent name; it defaults to `MyAgent`.
 
 The streaming sample prints each completed text message once, including the
 browser live-view URL, and logs remote function action names, call IDs, and
