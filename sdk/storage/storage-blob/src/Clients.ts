@@ -132,6 +132,7 @@ import type {
   BlobGetLayoutResponseInternal,
   BlobGetLayoutHeaders,
   BlobLayout,
+  LayoutEndpoint,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -349,7 +350,7 @@ export interface BlobDownloadOptions extends CommonOptions {
    * it. The account endpoint is read instead when the endpoint cannot be parsed or the client's
    * URL is not `https://` with a host name. An endpoint that cannot be reached fails the read.
    */
-  layoutEndpoint?: string;
+  layoutEndpoint?: LayoutEndpoint;
 }
 
 /**

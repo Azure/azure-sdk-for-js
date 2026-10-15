@@ -391,12 +391,48 @@ export interface BlobLayoutRanges {
   range?: BlobLayoutRange[];
 }
 
+/**
+ * An endpoint that serves part of a blob's data: an absolute URI, including scheme and port.
+ *
+ * {@link BlobClient.getLayout} returns these in {@link BlobLayoutEndpoint.value}. Pass one as
+ * {@link BlobDownloadOptions.layoutEndpoint} to read a range from that endpoint instead of the
+ * account endpoint. The request stays authenticated as, and addressed to, the account. Only
+ * Node.js routes requests to it; browsers and React Native ignore it and read from the account
+ * endpoint.
+ *
+ * ```ts snippet:ClientsDownloadFromLayoutEndpoint
+ * import { BlobServiceClient } from "@azure/storage-blob";
+ * import { DefaultAzureCredential } from "@azure/identity";
+ *
+ * const account = "<account>";
+ * const blobServiceClient = new BlobServiceClient(
+ *   `https://${account}.blob.core.windows.net`,
+ *   new DefaultAzureCredential(),
+ * );
+ *
+ * const containerClient = blobServiceClient.getContainerClient("<container name>");
+ * const blobClient = containerClient.getBlobClient("<blob name>");
+ *
+ * for await (const page of blobClient.getLayout()) {
+ *   const endpoints = page.endpoints?.endpoint ?? [];
+ *   for (const range of page.ranges?.range ?? []) {
+ *     const layoutEndpoint = endpoints.find((e) => e.index === range.endpointIndex)?.value;
+ *     const response = await blobClient.download(range.start, range.end - range.start + 1, {
+ *       layoutEndpoint,
+ *     });
+ *     console.log(`Read ${response.contentLength} bytes from ${layoutEndpoint}`);
+ *   }
+ * }
+ * ```
+ */
+export type LayoutEndpoint = string;
+
 /** An endpoint that serves one or more ranges of a blob. */
 export interface BlobLayoutEndpoint {
   /** The index {@link BlobLayoutRange.endpointIndex} refers to. */
   index: number;
   /** Absolute URI of the endpoint, including scheme and port. */
-  value: string;
+  value: LayoutEndpoint;
 }
 
 /** The endpoints that serve the ranges of a blob. */
