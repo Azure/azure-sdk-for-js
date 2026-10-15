@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an routing rule.
  *
  * @summary creates or updates an routing rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingRulePut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingRulePut.json
  */
 async function createAnRoutingRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createAnRoutingRule(): Promise<void> {
  * This sample demonstrates how to creates or updates an routing rule.
  *
  * @summary creates or updates an routing rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingRulePutEcmp.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingRulePutEcmp.json
  */
 async function createAnEcmpRoutingRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

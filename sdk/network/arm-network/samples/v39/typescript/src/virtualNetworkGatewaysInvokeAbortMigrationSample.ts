@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger abort migration for the virtual network gateway.
  *
  * @summary trigger abort migration for the virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayAbortMigration.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayAbortMigration.json
  */
 async function virtualNetworkGatewayAbortMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

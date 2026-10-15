@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a particular link failover test performed on the express route circuit.
  *
  * @summary retrieves the details of a particular link failover test performed on the express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitGetCircuitLinkFailoverSingleTestDetails.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitGetCircuitLinkFailoverSingleTestDetails.json
  */
 async function expressRouteCircuitGetCircuitLinkFailoverSingleTestDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

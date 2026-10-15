@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Network Virtual Appliance.
  *
  * @summary gets the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceGet.json
  */
 async function getNetworkVirtualAppliance() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getNetworkVirtualAppliance() {
  * This sample demonstrates how to gets the specified Network Virtual Appliance.
  *
  * @summary gets the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVhubDualStackGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVhubDualStackGet.json
  */
 async function getNetworkVirtualApplianceInVirtualHubWithDualStack() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getNetworkVirtualApplianceInVirtualHubWithDualStack() {
  * This sample demonstrates how to gets the specified Network Virtual Appliance.
  *
  * @summary gets the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetDualStackGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetDualStackGet.json
  */
 async function getNetworkVirtualApplianceInVNetWithDualStack() {
   const credential = new DefaultAzureCredential();

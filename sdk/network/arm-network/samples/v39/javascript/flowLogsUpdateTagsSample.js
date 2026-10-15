@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update tags of the specified flow log.
  *
  * @summary update tags of the specified flow log.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogUpdateTags.json
  */
 async function updateFlowLogTags() {
   const credential = new DefaultAzureCredential();

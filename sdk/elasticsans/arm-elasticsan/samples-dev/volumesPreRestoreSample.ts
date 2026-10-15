@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
  *
  * @summary validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
- * x-ms-original-file: 2025-09-01/Volumes_PreRestore_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Volumes_PreRestore_MaximumSet_Gen.json
  */
 async function volumeGroupsPreRestoreMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

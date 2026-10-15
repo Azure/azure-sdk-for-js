@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the public IP addresses in a subscription.
  *
  * @summary gets all the public IP addresses in a subscription.
- * x-ms-original-file: 2026-01-01/PublicIpAddressListAll.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressListAll.json
  */
 async function listAllPublicIPAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();

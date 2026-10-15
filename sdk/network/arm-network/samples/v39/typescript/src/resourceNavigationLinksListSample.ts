@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of resource navigation links for a subnet.
  *
  * @summary gets a list of resource navigation links for a subnet.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetResourceNavigationLinks.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetResourceNavigationLinks.json
  */
 async function getResourceNavigationLinks(): Promise<void> {
   const credential = new DefaultAzureCredential();
