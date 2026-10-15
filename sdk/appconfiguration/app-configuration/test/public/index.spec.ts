@@ -800,8 +800,14 @@ describe("AppConfigurationClient", () => {
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
-      const settingsIterator = client.listConfigurationSettings();
-      await settingsIterator.next();
+      const settingsIterator = client.listConfigurationSettings().byPage();
+      const result = await settingsIterator.next();
+      assert.isFalse(result.done);
+      const page = result.value;
+      assert.strictEqual(page._response.status, 200);
+      assert.isNotEmpty(page._response.headers.get("X-MS-DATE"));
+      assert.isNotEmpty(page._response.headers.get("etag"));
+      assert.equal(page._response.headers.get("etag"), `"${page.etag}"`);
     });
 
     it("exact match on label", async () => {
@@ -1114,6 +1120,8 @@ describe("AppConfigurationClient", () => {
       const etags: string[] = [];
       for await (const page of iterator) {
         assert.isDefined(page.etag);
+        assert.isNotEmpty(page._response.headers.get("X-MS-DATE"));
+        assert.equal(page._response.headers.get("etag"), `"${page.etag}"`);
         pageCount++;
         etags.push(page.etag ?? "");
       }
@@ -1158,6 +1166,12 @@ describe("AppConfigurationClient", () => {
         assert.equal(page._response.status, status);
         assert.equal(page.items.length, expectedLength);
         assert.isDefined(page.etag);
+        assert.isNotEmpty(page._response.headers.get("X-MS-DATE"));
+        const responseEtag = page._response.headers.get("etag");
+        // The service may omit the ETag header on a 304 response.
+        if (status === 200 || responseEtag !== undefined) {
+          assert.equal(responseEtag, `"${page.etag}"`);
+        }
       }
 
       for (let i = 0; i < expectedNumberOfLabels + additionalNumberOfLabels; i++) {
@@ -1197,7 +1211,8 @@ describe("AppConfigurationClient", () => {
         assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
         assert.isDefined(firstPage.value.etag, "etag should be present");
         assert.equal(firstPage.value._response.status, 200);
-        assert.isDefined(firstPage.value._response.headers.get("x-ms-date"));
+        assert.isNotEmpty(firstPage.value._response.headers.get("X-MS-DATE"));
+        assert.equal(firstPage.value._response.headers.get("etag"), firstPage.value.etag);
       } finally {
         await deleteKeyCompletely([key], client);
       }
@@ -1233,7 +1248,11 @@ describe("AppConfigurationClient", () => {
         assert.equal(firstPage2.value.items.length, 0);
         assert.equal(firstPage2.value._response.status, 304, "should return 304 Not Modified");
         assert.equal(firstPage2.value.etag, etag, "etag should be the same");
-        assert.isDefined(firstPage2.value._response.headers.get("x-ms-date"));
+        assert.isNotEmpty(firstPage2.value._response.headers.get("X-MS-DATE"));
+        const responseEtag = firstPage2.value._response.headers.get("etag");
+        if (responseEtag !== undefined) {
+          assert.equal(responseEtag, etag);
+        }
       } finally {
         await deleteKeyCompletely([key], client);
       }
@@ -1275,6 +1294,8 @@ describe("AppConfigurationClient", () => {
         assert.equal(firstPage2.value.items.length, 0);
         assert.equal(firstPage2.value._response.status, 200, "should return 200 with changes");
         assert.notEqual(firstPage2.value.etag, etag, "etag should be different");
+        assert.isNotEmpty(firstPage2.value._response.headers.get("X-MS-DATE"));
+        assert.equal(firstPage2.value._response.headers.get("etag"), firstPage2.value.etag);
       } finally {
         await deleteKeyCompletely([key], client);
       }
@@ -1316,6 +1337,8 @@ describe("AppConfigurationClient", () => {
         assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
         assert.equal(firstPage.value._response.status, 200);
         const firstPageEtag = firstPage.value.etag;
+        assert.isNotEmpty(firstPage.value._response.headers.get("X-MS-DATE"));
+        assert.equal(firstPage.value._response.headers.get("etag"), firstPageEtag);
 
         // Get second page
         const secondPage = await pageIterator.next();
@@ -1324,6 +1347,8 @@ describe("AppConfigurationClient", () => {
         assert.equal(secondPage.value.items.length, 0, "items should be empty for HEAD request");
         assert.equal(secondPage.value._response.status, 200);
         const secondPageEtag = secondPage.value.etag;
+        assert.isNotEmpty(secondPage.value._response.headers.get("X-MS-DATE"));
+        assert.equal(secondPage.value._response.headers.get("etag"), secondPageEtag);
 
         // Verify that each page has a different etag
         assert.notEqual(

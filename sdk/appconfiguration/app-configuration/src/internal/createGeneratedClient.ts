@@ -58,7 +58,7 @@ export function createConfiguredGeneratedClient(
   tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
   options?: AppConfigurationClientOptions,
 ): ConfiguredGeneratedClient {
-  let appConfigOptions: InternalAppConfigurationClientOptions = {};
+  let appConfigOptions: InternalAppConfigurationClientOptions;
   let appConfigCredential: TokenCredential | undefined = undefined;
   let appConfigEndpoint: string;
   let authPolicy: PipelinePolicy | undefined;
