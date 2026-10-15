@@ -1,14 +1,281 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/** Represents a os image resource. */
+export interface OsImage extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: OsImageProperties;
+}
+
+export function osImageDeserializer(item: any): OsImage {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : osImagePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Represents properties of a os image resource. */
+export interface OsImageProperties {
+  /** Represents validated solution recipe version of a os image. */
+  validatedSolutionRecipeVersion?: string;
+  /** Represents composed image version of a os image. */
+  composedImageVersion?: string;
+  /** Represents composed image iso download url of a os image. */
+  composedImageIsoUrl?: string;
+  /** Represents composed image iso hash of a os image. */
+  composedImageIsoHash?: string;
+  /** Represents the CPU architecture of an OS image, for example amd64 or arm64. */
+  architecture?: Architecture;
+  /** The solution type (OS family) of the OS image, for example AzureLinux or HCI. */
+  solutionType?: SolutionType;
+}
+
+export function osImagePropertiesDeserializer(item: any): OsImageProperties {
+  return {
+    validatedSolutionRecipeVersion: item["validatedSolutionRecipeVersion"],
+    composedImageVersion: item["composedImageVersion"],
+    composedImageIsoUrl: item["composedImageIsoUrl"],
+    composedImageIsoHash: item["composedImageIsoHash"],
+    architecture: item["architecture"],
+    solutionType: item["solutionType"],
+  };
+}
+
+/** Represents the CPU architecture of a machine or an OS image. */
+export enum KnownArchitecture {
+  /** 64-bit x86 architecture. */
+  Amd64 = "amd64",
+  /** 64-bit Arm architecture. */
+  Arm64 = "arm64",
+}
+
+/**
+ * Represents the CPU architecture of a machine or an OS image. \
+ * {@link KnownArchitecture} can be used interchangeably with Architecture,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **amd64**: 64-bit x86 architecture. \
+ * **arm64**: 64-bit Arm architecture.
+ */
+export type Architecture = string;
+
+/** Represents the solution type (OS family) of an OS image. */
+export enum KnownSolutionType {
+  /** AzureLinux OS. */
+  AzureLinux = "AzureLinux",
+  /** HCI OS. */
+  HCI = "HCI",
+}
+
+/**
+ * Represents the solution type (OS family) of an OS image. \
+ * {@link KnownSolutionType} can be used interchangeably with SolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureLinux**: AzureLinux OS. \
+ * **HCI**: HCI OS.
+ */
+export type SolutionType = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** The response of a OsImage list operation. */
+export interface _OsImageListResult {
+  /** The OsImage items on this page */
+  value: OsImage[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _osImageListResultDeserializer(item: any): _OsImageListResult {
+  return {
+    value: osImageArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function osImageArrayDeserializer(result: Array<OsImage>): any[] {
+  return result.map((item) => {
+    return osImageDeserializer(item);
+  });
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -110,71 +377,6 @@ export enum KnownActionType {
  * **Internal**: Actions are for internal-only APIs.
  */
 export type ActionType = string;
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
 
 /** ArcSetting details. */
 export interface ArcSetting extends ProxyResource {
@@ -607,104 +809,6 @@ export function defaultExtensionDetailsDeserializer(item: any): DefaultExtension
   };
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
 /** ArcSetting details to update. */
 export interface ArcSettingsPatch {
   /** Resource tags. */
@@ -1005,6 +1109,8 @@ export interface Cluster extends TrackedResource {
   secretsLocations?: SecretsLocationDetails[];
   /** Supported Storage Type for HCI Cluster */
   readonly clusterPattern?: ClusterPattern;
+  /** Software Defined Networking Properties of the cluster */
+  readonly sdnProperties?: ClusterSdnProperties;
   /** Local Availability Zone information for HCI cluster */
   localAvailabilityZones?: LocalAvailabilityZones[];
   /** Identity Provider for the cluster */
@@ -1121,6 +1227,8 @@ export interface ClusterProperties {
   secretsLocations?: SecretsLocationDetails[];
   /** Supported Storage Type for HCI Cluster */
   readonly clusterPattern?: ClusterPattern;
+  /** Software Defined Networking Properties of the cluster */
+  readonly sdnProperties?: ClusterSdnProperties;
   /** Local Availability Zone information for HCI cluster */
   localAvailabilityZones?: LocalAvailabilityZones[];
   /** Identity Provider for the cluster */
@@ -1207,6 +1315,9 @@ export function clusterPropertiesDeserializer(item: any): ClusterProperties {
       ? item["secretsLocations"]
       : secretsLocationDetailsArrayDeserializer(item["secretsLocations"]),
     clusterPattern: item["clusterPattern"],
+    sdnProperties: !item["sdnProperties"]
+      ? item["sdnProperties"]
+      : clusterSdnPropertiesDeserializer(item["sdnProperties"]),
     localAvailabilityZones: !item["localAvailabilityZones"]
       ? item["localAvailabilityZones"]
       : localAvailabilityZonesArrayDeserializer(item["localAvailabilityZones"]),
@@ -2032,6 +2143,66 @@ export enum KnownClusterPattern {
  * **RackAware**: RackAware cluster.
  */
 export type ClusterPattern = string;
+
+/** Represents the Software Defined Networking (SDN) configuration state of the Azure Stack HCI cluster. */
+export interface ClusterSdnProperties {
+  /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
+  readonly sdnStatus?: SdnStatus;
+  /** The fully qualified domain name (FQDN) associated with the SDN deployment. This value is propagated from the Device Management Extension to the cluster resource. It is typically in the format `<sdnPrefix>-nc.<domain>` when SDN is enabled. May be null or absent in unsupported or disabled states. */
+  readonly sdnDomainName?: string;
+  /** Represents the API address for the SDN deployment. */
+  readonly sdnApiAddress?: string;
+  /** Indicates whether Software Defined Networking (SDN) integration should be enabled or disabled for this deployment. */
+  readonly sdnIntegrationIntent?: SdnIntegrationIntent;
+}
+
+export function clusterSdnPropertiesDeserializer(item: any): ClusterSdnProperties {
+  return {
+    sdnStatus: item["sdnStatus"],
+    sdnDomainName: item["sdnDomainName"],
+    sdnApiAddress: item["sdnApiAddress"],
+    sdnIntegrationIntent: item["sdnIntegrationIntent"],
+  };
+}
+
+/** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
+export enum KnownSdnStatus {
+  /** The SDN status could not be determined due to a failure in querying the SDN API service. This may occur if the query script fails or if the system is in an inconsistent state. The domain name will be null in this case. */
+  Unknown = "Unknown",
+  /** SDN is not enabled on the resource. The domain name will be null. This is the default state when SDN has not been configured. */
+  Disabled = "Disabled",
+  /** SDN is successfully enabled on the resource. The domain name will be populated in the format `<sdnPrefix>-nc.<domain>`. Customers may need to manage DNS settings to ensure proper resolution. */
+  Enabled = "Enabled",
+}
+
+/**
+ * Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. \
+ * {@link KnownSdnStatus} can be used interchangeably with SdnStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The SDN status could not be determined due to a failure in querying the SDN API service. This may occur if the query script fails or if the system is in an inconsistent state. The domain name will be null in this case. \
+ * **Disabled**: SDN is not enabled on the resource. The domain name will be null. This is the default state when SDN has not been configured. \
+ * **Enabled**: SDN is successfully enabled on the resource. The domain name will be populated in the format `<sdnPrefix>-nc.<domain>`. Customers may need to manage DNS settings to ensure proper resolution.
+ */
+export type SdnStatus = string;
+
+/** Indicates whether Software Defined Networking (SDN) integration should be enabled or disabled for this deployment. */
+export enum KnownSdnIntegrationIntent {
+  /** Enable SDN integration for the deployment. */
+  Enable = "Enable",
+  /** Disable SDN integration for the deployment. */
+  Disable = "Disable",
+}
+
+/**
+ * Indicates whether Software Defined Networking (SDN) integration should be enabled or disabled for this deployment. \
+ * {@link KnownSdnIntegrationIntent} can be used interchangeably with SdnIntegrationIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable**: Enable SDN integration for the deployment. \
+ * **Disable**: Disable SDN integration for the deployment.
+ */
+export type SdnIntegrationIntent = string;
 
 export function localAvailabilityZonesArraySerializer(
   result: Array<LocalAvailabilityZones>,
@@ -3737,6 +3908,10 @@ export enum KnownEceSecrets {
   LocalAdminCredential = "LocalAdminCredential",
   /** WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster. */
   WitnessStorageKey = "WitnessStorageKey",
+  /** chapCredential used for iSCSI CHAP authentication during edge machine node preparation. */
+  ChapCredential = "chapCredential",
+  /** mutualChapCredential used for iSCSI mutual (bidirectional) CHAP authentication during edge machine node preparation. */
+  MutualChapCredential = "mutualChapCredential",
 }
 
 /**
@@ -3747,7 +3922,9 @@ export enum KnownEceSecrets {
  * **AzureStackLCMUserCredential**: AzureStackLCMUserCredential used for LCM operations for AzureStackHCI cluster. \
  * **DefaultARBApplication**: DefaultARBApplication used to manage Azure Arc resource bridge (ARB) for AzureStackHCI cluster. \
  * **LocalAdminCredential**: LocalAdminCredential used for admin operations for AzureStackHCI cluster. \
- * **WitnessStorageKey**: WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster.
+ * **WitnessStorageKey**: WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster. \
+ * **chapCredential**: chapCredential used for iSCSI CHAP authentication during edge machine node preparation. \
+ * **mutualChapCredential**: mutualChapCredential used for iSCSI mutual (bidirectional) CHAP authentication during edge machine node preparation.
  */
 export type EceSecrets = string;
 
@@ -4018,6 +4195,14 @@ export interface DeploymentStep {
   readonly steps?: DeploymentStep[];
   /** List of exceptions in AzureStackHCI Cluster Deployment. */
   readonly exception?: string[];
+  /** error details. */
+  readonly error?: ErrorDetail;
+  /** The progress percentage of the step. */
+  readonly percentComplete?: number;
+  /** Additional metadata associated with the step. */
+  readonly additionalData?: Metadata[];
+  /** Recommended steps to resolve failures in this step. */
+  readonly recommendedSteps?: string[];
 }
 
 export function deploymentStepDeserializer(item: any): DeploymentStep {
@@ -4034,6 +4219,37 @@ export function deploymentStepDeserializer(item: any): DeploymentStep {
       : item["exception"].map((p: any) => {
           return p;
         }),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    percentComplete: item["percentComplete"],
+    additionalData: !item["additionalData"]
+      ? item["additionalData"]
+      : metadataArrayDeserializer(item["additionalData"]),
+    recommendedSteps: !item["recommendedSteps"]
+      ? item["recommendedSteps"]
+      : item["recommendedSteps"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function metadataArrayDeserializer(result: Array<Metadata>): any[] {
+  return result.map((item) => {
+    return metadataDeserializer(item);
+  });
+}
+
+/** Metadata associated with a deployment step. */
+export interface Metadata {
+  /** The key of the metadata entry. */
+  key: string;
+  /** The value of the metadata entry. */
+  value: string;
+}
+
+export function metadataDeserializer(item: any): Metadata {
+  return {
+    key: item["key"],
+    value: item["value"],
   };
 }
 
@@ -4790,6 +5006,8 @@ export interface HciNetworkProfile {
   readonly switchDetails?: SwitchDetail[];
   /** HostNetwork config to deploy AzureStackHCI Cluster. */
   readonly hostNetwork?: HciEdgeDeviceHostNetwork;
+  /** Software Defined Networking Properties of the device. */
+  readonly sdnProperties?: SdnProperties;
 }
 
 export function hciNetworkProfileDeserializer(item: any): HciNetworkProfile {
@@ -4803,6 +5021,9 @@ export function hciNetworkProfileDeserializer(item: any): HciNetworkProfile {
     hostNetwork: !item["hostNetwork"]
       ? item["hostNetwork"]
       : hciEdgeDeviceHostNetworkDeserializer(item["hostNetwork"]),
+    sdnProperties: !item["sdnProperties"]
+      ? item["sdnProperties"]
+      : sdnPropertiesDeserializer(item["sdnProperties"]),
   };
 }
 
@@ -5137,6 +5358,24 @@ export function hciEdgeDeviceStorageAdapterIPInfoDeserializer(
     physicalNode: item["physicalNode"],
     ipv4Address: item["ipv4Address"],
     subnetMask: item["subnetMask"],
+  };
+}
+
+/** Represents the Software Defined Networking (SDN) configuration state. */
+export interface SdnProperties {
+  /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
+  readonly sdnStatus?: SdnStatus;
+  /** The fully qualified domain name (FQDN) associated with the SDN deployment. This value is propagated from the Device Management Extension to the cluster resource. It is typically in the format `<sdnPrefix>-nc.<domain>` when SDN is enabled. May be null or absent in unsupported or disabled states. */
+  readonly sdnDomainName?: string;
+  /** Represents the API address for the SDN deployment. */
+  readonly sdnApiAddress?: string;
+}
+
+export function sdnPropertiesDeserializer(item: any): SdnProperties {
+  return {
+    sdnStatus: item["sdnStatus"],
+    sdnDomainName: item["sdnDomainName"],
+    sdnApiAddress: item["sdnApiAddress"],
   };
 }
 
@@ -7420,6 +7659,5077 @@ export function validatedSolutionRecipeArrayDeserializer(
   });
 }
 
+/** EdgeMachine details. */
+export interface EdgeMachine extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+export function edgeMachineSerializer(item: EdgeMachine): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachinePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+export function edgeMachineDeserializer(item: any): EdgeMachine {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachinePropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Properties for edge machine. */
+export interface EdgeMachineProperties {
+  /** Edge Machine type. */
+  edgeMachineKind?: EdgeMachineKind;
+  /** The provisioning state of a resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable resource id. */
+  readonly cloudId?: string;
+  /** Optional property to create arc machine in custom resource group. */
+  arcMachineResourceGroupId?: string;
+  /** Arc machine instance resource id. */
+  arcMachineResourceId?: string;
+  /** Lifecycle details of the resource */
+  readonly lifecycleDetails?: LifecycleDetails;
+  /** Link to Arc Gateway ARM resource Id */
+  arcGatewayResourceId?: string;
+  /** Service fetches common configuration from site. */
+  siteDetails?: SiteDetails;
+  /** Ownership voucher details for provisioned machine. */
+  ownershipVoucherDetails?: OwnershipVoucherDetails;
+  /** Details for device provisioning. */
+  provisioningDetails?: ProvisioningDetails;
+  /** A machine can only be assigned to single device pool */
+  readonly devicePoolResourceId?: string;
+  /** OS configuration status details */
+  readonly machineState?: EdgeMachineState;
+  /** machine connectivity status */
+  readonly connectivityStatus?: EdgeMachineConnectivityStatus;
+  /** Tracks the ID of the consuming resource, setting the machine as in-use. */
+  readonly claimedBy?: string;
+  /** Reported properties for edge machine. */
+  readonly reportedProperties?: EdgeMachineReportedProperties;
+  /** operation status details for edge machine. */
+  readonly operationDetails?: OperationDetail[];
+  /** Last time data updated to service. */
+  readonly lastSyncTimestamp?: Date;
+}
+
+export function edgeMachinePropertiesSerializer(item: EdgeMachineProperties): any {
+  return {
+    edgeMachineKind: item["edgeMachineKind"],
+    arcMachineResourceGroupId: item["arcMachineResourceGroupId"],
+    arcMachineResourceId: item["arcMachineResourceId"],
+    arcGatewayResourceId: item["arcGatewayResourceId"],
+    siteDetails: !item["siteDetails"]
+      ? item["siteDetails"]
+      : siteDetailsSerializer(item["siteDetails"]),
+    ownershipVoucherDetails: !item["ownershipVoucherDetails"]
+      ? item["ownershipVoucherDetails"]
+      : ownershipVoucherDetailsSerializer(item["ownershipVoucherDetails"]),
+    provisioningDetails: !item["provisioningDetails"]
+      ? item["provisioningDetails"]
+      : provisioningDetailsSerializer(item["provisioningDetails"]),
+  };
+}
+
+export function edgeMachinePropertiesDeserializer(item: any): EdgeMachineProperties {
+  return {
+    edgeMachineKind: item["edgeMachineKind"],
+    provisioningState: item["provisioningState"],
+    cloudId: item["cloudId"],
+    arcMachineResourceGroupId: item["arcMachineResourceGroupId"],
+    arcMachineResourceId: item["arcMachineResourceId"],
+    lifecycleDetails: !item["lifecycleDetails"]
+      ? item["lifecycleDetails"]
+      : lifecycleDetailsDeserializer(item["lifecycleDetails"]),
+    arcGatewayResourceId: item["arcGatewayResourceId"],
+    siteDetails: !item["siteDetails"]
+      ? item["siteDetails"]
+      : siteDetailsDeserializer(item["siteDetails"]),
+    ownershipVoucherDetails: !item["ownershipVoucherDetails"]
+      ? item["ownershipVoucherDetails"]
+      : ownershipVoucherDetailsDeserializer(item["ownershipVoucherDetails"]),
+    provisioningDetails: !item["provisioningDetails"]
+      ? item["provisioningDetails"]
+      : provisioningDetailsDeserializer(item["provisioningDetails"]),
+    devicePoolResourceId: item["devicePoolResourceId"],
+    machineState: item["machineState"],
+    connectivityStatus: item["connectivityStatus"],
+    claimedBy: item["claimedBy"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : edgeMachineReportedPropertiesDeserializer(item["reportedProperties"]),
+    operationDetails: !item["operationDetails"]
+      ? item["operationDetails"]
+      : operationDetailArrayDeserializer(item["operationDetails"]),
+    lastSyncTimestamp: !item["lastSyncTimestamp"]
+      ? item["lastSyncTimestamp"]
+      : new Date(item["lastSyncTimestamp"]),
+  };
+}
+
+/** Edge Machine Kind. */
+export enum KnownEdgeMachineKind {
+  /** EdgeMachine resource created using Zero-touch provisioning. */
+  Standard = "Standard",
+  /** EdgeMachine resource created for brownfield HCI customers without zero touch provisioning. */
+  Dedicated = "Dedicated",
+}
+
+/**
+ * Edge Machine Kind. \
+ * {@link KnownEdgeMachineKind} can be used interchangeably with EdgeMachineKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: EdgeMachine resource created using Zero-touch provisioning. \
+ * **Dedicated**: EdgeMachine resource created for brownfield HCI customers without zero touch provisioning.
+ */
+export type EdgeMachineKind = string;
+
+/** Overall Lifecycle details for a resource. */
+export interface LifecycleDetails {
+  /** Overall lifecycle status of the edge machine. */
+  readonly lifecycleStatus?: LifecycleStatus;
+  /** List of lifecycle stages for the edge machine. */
+  readonly lifecycleStages: LifecycleStage[];
+}
+
+export function lifecycleDetailsDeserializer(item: any): LifecycleDetails {
+  return {
+    lifecycleStatus: !item["lifecycleStatus"]
+      ? item["lifecycleStatus"]
+      : lifecycleStatusDeserializer(item["lifecycleStatus"]),
+    lifecycleStages: lifecycleStageArrayDeserializer(item["lifecycleStages"]),
+  };
+}
+
+/** Summary lifecycle status for a resource. */
+export interface LifecycleStatus {
+  /** Overall lifecycle status of the edge machine. */
+  readonly status: EdgeMachineLifecycleStatus;
+  /** Depicts what is the current ongoing stage. */
+  readonly stage?: string;
+  /** Last time the lifecycle status was updated. */
+  readonly lastUpdatedUtc: Date;
+  /** Message to provide more details on lifecycle status, especially in case of failures. */
+  readonly message?: string;
+  /** Recommended steps to resolve failures. */
+  readonly recommendedSteps?: string[];
+}
+
+export function lifecycleStatusDeserializer(item: any): LifecycleStatus {
+  return {
+    status: item["status"],
+    stage: item["stage"],
+    lastUpdatedUtc: new Date(item["lastUpdatedUtc"]),
+    message: item["message"],
+    recommendedSteps: !item["recommendedSteps"]
+      ? item["recommendedSteps"]
+      : item["recommendedSteps"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Lifecycle status of an Edge Machine. */
+export enum KnownEdgeMachineLifecycleStatus {
+  /** Machine is being created. */
+  Creating = "Creating",
+  /** Machine is awaiting connection. */
+  AwaitingConnection = "AwaitingConnection",
+  /** Machine is being provisioned. */
+  Provisioning = "Provisioning",
+  /** Machine is ready for OS installation. */
+  ReadyForOs = "ReadyForOs",
+  /** Machine is installing the OS. */
+  InstallingOs = "InstallingOs",
+  /** Machine has been provisioned. */
+  Provisioned = "Provisioned",
+  /** Machine OS is being updated. */
+  UpdatingOs = "UpdatingOs",
+  /** Machine OS is being reset. */
+  ResettingOs = "ResettingOs",
+  /** Machine is being deleted. */
+  Deleting = "Deleting",
+  /** Machine is in a failed state. */
+  Failed = "Failed",
+}
+
+/**
+ * Lifecycle status of an Edge Machine. \
+ * {@link KnownEdgeMachineLifecycleStatus} can be used interchangeably with EdgeMachineLifecycleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating**: Machine is being created. \
+ * **AwaitingConnection**: Machine is awaiting connection. \
+ * **Provisioning**: Machine is being provisioned. \
+ * **ReadyForOs**: Machine is ready for OS installation. \
+ * **InstallingOs**: Machine is installing the OS. \
+ * **Provisioned**: Machine has been provisioned. \
+ * **UpdatingOs**: Machine OS is being updated. \
+ * **ResettingOs**: Machine OS is being reset. \
+ * **Deleting**: Machine is being deleted. \
+ * **Failed**: Machine is in a failed state.
+ */
+export type EdgeMachineLifecycleStatus = string;
+
+export function lifecycleStageArrayDeserializer(result: Array<LifecycleStage>): any[] {
+  return result.map((item) => {
+    return lifecycleStageDeserializer(item);
+  });
+}
+
+/** Lifecycle stage details for a resource. */
+export interface LifecycleStage {
+  /** Name of the stage. */
+  readonly name: string;
+  /** Description of the stage. */
+  readonly description: string;
+  /** Status of the stage. */
+  readonly status: LifecycleOperationStatus;
+  /** Start time of the stage. */
+  readonly startTimeUtc?: Date;
+  /** End time of the stage. */
+  readonly endTimeUtc?: Date;
+  /** Last time the stage was updated. */
+  readonly lastUpdatedUtc?: Date;
+  /** Error details. */
+  readonly error?: ErrorDetail;
+  /** Sub-stages for this stage. */
+  readonly subStages?: LifecycleStage[];
+}
+
+export function lifecycleStageDeserializer(item: any): LifecycleStage {
+  return {
+    name: item["name"],
+    description: item["description"],
+    status: item["status"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    lastUpdatedUtc: !item["lastUpdatedUtc"]
+      ? item["lastUpdatedUtc"]
+      : new Date(item["lastUpdatedUtc"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    subStages: !item["subStages"]
+      ? item["subStages"]
+      : lifecycleStageArrayDeserializer(item["subStages"]),
+  };
+}
+
+/** Status of an operation. Maps to Steps.Status / SubSteps.Status. */
+export enum KnownLifecycleOperationStatus {
+  /** Operation has not started. */
+  NotStarted = "NotStarted",
+  /** Operation is in progress. */
+  InProgress = "InProgress",
+  /** Operation has completed successfully. */
+  Completed = "Completed",
+  /** Operation has failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Status of an operation. Maps to Steps.Status / SubSteps.Status. \
+ * {@link KnownLifecycleOperationStatus} can be used interchangeably with LifecycleOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: Operation has not started. \
+ * **InProgress**: Operation is in progress. \
+ * **Completed**: Operation has completed successfully. \
+ * **Failed**: Operation has failed.
+ */
+export type LifecycleOperationStatus = string;
+
+/** Site Details consists of common configurations. */
+export interface SiteDetails {
+  /** Site resource Id to be set during Edge Machine resource creation. */
+  siteResourceId: string;
+  /** Edge Device configuration received from site common configuration. */
+  deviceConfiguration?: TargetDeviceConfiguration;
+}
+
+export function siteDetailsSerializer(item: SiteDetails): any {
+  return {
+    siteResourceId: item["siteResourceId"],
+    deviceConfiguration: !item["deviceConfiguration"]
+      ? item["deviceConfiguration"]
+      : targetDeviceConfigurationSerializer(item["deviceConfiguration"]),
+  };
+}
+
+export function siteDetailsDeserializer(item: any): SiteDetails {
+  return {
+    siteResourceId: item["siteResourceId"],
+    deviceConfiguration: !item["deviceConfiguration"]
+      ? item["deviceConfiguration"]
+      : targetDeviceConfigurationDeserializer(item["deviceConfiguration"]),
+  };
+}
+
+/** Device configuration. */
+export interface TargetDeviceConfiguration {
+  /** Network configuration. */
+  network?: NetworkConfiguration;
+  /** Hostname of the device. */
+  hostName?: string;
+  /** Web proxy configuration. */
+  webProxy?: WebProxyConfiguration;
+  /** Time configuration. */
+  time?: TimeConfiguration;
+  /** Storage configuration. */
+  storage?: StorageConfiguration;
+}
+
+export function targetDeviceConfigurationSerializer(item: TargetDeviceConfiguration): any {
+  return {
+    network: !item["network"] ? item["network"] : networkConfigurationSerializer(item["network"]),
+    hostName: item["hostName"],
+    webProxy: !item["webProxy"]
+      ? item["webProxy"]
+      : webProxyConfigurationSerializer(item["webProxy"]),
+    time: !item["time"] ? item["time"] : timeConfigurationSerializer(item["time"]),
+    storage: !item["storage"] ? item["storage"] : storageConfigurationSerializer(item["storage"]),
+  };
+}
+
+export function targetDeviceConfigurationDeserializer(item: any): TargetDeviceConfiguration {
+  return {
+    network: !item["network"] ? item["network"] : networkConfigurationDeserializer(item["network"]),
+    hostName: item["hostName"],
+    webProxy: !item["webProxy"]
+      ? item["webProxy"]
+      : webProxyConfigurationDeserializer(item["webProxy"]),
+    time: !item["time"] ? item["time"] : timeConfigurationDeserializer(item["time"]),
+    storage: !item["storage"] ? item["storage"] : storageConfigurationDeserializer(item["storage"]),
+  };
+}
+
+/** Network configuration. */
+export interface NetworkConfiguration {
+  /** List of network adapters. */
+  networkAdapters?: NetworkAdapter[];
+}
+
+export function networkConfigurationSerializer(item: NetworkConfiguration): any {
+  return {
+    networkAdapters: !item["networkAdapters"]
+      ? item["networkAdapters"]
+      : networkAdapterArraySerializer(item["networkAdapters"]),
+  };
+}
+
+export function networkConfigurationDeserializer(item: any): NetworkConfiguration {
+  return {
+    networkAdapters: !item["networkAdapters"]
+      ? item["networkAdapters"]
+      : networkAdapterArrayDeserializer(item["networkAdapters"]),
+  };
+}
+
+export function networkAdapterArraySerializer(result: Array<NetworkAdapter>): any[] {
+  return result.map((item) => {
+    return networkAdapterSerializer(item);
+  });
+}
+
+export function networkAdapterArrayDeserializer(result: Array<NetworkAdapter>): any[] {
+  return result.map((item) => {
+    return networkAdapterDeserializer(item);
+  });
+}
+
+/** Network adapter configuration. */
+export interface NetworkAdapter {
+  /** Type of IP assignment. */
+  ipAssignmentType: IpAssignmentType;
+  /** IP address. */
+  ipAddress?: string;
+  /** Adapter Name. */
+  adapterName?: string;
+  /** MAC address. */
+  macAddress?: string;
+  /** IP address range. */
+  ipAddressRange?: IpAddressRange;
+  /** Gateway id. */
+  gateway?: string;
+  /** Subnet mask. */
+  subnetMask?: string;
+  /** Array of DNS addresses. */
+  dnsAddressArray?: string[];
+  /** VLAN ID for the network setup. */
+  vlanId?: string;
+}
+
+export function networkAdapterSerializer(item: NetworkAdapter): any {
+  return {
+    ipAssignmentType: item["ipAssignmentType"],
+    ipAddress: item["ipAddress"],
+    adapterName: item["adapterName"],
+    macAddress: item["macAddress"],
+    ipAddressRange: !item["ipAddressRange"]
+      ? item["ipAddressRange"]
+      : ipAddressRangeSerializer(item["ipAddressRange"]),
+    gateway: item["gateway"],
+    subnetMask: item["subnetMask"],
+    dnsAddressArray: !item["dnsAddressArray"]
+      ? item["dnsAddressArray"]
+      : item["dnsAddressArray"].map((p: any) => {
+          return p;
+        }),
+    vlanId: item["vlanId"],
+  };
+}
+
+export function networkAdapterDeserializer(item: any): NetworkAdapter {
+  return {
+    ipAssignmentType: item["ipAssignmentType"],
+    ipAddress: item["ipAddress"],
+    adapterName: item["adapterName"],
+    macAddress: item["macAddress"],
+    ipAddressRange: !item["ipAddressRange"]
+      ? item["ipAddressRange"]
+      : ipAddressRangeDeserializer(item["ipAddressRange"]),
+    gateway: item["gateway"],
+    subnetMask: item["subnetMask"],
+    dnsAddressArray: !item["dnsAddressArray"]
+      ? item["dnsAddressArray"]
+      : item["dnsAddressArray"].map((p: any) => {
+          return p;
+        }),
+    vlanId: item["vlanId"],
+  };
+}
+
+/** IP assignment types */
+export enum KnownIpAssignmentType {
+  /** Automatic IP assignment */
+  Automatic = "Automatic",
+  /** Manual IP assignment */
+  Manual = "Manual",
+}
+
+/**
+ * IP assignment types \
+ * {@link KnownIpAssignmentType} can be used interchangeably with IpAssignmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: Automatic IP assignment \
+ * **Manual**: Manual IP assignment
+ */
+export type IpAssignmentType = string;
+
+/** IP address range configuration. */
+export interface IpAddressRange {
+  /** Start IP address. */
+  startIp: string;
+  /** End IP address. */
+  endIp: string;
+}
+
+export function ipAddressRangeSerializer(item: IpAddressRange): any {
+  return { startIp: item["startIp"], endIp: item["endIp"] };
+}
+
+export function ipAddressRangeDeserializer(item: any): IpAddressRange {
+  return {
+    startIp: item["startIp"],
+    endIp: item["endIp"],
+  };
+}
+
+/** Web proxy configuration. */
+export interface WebProxyConfiguration {
+  /** Connection URI of the web proxy. */
+  connectionUri?: string;
+  /** Port of the web proxy. */
+  port?: string;
+  /** Bypass list for the web proxy. */
+  bypassList?: string[];
+}
+
+export function webProxyConfigurationSerializer(item: WebProxyConfiguration): any {
+  return {
+    connectionUri: item["connectionUri"],
+    port: item["port"],
+    bypassList: !item["bypassList"]
+      ? item["bypassList"]
+      : item["bypassList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function webProxyConfigurationDeserializer(item: any): WebProxyConfiguration {
+  return {
+    connectionUri: item["connectionUri"],
+    port: item["port"],
+    bypassList: !item["bypassList"]
+      ? item["bypassList"]
+      : item["bypassList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Time configuration. */
+export interface TimeConfiguration {
+  /** Primary NTP server. */
+  primaryTimeServer?: string;
+  /** Secondary NTP server. */
+  secondaryTimeServer?: string;
+  /** Time zone. */
+  timeZone?: string;
+}
+
+export function timeConfigurationSerializer(item: TimeConfiguration): any {
+  return {
+    primaryTimeServer: item["primaryTimeServer"],
+    secondaryTimeServer: item["secondaryTimeServer"],
+    timeZone: item["timeZone"],
+  };
+}
+
+export function timeConfigurationDeserializer(item: any): TimeConfiguration {
+  return {
+    primaryTimeServer: item["primaryTimeServer"],
+    secondaryTimeServer: item["secondaryTimeServer"],
+    timeZone: item["timeZone"],
+  };
+}
+
+/** Storage configuration. */
+export interface StorageConfiguration {
+  /** Partition size. */
+  partitionSize?: string;
+}
+
+export function storageConfigurationSerializer(item: StorageConfiguration): any {
+  return { partitionSize: item["partitionSize"] };
+}
+
+export function storageConfigurationDeserializer(item: any): StorageConfiguration {
+  return {
+    partitionSize: item["partitionSize"],
+  };
+}
+
+/** Details for ownership voucher. */
+export interface OwnershipVoucherDetails {
+  /** Ownership voucher in base64 encoded format */
+  ownershipVoucher: string;
+  /** Owner key type */
+  ownerKeyType: OwnerKeyType;
+  /** Ownership Voucher Validation Details */
+  readonly validationDetails?: OwnershipVoucherValidationDetails;
+}
+
+export function ownershipVoucherDetailsSerializer(item: OwnershipVoucherDetails): any {
+  return { ownershipVoucher: item["ownershipVoucher"], ownerKeyType: item["ownerKeyType"] };
+}
+
+export function ownershipVoucherDetailsDeserializer(item: any): OwnershipVoucherDetails {
+  return {
+    ownershipVoucher: item["ownershipVoucher"],
+    ownerKeyType: item["ownerKeyType"],
+    validationDetails: !item["validationDetails"]
+      ? item["validationDetails"]
+      : ownershipVoucherValidationDetailsDeserializer(item["validationDetails"]),
+  };
+}
+
+/** Type of owner key in the voucher */
+export enum KnownOwnerKeyType {
+  /** Owner is Microsoft managed key */
+  MicrosoftManaged = "MicrosoftManaged",
+}
+
+/**
+ * Type of owner key in the voucher \
+ * {@link KnownOwnerKeyType} can be used interchangeably with OwnerKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MicrosoftManaged**: Owner is Microsoft managed key
+ */
+export type OwnerKeyType = string;
+
+/** Ownership Voucher Validation Details */
+export interface OwnershipVoucherValidationDetails {
+  /** The ownership voucher validation status. */
+  validationStatus?: OwnershipVoucherValidationStatus;
+  /** Serial number of the device. */
+  serialNumber?: string;
+  /** FDO guid of the Ownership Voucher. */
+  id?: string;
+  /** Name of the manufacturer. */
+  manufacturer?: string;
+  /** Name of the model. */
+  modelName?: string;
+  /** Version of the Ownership Voucher format */
+  version?: string;
+  /** Azure Machine Id of the Ownership voucher */
+  azureMachineId?: string;
+  /** CPU architecture of the device, for example amd64 or arm64. */
+  architecture?: Architecture;
+  /** Error details if the validation failed. */
+  error?: ErrorDetail;
+}
+
+export function ownershipVoucherValidationDetailsDeserializer(
+  item: any,
+): OwnershipVoucherValidationDetails {
+  return {
+    validationStatus: item["validationStatus"],
+    serialNumber: item["serialNumber"],
+    id: item["id"],
+    manufacturer: item["manufacturer"],
+    modelName: item["modelName"],
+    version: item["version"],
+    azureMachineId: item["azureMachineId"],
+    architecture: item["architecture"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** Ownership Voucher validation Status. */
+export enum KnownOwnershipVoucherValidationStatus {
+  /** Voucher evaluated as valid. */
+  Valid = "Valid",
+  /** Voucher evaluated as invalid. */
+  Invalid = "Invalid",
+}
+
+/**
+ * Ownership Voucher validation Status. \
+ * {@link KnownOwnershipVoucherValidationStatus} can be used interchangeably with OwnershipVoucherValidationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Valid**: Voucher evaluated as valid. \
+ * **Invalid**: Voucher evaluated as invalid.
+ */
+export type OwnershipVoucherValidationStatus = string;
+
+/** Details for device provisioning. */
+export interface ProvisioningDetails {
+  /** Operating system profile. */
+  osProfile: OsProvisionProfile;
+  /** User configuration. */
+  userDetails?: UserDetails[];
+}
+
+export function provisioningDetailsSerializer(item: ProvisioningDetails): any {
+  return {
+    osProfile: osProvisionProfileSerializer(item["osProfile"]),
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsArraySerializer(item["userDetails"]),
+  };
+}
+
+export function provisioningDetailsDeserializer(item: any): ProvisioningDetails {
+  return {
+    osProfile: osProvisionProfileDeserializer(item["osProfile"]),
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsArrayDeserializer(item["userDetails"]),
+  };
+}
+
+/** Operating system profile. */
+export interface OsProvisionProfile {
+  /** Name of the operating system. */
+  osName?: string;
+  /** Type of the operating system. */
+  osType?: string;
+  /** Version of the operating system. */
+  osVersion?: string;
+  /** Location of the operating system image. */
+  osImageLocation?: string;
+  /** Validated Solution Recipe version to be used for the job */
+  vsrVersion?: string;
+  /** Hash of the OS package downloaded */
+  imageHash?: string;
+  /** GPG Public Key used for package verification */
+  gpgPubKey?: string;
+  /** Operation sub type of OS Provisioning */
+  operationType?: OSOperationType;
+}
+
+export function osProvisionProfileSerializer(item: OsProvisionProfile): any {
+  return {
+    osName: item["osName"],
+    osType: item["osType"],
+    osVersion: item["osVersion"],
+    osImageLocation: item["osImageLocation"],
+    vsrVersion: item["vsrVersion"],
+    imageHash: item["imageHash"],
+    gpgPubKey: item["gpgPubKey"],
+    operationType: item["operationType"],
+  };
+}
+
+export function osProvisionProfileDeserializer(item: any): OsProvisionProfile {
+  return {
+    osName: item["osName"],
+    osType: item["osType"],
+    osVersion: item["osVersion"],
+    osImageLocation: item["osImageLocation"],
+    vsrVersion: item["vsrVersion"],
+    imageHash: item["imageHash"],
+    gpgPubKey: item["gpgPubKey"],
+    operationType: item["operationType"],
+  };
+}
+
+/** OS Provision Operation type */
+export enum KnownOSOperationType {
+  /** OS Provisioning operation */
+  Provision = "Provision",
+  /** OS Update operation */
+  Update = "Update",
+  /** OS ReImage operation */
+  ReImage = "ReImage",
+  /** OS Reset operation */
+  Reset = "Reset",
+}
+
+/**
+ * OS Provision Operation type \
+ * {@link KnownOSOperationType} can be used interchangeably with OSOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provision**: OS Provisioning operation \
+ * **Update**: OS Update operation \
+ * **ReImage**: OS ReImage operation \
+ * **Reset**: OS Reset operation
+ */
+export type OSOperationType = string;
+
+export function userDetailsArraySerializer(result: Array<UserDetails>): any[] {
+  return result.map((item) => {
+    return userDetailsSerializer(item);
+  });
+}
+
+export function userDetailsArrayDeserializer(result: Array<UserDetails>): any[] {
+  return result.map((item) => {
+    return userDetailsDeserializer(item);
+  });
+}
+
+/** User configuration. */
+export interface UserDetails {
+  /** Name of the user. */
+  userName: string;
+  /** Type of the secret used for authentication. */
+  secretType: SecretType;
+  /** Location of the secret used for authentication. */
+  secretLocation?: string;
+  /** SSH Public Key for the user. */
+  sshPubKey?: string[];
+}
+
+export function userDetailsSerializer(item: UserDetails): any {
+  return {
+    userName: item["userName"],
+    secretType: item["secretType"],
+    secretLocation: item["secretLocation"],
+    sshPubKey: !item["sshPubKey"]
+      ? item["sshPubKey"]
+      : item["sshPubKey"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function userDetailsDeserializer(item: any): UserDetails {
+  return {
+    userName: item["userName"],
+    secretType: item["secretType"],
+    secretLocation: item["secretLocation"],
+    sshPubKey: !item["sshPubKey"]
+      ? item["sshPubKey"]
+      : item["sshPubKey"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Type of secret used for authentication. */
+export enum KnownSecretType {
+  /** Key Vault based authentication */
+  KeyVault = "KeyVault",
+  /** SSH Public Key based authentication */
+  SshPubKey = "SshPubKey",
+}
+
+/**
+ * Type of secret used for authentication. \
+ * {@link KnownSecretType} can be used interchangeably with SecretType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KeyVault**: Key Vault based authentication \
+ * **SshPubKey**: SSH Public Key based authentication
+ */
+export type SecretType = string;
+
+/** OS State */
+export enum KnownEdgeMachineState {
+  /** Created when EdgeMachine resource created */
+  Created = "Created",
+  /** EdgeMachine state during device discovery and registration */
+  Registering = "Registering",
+  /** EdgeMachine state when machine configured with restricted OS and not provisioned to deploy workloads */
+  Unpurposed = "Unpurposed",
+  /** EdgeMachine state when transitioning from initial OS to target OS */
+  Transitioning = "Transitioning",
+  /** EdgeMachine state when machine configured with target OS to deploy workloads */
+  Purposed = "Purposed",
+  /** EdgeMachine state when OS updates are in-progress */
+  Updating = "Updating",
+  /** EdgeMachine state when transitioning from target OS to restricted OS */
+  Resetting = "Resetting",
+  /** EdgeMachine failed state and only option to recover is to re-provisioning machine */
+  Failed = "Failed",
+  /** Preparing EdgeMachine */
+  Preparing = "Preparing",
+}
+
+/**
+ * OS State \
+ * {@link KnownEdgeMachineState} can be used interchangeably with EdgeMachineState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Created**: Created when EdgeMachine resource created \
+ * **Registering**: EdgeMachine state during device discovery and registration \
+ * **Unpurposed**: EdgeMachine state when machine configured with restricted OS and not provisioned to deploy workloads \
+ * **Transitioning**: EdgeMachine state when transitioning from initial OS to target OS \
+ * **Purposed**: EdgeMachine state when machine configured with target OS to deploy workloads \
+ * **Updating**: EdgeMachine state when OS updates are in-progress \
+ * **Resetting**: EdgeMachine state when transitioning from target OS to restricted OS \
+ * **Failed**: EdgeMachine failed state and only option to recover is to re-provisioning machine \
+ * **Preparing**: Preparing EdgeMachine
+ */
+export type EdgeMachineState = string;
+
+/** Overall connectivity status for the machine resource. */
+export enum KnownEdgeMachineConnectivityStatus {
+  /** The connectivity status of the machine resource is not specified. */
+  NotSpecified = "NotSpecified",
+  /** The machine resource is disconnected. */
+  Disconnected = "Disconnected",
+  /** The machine resource is connected. */
+  Connected = "Connected",
+}
+
+/**
+ * Overall connectivity status for the machine resource. \
+ * {@link KnownEdgeMachineConnectivityStatus} can be used interchangeably with EdgeMachineConnectivityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The connectivity status of the machine resource is not specified. \
+ * **Disconnected**: The machine resource is disconnected. \
+ * **Connected**: The machine resource is connected.
+ */
+export type EdgeMachineConnectivityStatus = string;
+
+/** Reported properties for edge machine. */
+export interface EdgeMachineReportedProperties {
+  /** Last time data reported. */
+  readonly lastUpdated?: Date;
+  /** Network details for edge machine. */
+  readonly networkProfile?: EdgeMachineNetworkProfile;
+  /** OS Properties for edge machine. */
+  readonly osProfile?: OsProfile;
+  /** Hardware related information for edge machine. */
+  readonly hardwareProfile?: HardwareProfile;
+  /** Storage related information for edge machine. */
+  readonly storageProfile?: StorageProfile;
+  /** Solution builder extension (SBE) deployment package information. */
+  readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
+  /** Extension details for edge machine. */
+  readonly extensionProfile?: ExtensionProfile;
+  /** Read-only Hyper-V VM inventory reported by the device management extension for VMs visible on this node. */
+  readonly workloadInventory?: EdgeMachineWorkloadInventoryItem[];
+  /** Last time the device management extension refreshed the local Hyper-V workload inventory. */
+  readonly workloadInventoryLastUpdated?: Date;
+  /** Storage fabric initiator ports (iSCSI or Fibre Channel) discovered on the edge machine. */
+  readonly storageInitiators?: StorageInitiator[];
+}
+
+export function edgeMachineReportedPropertiesDeserializer(
+  item: any,
+): EdgeMachineReportedProperties {
+  return {
+    lastUpdated: !item["lastUpdated"] ? item["lastUpdated"] : new Date(item["lastUpdated"]),
+    networkProfile: !item["networkProfile"]
+      ? item["networkProfile"]
+      : edgeMachineNetworkProfileDeserializer(item["networkProfile"]),
+    osProfile: !item["osProfile"] ? item["osProfile"] : osProfileDeserializer(item["osProfile"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileDeserializer(item["hardwareProfile"]),
+    storageProfile: !item["storageProfile"]
+      ? item["storageProfile"]
+      : storageProfileDeserializer(item["storageProfile"]),
+    sbeDeploymentPackageInfo: !item["sbeDeploymentPackageInfo"]
+      ? item["sbeDeploymentPackageInfo"]
+      : sbeDeploymentPackageInfoDeserializer(item["sbeDeploymentPackageInfo"]),
+    extensionProfile: !item["extensionProfile"]
+      ? item["extensionProfile"]
+      : extensionProfileDeserializer(item["extensionProfile"]),
+    workloadInventory: !item["workloadInventory"]
+      ? item["workloadInventory"]
+      : edgeMachineWorkloadInventoryItemArrayDeserializer(item["workloadInventory"]),
+    workloadInventoryLastUpdated: !item["workloadInventoryLastUpdated"]
+      ? item["workloadInventoryLastUpdated"]
+      : new Date(item["workloadInventoryLastUpdated"]),
+    storageInitiators: !item["storageInitiators"]
+      ? item["storageInitiators"]
+      : storageInitiatorArrayDeserializer(item["storageInitiators"]),
+  };
+}
+
+/** NetworkProfile of edge machine. */
+export interface EdgeMachineNetworkProfile {
+  /** List of Network Interface Card (NIC) Details of edge machine. */
+  readonly nicDetails?: EdgeMachineNicDetail[];
+  /** List of switch Details of edge machine. */
+  readonly switchDetails?: SwitchDetail[];
+  /** HostNetwork configuration reported for the edge machine. */
+  readonly hostNetwork?: EdgeMachineHostNetwork;
+  /** Software Defined Networking (SDN) properties reported for the edge machine. */
+  readonly sdnProperties?: SdnProperties;
+}
+
+export function edgeMachineNetworkProfileDeserializer(item: any): EdgeMachineNetworkProfile {
+  return {
+    nicDetails: !item["nicDetails"]
+      ? item["nicDetails"]
+      : edgeMachineNicDetailArrayDeserializer(item["nicDetails"]),
+    switchDetails: !item["switchDetails"]
+      ? item["switchDetails"]
+      : switchDetailArrayDeserializer(item["switchDetails"]),
+    hostNetwork: !item["hostNetwork"]
+      ? item["hostNetwork"]
+      : edgeMachineHostNetworkDeserializer(item["hostNetwork"]),
+    sdnProperties: !item["sdnProperties"]
+      ? item["sdnProperties"]
+      : sdnPropertiesDeserializer(item["sdnProperties"]),
+  };
+}
+
+export function edgeMachineNicDetailArrayDeserializer(result: Array<EdgeMachineNicDetail>): any[] {
+  return result.map((item) => {
+    return edgeMachineNicDetailDeserializer(item);
+  });
+}
+
+/** Network Interface Card (NIC) Details of edge machine. */
+export interface EdgeMachineNicDetail {
+  /** Adapter Name of NIC */
+  readonly adapterName?: string;
+  /** Interface Description of NIC */
+  readonly interfaceDescription?: string;
+  /** Component Id of NIC */
+  readonly componentId?: string;
+  /** Driver Version of NIC */
+  readonly driverVersion?: string;
+  /** Subnet Mask of NIC */
+  readonly ip4Address?: string;
+  /** Subnet Mask of NIC */
+  readonly subnetMask?: string;
+  /** Default Gateway of NIC */
+  readonly defaultGateway?: string;
+  /** DNS Servers for NIC */
+  readonly dnsServers?: string[];
+  /** Default Isolation of Management NIC */
+  readonly defaultIsolationId?: string;
+  /** MAC address information of NIC. */
+  readonly macAddress?: string;
+  /** The slot attached to the NIC. */
+  readonly slot?: string;
+  /** The switch attached to the NIC, if any. */
+  readonly switchName?: string;
+  /** The type of NIC, physical, virtual, management. */
+  readonly nicType?: string;
+  /** The VLAN ID of the physical NIC. */
+  readonly vlanId?: string;
+  /** The status of NIC, up, disconnected. */
+  readonly nicStatus?: string;
+  /** Describes the RDMA capability of the network adapter. */
+  readonly rdmaCapability?: RdmaCapability;
+}
+
+export function edgeMachineNicDetailDeserializer(item: any): EdgeMachineNicDetail {
+  return {
+    adapterName: item["adapterName"],
+    interfaceDescription: item["interfaceDescription"],
+    componentId: item["componentId"],
+    driverVersion: item["driverVersion"],
+    ip4Address: item["ip4Address"],
+    subnetMask: item["subnetMask"],
+    defaultGateway: item["defaultGateway"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    defaultIsolationId: item["defaultIsolationId"],
+    macAddress: item["macAddress"],
+    slot: item["slot"],
+    switchName: item["switchName"],
+    nicType: item["nicType"],
+    vlanId: item["vlanId"],
+    nicStatus: item["nicStatus"],
+    rdmaCapability: item["rdmaCapability"],
+  };
+}
+
+/** HostNetwork configuration reported for the edge machine. */
+export interface EdgeMachineHostNetwork {
+  /** The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM. */
+  readonly intents?: EdgeMachineHostNetworkIntent[];
+  /** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
+  readonly storageNetworks?: EdgeMachineStorageNetwork[];
+  /** Defines how the storage adapters between nodes are connected either switch or switch less. */
+  readonly storageConnectivitySwitchless?: boolean;
+  /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
+  readonly enableStorageAutoIp?: boolean;
+}
+
+export function edgeMachineHostNetworkDeserializer(item: any): EdgeMachineHostNetwork {
+  return {
+    intents: !item["intents"]
+      ? item["intents"]
+      : edgeMachineHostNetworkIntentArrayDeserializer(item["intents"]),
+    storageNetworks: !item["storageNetworks"]
+      ? item["storageNetworks"]
+      : edgeMachineStorageNetworkArrayDeserializer(item["storageNetworks"]),
+    storageConnectivitySwitchless: item["storageConnectivitySwitchless"],
+    enableStorageAutoIp: item["enableStorageAutoIp"],
+  };
+}
+
+export function edgeMachineHostNetworkIntentArrayDeserializer(
+  result: Array<EdgeMachineHostNetworkIntent>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineHostNetworkIntentDeserializer(item);
+  });
+}
+
+/** The network intent reported for the edge machine. */
+export interface EdgeMachineHostNetworkIntent {
+  /** Scope for host network intent. */
+  readonly scope?: number;
+  /** IntentType for host network intent. */
+  readonly intentType?: number;
+  /** IsComputeIntentSet for host network intent. */
+  readonly isComputeIntentSet?: boolean;
+  /** IsStorageIntentSet for host network intent. */
+  readonly isStorageIntentSet?: boolean;
+  /** IntentType for host network intent. */
+  readonly isOnlyStorage?: boolean;
+  /** IsManagementIntentSet for host network intent. */
+  readonly isManagementIntentSet?: boolean;
+  /** IsStretchIntentSet for host network intent. */
+  readonly isStretchIntentSet?: boolean;
+  /** IsOnlyStretch for host network intent. */
+  readonly isOnlyStretch?: boolean;
+  /** IsNetworkIntentType for host network intent. */
+  readonly isNetworkIntentType?: boolean;
+  /** Name of the network intent you wish to create. */
+  readonly intentName?: string;
+  /** Array of adapters used for the network intent. */
+  readonly intentAdapters?: string[];
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  readonly overrideVirtualSwitchConfiguration?: boolean;
+  /** Set virtualSwitch ConfigurationOverrides for cluster. */
+  readonly virtualSwitchConfigurationOverrides?: EdgeMachineVirtualSwitchConfigurationOverrides;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  readonly overrideQosPolicy?: boolean;
+  /** Set QoS PolicyOverrides for cluster. */
+  readonly qosPolicyOverrides?: QosPolicyOverrides;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  readonly overrideAdapterProperty?: boolean;
+  /** Set Adapter PropertyOverrides for cluster. */
+  readonly adapterPropertyOverrides?: EdgeMachineAdapterPropertyOverrides;
+}
+
+export function edgeMachineHostNetworkIntentDeserializer(item: any): EdgeMachineHostNetworkIntent {
+  return {
+    scope: item["scope"],
+    intentType: item["intentType"],
+    isComputeIntentSet: item["isComputeIntentSet"],
+    isStorageIntentSet: item["isStorageIntentSet"],
+    isOnlyStorage: item["isOnlyStorage"],
+    isManagementIntentSet: item["isManagementIntentSet"],
+    isStretchIntentSet: item["isStretchIntentSet"],
+    isOnlyStretch: item["isOnlyStretch"],
+    isNetworkIntentType: item["isNetworkIntentType"],
+    intentName: item["intentName"],
+    intentAdapters: !item["intentAdapters"]
+      ? item["intentAdapters"]
+      : item["intentAdapters"].map((p: any) => {
+          return p;
+        }),
+    overrideVirtualSwitchConfiguration: item["overrideVirtualSwitchConfiguration"],
+    virtualSwitchConfigurationOverrides: !item["virtualSwitchConfigurationOverrides"]
+      ? item["virtualSwitchConfigurationOverrides"]
+      : edgeMachineVirtualSwitchConfigurationOverridesDeserializer(
+          item["virtualSwitchConfigurationOverrides"],
+        ),
+    overrideQosPolicy: item["overrideQosPolicy"],
+    qosPolicyOverrides: !item["qosPolicyOverrides"]
+      ? item["qosPolicyOverrides"]
+      : qosPolicyOverridesDeserializer(item["qosPolicyOverrides"]),
+    overrideAdapterProperty: item["overrideAdapterProperty"],
+    adapterPropertyOverrides: !item["adapterPropertyOverrides"]
+      ? item["adapterPropertyOverrides"]
+      : edgeMachineAdapterPropertyOverridesDeserializer(item["adapterPropertyOverrides"]),
+  };
+}
+
+/** The VirtualSwitchConfigurationOverrides reported for the edge machine. */
+export interface EdgeMachineVirtualSwitchConfigurationOverrides {
+  /** Enable IoV for Virtual Switch */
+  readonly enableIov?: string;
+  /** Load Balancing Algorithm for Virtual Switch */
+  readonly loadBalancingAlgorithm?: string;
+}
+
+export function edgeMachineVirtualSwitchConfigurationOverridesDeserializer(
+  item: any,
+): EdgeMachineVirtualSwitchConfigurationOverrides {
+  return {
+    enableIov: item["enableIov"],
+    loadBalancingAlgorithm: item["loadBalancingAlgorithm"],
+  };
+}
+
+/** The AdapterPropertyOverrides reported for the edge machine. */
+export interface EdgeMachineAdapterPropertyOverrides {
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  readonly jumboPacket?: string;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  readonly networkDirect?: string;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. Expected values are 'iWARP', 'RoCEv2', 'RoCE' */
+  readonly networkDirectTechnology?: string;
+}
+
+export function edgeMachineAdapterPropertyOverridesDeserializer(
+  item: any,
+): EdgeMachineAdapterPropertyOverrides {
+  return {
+    jumboPacket: item["jumboPacket"],
+    networkDirect: item["networkDirect"],
+    networkDirectTechnology: item["networkDirectTechnology"],
+  };
+}
+
+export function edgeMachineStorageNetworkArrayDeserializer(
+  result: Array<EdgeMachineStorageNetwork>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineStorageNetworkDeserializer(item);
+  });
+}
+
+/** The StorageNetworks reported for the edge machine. */
+export interface EdgeMachineStorageNetwork {
+  /** Name of the storage network. */
+  readonly name?: string;
+  /** Name of the storage network adapter. */
+  readonly networkAdapterName?: string;
+  /** ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic. */
+  readonly storageVlanId?: string;
+  /** List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster. */
+  readonly storageAdapterIPInfo?: EdgeMachineStorageAdapterIpInfo[];
+}
+
+export function edgeMachineStorageNetworkDeserializer(item: any): EdgeMachineStorageNetwork {
+  return {
+    name: item["name"],
+    networkAdapterName: item["networkAdapterName"],
+    storageVlanId: item["storageVlanId"],
+    storageAdapterIPInfo: !item["storageAdapterIPInfo"]
+      ? item["storageAdapterIPInfo"]
+      : edgeMachineStorageAdapterIpInfoArrayDeserializer(item["storageAdapterIPInfo"]),
+  };
+}
+
+export function edgeMachineStorageAdapterIpInfoArrayDeserializer(
+  result: Array<EdgeMachineStorageAdapterIpInfo>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineStorageAdapterIpInfoDeserializer(item);
+  });
+}
+
+/** The StorageAdapter physical nodes reported for the edge machine. */
+export interface EdgeMachineStorageAdapterIpInfo {
+  /** storage adapter physical node name. */
+  readonly physicalNode?: string;
+  /** The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster. */
+  readonly ipv4Address?: string;
+  /** The SubnetMask address assigned to each storage adapter physical node on your Azure Stack HCI cluster. */
+  readonly subnetMask?: string;
+}
+
+export function edgeMachineStorageAdapterIpInfoDeserializer(
+  item: any,
+): EdgeMachineStorageAdapterIpInfo {
+  return {
+    physicalNode: item["physicalNode"],
+    ipv4Address: item["ipv4Address"],
+    subnetMask: item["subnetMask"],
+  };
+}
+
+/** OS configurations for HCI device. */
+export interface OsProfile {
+  /** The boot type of the device. e.g. UEFI, Legacy etc */
+  readonly bootType?: string;
+  /** Version of assembly present on device */
+  readonly assemblyVersion?: string;
+  /** OS type (“windows", “linux”) */
+  readonly osType?: string;
+  /** OS SKU (e.g., “ Microsoft Azure Linux ROE“, “Azure Stack HCI", "Microsoft Azure Linux 3.0") */
+  readonly osSku?: string;
+  /** OS Version */
+  readonly osVersion?: string;
+  /** OS Build Number */
+  readonly buildNumber?: string;
+  /** OS Base Image Version */
+  readonly baseImageVersion?: string;
+  /** OS Image Version */
+  readonly imageVersion?: string;
+}
+
+export function osProfileDeserializer(item: any): OsProfile {
+  return {
+    bootType: item["bootType"],
+    assemblyVersion: item["assemblyVersion"],
+    osType: item["osType"],
+    osSku: item["osSku"],
+    osVersion: item["osVersion"],
+    buildNumber: item["buildNumber"],
+    baseImageVersion: item["baseImageVersion"],
+    imageVersion: item["imageVersion"],
+  };
+}
+
+/** Hardware profile for the machine */
+export interface HardwareProfile {
+  /** Number of cpu cores in the machine */
+  readonly cpuCores?: number;
+  /** Number of cpu sockets in the machine */
+  readonly cpuSockets?: number;
+  /** Memory capacity of the machine */
+  readonly memoryCapacityInGb?: number;
+  /** Model info of the machine */
+  readonly model?: string;
+  /** manufacturer info of the machine */
+  readonly manufacturer?: string;
+  /** Serial number of the machine */
+  readonly serialNumber?: string;
+  /** Process type of the machine */
+  readonly processorType?: string;
+  /** CPU architecture of the machine, for example amd64 or arm64. */
+  readonly architecture?: Architecture;
+}
+
+export function hardwareProfileDeserializer(item: any): HardwareProfile {
+  return {
+    cpuCores: item["cpuCores"],
+    cpuSockets: item["cpuSockets"],
+    memoryCapacityInGb: item["memoryCapacityInGb"],
+    model: item["model"],
+    manufacturer: item["manufacturer"],
+    serialNumber: item["serialNumber"],
+    processorType: item["processorType"],
+    architecture: item["architecture"],
+  };
+}
+
+/** StorageProfile of edge machine. */
+export interface StorageProfile {
+  /** Number of storage disks in the device with $CanPool as true. */
+  readonly poolableDisksCount?: number;
+}
+
+export function storageProfileDeserializer(item: any): StorageProfile {
+  return {
+    poolableDisksCount: item["poolableDisksCount"],
+  };
+}
+
+export function edgeMachineWorkloadInventoryItemArrayDeserializer(
+  result: Array<EdgeMachineWorkloadInventoryItem>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineWorkloadInventoryItemDeserializer(item);
+  });
+}
+
+/** Represents a single workload (Hyper-V VM) inventory entry reported by the device management extension running on the edge machine. */
+export interface EdgeMachineWorkloadInventoryItem {
+  /** Stable device-reported workload identifier, such as the Hyper-V VM ID when available. */
+  readonly workloadId?: string;
+  /** Hyper-V VM name. */
+  readonly name?: string;
+  /** Optional ARM resource ID when the service can map the local VM to an ARM resource. */
+  readonly resourceId?: string;
+  /** Workload type. For v1 this should be VirtualMachine. */
+  readonly workloadType?: string;
+  /** Hyper-V VM state reported by the node. */
+  readonly state?: string;
+  /** Configured virtual processor count from Hyper-V. */
+  readonly virtualProcessorCount?: string;
+  /** Maximum memory the VM can consume, in bytes. */
+  readonly memoryInBytes?: string;
+}
+
+export function edgeMachineWorkloadInventoryItemDeserializer(
+  item: any,
+): EdgeMachineWorkloadInventoryItem {
+  return {
+    workloadId: item["workloadId"],
+    name: item["name"],
+    resourceId: item["resourceId"],
+    workloadType: item["workloadType"],
+    state: item["state"],
+    virtualProcessorCount: item["virtualProcessorCount"],
+    memoryInBytes: item["memoryInBytes"],
+  };
+}
+
+export function storageInitiatorArrayDeserializer(result: Array<StorageInitiator>): any[] {
+  return result.map((item) => {
+    return storageInitiatorDeserializer(item);
+  });
+}
+
+/** A storage fabric initiator port (iSCSI or Fibre Channel) discovered on the edge machine. */
+export interface StorageInitiator {
+  /** Transport type of the initiator port. */
+  readonly initiatorType: StorageInitiatorType;
+  /** Node identifier of the initiator. IQN for iSCSI or node WWN (WWNN) for Fibre Channel. Corresponds to the NodeAddress reported by Get-InitiatorPort. */
+  readonly initiatorIdentifier: string;
+  /** Fibre Channel port World Wide Name (WWPN). Populated for FibreChannel initiators only; corresponds to the PortAddress reported by Get-InitiatorPort. */
+  readonly portWorldWideName?: string;
+  /** Name of the Ethernet adapter the iSCSI initiator is bound to. Populated for iSCSI initiators only; matches EdgeMachineNicDetail.adapterName. */
+  readonly ethernetAdapterName?: string;
+  /** MAC address of the Ethernet adapter the iSCSI initiator is bound to. Populated for iSCSI initiators only; matches EdgeMachineNicDetail.macAddress. */
+  readonly ethernetAdapterMacAddress?: string;
+  /** Operational status of the initiator port as reported by the host. Corresponds to OperationalStatus from Get-InitiatorPort. */
+  readonly operationalStatus?: string;
+}
+
+export function storageInitiatorDeserializer(item: any): StorageInitiator {
+  return {
+    initiatorType: item["initiatorType"],
+    initiatorIdentifier: item["initiatorIdentifier"],
+    portWorldWideName: item["portWorldWideName"],
+    ethernetAdapterName: item["ethernetAdapterName"],
+    ethernetAdapterMacAddress: item["ethernetAdapterMacAddress"],
+    operationalStatus: item["operationalStatus"],
+  };
+}
+
+/** Transport type of a storage fabric initiator port on the edge machine. */
+export enum KnownStorageInitiatorType {
+  /** iSCSI initiator. The initiator identifier is an IQN (iSCSI Qualified Name). */
+  IScsi = "iSCSI",
+  /** Fibre Channel initiator. The initiator identifier is the node WWN (WWNN); the port is identified by its WWPN. */
+  FibreChannel = "FibreChannel",
+  /** The initiator transport type could not be determined. */
+  Unknown = "Unknown",
+}
+
+/**
+ * Transport type of a storage fabric initiator port on the edge machine. \
+ * {@link KnownStorageInitiatorType} can be used interchangeably with StorageInitiatorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **iSCSI**: iSCSI initiator. The initiator identifier is an IQN (iSCSI Qualified Name). \
+ * **FibreChannel**: Fibre Channel initiator. The initiator identifier is the node WWN (WWNN); the port is identified by its WWPN. \
+ * **Unknown**: The initiator transport type could not be determined.
+ */
+export type StorageInitiatorType = string;
+
+export function operationDetailArrayDeserializer(result: Array<OperationDetail>): any[] {
+  return result.map((item) => {
+    return operationDetailDeserializer(item);
+  });
+}
+
+/** operation detail. */
+export interface OperationDetail {
+  /** operation name. */
+  readonly name?: string;
+  /** operation id. */
+  readonly id?: string;
+  /** operation type. */
+  readonly type?: string;
+  /** operation resource id. */
+  readonly resourceId?: string;
+  /** operation description. */
+  readonly description?: string;
+  /** operation status. */
+  readonly status?: string;
+  /** error details. */
+  readonly error?: ErrorDetail;
+}
+
+export function operationDetailDeserializer(item: any): OperationDetail {
+  return {
+    name: item["name"],
+    id: item["id"],
+    type: item["type"],
+    resourceId: item["resourceId"],
+    description: item["description"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** Model for patching edge machine. */
+export interface EdgeMachinePatch {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+export function edgeMachinePatchSerializer(item: EdgeMachinePatch): any {
+  return {
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+/** The response of a EdgeMachine list operation. */
+export interface _EdgeMachineListResult {
+  /** The EdgeMachine items on this page */
+  value: EdgeMachine[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineListResultDeserializer(item: any): _EdgeMachineListResult {
+  return {
+    value: edgeMachineArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineArraySerializer(result: Array<EdgeMachine>): any[] {
+  return result.map((item) => {
+    return edgeMachineSerializer(item);
+  });
+}
+
+export function edgeMachineArrayDeserializer(result: Array<EdgeMachine>): any[] {
+  return result.map((item) => {
+    return edgeMachineDeserializer(item);
+  });
+}
+
+/** The validate request for Edge Machine. */
+export interface EdgeMachineValidateRequest {
+  /** Machine Ids against which, current machine has to be validated. */
+  edgeMachineIds: string[];
+  /** Additional info required for validation. */
+  additionalInfo?: string;
+}
+
+export function edgeMachineValidateRequestSerializer(item: EdgeMachineValidateRequest): any {
+  return {
+    edgeMachineIds: item["edgeMachineIds"].map((p: any) => {
+      return p;
+    }),
+    additionalInfo: item["additionalInfo"],
+  };
+}
+
+/** The validate response for Edge Machine. */
+export interface EdgeMachineValidateResponse {
+  /** Edge machine validation status. */
+  readonly status?: string;
+}
+
+export function edgeMachineValidateResponseDeserializer(item: any): EdgeMachineValidateResponse {
+  return {
+    status: item["status"],
+  };
+}
+
+/** Cluster Jobs resource */
+export interface EdgeMachineJob extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineJobPropertiesUnion;
+}
+
+export function edgeMachineJobSerializer(item: EdgeMachineJob): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineJobPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineJobDeserializer(item: any): EdgeMachineJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineJobPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** EdgeMachine Job properties */
+export interface EdgeMachineJobProperties {
+  /** Job Type to support polymorphic resource. */
+  /** The discriminator possible values: RemoteSupport, ProvisionOs, DownloadOs, CollectLog */
+  jobType: EdgeMachineJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /** Job provisioning state */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable job id. */
+  readonly jobId?: string;
+  /** The UTC date and time at which the job started. */
+  readonly startTimeUtc?: Date;
+  /** The UTC date and time at which the job completed. */
+  readonly endTimeUtc?: Date;
+  /** Status of Edge device job. */
+  readonly status?: JobStatus;
+  /** error details. */
+  readonly error?: ErrorDetail;
+}
+
+export function edgeMachineJobPropertiesSerializer(item: EdgeMachineJobProperties): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function edgeMachineJobPropertiesDeserializer(item: any): EdgeMachineJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** Alias for EdgeMachineJobPropertiesUnion */
+export type EdgeMachineJobPropertiesUnion =
+  | EdgeMachineRemoteSupportJobProperties
+  | ProvisionOsJobProperties
+  | DownloadOsJobProperties
+  | EdgeMachineCollectLogJobProperties
+  | EdgeMachineJobProperties;
+
+export function edgeMachineJobPropertiesUnionSerializer(item: EdgeMachineJobPropertiesUnion): any {
+  switch (item.jobType) {
+    case "RemoteSupport":
+      return edgeMachineRemoteSupportJobPropertiesSerializer(
+        item as EdgeMachineRemoteSupportJobProperties,
+      );
+
+    case "ProvisionOs":
+      return provisionOsJobPropertiesSerializer(item as ProvisionOsJobProperties);
+
+    case "DownloadOs":
+      return downloadOsJobPropertiesSerializer(item as DownloadOsJobProperties);
+
+    case "CollectLog":
+      return edgeMachineCollectLogJobPropertiesSerializer(
+        item as EdgeMachineCollectLogJobProperties,
+      );
+
+    default:
+      return edgeMachineJobPropertiesSerializer(item);
+  }
+}
+
+export function edgeMachineJobPropertiesUnionDeserializer(
+  item: any,
+): EdgeMachineJobPropertiesUnion {
+  switch (item["jobType"]) {
+    case "RemoteSupport":
+      return edgeMachineRemoteSupportJobPropertiesDeserializer(
+        item as EdgeMachineRemoteSupportJobProperties,
+      );
+
+    case "ProvisionOs":
+      return provisionOsJobPropertiesDeserializer(item as ProvisionOsJobProperties);
+
+    case "DownloadOs":
+      return downloadOsJobPropertiesDeserializer(item as DownloadOsJobProperties);
+
+    case "CollectLog":
+      return edgeMachineCollectLogJobPropertiesDeserializer(
+        item as EdgeMachineCollectLogJobProperties,
+      );
+
+    default:
+      return edgeMachineJobPropertiesDeserializer(item);
+  }
+}
+
+/** Job Type supported. */
+export enum KnownEdgeMachineJobType {
+  /** Job to collect logs from the device. */
+  CollectLog = "CollectLog",
+  /** Job to provide remote support to the device. */
+  RemoteSupport = "RemoteSupport",
+  /** Job to provision operating system in the device. */
+  ProvisionOs = "ProvisionOs",
+  /** Job to download OS packages on to the device */
+  DownloadOs = "DownloadOs",
+}
+
+/**
+ * Job Type supported. \
+ * {@link KnownEdgeMachineJobType} can be used interchangeably with EdgeMachineJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CollectLog**: Job to collect logs from the device. \
+ * **RemoteSupport**: Job to provide remote support to the device. \
+ * **ProvisionOs**: Job to provision operating system in the device. \
+ * **DownloadOs**: Job to download OS packages on to the device
+ */
+export type EdgeMachineJobType = string;
+
+/** Properties for adding a server in the cluster. */
+export interface EdgeMachineRemoteSupportJobProperties extends EdgeMachineJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: "RemoteSupport";
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel;
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: Date;
+  /** Remote support type. */
+  type: RemoteSupportType;
+  /** log collection job reported properties. */
+  readonly reportedProperties?: EdgeMachineRemoteSupportJobReportedProperties;
+}
+
+export function edgeMachineRemoteSupportJobPropertiesSerializer(
+  item: EdgeMachineRemoteSupportJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    accessLevel: item["accessLevel"],
+    expirationTimestamp: item["expirationTimestamp"].toISOString(),
+    type: item["type"],
+  };
+}
+
+export function edgeMachineRemoteSupportJobPropertiesDeserializer(
+  item: any,
+): EdgeMachineRemoteSupportJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    accessLevel: item["accessLevel"],
+    expirationTimestamp: new Date(item["expirationTimestamp"]),
+    type: item["type"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : edgeMachineRemoteSupportJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Represents the reported properties of a remote support job. */
+export interface EdgeMachineRemoteSupportJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  readonly percentComplete?: number;
+  /** Validation status of job. */
+  readonly validationStatus?: EceActionStatus;
+  /** Deployment status of job. */
+  readonly deploymentStatus?: EceActionStatus;
+  /** Optional settings for configuring the node for remote support. */
+  readonly nodeSettings?: EdgeMachineRemoteSupportNodeSettings;
+  /** Details of the remote support session. */
+  readonly sessionDetails?: RemoteSupportSession[];
+}
+
+export function edgeMachineRemoteSupportJobReportedPropertiesDeserializer(
+  item: any,
+): EdgeMachineRemoteSupportJobReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : eceActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : eceActionStatusDeserializer(item["deploymentStatus"]),
+    nodeSettings: !item["nodeSettings"]
+      ? item["nodeSettings"]
+      : edgeMachineRemoteSupportNodeSettingsDeserializer(item["nodeSettings"]),
+    sessionDetails: !item["sessionDetails"]
+      ? item["sessionDetails"]
+      : remoteSupportSessionArrayDeserializer(item["sessionDetails"]),
+  };
+}
+
+/** Represents the settings of a remote support node. */
+export interface EdgeMachineRemoteSupportNodeSettings {
+  /** The state of the remote support node. */
+  readonly state?: string;
+  /** The timestamp when the node settings were created, in UTC. */
+  readonly createdAt?: Date;
+  /** The timestamp when the node settings were last updated, in UTC. */
+  readonly updatedAt?: Date;
+  /** The current connection status of the remote support session. */
+  readonly connectionStatus?: string;
+  /** The error message, if any, from the last connection attempt. */
+  readonly connectionErrorMessage?: string;
+}
+
+export function edgeMachineRemoteSupportNodeSettingsDeserializer(
+  item: any,
+): EdgeMachineRemoteSupportNodeSettings {
+  return {
+    state: item["state"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    updatedAt: !item["updatedAt"] ? item["updatedAt"] : new Date(item["updatedAt"]),
+    connectionStatus: item["connectionStatus"],
+    connectionErrorMessage: item["connectionErrorMessage"],
+  };
+}
+
+/** Represents the properties of an Azure Linux restricted operating environment Provision Os job. */
+export interface ProvisionOsJobProperties extends EdgeMachineJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: "ProvisionOs";
+  /** Os Provisioning request. */
+  provisioningRequest: ProvisioningRequest;
+  /** Reported Properties for Provision Os job */
+  reportedProperties?: ProvisionOsReportedProperties;
+}
+
+export function provisionOsJobPropertiesSerializer(item: ProvisionOsJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningRequest: provisioningRequestSerializer(item["provisioningRequest"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : provisionOsReportedPropertiesSerializer(item["reportedProperties"]),
+  };
+}
+
+export function provisionOsJobPropertiesDeserializer(item: any): ProvisionOsJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    provisioningRequest: provisioningRequestDeserializer(item["provisioningRequest"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : provisionOsReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Represents a provisioning request. */
+export interface ProvisioningRequest {
+  /** Target operating system to support polymorphic resource. */
+  target: ProvisioningOsType;
+  /** Operating system profile. */
+  osProfile: OsProvisionProfile;
+  /** User configuration. */
+  userDetails?: UserDetails[];
+  /** Onboarding configuration. */
+  onboardingConfiguration?: OnboardingConfiguration;
+  /** Device configuration. */
+  deviceConfiguration?: TargetDeviceConfiguration;
+  /** Base64 encoded custom configuration for CAPI to use */
+  customConfiguration?: string;
+}
+
+export function provisioningRequestSerializer(item: ProvisioningRequest): any {
+  return {
+    target: item["target"],
+    osProfile: osProvisionProfileSerializer(item["osProfile"]),
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsArraySerializer(item["userDetails"]),
+    onboardingConfiguration: !item["onboardingConfiguration"]
+      ? item["onboardingConfiguration"]
+      : onboardingConfigurationSerializer(item["onboardingConfiguration"]),
+    deviceConfiguration: !item["deviceConfiguration"]
+      ? item["deviceConfiguration"]
+      : targetDeviceConfigurationSerializer(item["deviceConfiguration"]),
+    customConfiguration: item["customConfiguration"],
+  };
+}
+
+export function provisioningRequestDeserializer(item: any): ProvisioningRequest {
+  return {
+    target: item["target"],
+    osProfile: osProvisionProfileDeserializer(item["osProfile"]),
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsArrayDeserializer(item["userDetails"]),
+    onboardingConfiguration: !item["onboardingConfiguration"]
+      ? item["onboardingConfiguration"]
+      : onboardingConfigurationDeserializer(item["onboardingConfiguration"]),
+    deviceConfiguration: !item["deviceConfiguration"]
+      ? item["deviceConfiguration"]
+      : targetDeviceConfigurationDeserializer(item["deviceConfiguration"]),
+    customConfiguration: item["customConfiguration"],
+  };
+}
+
+/** Represents the provisioning operating system type. */
+export enum KnownProvisioningOsType {
+  /** AzureLinux OS. */
+  AzureLinux = "AzureLinux",
+  /** HCI OS. */
+  HCI = "HCI",
+}
+
+/**
+ * Represents the provisioning operating system type. \
+ * {@link KnownProvisioningOsType} can be used interchangeably with ProvisioningOsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureLinux**: AzureLinux OS. \
+ * **HCI**: HCI OS.
+ */
+export type ProvisioningOsType = string;
+
+/** Onboarding configuration. */
+export interface OnboardingConfiguration {
+  /** Type of the onboarding resource to support polymorphic resource. */
+  type?: OnboardingResourceType;
+  /** Resource ID. */
+  resourceId?: string;
+  /** Location of the resource. */
+  location?: string;
+  /** Tenant ID of the resource. */
+  tenantId?: string;
+  /** Azure Arc virtual machine ID. */
+  arcVirtualMachineId?: string;
+}
+
+export function onboardingConfigurationSerializer(item: OnboardingConfiguration): any {
+  return {
+    type: item["type"],
+    resourceId: item["resourceId"],
+    location: item["location"],
+    tenantId: item["tenantId"],
+    arcVirtualMachineId: item["arcVirtualMachineId"],
+  };
+}
+
+export function onboardingConfigurationDeserializer(item: any): OnboardingConfiguration {
+  return {
+    type: item["type"],
+    resourceId: item["resourceId"],
+    location: item["location"],
+    tenantId: item["tenantId"],
+    arcVirtualMachineId: item["arcVirtualMachineId"],
+  };
+}
+
+/** Onboarding resource type. */
+export enum KnownOnboardingResourceType {
+  /** Hybrid Compute Machine. */
+  HybridComputeMachine = "HybridComputeMachine",
+}
+
+/**
+ * Onboarding resource type. \
+ * {@link KnownOnboardingResourceType} can be used interchangeably with OnboardingResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HybridComputeMachine**: Hybrid Compute Machine.
+ */
+export type OnboardingResourceType = string;
+
+/** Reported Properties for Provision Os job */
+export interface ProvisionOsReportedProperties {
+  /** The percentage of the job that is complete. */
+  readonly percentComplete?: number;
+  /** Validation status of job. */
+  readonly validationStatus?: EceActionStatus;
+  /** Deployment status of job. */
+  readonly deploymentStatus?: EceActionStatus;
+}
+
+export function provisionOsReportedPropertiesSerializer(_item: ProvisionOsReportedProperties): any {
+  return {};
+}
+
+export function provisionOsReportedPropertiesDeserializer(
+  item: any,
+): ProvisionOsReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : eceActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : eceActionStatusDeserializer(item["deploymentStatus"]),
+  };
+}
+
+/** Represents the properties of Download Os job. */
+export interface DownloadOsJobProperties extends EdgeMachineJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: "DownloadOs";
+  /** Download OS request. */
+  downloadRequest: DownloadRequest;
+  /** Reported Properties for Download Os job */
+  reportedProperties?: ProvisionOsReportedProperties;
+}
+
+export function downloadOsJobPropertiesSerializer(item: DownloadOsJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    downloadRequest: downloadRequestSerializer(item["downloadRequest"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : provisionOsReportedPropertiesSerializer(item["reportedProperties"]),
+  };
+}
+
+export function downloadOsJobPropertiesDeserializer(item: any): DownloadOsJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    downloadRequest: downloadRequestDeserializer(item["downloadRequest"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : provisionOsReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Download Request properties */
+export interface DownloadRequest {
+  /** Target operating system to support polymorphic resource. */
+  target: ProvisioningOsType;
+  /** Operating system profile. */
+  osProfile: DownloadOsProfile;
+}
+
+export function downloadRequestSerializer(item: DownloadRequest): any {
+  return { target: item["target"], osProfile: downloadOsProfileSerializer(item["osProfile"]) };
+}
+
+export function downloadRequestDeserializer(item: any): DownloadRequest {
+  return {
+    target: item["target"],
+    osProfile: downloadOsProfileDeserializer(item["osProfile"]),
+  };
+}
+
+/** Operating system profile. */
+export interface DownloadOsProfile {
+  /** Name of the operating system. */
+  osName?: string;
+  /** Type of the operating system. */
+  osType?: string;
+  /** Version of the operating system. */
+  osVersion?: string;
+  /** Location of the operating system image. */
+  osImageLocation?: string;
+  /** Validated Solution Recipe version to be used for the job */
+  vsrVersion?: string;
+  /** Hash of the OS package downloaded */
+  imageHash?: string;
+  /** GPG Public Key used for package verification */
+  gpgPubKey?: string;
+}
+
+export function downloadOsProfileSerializer(item: DownloadOsProfile): any {
+  return {
+    osName: item["osName"],
+    osType: item["osType"],
+    osVersion: item["osVersion"],
+    osImageLocation: item["osImageLocation"],
+    vsrVersion: item["vsrVersion"],
+    imageHash: item["imageHash"],
+    gpgPubKey: item["gpgPubKey"],
+  };
+}
+
+export function downloadOsProfileDeserializer(item: any): DownloadOsProfile {
+  return {
+    osName: item["osName"],
+    osType: item["osType"],
+    osVersion: item["osVersion"],
+    osImageLocation: item["osImageLocation"],
+    vsrVersion: item["vsrVersion"],
+    imageHash: item["imageHash"],
+    gpgPubKey: item["gpgPubKey"],
+  };
+}
+
+/** Properties for pausing a server in the cluster. */
+export interface EdgeMachineCollectLogJobProperties extends EdgeMachineJobProperties {
+  /** ClusterJob Type to support polymorphic resource. */
+  jobType: "CollectLog";
+  /** From date for log collection. */
+  fromDate: Date;
+  /** To date for log collection. */
+  toDate: Date;
+  /** To date for log collection. */
+  readonly lastLogGenerated?: Date;
+  /** log collection job reported properties. */
+  readonly reportedProperties?: EdgeMachineCollectLogJobReportedProperties;
+}
+
+export function edgeMachineCollectLogJobPropertiesSerializer(
+  item: EdgeMachineCollectLogJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    fromDate: item["fromDate"].toISOString(),
+    toDate: item["toDate"].toISOString(),
+  };
+}
+
+export function edgeMachineCollectLogJobPropertiesDeserializer(
+  item: any,
+): EdgeMachineCollectLogJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    fromDate: new Date(item["fromDate"]),
+    toDate: new Date(item["toDate"]),
+    lastLogGenerated: !item["lastLogGenerated"]
+      ? item["lastLogGenerated"]
+      : new Date(item["lastLogGenerated"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : edgeMachineCollectLogJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Represents the reported properties of a log collection job. */
+export interface EdgeMachineCollectLogJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  readonly percentComplete?: number;
+  /** Validation status of job. */
+  readonly validationStatus?: EceActionStatus;
+  /** Deployment status of job. */
+  readonly deploymentStatus?: EceActionStatus;
+  /** Details of the log collection session. */
+  readonly logCollectionSessionDetails?: LogCollectionJobSession[];
+}
+
+export function edgeMachineCollectLogJobReportedPropertiesDeserializer(
+  item: any,
+): EdgeMachineCollectLogJobReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : eceActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : eceActionStatusDeserializer(item["deploymentStatus"]),
+    logCollectionSessionDetails: !item["logCollectionSessionDetails"]
+      ? item["logCollectionSessionDetails"]
+      : logCollectionJobSessionArrayDeserializer(item["logCollectionSessionDetails"]),
+  };
+}
+
+/** The response of a EdgeMachineJob list operation. */
+export interface _EdgeMachineJobListResult {
+  /** The EdgeMachineJob items on this page */
+  value: EdgeMachineJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineJobListResultDeserializer(item: any): _EdgeMachineJobListResult {
+  return {
+    value: edgeMachineJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineJobArraySerializer(result: Array<EdgeMachineJob>): any[] {
+  return result.map((item) => {
+    return edgeMachineJobSerializer(item);
+  });
+}
+
+export function edgeMachineJobArrayDeserializer(result: Array<EdgeMachineJob>): any[] {
+  return result.map((item) => {
+    return edgeMachineJobDeserializer(item);
+  });
+}
+
+/** Validate Ownership Voucher Request */
+export interface ValidateOwnershipVouchersRequest {
+  /** Ownership Voucher Details. */
+  ownershipVoucherDetails: OwnershipVoucherDetails[];
+}
+
+export function validateOwnershipVouchersRequestSerializer(
+  item: ValidateOwnershipVouchersRequest,
+): any {
+  return {
+    ownershipVoucherDetails: ownershipVoucherDetailsArraySerializer(
+      item["ownershipVoucherDetails"],
+    ),
+  };
+}
+
+export function ownershipVoucherDetailsArraySerializer(
+  result: Array<OwnershipVoucherDetails>,
+): any[] {
+  return result.map((item) => {
+    return ownershipVoucherDetailsSerializer(item);
+  });
+}
+
+export function ownershipVoucherDetailsArrayDeserializer(
+  result: Array<OwnershipVoucherDetails>,
+): any[] {
+  return result.map((item) => {
+    return ownershipVoucherDetailsDeserializer(item);
+  });
+}
+
+/** Validate Ownership Voucher Response */
+export interface ValidateOwnershipVouchersResponse {
+  /** Ownership Voucher Validation Details. */
+  ownershipVoucherValidationDetails: OwnershipVoucherValidationDetails[];
+}
+
+export function validateOwnershipVouchersResponseDeserializer(
+  item: any,
+): ValidateOwnershipVouchersResponse {
+  return {
+    ownershipVoucherValidationDetails: ownershipVoucherValidationDetailsArrayDeserializer(
+      item["ownershipVoucherValidationDetails"],
+    ),
+  };
+}
+
+export function ownershipVoucherValidationDetailsArrayDeserializer(
+  result: Array<OwnershipVoucherValidationDetails>,
+): any[] {
+  return result.map((item) => {
+    return ownershipVoucherValidationDetailsDeserializer(item);
+  });
+}
+
+/** Cluster Jobs resource */
+export interface ClusterJob extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ClusterJobPropertiesUnion;
+}
+
+export function clusterJobSerializer(item: ClusterJob): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterJobPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function clusterJobDeserializer(item: any): ClusterJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterJobPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Cluster Job properties */
+export interface ClusterJobProperties {
+  /** Job Type to support polymorphic resource. */
+  /** The discriminator possible values: ConfigureSdnIntegration, AddServer, RepairServer */
+  jobType: HciJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /** Job provisioning state */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable job id. */
+  readonly jobId?: string;
+  /** The UTC date and time at which the job started. */
+  readonly startTimeUtc?: Date;
+  /** The UTC date and time at which the job completed. */
+  readonly endTimeUtc?: Date;
+  /** Status of Cluster job. */
+  readonly status?: JobStatus;
+  /** Reported properties for job */
+  readonly reportedProperties?: JobReportedProperties;
+}
+
+export function clusterJobPropertiesSerializer(item: ClusterJobProperties): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function clusterJobPropertiesDeserializer(item: any): ClusterJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : jobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Alias for ClusterJobPropertiesUnion */
+export type ClusterJobPropertiesUnion =
+  | HciConfigureSdnIntegrationJobProperties
+  | HciAddServerJobProperties
+  | HciRepairServerJobProperties
+  | ClusterJobProperties;
+
+export function clusterJobPropertiesUnionSerializer(item: ClusterJobPropertiesUnion): any {
+  switch (item.jobType) {
+    case "ConfigureSdnIntegration":
+      return hciConfigureSdnIntegrationJobPropertiesSerializer(
+        item as HciConfigureSdnIntegrationJobProperties,
+      );
+
+    case "AddServer":
+      return hciAddServerJobPropertiesSerializer(item as HciAddServerJobProperties);
+
+    case "RepairServer":
+      return hciRepairServerJobPropertiesSerializer(item as HciRepairServerJobProperties);
+
+    default:
+      return clusterJobPropertiesSerializer(item);
+  }
+}
+
+export function clusterJobPropertiesUnionDeserializer(item: any): ClusterJobPropertiesUnion {
+  switch (item["jobType"]) {
+    case "ConfigureSdnIntegration":
+      return hciConfigureSdnIntegrationJobPropertiesDeserializer(
+        item as HciConfigureSdnIntegrationJobProperties,
+      );
+
+    case "AddServer":
+      return hciAddServerJobPropertiesDeserializer(item as HciAddServerJobProperties);
+
+    case "RepairServer":
+      return hciRepairServerJobPropertiesDeserializer(item as HciRepairServerJobProperties);
+
+    default:
+      return clusterJobPropertiesDeserializer(item);
+  }
+}
+
+/** ClusterJob Type supported. */
+export enum KnownHciJobType {
+  /** Job to add a server to the cluster. */
+  AddServer = "AddServer",
+  /** Job to repair a server in the cluster. */
+  RepairServer = "RepairServer",
+  /** Job to configure SDN (Software Defined Networking) integration for the cluster. */
+  ConfigureSdnIntegration = "ConfigureSdnIntegration",
+}
+
+/**
+ * ClusterJob Type supported. \
+ * {@link KnownHciJobType} can be used interchangeably with HciJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AddServer**: Job to add a server to the cluster. \
+ * **RepairServer**: Job to repair a server in the cluster. \
+ * **ConfigureSdnIntegration**: Job to configure SDN (Software Defined Networking) integration for the cluster.
+ */
+export type HciJobType = string;
+
+/** Reported Properties for job triggered from cloud. */
+export interface JobReportedProperties {
+  /** The percentage of the job that is complete. */
+  readonly percentComplete?: number;
+  /** Validation status of job. */
+  readonly validationStatus?: EceActionStatus;
+  /** Deployment status of job. */
+  readonly deploymentStatus?: EceActionStatus;
+}
+
+export function jobReportedPropertiesDeserializer(item: any): JobReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : eceActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : eceActionStatusDeserializer(item["deploymentStatus"]),
+  };
+}
+
+/** Properties for configuring SDN integration intent for the cluster. */
+export interface HciConfigureSdnIntegrationJobProperties extends ClusterJobProperties {
+  /** ClusterJob Type to support polymorphic resource. */
+  jobType: "ConfigureSdnIntegration";
+  /** Defines the customer's intent for configuring SDN integration */
+  sdnIntegrationIntent: SdnIntegrationIntent;
+  /** A string identifier used to construct the Network Controller (NC) REST resource name. This prefix helps group and distinguish SDN-managed network components and must follow specific formatting rules. */
+  sdnPrefix?: string;
+}
+
+export function hciConfigureSdnIntegrationJobPropertiesSerializer(
+  item: HciConfigureSdnIntegrationJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    sdnIntegrationIntent: item["sdnIntegrationIntent"],
+    sdnPrefix: item["sdnPrefix"],
+  };
+}
+
+export function hciConfigureSdnIntegrationJobPropertiesDeserializer(
+  item: any,
+): HciConfigureSdnIntegrationJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : jobReportedPropertiesDeserializer(item["reportedProperties"]),
+    sdnIntegrationIntent: item["sdnIntegrationIntent"],
+    sdnPrefix: item["sdnPrefix"],
+  };
+}
+
+/** Properties for adding a server in the cluster. */
+export interface HciAddServerJobProperties extends ClusterJobProperties {
+  /** ClusterJob Type to support polymorphic resource. */
+  jobType: "AddServer";
+  /** Details of servers to be added to the cluster. */
+  addServerJobServerDetails: AddServerJobServerDetails[];
+  /** List of protected parameters to pass to trigger the job for the cluster. */
+  secrets?: EceDeploymentSecrets[];
+}
+
+export function hciAddServerJobPropertiesSerializer(item: HciAddServerJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    addServerJobServerDetails: addServerJobServerDetailsArraySerializer(
+      item["addServerJobServerDetails"],
+    ),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArraySerializer(item["secrets"]),
+  };
+}
+
+export function hciAddServerJobPropertiesDeserializer(item: any): HciAddServerJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : jobReportedPropertiesDeserializer(item["reportedProperties"]),
+    addServerJobServerDetails: addServerJobServerDetailsArrayDeserializer(
+      item["addServerJobServerDetails"],
+    ),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArrayDeserializer(item["secrets"]),
+  };
+}
+
+export function addServerJobServerDetailsArraySerializer(
+  result: Array<AddServerJobServerDetails>,
+): any[] {
+  return result.map((item) => {
+    return addServerJobServerDetailsSerializer(item);
+  });
+}
+
+export function addServerJobServerDetailsArrayDeserializer(
+  result: Array<AddServerJobServerDetails>,
+): any[] {
+  return result.map((item) => {
+    return addServerJobServerDetailsDeserializer(item);
+  });
+}
+
+/** Details of servers to be added to the cluster. */
+export interface AddServerJobServerDetails {
+  /** Name of server to be added to cluster. */
+  serverName: string;
+  /** Ip address of server to be added to cluster. */
+  hostIpv4Address: string;
+  /** Local availability zone name of server to be added to rack aware cluster. */
+  localAvailabilityZoneName?: string;
+  /** Azure resource id of machine part of cluster for which job will be triggered. */
+  serverResourceId: string;
+}
+
+export function addServerJobServerDetailsSerializer(item: AddServerJobServerDetails): any {
+  return {
+    serverName: item["serverName"],
+    hostIpv4Address: item["hostIpv4Address"],
+    localAvailabilityZoneName: item["localAvailabilityZoneName"],
+    serverResourceId: item["serverResourceId"],
+  };
+}
+
+export function addServerJobServerDetailsDeserializer(item: any): AddServerJobServerDetails {
+  return {
+    serverName: item["serverName"],
+    hostIpv4Address: item["hostIpv4Address"],
+    localAvailabilityZoneName: item["localAvailabilityZoneName"],
+    serverResourceId: item["serverResourceId"],
+  };
+}
+
+/** Properties for repairing a server in the cluster. */
+export interface HciRepairServerJobProperties extends ClusterJobProperties {
+  /** ClusterJob Type to support polymorphic resource. */
+  jobType: "RepairServer";
+  /** Details of servers to be repaired in the cluster. */
+  repairServerJobServerDetails: RepairServerJobServerDetails[];
+  /** List of protected parameters to pass to trigger job for cluster. */
+  secrets?: EceDeploymentSecrets[];
+}
+
+export function hciRepairServerJobPropertiesSerializer(item: HciRepairServerJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    repairServerJobServerDetails: repairServerJobServerDetailsArraySerializer(
+      item["repairServerJobServerDetails"],
+    ),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArraySerializer(item["secrets"]),
+  };
+}
+
+export function hciRepairServerJobPropertiesDeserializer(item: any): HciRepairServerJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : jobReportedPropertiesDeserializer(item["reportedProperties"]),
+    repairServerJobServerDetails: repairServerJobServerDetailsArrayDeserializer(
+      item["repairServerJobServerDetails"],
+    ),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArrayDeserializer(item["secrets"]),
+  };
+}
+
+export function repairServerJobServerDetailsArraySerializer(
+  result: Array<RepairServerJobServerDetails>,
+): any[] {
+  return result.map((item) => {
+    return repairServerJobServerDetailsSerializer(item);
+  });
+}
+
+export function repairServerJobServerDetailsArrayDeserializer(
+  result: Array<RepairServerJobServerDetails>,
+): any[] {
+  return result.map((item) => {
+    return repairServerJobServerDetailsDeserializer(item);
+  });
+}
+
+/** Details of servers to be repaired in the cluster. */
+export interface RepairServerJobServerDetails {
+  /** Name of server to be repaired in cluster. */
+  serverName: string;
+  /** Azure resource id of Arc machine part of cluster for which job will be triggered. */
+  serverResourceId: string;
+}
+
+export function repairServerJobServerDetailsSerializer(item: RepairServerJobServerDetails): any {
+  return { serverName: item["serverName"], serverResourceId: item["serverResourceId"] };
+}
+
+export function repairServerJobServerDetailsDeserializer(item: any): RepairServerJobServerDetails {
+  return {
+    serverName: item["serverName"],
+    serverResourceId: item["serverResourceId"],
+  };
+}
+
+/** List of Cluster Job resources for the HCI cluster. */
+export interface _ClusterJobListResult {
+  /** The ClusterJob items on this page */
+  value: ClusterJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _clusterJobListResultDeserializer(item: any): _ClusterJobListResult {
+  return {
+    value: clusterJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function clusterJobArraySerializer(result: Array<ClusterJob>): any[] {
+  return result.map((item) => {
+    return clusterJobSerializer(item);
+  });
+}
+
+export function clusterJobArrayDeserializer(result: Array<ClusterJob>): any[] {
+  return result.map((item) => {
+    return clusterJobDeserializer(item);
+  });
+}
+
+/** Edge Machine Network Adapter Resource. */
+export interface EdgeMachineNetworkAdapter extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineNetworkAdapterProperties;
+}
+
+export function edgeMachineNetworkAdapterDeserializer(item: any): EdgeMachineNetworkAdapter {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineNetworkAdapterPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the Network Adapter resource. */
+export interface EdgeMachineNetworkAdapterProperties {
+  /** The authoritative desired configuration for this specific interface. */
+  networkConfiguration?: NetworkAdapterConfiguration;
+  /** The actual applied configuration reported by the device. */
+  readonly reportedProperties?: NetworkAdapterReportedProperties;
+  /** Provisioning state of the network adapter resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function edgeMachineNetworkAdapterPropertiesDeserializer(
+  item: any,
+): EdgeMachineNetworkAdapterProperties {
+  return {
+    networkConfiguration: !item["networkConfiguration"]
+      ? item["networkConfiguration"]
+      : networkAdapterConfigurationDeserializer(item["networkConfiguration"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : networkAdapterReportedPropertiesDeserializer(item["reportedProperties"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Network adapter configuration. */
+export interface NetworkAdapterConfiguration {
+  /** Adapter name. */
+  adapterName?: string;
+  /** IP address. */
+  ip4Address?: string;
+  /** Subnet mask. */
+  subnetMask?: string;
+  /** Default gateway. */
+  defaultGateway?: string;
+  /** List of DNS servers. */
+  dnsServers?: string[];
+  /** IP configuration type (Dhcp or Static). */
+  ipInterfaceType?: IpInterfaceType;
+  /** VLAN identifier for network segmentation. */
+  vlanId?: number;
+  /** Administrative state of the interface (up or down). */
+  interfaceState?: InterfaceState;
+  /** WiFi configuration desired properties. */
+  wifiConfiguration?: WifiConfigurationDesiredProperties;
+}
+
+export function networkAdapterConfigurationSerializer(item: NetworkAdapterConfiguration): any {
+  return {
+    adapterName: item["adapterName"],
+    ip4Address: item["ip4Address"],
+    subnetMask: item["subnetMask"],
+    defaultGateway: item["defaultGateway"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    ipInterfaceType: item["ipInterfaceType"],
+    vlanId: item["vlanId"],
+    interfaceState: item["interfaceState"],
+    wifiConfiguration: !item["wifiConfiguration"]
+      ? item["wifiConfiguration"]
+      : wifiConfigurationDesiredPropertiesSerializer(item["wifiConfiguration"]),
+  };
+}
+
+export function networkAdapterConfigurationDeserializer(item: any): NetworkAdapterConfiguration {
+  return {
+    adapterName: item["adapterName"],
+    ip4Address: item["ip4Address"],
+    subnetMask: item["subnetMask"],
+    defaultGateway: item["defaultGateway"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    ipInterfaceType: item["ipInterfaceType"],
+    vlanId: item["vlanId"],
+    interfaceState: item["interfaceState"],
+    wifiConfiguration: !item["wifiConfiguration"]
+      ? item["wifiConfiguration"]
+      : wifiConfigurationDesiredPropertiesDeserializer(item["wifiConfiguration"]),
+  };
+}
+
+/** IP configuration type. */
+export enum KnownIpInterfaceType {
+  /** DHCP configuration. */
+  Dhcp = "Dhcp",
+  /** Static configuration. */
+  Static = "Static",
+}
+
+/**
+ * IP configuration type. \
+ * {@link KnownIpInterfaceType} can be used interchangeably with IpInterfaceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dhcp**: DHCP configuration. \
+ * **Static**: Static configuration.
+ */
+export type IpInterfaceType = string;
+
+/** Current state of the interface. */
+export enum KnownInterfaceState {
+  /** Interface is up. */
+  Up = "up",
+  /** Interface is down. */
+  Down = "down",
+}
+
+/**
+ * Current state of the interface. \
+ * {@link KnownInterfaceState} can be used interchangeably with InterfaceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **up**: Interface is up. \
+ * **down**: Interface is down.
+ */
+export type InterfaceState = string;
+
+/** WiFi configuration desired properties. */
+export interface WifiConfigurationDesiredProperties {
+  /** WiFi SSID. */
+  ssid?: string;
+  /** WiFi authentication type. */
+  authenticationType?: AuthenticationType;
+  /** EAP method used for authentication. */
+  eapMethod?: EAPMethod;
+  /** Username for enterprise WiFi authentication. */
+  username?: string;
+  /** WiFi secret reference. */
+  wifiSecret?: WifiSecret;
+}
+
+export function wifiConfigurationDesiredPropertiesSerializer(
+  item: WifiConfigurationDesiredProperties,
+): any {
+  return {
+    ssid: item["ssid"],
+    authenticationType: item["authenticationType"],
+    eapMethod: item["eapMethod"],
+    username: item["username"],
+    wifiSecret: !item["wifiSecret"] ? item["wifiSecret"] : wifiSecretSerializer(item["wifiSecret"]),
+  };
+}
+
+export function wifiConfigurationDesiredPropertiesDeserializer(
+  item: any,
+): WifiConfigurationDesiredProperties {
+  return {
+    ssid: item["ssid"],
+    authenticationType: item["authenticationType"],
+    eapMethod: item["eapMethod"],
+    username: item["username"],
+    wifiSecret: !item["wifiSecret"]
+      ? item["wifiSecret"]
+      : wifiSecretDeserializer(item["wifiSecret"]),
+  };
+}
+
+/** WiFi authentication type. */
+export enum KnownAuthenticationType {
+  /** WPA2 Personal. */
+  WPA2Personal = "WPA2-Personal",
+  /** WPA2 Enterprise. */
+  WPA2Enterprise = "WPA2-Enterprise",
+  /** WPA3 Personal. */
+  WPA3Personal = "WPA3-Personal",
+  /** WPA3 Enterprise. */
+  WPA3Enterprise = "WPA3-Enterprise",
+  /** Open network. */
+  Open = "Open",
+}
+
+/**
+ * WiFi authentication type. \
+ * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WPA2-Personal**: WPA2 Personal. \
+ * **WPA2-Enterprise**: WPA2 Enterprise. \
+ * **WPA3-Personal**: WPA3 Personal. \
+ * **WPA3-Enterprise**: WPA3 Enterprise. \
+ * **Open**: Open network.
+ */
+export type AuthenticationType = string;
+
+/** EAP authentication method. */
+export enum KnownEAPMethod {
+  /** PEAP authentication. */
+  Peap = "PEAP",
+  /** EAP-TLS authentication. */
+  EAPTLS = "EAP-TLS",
+  /** EAP-TTLS authentication. */
+  EAPTtls = "EAP-TTLS",
+  /** EAP-FAST authentication. */
+  EAPFast = "EAP-FAST",
+}
+
+/**
+ * EAP authentication method. \
+ * {@link KnownEAPMethod} can be used interchangeably with EAPMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PEAP**: PEAP authentication. \
+ * **EAP-TLS**: EAP-TLS authentication. \
+ * **EAP-TTLS**: EAP-TTLS authentication. \
+ * **EAP-FAST**: EAP-FAST authentication.
+ */
+export type EAPMethod = string;
+
+/** WiFi secret reference for storing credentials. */
+export interface WifiSecret {
+  /** Name of the secret. */
+  secretName?: string;
+  /** Location of the secret. */
+  secretLocation?: string;
+  /** Type of the WiFi secret. */
+  secretType?: WifiSecretType;
+}
+
+export function wifiSecretSerializer(item: WifiSecret): any {
+  return {
+    secretName: item["secretName"],
+    secretLocation: item["secretLocation"],
+    secretType: item["secretType"],
+  };
+}
+
+export function wifiSecretDeserializer(item: any): WifiSecret {
+  return {
+    secretName: item["secretName"],
+    secretLocation: item["secretLocation"],
+    secretType: item["secretType"],
+  };
+}
+
+/** Type of WiFi secret. */
+export enum KnownWifiSecretType {
+  /** WiFi password. */
+  WiFiPassword = "WiFiPassword",
+  /** WiFi certificate. */
+  WiFiCertificate = "WiFiCertificate",
+  /** WiFi CA certificate. */
+  WiFiCACertificate = "WiFiCACertificate",
+}
+
+/**
+ * Type of WiFi secret. \
+ * {@link KnownWifiSecretType} can be used interchangeably with WifiSecretType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WiFiPassword**: WiFi password. \
+ * **WiFiCertificate**: WiFi certificate. \
+ * **WiFiCACertificate**: WiFi CA certificate.
+ */
+export type WifiSecretType = string;
+
+/** Reported properties of a network adapter. */
+export interface NetworkAdapterReportedProperties {
+  /** Adapter name. */
+  adapterName?: string;
+  /** IP address. */
+  ip4Address?: string;
+  /** Subnet mask. */
+  subnetMask?: string;
+  /** Default gateway. */
+  defaultGateway?: string;
+  /** List of DNS servers. */
+  dnsServers?: string[];
+  /** Interface description of NIC. */
+  readonly interfaceDescription?: string;
+  /** Component ID of NIC. */
+  readonly componentId?: string;
+  /** Driver version of NIC. */
+  readonly driverVersion?: string;
+  /** Default isolation of management NIC. */
+  readonly defaultIsolationId?: string;
+  /** MAC address. */
+  readonly macAddress?: string;
+  /** The slot attached to the NIC. */
+  readonly slot?: string;
+  /** The switch attached to the NIC, if any. */
+  readonly switchName?: string;
+  /** Type of network interface. */
+  readonly interfaceType?: NetworkInterfaceType;
+  /** Interface speed in Mbps. */
+  readonly interfaceSpeed?: number;
+  /** Current state of the interface. */
+  readonly interfaceState?: InterfaceState;
+  /** The type of NIC (physical, virtual, management). */
+  readonly nicType?: string;
+  /** The status of NIC (up, disconnected). */
+  readonly nicStatus?: string;
+  /** IP configuration type. */
+  readonly ipInterfaceType?: IpInterfaceType;
+  /** VLAN identifier (0-4096). */
+  readonly vlanId?: number;
+  /** Indicates if this is a management interface. */
+  readonly managementInterface?: boolean;
+  /** RDMA capability of the network adapter. */
+  readonly rdmaCapability?: RdmaCapability;
+  /** The observed state of network adapter. */
+  readonly networkAdapterStatus?: NetworkAdapterStatus;
+  /** WiFi configuration reported properties. */
+  readonly wifiConfiguration?: WifiConfigurationReportedProperties;
+}
+
+export function networkAdapterReportedPropertiesDeserializer(
+  item: any,
+): NetworkAdapterReportedProperties {
+  return {
+    adapterName: item["adapterName"],
+    ip4Address: item["ip4Address"],
+    subnetMask: item["subnetMask"],
+    defaultGateway: item["defaultGateway"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    interfaceDescription: item["interfaceDescription"],
+    componentId: item["componentId"],
+    driverVersion: item["driverVersion"],
+    defaultIsolationId: item["defaultIsolationId"],
+    macAddress: item["macAddress"],
+    slot: item["slot"],
+    switchName: item["switchName"],
+    interfaceType: item["interfaceType"],
+    interfaceSpeed: item["interfaceSpeed"],
+    interfaceState: item["interfaceState"],
+    nicType: item["nicType"],
+    nicStatus: item["nicStatus"],
+    ipInterfaceType: item["ipInterfaceType"],
+    vlanId: item["vlanId"],
+    managementInterface: item["managementInterface"],
+    rdmaCapability: item["rdmaCapability"],
+    networkAdapterStatus: !item["networkAdapterStatus"]
+      ? item["networkAdapterStatus"]
+      : networkAdapterStatusDeserializer(item["networkAdapterStatus"]),
+    wifiConfiguration: !item["wifiConfiguration"]
+      ? item["wifiConfiguration"]
+      : wifiConfigurationReportedPropertiesDeserializer(item["wifiConfiguration"]),
+  };
+}
+
+/** Type of network interface. */
+export enum KnownNetworkInterfaceType {
+  /** Ethernet interface. */
+  Eth = "Eth",
+  /** Wi-Fi interface. */
+  Wifi = "wifi",
+}
+
+/**
+ * Type of network interface. \
+ * {@link KnownNetworkInterfaceType} can be used interchangeably with NetworkInterfaceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Eth**: Ethernet interface. \
+ * **wifi**: Wi-Fi interface.
+ */
+export type NetworkInterfaceType = string;
+
+/** The observed state of network adapters. */
+export interface NetworkAdapterStatus {
+  /** Network adapter provisioning error code. */
+  readonly errorCode?: string;
+  /** Descriptive error message. */
+  readonly errorMessage?: string;
+  /** Network adapter provisioning status. */
+  readonly provisioningStatus?: NetworkAdapterProvisioningStatus;
+}
+
+export function networkAdapterStatusDeserializer(item: any): NetworkAdapterStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : networkAdapterProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Network adapter provisioning status. */
+export interface NetworkAdapterProvisioningStatus {
+  /** The ID of the operation performed on the network adapter. */
+  readonly operationId?: string;
+  /** The status of the operation performed on the network adapter. */
+  readonly status?: NetworkAdapterOperationStatus;
+}
+
+export function networkAdapterProvisioningStatusDeserializer(
+  item: any,
+): NetworkAdapterProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** Status of network adapter operation. */
+export enum KnownNetworkAdapterOperationStatus {
+  /** Operation succeeded. */
+  Succeeded = "Succeeded",
+  /** Operation failed. */
+  Failed = "Failed",
+  /** Operation in progress. */
+  InProgress = "InProgress",
+}
+
+/**
+ * Status of network adapter operation. \
+ * {@link KnownNetworkAdapterOperationStatus} can be used interchangeably with NetworkAdapterOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Operation succeeded. \
+ * **Failed**: Operation failed. \
+ * **InProgress**: Operation in progress.
+ */
+export type NetworkAdapterOperationStatus = string;
+
+/** WiFi configuration reported properties. */
+export interface WifiConfigurationReportedProperties {
+  /** WiFi SSID. */
+  ssid?: string;
+  /** WiFi authentication type. */
+  authenticationType?: AuthenticationType;
+  /** EAP method used for authentication. */
+  eapMethod?: EAPMethod;
+  /** WiFi signal strength. */
+  readonly signalStrength?: number;
+  /** Last successful WiFi connection timestamp. */
+  readonly lastSuccessfulConnectionTimestamp?: string;
+  /** Current WiFi connection state. */
+  readonly connectionState?: ConnectionState;
+  /** Username for enterprise WiFi authentication. */
+  username?: string;
+}
+
+export function wifiConfigurationReportedPropertiesDeserializer(
+  item: any,
+): WifiConfigurationReportedProperties {
+  return {
+    ssid: item["ssid"],
+    authenticationType: item["authenticationType"],
+    eapMethod: item["eapMethod"],
+    signalStrength: item["signalStrength"],
+    lastSuccessfulConnectionTimestamp: item["lastSuccessfulConnectionTimestamp"],
+    connectionState: item["connectionState"],
+    username: item["username"],
+  };
+}
+
+/** WiFi connection state. */
+export enum KnownConnectionState {
+  /** WiFi is not configured. */
+  NotConfigured = "NotConfigured",
+  /** WiFi is connected. */
+  Connected = "Connected",
+  /** WiFi is disconnected. */
+  Disconnected = "Disconnected",
+  /** WiFi is connecting. */
+  Connecting = "Connecting",
+  /** WiFi is disconnecting. */
+  Disconnecting = "Disconnecting",
+  /** WiFi authentication failed. */
+  AuthenticationFailed = "AuthenticationFailed",
+}
+
+/**
+ * WiFi connection state. \
+ * {@link KnownConnectionState} can be used interchangeably with ConnectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotConfigured**: WiFi is not configured. \
+ * **Connected**: WiFi is connected. \
+ * **Disconnected**: WiFi is disconnected. \
+ * **Connecting**: WiFi is connecting. \
+ * **Disconnecting**: WiFi is disconnecting. \
+ * **AuthenticationFailed**: WiFi authentication failed.
+ */
+export type ConnectionState = string;
+
+/** The response of a EdgeMachineNetworkAdapter list operation. */
+export interface _EdgeMachineNetworkAdapterListResult {
+  /** The EdgeMachineNetworkAdapter items on this page */
+  value: EdgeMachineNetworkAdapter[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineNetworkAdapterListResultDeserializer(
+  item: any,
+): _EdgeMachineNetworkAdapterListResult {
+  return {
+    value: edgeMachineNetworkAdapterArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineNetworkAdapterArrayDeserializer(
+  result: Array<EdgeMachineNetworkAdapter>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineNetworkAdapterDeserializer(item);
+  });
+}
+
+/** Job for an Edge Machine Network Adapter. */
+export interface EdgeMachineNetworkAdapterJob extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineNetworkAdapterJobPropertiesUnion;
+}
+
+export function edgeMachineNetworkAdapterJobSerializer(item: EdgeMachineNetworkAdapterJob): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineNetworkAdapterJobPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineNetworkAdapterJobDeserializer(item: any): EdgeMachineNetworkAdapterJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineNetworkAdapterJobPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the Network Adapter Job. */
+export interface EdgeMachineNetworkAdapterJobProperties {
+  /** Type of operation. */
+  /** The discriminator possible values: ApplyConfiguration, ForcePush, SyncConfiguration */
+  jobType: NetworkAdapterJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /** Provisioning state of the job. */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable job id. */
+  readonly jobId?: string;
+  /** The UTC date and time at which the job started. */
+  readonly startTimeUtc?: Date;
+  /** The UTC date and time at which the job completed. */
+  readonly endTimeUtc?: Date;
+  /** Status of Edge device job. */
+  readonly status?: JobStatus;
+  /** Error details if job failed. */
+  readonly error?: ErrorDetail;
+  /** Reported properties for Network Adapter Job. */
+  readonly reportedProperties?: NetworkAdapterJobReportedProperties;
+}
+
+export function edgeMachineNetworkAdapterJobPropertiesSerializer(
+  item: EdgeMachineNetworkAdapterJobProperties,
+): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function edgeMachineNetworkAdapterJobPropertiesDeserializer(
+  item: any,
+): EdgeMachineNetworkAdapterJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : networkAdapterJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Alias for EdgeMachineNetworkAdapterJobPropertiesUnion */
+export type EdgeMachineNetworkAdapterJobPropertiesUnion =
+  | ApplyConfigurationNetworkAdapterJobProperties
+  | ForcePushNetworkAdapterJobProperties
+  | SyncConfigurationNetworkAdapterJobProperties
+  | EdgeMachineNetworkAdapterJobProperties;
+
+export function edgeMachineNetworkAdapterJobPropertiesUnionSerializer(
+  item: EdgeMachineNetworkAdapterJobPropertiesUnion,
+): any {
+  switch (item.jobType) {
+    case "ApplyConfiguration":
+      return applyConfigurationNetworkAdapterJobPropertiesSerializer(
+        item as ApplyConfigurationNetworkAdapterJobProperties,
+      );
+
+    case "ForcePush":
+      return forcePushNetworkAdapterJobPropertiesSerializer(
+        item as ForcePushNetworkAdapterJobProperties,
+      );
+
+    case "SyncConfiguration":
+      return syncConfigurationNetworkAdapterJobPropertiesSerializer(
+        item as SyncConfigurationNetworkAdapterJobProperties,
+      );
+
+    default:
+      return edgeMachineNetworkAdapterJobPropertiesSerializer(item);
+  }
+}
+
+export function edgeMachineNetworkAdapterJobPropertiesUnionDeserializer(
+  item: any,
+): EdgeMachineNetworkAdapterJobPropertiesUnion {
+  switch (item["jobType"]) {
+    case "ApplyConfiguration":
+      return applyConfigurationNetworkAdapterJobPropertiesDeserializer(
+        item as ApplyConfigurationNetworkAdapterJobProperties,
+      );
+
+    case "ForcePush":
+      return forcePushNetworkAdapterJobPropertiesDeserializer(
+        item as ForcePushNetworkAdapterJobProperties,
+      );
+
+    case "SyncConfiguration":
+      return syncConfigurationNetworkAdapterJobPropertiesDeserializer(
+        item as SyncConfigurationNetworkAdapterJobProperties,
+      );
+
+    default:
+      return edgeMachineNetworkAdapterJobPropertiesDeserializer(item);
+  }
+}
+
+/** Type of network adapter job operation. */
+export enum KnownNetworkAdapterJobType {
+  /** Apply configuration to the network adapter. */
+  ApplyConfiguration = "ApplyConfiguration",
+  /** Force push configuration to the network adapter. */
+  ForcePush = "ForcePush",
+  /** Job to resolve configuration drift between desired and reported state. */
+  SyncConfiguration = "SyncConfiguration",
+}
+
+/**
+ * Type of network adapter job operation. \
+ * {@link KnownNetworkAdapterJobType} can be used interchangeably with NetworkAdapterJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplyConfiguration**: Apply configuration to the network adapter. \
+ * **ForcePush**: Force push configuration to the network adapter. \
+ * **SyncConfiguration**: Job to resolve configuration drift between desired and reported state.
+ */
+export type NetworkAdapterJobType = string;
+
+/** Reported properties for Network Adapter Job. */
+export interface NetworkAdapterJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  readonly percentComplete?: number;
+  /** Validation status of Network Adapter Job. */
+  readonly validationStatus?: NetworkAdapterActionStatus;
+  /** Deployment status of Network Adapter Job. */
+  readonly deploymentStatus?: NetworkAdapterActionStatus;
+}
+
+export function networkAdapterJobReportedPropertiesDeserializer(
+  item: any,
+): NetworkAdapterJobReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : networkAdapterActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : networkAdapterActionStatusDeserializer(item["deploymentStatus"]),
+  };
+}
+
+/** The action plan deployment status for Network Adapter Job. */
+export interface NetworkAdapterActionStatus {
+  /** Status of ECE action Network Adapter Job. */
+  readonly status?: string;
+  /** List of steps of Network Adapter Job. */
+  readonly steps?: NetworkAdapterDeploymentStep[];
+}
+
+export function networkAdapterActionStatusDeserializer(item: any): NetworkAdapterActionStatus {
+  return {
+    status: item["status"],
+    steps: !item["steps"]
+      ? item["steps"]
+      : networkAdapterDeploymentStepArrayDeserializer(item["steps"]),
+  };
+}
+
+export function networkAdapterDeploymentStepArrayDeserializer(
+  result: Array<NetworkAdapterDeploymentStep>,
+): any[] {
+  return result.map((item) => {
+    return networkAdapterDeploymentStepDeserializer(item);
+  });
+}
+
+/** The Step of Network Adapter Job. */
+export interface NetworkAdapterDeploymentStep {
+  /** Name of step. */
+  readonly name?: string;
+  /** Description of step. */
+  readonly description?: string;
+  /** FullStepIndex of step. */
+  readonly fullStepIndex?: string;
+  /** Start time of step. */
+  readonly startTimeUtc?: string;
+  /** End time of step. */
+  readonly endTimeUtc?: string;
+  /** Status of step (Error, Success, InProgress). */
+  readonly status?: string;
+  /** List of nested steps. */
+  readonly steps?: NetworkAdapterDeploymentStep[];
+  /** List of exceptions. */
+  readonly exception?: string[];
+}
+
+export function networkAdapterDeploymentStepDeserializer(item: any): NetworkAdapterDeploymentStep {
+  return {
+    name: item["name"],
+    description: item["description"],
+    fullStepIndex: item["fullStepIndex"],
+    startTimeUtc: item["startTimeUtc"],
+    endTimeUtc: item["endTimeUtc"],
+    status: item["status"],
+    steps: !item["steps"]
+      ? item["steps"]
+      : networkAdapterDeploymentStepArrayDeserializer(item["steps"]),
+    exception: !item["exception"]
+      ? item["exception"]
+      : item["exception"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Properties for applying network adapter configuration. */
+export interface ApplyConfigurationNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+  /** Job type. */
+  jobType: "ApplyConfiguration";
+  /** The desired network configuration to apply. */
+  targetConfiguration: NetworkAdapterConfiguration;
+}
+
+export function applyConfigurationNetworkAdapterJobPropertiesSerializer(
+  item: ApplyConfigurationNetworkAdapterJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    targetConfiguration: networkAdapterConfigurationSerializer(item["targetConfiguration"]),
+  };
+}
+
+export function applyConfigurationNetworkAdapterJobPropertiesDeserializer(
+  item: any,
+): ApplyConfigurationNetworkAdapterJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : networkAdapterJobReportedPropertiesDeserializer(item["reportedProperties"]),
+    targetConfiguration: networkAdapterConfigurationDeserializer(item["targetConfiguration"]),
+  };
+}
+
+/** Properties for force push of network adapter configuration. */
+export interface ForcePushNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+  /** Job type. */
+  jobType: "ForcePush";
+}
+
+export function forcePushNetworkAdapterJobPropertiesSerializer(
+  item: ForcePushNetworkAdapterJobProperties,
+): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function forcePushNetworkAdapterJobPropertiesDeserializer(
+  item: any,
+): ForcePushNetworkAdapterJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : networkAdapterJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Properties for resolving network adapter configuration drift. */
+export interface SyncConfigurationNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+  /** Job type. */
+  jobType: "SyncConfiguration";
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy;
+}
+
+export function syncConfigurationNetworkAdapterJobPropertiesSerializer(
+  item: SyncConfigurationNetworkAdapterJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    resolutionStrategy: item["resolutionStrategy"],
+  };
+}
+
+export function syncConfigurationNetworkAdapterJobPropertiesDeserializer(
+  item: any,
+): SyncConfigurationNetworkAdapterJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : networkAdapterJobReportedPropertiesDeserializer(item["reportedProperties"]),
+    resolutionStrategy: item["resolutionStrategy"],
+  };
+}
+
+/** Strategy for resolving configuration drift. */
+export enum KnownResolutionStrategy {
+  /** Trust Cloud. Push the desiredConfiguration down to the device. */
+  ApplyDesired = "ApplyDesired",
+  /** Trust Device. Update the desiredConfiguration in ARM to match the reported state. */
+  AcceptReported = "AcceptReported",
+}
+
+/**
+ * Strategy for resolving configuration drift. \
+ * {@link KnownResolutionStrategy} can be used interchangeably with ResolutionStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplyDesired**: Trust Cloud. Push the desiredConfiguration down to the device. \
+ * **AcceptReported**: Trust Device. Update the desiredConfiguration in ARM to match the reported state.
+ */
+export type ResolutionStrategy = string;
+
+/** The response of a EdgeMachineNetworkAdapterJob list operation. */
+export interface _EdgeMachineNetworkAdapterJobListResult {
+  /** The EdgeMachineNetworkAdapterJob items on this page */
+  value: EdgeMachineNetworkAdapterJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineNetworkAdapterJobListResultDeserializer(
+  item: any,
+): _EdgeMachineNetworkAdapterJobListResult {
+  return {
+    value: edgeMachineNetworkAdapterJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineNetworkAdapterJobArraySerializer(
+  result: Array<EdgeMachineNetworkAdapterJob>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineNetworkAdapterJobSerializer(item);
+  });
+}
+
+export function edgeMachineNetworkAdapterJobArrayDeserializer(
+  result: Array<EdgeMachineNetworkAdapterJob>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineNetworkAdapterJobDeserializer(item);
+  });
+}
+
+/** Disk resource representing a physical disk on an Edge Machine. */
+export interface EdgeMachineDisk extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineDiskProperties;
+}
+
+export function edgeMachineDiskSerializer(item: EdgeMachineDisk): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineDiskDeserializer(item: any): EdgeMachineDisk {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a disk. */
+export interface EdgeMachineDiskProperties {
+  /** The authoritative desired configuration for this disk. */
+  diskConfiguration?: DiskConfiguration;
+  /** The actual state of the disk as reported by the device. */
+  readonly reportedProperties?: DiskReportedProperties;
+  /** Provisioning state of the disk resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function edgeMachineDiskPropertiesSerializer(item: EdgeMachineDiskProperties): any {
+  return {
+    diskConfiguration: !item["diskConfiguration"]
+      ? item["diskConfiguration"]
+      : diskConfigurationSerializer(item["diskConfiguration"]),
+  };
+}
+
+export function edgeMachineDiskPropertiesDeserializer(item: any): EdgeMachineDiskProperties {
+  return {
+    diskConfiguration: !item["diskConfiguration"]
+      ? item["diskConfiguration"]
+      : diskConfigurationDeserializer(item["diskConfiguration"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskReportedPropertiesDeserializer(item["reportedProperties"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Desired configuration for a disk. */
+export interface DiskConfiguration {
+  /** List of desired volumes on this disk. */
+  volumes?: DiskVolumeConfiguration[];
+}
+
+export function diskConfigurationSerializer(item: DiskConfiguration): any {
+  return {
+    volumes: !item["volumes"]
+      ? item["volumes"]
+      : diskVolumeConfigurationArraySerializer(item["volumes"]),
+  };
+}
+
+export function diskConfigurationDeserializer(item: any): DiskConfiguration {
+  return {
+    volumes: !item["volumes"]
+      ? item["volumes"]
+      : diskVolumeConfigurationArrayDeserializer(item["volumes"]),
+  };
+}
+
+export function diskVolumeConfigurationArraySerializer(
+  result: Array<DiskVolumeConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return diskVolumeConfigurationSerializer(item);
+  });
+}
+
+export function diskVolumeConfigurationArrayDeserializer(
+  result: Array<DiskVolumeConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return diskVolumeConfigurationDeserializer(item);
+  });
+}
+
+/** Configuration for a volume on a disk. */
+export interface DiskVolumeConfiguration {
+  /** Size of the volume in bytes. */
+  sizeInBytes: string;
+  /** Mount path for the volume (e.g., /data or D:\data). */
+  path: string;
+  /** File system type to format the volume with. */
+  fileSystem?: DiskFileSystemType;
+}
+
+export function diskVolumeConfigurationSerializer(item: DiskVolumeConfiguration): any {
+  return { sizeInBytes: item["sizeInBytes"], path: item["path"], fileSystem: item["fileSystem"] };
+}
+
+export function diskVolumeConfigurationDeserializer(item: any): DiskVolumeConfiguration {
+  return {
+    sizeInBytes: item["sizeInBytes"],
+    path: item["path"],
+    fileSystem: item["fileSystem"],
+  };
+}
+
+/** File system types supported for volumes. */
+export enum KnownDiskFileSystemType {
+  /** ext4 file system (Linux). */
+  Ext4 = "ext4",
+  /** xfs file system (Linux). */
+  Xfs = "xfs",
+  /** NTFS file system (Windows). */
+  Ntfs = "NTFS",
+  /** ReFS file system (Windows). */
+  ReFS = "ReFS",
+  /** vfat file system (Linux/cross-platform). */
+  Vfat = "vfat",
+  /** FAT32 file system. */
+  Fat32 = "fat32",
+  /** FAT file system. */
+  Fat = "fat",
+}
+
+/**
+ * File system types supported for volumes. \
+ * {@link KnownDiskFileSystemType} can be used interchangeably with DiskFileSystemType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ext4**: ext4 file system (Linux). \
+ * **xfs**: xfs file system (Linux). \
+ * **NTFS**: NTFS file system (Windows). \
+ * **ReFS**: ReFS file system (Windows). \
+ * **vfat**: vfat file system (Linux\/cross-platform). \
+ * **fat32**: FAT32 file system. \
+ * **fat**: FAT file system.
+ */
+export type DiskFileSystemType = string;
+
+/** The actual state of the disk as reported by the device. */
+export interface DiskReportedProperties {
+  /** The actual disk name as reported by the OS. */
+  readonly diskName?: string;
+  /** Model number of the hardware. */
+  readonly model?: string;
+  /** The manufacturer of the disk. */
+  readonly manufacturer?: string;
+  /** Indicates whether the disk manufacturer is supported for the validated solution recipe ring. Defaults to true. Set to false when the SAN vendor is not in the allowed vendor list for the current ring. */
+  readonly isSupported?: boolean;
+  /** Serial number. */
+  readonly serialNumber?: string;
+  /** Firmware version. */
+  readonly firmwareVersion?: string;
+  /** Size in bytes. */
+  readonly sizeInBytes?: string;
+  /** Storage type of the disk. */
+  readonly storageType?: DiskStorageType;
+  /** Type of the disk. */
+  readonly diskType?: DiskType;
+  /** Bus location of the disk. */
+  readonly busLocation?: string;
+  /** Unallocated space on the disk in bytes. */
+  readonly unallocatedSizeInBytes?: string;
+  /** Current state of the disk. */
+  readonly state?: DiskState;
+  /** List of volumes on this disk. */
+  readonly volumes?: DiskVolumeReportedProperties[];
+}
+
+export function diskReportedPropertiesDeserializer(item: any): DiskReportedProperties {
+  return {
+    diskName: item["diskName"],
+    model: item["model"],
+    manufacturer: item["manufacturer"],
+    isSupported: item["isSupported"],
+    serialNumber: item["serialNumber"],
+    firmwareVersion: item["firmwareVersion"],
+    sizeInBytes: item["sizeInBytes"],
+    storageType: item["storageType"],
+    diskType: item["diskType"],
+    busLocation: item["busLocation"],
+    unallocatedSizeInBytes: item["unallocatedSizeInBytes"],
+    state: item["state"],
+    volumes: !item["volumes"]
+      ? item["volumes"]
+      : diskVolumeReportedPropertiesArrayDeserializer(item["volumes"]),
+  };
+}
+
+/** Storage type of the disk. */
+export enum KnownDiskStorageType {
+  /** SAN storage. */
+  SAN = "SAN",
+  /** Storage Spaces Direct storage. */
+  S2D = "S2D",
+}
+
+/**
+ * Storage type of the disk. \
+ * {@link KnownDiskStorageType} can be used interchangeably with DiskStorageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SAN**: SAN storage. \
+ * **S2D**: Storage Spaces Direct storage.
+ */
+export type DiskStorageType = string;
+
+/** Type of disk. */
+export enum KnownDiskType {
+  /** Unknown disk type. */
+  Unknown = "Unknown",
+  /** Storage Class Memory disk. */
+  SCM = "SCM",
+  /** NVMe disk. */
+  NVMe = "NVMe",
+  /** SATA disk. */
+  Sata = "SATA",
+  /** Solid State Drive. */
+  SSD = "SSD",
+  /** Hard Disk Drive. */
+  HDD = "HDD",
+  /** Virtual disk. */
+  Virtual = "Virtual",
+  /** Other disk type. */
+  Other = "Other",
+}
+
+/**
+ * Type of disk. \
+ * {@link KnownDiskType} can be used interchangeably with DiskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown disk type. \
+ * **SCM**: Storage Class Memory disk. \
+ * **NVMe**: NVMe disk. \
+ * **SATA**: SATA disk. \
+ * **SSD**: Solid State Drive. \
+ * **HDD**: Hard Disk Drive. \
+ * **Virtual**: Virtual disk. \
+ * **Other**: Other disk type.
+ */
+export type DiskType = string;
+
+/** State of the disk. */
+export enum KnownDiskState {
+  /** Disk is online and available. */
+  Online = "Online",
+  /** Disk is offline. */
+  Offline = "Offline",
+  /** Disk has failed. */
+  Failed = "Failed",
+  /** Disk is missing. */
+  Missing = "Missing",
+  /** Disk state is unknown. */
+  Unknown = "Unknown",
+}
+
+/**
+ * State of the disk. \
+ * {@link KnownDiskState} can be used interchangeably with DiskState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Online**: Disk is online and available. \
+ * **Offline**: Disk is offline. \
+ * **Failed**: Disk has failed. \
+ * **Missing**: Disk is missing. \
+ * **Unknown**: Disk state is unknown.
+ */
+export type DiskState = string;
+
+export function diskVolumeReportedPropertiesArrayDeserializer(
+  result: Array<DiskVolumeReportedProperties>,
+): any[] {
+  return result.map((item) => {
+    return diskVolumeReportedPropertiesDeserializer(item);
+  });
+}
+
+/** Reported properties of a volume on the disk. */
+export interface DiskVolumeReportedProperties {
+  /** Size of the volume in bytes. */
+  readonly sizeInBytes?: string;
+  /** Mount path for the volume. */
+  readonly path?: string;
+  /** File system type. */
+  readonly fileSystem?: string;
+  /** Unique identifier for the partition. */
+  readonly partitionId?: string;
+  /** Partition number. */
+  readonly partitionNumber?: number;
+  /** Byte offset of the partition start. */
+  readonly offsetInBytes?: number;
+  /** Name of the volume. */
+  readonly name?: string;
+  /** Indicates if this volume is a boot volume. */
+  readonly isBoot?: boolean;
+  /** Available space on the volume in bytes. */
+  readonly sizeRemainingInBytes?: string;
+  /** Resource name of the volume. */
+  readonly resourceName?: string;
+}
+
+export function diskVolumeReportedPropertiesDeserializer(item: any): DiskVolumeReportedProperties {
+  return {
+    sizeInBytes: item["sizeInBytes"],
+    path: item["path"],
+    fileSystem: item["fileSystem"],
+    partitionId: item["partitionId"],
+    partitionNumber: item["partitionNumber"],
+    offsetInBytes: item["offsetInBytes"],
+    name: item["name"],
+    isBoot: item["isBoot"],
+    sizeRemainingInBytes: item["sizeRemainingInBytes"],
+    resourceName: item["resourceName"],
+  };
+}
+
+/** The response of a EdgeMachineDisk list operation. */
+export interface _EdgeMachineDiskListResult {
+  /** The EdgeMachineDisk items on this page */
+  value: EdgeMachineDisk[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineDiskListResultDeserializer(item: any): _EdgeMachineDiskListResult {
+  return {
+    value: edgeMachineDiskArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineDiskArraySerializer(result: Array<EdgeMachineDisk>): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskSerializer(item);
+  });
+}
+
+export function edgeMachineDiskArrayDeserializer(result: Array<EdgeMachineDisk>): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskDeserializer(item);
+  });
+}
+
+/** Volume resource representing a storage volume on an Edge Machine. */
+export interface EdgeMachineVolume extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineVolumeProperties;
+}
+
+export function edgeMachineVolumeSerializer(item: EdgeMachineVolume): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineVolumePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineVolumeDeserializer(item: any): EdgeMachineVolume {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineVolumePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a volume. */
+export interface EdgeMachineVolumeProperties {
+  /** Desired configuration for this volume. */
+  volumeConfiguration?: VolumeConfiguration;
+  /** The actual state of the volume as reported by the device. */
+  readonly reportedProperties?: VolumeReportedProperties;
+  /** Provisioning state of the volume resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function edgeMachineVolumePropertiesSerializer(item: EdgeMachineVolumeProperties): any {
+  return {
+    volumeConfiguration: !item["volumeConfiguration"]
+      ? item["volumeConfiguration"]
+      : volumeConfigurationSerializer(item["volumeConfiguration"]),
+  };
+}
+
+export function edgeMachineVolumePropertiesDeserializer(item: any): EdgeMachineVolumeProperties {
+  return {
+    volumeConfiguration: !item["volumeConfiguration"]
+      ? item["volumeConfiguration"]
+      : volumeConfigurationDeserializer(item["volumeConfiguration"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : volumeReportedPropertiesDeserializer(item["reportedProperties"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Desired configuration for a volume. Reserved for future use. */
+export interface VolumeConfiguration {
+  /** Reserved for future volume configuration options. */
+  reserved?: string;
+}
+
+export function volumeConfigurationSerializer(item: VolumeConfiguration): any {
+  return { reserved: item["reserved"] };
+}
+
+export function volumeConfigurationDeserializer(item: any): VolumeConfiguration {
+  return {
+    reserved: item["reserved"],
+  };
+}
+
+/** The actual state of the volume as reported by the device. */
+export interface VolumeReportedProperties {
+  /** Unique identifier for the partition. */
+  readonly partitionId?: string;
+  /** Byte offset of the partition start. */
+  readonly offsetInBytes?: number;
+  /** Label of the volume. */
+  readonly name?: string;
+  /** Access path for the volume. */
+  readonly path?: string;
+  /** ARM resource ID of the parent disk. */
+  readonly parentDiskId?: string;
+  /** Indicates if this volume is a boot volume. */
+  readonly isBoot?: boolean;
+  /** Total size of the volume in bytes. */
+  readonly sizeInBytes?: string;
+  /** Available space on the volume in bytes. */
+  readonly sizeRemainingInBytes?: string;
+  /** File system on the volume. */
+  readonly fileSystem?: string;
+}
+
+export function volumeReportedPropertiesDeserializer(item: any): VolumeReportedProperties {
+  return {
+    partitionId: item["partitionId"],
+    offsetInBytes: item["offsetInBytes"],
+    name: item["name"],
+    path: item["path"],
+    parentDiskId: item["parentDiskId"],
+    isBoot: item["isBoot"],
+    sizeInBytes: item["sizeInBytes"],
+    sizeRemainingInBytes: item["sizeRemainingInBytes"],
+    fileSystem: item["fileSystem"],
+  };
+}
+
+/** The response of a EdgeMachineVolume list operation. */
+export interface _EdgeMachineVolumeListResult {
+  /** The EdgeMachineVolume items on this page */
+  value: EdgeMachineVolume[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineVolumeListResultDeserializer(item: any): _EdgeMachineVolumeListResult {
+  return {
+    value: edgeMachineVolumeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineVolumeArraySerializer(result: Array<EdgeMachineVolume>): any[] {
+  return result.map((item) => {
+    return edgeMachineVolumeSerializer(item);
+  });
+}
+
+export function edgeMachineVolumeArrayDeserializer(result: Array<EdgeMachineVolume>): any[] {
+  return result.map((item) => {
+    return edgeMachineVolumeDeserializer(item);
+  });
+}
+
+/** Disk Job resource for managing operations on disks. */
+export interface EdgeMachineDiskJob extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineDiskJobPropertiesUnion;
+}
+
+export function edgeMachineDiskJobSerializer(item: EdgeMachineDiskJob): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskJobPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineDiskJobDeserializer(item: any): EdgeMachineDiskJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskJobPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Disk Job properties. */
+export interface EdgeMachineDiskJobProperties {
+  /** Job Type to support polymorphic resource. */
+  /** The discriminator possible values: CreateVolume, SyncConfiguration */
+  jobType: DiskJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /** Job provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable job id. */
+  readonly jobId?: string;
+  /** The UTC date and time at which the job started. */
+  readonly startTimeUtc?: Date;
+  /** The UTC date and time at which the job completed. */
+  readonly endTimeUtc?: Date;
+  /** Status of disk job. */
+  readonly status?: JobStatus;
+  /** Error details if job failed. */
+  readonly error?: ErrorDetail;
+  /** Properties reported by the job execution. */
+  readonly reportedProperties?: DiskJobReportedProperties;
+}
+
+export function edgeMachineDiskJobPropertiesSerializer(item: EdgeMachineDiskJobProperties): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function edgeMachineDiskJobPropertiesDeserializer(item: any): EdgeMachineDiskJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Alias for EdgeMachineDiskJobPropertiesUnion */
+export type EdgeMachineDiskJobPropertiesUnion =
+  CreateVolumeJobProperties | SyncConfigurationJobProperties | EdgeMachineDiskJobProperties;
+
+export function edgeMachineDiskJobPropertiesUnionSerializer(
+  item: EdgeMachineDiskJobPropertiesUnion,
+): any {
+  switch (item.jobType) {
+    case "CreateVolume":
+      return createVolumeJobPropertiesSerializer(item as CreateVolumeJobProperties);
+
+    case "SyncConfiguration":
+      return syncConfigurationJobPropertiesSerializer(item as SyncConfigurationJobProperties);
+
+    default:
+      return edgeMachineDiskJobPropertiesSerializer(item);
+  }
+}
+
+export function edgeMachineDiskJobPropertiesUnionDeserializer(
+  item: any,
+): EdgeMachineDiskJobPropertiesUnion {
+  switch (item["jobType"]) {
+    case "CreateVolume":
+      return createVolumeJobPropertiesDeserializer(item as CreateVolumeJobProperties);
+
+    case "SyncConfiguration":
+      return syncConfigurationJobPropertiesDeserializer(item as SyncConfigurationJobProperties);
+
+    default:
+      return edgeMachineDiskJobPropertiesDeserializer(item);
+  }
+}
+
+/** Job Type supported for disk operations. */
+export enum KnownDiskJobType {
+  /** Job to create a volume on the disk. */
+  CreateVolume = "CreateVolume",
+  /** Job to resolve configuration drift between desired and reported state. */
+  SyncConfiguration = "SyncConfiguration",
+}
+
+/**
+ * Job Type supported for disk operations. \
+ * {@link KnownDiskJobType} can be used interchangeably with DiskJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateVolume**: Job to create a volume on the disk. \
+ * **SyncConfiguration**: Job to resolve configuration drift between desired and reported state.
+ */
+export type DiskJobType = string;
+
+/** Reported properties of a disk job. */
+export interface DiskJobReportedProperties {
+  /** Percentage of job completion. */
+  readonly percentComplete?: number;
+  /** Validation status of Disk Job. */
+  readonly validationStatus?: DiskActionStatus;
+  /** Deployment status of Disk Job. */
+  readonly deploymentStatus?: DiskActionStatus;
+}
+
+export function diskJobReportedPropertiesDeserializer(item: any): DiskJobReportedProperties {
+  return {
+    percentComplete: item["percentComplete"],
+    validationStatus: !item["validationStatus"]
+      ? item["validationStatus"]
+      : diskActionStatusDeserializer(item["validationStatus"]),
+    deploymentStatus: !item["deploymentStatus"]
+      ? item["deploymentStatus"]
+      : diskActionStatusDeserializer(item["deploymentStatus"]),
+  };
+}
+
+/** The action plan deployment status for Disk Job. */
+export interface DiskActionStatus {
+  /** Status of ECE action Disk Job. */
+  readonly status?: string;
+  /** List of steps of Disk Job. */
+  readonly steps?: DiskDeploymentStep[];
+}
+
+export function diskActionStatusDeserializer(item: any): DiskActionStatus {
+  return {
+    status: item["status"],
+    steps: !item["steps"] ? item["steps"] : diskDeploymentStepArrayDeserializer(item["steps"]),
+  };
+}
+
+export function diskDeploymentStepArrayDeserializer(result: Array<DiskDeploymentStep>): any[] {
+  return result.map((item) => {
+    return diskDeploymentStepDeserializer(item);
+  });
+}
+
+/** The Step of Disk Job. */
+export interface DiskDeploymentStep {
+  /** Name of step. */
+  readonly name?: string;
+  /** Description of step. */
+  readonly description?: string;
+  /** FullStepIndex of step. */
+  readonly fullStepIndex?: string;
+  /** Start time of step. */
+  readonly startTimeUtc?: string;
+  /** End time of step. */
+  readonly endTimeUtc?: string;
+  /** Status of step (Error, Success, InProgress). */
+  readonly status?: string;
+  /** List of nested steps. */
+  readonly steps?: DiskDeploymentStep[];
+  /** List of exceptions. */
+  readonly exception?: string[];
+}
+
+export function diskDeploymentStepDeserializer(item: any): DiskDeploymentStep {
+  return {
+    name: item["name"],
+    description: item["description"],
+    fullStepIndex: item["fullStepIndex"],
+    startTimeUtc: item["startTimeUtc"],
+    endTimeUtc: item["endTimeUtc"],
+    status: item["status"],
+    steps: !item["steps"] ? item["steps"] : diskDeploymentStepArrayDeserializer(item["steps"]),
+    exception: !item["exception"]
+      ? item["exception"]
+      : item["exception"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Properties for creating a volume on a disk. */
+export interface CreateVolumeJobProperties extends EdgeMachineDiskJobProperties {
+  /** Job type. */
+  jobType: "CreateVolume";
+  /** Size of the volume to create in bytes. */
+  sizeInBytes: string;
+  /** Absolute path where the volume should be mounted. */
+  path: string;
+  /** File system type to format the volume with. */
+  fileSystem?: DiskFileSystemType;
+  /** ARM resource ID of the created volume. */
+  readonly createdVolumeId?: string;
+}
+
+export function createVolumeJobPropertiesSerializer(item: CreateVolumeJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    sizeInBytes: item["sizeInBytes"],
+    path: item["path"],
+    fileSystem: item["fileSystem"],
+  };
+}
+
+export function createVolumeJobPropertiesDeserializer(item: any): CreateVolumeJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskJobReportedPropertiesDeserializer(item["reportedProperties"]),
+    sizeInBytes: item["sizeInBytes"],
+    path: item["path"],
+    fileSystem: item["fileSystem"],
+    createdVolumeId: item["createdVolumeId"],
+  };
+}
+
+/** Properties for resolving configuration drift. */
+export interface SyncConfigurationJobProperties extends EdgeMachineDiskJobProperties {
+  /** Job type. */
+  jobType: "SyncConfiguration";
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy;
+}
+
+export function syncConfigurationJobPropertiesSerializer(
+  item: SyncConfigurationJobProperties,
+): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    resolutionStrategy: item["resolutionStrategy"],
+  };
+}
+
+export function syncConfigurationJobPropertiesDeserializer(
+  item: any,
+): SyncConfigurationJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskJobReportedPropertiesDeserializer(item["reportedProperties"]),
+    resolutionStrategy: item["resolutionStrategy"],
+  };
+}
+
+/** The response of a EdgeMachineDiskJob list operation. */
+export interface _EdgeMachineDiskJobListResult {
+  /** The EdgeMachineDiskJob items on this page */
+  value: EdgeMachineDiskJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineDiskJobListResultDeserializer(
+  item: any,
+): _EdgeMachineDiskJobListResult {
+  return {
+    value: edgeMachineDiskJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineDiskJobArraySerializer(result: Array<EdgeMachineDiskJob>): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskJobSerializer(item);
+  });
+}
+
+export function edgeMachineDiskJobArrayDeserializer(result: Array<EdgeMachineDiskJob>): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskJobDeserializer(item);
+  });
+}
+
+/** Disk Privileged Job resource for managing privileged operations on disk volumes. */
+export interface EdgeMachineDiskPrivilegedJob extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineDiskPrivilegedJobPropertiesUnion;
+}
+
+export function edgeMachineDiskPrivilegedJobSerializer(item: EdgeMachineDiskPrivilegedJob): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskPrivilegedJobPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineDiskPrivilegedJobDeserializer(item: any): EdgeMachineDiskPrivilegedJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDiskPrivilegedJobPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Disk Privileged Job properties. */
+export interface EdgeMachineDiskPrivilegedJobProperties {
+  /** Privileged Job Type to support polymorphic resource. */
+  /** The discriminator possible values: DeleteVolume */
+  jobType: PrivilegedJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /** Job provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique, immutable job id. */
+  readonly jobId?: string;
+  /** The UTC date and time at which the job started. */
+  readonly startTimeUtc?: Date;
+  /** The UTC date and time at which the job completed. */
+  readonly endTimeUtc?: Date;
+  /** Status of disk job. */
+  readonly status?: JobStatus;
+  /** Error details if job failed. */
+  readonly error?: ErrorDetail;
+  /** Properties reported by the job execution. */
+  readonly reportedProperties?: DiskJobReportedProperties;
+}
+
+export function edgeMachineDiskPrivilegedJobPropertiesSerializer(
+  item: EdgeMachineDiskPrivilegedJobProperties,
+): any {
+  return { jobType: item["jobType"], deploymentMode: item["deploymentMode"] };
+}
+
+export function edgeMachineDiskPrivilegedJobPropertiesDeserializer(
+  item: any,
+): EdgeMachineDiskPrivilegedJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskJobReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Alias for EdgeMachineDiskPrivilegedJobPropertiesUnion */
+export type EdgeMachineDiskPrivilegedJobPropertiesUnion =
+  DeleteVolumeJobProperties | EdgeMachineDiskPrivilegedJobProperties;
+
+export function edgeMachineDiskPrivilegedJobPropertiesUnionSerializer(
+  item: EdgeMachineDiskPrivilegedJobPropertiesUnion,
+): any {
+  switch (item.jobType) {
+    case "DeleteVolume":
+      return deleteVolumeJobPropertiesSerializer(item as DeleteVolumeJobProperties);
+
+    default:
+      return edgeMachineDiskPrivilegedJobPropertiesSerializer(item);
+  }
+}
+
+export function edgeMachineDiskPrivilegedJobPropertiesUnionDeserializer(
+  item: any,
+): EdgeMachineDiskPrivilegedJobPropertiesUnion {
+  switch (item["jobType"]) {
+    case "DeleteVolume":
+      return deleteVolumeJobPropertiesDeserializer(item as DeleteVolumeJobProperties);
+
+    default:
+      return edgeMachineDiskPrivilegedJobPropertiesDeserializer(item);
+  }
+}
+
+/** Job Type supported for disk privileged operations. */
+export enum KnownPrivilegedJobType {
+  /** Job to delete a volume from the disk. */
+  DeleteVolume = "DeleteVolume",
+}
+
+/**
+ * Job Type supported for disk privileged operations. \
+ * {@link KnownPrivilegedJobType} can be used interchangeably with PrivilegedJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DeleteVolume**: Job to delete a volume from the disk.
+ */
+export type PrivilegedJobType = string;
+
+/** Properties for deleting a volume from a disk. */
+export interface DeleteVolumeJobProperties extends EdgeMachineDiskPrivilegedJobProperties {
+  /** Job type. */
+  jobType: "DeleteVolume";
+  /** The mount path of the volume to delete. */
+  volumePath: string;
+  /** Confirmation flag that must be set to true to proceed with deletion. */
+  confirmDeletion?: boolean;
+}
+
+export function deleteVolumeJobPropertiesSerializer(item: DeleteVolumeJobProperties): any {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    volumePath: item["volumePath"],
+    confirmDeletion: item["confirmDeletion"],
+  };
+}
+
+export function deleteVolumeJobPropertiesDeserializer(item: any): DeleteVolumeJobProperties {
+  return {
+    jobType: item["jobType"],
+    deploymentMode: item["deploymentMode"],
+    provisioningState: item["provisioningState"],
+    jobId: item["jobId"],
+    startTimeUtc: !item["startTimeUtc"] ? item["startTimeUtc"] : new Date(item["startTimeUtc"]),
+    endTimeUtc: !item["endTimeUtc"] ? item["endTimeUtc"] : new Date(item["endTimeUtc"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : diskJobReportedPropertiesDeserializer(item["reportedProperties"]),
+    volumePath: item["volumePath"],
+    confirmDeletion: item["confirmDeletion"],
+  };
+}
+
+/** List of Disk Privileged Job resources. */
+export interface _EdgeMachineDiskPrivilegedJobListResult {
+  /** The EdgeMachineDiskPrivilegedJob items on this page */
+  value: EdgeMachineDiskPrivilegedJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineDiskPrivilegedJobListResultDeserializer(
+  item: any,
+): _EdgeMachineDiskPrivilegedJobListResult {
+  return {
+    value: edgeMachineDiskPrivilegedJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineDiskPrivilegedJobArraySerializer(
+  result: Array<EdgeMachineDiskPrivilegedJob>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskPrivilegedJobSerializer(item);
+  });
+}
+
+export function edgeMachineDiskPrivilegedJobArrayDeserializer(
+  result: Array<EdgeMachineDiskPrivilegedJob>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineDiskPrivilegedJobDeserializer(item);
+  });
+}
+
+/** Edge Machine Security Settings proxy resource */
+export interface EdgeMachineSecuritySettings extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineSecurityProperties;
+}
+
+export function edgeMachineSecuritySettingsSerializer(item: EdgeMachineSecuritySettings): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineSecurityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineSecuritySettingsDeserializer(item: any): EdgeMachineSecuritySettings {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineSecurityPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of an Edge Machine Security Settings resource. */
+export interface EdgeMachineSecurityProperties {
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Compliance status values synchronized from Guest Configuration. */
+  readonly securityComplianceStatus?: EdgeMachineSecurityComplianceStatus;
+  /** First synchronization timestamp in UTC. */
+  readonly registrationTimestamp?: Date;
+  /** Most recent synchronization timestamp in UTC. */
+  readonly lastSyncTimestamp?: Date;
+}
+
+export function edgeMachineSecurityPropertiesSerializer(_item: EdgeMachineSecurityProperties): any {
+  return {};
+}
+
+export function edgeMachineSecurityPropertiesDeserializer(
+  item: any,
+): EdgeMachineSecurityProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    securityComplianceStatus: !item["securityComplianceStatus"]
+      ? item["securityComplianceStatus"]
+      : edgeMachineSecurityComplianceStatusDeserializer(item["securityComplianceStatus"]),
+    registrationTimestamp: !item["registrationTimestamp"]
+      ? item["registrationTimestamp"]
+      : new Date(item["registrationTimestamp"]),
+    lastSyncTimestamp: !item["lastSyncTimestamp"]
+      ? item["lastSyncTimestamp"]
+      : new Date(item["lastSyncTimestamp"]),
+  };
+}
+
+/** Compliance status payload for edge machine security settings. */
+export interface EdgeMachineSecurityComplianceStatus {
+  /** FIPS compliance status. */
+  readonly fipsStatus?: ComplianceStatus;
+  /** Secure Boot compliance status. */
+  readonly secureBootStatus?: ComplianceStatus;
+  /** Encryption at rest compliance status. */
+  readonly encryptionAtRestStatus?: ComplianceStatus;
+  /** SELinux policy compliance status. */
+  readonly seLinuxPolicyStatus?: ComplianceStatus;
+  /** Security baseline compliance status. */
+  readonly securityBaselineStatus?: ComplianceStatus;
+}
+
+export function edgeMachineSecurityComplianceStatusDeserializer(
+  item: any,
+): EdgeMachineSecurityComplianceStatus {
+  return {
+    fipsStatus: item["fipsStatus"],
+    secureBootStatus: item["secureBootStatus"],
+    encryptionAtRestStatus: item["encryptionAtRestStatus"],
+    seLinuxPolicyStatus: item["seLinuxPolicyStatus"],
+    securityBaselineStatus: item["securityBaselineStatus"],
+  };
+}
+
+/** The response of a EdgeMachineSecuritySettings list operation. */
+export interface _EdgeMachineSecuritySettingsListResult {
+  /** The EdgeMachineSecuritySettings items on this page */
+  value: EdgeMachineSecuritySettings[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineSecuritySettingsListResultDeserializer(
+  item: any,
+): _EdgeMachineSecuritySettingsListResult {
+  return {
+    value: edgeMachineSecuritySettingsArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineSecuritySettingsArraySerializer(
+  result: Array<EdgeMachineSecuritySettings>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineSecuritySettingsSerializer(item);
+  });
+}
+
+export function edgeMachineSecuritySettingsArrayDeserializer(
+  result: Array<EdgeMachineSecuritySettings>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineSecuritySettingsDeserializer(item);
+  });
+}
+
+/** Deployment setting resource for an Edge Machine. */
+export interface EdgeMachineDeploymentSetting extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineDeploymentSettingProperties;
+}
+
+export function edgeMachineDeploymentSettingSerializer(item: EdgeMachineDeploymentSetting): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDeploymentSettingPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function edgeMachineDeploymentSettingDeserializer(item: any): EdgeMachineDeploymentSetting {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeMachineDeploymentSettingPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of an Edge Machine Deployment Setting. */
+export interface EdgeMachineDeploymentSettingProperties {
+  /** The provisioning state of the deployment setting resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The deployment configuration for the edge machine. */
+  deploymentConfiguration: EdgeMachineDeploymentConfiguration;
+  /** Deployment status reported from the edge machine. */
+  readonly reportedProperties?: EceReportedProperties;
+}
+
+export function edgeMachineDeploymentSettingPropertiesSerializer(
+  item: EdgeMachineDeploymentSettingProperties,
+): any {
+  return {
+    deploymentConfiguration: edgeMachineDeploymentConfigurationSerializer(
+      item["deploymentConfiguration"],
+    ),
+  };
+}
+
+export function edgeMachineDeploymentSettingPropertiesDeserializer(
+  item: any,
+): EdgeMachineDeploymentSettingProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    deploymentConfiguration: edgeMachineDeploymentConfigurationDeserializer(
+      item["deploymentConfiguration"],
+    ),
+    reportedProperties: !item["reportedProperties"]
+      ? item["reportedProperties"]
+      : eceReportedPropertiesDeserializer(item["reportedProperties"]),
+  };
+}
+
+/** Edge Machine Deployment Configuration. */
+export interface EdgeMachineDeploymentConfiguration {
+  /** Deployment template version. */
+  version?: string;
+  /** The list of deployment data. */
+  scaleUnits: EdgeMachineScaleUnits[];
+}
+
+export function edgeMachineDeploymentConfigurationSerializer(
+  item: EdgeMachineDeploymentConfiguration,
+): any {
+  return {
+    version: item["version"],
+    scaleUnits: edgeMachineScaleUnitsArraySerializer(item["scaleUnits"]),
+  };
+}
+
+export function edgeMachineDeploymentConfigurationDeserializer(
+  item: any,
+): EdgeMachineDeploymentConfiguration {
+  return {
+    version: item["version"],
+    scaleUnits: edgeMachineScaleUnitsArrayDeserializer(item["scaleUnits"]),
+  };
+}
+
+export function edgeMachineScaleUnitsArraySerializer(result: Array<EdgeMachineScaleUnits>): any[] {
+  return result.map((item) => {
+    return edgeMachineScaleUnitsSerializer(item);
+  });
+}
+
+export function edgeMachineScaleUnitsArrayDeserializer(
+  result: Array<EdgeMachineScaleUnits>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineScaleUnitsDeserializer(item);
+  });
+}
+
+/** A scale unit containing deployment data. */
+export interface EdgeMachineScaleUnits {
+  /** Deployment data to configure the edge machine. */
+  deploymentData: EdgeMachineDeploymentData;
+}
+
+export function edgeMachineScaleUnitsSerializer(item: EdgeMachineScaleUnits): any {
+  return { deploymentData: edgeMachineDeploymentDataSerializer(item["deploymentData"]) };
+}
+
+export function edgeMachineScaleUnitsDeserializer(item: any): EdgeMachineScaleUnits {
+  return {
+    deploymentData: edgeMachineDeploymentDataDeserializer(item["deploymentData"]),
+  };
+}
+
+/** The deployment data of an edge machine. */
+export interface EdgeMachineDeploymentData {
+  /** Storage type for the edge machine node. */
+  storageType: NodeStorageType;
+  /** iSCSI configuration for the edge machine. */
+  iScsiConfig?: IscsiConfig;
+  /** Protected parameters stored in Key Vault and applied during edge machine node preparation. */
+  secrets?: EceDeploymentSecrets[];
+}
+
+export function edgeMachineDeploymentDataSerializer(item: EdgeMachineDeploymentData): any {
+  return {
+    storageType: item["storageType"],
+    iScsiConfig: !item["iScsiConfig"]
+      ? item["iScsiConfig"]
+      : iscsiConfigSerializer(item["iScsiConfig"]),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArraySerializer(item["secrets"]),
+  };
+}
+
+export function edgeMachineDeploymentDataDeserializer(item: any): EdgeMachineDeploymentData {
+  return {
+    storageType: item["storageType"],
+    iScsiConfig: !item["iScsiConfig"]
+      ? item["iScsiConfig"]
+      : iscsiConfigDeserializer(item["iScsiConfig"]),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : eceDeploymentSecretsArrayDeserializer(item["secrets"]),
+  };
+}
+
+/** Node storage type for an edge machine. */
+export enum KnownNodeStorageType {
+  /** Storage Spaces Direct (S2D) storage type. */
+  S2D = "S2D",
+  /** SAN iSCSI storage type. */
+  SanIscsi = "SANISCSI",
+  /** SAN Fibre Channel storage type. */
+  SanFc = "SANFC",
+}
+
+/**
+ * Node storage type for an edge machine. \
+ * {@link KnownNodeStorageType} can be used interchangeably with NodeStorageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **S2D**: Storage Spaces Direct (S2D) storage type. \
+ * **SANISCSI**: SAN iSCSI storage type. \
+ * **SANFC**: SAN Fibre Channel storage type.
+ */
+export type NodeStorageType = string;
+
+/** iSCSI configuration. */
+export interface IscsiConfig {
+  /** iSCSI network configuration. */
+  iScsiNetworkConfig?: IscsiNetworkConfig;
+  /** CHAP authentication settings. */
+  chapSettings?: IscsiChapSettings;
+  /** iSCSI Qualified Name of the initiator. */
+  initiatorIqn?: string;
+}
+
+export function iscsiConfigSerializer(item: IscsiConfig): any {
+  return {
+    iScsiNetworkConfig: !item["iScsiNetworkConfig"]
+      ? item["iScsiNetworkConfig"]
+      : iscsiNetworkConfigSerializer(item["iScsiNetworkConfig"]),
+    chapSettings: !item["chapSettings"]
+      ? item["chapSettings"]
+      : iscsiChapSettingsSerializer(item["chapSettings"]),
+    initiatorIqn: item["initiatorIqn"],
+  };
+}
+
+export function iscsiConfigDeserializer(item: any): IscsiConfig {
+  return {
+    iScsiNetworkConfig: !item["iScsiNetworkConfig"]
+      ? item["iScsiNetworkConfig"]
+      : iscsiNetworkConfigDeserializer(item["iScsiNetworkConfig"]),
+    chapSettings: !item["chapSettings"]
+      ? item["chapSettings"]
+      : iscsiChapSettingsDeserializer(item["chapSettings"]),
+    initiatorIqn: item["initiatorIqn"],
+  };
+}
+
+/** iSCSI network configuration. */
+export interface IscsiNetworkConfig {
+  /** Common adapter properties applied to all iSCSI network adapters. */
+  adapterProperties?: IscsiAdapterProperties;
+  /** Per-adapter IP configuration for the iSCSI network adapters. */
+  adapterIPConfig?: IscsiAdapterIPConfig[];
+}
+
+export function iscsiNetworkConfigSerializer(item: IscsiNetworkConfig): any {
+  return {
+    adapterProperties: !item["adapterProperties"]
+      ? item["adapterProperties"]
+      : iscsiAdapterPropertiesSerializer(item["adapterProperties"]),
+    adapterIPConfig: !item["adapterIPConfig"]
+      ? item["adapterIPConfig"]
+      : iscsiAdapterIPConfigArraySerializer(item["adapterIPConfig"]),
+  };
+}
+
+export function iscsiNetworkConfigDeserializer(item: any): IscsiNetworkConfig {
+  return {
+    adapterProperties: !item["adapterProperties"]
+      ? item["adapterProperties"]
+      : iscsiAdapterPropertiesDeserializer(item["adapterProperties"]),
+    adapterIPConfig: !item["adapterIPConfig"]
+      ? item["adapterIPConfig"]
+      : iscsiAdapterIPConfigArrayDeserializer(item["adapterIPConfig"]),
+  };
+}
+
+/** Common properties applied to iSCSI network adapters. */
+export interface IscsiAdapterProperties {
+  /** 802.1p priority value for iSCSI traffic. */
+  priorityValue8021ActionIscsi?: number;
+  /** iSCSI bandwidth percentage. */
+  bandwidthPercentageIscsi?: number;
+  /** Jumbo frame size in bytes. */
+  jumboPacket?: number;
+}
+
+export function iscsiAdapterPropertiesSerializer(item: IscsiAdapterProperties): any {
+  return {
+    priorityValue8021ActionIscsi: item["priorityValue8021ActionIscsi"],
+    bandwidthPercentageIscsi: item["bandwidthPercentageIscsi"],
+    jumboPacket: item["jumboPacket"],
+  };
+}
+
+export function iscsiAdapterPropertiesDeserializer(item: any): IscsiAdapterProperties {
+  return {
+    priorityValue8021ActionIscsi: item["priorityValue8021ActionIscsi"],
+    bandwidthPercentageIscsi: item["bandwidthPercentageIscsi"],
+    jumboPacket: item["jumboPacket"],
+  };
+}
+
+export function iscsiAdapterIPConfigArraySerializer(result: Array<IscsiAdapterIPConfig>): any[] {
+  return result.map((item) => {
+    return iscsiAdapterIPConfigSerializer(item);
+  });
+}
+
+export function iscsiAdapterIPConfigArrayDeserializer(result: Array<IscsiAdapterIPConfig>): any[] {
+  return result.map((item) => {
+    return iscsiAdapterIPConfigDeserializer(item);
+  });
+}
+
+/** IP configuration for a single iSCSI network adapter. */
+export interface IscsiAdapterIPConfig {
+  /** Name of the iSCSI network adapter. */
+  networkAdapterName?: string;
+  /** VLAN ID associated with the iSCSI network adapter. */
+  vlanId?: number;
+  /** Address prefix in CIDR notation. */
+  addressPrefix?: string;
+  /** Target portal addresses reachable through this adapter. */
+  targetPortalAddresses?: IscsiTargetPortalAddress[];
+}
+
+export function iscsiAdapterIPConfigSerializer(item: IscsiAdapterIPConfig): any {
+  return {
+    networkAdapterName: item["networkAdapterName"],
+    vlanId: item["vlanId"],
+    addressPrefix: item["addressPrefix"],
+    targetPortalAddresses: !item["targetPortalAddresses"]
+      ? item["targetPortalAddresses"]
+      : iscsiTargetPortalAddressArraySerializer(item["targetPortalAddresses"]),
+  };
+}
+
+export function iscsiAdapterIPConfigDeserializer(item: any): IscsiAdapterIPConfig {
+  return {
+    networkAdapterName: item["networkAdapterName"],
+    vlanId: item["vlanId"],
+    addressPrefix: item["addressPrefix"],
+    targetPortalAddresses: !item["targetPortalAddresses"]
+      ? item["targetPortalAddresses"]
+      : iscsiTargetPortalAddressArrayDeserializer(item["targetPortalAddresses"]),
+  };
+}
+
+export function iscsiTargetPortalAddressArraySerializer(
+  result: Array<IscsiTargetPortalAddress>,
+): any[] {
+  return result.map((item) => {
+    return iscsiTargetPortalAddressSerializer(item);
+  });
+}
+
+export function iscsiTargetPortalAddressArrayDeserializer(
+  result: Array<IscsiTargetPortalAddress>,
+): any[] {
+  return result.map((item) => {
+    return iscsiTargetPortalAddressDeserializer(item);
+  });
+}
+
+/** iSCSI target portal address. */
+export interface IscsiTargetPortalAddress {
+  /** IP address of the iSCSI target portal. */
+  ipAddress?: string;
+  /** Next hop IP address used to reach the target portal. */
+  nextHop?: string;
+}
+
+export function iscsiTargetPortalAddressSerializer(item: IscsiTargetPortalAddress): any {
+  return { ipAddress: item["ipAddress"], nextHop: item["nextHop"] };
+}
+
+export function iscsiTargetPortalAddressDeserializer(item: any): IscsiTargetPortalAddress {
+  return {
+    ipAddress: item["ipAddress"],
+    nextHop: item["nextHop"],
+  };
+}
+
+/** CHAP authentication settings for an iSCSI connection. */
+export interface IscsiChapSettings {
+  /** The CHAP authentication mode to use. */
+  chapType?: IscsiChapType;
+}
+
+export function iscsiChapSettingsSerializer(item: IscsiChapSettings): any {
+  return { chapType: item["chapType"] };
+}
+
+export function iscsiChapSettingsDeserializer(item: any): IscsiChapSettings {
+  return {
+    chapType: item["chapType"],
+  };
+}
+
+/** The CHAP authentication mode for an iSCSI connection. */
+export enum KnownIscsiChapType {
+  /** No CHAP authentication is used. */
+  NoChap = "NoChap",
+  /** The target authenticates the initiator. */
+  OneWay = "OneWay",
+  /** The initiator and target authenticate each other. */
+  Bidirectional = "Bidirectional",
+}
+
+/**
+ * The CHAP authentication mode for an iSCSI connection. \
+ * {@link KnownIscsiChapType} can be used interchangeably with IscsiChapType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoChap**: No CHAP authentication is used. \
+ * **OneWay**: The target authenticates the initiator. \
+ * **Bidirectional**: The initiator and target authenticate each other.
+ */
+export type IscsiChapType = string;
+
+/** The response of a EdgeMachineDeploymentSetting list operation. */
+export interface _EdgeMachineDeploymentSettingListResult {
+  /** The EdgeMachineDeploymentSetting items on this page */
+  value: EdgeMachineDeploymentSetting[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeMachineDeploymentSettingListResultDeserializer(
+  item: any,
+): _EdgeMachineDeploymentSettingListResult {
+  return {
+    value: edgeMachineDeploymentSettingArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeMachineDeploymentSettingArraySerializer(
+  result: Array<EdgeMachineDeploymentSetting>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineDeploymentSettingSerializer(item);
+  });
+}
+
+export function edgeMachineDeploymentSettingArrayDeserializer(
+  result: Array<EdgeMachineDeploymentSetting>,
+): any[] {
+  return result.map((item) => {
+    return edgeMachineDeploymentSettingDeserializer(item);
+  });
+}
+
 /** Get the update summaries for the cluster */
 export interface UpdateSummaries extends ProxyResource {
   /** The geo-location where the resource lives */
@@ -7629,12 +12939,30 @@ export function updateSummariesArrayDeserializer(result: Array<UpdateSummaries>)
   });
 }
 
-/** The available API versions. */
+/**
+ * The available API versions.
+ *
+ * This enum lists only the currently active API versions. Retired preview
+ * versions (e.g. 2025-11-01-preview through 2026-05-01-preview) are
+ * intentionally omitted — each new preview fully supersedes the previous one,
+ * and customers are expected to adopt the latest preview. Including every
+ * shipped preview would require extensive `@added`/`@removed` decorator
+ * chains across hundreds of models, rendering the TypeSpec source unreadable
+ * and unmaintainable.
+ *
+ * The published swagger files under `preview/<retired-version>/` remain on
+ * disk for backward compatibility with existing consumers (CI pipelines,
+ * unit tests, and customer dependencies). Those swaggers are frozen and
+ * must be regenerated from a pinned commit if changes are ever needed —
+ * not from the latest main.
+ */
 export enum KnownVersions {
   /** The 2026-02-01 API version. */
   V20260201 = "2026-02-01",
   /** The 2026-04-30 API version. */
   V20260430 = "2026-04-30",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }
 
 export function _arcSettingPropertiesSerializer(item: ArcSetting): any {
@@ -7778,6 +13106,9 @@ export function _clusterPropertiesDeserializer(item: any) {
       ? item["secretsLocations"]
       : secretsLocationDetailsArrayDeserializer(item["secretsLocations"]),
     clusterPattern: item["clusterPattern"],
+    sdnProperties: !item["sdnProperties"]
+      ? item["sdnProperties"]
+      : clusterSdnPropertiesDeserializer(item["sdnProperties"]),
     localAvailabilityZones: !item["localAvailabilityZones"]
       ? item["localAvailabilityZones"]
       : localAvailabilityZonesArrayDeserializer(item["localAvailabilityZones"]),
