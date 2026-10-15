@@ -468,6 +468,7 @@ export type {
   BlobLayoutRange,
   BlobLayoutEndpoints,
   BlobLayoutEndpoint,
+  LayoutEndpoint,
   EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,

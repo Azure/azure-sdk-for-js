@@ -630,7 +630,7 @@ export interface BlobDownloadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
-    layoutEndpoint?: string;
+    layoutEndpoint?: LayoutEndpoint;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentCrc64?: boolean;
@@ -934,7 +934,7 @@ export interface BlobLayout {
 // @public
 export interface BlobLayoutEndpoint {
     index: number;
-    value: string;
+    value: LayoutEndpoint;
 }
 
 // @public
@@ -2387,6 +2387,9 @@ export enum KnownEncryptionAlgorithmType {
 
 // @public
 export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
+
+// @public
+export type LayoutEndpoint = string;
 
 // @public
 export interface Lease {

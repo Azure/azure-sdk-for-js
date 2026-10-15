@@ -935,6 +935,28 @@ describe("snippets", () => {
     }
   });
 
+  it("ClientsDownloadFromLayoutEndpoint", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    // @ts-preserve-whitespace
+    for await (const page of blobClient.getLayout()) {
+      const endpoints = page.endpoints?.endpoint ?? [];
+      for (const range of page.ranges?.range ?? []) {
+        const layoutEndpoint = endpoints.find((e) => e.index === range.endpointIndex)?.value;
+        const response = await blobClient.download(range.start, range.end - range.start + 1, {
+          layoutEndpoint,
+        });
+        console.log(`Read ${response.contentLength} bytes from ${layoutEndpoint}`);
+      }
+    }
+  });
+
   it("ContainerClientCreate", async () => {
     const account = "<account>";
     const blobServiceClient = new BlobServiceClient(
