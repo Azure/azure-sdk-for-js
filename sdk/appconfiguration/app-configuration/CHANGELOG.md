@@ -1,16 +1,10 @@
 # Release History
 
-## 1.13.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.13.0-beta.2 (2026-10-15)
 
 ### Bugs Fixed
 
-- Fixed the HTTP response compatibility of configuration setting and revision pages, including snapshot contents and conditional checks, so response headers support `get()` and status codes are numeric.
-
-### Other Changes
+- Fixed the HTTP response compatibility of configuration setting and revision pages, including snapshot contents and conditional checks, so response headers support `get()` and status codes are numeric. [#40352](https://github.com/Azure/azure-sdk-for-js/pull/40352)
 
 ## 1.13.0-beta.1 (2026-08-21)
 
@@ -26,8 +20,6 @@
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/issues/39594)
 - Fixed a bug that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
-
-### Other Changes
 
 ## 1.12.1 (2026-06-22)
 
