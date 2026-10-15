@@ -883,24 +883,42 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environment variable is set", async () => {
-        await StatsbeatManager.getInstance().shutdown();
+        const originalDisableStatsbeat = process.env[ENV_DISABLE_STATSBEAT];
+        // Shutdown can recreate metrics when a pending OneSettings callback enables Statsbeat.
         process.env[ENV_DISABLE_STATSBEAT] = "true";
-        const exporter = new AzureMonitorTraceExporter(exportOptions);
-        const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
-        assert.isDefined(networkStatsbeat);
-        assert.isUndefined(networkStatsbeat?.["readFailureGauge"]);
-        assert.isUndefined(networkStatsbeat?.["writeFailureGauge"]);
-        delete process.env[ENV_DISABLE_STATSBEAT];
-        await StatsbeatManager.getInstance().shutdown();
+        try {
+          await StatsbeatManager.getInstance().shutdown();
+          const exporter = new AzureMonitorTraceExporter(exportOptions);
+          const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
+          assert.isDefined(networkStatsbeat);
+          assert.isUndefined(networkStatsbeat?.["readFailureGauge"]);
+          assert.isUndefined(networkStatsbeat?.["writeFailureGauge"]);
+        } finally {
+          if (originalDisableStatsbeat === undefined) {
+            delete process.env[ENV_DISABLE_STATSBEAT];
+          } else {
+            process.env[ENV_DISABLE_STATSBEAT] = originalDisableStatsbeat;
+          }
+          await StatsbeatManager.getInstance().shutdown();
+        }
       });
 
       it("should disable all statsbeat when the legacy environment variable is set", async () => {
-        await StatsbeatManager.getInstance().shutdown();
+        const originalDisableStatsbeat = process.env[LEGACY_ENV_DISABLE_STATSBEAT];
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
-        const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
-        assert.isUndefined(exporter["sender"]["statsbeatManager"].longIntervalStatsbeatMetrics);
-        delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+        try {
+          await StatsbeatManager.getInstance().shutdown();
+          const exporter = new AzureMonitorTraceExporter(exportOptions);
+          assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
+          assert.isUndefined(exporter["sender"]["statsbeatManager"].longIntervalStatsbeatMetrics);
+        } finally {
+          if (originalDisableStatsbeat === undefined) {
+            delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+          } else {
+            process.env[LEGACY_ENV_DISABLE_STATSBEAT] = originalDisableStatsbeat;
+          }
+          await StatsbeatManager.getInstance().shutdown();
+        }
       });
     });
 
