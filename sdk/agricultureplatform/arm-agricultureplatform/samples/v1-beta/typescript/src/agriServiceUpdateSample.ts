@@ -16,13 +16,7 @@ async function agriServiceUpdate(): Promise<void> {
   const client = new AgriculturePlatformClient(credential, subscriptionId);
   const result = await client.agriService.update("rgopenapi", "abc123", {
     identity: { type: "None", userAssignedIdentities: { key4771: {} } },
-    sku: {
-      name: "tbdtdfffkar",
-      tier: "Free",
-      size: "iusaqqj",
-      family: "hxojswlgs",
-      capacity: 22,
-    },
+    sku: { name: "tbdtdfffkar", tier: "Free", size: "iusaqqj", family: "hxojswlgs", capacity: 22 },
     tags: { key9006: "kuzlwpujbql" },
     properties: {
       config: {},
@@ -33,10 +27,7 @@ async function agriServiceUpdate(): Promise<void> {
         },
       ],
       installedSolutions: [
-        {
-          key: "bayerAgPowered.cwum",
-          value: { applicationName: "bayerAgPowered.cwum" },
-        },
+        { key: "bayerAgPowered.cwum", value: { applicationName: "bayerAgPowered.cwum" } },
       ],
     },
   });

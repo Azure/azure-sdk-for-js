@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AgriculturePlatformClient } from "@azure/arm-agricultureplatform";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a AgriServiceResource
  *
  * @summary create a AgriServiceResource
  * x-ms-original-file: 2024-06-01-preview/AgriService_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import { AgriculturePlatformClient } from "@azure/arm-agricultureplatform";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function agriServiceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "83D293F5-DEFD-4D48-B120-1DC713BE338A";
@@ -18,9 +17,6 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
   const result = await client.agriService.createOrUpdate("rgopenapi", "abc123", {
     properties: {
       config: {},
-      managedOnBehalfOfConfiguration: {
-        moboBrokerResources: [],
-      },
       dataConnectorCredentials: [
         {
           key: "BackendAADApplicationCredentials",
@@ -28,10 +24,7 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
         },
       ],
       installedSolutions: [
-        {
-          key: "bayerAgPowered.cwum",
-          value: { applicationName: "bayerAgPowered.cwum" },
-        },
+        { key: "bayerAgPowered.cwum", value: { applicationName: "bayerAgPowered.cwum" } },
       ],
     },
     identity: { type: "None", userAssignedIdentities: { key4955: {} } },

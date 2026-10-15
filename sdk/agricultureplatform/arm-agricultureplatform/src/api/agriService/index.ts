@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type AgriServiceListAvailableSolutionsOptionalParams,
-  type AgriServiceListBySubscriptionOptionalParams,
-  type AgriServiceListByResourceGroupOptionalParams,
-  type AgriServiceDeleteOptionalParams,
-  type AgriServiceUpdateOptionalParams,
-  type AgriServiceCreateOrUpdateOptionalParams,
-  type AgriServiceGetOptionalParams,
+export type {
+  AgriServiceListAvailableSolutionsOptionalParams,
+  AgriServiceListBySubscriptionOptionalParams,
+  AgriServiceListByResourceGroupOptionalParams,
+  AgriServiceDeleteOptionalParams,
+  AgriServiceUpdateOptionalParams,
+  AgriServiceCreateOrUpdateOptionalParams,
+  AgriServiceGetOptionalParams,
 } from "./options.js";

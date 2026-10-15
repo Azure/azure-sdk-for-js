@@ -1,21 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgriculturePlatformContext } from "../../api/agriculturePlatformContext.js";
-import {
-  AgriServiceResource,
-  AgriServiceResourceUpdate,
-  AvailableAgriSolutionListResult,
-} from "../../models/models.js";
-import {
-  AgriServiceListAvailableSolutionsOptionalParams,
-  AgriServiceListBySubscriptionOptionalParams,
-  AgriServiceListByResourceGroupOptionalParams,
-  AgriServiceDeleteOptionalParams,
-  AgriServiceUpdateOptionalParams,
-  AgriServiceCreateOrUpdateOptionalParams,
-  AgriServiceGetOptionalParams,
-} from "../../api/agriService/options.js";
+import type { AgriculturePlatformContext } from "../../api/agriculturePlatformContext.js";
 import {
   listAvailableSolutions,
   listBySubscription,
@@ -25,8 +11,22 @@ import {
   createOrUpdate,
   get,
 } from "../../api/agriService/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  AgriServiceListAvailableSolutionsOptionalParams,
+  AgriServiceListBySubscriptionOptionalParams,
+  AgriServiceListByResourceGroupOptionalParams,
+  AgriServiceDeleteOptionalParams,
+  AgriServiceUpdateOptionalParams,
+  AgriServiceCreateOrUpdateOptionalParams,
+  AgriServiceGetOptionalParams,
+} from "../../api/agriService/options.js";
+import type {
+  AgriServiceResource,
+  AgriServiceResourceUpdate,
+  AvailableAgriSolutionListResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgriService operations. */
 export interface AgriServiceOperations {
@@ -46,11 +46,6 @@ export interface AgriServiceOperations {
     options?: AgriServiceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AgriServiceResource>;
   /** Delete a AgriServiceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     agriServiceResourceName: string,

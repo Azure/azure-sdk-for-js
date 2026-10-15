@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAgriculturePlatform,
+import type {
   AgriculturePlatformContext,
   AgriculturePlatformClientOptionalParams,
 } from "./api/index.js";
-import { AgriServiceOperations, _getAgriServiceOperations } from "./classic/agriService/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createAgriculturePlatform } from "./api/index.js";
+import type { AgriServiceOperations } from "./classic/agriService/index.js";
+import { _getAgriServiceOperations } from "./classic/agriService/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
+export type { AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
 
 export class AgriculturePlatformClient {
   private _client: AgriculturePlatformContext;
@@ -23,14 +25,7 @@ export class AgriculturePlatformClient {
     subscriptionId: string,
     options: AgriculturePlatformClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAgriculturePlatform(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAgriculturePlatform(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.agriService = _getAgriServiceOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

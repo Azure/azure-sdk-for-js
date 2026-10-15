@@ -17,9 +17,6 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
   const result = await client.agriService.createOrUpdate("rgopenapi", "abc123", {
     properties: {
       config: {},
-      managedOnBehalfOfConfiguration: {
-        moboBrokerResources: []
-      },
       dataConnectorCredentials: [
         {
           key: "BackendAADApplicationCredentials",
@@ -27,10 +24,7 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
         },
       ],
       installedSolutions: [
-        {
-          key: "bayerAgPowered.cwum",
-          value: { applicationName: "bayerAgPowered.cwum" },
-        },
+        { key: "bayerAgPowered.cwum", value: { applicationName: "bayerAgPowered.cwum" } },
       ],
     },
     identity: { type: "None", userAssignedIdentities: { key4955: {} } },
