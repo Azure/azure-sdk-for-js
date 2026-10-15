@@ -100,11 +100,63 @@ export function _toRheaApplicationProperties(
 
   for (const [key, value] of Object.entries(result)) {
     if (isAmqpApplicationProperty(value)) {
+      validateExplicitProperty(value);
       result[key] = toRheaTyped(value);
     }
   }
 
   return result;
+}
+
+function validateExplicitProperty(property: {
+  readonly type: AmqpApplicationProperty["type"];
+  readonly value: unknown;
+}): void {
+  switch (property.type) {
+    case "null":
+      if (property.value !== null) {
+        throw new TypeError("AMQP null application properties must contain null.");
+      }
+      return;
+    case "boolean":
+      requireType(property.type, property.value, "boolean");
+      return;
+    case "ubyte":
+    case "ushort":
+    case "uint":
+    case "byte":
+    case "short":
+    case "int":
+    case "float":
+    case "double":
+      requireType(property.type, property.value, "number");
+      return;
+    case "ulong":
+    case "long":
+      if (typeof property.value !== "bigint") {
+        throw new TypeError(`AMQP ${property.type} application properties must contain a bigint.`);
+      }
+      return;
+    case "decimal32":
+    case "decimal64":
+    case "decimal128":
+    case "binary":
+      if (!(property.value instanceof Uint8Array)) {
+        throw new TypeError(`AMQP ${property.type} application properties must contain bytes.`);
+      }
+      return;
+    case "char":
+    case "uuid":
+    case "string":
+    case "symbol":
+      requireType(property.type, property.value, "string");
+      return;
+    case "timestamp":
+      if (!(property.value instanceof Date)) {
+        throw new TypeError("AMQP timestamp application properties must contain a Date.");
+      }
+      return;
+  }
 }
 
 function withValue(property: AmqpApplicationProperty, value: unknown): AmqpApplicationProperty {
@@ -417,9 +469,21 @@ function installTypedApplicationPropertyDecoder(): void {
 
     for (let index = 0; index + 1 < map.value.length; index += 2) {
       const key = String(rheaTypes.unwrap(map.value[index], true));
-      const property = fromRheaTyped(map.value[index + 1]);
+      const typedValue = map.value[index + 1];
+      Object.defineProperty(unwrapped, key, {
+        configurable: true,
+        enumerable: true,
+        value: rheaTypes.unwrap(typedValue, true),
+        writable: true,
+      });
+      const property = fromRheaTyped(typedValue);
       if (property != null) {
-        propertiesWithTypes[key] = property;
+        Object.defineProperty(propertiesWithTypes, key, {
+          configurable: true,
+          enumerable: true,
+          value: property,
+          writable: true,
+        });
       }
     }
 

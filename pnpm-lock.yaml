@@ -30051,7 +30051,7 @@ importers:
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-amqp':
-        specifier: ^4.5.2
+        specifier: ^4.6.0
         version: link:../../core/core-amqp
       '@azure/core-auth':
         specifier: ^1.9.0

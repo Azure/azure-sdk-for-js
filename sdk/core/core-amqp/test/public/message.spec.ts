@@ -80,23 +80,37 @@ describe("message", function () {
     });
 
     it("uses edited values and does not restore deleted properties on resend", function () {
+      const applicationProperties: Record<string, AmqpApplicationProperty> = Object.create(null);
+      applicationProperties.edited = { type: "ubyte", value: 200 };
+      applicationProperties.deleted = { type: "symbol", value: "remove-me" };
+      applicationProperties["constructor"] = { type: "string", value: "remove-constructor" };
+      applicationProperties["toString"] = { type: "string", value: "remove-to-string" };
+      Object.defineProperty(applicationProperties, "__proto__", {
+        enumerable: true,
+        value: { type: "string", value: "prototype-value" },
+      });
       const received = AmqpAnnotatedMessage.fromRheaMessage(
         decode(
           AmqpAnnotatedMessage.toRheaMessage({
-            applicationProperties: {
-              edited: { type: "ubyte", value: 200 },
-              deleted: { type: "symbol", value: "remove-me" },
-              constructor: { type: "string", value: "remove-constructor" },
-              toString: { type: "string", value: "remove-to-string" },
-            },
+            applicationProperties,
             body: "body",
           }),
         ),
       );
+      assert.isTrue(
+        Object.prototype.hasOwnProperty.call(
+          received.applicationPropertiesWithAmqpTypes,
+          "__proto__",
+        ),
+      );
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes?.["__proto__"], {
+        type: "string",
+        value: "prototype-value",
+      });
       received.applicationProperties!.edited = 201;
       delete received.applicationProperties!.deleted;
-      delete received.applicationProperties!.constructor;
-      delete received.applicationProperties!.toString;
+      Reflect.deleteProperty(received.applicationProperties!, "constructor");
+      Reflect.deleteProperty(received.applicationProperties!, "toString");
 
       const resent = AmqpAnnotatedMessage.fromRheaMessage(
         decode(AmqpAnnotatedMessage.toRheaMessage(received)),
@@ -104,6 +118,7 @@ describe("message", function () {
 
       assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, {
         edited: { type: "ubyte", value: 201 },
+        ["__proto__"]: { type: "string", value: "prototype-value" },
       });
       assert.notProperty(resent.applicationProperties, "deleted");
       assert.isFalse(
@@ -126,6 +141,27 @@ describe("message", function () {
         RangeError,
         "AMQP ubyte",
       );
+    });
+
+    it("rejects explicit wrappers whose payload does not match the selected type", function () {
+      const invalidProperties = [
+        { type: "null", value: 123 },
+        { type: "binary", value: "abc" },
+        { type: "long", value: 1 },
+        { type: "timestamp", value: 1 },
+      ] as unknown as AmqpApplicationProperty[];
+
+      for (const invalid of invalidProperties) {
+        assert.throws(
+          () =>
+            AmqpAnnotatedMessage.toRheaMessage({
+              applicationProperties: { invalid },
+              body: "body",
+            }),
+          TypeError,
+          `AMQP ${invalid.type}`,
+        );
+      }
     });
   });
 

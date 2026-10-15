@@ -38,8 +38,11 @@ export interface AmqpAnnotatedMessage {
   /**
    * The application properties with their AMQP scalar types preserved.
    *
-   * When present, these values take precedence over matching entries in
-   * `applicationProperties` when the message is encoded.
+   * When the message is encoded, `applicationProperties` supplies the outgoing
+   * keys and values. For matching plain values, this view preserves the original
+   * AMQP type. Deleted keys are omitted, and explicitly typed values in
+   * `applicationProperties` override the preserved type. Changing this view
+   * alone does not change the outgoing value.
    */
   applicationPropertiesWithAmqpTypes?: Readonly<{
     [key: string]: AmqpApplicationProperty;
