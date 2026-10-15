@@ -55,6 +55,9 @@ describe("request url query parameters", () => {
 
     beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
+      await recorder.setMatcher("CustomDefaultMatcher", {
+        excludedHeaders: ["sync-token"],
+      });
     });
 
     afterEach(async () => {

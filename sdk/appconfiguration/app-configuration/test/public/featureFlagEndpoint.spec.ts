@@ -131,10 +131,16 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     await client.setFeatureFlag({ name: featureFlagName, label, enabled: true });
 
     let found = false;
-    for await (const flag of client.listFeatureFlags({ nameFilter: featureFlagName })) {
-      if (flag.name === featureFlagName) {
-        found = true;
-        assert.equal(flag.label, label);
+    for await (const page of client.listFeatureFlags({ nameFilter: featureFlagName }).byPage()) {
+      assert.strictEqual(page._response.status, 200);
+      assert.isNotEmpty(page._response.headers.get("X-MS-DATE"));
+      assert.isNotEmpty(page._response.headers.get("etag"));
+      assert.equal(page._response.headers.get("etag"), `"${page.etag}"`);
+      for (const flag of page.items) {
+        if (flag.name === featureFlagName) {
+          found = true;
+          assert.equal(flag.label, label);
+        }
       }
     }
     assert.equal(found, true, "Expected to find the feature flag in the list");
@@ -163,8 +169,12 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     await Promise.all(setFeatureFlagPromises);
 
     const featureFlags: FeatureFlag[] = [];
-    for await (const featureFlag of client.listFeatureFlags({ nameFilter: featureFlagName })) {
-      featureFlags.push(featureFlag);
+    for await (const page of client.listFeatureFlags({ nameFilter: featureFlagName }).byPage()) {
+      assert.strictEqual(page._response.status, 200);
+      assert.isNotEmpty(page._response.headers.get("X-MS-DATE"));
+      assert.isNotEmpty(page._response.headers.get("etag"));
+      assert.equal(page._response.headers.get("etag"), `"${page.etag}"`);
+      featureFlags.push(...page.items);
     }
 
     assert.equal(featureFlags.length, expectedNumberOfLabels);
