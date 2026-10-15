@@ -67,6 +67,31 @@ export interface ChatRoomMemberInput {
 }
 
 // @public
+export interface ChatTopic {
+    readonly conversationId: string;
+    readonly createdAt: Date;
+    readonly createdBy: string;
+    readonly etag: string;
+    readonly id: string;
+    state: ChatTopicState;
+    title: string;
+}
+
+// @public
+export interface ChatTopicInput {
+    title: string;
+}
+
+// @public
+export type ChatTopicState = string;
+
+// @public
+export interface ChatTopicUpdate {
+    state?: ChatTopicState;
+    title?: string;
+}
+
+// @public
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
@@ -85,6 +110,14 @@ export type ChatUserInputUnion = HumanChatUserInput;
 
 // @public
 export type ChatUserKind = "Human";
+
+// @public
+export interface ChatUserRoom {
+    readonly defaultConversation: string;
+    readonly etag: string;
+    readonly id: string;
+    title: string;
+}
 
 // @public
 export type ChatUserUnion = HumanChatUser | ChatUser;
@@ -114,8 +147,16 @@ export enum KnownChatPermission {
 }
 
 // @public
+export enum KnownChatTopicState {
+    Archived = "Archived",
+    Normal = "Normal",
+    SoftDeleted = "SoftDeleted"
+}
+
+// @public
 export enum KnownVersions {
-    V20260201Preview = "2026-02-01-preview"
+    V20260201Preview = "2026-02-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public

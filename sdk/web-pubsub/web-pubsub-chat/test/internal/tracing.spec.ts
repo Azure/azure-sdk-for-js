@@ -22,12 +22,20 @@ const expectedPromiseSpanNames = [
   "WebPubSubChatServiceClient.deleteMessage",
   "WebPubSubChatServiceClient.getConversation",
   "WebPubSubChatServiceClient.getClientAccessToken",
+  "WebPubSubChatServiceClient.createOrReplaceTopic",
+  "WebPubSubChatServiceClient.getTopic",
+  "WebPubSubChatServiceClient.updateTopic",
+  "WebPubSubChatServiceClient.deleteTopic",
 ];
 
 const expectedPagedSpanNames = [
   "WebPubSubChatServiceClient.listRoomMembers",
   "WebPubSubChatServiceClient.listRoles",
   "WebPubSubChatServiceClient.listMessages",
+  "WebPubSubChatServiceClient.listRooms",
+  "WebPubSubChatServiceClient.listUsers",
+  "WebPubSubChatServiceClient.listRoomsForUser",
+  "WebPubSubChatServiceClient.listTopics",
 ];
 
 function createClient(): WebPubSubChatServiceClient {
@@ -69,6 +77,10 @@ describe("WebPubSubChatServiceClient tracing", () => {
       await client.deleteMessage("conversation", "message");
       await client.getConversation("conversation");
       await client.getClientAccessToken();
+      await client.createOrReplaceTopic("room", "topic", { title: "Topic" });
+      await client.getTopic("room", "topic");
+      await client.updateTopic("room", "topic", { title: "Updated" });
+      await client.deleteTopic("room", "topic");
 
       assert.deepEqual(
         withSpan.mock.calls.map(([name]) => name),
@@ -88,6 +100,10 @@ describe("WebPubSubChatServiceClient tracing", () => {
         client.listRoomMembers("room"),
         client.listRoles(),
         client.listMessages("conversation"),
+        client.listRooms(),
+        client.listUsers(),
+        client.listRoomsForUser("user"),
+        client.listTopics("room"),
       ];
 
       for (const iterator of iterators) {

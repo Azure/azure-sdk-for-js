@@ -205,6 +205,33 @@ export enum KnownChatPermission {
  */
 export type ChatPermission = string;
 
+/** Paged collection of ChatRoom items */
+export interface _PagedChatRoom {
+  /** The ChatRoom items on this page */
+  value: ChatRoom[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedChatRoomDeserializer(item: any): _PagedChatRoom {
+  return {
+    value: chatRoomArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function chatRoomArraySerializer(result: Array<ChatRoom>): any[] {
+  return result.map((item) => {
+    return chatRoomSerializer(item);
+  });
+}
+
+export function chatRoomArrayDeserializer(result: Array<ChatRoom>): any[] {
+  return result.map((item) => {
+    return chatRoomDeserializer(item);
+  });
+}
+
 /** Represents a chat room. */
 export interface ChatRoom {
   /** Room identifier. */
@@ -235,6 +262,113 @@ export function chatRoomDeserializer(item: any): ChatRoom {
     etag: item["etag"],
   };
 }
+
+/** Paged collection of ChatTopic items */
+export interface _PagedChatTopic {
+  /** The ChatTopic items on this page */
+  value: ChatTopic[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedChatTopicDeserializer(item: any): _PagedChatTopic {
+  return {
+    value: chatTopicArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function chatTopicArraySerializer(result: Array<ChatTopic>): any[] {
+  return result.map((item) => {
+    return chatTopicSerializer(item);
+  });
+}
+
+export function chatTopicArrayDeserializer(result: Array<ChatTopic>): any[] {
+  return result.map((item) => {
+    return chatTopicDeserializer(item);
+  });
+}
+
+/** Represents a chat topic in a room. */
+export interface ChatTopic {
+  /** Topic identifier unique within the room. */
+  readonly id: string;
+  /** Topic title. */
+  title: string;
+  /** Timestamp when the topic was created. */
+  readonly createdAt: Date;
+  /** User who created the topic. */
+  readonly createdBy: string;
+  /** Current lifecycle state of the topic. */
+  state: ChatTopicState;
+  /** Conversation associated with this topic. */
+  readonly conversationId: string;
+  /** The entity tag for this resource. */
+  readonly etag: string;
+}
+
+/** The properties required to create or replace a topic. */
+export interface ChatTopicInput {
+  /** Topic title, between 1 and 256 characters. */
+  title: string;
+}
+
+/** The properties to update on a topic. Omitted properties retain their current values. */
+export interface ChatTopicUpdate {
+  /** Topic title, between 1 and 256 characters. */
+  title?: string;
+  /** Current lifecycle state of the topic. */
+  state?: ChatTopicState;
+}
+
+export function chatTopicInputSerializer(item: ChatTopicInput): Record<string, unknown> {
+  return { title: item.title };
+}
+
+export function chatTopicUpdateSerializer(item: ChatTopicUpdate): Record<string, unknown> {
+  return {
+    ...(item.title !== undefined ? { title: item.title } : {}),
+    ...(item.state !== undefined ? { state: item.state } : {}),
+  };
+}
+
+export function chatTopicSerializer(item: ChatTopic): any {
+  return { title: item["title"], state: item["state"] };
+}
+
+export function chatTopicDeserializer(item: any): ChatTopic {
+  return {
+    id: item["id"],
+    title: item["title"],
+    createdAt: new Date(item["createdAt"]),
+    createdBy: item["createdBy"],
+    state: item["state"],
+    conversationId: item["conversationId"],
+    etag: item["etag"],
+  };
+}
+
+/** The lifecycle state of a chat topic. */
+export enum KnownChatTopicState {
+  /** The topic is active. */
+  Normal = "Normal",
+  /** The topic is archived. */
+  Archived = "Archived",
+  /** The topic has been soft deleted. */
+  SoftDeleted = "SoftDeleted",
+}
+
+/**
+ * The lifecycle state of a chat topic.
+ * {@link KnownChatTopicState} can be used interchangeably with ChatTopicState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * - **Normal**: The topic is active.
+ * - **Archived**: The topic is archived.
+ * - **SoftDeleted**: The topic has been soft deleted.
+ */
+export type ChatTopicState = string;
 
 /** Paged collection of ChatRoomMember items */
 export interface _PagedChatRoomMember {
@@ -289,6 +423,33 @@ export function chatRoomMemberDeserializer(item: any): ChatRoomMember {
     roleName: item["roleName"],
     etag: item["etag"],
   };
+}
+
+/** Paged collection of ChatUser items */
+export interface _PagedChatUser {
+  /** The ChatUser items on this page */
+  value: ChatUserUnion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedChatUserDeserializer(item: any): _PagedChatUser {
+  return {
+    value: chatUserUnionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function chatUserUnionArraySerializer(result: Array<ChatUserInputUnion>): any[] {
+  return result.map((item) => {
+    return chatUserUnionSerializer(item);
+  });
+}
+
+export function chatUserUnionArrayDeserializer(result: Array<ChatUserUnion>): any[] {
+  return result.map((item) => {
+    return chatUserUnionDeserializer(item);
+  });
 }
 
 /**
@@ -385,15 +546,51 @@ export function humanChatUserDeserializer(item: any): HumanChatUser {
   };
 }
 
-/** Response containing a Web PubSub client access token. */
-export interface GenerateClientTokenResponse {
-  /** Access token used to connect to Azure Web PubSub. */
-  token: string;
+/** Paged collection of ChatUserRoom items */
+export interface _PagedChatUserRoom {
+  /** The ChatUserRoom items on this page */
+  value: ChatUserRoom[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-export function generateClientTokenResponseDeserializer(item: any): GenerateClientTokenResponse {
+export function _pagedChatUserRoomDeserializer(item: any): _PagedChatUserRoom {
   return {
-    token: item["token"],
+    value: chatUserRoomArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function chatUserRoomArrayDeserializer(result: Array<ChatUserRoom>): any[] {
+  return result.map((item) => {
+    return chatUserRoomDeserializer(item);
+  });
+}
+
+/**
+ * Represents a read-only room projection used to list rooms associated with a user.
+ * This model enables the standard resource operation to derive the
+ * `/api/hubs/{hub}/chat/users/{userId}/rooms` collection path because
+ * `ChatRoom` is a child of `Hub`, not `ChatUser`.
+ * This model does not define an independent room lifecycle.
+ */
+export interface ChatUserRoom {
+  /** Room identifier. */
+  readonly id: string;
+  /** Room title. */
+  title: string;
+  /** Default conversation ID for this room. */
+  readonly defaultConversation: string;
+  /** The entity tag for this resource. */
+  readonly etag: string;
+}
+
+export function chatUserRoomDeserializer(item: any): ChatUserRoom {
+  return {
+    id: item["id"],
+    title: item["title"],
+    defaultConversation: item["defaultConversation"],
+    etag: item["etag"],
   };
 }
 
@@ -401,4 +598,6 @@ export function generateClientTokenResponseDeserializer(item: any): GenerateClie
 export enum KnownVersions {
   /** The 2026-02-01-preview API version. */
   V20260201Preview = "2026-02-01-preview",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }

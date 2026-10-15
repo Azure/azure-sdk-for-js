@@ -8,15 +8,23 @@ import {
 } from "./api/index.js";
 import {
   generateClientToken,
+  listRoomsForUser,
   deleteUser,
   createOrReplaceUser,
   getUser,
+  listUsers,
   deleteRoomMember,
   createOrReplaceRoomMember,
   listRoomMembers,
+  deleteTopic,
+  updateTopic,
+  getTopic,
+  createOrReplaceTopic,
+  listTopics,
   deleteRoom,
   getRoom,
   createOrReplaceRoom,
+  listRooms,
   deleteRole,
   createOrReplaceRole,
   getRole,
@@ -28,15 +36,23 @@ import {
 } from "./api/operations.js";
 import {
   GenerateClientTokenOptionalParams,
+  ListRoomsForUserOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
+  ListUsersOptionalParams,
   DeleteRoomMemberOptionalParams,
   CreateOrReplaceRoomMemberOptionalParams,
   ListRoomMembersOptionalParams,
+  DeleteTopicOptionalParams,
+  UpdateTopicOptionalParams,
+  GetTopicOptionalParams,
+  CreateOrReplaceTopicOptionalParams,
+  ListTopicsOptionalParams,
   DeleteRoomOptionalParams,
   GetRoomOptionalParams,
   CreateOrReplaceRoomOptionalParams,
+  ListRoomsOptionalParams,
   DeleteRoleOptionalParams,
   CreateOrReplaceRoleOptionalParams,
   GetRoleOptionalParams,
@@ -46,14 +62,16 @@ import {
   ListMessagesOptionalParams,
   GetConversationOptionalParams,
 } from "./api/options.js";
+import { GenerateClientTokenResponse } from "./models/customizations/models.js";
 import {
   ChatConversation,
   ChatMessage,
   ChatRole,
   ChatRoom,
+  ChatTopic,
   ChatRoomMember,
   ChatUserUnion,
-  GenerateClientTokenResponse,
+  ChatUserRoom,
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
@@ -83,6 +101,14 @@ export class WebPubSubChatServiceClient {
     return generateClientToken(this._client, options);
   }
 
+  /** List rooms for a user with pagination. */
+  listRoomsForUser(
+    userId: string,
+    options: ListRoomsForUserOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatUserRoom> {
+    return listRoomsForUser(this._client, userId, options);
+  }
+
   /** Delete a user. */
   deleteUser(
     userId: string,
@@ -106,6 +132,13 @@ export class WebPubSubChatServiceClient {
     options: GetUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return getUser(this._client, userId, options);
+  }
+
+  /** List all users with pagination. */
+  listUsers(
+    options: ListUsersOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatUserUnion> {
+    return listUsers(this._client, options);
   }
 
   /** Delete a room member. */
@@ -135,6 +168,52 @@ export class WebPubSubChatServiceClient {
     return listRoomMembers(this._client, roomId, options);
   }
 
+  /** Soft delete a topic. */
+  deleteTopic(
+    roomId: string,
+    topicId: string,
+    options: DeleteTopicOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return deleteTopic(this._client, roomId, topicId, options);
+  }
+
+  /** Update a topic. */
+  updateTopic(
+    roomId: string,
+    topicId: string,
+    resource: ChatTopic,
+    options: UpdateTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return updateTopic(this._client, roomId, topicId, resource, options);
+  }
+
+  /** Get topic information. */
+  getTopic(
+    roomId: string,
+    topicId: string,
+    options: GetTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return getTopic(this._client, roomId, topicId, options);
+  }
+
+  /** Create or replace a topic with a client-specified ID. */
+  createOrReplaceTopic(
+    roomId: string,
+    topicId: string,
+    resource: ChatTopic,
+    options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return createOrReplaceTopic(this._client, roomId, topicId, resource, options);
+  }
+
+  /** List topics in a room with pagination. */
+  listTopics(
+    roomId: string,
+    options: ListTopicsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatTopic> {
+    return listTopics(this._client, roomId, options);
+  }
+
   /** Delete a room. */
   deleteRoom(
     roomId: string,
@@ -158,6 +237,13 @@ export class WebPubSubChatServiceClient {
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return createOrReplaceRoom(this._client, roomId, resource, options);
+  }
+
+  /** List rooms with pagination. */
+  listRooms(
+    options: ListRoomsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatRoom> {
+    return listRooms(this._client, options);
   }
 
   /** Delete a role. */
