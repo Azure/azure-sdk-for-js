@@ -22,7 +22,7 @@ export interface InstrumentableMessage {
    * The application specific properties which can be
    * used for custom message metadata.
    */
-  applicationProperties?: { [key: string]: number | boolean | string | Date | null };
+  applicationProperties?: ServiceBusMessage["applicationProperties"];
 }
 
 /**

@@ -6,12 +6,14 @@ import type {
   ServiceBusReceivedMessage,
 } from "../../../src/serviceBusMessage.js";
 import {
+  fromRheaMessage,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
 } from "../../../src/serviceBusMessage.js";
-import type { Delivery, Message } from "rhea-promise";
+import type { Delivery, Message, Typed } from "rhea-promise";
+import { message as rheaMessageUtil } from "rhea-promise";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants } from "@azure/core-amqp";
 import {
@@ -140,6 +142,49 @@ describe("AMQP message encoding", () => {
       }
 
       assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+    });
+
+    it("encodes explicitly typed application properties", () => {
+      const rheaMessage = toRheaMessage(
+        {
+          body: "hello",
+          applicationProperties: {
+            priority: { type: "ubyte", value: 200 },
+            category: { type: "symbol", value: "orders" },
+          },
+        },
+        defaultDataTransformer,
+      );
+
+      assert.equal((rheaMessage.application_properties?.priority as Typed).type.name, "Ubyte");
+      assert.equal((rheaMessage.application_properties?.category as Typed).type.name, "Sym8");
+    });
+
+    it("exposes and resends received application property types", () => {
+      const encoded = rheaMessageUtil.encode(
+        toRheaMessage(
+          {
+            body: "hello",
+            applicationProperties: {
+              priority: { type: "ubyte", value: 200 },
+              category: { type: "symbol", value: "orders" },
+            },
+          },
+          defaultDataTransformer,
+        ),
+      );
+      const received = fromRheaMessage(rheaMessageUtil.decode(encoded) as unknown as Message, {
+        skipParsingBodyAsJson: false,
+      });
+
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes, {
+        priority: { type: "ubyte", value: 200 },
+        category: { type: "symbol", value: "orders" },
+      });
+
+      const resent = toRheaMessage(received, defaultDataTransformer);
+      assert.equal((resent.application_properties?.priority as Typed).type.name, "Ubyte");
+      assert.equal((resent.application_properties?.category as Typed).type.name, "Sym8");
     });
 
     it("ServiceBusReceivedMessage", () => {

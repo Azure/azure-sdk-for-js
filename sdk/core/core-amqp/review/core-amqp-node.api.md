@@ -32,6 +32,9 @@ export interface AmqpAnnotatedMessage {
     applicationProperties?: {
         [key: string]: any;
     };
+    applicationPropertiesWithAmqpTypes?: Readonly<{
+        [key: string]: AmqpApplicationProperty;
+    }>;
     body: any;
     bodyType?: "data" | "sequence" | "value";
     deliveryAnnotations?: {
@@ -51,6 +54,72 @@ export interface AmqpAnnotatedMessage {
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
     toRheaMessage(msg: AmqpAnnotatedMessage): Message;
+};
+
+// @public
+export type AmqpApplicationProperty = {
+    readonly type: "null";
+    readonly value: null;
+} | {
+    readonly type: "boolean";
+    readonly value: boolean;
+} | {
+    readonly type: "ubyte";
+    readonly value: number;
+} | {
+    readonly type: "ushort";
+    readonly value: number;
+} | {
+    readonly type: "uint";
+    readonly value: number;
+} | {
+    readonly type: "ulong";
+    readonly value: bigint;
+} | {
+    readonly type: "byte";
+    readonly value: number;
+} | {
+    readonly type: "short";
+    readonly value: number;
+} | {
+    readonly type: "int";
+    readonly value: number;
+} | {
+    readonly type: "long";
+    readonly value: bigint;
+} | {
+    readonly type: "float";
+    readonly value: number;
+} | {
+    readonly type: "double";
+    readonly value: number;
+} | {
+    readonly type: "decimal32";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "decimal64";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "decimal128";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "char";
+    readonly value: string;
+} | {
+    readonly type: "timestamp";
+    readonly value: Date;
+} | {
+    readonly type: "uuid";
+    readonly value: string;
+} | {
+    readonly type: "binary";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "string";
+    readonly value: string;
+} | {
+    readonly type: "symbol";
+    readonly value: string;
 };
 
 // @public
@@ -89,6 +158,9 @@ export const AmqpMessageProperties: {
     toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
     fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
+
+// @internal (undocumented)
+export type _ApplicationPropertiesWithTypes = Readonly<Record<string, AmqpApplicationProperty>>;
 
 // @public
 export interface CancellableAsyncLock {
@@ -425,6 +497,9 @@ export enum ErrorNameConditionMapper {
     UnauthorizedError = "amqp:unauthorized-access"
 }
 
+// @internal
+export function _getApplicationPropertiesWithAmqpTypes(applicationProperties: Record<string, unknown> | undefined): _ApplicationPropertiesWithTypes | undefined;
+
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
@@ -603,6 +678,9 @@ export enum TokenType {
     CbsTokenTypeJwt = "jwt",
     CbsTokenTypeSas = "servicebus.windows.net:sastoken"
 }
+
+// @internal
+export function _toRheaApplicationProperties(applicationProperties: Record<string, unknown> | undefined, applicationPropertiesWithTypes?: _ApplicationPropertiesWithTypes): Record<string, unknown> | undefined;
 
 // @public
 export function translate(err: unknown): MessagingError | Error;

@@ -4,6 +4,11 @@ import { AmqpMessageHeader } from "./messageHeader.js";
 import { AmqpMessageProperties } from "./messageProperties.js";
 import type { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "./util/constants.js";
+import {
+  type AmqpApplicationProperty,
+  _getApplicationPropertiesWithAmqpTypes,
+  _toRheaApplicationProperties,
+} from "./amqpApplicationProperties.js";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
@@ -30,6 +35,15 @@ export interface AmqpAnnotatedMessage {
    * A dictionary containing application specific message properties.
    */
   applicationProperties?: { [key: string]: any };
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   *
+   * When present, these values take precedence over matching entries in
+   * `applicationProperties` when the message is encoded.
+   */
+  applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    *  Describes the defined set of standard properties of the message.
    */
@@ -59,6 +73,9 @@ export const AmqpAnnotatedMessage = {
       messageAnnotations: msg.message_annotations,
       deliveryAnnotations: msg.delivery_annotations,
       applicationProperties: msg.application_properties,
+      applicationPropertiesWithAmqpTypes: _getApplicationPropertiesWithAmqpTypes(
+        msg.application_properties,
+      ),
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body,
     };
@@ -92,7 +109,10 @@ export const AmqpAnnotatedMessage = {
       body: msg.body,
       message_annotations: msg.messageAnnotations,
       delivery_annotations: msg.deliveryAnnotations,
-      application_properties: msg.applicationProperties,
+      application_properties: _toRheaApplicationProperties(
+        msg.applicationProperties,
+        msg.applicationPropertiesWithAmqpTypes,
+      ),
       footer: msg.footer,
     };
 

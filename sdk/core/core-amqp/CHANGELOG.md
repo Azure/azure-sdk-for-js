@@ -1,5 +1,17 @@
 # Release History
 
+## 4.5.2 (Unreleased)
+
+### Features Added
+
+- Added `AmqpApplicationProperty` and preserved the AMQP scalar types of decoded application properties so they can be inspected and encoded again without changing their wire types.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.5.1 (2026-09-03)
 
 ### Other Changes

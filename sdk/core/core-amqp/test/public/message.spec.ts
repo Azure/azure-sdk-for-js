@@ -7,14 +7,118 @@ import {
   AmqpMessageHeader,
   AmqpMessageProperties,
   Constants,
+  type AmqpApplicationProperty,
 } from "../../src/index.js";
 import type {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,
   Message as RheaMessage,
 } from "rhea-promise";
+import { message as rheaMessageUtil } from "rhea-promise";
 
 describe("message", function () {
+  describe("application properties", function () {
+    const properties: Record<string, AmqpApplicationProperty> = {
+      nullValue: { type: "null", value: null },
+      booleanValue: { type: "boolean", value: true },
+      ubyteValue: { type: "ubyte", value: 255 },
+      ushortValue: { type: "ushort", value: 65535 },
+      uintValue: { type: "uint", value: 4294967295 },
+      ulongValue: { type: "ulong", value: 18446744073709551615n },
+      byteValue: { type: "byte", value: -128 },
+      shortValue: { type: "short", value: -32768 },
+      intValue: { type: "int", value: -2147483648 },
+      longValue: { type: "long", value: -9223372036854775808n },
+      floatValue: { type: "float", value: 1.25 },
+      doubleValue: { type: "double", value: 1.25 },
+      decimal32Value: { type: "decimal32", value: Uint8Array.of(0x22, 0x50, 0, 0) },
+      decimal64Value: {
+        type: "decimal64",
+        value: Uint8Array.of(0x22, 0x38, 0, 0, 0, 0, 0, 0),
+      },
+      decimal128Value: {
+        type: "decimal128",
+        value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+      },
+      charValue: { type: "char", value: "A" },
+      timestampValue: { type: "timestamp", value: new Date("2026-01-01T00:00:00.000Z") },
+      uuidValue: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+      binaryValue: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+      stringValue: { type: "string", value: "string" },
+      symbolValue: { type: "symbol", value: "symbol" },
+    };
+    const decode = (message: RheaMessage): RheaMessage =>
+      rheaMessageUtil.decode(rheaMessageUtil.encode(message)) as unknown as RheaMessage;
+
+    it("preserves explicitly typed values across the Rhea codec", function () {
+      const rheaMessage = AmqpAnnotatedMessage.toRheaMessage({
+        applicationProperties: properties,
+        body: "body",
+      });
+
+      const decoded = decode(rheaMessage);
+      const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(decoded);
+
+      assert.deepEqual(annotatedMessage.applicationPropertiesWithAmqpTypes, properties);
+      assert.equal(annotatedMessage.applicationProperties?.ubyteValue, 255);
+      assert.equal(annotatedMessage.applicationProperties?.floatValue, 1.25);
+      assert.equal(annotatedMessage.applicationProperties?.symbolValue, "symbol");
+    });
+
+    it("uses preserved types when a received message is encoded again", function () {
+      const firstEncoding = AmqpAnnotatedMessage.toRheaMessage({
+        applicationProperties: properties,
+        body: "body",
+      });
+      const received = AmqpAnnotatedMessage.fromRheaMessage(decode(firstEncoding));
+
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+
+      assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, properties);
+    });
+
+    it("uses edited values and does not restore deleted properties on resend", function () {
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              edited: { type: "ubyte", value: 200 },
+              deleted: { type: "symbol", value: "remove-me" },
+            },
+            body: "body",
+          }),
+        ),
+      );
+      received.applicationProperties!.edited = 201;
+      delete received.applicationProperties!.deleted;
+
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+
+      assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, {
+        edited: { type: "ubyte", value: 201 },
+      });
+      assert.notProperty(resent.applicationProperties, "deleted");
+    });
+
+    it("rejects values outside the selected AMQP type", function () {
+      assert.throws(
+        () =>
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              invalid: { type: "ubyte", value: 256 },
+            },
+            body: "body",
+          }),
+        RangeError,
+        "AMQP ubyte",
+      );
+    });
+  });
+
   describe("time to live", function () {
     it("should be overridden by absolute expiry time on received message", function () {
       const creationTime = new Date();

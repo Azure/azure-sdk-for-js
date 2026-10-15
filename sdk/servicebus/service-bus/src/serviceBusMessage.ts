@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
+import {
+  AmqpAnnotatedMessage,
+  Constants,
+  type AmqpApplicationProperty,
+  _getApplicationPropertiesWithAmqpTypes,
+  _toRheaApplicationProperties,
+} from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
 import type {
@@ -214,7 +220,9 @@ export interface ServiceBusMessage {
    * The application specific properties which can be
    * used for custom message metadata.
    */
-  applicationProperties?: { [key: string]: number | boolean | string | Date | null };
+  applicationProperties?: {
+    [key: string]: number | boolean | string | Date | null | AmqpApplicationProperty;
+  };
 }
 
 /**
@@ -335,7 +343,10 @@ export function toRheaMessage(
   }
 
   if (msg.applicationProperties != null) {
-    amqpMsg.application_properties = msg.applicationProperties;
+    amqpMsg.application_properties = _toRheaApplicationProperties(
+      msg.applicationProperties,
+      isServiceBusReceivedMessage(msg) ? msg.applicationPropertiesWithAmqpTypes : undefined,
+    );
   }
   if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
@@ -423,6 +434,16 @@ export function updateScheduledTime(
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
  */
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   *
+   * Use these values when inspecting or resending a message without changing
+   * the original AMQP application property types.
+   * @readonly
+   */
+  readonly applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    * The reason for deadlettering the message.
    * @readonly
@@ -547,6 +568,9 @@ export function fromRheaMessage(
       ? rheaMessage.application_properties
       : convertDatesToNumbers(rheaMessage.application_properties);
   }
+  const applicationPropertiesWithAmqpTypes = _getApplicationPropertiesWithAmqpTypes(
+    rheaMessage.application_properties,
+  );
   if (rheaMessage.content_type != null) {
     sbmsg.contentType = rheaMessage.content_type;
   }
@@ -679,6 +703,7 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
+    applicationPropertiesWithAmqpTypes,
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       string | undefined,

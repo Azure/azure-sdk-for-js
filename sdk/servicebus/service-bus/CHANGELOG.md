@@ -1,5 +1,17 @@
 # Release History
 
+## 7.10.1 (Unreleased)
+
+### Features Added
+
+- Added explicitly typed AMQP application properties and the `applicationPropertiesWithAmqpTypes` view on received messages, enabling receive-to-resend scenarios to preserve AMQP scalar types. [#25014](https://github.com/Azure/azure-sdk-for-js/issues/25014)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.10.0 (2026-10-06)
 
 ### Features Added
