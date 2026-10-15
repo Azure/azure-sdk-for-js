@@ -1626,6 +1626,8 @@ export interface Cluster extends TrackedResource {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
+  /** Firewall rules associated with the cluster. */
+  firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
   /** Current provisioning status of the cluster */
@@ -1653,6 +1655,7 @@ export function clusterSerializer(item: Cluster): any {
       "minimumTlsVersion",
       "encryption",
       "maintenanceConfiguration",
+      "firewallRules",
       "publicNetworkAccess",
     ])
       ? undefined
@@ -1713,6 +1716,9 @@ export function clusterCreatePropertiesSerializer(item: ClusterCreateProperties)
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArraySerializer(item["firewallRules"]),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
@@ -1727,6 +1733,9 @@ export function clusterCreatePropertiesDeserializer(item: any): ClusterCreatePro
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArrayDeserializer(item["firewallRules"]),
     hostName: item["hostName"],
     provisioningState: item["provisioningState"],
     redundancyMode: item["redundancyMode"],
@@ -2077,6 +2086,8 @@ export interface ClusterCommonProperties {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
+  /** Firewall rules associated with the cluster. */
+  firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
   /** Current provisioning status of the cluster */
@@ -2103,6 +2114,9 @@ export function clusterCommonPropertiesSerializer(item: ClusterCommonProperties)
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArraySerializer(item["firewallRules"]),
   };
 }
 
@@ -2116,6 +2130,9 @@ export function clusterCommonPropertiesDeserializer(item: any): ClusterCommonPro
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArrayDeserializer(item["firewallRules"]),
     hostName: item["hostName"],
     provisioningState: item["provisioningState"],
     redundancyMode: item["redundancyMode"],
@@ -2403,6 +2420,37 @@ export enum KnownMaintenanceDayOfWeek {
  */
 export type MaintenanceDayOfWeek = string;
 
+export function firewallRuleArraySerializer(result: Array<FirewallRule>): any[] {
+  return result.map((item) => {
+    return firewallRuleSerializer(item);
+  });
+}
+
+export function firewallRuleArrayDeserializer(result: Array<FirewallRule>): any[] {
+  return result.map((item) => {
+    return firewallRuleDeserializer(item);
+  });
+}
+
+/** A firewall rule associated with the cluster. */
+export interface FirewallRule {
+  /** The name of the firewall rule. */
+  name: string;
+  /** The source address prefix for the firewall rule. */
+  sourceAddressPrefix: string;
+}
+
+export function firewallRuleSerializer(item: FirewallRule): any {
+  return { name: item["name"], sourceAddressPrefix: item["sourceAddressPrefix"] };
+}
+
+export function firewallRuleDeserializer(item: any): FirewallRule {
+  return {
+    name: item["name"],
+    sourceAddressPrefix: item["sourceAddressPrefix"],
+  };
+}
+
 /** Explains the current redundancy strategy of the cluster, which affects the expected SLA. */
 export enum KnownRedundancyMode {
   /** No redundancy. Availability loss will occur. */
@@ -2467,6 +2515,8 @@ export interface ClusterUpdate {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
+  /** Firewall rules associated with the cluster. */
+  firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
   /** Current provisioning status of the cluster */
@@ -2493,6 +2543,7 @@ export function clusterUpdateSerializer(item: ClusterUpdate): any {
       "minimumTlsVersion",
       "encryption",
       "maintenanceConfiguration",
+      "firewallRules",
       "publicNetworkAccess",
     ])
       ? undefined
@@ -2520,6 +2571,9 @@ export function clusterUpdatePropertiesSerializer(item: ClusterUpdateProperties)
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArraySerializer(item["firewallRules"]),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
@@ -2800,8 +2854,18 @@ export function operationStatusDeserializer(item: any): OperationStatus {
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2025-08-01-preview API version. */
+  V20250801Preview = "2025-08-01-preview",
+  /** The 2026-02-01-preview API version. */
+  V20260201Preview = "2026-02-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-06-01-preview API version. */
+  V20260601Preview = "2026-06-01-preview",
   /** The 2026-09-01 API version. */
   V20260901 = "2026-09-01",
+  /** The 2026-10-01-preview API version. */
+  V20261001Preview = "2026-10-01-preview",
 }
 
 export function _databasePropertiesSerializer(item: Database): any {
@@ -2904,6 +2968,9 @@ export function _clusterPropertiesSerializer(item: Cluster): any {
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArraySerializer(item["firewallRules"]),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
@@ -2918,6 +2985,9 @@ export function _clusterPropertiesDeserializer(item: any) {
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArrayDeserializer(item["firewallRules"]),
     hostName: item["hostName"],
     provisioningState: item["provisioningState"],
     redundancyMode: item["redundancyMode"],
@@ -2941,6 +3011,9 @@ export function _clusterUpdatePropertiesSerializer(item: ClusterUpdate): any {
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
+    firewallRules: !item["firewallRules"]
+      ? item["firewallRules"]
+      : firewallRuleArraySerializer(item["firewallRules"]),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }

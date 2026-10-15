@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.Cache": "2026-09-01"
+    "Microsoft.Cache": "2026-10-01-preview"
   },
   "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
@@ -58,6 +58,7 @@
       "@azure/arm-redisenterprisecache!MaintenanceConfiguration:interface": "Microsoft.Cache.MaintenanceConfiguration",
       "@azure/arm-redisenterprisecache!MaintenanceWindow:interface": "Microsoft.Cache.MaintenanceWindow",
       "@azure/arm-redisenterprisecache!MaintenanceWindowSchedule:interface": "Microsoft.Cache.MaintenanceWindowSchedule",
+      "@azure/arm-redisenterprisecache!FirewallRule:interface": "Microsoft.Cache.FirewallRule",
       "@azure/arm-redisenterprisecache!Sku:interface": "Microsoft.Cache.Sku",
       "@azure/arm-redisenterprisecache!ManagedServiceIdentity:interface": "Azure.ResourceManager.Legacy.ManagedServiceIdentityV4",
       "@azure/arm-redisenterprisecache!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
@@ -110,10 +111,10 @@
       "@azure/arm-redisenterprisecache!ClusterCreatePropertiesPublicNetworkAccess:type": "Microsoft.Cache.ClusterCreateProperties.publicNetworkAccess.anonymous",
       "@azure/arm-redisenterprisecache!ClusterUpdatePropertiesPublicNetworkAccess:type": "Microsoft.Cache.ClusterUpdateProperties.publicNetworkAccess.anonymous",
       "@azure/arm-redisenterprisecache!OperationsStatusOperations#get:member": "Microsoft.Cache.OperationsStatusOperationGroup.get",
-      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperations#list:member": "Microsoft.Cache.AccessPolicyAssignments.list",
-      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperations#delete:member": "Microsoft.Cache.AccessPolicyAssignments.delete",
-      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperations#createUpdate:member": "Microsoft.Cache.AccessPolicyAssignments.createUpdate",
-      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperations#get:member": "Microsoft.Cache.AccessPolicyAssignments.get",
+      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperationsOperations#list:member": "Microsoft.Cache.AccessPolicyAssignments.list",
+      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperationsOperations#delete:member": "Microsoft.Cache.AccessPolicyAssignments.delete",
+      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperationsOperations#createUpdate:member": "Microsoft.Cache.AccessPolicyAssignments.createUpdate",
+      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentOperationsOperations#get:member": "Microsoft.Cache.AccessPolicyAssignments.get",
       "@azure/arm-redisenterprisecache!PrivateLinkResourcesOperations#listByCluster:member": "Microsoft.Cache.Clusters.listByCluster",
       "@azure/arm-redisenterprisecache!RedisEnterpriseOperations#listSkusForScaling:member": "Microsoft.Cache.Clusters.listSkusForScaling",
       "@azure/arm-redisenterprisecache!RedisEnterpriseOperations#list:member": "Microsoft.Cache.Clusters.list",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { AccessPolicyAssignmentOperations } from "./accessPolicyAssignment/index.js";
+export type { AccessPolicyAssignmentOperationsOperations } from "./accessPolicyAssignmentOperations/index.js";
 export type { ClustersOperations } from "./clusters/index.js";
 export type { DatabasesOperations } from "./databases/index.js";
 export type { MigrationsOperations } from "./migrations/index.js";

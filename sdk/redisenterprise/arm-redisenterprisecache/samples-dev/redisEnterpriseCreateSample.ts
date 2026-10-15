@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
  *
  * @summary creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: 2026-09-01/RedisEnterpriseCreate.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseCreate.json
  */
 async function redisEnterpriseCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function redisEnterpriseCreate(): Promise<void> {
       },
     },
     minimumTlsVersion: "1.2",
-    publicNetworkAccess: "Disabled",
+    publicNetworkAccess: "Enabled",
     maintenanceConfiguration: {
       maintenanceWindows: [
         { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Monday" } },
@@ -42,6 +42,10 @@ async function redisEnterpriseCreate(): Promise<void> {
         { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Wednesday" } },
       ],
     },
+    firewallRules: [
+      { name: "allowOfficeNetwork", sourceAddressPrefix: "10.0.0.0/24" },
+      { name: "allowPartnerNetwork", sourceAddressPrefix: "192.168.1.0/24" },
+    ],
     sku: { name: "EnterpriseFlash_F300", capacity: 3 },
     tags: { tag1: "value1" },
     zones: ["1", "2", "3"],

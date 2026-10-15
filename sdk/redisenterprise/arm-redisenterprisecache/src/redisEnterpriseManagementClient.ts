@@ -6,8 +6,8 @@ import type {
   RedisEnterpriseManagementClientOptionalParams,
 } from "./api/index.js";
 import { createRedisEnterpriseManagement } from "./api/index.js";
-import type { AccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
-import { _getAccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
+import type { AccessPolicyAssignmentOperationsOperations } from "./classic/accessPolicyAssignmentOperations/index.js";
+import { _getAccessPolicyAssignmentOperationsOperations } from "./classic/accessPolicyAssignmentOperations/index.js";
 import type { ClustersOperations } from "./classic/clusters/index.js";
 import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
@@ -43,7 +43,9 @@ export class RedisEnterpriseManagementClient {
     this._client = createRedisEnterpriseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operationsStatus = _getOperationsStatusOperations(this._client);
-    this.accessPolicyAssignment = _getAccessPolicyAssignmentOperations(this._client);
+    this.accessPolicyAssignmentOperations = _getAccessPolicyAssignmentOperationsOperations(
+      this._client,
+    );
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.redisEnterprise = _getRedisEnterpriseOperations(this._client);
     this.migrations = _getMigrationsOperations(this._client);
@@ -55,8 +57,8 @@ export class RedisEnterpriseManagementClient {
 
   /** The operation groups for operationsStatus */
   public readonly operationsStatus: OperationsStatusOperations;
-  /** The operation groups for accessPolicyAssignment */
-  public readonly accessPolicyAssignment: AccessPolicyAssignmentOperations;
+  /** The operation groups for accessPolicyAssignmentOperations */
+  public readonly accessPolicyAssignmentOperations: AccessPolicyAssignmentOperationsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for redisEnterprise */

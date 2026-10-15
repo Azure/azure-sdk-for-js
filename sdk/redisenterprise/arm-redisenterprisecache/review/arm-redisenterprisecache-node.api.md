@@ -36,37 +36,37 @@ export interface AccessPolicyAssignment extends ProxyResource {
 }
 
 // @public
-export interface AccessPolicyAssignmentCreateUpdateOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsCreateUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AccessPolicyAssignmentDeleteOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AccessPolicyAssignmentGetOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessPolicyAssignmentListOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessPolicyAssignmentOperations {
+export interface AccessPolicyAssignmentOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
+    beginCreateUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
     // @deprecated (undocumented)
-    beginCreateUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<AccessPolicyAssignment>;
+    beginCreateUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => Promise<AccessPolicyAssignment>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<void>;
-    createUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
-    delete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentGetOptionalParams) => Promise<AccessPolicyAssignment>;
-    list: (resourceGroupName: string, clusterName: string, databaseName: string, options?: AccessPolicyAssignmentListOptionalParams) => PagedAsyncIterableIterator<AccessPolicyAssignment>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => Promise<void>;
+    createUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
+    delete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsGetOptionalParams) => Promise<AccessPolicyAssignment>;
+    list: (resourceGroupName: string, clusterName: string, databaseName: string, options?: AccessPolicyAssignmentOperationsListOptionalParams) => PagedAsyncIterableIterator<AccessPolicyAssignment>;
 }
 
 // @public
@@ -109,6 +109,7 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public
 export interface Cluster extends TrackedResource {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -129,6 +130,7 @@ export interface Cluster extends TrackedResource {
 // @public
 export interface ClusterCommonProperties {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     maintenanceConfiguration?: MaintenanceConfiguration;
@@ -183,6 +185,7 @@ export interface ClustersUnlinkMigratedEndpointOptionalParams extends OperationO
 // @public
 export interface ClusterUpdate {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -431,6 +434,12 @@ export type EvictionPolicy = string;
 // @public
 export interface ExportClusterParameters {
     sasUri: string;
+}
+
+// @public
+export interface FirewallRule {
+    name: string;
+    sourceAddressPrefix: string;
 }
 
 // @public
@@ -733,7 +742,12 @@ export enum KnownTlsVersion {
 
 // @public
 export enum KnownVersions {
-    V20260901 = "2026-09-01"
+    V20250801Preview = "2025-08-01-preview",
+    V20260201Preview = "2026-02-01-preview",
+    V20260501Preview = "2026-05-01-preview",
+    V20260601Preview = "2026-06-01-preview",
+    V20260901 = "2026-09-01",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
@@ -1100,7 +1114,7 @@ export interface RedisEnterpriseListSkusForScalingOptionalParams extends Operati
 // @public (undocumented)
 export class RedisEnterpriseManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: RedisEnterpriseManagementClientOptionalParams);
-    readonly accessPolicyAssignment: AccessPolicyAssignmentOperations;
+    readonly accessPolicyAssignmentOperations: AccessPolicyAssignmentOperationsOperations;
     readonly clusters: ClustersOperations;
     readonly databases: DatabasesOperations;
     readonly migrations: MigrationsOperations;

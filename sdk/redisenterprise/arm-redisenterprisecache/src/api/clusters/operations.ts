@@ -22,7 +22,7 @@ export function _unlinkMigratedEndpointSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,6 @@ export function unlinkMigratedEndpoint(
     getInitialResponse: () =>
       _unlinkMigratedEndpointSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

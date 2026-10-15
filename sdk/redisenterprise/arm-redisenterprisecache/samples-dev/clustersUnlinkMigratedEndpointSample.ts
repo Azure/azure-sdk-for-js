@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to unlinks the migrated endpoint from an Azure Managed Redis cluster that was migrated from Azure Cache for Redis Enterprise, removing the source cache endpoint that was redirected to this cluster during migration.
  *
  * @summary unlinks the migrated endpoint from an Azure Managed Redis cluster that was migrated from Azure Cache for Redis Enterprise, removing the source cache endpoint that was redirected to this cluster during migration.
- * x-ms-original-file: 2026-09-01/RedisEnterpriseUnlinkMigratedEndpoint.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseUnlinkMigratedEndpoint.json
  */
 async function redisEnterpriseUnlinkMigratedEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

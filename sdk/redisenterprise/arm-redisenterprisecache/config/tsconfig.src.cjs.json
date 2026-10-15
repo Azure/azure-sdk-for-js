@@ -7,7 +7,7 @@
     "../src/index.ts",
     "../src/api/index.ts",
     "../src/api/operationsStatus/index.ts",
-    "../src/api/accessPolicyAssignment/index.ts",
+    "../src/api/accessPolicyAssignmentOperations/index.ts",
     "../src/api/privateLinkResources/index.ts",
     "../src/api/redisEnterprise/index.ts",
     "../src/api/migrations/index.ts",

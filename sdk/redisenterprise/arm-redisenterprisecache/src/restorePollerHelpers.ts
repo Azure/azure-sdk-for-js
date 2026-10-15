@@ -5,7 +5,7 @@ import type { RedisEnterpriseManagementClient } from "./redisEnterpriseManagemen
 import {
   _$deleteDeserialize,
   _createUpdateDeserialize,
-} from "./api/accessPolicyAssignment/operations.js";
+} from "./api/accessPolicyAssignmentOperations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeRedisEnterprise,
   _updateDeserialize,

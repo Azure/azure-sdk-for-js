@@ -21,7 +21,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Cache/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,10 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }

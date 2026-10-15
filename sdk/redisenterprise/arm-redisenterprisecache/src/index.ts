@@ -93,6 +93,7 @@ export type {
   MaintenanceWindowType,
   MaintenanceWindowSchedule,
   MaintenanceDayOfWeek,
+  FirewallRule,
   RedundancyMode,
   TrackedResource,
   ClusterUpdate,
@@ -138,11 +139,11 @@ export {
 } from "./models/index.js";
 export type { RedisEnterpriseManagementClientOptionalParams } from "./api/index.js";
 export type {
-  AccessPolicyAssignmentListOptionalParams,
-  AccessPolicyAssignmentDeleteOptionalParams,
-  AccessPolicyAssignmentCreateUpdateOptionalParams,
-  AccessPolicyAssignmentGetOptionalParams,
-} from "./api/accessPolicyAssignment/index.js";
+  AccessPolicyAssignmentOperationsListOptionalParams,
+  AccessPolicyAssignmentOperationsDeleteOptionalParams,
+  AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
+  AccessPolicyAssignmentOperationsGetOptionalParams,
+} from "./api/accessPolicyAssignmentOperations/index.js";
 export type { ClustersUnlinkMigratedEndpointOptionalParams } from "./api/clusters/index.js";
 export type {
   DatabasesUpgradeDBRedisVersionOptionalParams,
@@ -186,7 +187,7 @@ export type {
   RedisEnterpriseGetOptionalParams,
 } from "./api/redisEnterprise/index.js";
 export type {
-  AccessPolicyAssignmentOperations,
+  AccessPolicyAssignmentOperationsOperations,
   ClustersOperations,
   DatabasesOperations,
   MigrationsOperations,
