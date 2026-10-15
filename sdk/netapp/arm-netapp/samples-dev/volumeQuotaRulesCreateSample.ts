@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create the specified quota rule within the given volume
  *
  * @summary create the specified quota rule within the given volume
- * x-ms-original-file: 2026-06-15-preview/VolumeQuotaRules_Create.json
+ * x-ms-original-file: 2026-07-01/VolumeQuotaRules_Create.json
  */
 async function volumeQuotaRulesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "5275316f-a498-48d6-b324-2cbfdc4311b9";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
   const result = await client.volumeQuotaRules.create(
     "myRG",
