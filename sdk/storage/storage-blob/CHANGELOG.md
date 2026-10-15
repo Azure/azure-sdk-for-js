@@ -11,7 +11,7 @@
 - Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call to an endpoint returned by `getLayout`. Both use the new `LayoutEndpoint` type.
 - Added `downloadHint` to the blob download response.
 - `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
-- Added `request100ContinueOptions` to the client options. By default, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as uploads, for one minute after the service responds with status 429, 500 or 503. Set `request100ContinueOptions.mode` to `"auto"`, `"always"` or `"never"` to choose when the header is sent, or set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
+- Added `expectContinueOptions` to the client options. By default, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as uploads, for one minute after the service responds with status 429, 500 or 503. Set `expectContinueOptions.mode` to `"auto"`, `"always"` or `"never"` to choose when the header is sent, or set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
 
 ### Breaking Changes
 

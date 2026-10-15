@@ -6,7 +6,7 @@ import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import type { HttpMethods, Pipeline, RequestBodyType } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { Request100ContinueOptions } from "../../src/index.js";
+import type { ExpectContinueOptions } from "../../src/index.js";
 import { BlockBlobClient, ContainerClient, StorageSharedKeyCredential } from "../../src/index.js";
 import { getCoreClientOptions, newPipeline } from "../../src/Pipeline.js";
 import {
@@ -48,7 +48,7 @@ function fakeCredential(): StorageSharedKeyCredential {
  * client; with `withHttpClient` the answers come from a caller-supplied fake `httpClient`.
  */
 function createTestPipeline(
-  request100ContinueOptions?: Request100ContinueOptions,
+  expectContinueOptions?: ExpectContinueOptions,
   maxTries: number = 1,
   { withHttpClient = false }: { withHttpClient?: boolean } = {},
 ): {
@@ -74,7 +74,7 @@ function createTestPipeline(
     newPipeline(fakeCredential(), {
       httpClient: withHttpClient ? httpClient : undefined,
       retryOptions: { maxTries },
-      request100ContinueOptions,
+      expectContinueOptions,
     }),
   );
   // Both are declared optional on ExtendedServiceClientOptions but are always populated here.
@@ -291,21 +291,21 @@ describe("Expect: 100-continue in the blob pipeline", () => {
     });
   });
 
-  describe("contentLengthThreshold", () => {
+  describe("minBodySizeInBytes", () => {
     it("does not send the header on a body smaller than the threshold", async () => {
-      const pipeline = createTestPipeline({ mode: "always", contentLengthThreshold: 5 });
+      const pipeline = createTestPipeline({ mode: "always", minBodySizeInBytes: 5 });
 
       assert.deepStrictEqual(await pipeline.send(withBody("hell")), [undefined]);
     });
 
     it("sends the header on a body as large as the threshold", async () => {
-      const pipeline = createTestPipeline({ mode: "always", contentLengthThreshold: 5 });
+      const pipeline = createTestPipeline({ mode: "always", minBodySizeInBytes: 5 });
 
       assert.deepStrictEqual(await pipeline.send(withBody("hello")), [EXPECT_CONTINUE]);
     });
 
     it("sends the header on a stream body of unknown length", async () => {
-      const pipeline = createTestPipeline({ mode: "always", contentLengthThreshold: 1024 });
+      const pipeline = createTestPipeline({ mode: "always", minBodySizeInBytes: 1024 });
 
       assert.deepStrictEqual(
         await pipeline.send({ method: "PUT", body: Readable.from([Buffer.from("hello")]) }),
@@ -333,7 +333,7 @@ describe("Expect: 100-continue in the blob pipeline", () => {
   });
 
   describe("client options", () => {
-    it("applies request100ContinueOptions passed to a client constructor", async () => {
+    it("applies expectContinueOptions passed to a client constructor", async () => {
       const seen: Array<{ method: string; expect: string | undefined }> = [];
       const { httpClient } = fakeHttpClient((request) => {
         seen.push({ method: request.method, expect: request.headers.get("expect") });
@@ -341,7 +341,7 @@ describe("Expect: 100-continue in the blob pipeline", () => {
       });
       const client = new BlockBlobClient(BLOB_URL, fakeCredential(), {
         httpClient,
-        request100ContinueOptions: { mode: "always" },
+        expectContinueOptions: { mode: "always" },
       });
 
       await client.upload("hello", 5);
@@ -358,7 +358,7 @@ describe("Expect: 100-continue in the blob pipeline", () => {
       });
       const containerClient = new ContainerClient(`${ACCOUNT}/mycontainer`, fakeCredential(), {
         httpClient,
-        request100ContinueOptions: { mode: "auto" },
+        expectContinueOptions: { mode: "auto" },
       });
 
       const throttled = await containerClient
@@ -379,7 +379,7 @@ describe("Expect: 100-continue against the service", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    const blobServiceClient = getBSU(recorder, { request100ContinueOptions: { mode: "always" } });
+    const blobServiceClient = getBSU(recorder, { expectContinueOptions: { mode: "always" } });
     containerClient = blobServiceClient.getContainerClient(
       recorder.variable("container", getUniqueName("container")),
     );

@@ -229,17 +229,16 @@ export function resolveSessionMode(mode: SessionMode | undefined): Exclude<Sessi
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * Determines when requests with a body are sent with the `Expect: 100-continue` header. Only
- * requests whose body is non-empty and at least
- * {@link Request100ContinueOptions.contentLengthThreshold} bytes long, or of unknown length,
- * qualify.
+ * requests whose body is non-empty and at least {@link ExpectContinueOptions.minBodySizeInBytes}
+ * bytes long, or of unknown length, qualify.
  *
- * - `auto`: for {@link Request100ContinueOptions.autoIntervalInMs} after the latest response with
+ * - `auto`: for {@link ExpectContinueOptions.autoIntervalInMs} after the latest response with
  *   status 429, 500 or 503 to any request on the same pipeline. Clients created from one another,
  *   for example with `getContainerClient()`, share a pipeline.
  * - `always`: on every qualifying request.
  * - `never`: never.
  */
-export type Request100ContinueMode = "auto" | "always" | "never";
+export type ExpectContinueMode = "auto" | "always" | "never";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -256,17 +255,18 @@ export type Request100ContinueMode = "auto" | "always" | "never";
  * These options are exported from the browser and React Native entry points for type
  * compatibility, but they have no effect there: the header is only sent in Node.js.
  */
-export interface Request100ContinueOptions {
+export interface ExpectContinueOptions {
   /**
    * When to send the header. Defaults to `auto`, or to `never` when `httpClient` is set, because
    * some HTTP clients, such as ones built on `fetch`, reject the `Expect` header.
    */
-  mode?: Request100ContinueMode;
+  mode?: ExpectContinueMode;
   /**
-   * Requests whose body is empty or smaller than this many bytes are sent without the header. A
-   * body of unknown length counts as large. Defaults to 0.
+   * The smallest body size, in bytes, that is sent with the header. Requests whose body is empty
+   * or smaller than this are sent without it. A body of unknown length counts as large. Defaults
+   * to 0.
    */
-  contentLengthThreshold?: number;
+  minBodySizeInBytes?: number;
   /**
    * In `auto` mode, how long, in milliseconds, the header is sent after a response with status
    * 429, 500 or 503. Defaults to 60000 (one minute).
@@ -316,7 +316,7 @@ export interface StoragePipelineOptions {
    * default the header is only sent for a minute after the service responds with status 429, 500
    * or 503, and never when `httpClient` is set.
    */
-  request100ContinueOptions?: Request100ContinueOptions;
+  expectContinueOptions?: ExpectContinueOptions;
 }
 
 /**
@@ -400,7 +400,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(
       storageExpectContinuePolicy(
-        restOptions.request100ContinueOptions,
+        restOptions.expectContinueOptions,
         // Fetch-based HTTP clients reject the Expect header, so it's opt-in with a custom client.
         v1Client ? "never" : "auto",
       ),

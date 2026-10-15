@@ -53,8 +53,8 @@ export {
   type ServiceClientOptions,
   type SessionMode,
   type SessionOptions,
-  type Request100ContinueMode,
-  type Request100ContinueOptions,
+  type ExpectContinueMode,
+  type ExpectContinueOptions,
 } from "./Pipeline.js";
 export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";
