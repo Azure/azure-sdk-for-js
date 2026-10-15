@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to rehydrate recovery point for restore for a BackupInstance
  *
  * @summary rehydrate recovery point for restore for a BackupInstance
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerRehydrate.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/TriggerRehydrate.json
  */
 async function triggerRehydrate(): Promise<void> {
   const credential = new DefaultAzureCredential();
