@@ -519,6 +519,9 @@ export async function cleanUpPackageDirectory(
   const modularSDKType = getModularSDKType(packageDirectory);
   const sdkType = getSDKType(packageDirectory);
   const pipelineRunMode = runMode !== RunMode.SpecPullRequest && runMode !== RunMode.Batch;
+  const hasCustomizationLayout =
+    fs.existsSync(path.join(packageDirectory, "generated")) ||
+    fs.existsSync(path.join(packageDirectory, "src", "generated"));
 
   if (sdkType === SDKType.RestLevelClient || modularSDKType === ModularSDKType.DataPlane) {
     // For RestLevelClient or Data Plane packages
@@ -529,9 +532,9 @@ export async function cleanUpPackageDirectory(
         `[${packageType}] Skipping cleanup in ${runMode} mode - emitter handles cleanup for: ${packageDirectory}`,
       );
       return;
-    } else if (fs.existsSync(path.join(packageDirectory, "generated"))) {
+    } else if (hasCustomizationLayout) {
       logger.info(
-        `[${packageType}] Skipping cleanup in ${runMode} mode to preserve merge-based customizations for: ${packageDirectory}`,
+        `[${packageType}] Skipping cleanup in ${runMode} mode to preserve the customization layout for: ${packageDirectory}`,
       );
       return;
     } else {

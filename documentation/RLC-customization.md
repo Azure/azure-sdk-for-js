@@ -4,15 +4,17 @@
 
 Follow [quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level client from OpenAPI specs.
 
-It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed.
+Put generated code in `src/generated/`. Put handwritten code in the other `src/` folders.
+Export or re-export the generated APIs through stable entry-point files.
 
 ```yaml
-source-code-folder-path: ./generated
+source-code-folder-path: ./src/generated
 ```
 
 ## Custom authentication
 
-Before you customize the code, you should run ```npx dev-tool customization apply``` to sync the generated src code from ./generated into ./src
+Run `npx dev-tool customization init` once before you add handwritten code. Do not edit files
+under `src/generated/`.
 
 Some services require a custom authentication flow. For example, a service might use Key Authentication requiring 2 headers for key authentication (e.g., `Ocp-Apim-Subscription-Key` and `x-api-key`), which is different from the usual key authentication which only requires a single key.
 
@@ -41,7 +43,7 @@ import {
 export default function createClient(
   endpoint: string,
   credential: TokenCredential | MyServiceKeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): GeneratedClient {
   if (isTokenCredential(credential)) {
     return MyServiceClient(endpoint, credential, options);
@@ -82,7 +84,7 @@ export interface MyServiceKeyCredential extends KeyCredential {
  * using an `MyServiceKeyCredential`
  */
 export function createMyServiceKeyCredentialPolicy(
-  credential: MyServiceKeyCredential
+  credential: MyServiceKeyCredential,
 ): PipelinePolicy {
   return {
     name: "myServiceKeyCredentialPolicy",
@@ -121,12 +123,18 @@ Here is an example implementation. Remember to replace the `paginationMapping` w
 
 ```typescript
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
-import { PaginateReturn, PagingOptions, getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "./generated/paginateHelper";
+import {
+  PaginateReturn,
+  PagingOptions,
+  getPagedAsyncIterator,
+  PagedAsyncIterableIterator,
+  PagedResult,
+} from "./generated/paginateHelper";
 
 export function paginate<TResponse extends PathUncheckedResponse>(
   client: Client,
   initialResponse: TResponse,
-  options: PagingOptions<TResponse> = {}
+  options: PagingOptions<TResponse> = {},
 ): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
   // internal map to indicate which operation uses which method
   const paginationMapping: Record<string, any> = {
@@ -280,10 +288,7 @@ ${PROJECT_ROOT}/
 ### Example code to call any client
 
 ```typescript
-import {
-  MyServiceAdministrationClient,
-  MyServiceClient,
-} from "@azure-rest/my-service";
+import { MyServiceAdministrationClient, MyServiceClient } from "@azure-rest/my-service";
 
 const adminClient = MyServiceAdministrationClient.createClient(endpoint, credential);
 // call any admin operation

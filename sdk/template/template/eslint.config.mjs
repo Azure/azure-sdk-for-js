@@ -12,7 +12,7 @@ export default azsdkEslint.config([
     },
   },
   {
-    files: ["src/models/models.ts"],
+    files: ["src/generated/models/models.ts"],
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/naming-convention": "off",
