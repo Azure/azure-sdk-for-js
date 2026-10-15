@@ -38,6 +38,31 @@ describe("snippets", () => {
     const client = new KeyVaultEkmClient(vaultUrl, credentials);
   });
 
+  it("ReadmeSampleManageEkmPrivateEndpoint", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.managedhsm.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultEkmClient(vaultUrl, credentials);
+    // @ts-preserve-whitespace
+    // Private endpoint names must not be longer than 24 characters.
+    const peName = "ekm-sample-pe";
+    const privateLinkServiceId = "<private-link-service-id>";
+    // @ts-preserve-whitespace
+    const createPoller = client.createEkmPrivateEndpoint(peName, { privateLinkServiceId });
+    const createOperation = await createPoller.pollUntilDone();
+    console.log("Create status:", createOperation.status);
+    // @ts-preserve-whitespace
+    const privateEndpoint = await client.getEkmPrivateEndpoint(peName);
+    console.log("Connection status:", privateEndpoint.privateLinkServiceConnectionState?.status);
+    // @ts-preserve-whitespace
+    const privateEndpoints = await client.listEkmPrivateEndpoints();
+    for (const endpoint of privateEndpoints.value ?? []) {
+      console.log("Private endpoint:", endpoint.name);
+    }
+    // @ts-preserve-whitespace
+    const deletePoller = client.deleteEkmPrivateEndpoint(peName);
+    await deletePoller.pollUntilDone();
+  });
+
   it("ReadmeSampleCreateRoleAssignment", async () => {
     const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
     const credentials = new DefaultAzureCredential();

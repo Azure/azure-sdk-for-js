@@ -3,6 +3,8 @@
 
 import { KeyVaultClient } from "./keyVaultClient.js";
 import {
+  _deleteEkmPrivateEndpointDeserialize,
+  _createEkmPrivateEndpointDeserialize,
   _selectiveKeyRestoreOperationDeserialize,
   _preFullRestoreOperationDeserialize,
   _fullRestoreOperationDeserialize,
@@ -52,8 +54,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -84,6 +85,14 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /ekm/privateendpoint/{peName}": {
+    deserializer: _deleteEkmPrivateEndpointDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "POST /ekm/privateendpoint/{peName}": {
+    deserializer: _createEkmPrivateEndpointDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
   "PUT /keys/{keyName}/restore": {
     deserializer: _selectiveKeyRestoreOperationDeserialize,
     expectedStatuses: ["202", "200", "201"],
