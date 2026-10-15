@@ -1,5 +1,17 @@
 # Release History
 
+## 1.13.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed the HTTP response compatibility of configuration setting and revision pages, including snapshot contents and conditional checks, so response headers support `get()` and status codes are numeric.
+
+### Other Changes
+
 ## 1.13.0-beta.1 (2026-08-21)
 
 ### Features Added

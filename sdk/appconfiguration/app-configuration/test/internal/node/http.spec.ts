@@ -8,7 +8,7 @@ import {
   startRecorder,
 } from "../../public/utils/testHelpers.js";
 import { AppConfigurationClient } from "../../../src/index.js";
-import type { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient.js";
+import type { InternalAppConfigurationClientOptions } from "../../../src/internal/createGeneratedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -73,6 +73,124 @@ describe("http request related tests", () => {
         assert.ok(!syncTokens.getSyncTokenHeaderValue());
       });
     });
+  });
+
+  describe("response compatibility", () => {
+    const serverDate = "Thu, 15 Oct 2026 09:00:00 GMT";
+    const syncToken = "response=value;sn=1";
+    const etag = '"page-etag"';
+    const responseHeaders = {
+      "x-ms-date": serverDate,
+      "sync-token": syncToken,
+      etag,
+    };
+
+    describe.each([
+      "listConfigurationSettings",
+      "listRevisions",
+      "listConfigurationSettingsForSnapshot",
+    ] as const)("%s", (method) => {
+      it.each([
+        { description: "empty", items: [] },
+        {
+          description: "populated",
+          items: [{ key: "test-key", value: "test-value", locked: false }],
+        },
+      ])("returns a compatible $description page", async ({ items }) => {
+        const bodyAsText = JSON.stringify({ items, etag });
+        const syncTokens = new SyncTokens();
+        const client = createMockSyncTokenClient(syncTokens, async (request) => ({
+          request,
+          status: 200,
+          headers: createHttpHeaders(responseHeaders),
+          bodyAsText,
+        }));
+        const iterator = (
+          method === "listConfigurationSettingsForSnapshot"
+            ? client[method]("test-snapshot")
+            : client[method]()
+        ).byPage();
+
+        const result = await iterator.next();
+        assert.isFalse(result.done);
+        const page = result.value;
+        assert.strictEqual(page._response.status, 200);
+        assert.equal(page._response.headers.get("x-ms-date"), serverDate);
+        assert.equal(page._response.headers.get("X-MS-DATE"), serverDate);
+        assert.equal(page._response.headers.get("etag"), etag);
+        assert.equal(page._response.parsedHeaders.syncToken, syncToken);
+        assert.equal(page._response.bodyAsText, bodyAsText);
+        assert.equal(page._response.request.method, "GET");
+        assert.lengthOf(page.items, items.length);
+        if (items.length > 0) {
+          assert.include(page.items[0], {
+            key: "test-key",
+            value: "test-value",
+            isReadOnly: false,
+          });
+        }
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), "response=value");
+        assert.isTrue((await iterator.next()).done);
+      });
+    });
+
+    it.each(["listConfigurationSettings", "checkConfigurationSettings"] as const)(
+      "preserves compatible responses and conditional pagination for %s",
+      async (method) => {
+        const requests: PipelineRequest[] = [];
+        const bodyAsText = JSON.stringify({
+          items: [{ key: "test-key", value: "test-value", locked: false }],
+          etag,
+        });
+        const client = createMockSyncTokenClient(new SyncTokens(), async (request) => {
+          requests.push(request);
+          const isFirstPage = requests.length === 1;
+          return {
+            request,
+            status: isFirstPage ? 304 : 200,
+            headers: createHttpHeaders({
+              ...responseHeaders,
+              ...(isFirstPage
+                ? { link: '</kv?api-version=2026-05-01-preview&after=next-page>; rel="next"' }
+                : {}),
+            }),
+            bodyAsText: !isFirstPage && request.method === "GET" ? bodyAsText : undefined,
+          };
+        });
+        const iterator = client[method]({
+          pageEtags: [etag, '"next-etag"'],
+        }).byPage();
+
+        const first = await iterator.next();
+        assert.isFalse(first.done);
+        assert.strictEqual(first.value._response.status, 304);
+        assert.equal(first.value._response.headers.get("x-ms-date"), serverDate);
+        assert.equal(first.value._response.parsedHeaders.syncToken, syncToken);
+        assert.equal(first.value._response.bodyAsText, "");
+        assert.equal(first.value.etag, etag);
+        assert.isEmpty(first.value.items);
+
+        const second = await iterator.next();
+        assert.isFalse(second.done);
+        assert.strictEqual(second.value._response.status, 200);
+        assert.equal(second.value._response.headers.get("x-ms-date"), serverDate);
+        assert.equal(second.value._response.parsedHeaders.syncToken, syncToken);
+        assert.equal(
+          second.value._response.bodyAsText,
+          method === "listConfigurationSettings" ? bodyAsText : "",
+        );
+        assert.equal(second.value.etag, etag);
+        assert.lengthOf(second.value.items, method === "listConfigurationSettings" ? 1 : 0);
+        assert.isTrue((await iterator.next()).done);
+        assert.lengthOf(requests, 2);
+        assert.equal(requests[0].headers.get("if-none-match"), etag);
+        assert.equal(requests[1].headers.get("if-none-match"), '"next-etag"');
+        assert.equal(new URL(requests[1].url).searchParams.get("after"), "next-page");
+        for (const request of requests) {
+          assert.equal(request.method, method === "listConfigurationSettings" ? "GET" : "HEAD");
+        }
+      },
+    );
   });
 
   describe("custom client ID", () => {
