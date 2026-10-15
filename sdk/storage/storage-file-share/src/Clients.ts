@@ -4889,7 +4889,8 @@ export class ShareFileClient extends StorageClient {
    *
    * Only supported when the client addresses the file by its file ID, such as a client created with
    * {@link ShareClient.getShareFileClient}; otherwise it throws an error before sending a request. Addressing by
-   * file ID is supported only on SMB file shares.
+   * file ID is supported only on SMB file shares, where a file has a single link: its own name in the directory
+   * that contains it.
    *
    * @param options - Options to File Get File Links operation.
    * @returns Response data for the File Get File Links operation.

@@ -83,6 +83,15 @@ describe("File ID addressing - clients", () => {
     assert.equal(url.searchParams.get("fileid"), "123");
   });
 
+  it("replaces a file ID already in the share URL, whatever the case of the parameter name", () => {
+    const fileClient = new ShareClient(
+      `${shareUrl}?FileId=111&sv=2026-10-06&fileid=222&sig=a%2Bb%3D`,
+    ).getShareFileClient("333");
+
+    assert.equal(fileClient.url, `${shareUrl}?sv=2026-10-06&sig=a%2Bb%3D&fileid=333`);
+    assert.equal(fileClient.fileId, "333");
+  });
+
   it("rejects an empty file ID", () => {
     for (const fileId of ["", "  "]) {
       assert.throws(() => shareClient.getShareFileClient(fileId), RangeError);

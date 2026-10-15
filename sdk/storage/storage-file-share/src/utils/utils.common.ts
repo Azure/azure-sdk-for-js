@@ -323,11 +323,23 @@ export function getFileIdFromURL(url: string): string | undefined {
 }
 
 /**
+ * Whether a raw `name=value` piece of a query string is a `fileid` parameter, with its name matched the way
+ * {@link getFileIdFromURL} matches it.
+ *
+ * @param pair - A piece of a query string, between two `&`
+ */
+function isFileIdParameter(pair: string): boolean {
+  const names = Array.from(new URLSearchParams(pair).keys());
+  return names.length > 0 && names[0].toLowerCase() === URLConstants.Parameters.FILE_ID;
+}
+
+/**
  * Build the URL that addresses a file or directory by its file ID from the URL of its share.
  *
  * @param shareUrl - URL of the share, which may carry a SAS or a share snapshot
  * @param fileId - File ID of the file or directory
- * @returns The share URL, without a trailing slash, with the `fileid` query parameter set
+ * @returns The share URL, without a trailing slash, with the `fileid` query parameter set to the file ID. Any
+ * `fileid` parameter the share URL already has, whatever the case of its name, is removed.
  */
 export function setFileIdOnShareURL(shareUrl: string, fileId: string): string {
   if (!fileId || !fileId.trim()) {
@@ -340,7 +352,14 @@ export function setFileIdOnShareURL(shareUrl: string, fileId: string): string {
     end--;
   }
   urlParsed.pathname = path.slice(0, end);
-  return setURLParameter(urlParsed.toString(), URLConstants.Parameters.FILE_ID, fileId);
+  // The other parameters are kept as they are: rebuilding them with URLSearchParams would change a SAS's encoding.
+  const searchPieces = urlParsed.search
+    .slice(1)
+    .split("&")
+    .filter((pair) => pair !== "" && !isFileIdParameter(pair));
+  searchPieces.push(`${URLConstants.Parameters.FILE_ID}=${encodeURIComponent(fileId)}`);
+  urlParsed.search = `?${searchPieces.join("&")}`;
+  return urlParsed.toString();
 }
 
 /**
