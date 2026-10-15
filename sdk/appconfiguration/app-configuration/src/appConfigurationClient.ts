@@ -21,6 +21,7 @@ import {
   type GetConfigurationSettingResponse,
   type GetSnapshotOptions,
   type GetSnapshotResponse,
+  type HttpResponseField,
   type ListConfigurationSettingPage,
   type ListConfigurationSettingsForSnapshotOptions,
   type ListConfigurationSettingsOptions,
@@ -38,13 +39,13 @@ import {
   type SetReadOnlyResponse,
   type SettingLabel,
   type SnapshotInfo,
+  type SyncTokenHeaderField,
   type UpdateSnapshotOptions,
   type UpdateSnapshotResponse,
 } from "./models.js";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { SyncTokens } from "./internal/syncTokenPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { SendConfigurationSettingsOptions } from "./internal/helpers.js";
@@ -62,6 +63,7 @@ import {
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   snapshotInfoToGenerated,
+  toAppConfigurationCompatResponse,
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
@@ -374,7 +376,7 @@ export class AppConfigurationClient {
             const link = err.response?.headers?.get("link");
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
 
-            if (err.statusCode === 304) {
+            if (err.statusCode === 304 && err.response) {
               err.message = `Status 304: No updates for this page`;
               logger.info(
                 `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
@@ -383,8 +385,8 @@ export class AppConfigurationClient {
                 page: {
                   items: [],
                   etag,
-                  _response: { ...err.response, status: 304 },
-                } as unknown as ListConfigurationSettingPage,
+                  _response: toAppConfigurationCompatResponse(err.response),
+                },
                 nextPageLink: continuationToken,
               };
             }
@@ -430,11 +432,11 @@ export class AppConfigurationClient {
               { ...options, etag },
               pageLink,
             );
-            const link = response._response?.headers?.get("link") as string | undefined;
+            const link = response._response.headers.get("link");
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
             const currentResponse: ListConfigurationSettingPage = {
               ...response,
-              etag: response._response?.headers?.get("etag") as string | undefined,
+              etag: response._response.headers.get("etag"),
               items: [],
               continuationToken: continuationToken,
               _response: response._response,
@@ -449,7 +451,7 @@ export class AppConfigurationClient {
             const link = err.response?.headers?.get("link");
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
 
-            if (err.statusCode === 304) {
+            if (err.statusCode === 304 && err.response) {
               err.message = `Status 304: No updates for this page`;
               logger.info(
                 `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
@@ -458,8 +460,8 @@ export class AppConfigurationClient {
                 page: {
                   items: [],
                   etag,
-                  _response: { ...err.response, status: 304 },
-                } as unknown as ListConfigurationSettingPage,
+                  _response: toAppConfigurationCompatResponse(err.response),
+                },
                 nextPageLink: continuationToken,
               };
             }
@@ -551,7 +553,7 @@ export class AppConfigurationClient {
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<_KeyValueListResult & { _response: any }> {
+  ): Promise<_KeyValueListResult & HttpResponseField<SyncTokenHeaderField>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
@@ -568,7 +570,9 @@ export class AppConfigurationClient {
           },
         });
         const parsed = await _getKeyValuesDeserialize(rawResponse);
-        return Object.assign(parsed, { _response: rawResponse });
+        return Object.assign(parsed, {
+          _response: toAppConfigurationCompatResponse(rawResponse),
+        });
       },
     );
   }
@@ -576,7 +580,7 @@ export class AppConfigurationClient {
   private async checkConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<{ _response: any }> {
+  ): Promise<HttpResponseField<SyncTokenHeaderField>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.checkConfigurationSettings",
       options,
@@ -594,10 +598,7 @@ export class AppConfigurationClient {
         });
         await _checkKeyValuesDeserialize(rawResponse);
         return {
-          _response: {
-            ...rawResponse,
-            headers: createHttpHeaders(rawResponse.headers),
-          },
+          _response: toAppConfigurationCompatResponse(rawResponse),
         };
       },
     );
@@ -649,7 +650,7 @@ export class AppConfigurationClient {
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<_KeyValueListResult & { _response: any }> {
+  ): Promise<_KeyValueListResult & HttpResponseField<SyncTokenHeaderField>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
@@ -665,7 +666,9 @@ export class AppConfigurationClient {
           },
         });
         const parsed = await _getRevisionsDeserialize(rawResponse);
-        return Object.assign(parsed, { _response: rawResponse });
+        return Object.assign(parsed, {
+          _response: toAppConfigurationCompatResponse(rawResponse),
+        });
       },
     );
   }

@@ -536,10 +536,10 @@ export function toAppConfigurationCompatResponse(
       syncToken: headers.get("sync-token"),
     },
     bodyAsText:
-      typeof rawResponse.body === "string"
-        ? rawResponse.body
-        : rawResponse.body === undefined
-          ? ""
+      rawResponse.request.method === "HEAD" || rawResponse.body === undefined
+        ? ""
+        : typeof rawResponse.body === "string"
+          ? rawResponse.body
           : JSON.stringify(rawResponse.body),
   });
 }

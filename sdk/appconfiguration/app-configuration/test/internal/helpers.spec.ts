@@ -375,6 +375,17 @@ describe("helper methods", () => {
     assert.equal(response.request.url, "https://example.azconfig.io/ff/test");
   });
 
+  it("keeps HEAD compatibility responses bodyless", () => {
+    const response = toAppConfigurationCompatResponse({
+      request: createPipelineRequest({ url: "https://example.azconfig.io/kv", method: "HEAD" }),
+      status: "200",
+      headers: {},
+      body: {},
+    });
+
+    assert.equal(response.bodyAsText, "");
+  });
+
   /**
    * Gets all the properties from ConfigurationSetting, sorted ascending.
    *
