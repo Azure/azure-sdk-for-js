@@ -88,7 +88,10 @@ export function _toRheaApplicationProperties(
 
   if (preservedTypes != null) {
     for (const [key, value] of Object.entries(preservedTypes)) {
-      if (!(key in result) || isAmqpApplicationProperty(result[key])) {
+      if (
+        !Object.prototype.hasOwnProperty.call(result, key) ||
+        isAmqpApplicationProperty(result[key])
+      ) {
         continue;
       }
       result[key] = toRheaTyped(withValue(value, result[key]));

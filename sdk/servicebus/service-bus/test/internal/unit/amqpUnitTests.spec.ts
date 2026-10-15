@@ -151,6 +151,14 @@ describe("AMQP message encoding", () => {
           applicationProperties: {
             priority: { type: "ubyte", value: 200 },
             category: { type: "symbol", value: "orders" },
+            binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+            decimal128: {
+              type: "decimal128",
+              value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            },
+            uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+            long: { type: "long", value: -9223372036854775808n },
+            ulong: { type: "ulong", value: 18446744073709551615n },
           },
         },
         defaultDataTransformer,
@@ -168,6 +176,14 @@ describe("AMQP message encoding", () => {
             applicationProperties: {
               priority: { type: "ubyte", value: 200 },
               category: { type: "symbol", value: "orders" },
+              binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+              decimal128: {
+                type: "decimal128",
+                value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+              },
+              uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+              long: { type: "long", value: -9223372036854775808n },
+              ulong: { type: "ulong", value: 18446744073709551615n },
             },
           },
           defaultDataTransformer,
@@ -180,11 +196,24 @@ describe("AMQP message encoding", () => {
       assert.deepEqual(received.applicationPropertiesWithAmqpTypes, {
         priority: { type: "ubyte", value: 200 },
         category: { type: "symbol", value: "orders" },
+        binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+        decimal128: {
+          type: "decimal128",
+          value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        },
+        uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+        long: { type: "long", value: -9223372036854775808n },
+        ulong: { type: "ulong", value: 18446744073709551615n },
       });
 
       const resent = toRheaMessage(received, defaultDataTransformer);
       assert.equal((resent.application_properties?.priority as Typed).type.name, "Ubyte");
       assert.equal((resent.application_properties?.category as Typed).type.name, "Sym8");
+      assert.equal((resent.application_properties?.binary as Typed).type.name, "Vbin8");
+      assert.equal((resent.application_properties?.decimal128 as Typed).type.name, "Decimal128");
+      assert.equal((resent.application_properties?.uuid as Typed).type.name, "Uuid");
+      assert.equal((resent.application_properties?.long as Typed).type.name, "Long");
+      assert.equal((resent.application_properties?.ulong as Typed).type.name, "Ulong");
     });
 
     it("ServiceBusReceivedMessage", () => {

@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-amqp": "^4.3.2",
+    "@azure/core-amqp": "^4.5.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",

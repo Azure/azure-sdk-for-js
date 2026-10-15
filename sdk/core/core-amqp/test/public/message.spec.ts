@@ -86,6 +86,8 @@ describe("message", function () {
             applicationProperties: {
               edited: { type: "ubyte", value: 200 },
               deleted: { type: "symbol", value: "remove-me" },
+              constructor: { type: "string", value: "remove-constructor" },
+              toString: { type: "string", value: "remove-to-string" },
             },
             body: "body",
           }),
@@ -93,6 +95,8 @@ describe("message", function () {
       );
       received.applicationProperties!.edited = 201;
       delete received.applicationProperties!.deleted;
+      delete received.applicationProperties!.constructor;
+      delete received.applicationProperties!.toString;
 
       const resent = AmqpAnnotatedMessage.fromRheaMessage(
         decode(AmqpAnnotatedMessage.toRheaMessage(received)),
@@ -102,6 +106,10 @@ describe("message", function () {
         edited: { type: "ubyte", value: 201 },
       });
       assert.notProperty(resent.applicationProperties, "deleted");
+      assert.isFalse(
+        Object.prototype.hasOwnProperty.call(resent.applicationProperties, "constructor"),
+      );
+      assert.isFalse(Object.prototype.hasOwnProperty.call(resent.applicationProperties, "toString"));
     });
 
     it("rejects values outside the selected AMQP type", function () {

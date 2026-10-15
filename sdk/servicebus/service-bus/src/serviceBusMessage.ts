@@ -998,6 +998,10 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
   // fast exit
   if (!isDefined(thing)) return thing;
 
+  if (thing instanceof Uint8Array) {
+    return thing;
+  }
+
   // When 'thing' is a Date, return the number representation
   if (
     typeof thing === "object" &&
