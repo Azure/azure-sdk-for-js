@@ -2,11 +2,6 @@ import path, { join } from "path";
 import { ModularClientPackageOptions } from "../../../common/types.js";
 import { generateRepoDataInTspLocation, runCommand } from "../../../common/utils.js";
 import { logger } from "../../../utils/logger.js";
-import {
-  generateProvisioningCodeFromTypeSpec,
-  patchWorkspaceDependencyToLink,
-  provisioningEmitterName,
-} from "../../../provisioning/provisioningGenerator.js";
 import pkg from "@npmcli/package-json";
 const { load } = pkg;
 export async function updatePackageVersion(
@@ -62,15 +57,4 @@ export async function generateTypeScriptCodeFromTypeSpec(
 
   if (originalVersion) await updatePackageVersion(packageDirectory, originalVersion);
   logger.info(`Generated typescript code successfully.`);
-
-  // TODO: remove this hard-coded path after publishing the provisioning package to npm
-  patchWorkspaceDependencyToLink(
-    packageDirectory,
-    "@azure/provisioning-core",
-    path.join(
-      "D:/GithubSource/tmpSource/js-provisioning-lib/packages/typespec-ts-provisioning",
-      "packages",
-      "core",
-    ),
-  );
 }
