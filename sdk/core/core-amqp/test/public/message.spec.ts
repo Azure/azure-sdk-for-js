@@ -109,7 +109,9 @@ describe("message", function () {
       assert.isFalse(
         Object.prototype.hasOwnProperty.call(resent.applicationProperties, "constructor"),
       );
-      assert.isFalse(Object.prototype.hasOwnProperty.call(resent.applicationProperties, "toString"));
+      assert.isFalse(
+        Object.prototype.hasOwnProperty.call(resent.applicationProperties, "toString"),
+      );
     });
 
     it("rejects values outside the selected AMQP type", function () {
