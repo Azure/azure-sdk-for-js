@@ -133,7 +133,7 @@ export interface AgentEvaluationError {
 }
 
 // @public
-export type AgentEvaluationErrorCode = "InvalidRequest" | "DeveloperPolicyRevisionRequired" | "DeveloperPolicyRevisionMismatch" | "DeveloperPolicyRevisionUnavailable" | "PolicyFenceChanged" | "UnsupportedCapability" | "MandatoryPolicyUnavailable" | "NativeRouteDisabled" | (string & {});
+export type AgentEvaluationErrorCode = "InvalidRequest" | "SelectedPolicyRevisionRequired" | "SelectedPolicyRevisionMismatch" | "SelectedPolicyRevisionUnavailable" | "PolicyFenceChanged" | "UnsupportedCapability" | "PolicyLayerUnavailable" | "NativeRouteDisabled" | (string & {});
 
 // @public
 export interface AgentEvaluationErrorDetail {
@@ -167,7 +167,6 @@ export interface AgentEvidence {
 
 // @public
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
-    appliedGeneration: number;
     bindingEpoch: number;
     capabilityVersion: string;
     // (undocumented)
@@ -296,7 +295,7 @@ export interface AgentPolicyEvaluationReceipt {
 export type AgentPolicyEvaluationReceiptUnion = AgentFoundryProjectReceipt | AgentNamedPolicyReceipt;
 
 // @public
-export type AgentPolicyLayerKind = "project" | "developer" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn" | (string & {});
+export type AgentPolicyLayerKind = "project" | "selected" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn" | (string & {});
 
 // @public
 export interface AgentPostModelCallContext extends AgentContext {
@@ -757,10 +756,10 @@ export interface TextProtectedMaterialAnalysisResult {
 
 // @public
 export interface UnifiedModerateOptionalParams extends OperationOptions {
-    developerPolicyId?: string;
-    developerPolicyRevision?: string;
-    developerPolicySemanticDigest?: string;
     policyId?: string;
+    selectedPolicyId?: string;
+    selectedPolicyRevision?: string;
+    selectedPolicySemanticDigest?: string;
     targetResourceId?: string;
 }
 

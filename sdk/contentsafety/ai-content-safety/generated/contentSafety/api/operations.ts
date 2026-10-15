@@ -46,14 +46,14 @@ export function _unifiedModerateSend(
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId,developerPolicyId,developerPolicyRevision,developerPolicySemanticDigest}",
+    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId,selectedPolicyId,selectedPolicyRevision,selectedPolicySemanticDigest}",
     {
       "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
       targetResourceId: options?.targetResourceId,
       policyId: options?.policyId,
-      developerPolicyId: options?.developerPolicyId,
-      developerPolicyRevision: options?.developerPolicyRevision,
-      developerPolicySemanticDigest: options?.developerPolicySemanticDigest,
+      selectedPolicyId: options?.selectedPolicyId,
+      selectedPolicyRevision: options?.selectedPolicyRevision,
+      selectedPolicySemanticDigest: options?.selectedPolicySemanticDigest,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +115,7 @@ export async function _unifiedModerateDeserialize(
   return agentEvaluationResultDeserializer(result.body);
 }
 
-/** Synchronously evaluate a canonical Agent Hooks 0.1 context and return a closed canonical Verdict plus a separate enforcement receipt. The hosted API supports two selector profiles. The Foundry-project profile uses targetResourceId for the mandatory project binding and may add one exact admitted developer policy through the all-or-none developerPolicyId/revision/digest tuple. The named-policy profile uses policyId without requiring a Foundry project. Exactly one profile is selected; targetResourceId and policyId cannot be combined. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS rather than this hosted protocol. The receipt binds its policy metadata to the exact API version, AgentContext and admitted selectors through an RFC 8785 SHA-256 request digest. The calling host recomputes that binding, validates any profile-specific authoritative capability and readiness evidence, and owns transform application, final enforcement, approvals, timeouts, audit and the separate host-action attestation. API version establishes wire compatibility only; regional/cohort activation comes from the relevant capability authority. Body identity metadata and customer-settable headers are not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Over-limit results are errors, not truncated successful responses. */
+/** Synchronously evaluate a canonical Agent Hooks 0.1 context and return a closed canonical Verdict plus a separate enforcement receipt. The hosted API supports two selector profiles. The Foundry-project profile requires targetResourceId plus one exact admitted selected Guardrail through the all-or-none selectedPolicyId/revision/digest tuple. AACS may additionally resolve explicit administrator policies bound to the target or its enrolled ancestors. The named-policy profile uses policyId without requiring a Foundry project. Exactly one profile is selected; targetResourceId and policyId cannot be combined. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS rather than this hosted protocol. The receipt binds its policy metadata to the exact API version, AgentContext and admitted selectors through an RFC 8785 SHA-256 request digest. The calling host recomputes that binding, validates any profile-specific authoritative capability and readiness evidence, and owns transform application, final enforcement, approvals, timeouts, audit and the separate host-action attestation. API version establishes wire compatibility only; regional/cohort activation comes from the relevant capability authority. Body identity metadata and customer-settable headers are not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Over-limit results are errors, not truncated successful responses. */
 export async function unifiedModerate(
   context: Client,
   body: AgentContextUnion,

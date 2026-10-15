@@ -56,10 +56,10 @@ export function unifiedModerate(context: ContentSafetyContext, body: AgentContex
 
 // @public
 export interface UnifiedModerateOptionalParams extends OperationOptions {
-    developerPolicyId?: string;
-    developerPolicyRevision?: string;
-    developerPolicySemanticDigest?: string;
     policyId?: string;
+    selectedPolicyId?: string;
+    selectedPolicyRevision?: string;
+    selectedPolicySemanticDigest?: string;
     targetResourceId?: string;
 }
 

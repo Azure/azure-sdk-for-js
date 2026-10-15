@@ -110,12 +110,20 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         decision: "deny",
       },
       {
-        kind: "developer",
-        policyResourceId: "/policies/developer-policy",
-        policyRevision: '"developer-revision"',
+        kind: "selected",
+        policyResourceId: "/policies/selected-policy",
+        policyRevision: '"selected-revision"',
         policySemanticDigest: sha256Fixture("e"),
         manifestRegoDigest: sha256Fixture("f"),
         decision: "deny",
+      },
+      {
+        kind: "hierarchy",
+        policyResourceId: "/policies/administrator-policy",
+        policyRevision: '"administrator-revision"',
+        policySemanticDigest: sha256Fixture("0"),
+        manifestRegoDigest: sha256Fixture("1"),
+        decision: "allow",
       },
     ],
     supportedInterventionPoints: [interventionPoint],
@@ -125,7 +133,6 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
     targetIncarnation: "project-incarnation-1",
     bindingEpoch: Number.MAX_SAFE_INTEGER,
     readinessEpoch: Number.MAX_SAFE_INTEGER,
-    appliedGeneration: Number.MAX_SAFE_INTEGER,
   };
 }
 
@@ -204,9 +211,9 @@ describe("preview operations", () => {
       {
         targetResourceId:
           "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
-        developerPolicyId: "/policies/developer-policy",
-        developerPolicyRevision: '"developer-revision"',
-        developerPolicySemanticDigest: sha256Fixture("e"),
+        selectedPolicyId: "/policies/selected-policy",
+        selectedPolicyRevision: '"selected-revision"',
+        selectedPolicySemanticDigest: sha256Fixture("e"),
       },
     );
 
@@ -220,9 +227,9 @@ describe("preview operations", () => {
       requestUrl.searchParams.get("targetResourceId"),
       "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
     );
-    assert.equal(requestUrl.searchParams.get("developerPolicyId"), "/policies/developer-policy");
-    assert.equal(requestUrl.searchParams.get("developerPolicyRevision"), '"developer-revision"');
-    assert.equal(requestUrl.searchParams.get("developerPolicySemanticDigest"), sha256Fixture("e"));
+    assert.equal(requestUrl.searchParams.get("selectedPolicyId"), "/policies/selected-policy");
+    assert.equal(requestUrl.searchParams.get("selectedPolicyRevision"), '"selected-revision"');
+    assert.equal(requestUrl.searchParams.get("selectedPolicySemanticDigest"), sha256Fixture("e"));
     assert.equal(requests[0].headers.get("content-type"), "application/json");
     assert.deepEqual(parseRequestBody(requests[0]), {
       spec: "agent-hooks/0.1",
@@ -256,7 +263,10 @@ describe("preview operations", () => {
     assert.equal(receipt.targetIncarnation, "project-incarnation-1");
     assert.equal(receipt.bindingEpoch, Number.MAX_SAFE_INTEGER);
     assert.equal(receipt.readinessEpoch, Number.MAX_SAFE_INTEGER);
-    assert.equal(receipt.appliedGeneration, Number.MAX_SAFE_INTEGER);
+    assert.deepEqual(
+      receipt.evaluatedPolicyLayers.map(({ kind }) => kind),
+      ["project", "selected", "hierarchy"],
+    );
     assert.deepInclude(receipt.harmResults?.violence, {
       blocked: true,
       detected: true,
@@ -298,9 +308,16 @@ describe("preview operations", () => {
       decision: "allow",
     };
     const knownServiceCodes: AgentEvaluationErrorCode[] = ["Unauthorized", "Forbidden"];
+    const knownPolicyCodes: AgentEvaluationErrorCode[] = [
+      "SelectedPolicyRevisionRequired",
+      "SelectedPolicyRevisionMismatch",
+      "SelectedPolicyRevisionUnavailable",
+      "PolicyLayerUnavailable",
+    ];
     assert.equal(customRole, "reviewer");
     assert.equal(customLayer.kind, "tenantOverlay");
     assert.deepEqual(knownServiceCodes, ["Unauthorized", "Forbidden"]);
+    assert.lengthOf(knownPolicyCodes, 4);
 
     const httpClient: HttpClient = {
       async sendRequest(request) {

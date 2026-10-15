@@ -1401,7 +1401,7 @@ export interface AgentEvaluationRequestBinding {
   algorithm: "sha256";
   /** Canonicalization algorithm. rfc8785 means the RFC 8785 JSON Canonicalization Scheme applied to the documented digest input. */
   canonicalization: "rfc8785";
-  /** Lowercase SHA-256 digest of the RFC 8785 canonical UTF-8 JSON object whose properties are apiVersion, context and selectors, prefixed with sha256:. context is the exact decoded AgentContext request body. For foundryProject, selectors contains targetResourceId plus the optional developerPolicyId, developerPolicyRevision and developerPolicySemanticDigest values. For namedPolicy, selectors contains policyId. Omitted optional selectors are omitted rather than encoded as null. The service derives this value from the accepted request; it is never copied from request metadata. */
+  /** Lowercase SHA-256 digest of the RFC 8785 canonical UTF-8 JSON object whose properties are apiVersion, context and selectors, prefixed with sha256:. context is the exact decoded AgentContext request body. For foundryProject, selectors contains targetResourceId, selectedPolicyId, selectedPolicyRevision and selectedPolicySemanticDigest. For namedPolicy, selectors contains policyId. The service derives this value from the accepted request; it is never copied from request metadata. */
   digest: string;
 }
 
@@ -1452,13 +1452,7 @@ export function agentEvaluatedPolicyLayerDeserializer(item: any): AgentEvaluated
 
 /** The policy layer evaluated by Azure AI Content Safety. Unknown future layer kinds are preserved for forward compatibility and do not change the aggregate Verdict semantics. */
 export type AgentPolicyLayerKind =
-  | "project"
-  | "developer"
-  | "namedPolicy"
-  | "subscription"
-  | "hierarchy"
-  | "builtIn"
-  | (string & {});
+  "project" | "selected" | "namedPolicy" | "subscription" | "hierarchy" | "builtIn" | (string & {});
 
 export function agentHarmResultRecordDeserializer(
   item: Record<string, any>,
@@ -1517,7 +1511,7 @@ export function agentHarmDetailDeserializer(item: any): AgentHarmDetail {
   };
 }
 
-/** Receipt for a governed Foundry project. These fencing fields are required only for this profile and must come from authoritative Foundry/PMS state rather than request metadata. */
+/** Receipt for a governed Foundry project. The selected Guardrail is identified in evaluatedPolicyLayers. Project fields fence trusted target identity, explicit hierarchy-binding state and host readiness; they do not describe a generated project policy. */
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
   profile: "foundryProject";
   /** Required intervention points supported by the admitted Foundry host capability. Foundry's authenticated capability authority supplies this value; AACS must not infer it, echo request metadata or claim support when the authoritative value is unavailable. This is not a list of points evaluated by this receipt. */
@@ -1528,12 +1522,10 @@ export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt
   targetResourceId: string;
   /** Opaque project incarnation that changes when the target is deleted and recreated. */
   targetIncarnation: string;
-  /** Monotonic active-binding epoch obtained from the approved authoritative binding interface for this attempt. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
+  /** Monotonic explicit hierarchy-binding state epoch obtained from the authoritative binding interface for this attempt, including a stable no-binding state. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
   bindingEpoch: number;
   /** Monotonic operation-readiness epoch obtained from the approved authoritative readiness interface for this attempt. AACS must fail closed when it is unavailable and must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
   readinessEpoch: number;
-  /** Immutable target-effective policy generation obtained from authoritative target state and evaluated by this attempt. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
-  appliedGeneration: number;
 }
 
 export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryProjectReceipt {
@@ -1563,7 +1555,6 @@ export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryP
     targetIncarnation: item["targetIncarnation"],
     bindingEpoch: item["bindingEpoch"],
     readinessEpoch: item["readinessEpoch"],
-    appliedGeneration: item["appliedGeneration"],
   };
 }
 
@@ -1594,7 +1585,7 @@ export function agentNamedPolicyReceiptDeserializer(item: any): AgentNamedPolicy
   };
 }
 
-/** A validation, authorization, conflict, throttling or operational failure. This is an HTTP error, never a successful allow verdict. Known codes include InvalidRequest, DeveloperPolicyRevisionRequired, DeveloperPolicyRevisionMismatch, DeveloperPolicyRevisionUnavailable, PolicyFenceChanged, UnsupportedCapability, MandatoryPolicyUnavailable and NativeRouteDisabled. */
+/** A validation, authorization, conflict, throttling or operational failure. This is an HTTP error, never a successful allow verdict. Known codes include InvalidRequest, SelectedPolicyRevisionRequired, SelectedPolicyRevisionMismatch, SelectedPolicyRevisionUnavailable, PolicyFenceChanged, UnsupportedCapability, PolicyLayerUnavailable and NativeRouteDisabled. */
 export interface AgentEvaluationError {
   /** The error object. */
   error: AgentEvaluationErrorDetail;
@@ -1632,12 +1623,12 @@ export function agentEvaluationErrorDetailDeserializer(item: any): AgentEvaluati
 /** Known October Unified Moderate error codes. The standard Azure error response remains extensible. */
 export type AgentEvaluationErrorCode =
   | "InvalidRequest"
-  | "DeveloperPolicyRevisionRequired"
-  | "DeveloperPolicyRevisionMismatch"
-  | "DeveloperPolicyRevisionUnavailable"
+  | "SelectedPolicyRevisionRequired"
+  | "SelectedPolicyRevisionMismatch"
+  | "SelectedPolicyRevisionUnavailable"
   | "PolicyFenceChanged"
   | "UnsupportedCapability"
-  | "MandatoryPolicyUnavailable"
+  | "PolicyLayerUnavailable"
   | "NativeRouteDisabled"
   | (string & {});
 

@@ -5,10 +5,12 @@
 ### Features Added
 
 - Regenerated the client for `2026-10-15-preview`, including all eight Agent Hooks context variants and native Verdict responses. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Updated the Foundry evaluation profile to require `targetResourceId` with the selected Guardrail ID, revision, and semantic digest. Explicit administrator hierarchy policies may be returned as additional evaluated layers. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Breaking Changes
 
 - `unifiedModerate` now accepts an `AgentContextUnion` and returns an `AgentEvaluationResult` envelope containing the native `verdict` and policy-evaluation `receipt`. Policy and resource selectors move to the operation options and are sent as query parameters. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Replaced the rejected developer-policy selectors with `selectedPolicyId`, `selectedPolicyRevision`, and `selectedPolicySemanticDigest`; removed `appliedGeneration`; renamed the selected policy layer and policy-selection errors to match the corrected service contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - The default API version is now `2026-10-15-preview`. The September Unified Moderate request and response format requires the earlier SDK contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Bugs Fixed
