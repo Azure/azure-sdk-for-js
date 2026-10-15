@@ -16,6 +16,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
 import { parseJwt } from "../../src/utils/parseJwt.js";
+import { getGlobalPaths as getCjsGlobalPaths } from "../../src/core/playwrightServiceUtils-cjs.js";
+import { getGlobalPaths as getEsmGlobalPaths } from "../../src/core/playwrightServiceUtils.js";
 
 vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
   const actual = await importActual<typeof import("../../src/utils/parseJwt.js")>();
@@ -53,6 +55,49 @@ const samplePlaywrightConfigInput = {
   globalSetup: "sample-setup.ts",
   globalTeardown: "sample-teardown.ts",
 };
+
+describe.each([
+  ["CommonJS", getCjsGlobalPaths],
+  ["ESM", getEsmGlobalPaths],
+])("%s getGlobalPaths", (_moduleFormat, getGlobalPaths) => {
+  it("uses compiled JavaScript paths when an installed package is nested below src", () => {
+    const installedDirectory = path.join(
+      "workspace",
+      "src",
+      "app",
+      "node_modules",
+      "@azure",
+      "playwright",
+      "dist",
+      "commonjs",
+      "core",
+    );
+    const installedPaths = getGlobalPaths(installedDirectory);
+
+    expect(installedPaths).to.deep.equal({
+      setup: path.join(installedDirectory, "global", "playwright-service-global-setup.js"),
+      teardown: path.join(installedDirectory, "global", "playwright-service-global-teardown.js"),
+    });
+  });
+
+  it("uses TypeScript paths when running the package source directly", () => {
+    const sourceDirectory = path.join(
+      "workspace",
+      "azure-sdk-for-js",
+      "sdk",
+      "loadtesting",
+      "playwright",
+      "src",
+      "core",
+    );
+    const sourcePaths = getGlobalPaths(sourceDirectory);
+
+    expect(sourcePaths).to.deep.equal({
+      setup: path.join(sourceDirectory, "global", "playwright-service-global-setup.ts"),
+      teardown: path.join(sourceDirectory, "global", "playwright-service-global-teardown.ts"),
+    });
+  });
+});
 
 describe("createAzurePlaywrightConfig", () => {
   beforeEach(() => {
