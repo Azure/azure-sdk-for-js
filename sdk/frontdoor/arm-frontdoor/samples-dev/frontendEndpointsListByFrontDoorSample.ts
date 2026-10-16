@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the frontend endpoints within a Front Door.
  *
  * @summary lists all of the frontend endpoints within a Front Door.
- * x-ms-original-file: 2025-11-01/FrontdoorFrontendEndpointList.json
+ * x-ms-original-file: 2026-04-01/FrontdoorFrontendEndpointList.json
  */
 async function listFrontendEndpointsInAFrontDoor(): Promise<void> {
   const credential = new DefaultAzureCredential();

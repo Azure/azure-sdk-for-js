@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the protection policies within a subscription.
  *
  * @summary lists all of the protection policies within a subscription.
- * x-ms-original-file: 2025-11-01/WafListPoliciesUnderSubscription.json
+ * x-ms-original-file: 2026-04-01/WafListPoliciesUnderSubscription.json
  */
 async function getAllPoliciesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

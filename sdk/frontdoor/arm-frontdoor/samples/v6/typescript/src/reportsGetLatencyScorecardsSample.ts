@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets a Latency Scorecard for a given Experiment
+ *
+ * @summary gets a Latency Scorecard for a given Experiment
+ * x-ms-original-file: 2026-04-01/NetworkExperimentGetLatencyScorecard.json
+ */
+async function getsALatencyScorecardForAGivenExperiment(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new FrontDoorManagementClient(credential, subscriptionId);
+  const result = await client.reports.getLatencyScorecards(
+    "MyResourceGroup",
+    "MyProfile",
+    "MyExperiment",
+    "Daily",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getsALatencyScorecardForAGivenExperiment();
+}
+
+main().catch(console.error);

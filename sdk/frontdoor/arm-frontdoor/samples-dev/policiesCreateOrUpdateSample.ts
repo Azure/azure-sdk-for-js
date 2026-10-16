@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update policy with specified rule set name within a resource group.
  *
  * @summary create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: 2025-11-01/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/WafPolicyCreateOrUpdate.json
  */
 async function createsSpecificPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

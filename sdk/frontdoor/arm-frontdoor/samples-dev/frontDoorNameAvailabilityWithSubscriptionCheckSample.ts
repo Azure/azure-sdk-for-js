@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of a Front Door subdomain.
  *
  * @summary check the availability of a Front Door subdomain.
- * x-ms-original-file: 2025-11-01/CheckFrontdoorNameAvailabilityWithSubscription.json
+ * x-ms-original-file: 2026-04-01/CheckFrontdoorNameAvailabilityWithSubscription.json
  */
 async function checkNameAvailabilityWithSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

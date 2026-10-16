@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
  *
  * @summary retrieve protection policy with specified name within a resource group.
- * x-ms-original-file: 2025-11-01/WafPolicyGet.json
+ * x-ms-original-file: 2026-04-01/WafPolicyGet.json
  */
 async function getPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
