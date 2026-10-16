@@ -30,7 +30,7 @@ export function _getOperationStatusSend(
     "/provenance/operations/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,7 @@ export function _detectSend(
   const path = expandUrlTemplate(
     "/provenance:detect{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
@@ -118,6 +118,6 @@ export function detect(
     abortSignal: optionalParams?.abortSignal,
     getInitialResponse: () => _detectSend(context, options, optionalParams),
     resourceLocationConfig: "operation-location",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-15-preview",
   }) as PollerLike<OperationState<DetectProvenanceResult>, DetectProvenanceResult>;
 }
