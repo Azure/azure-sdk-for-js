@@ -1,3 +1,5 @@
+# Opt in with repository variable ENABLE_ISSUE_INVESTIGATION=true after deployment.
+# Failure here cannot change the already-completed source triage run.
 name: Issue Investigation Handoff
 
 on:

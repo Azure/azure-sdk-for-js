@@ -209,21 +209,48 @@ safe-outputs:
             'https://learn.microsoft.com/answers/questions/',
             'https://feedback.azure.com/d365community',
           ];
-          const documentationOrigins = new Set([
-            new URL(context.serverUrl || 'https://github.com').origin,
-            'https://raw.githubusercontent.com',
-            'https://learn.microsoft.com',
-            'https://azure.github.io',
-          ]);
+          function normalizedUrl(value) {
+            const text = value.replace(/[.,;!]+$/, '');
+            if (!URL.canParse(text)) return null;
+            const url = new URL(text);
+            if (url.protocol !== 'https:' || url.username || url.password || url.port ||
+                /%(?:2f|5c|2e|25)/i.test(url.pathname)) return null;
+            url.hash = '';
+            url.pathname = url.pathname.replace(/\/+$/, '') || '/';
+            url.searchParams.sort();
+            return url;
+          }
+          const normalizedSupport = supportLinks.map(link => normalizedUrl(link).href);
+          function isDocumentation(url) {
+            if (normalizedSupport.includes(url.href)) return false;
+            const pathname = url.pathname;
+            if (url.origin === 'https://learn.microsoft.com') {
+              const page = pathname.replace(/^\/[a-z]{2}(?:-[a-z]{2})?\//i, '/');
+              return page.split('/').filter(Boolean).length >= 2 &&
+                !/^\/(answers|services-hub)(\/|$)/i.test(page);
+            }
+            if (url.origin === 'https://azure.github.io') {
+              return pathname.startsWith('/azure-sdk/') && /\.(html?|md)$/i.test(pathname);
+            }
+            const server = new URL(context.serverUrl || 'https://github.com');
+            const raw = url.origin === 'https://raw.githubusercontent.com';
+            if (url.origin !== server.origin && !(raw && server.hostname === 'github.com')) return false;
+            const branch = context.payload.repository.default_branch;
+            const parts = pathname.split('/').filter(Boolean);
+            if (parts[0]?.toLowerCase() !== context.repo.owner.toLowerCase() ||
+                parts[1]?.toLowerCase() !== context.repo.repo.toLowerCase()) return false;
+            const tail = parts.slice(2).join('/');
+            const prefix = `${raw ? '' : 'blob/'}${branch}/`;
+            if (!tail.startsWith(prefix)) return false;
+            const file = tail.slice(prefix.length);
+            return !!file && /\.(md|markdown|rst|txt|html?)$/i.test(file) &&
+              !file.split('/').some(part => part === '.' || part === '..') && !url.search;
+          }
           for (const item of writes.filter(item => item.type === 'close_issue')) {
-            const links = item.body.match(/https:\/\/[^\s<>()[\]]+/gi) || [];
-            const citedDocumentation = links.some(link => {
-              const url = new URL(link);
-              return !url.username && !url.password && documentationOrigins.has(url.origin) &&
-                !supportLinks.some(support => link.startsWith(support));
-            });
-            if (!supportLinks.every(link => item.body.includes(link)) ||
-                !citedDocumentation) {
+            const links = (item.body.match(/https:\/\/[^\s<>()[\]`"']+/gi) || [])
+              .map(normalizedUrl).filter(Boolean);
+            if (!normalizedSupport.every(link => links.some(url => url.href === link)) ||
+                !links.some(isDocumentation)) {
               throw new Error('A service-side closure requires its supporting documentation URL and all approved support links.');
             }
           }

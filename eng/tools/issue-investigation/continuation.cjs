@@ -83,7 +83,15 @@ function ineligibleReason(issue, number) {
   return null;
 }
 
-async function appliedAnalysis({ github, context, issue, receipts, heading, recommendation }) {
+async function appliedAnalysis({
+  github,
+  context,
+  issue,
+  receipts,
+  heading,
+  recommendation,
+  sourceWindow,
+}) {
   if (!Array.isArray(receipts) || receipts.some((item) => !item || typeof item.type !== "string")) {
     throw new Error("Applied receipts are missing or malformed.");
   }
@@ -107,12 +115,32 @@ async function appliedAnalysis({ github, context, issue, receipts, heading, reco
     ) {
       throw new Error("Applied comment receipt has an unexpected URL.");
     }
+    if (sourceWindow) {
+      const applied = Date.parse(receipt.timestamp);
+      if (
+        !Number.isFinite(applied) ||
+        applied < sourceWindow.after ||
+        applied > sourceWindow.before
+      ) {
+        throw new Error("The applied receipt is not from this processing attempt.");
+      }
+    }
     const { data: comment } = await github.rest.issues.getComment({
       ...context.repo,
       comment_id: issueNumber(match[1]),
     });
     if (typeof issue.url !== "string" || comment.issue_url !== issue.url) {
       throw new Error("The applied analysis comment belongs to another issue.");
+    }
+    if (sourceWindow) {
+      const modified = Date.parse(comment.updated_at);
+      if (
+        !Number.isFinite(modified) ||
+        modified < sourceWindow.after ||
+        modified > sourceWindow.before
+      ) {
+        throw new Error("The analysis comment was not applied by this processing attempt.");
+      }
     }
     if (
       typeof comment.body === "string" &&
@@ -180,6 +208,7 @@ async function prepareDispatch({
   receipts,
   ownerNotification,
   normalizeAssignment,
+  sourceWindow,
 }) {
   const number = issueNumber(input);
   const items = requests(output);
@@ -237,6 +266,7 @@ async function prepareDispatch({
     issue,
     receipts,
     heading: /^## .*Agentic Issue Triage\b/m,
+    sourceWindow,
   });
   const { data: current } = await github.rest.issues.get({ ...context.repo, issue_number: number });
   const changed = ineligibleReason(current, number);
@@ -270,23 +300,38 @@ async function prepareDispatch({
 
 async function prepareCompletedTriage(options) {
   const items = requests(options.output);
-  if (items.some(item => item.type === "dispatch_workflow")) {
+  if (items.some((item) => item.type === "dispatch_workflow")) {
     throw new Error("Existing triage must not emit investigation dispatch requests.");
   }
-  if (items.some(item => item.type === "close_issue")) {
+  if (items.some((item) => item.type === "close_issue")) {
     return { reason: "triage closed the issue" };
   }
-  if (!items.some(item => item.type === "add_comment" && typeof item.body === "string" &&
-      /^## .*Agentic Issue Triage\b/m.test(item.body))) {
+  if (
+    !items.some(
+      (item) =>
+        item.type === "add_comment" &&
+        typeof item.body === "string" &&
+        /^## .*Agentic Issue Triage\b/m.test(item.body),
+    )
+  ) {
     return { reason: "triage intentionally skipped or did not produce an analysis" };
   }
   // The observer, not the legacy agent, authorizes this fixed continuation.
-  return prepareDispatch({ ...options, output: { ...options.output, items: [...items, {
-    type: "dispatch_workflow", workflow_name: "issue-investigation",
-    inputs: { issue_number: String(issueNumber(options.number)) },
-  }] } });
+  return prepareDispatch({
+    ...options,
+    output: {
+      ...options.output,
+      items: [
+        ...items,
+        {
+          type: "dispatch_workflow",
+          workflow_name: "issue-investigation",
+          inputs: { issue_number: String(issueNumber(options.number)) },
+        },
+      ],
+    },
+  });
 }
-
 
 async function executeContinuation({
   github,
@@ -298,6 +343,7 @@ async function executeContinuation({
   receiptsDirectory,
   actionsDirectory,
   ownerNotification,
+  sourceWindow,
 }) {
   const fs = require("node:fs");
   const path = require("node:path");
@@ -325,6 +371,7 @@ async function executeContinuation({
       output,
       receipts,
       ownerNotification,
+      sourceWindow,
       normalizeAssignment(item) {
         const target = resolveTarget({
           targetConfig: "*",
@@ -369,4 +416,9 @@ async function executeContinuation({
   }
 }
 
-module.exports = { prepareAssignment, prepareDispatch, prepareCompletedTriage, executeContinuation };
+module.exports = {
+  prepareAssignment,
+  prepareDispatch,
+  prepareCompletedTriage,
+  executeContinuation,
+};

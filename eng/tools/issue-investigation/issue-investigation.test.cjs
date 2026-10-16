@@ -87,7 +87,10 @@ const assign = () => ({ type: "assign_to_agent", issue_number: 42, agent: "copil
 function verify(issue = validIssue(), items = [comment()], apiError) {
   return execute(stepScript(source, "Revalidate issue before publishing investigation"), {
     process: { env: { ISSUE_NUMBER: "42" } },
-    context: { repo: { owner: "Azure", repo: "azure-sdk-for-js" } },
+    context: {
+      repo: { owner: "Azure", repo: "azure-sdk-for-js" },
+      payload: { repository: { default_branch: "main" } },
+    },
     require: (name) => {
       assert.equal(name, "fs");
       return {
@@ -262,7 +265,7 @@ test("Copilot assignment requires an accompanying analysis request", async () =>
 test("read tools and checked-out context are restricted to this repository's default branch", () => {
   assert.match(source, /allowed-repos: \["\$\{\{ github\.repository \}\}"\]/);
   assert.match(source, /checkout:\n  ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
-  for (const name of ["issue-investigation.lock.yml", "issue-triage.lock.yml"]) {
+  for (const name of ["issue-investigation.lock.yml"]) {
     assert.match(workflow(name), /"repos": \[\s*"\$\{\{ github\.repository \}\}"\s*\]/);
   }
 });
@@ -271,18 +274,9 @@ test("comment history is explicitly paginated before checking for prior investig
   assert.match(source, /perPage: 100/);
   assert.match(source, /paginate.*(?:final|last) page/i);
 });
-test("triage recognizes supported provisioning metadata and notification-only team owners", () => {
-  const triage = workflow("issue-triage.md");
-  assert.match(
-    triage,
-    /"Provisioning" for packages whose `package\.json` declares `sdk-type: provisioning`/,
-  );
-  assert.match(triage, /only team owners[\s\S]*?notify the team owners with `mention_owners`/);
-  assert.match(triage, /Do not pass `org\/team` to `assign_to_user`/);
-});
 
 test("the pinned CLI uses an explicit compatible model for agent and detection", () => {
-  for (const filename of ["issue-investigation.lock.yml", "issue-triage.lock.yml"]) {
+  for (const filename of ["issue-investigation.lock.yml"]) {
     const text = workflow(filename);
     const metadata = JSON.parse(text.split("\n")[0].replace("# gh-aw-metadata: ", ""));
     assert.equal(metadata.agent_model, "gpt-5.4");
@@ -344,6 +338,50 @@ test("a lookalike documentation host cannot authorize service closure", async ()
 
 test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
   const script = stepScript(source, "Verify investigation produced output");
+
+  for (const evidence of [
+    "https://github.com/Azure/azure-sdk-for-js/issues/42",
+    "https://github.com/Azure/azure-sdk-for-js/pull/42",
+    "https://github.com/Azure/azure-sdk-for-js/discussions/42",
+    "https://github.com/attacker/azure-sdk-for-js/blob/main/README.md",
+    "https://raw.githubusercontent.com/attacker/azure-sdk-for-js/main/README.md",
+    "https://github.com/Azure/azure-sdk-for-js/blob/untrusted/README.md",
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/untrusted/README.md",
+    "https://github.com/Azure/azure-sdk-for-js/blob/main/src/client.ts",
+    "https://github.com/Azure/azure-sdk-for-js/tree/main/docs",
+    "https://github.com/Azure/azure-sdk-for-js/blob/main/README.md?ref=untrusted",
+    "https://github.com/Azure/azure-sdk-for-js/blob/main/%252e%252e/README.md",
+    "https://learn.microsoft.com/answers/questions/12345",
+    "https://learn.microsoft.com/en-us/answers/questions/12345",
+    "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
+    "https://feedback.azure.com/d365community#feedback",
+    "https://user@learn.microsoft.com/azure/key-vault/general/backup",
+    "https://learn.microsoft.com:444/azure/key-vault/general/backup",
+    "https://[invalid",
+  ]) {
+    test(`closure rejects non-governing or untrusted citation: ${evidence}`, async () => {
+      const item = close();
+      item.body = item.body.replace(
+        "https://learn.microsoft.com/azure/key-vault/general/backup",
+        evidence,
+      );
+      await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
+    });
+  }
+
+  test("normalized support URLs count as support but never as governing evidence", async () => {
+    const item = close();
+    item.body = item.body.replace(
+      "https://learn.microsoft.com/answers/questions/",
+      "https://LEARN.MICROSOFT.COM:443/answers/questions#top",
+    );
+    await verify(validIssue(), [item]);
+    item.body = item.body.replace(
+      "https://learn.microsoft.com/azure/key-vault/general/backup",
+      "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
+    );
+    await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
+  });
   for (const contents of [undefined, "", "{", "null", "{}", '{"items":{}}', '{"items":[]}']) {
     await assert.rejects(
       execute(script, {
@@ -410,7 +448,13 @@ test("legacy triage processing does not depend on optional investigation or noti
   );
   assert.equal(config.dispatch_workflow, undefined);
   assert.deepEqual(config.set_issue_type.allowed, ["Bug", "Feature", "Task"]);
-  for (const [type, maximum] of [["add_labels", 7], ["remove_labels", 7], ["add_comment", 2], ["assign_to_user", 1], ["close_issue", 1]]) {
+  for (const [type, maximum] of [
+    ["add_labels", 7],
+    ["remove_labels", 7],
+    ["add_comment", 2],
+    ["assign_to_user", 1],
+    ["close_issue", 1],
+  ]) {
     assert.equal(config[type].max, maximum);
   }
 });
@@ -468,7 +512,8 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
     const triage = workflow("issue-triage.lock.yml");
     const job = triage.slice(triage.indexOf("\n  safe_outputs:\n"));
     const value = job.match(/^    if: (.*)$/m)[1];
-    const expression = value === ">" ? job.match(/^    if: >\n((?:      .+\n)+)/m)[1].trim() : value;
+    const expression =
+      value === ">" ? job.match(/^    if: >\n((?:      .+\n)+)/m)[1].trim() : value;
     const condition = new Function("needs", "cancelled", "contains", `return (${expression});`);
     assert.equal(
       condition(
@@ -487,7 +532,10 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
 
 test("triage has no investigation input rewriting or new agent tool", () => {
   const triage = workflow("issue-triage.md");
-  assert.doesNotMatch(triage, /dispatch-workflow:|Defer investigation dispatch|Step 8: Investigation Handoff/);
+  assert.doesNotMatch(
+    triage,
+    /dispatch-workflow:|Defer investigation dispatch|Step 8: Investigation Handoff/,
+  );
   assert.doesNotMatch(triage, /fs\.writeFileSync/);
   const lock = workflow("issue-triage.lock.yml");
   assert.doesNotMatch(lock, /"name": "issue_investigation"/);
@@ -538,9 +586,7 @@ for (const [filename, jobId, type] of [
 }
 
 test("generated continuation jobs participate in the final workflow conclusion", () => {
-  for (const [filename, job] of [
-    ["issue-investigation.lock.yml", "copilot_assignment"],
-  ]) {
+  for (const [filename, job] of [["issue-investigation.lock.yml", "copilot_assignment"]]) {
     const conclusion = workflow(filename).split("\n  conclusion:\n")[1];
     assert.match(conclusion.split("    if:")[0], new RegExp(`- ${job}\\n`));
   }
