@@ -1,0 +1,114 @@
+# Opt in with repository variable ENABLE_ISSUE_INVESTIGATION=true after deployment.
+# Failure here cannot change the already-completed source triage run.
+name: Issue Investigation Handoff
+
+on:
+  workflow_run:
+    workflows: [Agentic Triage]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: issue-investigation-handoff-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  route:
+    if: >-
+      vars.ENABLE_ISSUE_INVESTIGATION == 'true' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.repository.id == github.repository_id &&
+      (github.event.workflow_run.event == 'issues' || github.event.workflow_run.event == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
+      issues: read
+    steps:
+      - name: Checkout trusted observer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: eng/tools/issue-investigation
+      - name: Validate completed triage origin
+        id: parent
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { getCompletedTriage } = require('./eng/tools/issue-investigation/completed-triage.cjs');
+            const parent = await getCompletedTriage({ github, context });
+            if (parent.reason) {
+              core.notice(`Investigation handoff skipped: ${parent.reason}`);
+              core.setOutput('ready', 'false');
+              return;
+            }
+            core.setOutput('ready', 'true');
+            core.setOutput('run_id', String(parent.runId));
+      - name: Setup pinned native processor
+        if: steps.parent.outputs.ready == 'true'
+        uses: github/gh-aw-actions/setup@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
+        with:
+          destination: ${{ runner.temp }}/gh-aw/actions
+      - name: Download trusted activation metadata
+        if: steps.parent.outputs.ready == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: activation
+          run-id: ${{ steps.parent.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/triage-observer/activation
+      - name: Download original triage requests
+        if: steps.parent.outputs.ready == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: "{agent,agent-output-fallback}"
+          merge-multiple: true
+          run-id: ${{ steps.parent.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/triage-observer/requests
+      - name: Download applied triage receipts
+        if: steps.parent.outputs.ready == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: safe-outputs-items
+          run-id: ${{ steps.parent.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/triage-observer/receipts
+      - name: Download source detection verdict
+        if: steps.parent.outputs.ready == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: detection
+          run-id: ${{ steps.parent.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/triage-observer/detection
+      - name: Verify source evidence and dispatch investigation
+        if: steps.parent.outputs.ready == 'true'
+        id: continuation
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          GH_AW_WORKFLOW_ID: issue-investigation-handoff
+          GH_AW_WORKFLOW_NAME: Issue Investigation Handoff
+          GH_AW_CALLER_WORKFLOW_ID: ${{ github.repository }}/issue-investigation-handoff
+        with:
+          script: |
+            const path = require('node:path');
+            const actionsDirectory = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+            require(path.join(actionsDirectory, 'setup_globals.cjs'))
+              .setupGlobals(core, github, context, exec, io, getOctokit);
+            const { routeCompletedTriage } = require('./eng/tools/issue-investigation/completed-triage.cjs');
+            await routeCompletedTriage({
+              github, context, core, actionsDirectory,
+              artifactDirectory: path.join(process.env.RUNNER_TEMP, 'triage-observer'),
+            });
+      - name: Confirm the independent handoff was applied
+        if: >-
+          steps.continuation.outputs.continuation_requested == 'true' &&
+          (steps.continuation.outputs.status != 'success' || steps.continuation.outputs.items_applied != '1')
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            throw new Error('Investigation handoff was not applied. The completed source triage run is unchanged.');
