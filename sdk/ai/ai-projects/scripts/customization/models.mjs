@@ -29,6 +29,22 @@ const documentedRenames = new Map([
   ["_FileSearchToolFiltersValue", "_ComparisonFilterValue"],
   ["_FileSearchToolFiltersFilter", "_CompoundFilterFilter"],
 ]);
+const voiceResponsePropertyOrder = [
+  "id",
+  "object",
+  "status",
+  "status_details",
+  "usage",
+  "conversation_id",
+  "output_modalities",
+  "max_output_tokens",
+  "output",
+  "audio",
+  "metadata",
+  "temperature",
+  "created_at",
+  "completed_at",
+];
 
 function isModel(file) {
   return file.startsWith("models/") && /\.(?:ts|mts|cts)$/.test(file);
@@ -80,6 +96,45 @@ function parse(text, file, diagnostics) {
     });
   }
   return source;
+}
+
+function normalizeReturnedObjectPropertyOrder(text, order, context, diagnostics) {
+  if (text === null) return null;
+  const source = parse(text, context.file, diagnostics);
+  const declaration = source.statements.find(ts.isFunctionDeclaration);
+  const returned = declaration?.body?.statements.find(ts.isReturnStatement)?.expression;
+  if (!returned || !ts.isObjectLiteralExpression(returned)) {
+    diagnostics.push({
+      ...context,
+      message: "Expected a function that directly returns an object literal.",
+    });
+    return text;
+  }
+  const positions = new Map(order.map((name, index) => [name, index]));
+  const properties = [...returned.properties].sort((left, right) => {
+    const leftName = left.name && ts.isIdentifier(left.name) ? left.name.text : undefined;
+    const rightName = right.name && ts.isIdentifier(right.name) ? right.name.text : undefined;
+    return (
+      (positions.get(leftName) ?? Number.MAX_SAFE_INTEGER) -
+      (positions.get(rightName) ?? Number.MAX_SAFE_INTEGER)
+    );
+  });
+  const replacement = ts.factory.updateObjectLiteralExpression(returned, properties);
+  const transformed = ts.transform(source, [
+    (transformationContext) => {
+      const visit = (node) =>
+        node === returned ? replacement : ts.visitEachChild(node, visit, transformationContext);
+      return (node) => ts.visitNode(node, visit);
+    },
+  ]);
+  try {
+    return ts
+      .createPrinter({ newLine: ts.NewLineKind.LineFeed })
+      .printNode(ts.EmitHint.Unspecified, transformed.transformed[0], source)
+      .trim();
+  } finally {
+    transformed.dispose();
+  }
 }
 
 function inventory(tree, diagnostics, replacements = new Map()) {
@@ -772,7 +827,18 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
       context,
       diagnostics,
     );
-    const planned = mergeDeclaration(baseText, customText, incomingText, context);
+    const [normalizedBase, normalizedCustom, normalizedIncoming] =
+      name === "voiceResponseDeserializer"
+        ? [baseText, customText, incomingText].map((text) =>
+            normalizeReturnedObjectPropertyOrder(
+              text,
+              voiceResponsePropertyOrder,
+              context,
+              diagnostics,
+            ),
+          )
+        : [baseText, customText, incomingText];
+    const planned = mergeDeclaration(normalizedBase, normalizedCustom, normalizedIncoming, context);
     diagnostics.push(...planned.diagnostics);
     if (planned.text !== null) merged.set(name, planned.text);
   }

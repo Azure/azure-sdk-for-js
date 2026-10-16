@@ -433,6 +433,49 @@ test("independent plain converter properties can merge without a surviving commo
   });
 });
 
+test("voice response converter reordering preserves customized conversions and incoming fields", () => {
+  const base = tree(`
+export function voiceResponseDeserializer(item: any): any {
+  return {
+    id: item.id,
+    usage: oldUsage(item.usage),
+    output: oldOutput(item.output),
+    metadata: oldMetadata(item.metadata),
+    created_at: oldDate(item.created_at),
+  };
+}`);
+  const custom = tree(`
+export function voiceResponseDeserializer(item: any): any {
+  return {
+    id: item.id,
+    usage: oldUsage(item.usage),
+    output: oldOutput(item.output),
+    metadata: customMetadata(item.metadata),
+    created_at: customDate(item.created_at),
+  };
+}`);
+  const incoming = tree(`
+export function voiceResponseDeserializer(item: any): any {
+  return {
+    id: item.id,
+    output: newOutput(item.output),
+    metadata: oldMetadata(item.metadata),
+    usage: newUsage(item.usage),
+    audio: newAudio(item.audio),
+    created_at: oldDate(item.created_at),
+  };
+}`);
+  const text = succeeded(base, custom, incoming).files.get(modelFile);
+  assert.match(text, /usage: newUsage\(item\.usage\)/);
+  assert.match(text, /output: newOutput\(item\.output\)/);
+  assert.match(text, /audio: newAudio\(item\.audio\)/);
+  assert.match(text, /metadata: customMetadata\(item\.metadata\)/);
+  assert.match(text, /created_at: customDate\(item\.created_at\)/);
+  assert.ok(text.indexOf("usage:") < text.indexOf("output:"));
+  assert.ok(text.indexOf("output:") < text.indexOf("audio:"));
+  assert.ok(text.indexOf("audio:") < text.indexOf("metadata:"));
+});
+
 test("side-effectful concurrent converter insertions remain explicit ordering diagnostics", () => {
   const result = plan(
     tree("export function convert(item: any): any { return { old_name: item.old_name }; }"),

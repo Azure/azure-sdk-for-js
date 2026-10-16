@@ -34,6 +34,7 @@ import type {
   TelephonyOutboundRetryPolicy,
   TelephonyOutboundRetryPolicyUnion,
   UpdateTelephonyBindingRequest,
+  VoiceAgentLiveDelegationUnion,
   VoiceAgentInputTranscription,
 } from "../../src/models/index.js";
 import {
@@ -72,6 +73,8 @@ import {
   toolUnionDeserializer,
   toolUnionSerializer,
   updateTelephonyBindingRequestSerializer,
+  voiceAgentLiveDelegationUnionDeserializer,
+  voiceAgentLiveDelegationUnionSerializer,
   voiceAgentInputTranscriptionDeserializer,
   voiceAgentInputTranscriptionSerializer,
   webSearchToolboxToolDeserializer,
@@ -88,6 +91,22 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it.each([
+    { type: "client" },
+    { type: "responses", responses: { model: "gpt-live" } },
+    {
+      type: "foundry_managed_agent",
+      agent_name: "support-agent",
+      agent_version: "2",
+    },
+  ] satisfies VoiceAgentLiveDelegationUnion[])(
+    "round-trips $type Live delegation through generated subtype dispatch",
+    (delegation) => {
+      expect(toWire(voiceAgentLiveDelegationUnionSerializer(delegation))).toEqual(delegation);
+      expect(voiceAgentLiveDelegationUnionDeserializer(delegation)).toMatchObject(delegation);
+    },
+  );
+
   it("uses exactly the upstream data-generation discriminator values", () => {
     expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
       "simple_qna" | "traces" | "tool_use" | "simulation_seed"
