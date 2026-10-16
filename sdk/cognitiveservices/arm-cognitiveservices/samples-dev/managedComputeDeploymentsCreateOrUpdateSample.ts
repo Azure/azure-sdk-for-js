@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed compute deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates a managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/CreateOrUpdateManagedComputeDeployment.json
+ * x-ms-original-file: 2026-09-15-preview/CreateOrUpdateManagedComputeDeployment.json
  */
 async function createOrUpdateManagedComputeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,6 +25,10 @@ async function createOrUpdateManagedComputeDeployment(): Promise<void> {
           "azureml://registries/azureml-openai-oss/deploymenttemplates/gpt-oss-120b-short-context/versions/1",
         acceleratorType: "H100_80GB",
         versionUpgradeOption: "OnceNewDefaultVersionAvailable",
+        gatedModelAccess: {
+          connectionId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/projects/my-project/connections/my-hf-connection",
+        },
       },
       sku: { name: "GlobalManagedCompute", capacity: 1 },
     },
@@ -36,7 +40,7 @@ async function createOrUpdateManagedComputeDeployment(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed compute deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates a managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/CreateOrUpdateVmManagedComputeDeployment.json
+ * x-ms-original-file: 2026-09-15-preview/CreateOrUpdateVmManagedComputeDeployment.json
  */
 async function createOrUpdateVmManagedComputeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,6 +58,10 @@ async function createOrUpdateVmManagedComputeDeployment(): Promise<void> {
         computeId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/computes/my-h100-pool",
         priority: "High",
+        gatedModelAccess: {
+          connectionId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/projects/my-project/connections/my-hf-connection",
+        },
       },
       sku: { name: "VmManagedCompute", capacity: 2 },
     },

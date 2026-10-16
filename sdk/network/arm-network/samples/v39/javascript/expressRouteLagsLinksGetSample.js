@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the specified ExpressRouteLagLink resource.
  *
  * @summary retrieves the specified ExpressRouteLagLink resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagLinkGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagLinkGet.json
  */
 async function getExpressRouteLagLink() {
   const credential = new DefaultAzureCredential();

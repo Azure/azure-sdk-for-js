@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to updates resource-specific settings for the specified scheduled action.
+ * This sample demonstrates how to updates resource-specific settings for the specified recurring bulk action.
  *
- * @summary updates resource-specific settings for the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_PatchResources_BasicSuccess.json
+ * @summary updates resource-specific settings for the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_PatchResources_BasicSuccess.json
  */
-async function _01UpdateSettingsForRecurringScheduledActionResources() {
+async function _01UpdateSettingsForRecurringBulkActionResources() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -46,12 +46,12 @@ async function _01UpdateSettingsForRecurringScheduledActionResources() {
 }
 
 /**
- * This sample demonstrates how to updates resource-specific settings for the specified scheduled action.
+ * This sample demonstrates how to updates resource-specific settings for the specified recurring bulk action.
  *
- * @summary updates resource-specific settings for the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_PatchResources_ComprehensiveSuccess.json
+ * @summary updates resource-specific settings for the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_PatchResources_ComprehensiveSuccess.json
  */
-async function _02UpdateResourceSpecificNotificationSettingsForARecurringScheduledAction() {
+async function _02UpdateResourceSpecificNotificationSettingsForARecurringBulkAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -88,12 +88,12 @@ async function _02UpdateResourceSpecificNotificationSettingsForARecurringSchedul
 }
 
 /**
- * This sample demonstrates how to updates resource-specific settings for the specified scheduled action.
+ * This sample demonstrates how to updates resource-specific settings for the specified recurring bulk action.
  *
- * @summary updates resource-specific settings for the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_PatchResources_PartialSuccess.json
+ * @summary updates resource-specific settings for the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_PatchResources_PartialSuccess.json
  */
-async function _03ResponseWithPartialResultsWhenUpdatingRecurringScheduledActionResources() {
+async function _03ResponseWithPartialResultsWhenUpdatingRecurringBulkActionResources() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -119,9 +119,9 @@ async function _03ResponseWithPartialResultsWhenUpdatingRecurringScheduledAction
 }
 
 async function main() {
-  await _01UpdateSettingsForRecurringScheduledActionResources();
-  await _02UpdateResourceSpecificNotificationSettingsForARecurringScheduledAction();
-  await _03ResponseWithPartialResultsWhenUpdatingRecurringScheduledActionResources();
+  await _01UpdateSettingsForRecurringBulkActionResources();
+  await _02UpdateResourceSpecificNotificationSettingsForARecurringBulkAction();
+  await _03ResponseWithPartialResultsWhenUpdatingRecurringBulkActionResources();
 }
 
 main().catch(console.error);

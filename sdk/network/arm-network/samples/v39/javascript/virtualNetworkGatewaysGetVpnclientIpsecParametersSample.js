@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
  * @summary the Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
  */
 async function getVirtualNetworkGatewayVpnClientIpsecParameters() {
   const credential = new DefaultAzureCredential();

@@ -621,7 +621,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("agent-browser-automation", async function () {
     const browserAutomationProjectConnectionId =
-      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+      process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -631,8 +631,8 @@ Be direct and efficient. When you reach the search results page, read and descri
       // Define Browser Automation tool
       tools: [
         {
-          type: "browser_automation_preview",
-          browser_automation_preview: {
+          type: "browser_automation",
+          browser_automation: {
             connection: {
               project_connection_id: browserAutomationProjectConnectionId,
             },

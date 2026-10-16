@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets load balancer backend address pool.
  *
  * @summary gets load balancer backend address pool.
- * x-ms-original-file: 2026-01-01/LBBackendAddressPoolWithBackendAddressesGet.json
+ * x-ms-original-file: 2026-03-01/LBBackendAddressPoolWithBackendAddressesGet.json
  */
 async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
  * This sample demonstrates how to gets load balancer backend address pool.
  *
  * @summary gets load balancer backend address pool.
- * x-ms-original-file: 2026-01-01/LoadBalancerBackendAddressPoolGet.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerBackendAddressPoolGet.json
  */
 async function loadBalancerBackendAddressPoolGet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the GetBgpPeerStatus operation retrieves the status of all BGP peers.
  *
  * @summary the GetBgpPeerStatus operation retrieves the status of all BGP peers.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetBGPPeerStatus.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetBGPPeerStatus.json
  */
 async function getVirtualNetworkGatewayBGPPeerStatus() {
   const credential = new DefaultAzureCredential();

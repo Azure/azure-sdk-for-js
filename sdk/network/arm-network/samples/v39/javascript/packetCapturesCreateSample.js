@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create and start a packet capture on the specified VM.
  *
  * @summary create and start a packet capture on the specified VM.
- * x-ms-original-file: 2026-01-01/NetworkWatcherPacketCaptureCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture() {
   const credential = new DefaultAzureCredential();

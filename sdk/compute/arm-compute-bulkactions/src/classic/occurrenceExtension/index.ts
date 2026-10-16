@@ -9,7 +9,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a OccurrenceExtension operations. */
 export interface OccurrenceExtensionOperations {
-  /** Lists scheduled action occurrences associated with the specified VM. */
+  /** Lists recurring bulk action occurrences associated with the specified VM. */
   listOccurrenceByVms: (
     resourceUri: string,
     options?: OccurrenceExtensionListOccurrenceByVmsOptionalParams,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a specified connection created by this management group.
  *
  * @summary get a specified connection created by this management group.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectionManagementGroupGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectionManagementGroupGet.json
  */
 async function getManagementGroupNetworkManagerConnection() {
   const credential = new DefaultAzureCredential();

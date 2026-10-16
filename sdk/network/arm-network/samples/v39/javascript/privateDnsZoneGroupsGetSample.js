@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the private dns zone group resource by specified private dns zone group name.
  *
  * @summary gets the private dns zone group resource by specified private dns zone group name.
- * x-ms-original-file: 2026-01-01/PrivateEndpointDnsZoneGroupGet.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointDnsZoneGroupGet.json
  */
 async function getPrivateDnsZoneGroup() {
   const credential = new DefaultAzureCredential();

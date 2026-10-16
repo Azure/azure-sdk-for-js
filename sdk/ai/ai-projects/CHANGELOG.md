@@ -15,6 +15,7 @@
 
 ### Other Changes
 
+- Upgrade `openai` dependency to `^7.28.0` and `ws` to `^8.21.0`. [#39489](https://github.com/Azure/azure-sdk-for-js/issues/39489)
 - Regenerate the client from azure-rest-api-specs commit `a7ef5b9218652546fbbddea463a4ac56e187102f` and document the Microsoft Copilot replacements for legacy GitHub Copilot models. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a7ef5b9218652546fbbddea463a4ac56e187102f). [#40375](https://github.com/Azure/azure-sdk-for-js/issues/40375)
 - Regenerate the client from azure-rest-api-specs commit `24b904e4e5f77231feaf05e3d39fca48dc531565` to simplify OpenAI-backed voice models while retaining customized MCP tools, response inputs, audio serialization, and realtime behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/24b904e4e5f77231feaf05e3d39fca48dc531565). [#40339](https://github.com/Azure/azure-sdk-for-js/issues/40339)
 - Regenerate the client from azure-rest-api-specs commit `9224f3baca6db983469634f3e7ff723697f76d92` and update `SessionConfiguration.idle_timeout_seconds` documentation to reflect the increased maximum of 14,400 seconds (4 hours), retaining the 120-second minimum and 900-second server default. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/9224f3baca6db983469634f3e7ff723697f76d92). [#40224](https://github.com/Azure/azure-sdk-for-js/issues/40224)

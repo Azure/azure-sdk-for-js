@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a ConnectionPolicy.
  *
  * @summary deletes a ConnectionPolicy.
- * x-ms-original-file: 2026-01-01/ConnectionPolicyDelete.json
+ * x-ms-original-file: 2026-03-01/ConnectionPolicyDelete.json
  */
 async function connectionPolicyDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

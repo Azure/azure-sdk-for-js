@@ -32,7 +32,7 @@
     "@azure/keyvault-secrets": "^4.9.0",
     "@azure/identity": "^4.13.0",
     "ws": "^8.2.0",
-    "https-proxy-agent": "^7.0.0"
+    "https-proxy-agent": "^9.1.0"
   },
   "devDependencies": {
     "cross-env": "latest"

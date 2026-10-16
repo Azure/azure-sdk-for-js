@@ -15,6 +15,6 @@
     "openai": "^4.47.2"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^18.0.5"
   }
 }

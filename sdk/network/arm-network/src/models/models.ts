@@ -103,6 +103,8 @@ import type {
   VirtualRouter,
   VirtualRouterPeering,
   VirtualNetworkAppliance,
+  VirtualNetworkApplianceCapabilityUnion,
+  VirtualNetworkApplianceCapabilityProperties,
   ServiceGateway,
   InterconnectGroup,
   Subgroup,
@@ -169,6 +171,9 @@ import {
   virtualRouterArrayDeserializer,
   virtualRouterPeeringArrayDeserializer,
   virtualNetworkApplianceArrayDeserializer,
+  virtualNetworkApplianceCapabilityPropertiesSerializer,
+  virtualNetworkApplianceCapabilityPropertiesDeserializer,
+  virtualNetworkApplianceCapabilityUnionArrayDeserializer,
   serviceGatewayArrayDeserializer,
   subgroupArrayDeserializer,
   interconnectGroupArrayDeserializer,
@@ -1401,6 +1406,100 @@ export function _virtualNetworkApplianceListResultDeserializer(
 ): _VirtualNetworkApplianceListResult {
   return {
     value: virtualNetworkApplianceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface ProxyResourceVirtualNetworkApplianceCapabilityProperties extends ArmProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VirtualNetworkApplianceCapabilityProperties;
+}
+
+export function proxyResourceVirtualNetworkApplianceCapabilityPropertiesSerializer(
+  item: ProxyResourceVirtualNetworkApplianceCapabilityProperties,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function proxyResourceVirtualNetworkApplianceCapabilityPropertiesDeserializer(
+  item: any,
+): ProxyResourceVirtualNetworkApplianceCapabilityProperties {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ArmProxyResource extends ArmResource {}
+
+export function armProxyResourceSerializer(_item: ArmProxyResource): any {
+  return {};
+}
+
+export function armProxyResourceDeserializer(item: any): ArmProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ArmResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function armResourceSerializer(_item: ArmResource): any {
+  return {};
+}
+
+export function armResourceDeserializer(item: any): ArmResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a VirtualNetworkApplianceCapability list operation. */
+export interface _VirtualNetworkApplianceCapabilityListResult {
+  /** The VirtualNetworkApplianceCapability items on this page */
+  value: VirtualNetworkApplianceCapabilityUnion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _virtualNetworkApplianceCapabilityListResultDeserializer(
+  item: any,
+): _VirtualNetworkApplianceCapabilityListResult {
+  return {
+    value: virtualNetworkApplianceCapabilityUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
