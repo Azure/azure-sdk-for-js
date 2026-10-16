@@ -80,9 +80,15 @@ Invoke-Checked 'tsp-client generate' { npm --prefix $tspClientPrefix exec -- tsp
 # A worklist left by an earlier run describes a different emission.
 Remove-Item -Path 'temp/customization-worklist.md' -Force -ErrorAction SilentlyContinue
 
-npm run customize
-if ($LASTEXITCODE -eq 0) { return }
-$customizeExitCode = $LASTEXITCODE
+$previousRecover = $env:CUSTOMIZE_RECOVER
+try {
+  $env:CUSTOMIZE_RECOVER = '0'
+  npm run customize
+  $customizeExitCode = $LASTEXITCODE
+} finally {
+  $env:CUSTOMIZE_RECOVER = $previousRecover
+}
+if ($customizeExitCode -eq 0) { return }
 
 if ($Strict) {
   throw "npm run customize failed with exit code $customizeExitCode"
