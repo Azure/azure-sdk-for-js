@@ -38,6 +38,7 @@ const applicationPropertiesWithTypesSymbol = Symbol.for(
   "@azure/core-amqp.applicationPropertiesWithTypes",
 );
 const unwrapMapPatchedSymbol = Symbol.for("@azure/core-amqp.unwrapMapSimplePatched");
+const integerReadersPatchedSymbol = Symbol.for("@azure/core-amqp.integerReadersPatched");
 
 /**
  * @internal
@@ -45,6 +46,13 @@ const unwrapMapPatchedSymbol = Symbol.for("@azure/core-amqp.unwrapMapSimplePatch
 export type _ApplicationPropertiesWithTypes = Readonly<Record<string, AmqpApplicationProperty>>;
 type RheaTypesWithPatchMarker = typeof rheaTypes & {
   [unwrapMapPatchedSymbol]?: boolean;
+  [integerReadersPatchedSymbol]?: boolean;
+  by_code: Record<
+    number,
+    {
+      read(buffer: Buffer, offset: number): number | Buffer;
+    }
+  >;
 };
 type RheaTypesWithDecimalConstructors = typeof rheaTypes & {
   Decimal32(value: Buffer): Typed;
@@ -67,6 +75,27 @@ export function _getApplicationPropertiesWithAmqpTypes(
         })
       | undefined
   )?.[applicationPropertiesWithTypesSymbol] as _ApplicationPropertiesWithTypes | undefined;
+}
+
+/**
+ * Adds the typed application property view without changing JSON serialization.
+ *
+ * @internal
+ */
+export function _defineApplicationPropertiesWithAmqpTypes(
+  target: object,
+  applicationPropertiesWithTypes: _ApplicationPropertiesWithTypes | undefined,
+): void {
+  if (applicationPropertiesWithTypes == null) {
+    return;
+  }
+
+  Object.defineProperty(target, "applicationPropertiesWithAmqpTypes", {
+    configurable: true,
+    enumerable: false,
+    value: applicationPropertiesWithTypes,
+    writable: true,
+  });
 }
 
 /**
@@ -94,7 +123,7 @@ export function _toRheaApplicationProperties(
       ) {
         continue;
       }
-      result[key] = toRheaTyped(withValue(value, result[key]));
+      result[key] = toRheaTyped(withPreservedValue(value, result[key]));
     }
   }
 
@@ -106,6 +135,22 @@ export function _toRheaApplicationProperties(
   }
 
   return result;
+}
+
+function withPreservedValue(
+  property: AmqpApplicationProperty,
+  value: unknown,
+): AmqpApplicationProperty {
+  if (
+    (property.type === "long" || property.type === "ulong") &&
+    typeof value === "number" &&
+    !Number.isSafeInteger(value) &&
+    value === Number(property.value)
+  ) {
+    return property;
+  }
+
+  return withValue(property, value);
 }
 
 function validateExplicitProperty(property: {
@@ -382,6 +427,10 @@ function uuidToBuffer(value: string): Buffer {
 }
 
 function fromRheaTyped(value: Typed): AmqpApplicationProperty | undefined {
+  if ((value as Typed & { descriptor?: unknown }).descriptor != null) {
+    return undefined;
+  }
+
   switch (value.type.name) {
     case "Null":
       return { type: "null", value: null };
@@ -448,12 +497,54 @@ function rheaIntegerToBigInt(value: number | Buffer, signed: boolean): bigint {
   return signed ? value.readBigInt64BE() : value.readBigUInt64BE();
 }
 
+function unwrapApplicationPropertyValue(value: Typed): unknown {
+  // Preserve Rhea's existing plain JavaScript values while the typed view keeps exact integers.
+  if (Buffer.isBuffer(value.value) && (value.type.name === "Long" || value.type.name === "Ulong")) {
+    const highWord =
+      value.type.name === "Long" ? value.value.readInt32BE(0) : value.value.readUInt32BE(0);
+    if (
+      (value.type.name === "Long" && highWord < 2097153 && highWord > -2097153) ||
+      (value.type.name === "Ulong" && highWord < 2097153)
+    ) {
+      return highWord * 4294967296 + value.value.readUInt32BE(4);
+    }
+  }
+
+  return rheaTypes.unwrap(value, true);
+}
+
 function bufferToUuid(value: Buffer): string {
   const hex = value.toString("hex");
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(
     16,
     20,
   )}-${hex.slice(20)}`;
+}
+
+function installLosslessIntegerReaders(): void {
+  const typesWithMarker = rheaTypes as RheaTypesWithPatchMarker;
+  if (typesWithMarker[integerReadersPatchedSymbol]) {
+    return;
+  }
+
+  const installReader = (typeCode: number, signed: boolean): void => {
+    typesWithMarker.by_code[typeCode].read = (buffer: Buffer, offset: number) => {
+      const bytes = buffer.subarray(offset, offset + 8);
+      const value = signed ? bytes.readBigInt64BE() : bytes.readBigUInt64BE();
+      return value >= BigInt(Number.MIN_SAFE_INTEGER) && value <= BigInt(Number.MAX_SAFE_INTEGER)
+        ? Number(value)
+        : buffer.slice(offset, offset + 8);
+    };
+  };
+
+  installReader(0x80, false);
+  installReader(0x81, true);
+  Object.defineProperty(typesWithMarker, integerReadersPatchedSymbol, {
+    configurable: false,
+    enumerable: false,
+    value: true,
+    writable: false,
+  });
 }
 
 function installTypedApplicationPropertyDecoder(): void {
@@ -473,7 +564,7 @@ function installTypedApplicationPropertyDecoder(): void {
       Object.defineProperty(unwrapped, key, {
         configurable: true,
         enumerable: true,
-        value: rheaTypes.unwrap(typedValue, true),
+        value: unwrapApplicationPropertyValue(typedValue),
         writable: true,
       });
       const property = fromRheaTyped(typedValue);
@@ -503,4 +594,5 @@ function installTypedApplicationPropertyDecoder(): void {
   });
 }
 
+installLosslessIntegerReaders();
 installTypedApplicationPropertyDecoder();

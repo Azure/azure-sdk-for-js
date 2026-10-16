@@ -5,6 +5,7 @@ import {
   AmqpAnnotatedMessage,
   Constants,
   type AmqpApplicationProperty,
+  _defineApplicationPropertiesWithAmqpTypes,
   _getApplicationPropertiesWithAmqpTypes,
   _toRheaApplicationProperties,
 } from "@azure/core-amqp";
@@ -703,11 +704,11 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    applicationPropertiesWithAmqpTypes,
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       string | undefined,
   };
+  _defineApplicationPropertiesWithAmqpTypes(rcvdsbmsg, applicationPropertiesWithAmqpTypes);
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
@@ -753,6 +754,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * The application specific properties.
    */
   applicationProperties?: { [key: string]: any };
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   */
+  readonly applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    * The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -944,13 +951,18 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     skipParsingBodyAsJson: boolean,
     skipConvertingDate: boolean,
   ) {
-    const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
+    const receivedMessage = fromRheaMessage(
       msg,
 
       { skipParsingBodyAsJson, delivery, shouldReorderLockToken, skipConvertingDate },
     );
+    const { _rawAmqpMessage, ...restOfMessageProps } = receivedMessage;
     this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
+    _defineApplicationPropertiesWithAmqpTypes(
+      this,
+      receivedMessage.applicationPropertiesWithAmqpTypes,
+    );
     this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
 
     // Lock on a message is applicable only in peekLock mode, but the service sets
@@ -999,6 +1011,14 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
   if (!isDefined(thing)) return thing;
 
   if (thing instanceof Uint8Array) {
+    return thing;
+  }
+
+  if (
+    typeof thing === "object" &&
+    isObjectWithProperties(thing, ["toRheaTyped"]) &&
+    typeof thing.toRheaTyped === "function"
+  ) {
     return thing;
   }
 

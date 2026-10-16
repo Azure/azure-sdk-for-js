@@ -13,9 +13,10 @@ import {
   toRheaMessage,
 } from "../../../src/serviceBusMessage.js";
 import type { Delivery, Message, Typed } from "rhea-promise";
-import { message as rheaMessageUtil } from "rhea-promise";
+import { message as rheaMessageUtil, types as rheaTypes } from "rhea-promise";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants } from "@azure/core-amqp";
+import { Buffer } from "buffer";
 import {
   dataSectionTypeCode,
   defaultDataTransformer,
@@ -214,6 +215,60 @@ describe("AMQP message encoding", () => {
       assert.equal((resent.application_properties?.uuid as Typed).type.name, "Uuid");
       assert.equal((resent.application_properties?.long as Typed).type.name, "Long");
       assert.equal((resent.application_properties?.ulong as Typed).type.name, "Ulong");
+    });
+
+    it("keeps preserved application property types out of JSON serialization", () => {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const encoded = rheaMessageUtil.encode(
+        toRheaMessage(
+          {
+            body: "hello",
+            applicationProperties: {
+              long: { type: "long", value: longValue },
+            },
+          },
+          defaultDataTransformer,
+        ),
+      );
+      const rheaMessage = rheaMessageUtil.decode(encoded) as unknown as Message;
+      const received = new ServiceBusMessageImpl(
+        rheaMessage,
+        {} as Delivery,
+        false,
+        "receiveAndDelete",
+        false,
+        false,
+      );
+
+      assert.equal(received.applicationPropertiesWithAmqpTypes?.long.value, longValue);
+      assert.doesNotThrow(() => JSON.stringify(received));
+      assert.notInclude(JSON.stringify(received), "applicationPropertiesWithAmqpTypes");
+      const resentLong = toRheaMessage(received, defaultDataTransformer).application_properties
+        ?.long as Typed;
+      assert.equal(resentLong.type.name, "Long");
+      assert.equal(Buffer.from(resentLong.value).readBigInt64BE(), longValue);
+    });
+
+    it("forwards unknown described application property values unchanged", () => {
+      const describedLong = rheaTypes.wrap_long(1) as Typed & { descriptor?: Typed };
+      describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
+      const rheaMessage = toRheaMessage({ body: "hello" }, defaultDataTransformer);
+      rheaMessage.application_properties = { describedLong };
+      const received = fromRheaMessage(
+        rheaMessageUtil.decode(rheaMessageUtil.encode(rheaMessage)) as unknown as Message,
+        { skipParsingBodyAsJson: false },
+      );
+
+      assert.notProperty(received.applicationPropertiesWithAmqpTypes, "describedLong");
+      const resent = rheaMessageUtil.decode(
+        rheaMessageUtil.encode(toRheaMessage(received, defaultDataTransformer)),
+      ) as unknown as Message;
+      const resentValue = resent.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
+      assert.equal(resentValue.type.name, "SmallLong");
+      assert.equal(resentValue.value, 1);
+      assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 
     it("ServiceBusReceivedMessage", () => {

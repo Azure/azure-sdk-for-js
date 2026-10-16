@@ -13,8 +13,9 @@ import type {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,
   Message as RheaMessage,
+  Typed,
 } from "rhea-promise";
-import { message as rheaMessageUtil } from "rhea-promise";
+import { message as rheaMessageUtil, types as rheaTypes } from "rhea-promise";
 
 describe("message", function () {
   describe("application properties", function () {
@@ -77,6 +78,82 @@ describe("message", function () {
       );
 
       assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, properties);
+    });
+
+    it("does not include preserved bigint metadata in JSON serialization", function () {
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              longValue: { type: "long", value: 1n },
+            },
+            body: "body",
+          }),
+        ),
+      );
+
+      assert.equal(received.applicationPropertiesWithAmqpTypes?.longValue.value, 1n);
+      assert.doesNotThrow(() => JSON.stringify(received));
+      assert.notInclude(JSON.stringify(received), "applicationPropertiesWithAmqpTypes");
+    });
+
+    it("preserves long and ulong values outside the safe integer range", function () {
+      const maxSafeInteger = BigInt(Number.MAX_SAFE_INTEGER);
+      const boundaryProperties: Record<string, AmqpApplicationProperty> = {
+        safeLong: { type: "long", value: maxSafeInteger },
+        unsafeLong: { type: "long", value: maxSafeInteger + 1n },
+        roundedLong: { type: "long", value: maxSafeInteger + 2n },
+        unsafeNegativeLong: { type: "long", value: -maxSafeInteger - 1n },
+        safeUlong: { type: "ulong", value: maxSafeInteger },
+        unsafeUlong: { type: "ulong", value: maxSafeInteger + 1n },
+        roundedUlong: { type: "ulong", value: maxSafeInteger + 2n },
+      };
+
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: boundaryProperties,
+            body: "body",
+          }),
+        ),
+      );
+
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes, boundaryProperties);
+      assert.equal(received.applicationProperties?.safeLong, Number(maxSafeInteger));
+      assert.equal(received.applicationProperties?.unsafeLong, Number(maxSafeInteger + 1n));
+      assert.equal(received.applicationProperties?.roundedLong, Number(maxSafeInteger + 2n));
+      assert.equal(
+        received.applicationProperties?.unsafeNegativeLong,
+        Number(-maxSafeInteger - 1n),
+      );
+      assert.equal(received.applicationProperties?.safeUlong, Number(maxSafeInteger));
+      assert.equal(received.applicationProperties?.unsafeUlong, Number(maxSafeInteger + 1n));
+      assert.equal(received.applicationProperties?.roundedUlong, Number(maxSafeInteger + 2n));
+
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+      assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, boundaryProperties);
+    });
+
+    it("forwards unknown described scalar values without treating them as plain scalars", function () {
+      const describedLong = rheaTypes.wrap_long(1) as Typed & { descriptor?: Typed };
+      describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode({
+          application_properties: { describedLong },
+          body: "body",
+        }),
+      );
+
+      assert.notProperty(received.applicationPropertiesWithAmqpTypes, "describedLong");
+      const resent = decode(AmqpAnnotatedMessage.toRheaMessage(received));
+      const resentValue = resent.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
+      assert.equal(resentValue.type.name, "SmallLong");
+      assert.equal(resentValue.value, 1);
+      assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 
     it("uses edited values and does not restore deleted properties on resend", function () {

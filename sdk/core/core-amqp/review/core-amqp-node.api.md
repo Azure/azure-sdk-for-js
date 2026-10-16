@@ -444,6 +444,9 @@ export function createSasTokenProvider(data: {
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
 
+// @internal
+export function _defineApplicationPropertiesWithAmqpTypes(target: object, applicationPropertiesWithTypes: _ApplicationPropertiesWithTypes | undefined): void;
+
 // @public
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 

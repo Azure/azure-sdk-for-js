@@ -6,6 +6,7 @@ import type { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "./util/constants.js";
 import {
   type AmqpApplicationProperty,
+  _defineApplicationPropertiesWithAmqpTypes,
   _getApplicationPropertiesWithAmqpTypes,
   _toRheaApplicationProperties,
 } from "./amqpApplicationProperties.js";
@@ -76,12 +77,13 @@ export const AmqpAnnotatedMessage = {
       messageAnnotations: msg.message_annotations,
       deliveryAnnotations: msg.delivery_annotations,
       applicationProperties: msg.application_properties,
-      applicationPropertiesWithAmqpTypes: _getApplicationPropertiesWithAmqpTypes(
-        msg.application_properties,
-      ),
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body,
     };
+    _defineApplicationPropertiesWithAmqpTypes(
+      amqpMsg,
+      _getApplicationPropertiesWithAmqpTypes(msg.application_properties),
+    );
     if (msg.absolute_expiry_time) {
       const absoluteExpiryTime = msg.absolute_expiry_time.getTime();
       amqpMsg.properties.absoluteExpiryTime = Math.min(
