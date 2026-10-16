@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Include the HTTP status and test proxy error details in recorder start failures. [#40234](https://github.com/Azure/azure-sdk-for-js/pull/40234)
+
 ### Other Changes
 
 - Ignore "Cache-Control" and "Pragma" headers for browsers in Playback mode, to address [#32851](https://github.com/Azure/azure-sdk-for-js/issues/32851).
