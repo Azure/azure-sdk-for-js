@@ -3,8 +3,8 @@
 
 import type { DataProtectionContext as Client } from "../index.js";
 import type {
-  AzureBackupJobResource,
   _AzureBackupJobResourceList,
+  AzureBackupJobResource,
   CrossRegionRestoreJobsRequest,
 } from "../../models/models.js";
 import {
@@ -32,7 +32,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
       "%24filter": options?.filter,
     },
     {
@@ -76,6 +76,10 @@ export function list(
     () => _listSend(context, resourceGroupName, location, parameters, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    },
   );
 }

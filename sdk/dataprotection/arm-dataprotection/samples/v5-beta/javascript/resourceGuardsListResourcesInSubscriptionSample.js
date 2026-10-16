@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns ResourceGuards collection belonging to a subscription.
  *
  * @summary returns ResourceGuards collection belonging to a subscription.
- * x-ms-original-file: 2026-07-01/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
+ * x-ms-original-file: 2026-08-31-preview/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
  */
 async function getResourceGuardsInSubscription() {
   const credential = new DefaultAzureCredential();

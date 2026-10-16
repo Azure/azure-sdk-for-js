@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to trigger adhoc backup
  *
  * @summary trigger adhoc backup
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerBackup.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/TriggerBackup.json
  */
 async function triggerAdhocBackup() {
   const credential = new DefaultAzureCredential();

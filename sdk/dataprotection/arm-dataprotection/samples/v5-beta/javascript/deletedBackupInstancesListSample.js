@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets deleted backup instances belonging to a backup vault
  *
  * @summary gets deleted backup instances belonging to a backup vault
- * x-ms-original-file: 2026-07-01/DeletedBackupInstanceOperations/ListDeletedBackupInstances.json
+ * x-ms-original-file: 2026-08-31-preview/DeletedBackupInstanceOperations/ListDeletedBackupInstances.json
  */
 async function listDeletedBackupInstancesInAVault() {
   const credential = new DefaultAzureCredential();
