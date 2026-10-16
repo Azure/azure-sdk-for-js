@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { get } from "../../api/liveToken/operations.js";
-import { LiveTokenGetOptionalParams } from "../../api/liveToken/options.js";
-import { LiveTokenResponse } from "../../models/liveTokenApi/models.js";
+import type { LiveTokenGetOptionalParams } from "../../api/liveToken/options.js";
+import type { LiveTokenResponse } from "../../models/liveTokenApi/models.js";
 
 /** Interface representing a LiveToken operations. */
 export interface LiveTokenOperations {
