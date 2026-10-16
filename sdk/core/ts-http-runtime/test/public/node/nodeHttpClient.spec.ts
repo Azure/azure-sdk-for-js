@@ -205,6 +205,39 @@ describe("NodeHttpClient", function () {
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
+  it.each([
+    ["ArrayBuffer", Uint8Array.from([0, 1, 2, 3]).buffer, [0, 1, 2, 3]],
+    ["DataView window", new DataView(Uint8Array.from([0, 1, 2, 3, 4, 5]).buffer, 2, 3), [2, 3, 4]],
+  ] satisfies [string, ArrayBuffer | ArrayBufferView, number[]][])(
+    "should report upload progress for a %s body",
+    async (_, body, expectedBytes) => {
+      const client = createDefaultHttpClient();
+      const sentChunks: Buffer[] = [];
+      const captureRequest = new PassThrough();
+      captureRequest.on("data", (chunk: Buffer) => {
+        sentChunks.push(chunk);
+      });
+      vi.mocked(https.request).mockReturnValueOnce(captureRequest as unknown as ClientRequest);
+
+      const progress: number[] = [];
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: (event) => {
+          progress.push(event.loadedBytes);
+        },
+      });
+      const promise = client.sendRequest(request);
+      yieldHttpsResponse(createResponse(200));
+      const response = await promise;
+
+      assert.strictEqual(response.status, 200);
+      assert.deepStrictEqual(Array.from(Buffer.concat(sentChunks)), expectedBytes);
+      assert.deepStrictEqual(progress, [expectedBytes.length]);
+      assert.strictEqual(request.headers.get("Content-Length"), String(expectedBytes.length));
+    },
+  );
+
   it("should honor timeout", async function () {
     const client = createDefaultHttpClient();
 
