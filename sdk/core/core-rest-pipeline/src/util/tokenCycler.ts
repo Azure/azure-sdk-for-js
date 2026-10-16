@@ -90,6 +90,28 @@ async function beginRefresh(
   return token;
 }
 
+interface RefreshWorker {
+  promise: Promise<AccessToken>;
+}
+
+function getTokenRequestIdentityKey(
+  scopes: string | string[],
+  getTokenOptions: GetTokenOptions,
+): string {
+  const proofOfPossessionOptions = getTokenOptions.proofOfPossessionOptions;
+  return JSON.stringify({
+    scopes: typeof scopes === "string" ? [scopes] : [...scopes],
+    tenantId: getTokenOptions.tenantId,
+    claims: getTokenOptions.claims,
+    enableCae: getTokenOptions.enableCae === true,
+    proofOfPossessionOptions: proofOfPossessionOptions && {
+      nonce: proofOfPossessionOptions.nonce,
+      resourceRequestMethod: proofOfPossessionOptions.resourceRequestMethod,
+      resourceRequestUrl: proofOfPossessionOptions.resourceRequestUrl,
+    },
+  });
+}
+
 /**
  * Creates a token cycler from a credential, scopes, and optional settings.
  *
@@ -108,7 +130,8 @@ export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
-  let refreshWorker: Promise<AccessToken> | null = null;
+  const refreshWorkers = new Map<string, RefreshWorker>();
+  let latestRefreshWorker: RefreshWorker | null = null;
   let token: AccessToken | null = null;
   let tenantId: string | undefined;
 
@@ -126,7 +149,7 @@ export function createTokenCycler(
      * Produces true if a refresh job is currently in progress.
      */
     get isRefreshing(): boolean {
-      return refreshWorker !== null;
+      return refreshWorkers.size > 0;
     },
     /**
      * Produces true if the cycler SHOULD refresh (we are within the refresh
@@ -157,44 +180,64 @@ export function createTokenCycler(
   };
 
   /**
-   * Starts a refresh job or returns the existing job if one is already
-   * running.
+   * Starts a refresh job or returns an existing job with the same token
+   * request identity. Incompatible requests must not share credentials.
    */
   function refresh(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
-    if (!cycler.isRefreshing) {
-      // We bind `scopes` here to avoid passing it around a lot
-      const tryGetAccessToken = (): Promise<AccessToken | null> =>
-        credential.getToken(scopes, getTokenOptions);
-
-      // Take advantage of promise chaining to insert an assignment to `token`
-      // before the refresh can be considered done.
-      refreshWorker = beginRefresh(
-        tryGetAccessToken,
-        options.retryIntervalInMs,
-        // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now(),
-      )
-        .then((_token) => {
-          refreshWorker = null;
-          token = _token;
-          tenantId = getTokenOptions.tenantId;
-          return token;
-        })
-        .catch((reason) => {
-          // We also should reset the refresher if we enter a failed state.  All
-          // existing awaiters will throw, but subsequent requests will start a
-          // new retry chain.
-          refreshWorker = null;
-          token = null;
-          tenantId = undefined;
-          throw reason;
-        });
+    const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
+    const existingWorker = refreshWorkers.get(requestIdentityKey);
+    if (existingWorker) {
+      return existingWorker.promise;
     }
 
-    return refreshWorker as Promise<AccessToken>;
+    // We bind `scopes` here to avoid passing it around a lot.
+    const tryGetAccessToken = (): Promise<AccessToken | null> =>
+      credential.getToken(scopes, getTokenOptions);
+    const worker = {} as RefreshWorker;
+
+    // Take advantage of promise chaining to insert an assignment to `token`
+    // before the refresh can be considered done. A worker only updates the
+    // cache if it is still the newest refresh, so an older incompatible worker
+    // cannot overwrite a token acquired for a later claims challenge.
+    const promise = beginRefresh(
+      tryGetAccessToken,
+      options.retryIntervalInMs,
+      // If we don't have a token, then we should timeout immediately
+      token?.expiresOnTimestamp ?? Date.now(),
+    )
+      .then((_token) => {
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
+        if (latestRefreshWorker === worker) {
+          latestRefreshWorker = null;
+          token = _token;
+          tenantId = getTokenOptions.tenantId;
+        }
+        return _token;
+      })
+      .catch((reason) => {
+        // We also should reset the refresher if the current worker enters a
+        // failed state. Existing awaiters still throw, while later requests
+        // can start a new retry chain.
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
+        if (latestRefreshWorker === worker) {
+          latestRefreshWorker = null;
+          token = null;
+          tenantId = undefined;
+        }
+        throw reason;
+      });
+    worker.promise = promise;
+    refreshWorkers.set(requestIdentityKey, worker);
+    latestRefreshWorker = worker;
+
+    return promise;
   }
 
   return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
@@ -212,14 +255,11 @@ export function createTokenCycler(
     const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
     if (hasClaimChallenge) {
-      // If we've received a claim, we know the existing token isn't valid
-      // We want to clear it so that that refresh worker won't use the old expiration time as a timeout
+      // If we've received a claim, we know the existing token isn't valid.
+      // Clear it so the new refresh does not use the old expiration time as a timeout.
       token = null;
     }
 
-    // If the tenantId passed in token options is different to the one we have
-    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
-    // refresh the token with the new tenantId or token.
     const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
 
     if (mustRefresh) {
