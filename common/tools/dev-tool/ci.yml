@@ -20,16 +20,25 @@ pr:
       - common/tools/dev-tool/
 
 jobs:
-  - job: 'DevTool'
-    displayName: 'Dev-tool validation'
+  - job: "DevTool"
+    displayName: "Dev-tool validation"
+
+    strategy:
+      matrix:
+        Linux:
+          Pool: $(LINUXPOOL)
+          OSVmImage: $(LINUXVMIMAGE)
+        Windows:
+          Pool: $(WINDOWSPOOL)
+          OSVmImage: $(WINDOWSVMIMAGE)
 
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
 
     pool:
-      name: $(LINUXPOOL)
-      demands: ImageOverride -equals $(LINUXVMIMAGE)
+      name: $(Pool)
+      demands: ImageOverride -equals $(OSVmImage)
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
