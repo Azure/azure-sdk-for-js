@@ -19,6 +19,10 @@ pr:
     include:
       - common/tools/dev-tool/
 
+variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
+
 jobs:
   - job: "DevTool"
     displayName: "Dev-tool validation"
@@ -26,15 +30,11 @@ jobs:
     strategy:
       matrix:
         Linux:
-          Pool: "azsdk-pool"
-          OSVmImage: "ubuntu-24.04"
+          Pool: ${{ variables.LINUXPOOL }}
+          OSVmImage: ${{ variables.LINUXVMIMAGE }}
         Windows:
-          Pool: "azsdk-pool"
-          OSVmImage: "windows-2022"
-
-    variables:
-      - template: /eng/pipelines/templates/variables/globals.yml
-      - template: /eng/pipelines/templates/variables/image.yml
+          Pool: ${{ variables.WINDOWSPOOL }}
+          OSVmImage: ${{ variables.WINDOWSVMIMAGE }}
 
     pool:
       name: $(Pool)
