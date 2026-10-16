@@ -30,7 +30,7 @@ async function customRolloutsCreateOrUpdate() {
             },
           },
           refreshSubscriptionRegistration: true,
-          rolloutId: "RolloutIdGuid",
+          rolloutId: "Ev2RolloutIdGuid",
         },
       },
     },
