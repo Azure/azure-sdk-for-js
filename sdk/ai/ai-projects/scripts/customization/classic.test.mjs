@@ -577,6 +577,65 @@ export function _getItemsOperations(context: AIProjectContext): ItemsOperations 
   assert.doesNotMatch(result.text, /Promise<number>/);
 });
 
+test("updates a classic member when its resolved return literal changes", () => {
+  const baseText = classic(2, "Items", "items", [getItem]).replace(
+    "Promise<string>",
+    'Promise<"a b">',
+  );
+  const customText = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/items/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/items/options.js";
+
+/** Operations for items. */
+export interface ItemsOperations {
+  /** Custom-only member. */
+  ping(): string;
+  /** getItem operation. */
+  getItem: (
+    id: string,
+    options?: ItemsGetItemOptionalParams,
+  ) => Promise<"a b">;
+}
+
+function _getItems(context: AIProjectContext) {
+  return {
+    ping: () => "pong",
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) =>
+      getItem(context, id, options),
+  };
+}
+
+export function _getItemsOperations(context: AIProjectContext): ItemsOperations {
+  return { ..._getItems(context) };
+}`;
+  const incomingText = baseText.replace('Promise<"a b">', 'Promise<"ab">');
+  const resolvedText = operations(1, [getItem]).replace(
+    "options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<string> {\n  const result",
+    'options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<"ab"> {\n  const result',
+  );
+  const result = mergeCustomizedClassic({
+    file: "classic/items/index.ts",
+    baseText,
+    customText,
+    incomingText,
+    matches: [
+      {
+        incoming: { file: "api/items/operations.ts", name: "getItem" },
+        names: { publicNode: "getItem" },
+      },
+    ],
+    resolvedText,
+    resolvedOptionsText: options([getItem[3]]),
+    customApiText: operations(1, [getItem]),
+  });
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /getItem: \(\s*id: string,\s*options\?: ItemsGetItemOptionalParams,\s*\) => Promise<"ab">;/,
+  );
+  assert.doesNotMatch(result.text, /Promise<"a b">/);
+});
+
 test("reports a customized classic member whose operation moves to another group", () => {
   const baseText = classic(3, "BetaItems", "beta/items", [betaArchive, restore]);
   const matches = [

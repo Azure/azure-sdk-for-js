@@ -228,6 +228,37 @@ function shapeOf(source, interfaceName) {
   return { source, interfaceNode, factory, members, properties };
 }
 
+function layoutless(text) {
+  const scanner = ts.createScanner(
+    ts.ScriptTarget.Latest,
+    false,
+    ts.LanguageVariant.Standard,
+    text ?? "",
+  );
+  const tokens = [];
+  let kind;
+  while ((kind = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+    if (kind === ts.SyntaxKind.WhitespaceTrivia || kind === ts.SyntaxKind.NewLineTrivia) continue;
+    tokens.push({ kind, text: scanner.getTokenText() });
+  }
+  const comments = new Set([
+    ts.SyntaxKind.SingleLineCommentTrivia,
+    ts.SyntaxKind.MultiLineCommentTrivia,
+  ]);
+  const closing = new Set([
+    ts.SyntaxKind.CloseParenToken,
+    ts.SyntaxKind.CloseBracketToken,
+    ts.SyntaxKind.CloseBraceToken,
+  ]);
+  return JSON.stringify(
+    tokens.filter((token, index) => {
+      if (token.kind !== ts.SyntaxKind.CommaToken) return true;
+      const next = tokens.slice(index + 1).find((item) => !comments.has(item.kind));
+      return !closing.has(next?.kind);
+    }),
+  );
+}
+
 function group(slots, name) {
   const nodes = slots.filter((slot) => slot.name === name).flatMap((slot) => slot.nodes);
   return nodes.length ? nodes : undefined;
@@ -602,7 +633,6 @@ export function mergeCustomizedClassic({
       }
       // Re-rendering a member whose meaning did not change only churns its layout,
       // which formatting restores but the pre-format guards would read as a change.
-      const layoutless = (text) => (text ?? "").replace(/\s+/g, "").replace(/,(?=[)\]}])/g, "");
       const currentText = (kind) => slots[kind].find((slot) => slot.name === name)?.text;
       if (
         owned &&
