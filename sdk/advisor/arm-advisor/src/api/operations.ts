@@ -22,7 +22,7 @@ export function _predictSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/predict{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

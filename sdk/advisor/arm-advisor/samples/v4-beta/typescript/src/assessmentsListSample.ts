@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get list of Azure Advisor assessments.
  *
  * @summary get list of Azure Advisor assessments.
- * x-ms-original-file: 2026-02-01-preview/ListAssessments.json
+ * x-ms-original-file: 2026-08-01-preview/ListAssessments.json
  */
 async function listAssessments(): Promise<void> {
   const credential = new DefaultAzureCredential();

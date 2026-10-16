@@ -1,5 +1,183 @@
 # Release History
 
+## 4.0.0-beta.2 (2026-10-12)
+Compared with version 3.2.0
+
+### Features Added
+  - Added operation group AdvisorScoresOperations
+  - Added operation group AssessmentsOperations
+  - Added operation group AssessmentTypesOperations
+  - Added operation group ResiliencyReviewsOperations
+  - Added operation group WorkloadsOperations
+  - Added operation RecommendationsOperations.getByServiceGroup
+  - Added operation RecommendationsOperations.listByServiceGroup
+  - Added operation RecommendationsOperations.listByTenant
+  - Added operation RecommendationsOperations.update
+  - Added operation RecommendationsOperations.updateByServiceGroup
+  - Added operation AdvisorManagementClient.predict
+  - Added Interface AdvisorScoreEntity
+  - Added Interface AdvisorScoreEntityProperties
+  - Added Interface AdvisorScoresGetOptionalParams
+  - Added Interface AdvisorScoresListOptionalParams
+  - Added Interface AssessmentResult
+  - Added Interface AssessmentResultProperties
+  - Added Interface AssessmentsDeleteOptionalParams
+  - Added Interface AssessmentsGetOptionalParams
+  - Added Interface AssessmentsListOptionalParams
+  - Added Interface AssessmentsPutOptionalParams
+  - Added Interface AssessmentTypeResult
+  - Added Interface AssessmentTypesListOptionalParams
+  - Added Interface ConfigDataProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ExtensionResource
+  - Added Interface MetadataEntityProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PredictionRequest
+  - Added Interface PredictionRequestProperties
+  - Added Interface PredictionResponse
+  - Added Interface PredictionResponseProperties
+  - Added Interface PredictOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface RecommendationPatchPayload
+  - Added Interface RecommendationProperties
+  - Added Interface RecommendationPropertiesResourceWorkload
+  - Added Interface RecommendationPropertiesReview
+  - Added Interface RecommendationsGetByServiceGroupOptionalParams
+  - Added Interface RecommendationsListByServiceGroupOptionalParams
+  - Added Interface RecommendationsListByTenantOptionalParams
+  - Added Interface RecommendationStatePropertiesPayload
+  - Added Interface RecommendationsUpdateByServiceGroupOptionalParams
+  - Added Interface RecommendationsUpdateOptionalParams
+  - Added Interface ResiliencyReview
+  - Added Interface ResiliencyReviewProperties
+  - Added Interface ResiliencyReviewsGetOptionalParams
+  - Added Interface ResiliencyReviewsListOptionalParams
+  - Added Interface ResourceRecommendationSavings
+  - Added Interface ResourceRecommendationSavingsDetails
+  - Added Interface ScoreEntity
+  - Added Interface SuppressionProperties
+  - Added Interface SystemData
+  - Added Interface TimeSeriesEntity
+  - Added Interface TrackedRecommendationProperties
+  - Added Interface WorkloadResult
+  - Added Interface WorkloadsListOptionalParams
+  - Interface ConfigData has a new optional parameter duration
+  - Interface ConfigData has a new optional parameter systemData
+  - Interface ConfigurationsCreateInResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsCreateInResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsCreateInResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsCreateInResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsCreateInSubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsCreateInSubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsCreateInSubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsCreateInSubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ConfigurationsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ConfigurationsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ConfigurationsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ConfigurationsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface MetadataEntity has a new optional parameter systemData
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationMetadataGetOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationMetadataGetOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationMetadataGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationMetadataGetOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationMetadataListOptionalParams has a new optional parameter filter
+  - Interface RecommendationMetadataListOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationMetadataListOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationMetadataListOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationMetadataListOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationsGenerateOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationsGenerateOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationsGenerateOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationsGenerateOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationsGetGenerateStatusOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationsGetGenerateStatusOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationsGetGenerateStatusOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationsGetGenerateStatusOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationsGetOptionalParams has a new optional parameter onResponse
+  - Interface RecommendationsListOptionalParams has a new optional parameter mode
+  - Interface RecommendationsListOptionalParams has a new optional parameter abortSignal
+  - Interface RecommendationsListOptionalParams has a new optional parameter requestOptions
+  - Interface RecommendationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface RecommendationsListOptionalParams has a new optional parameter onResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceRecommendationBase has a new optional parameter completionType
+  - Interface ResourceRecommendationBase has a new optional parameter control
+  - Interface ResourceRecommendationBase has a new optional parameter createdTime
+  - Interface ResourceRecommendationBase has a new optional parameter criticality
+  - Interface ResourceRecommendationBase has a new optional parameter criticalityScore
+  - Interface ResourceRecommendationBase has a new optional parameter lastRefreshed
+  - Interface ResourceRecommendationBase has a new optional parameter notes
+  - Interface ResourceRecommendationBase has a new optional parameter postponedUntilDateTime
+  - Interface ResourceRecommendationBase has a new optional parameter recommendationDismissReason
+  - Interface ResourceRecommendationBase has a new optional parameter recommendationStatus
+  - Interface ResourceRecommendationBase has a new optional parameter resourceWorkload
+  - Interface ResourceRecommendationBase has a new optional parameter review
+  - Interface ResourceRecommendationBase has a new optional parameter savings
+  - Interface ResourceRecommendationBase has a new optional parameter scoreChangedAt
+  - Interface ResourceRecommendationBase has a new optional parameter serviceGroupId
+  - Interface ResourceRecommendationBase has a new optional parameter sourceSystem
+  - Interface ResourceRecommendationBase has a new optional parameter suppressionId
+  - Interface ResourceRecommendationBase has a new optional parameter trackedProperties
+  - Interface ResourceRecommendationBase has a new optional parameter systemData
+  - Interface SuppressionContract has a new optional parameter systemData
+  - Interface SuppressionsCreateOptionalParams has a new optional parameter abortSignal
+  - Interface SuppressionsCreateOptionalParams has a new optional parameter requestOptions
+  - Interface SuppressionsCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface SuppressionsCreateOptionalParams has a new optional parameter onResponse
+  - Interface SuppressionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface SuppressionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface SuppressionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface SuppressionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface SuppressionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface SuppressionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface SuppressionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SuppressionsGetOptionalParams has a new optional parameter onResponse
+  - Interface SuppressionsListOptionalParams has a new optional parameter abortSignal
+  - Interface SuppressionsListOptionalParams has a new optional parameter requestOptions
+  - Interface SuppressionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface SuppressionsListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias Aggregated
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias Control
+  - Added Type Alias CreatedByType
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias Priority
+  - Added Type Alias RecommendationDismissReason
+  - Added Type Alias RecommendationListMode
+  - Added Type Alias RecommendationStatus
+  - Added Type Alias ReviewStatus
+  - Added Enum AzureClouds
+  - Added Enum KnownAggregated
+  - Added Enum KnownControl
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
+  - Added Enum KnownPriority
+  - Added Enum KnownRecommendationDismissReason
+  - Added Enum KnownRecommendationListMode
+  - Added Enum KnownRecommendationStatus
+  - Added Enum KnownReviewStatus
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation Recommendations.generate has a new signature
+  - Interface ResourceRecommendationBase no longer has parameter suppressionIds
+
 ## 4.0.0-beta.1 (2026-06-03)
 Compared with version 3.2.0
 

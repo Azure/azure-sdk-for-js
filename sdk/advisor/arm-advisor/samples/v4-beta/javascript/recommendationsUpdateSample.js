@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the state of a Recommendation
  *
  * @summary update the state of a Recommendation
- * x-ms-original-file: 2026-02-01-preview/PatchRecommendationStateProperties.json
+ * x-ms-original-file: 2026-08-01-preview/PatchRecommendationStateProperties.json
  */
 async function patchRecommendationStateProperties() {
   const credential = new DefaultAzureCredential();

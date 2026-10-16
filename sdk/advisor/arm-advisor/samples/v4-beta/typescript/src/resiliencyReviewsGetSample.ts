@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get existing Azure Advisor resiliency review by id.
  *
  * @summary get existing Azure Advisor resiliency review by id.
- * x-ms-original-file: 2026-02-01-preview/ResiliencyReviewsGet.json
+ * x-ms-original-file: 2026-08-01-preview/ResiliencyReviewsGet.json
  */
 async function getResiliencyReview(): Promise<void> {
   const credential = new DefaultAzureCredential();

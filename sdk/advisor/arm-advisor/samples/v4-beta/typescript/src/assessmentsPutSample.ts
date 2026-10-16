@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Overwrite Azure Advisor assessment.
  *
  * @summary create or Overwrite Azure Advisor assessment.
- * x-ms-original-file: 2026-02-01-preview/PutAssessment.json
+ * x-ms-original-file: 2026-08-01-preview/PutAssessment.json
  */
 async function putAssessment(): Promise<void> {
   const credential = new DefaultAzureCredential();

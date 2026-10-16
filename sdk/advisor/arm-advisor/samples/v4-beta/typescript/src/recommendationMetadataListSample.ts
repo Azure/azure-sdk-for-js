@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of metadata entities.
  *
  * @summary gets the list of metadata entities.
- * x-ms-original-file: 2026-02-01-preview/ListRecommendationMetadata.json
+ * x-ms-original-file: 2026-08-01-preview/ListRecommendationMetadata.json
  */
 async function getMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();

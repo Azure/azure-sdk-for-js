@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create/Overwrite Azure Advisor configuration.
  *
  * @summary create/Overwrite Azure Advisor configuration.
- * x-ms-original-file: 2026-02-01-preview/CreateConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/CreateConfiguration.json
  */
 async function putConfigurations() {
   const credential = new DefaultAzureCredential();
