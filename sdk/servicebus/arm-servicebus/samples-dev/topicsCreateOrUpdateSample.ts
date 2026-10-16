@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a topic in the specified namespace.
  *
  * @summary creates a topic in the specified namespace.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicCreate.json
  */
 async function topicCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

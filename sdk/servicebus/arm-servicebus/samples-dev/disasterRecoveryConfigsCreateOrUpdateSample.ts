@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a new Alias(Disaster Recovery configuration)
  *
  * @summary creates or updates a new Alias(Disaster Recovery configuration)
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasCreate.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBAliasCreate.json
  */
 async function sbAliasCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -43,7 +43,7 @@ export function _revertSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       configName: configName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** This operation reverts Migration */
 export async function revert(
   context: Client,
@@ -92,7 +91,7 @@ export function _completeMigrationSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       configName: configName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +113,6 @@ export async function _completeMigrationDeserialize(result: PathUncheckedRespons
 
   return;
 }
-
 /** This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress. */
 export async function completeMigration(
   context: Client,
@@ -145,7 +143,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +170,6 @@ export async function _listDeserialize(
 
   return _migrationConfigListResultDeserializer(result.body);
 }
-
 /** Gets all migrationConfigurations */
 export function list(
   context: Client,
@@ -185,7 +182,11 @@ export function list(
     () => _listSend(context, resourceGroupName, namespaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -203,7 +204,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       configName: configName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +226,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a MigrationConfiguration */
 export async function $delete(
   context: Client,
@@ -253,7 +253,7 @@ export function _createAndStartMigrationSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       configName: configName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +282,6 @@ export async function _createAndStartMigrationDeserialize(
 
   return migrationConfigPropertiesDeserializer(result.body);
 }
-
 /** Creates Migration configuration and starts migration of entities from Standard to Premium namespace */
 export function createAndStartMigration(
   context: Client,
@@ -305,7 +304,7 @@ export function createAndStartMigration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<MigrationConfigProperties>, MigrationConfigProperties>;
 }
 
@@ -323,7 +322,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       configName: configName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +349,6 @@ export async function _getDeserialize(
 
   return migrationConfigPropertiesDeserializer(result.body);
 }
-
 /** Retrieves Migration Config */
 export async function get(
   context: Client,
