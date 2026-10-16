@@ -33,6 +33,7 @@ import type {
   BlockBlobStageBlockOptionalParams as BlockBlobStageBlockOptionalParamsInternal,
   BlockBlobUploadOptionalParams as BlockBlobUploadOptionalParamsInternal,
   PageBlobUploadPagesOptionalParams as PageBlobUploadPagesOptionalParamsInternal,
+  BlobLayout as BlobLayoutInternal,
 } from "./generated/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -129,9 +130,6 @@ import type {
   FileShareTokenIntent,
   BlobModifiedAccessConditions,
   BlobGetLayoutResponseModel,
-  BlobGetLayoutResponseInternal,
-  BlobGetLayoutHeaders,
-  BlobLayout,
   LayoutEndpoint,
 } from "./generatedModels.js";
 import type {
@@ -2311,32 +2309,39 @@ export class BlobClient extends StorageClient {
       "BlobClient-getLayoutSegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
-          BlobGetLayoutResponseInternal,
-          BlobGetLayoutHeaders,
-          BlobLayout
-        >(
-          adjustResponse(
-            await this.blobContext.getLayout({
-              abortSignal: options.abortSignal,
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-              ifMatch: ifMatch ?? options.conditions?.ifMatch,
-              range: options.range ? rangeToString(options.range) : undefined,
-              marker,
-              maxPageSize: options.maxPageSize,
-              encryptionKey: options.customerProvidedKey?.encryptionKey,
-              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-              encryptionAlgorithm: options.customerProvidedKey
-                ?.encryptionAlgorithm as EncryptionAlgorithmType,
-              tracingOptions: updatedOptions.tracingOptions,
-            }),
-          ),
+        const response = adjustResponse(
+          await this.blobContext.getLayout({
+            abortSignal: options.abortSignal,
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+            ifMatch: ifMatch ?? options.conditions?.ifMatch,
+            range: options.range ? rangeToString(options.range) : undefined,
+            marker,
+            maxPageSize: options.maxPageSize,
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
         );
+        // The XML nests each list in a wrapper element (<Ranges><Range>…), and so does the
+        // generated model. A page holds the lists directly, empty on a 204 that has no body.
+        const generated: BlobLayoutInternal | undefined = response._response.parsedBody;
+        const page = response as unknown as BlobGetLayoutResponseModel;
+        page.ranges = generated?.ranges?.range ?? [];
+        page.endpoints = generated?.endpoints?.endpoint ?? [];
         // The service's NextMarker; listLayoutSegments wraps it into the token callers see.
-        response.continuationToken = (response as { nextMarker?: string }).nextMarker || undefined;
-        delete (response as { nextMarker?: string }).nextMarker;
-        return response;
+        page.continuationToken = generated?.nextMarker || undefined;
+        delete (page as { nextMarker?: string }).nextMarker;
+        page._response.parsedBody = generated
+          ? {
+              ranges: page.ranges,
+              endpoints: page.endpoints,
+              continuationToken: page.continuationToken,
+            }
+          : undefined;
+        return page;
       },
     );
   }
@@ -2370,11 +2375,8 @@ export class BlobClient extends StorageClient {
           ? encodeLayoutContinuationToken({ marker, etag })
           : undefined;
         // The public type describes the raw body as the page itself, token included.
-        const body = response._response.parsedBody as
-          (BlobLayout & { nextMarker?: string }) | undefined;
-        if (body) {
-          delete body.nextMarker;
-          body.continuationToken = response.continuationToken;
+        if (response._response.parsedBody) {
+          response._response.parsedBody.continuationToken = response.continuationToken;
         }
         yield response;
       } while (marker);
@@ -2411,9 +2413,8 @@ export class BlobClient extends StorageClient {
    * const blobClient = containerClient.getBlobClient("<blob name>");
    *
    * for await (const page of blobClient.getLayout()) {
-   *   const endpoints = page.endpoints?.endpoint ?? [];
-   *   for (const range of page.ranges?.range ?? []) {
-   *     const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+   *   for (const range of page.ranges) {
+   *     const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
    *     console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
    *   }
    * }

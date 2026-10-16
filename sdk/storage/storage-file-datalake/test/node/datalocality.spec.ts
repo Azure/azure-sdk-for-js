@@ -28,8 +28,8 @@ function blobLayoutPage(): any {
   const page: any = {
     etag: "etag-1",
     blobContentLength: 1024,
-    ranges: { range: [{ start: 0, end: 1023, endpointIndex: 0 }] },
-    endpoints: { endpoint: [{ index: 0, value: "https://a:443/" }] },
+    ranges: [{ start: 0, end: 1023, endpointIndex: 0 }],
+    endpoints: [{ index: 0, value: "https://a:443/" }],
     continuationToken: undefined,
   };
   Object.defineProperty(page, "_response", {
@@ -182,8 +182,8 @@ describe("Data locality Node.js only", () => {
     const count = 1024;
     const page: FileGetLayoutResponse = (await fileClient.getLayout().next()).value;
     assert.equal(page.fileContentLength, content.length);
-    const range = page.ranges!.range!.find((r) => r.start <= offset && offset <= r.end)!;
-    const endpoint = page.endpoints!.endpoint!.find((e) => e.index === range.endpointIndex)!;
+    const range = page.ranges.find((r) => r.start <= offset && offset <= r.end)!;
+    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex)!;
     spy.sent.length = 0;
 
     const response = await fileClient.read(offset, count, { layoutEndpoint: endpoint.value });

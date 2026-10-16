@@ -379,16 +379,10 @@ export interface BlobLayoutRange {
   /** The end byte offset of the range, inclusive. */
   end: number;
   /**
-   * Index of the entry in {@link BlobLayoutEndpoints.endpoint} that serves this range. Indexes are
-   * scoped to the page they arrive on and must not be resolved against another page's endpoints.
+   * Index of the entry in {@link BlobLayout.endpoints} that serves this range. Indexes are scoped
+   * to the page they arrive on and must not be resolved against another page's endpoints.
    */
   endpointIndex: number;
-}
-
-/** The ranges that make up a blob. */
-export interface BlobLayoutRanges {
-  /** The list of ranges. */
-  range?: BlobLayoutRange[];
 }
 
 /**
@@ -414,9 +408,8 @@ export interface BlobLayoutRanges {
  * const blobClient = containerClient.getBlobClient("<blob name>");
  *
  * for await (const page of blobClient.getLayout()) {
- *   const endpoints = page.endpoints?.endpoint ?? [];
- *   for (const range of page.ranges?.range ?? []) {
- *     const layoutEndpoint = endpoints.find((e) => e.index === range.endpointIndex)?.value;
+ *   for (const range of page.ranges) {
+ *     const layoutEndpoint = page.endpoints.find((e) => e.index === range.endpointIndex)?.value;
  *     const response = await blobClient.download(range.start, range.end - range.start + 1, {
  *       layoutEndpoint,
  *     });
@@ -435,12 +428,6 @@ export interface BlobLayoutEndpoint {
   value: LayoutEndpoint;
 }
 
-/** The endpoints that serve the ranges of a blob. */
-export interface BlobLayoutEndpoints {
-  /** The list of endpoints. */
-  endpoint?: BlobLayoutEndpoint[];
-}
-
 /**
  * One page of a blob's layout.
  *
@@ -449,10 +436,10 @@ export interface BlobLayoutEndpoints {
  * page may differ from that of any other, even when the pages are linked by a marker.
  */
 export interface BlobLayout {
-  /** The ranges that make up the blob. */
-  ranges?: BlobLayoutRanges;
-  /** The endpoints that serve the ranges of the blob. */
-  endpoints?: BlobLayoutEndpoints;
+  /** The ranges that make up the blob, in order. Empty when the service returns no layout. */
+  ranges: BlobLayoutRange[];
+  /** The endpoints that serve the ranges of the blob. Empty when the service returns no layout. */
+  endpoints: BlobLayoutEndpoint[];
   /**
    * Opaque token to pass to `byPage` to resume after this page, still locked to the blob version
    * the enumeration began on. Undefined on the last page.
