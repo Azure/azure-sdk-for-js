@@ -47,6 +47,14 @@ async function automationGenerateInPipeline(
     }
     switch (sdkType) {
       case SDKType.HighLevelClient:
+        if (!local) {
+          throw new Error(
+            `High Level Client (HLC) generation is no longer supported in the SDK automation pipeline. ` +
+              `If you are using a Swagger-based management SDK configuration, please migrate the service to TypeSpec and use modular client generation. ` +
+              `If your service already has a TypeSpec project, configure the '@azure-tools/typespec-ts' emitter in tspconfig.yaml and ensure the pipeline uses that project instead of the Swagger README configuration. ` +
+              `For guidance, see https://aka.ms/azsdk/typespec-migration.`,
+          );
+        }
         await generateMgmt({
           sdkRepo: String(shell.pwd()),
           swaggerRepo: specFolder,
