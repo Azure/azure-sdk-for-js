@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
  *
  * @summary restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsRestart.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsRestart.json
  */
 async function containerRestart(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a NGroups resource.
  *
  * @summary create or update a NGroups resource.
- * x-ms-original-file: 2026-06-01-preview/NGroupsCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsCreateOrUpdate.json
  */
 async function nGroupsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

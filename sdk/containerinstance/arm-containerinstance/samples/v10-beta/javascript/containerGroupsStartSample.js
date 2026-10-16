@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts all containers in a container group. Compute resources will be allocated and billing will start.
  *
  * @summary starts all containers in a container group. Compute resources will be allocated and billing will start.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsStart.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsStart.json
  */
 async function containerStart() {
   const credential = new DefaultAzureCredential();

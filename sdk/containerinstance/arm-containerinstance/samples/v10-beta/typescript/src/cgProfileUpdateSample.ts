@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a specified container group profile.
  *
  * @summary update a specified container group profile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesPatch.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesPatch.json
  */
 async function containerGroupProfilesPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -17,6 +17,94 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AiAgentsGroup extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: AiAgentsGroupProperties;
+}
+
+// @public
+export interface AiAgentsGroupAccessToken {
+    accessToken: string;
+    endpoint: string;
+    notAfter: Date;
+}
+
+// @public
+export interface AiAgentsGroupNetworkProfile {
+    subnets?: SubnetReference[];
+}
+
+// @public
+export interface AiAgentsGroupProperties {
+    readonly managementResourceGroupId?: string;
+    networkProfile?: AiAgentsGroupNetworkProfile;
+    readonly provisioningState?: AiAgentsGroupProvisioningState;
+}
+
+// @public
+export type AiAgentsGroupProvisioningState = string;
+
+// @public
+export interface AiAgentsGroupsConnectOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiAgentsGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AiAgentsGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AiAgentsGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiAgentsGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiAgentsGroupsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiAgentsGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, aiAgentsGroupName: string, resource: AiAgentsGroup, options?: AiAgentsGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, aiAgentsGroupName: string, resource: AiAgentsGroup, options?: AiAgentsGroupsCreateOrUpdateOptionalParams) => Promise<AiAgentsGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, aiAgentsGroupName: string, options?: AiAgentsGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, aiAgentsGroupName: string, options?: AiAgentsGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, aiAgentsGroupName: string, properties: AiAgentsGroupTagsUpdate, options?: AiAgentsGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, aiAgentsGroupName: string, properties: AiAgentsGroupTagsUpdate, options?: AiAgentsGroupsUpdateOptionalParams) => Promise<AiAgentsGroup>;
+    connect: (resourceGroupName: string, aiAgentsGroupName: string, options?: AiAgentsGroupsConnectOptionalParams) => Promise<AiAgentsGroupAccessToken>;
+    createOrUpdate: (resourceGroupName: string, aiAgentsGroupName: string, resource: AiAgentsGroup, options?: AiAgentsGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>;
+    delete: (resourceGroupName: string, aiAgentsGroupName: string, options?: AiAgentsGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, aiAgentsGroupName: string, options?: AiAgentsGroupsGetOptionalParams) => Promise<AiAgentsGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: AiAgentsGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AiAgentsGroup>;
+    listBySubscription: (options?: AiAgentsGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AiAgentsGroup>;
+    update: (resourceGroupName: string, aiAgentsGroupName: string, properties: AiAgentsGroupTagsUpdate, options?: AiAgentsGroupsUpdateOptionalParams) => PollerLike<OperationState<AiAgentsGroup>, AiAgentsGroup>;
+}
+
+// @public
+export interface AiAgentsGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AiAgentsGroupTagsUpdate {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface ApiEntityReference {
     id?: string;
 }
@@ -60,6 +148,7 @@ export interface AzureFileVolume {
     storageAccountKey?: string;
     storageAccountKeyReference?: string;
     storageAccountName: string;
+    userAssignedIdentityClientId?: string;
 }
 
 // @public
@@ -460,6 +549,7 @@ export interface ContainerHttpGet {
 export class ContainerInstanceManagementClient {
     constructor(credential: TokenCredential, options?: ContainerInstanceManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerInstanceManagementClientOptionalParams);
+    readonly aiAgentsGroups: AiAgentsGroupsOperations;
     readonly cgProfile: CGProfileOperations;
     readonly cgProfiles: CGProfilesOperations;
     readonly containerGroups: ContainerGroupsOperations;
@@ -468,7 +558,6 @@ export class ContainerInstanceManagementClient {
     readonly nGroups: NGroupsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
-    readonly sandboxGroups: SandboxGroupsOperations;
     readonly subnetServiceAssociationLink: SubnetServiceAssociationLinkOperations;
 }
 
@@ -762,6 +851,16 @@ export interface IpAddress {
 export { isRestError }
 
 // @public
+export enum KnownAiAgentsGroupProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownContainerGroupIpAddressType {
     Private = "Private",
     Public = "Public"
@@ -875,16 +974,6 @@ export enum KnownOperatingSystemTypes {
 }
 
 // @public
-export enum KnownSandboxGroupProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownScheme {
     Http = "http",
     Https = "https"
@@ -893,7 +982,9 @@ export enum KnownScheme {
 // @public
 export enum KnownVersions {
     V20250901 = "2025-09-01",
-    V20260601Preview = "2026-06-01-preview"
+    V20260601Preview = "2026-06-01-preview",
+    V20260701 = "2026-07-01",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -1205,94 +1296,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface SandboxGroup extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: SandboxGroupProperties;
-}
-
-// @public
-export interface SandboxGroupAccessToken {
-    accessToken: string;
-    endpoint: string;
-    notAfter: Date;
-}
-
-// @public
-export interface SandboxGroupNetworkProfile {
-    subnets?: SubnetReference[];
-}
-
-// @public
-export interface SandboxGroupProperties {
-    readonly managementResourceGroupId?: string;
-    networkProfile?: SandboxGroupNetworkProfile;
-    readonly provisioningState?: SandboxGroupProvisioningState;
-}
-
-// @public
-export type SandboxGroupProvisioningState = string;
-
-// @public
-export interface SandboxGroupsConnectOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SandboxGroupsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SandboxGroupsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SandboxGroupsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SandboxGroupsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SandboxGroupsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SandboxGroupsOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => Promise<SandboxGroup>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => Promise<SandboxGroup>;
-    connect: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsConnectOptionalParams) => Promise<SandboxGroupAccessToken>;
-    createOrUpdate: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
-    delete: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsGetOptionalParams) => Promise<SandboxGroup>;
-    listByResourceGroup: (resourceGroupName: string, options?: SandboxGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
-    listBySubscription: (options?: SandboxGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
-    update: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupTagsUpdate, options?: SandboxGroupsUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
-}
-
-// @public
-export interface SandboxGroupsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SandboxGroupTagsUpdate {
-    identity?: ManagedServiceIdentity;
-    tags?: Record<string, string>;
 }
 
 // @public

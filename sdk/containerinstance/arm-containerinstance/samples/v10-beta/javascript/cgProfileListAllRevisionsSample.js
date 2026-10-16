@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of all the revisions of the specified container group profile in the given subscription and resource group. This operation returns properties of each revision of the specified container group profile including containers, image registry credentials, restart policy, IP address type, OS type volumes, revision number, etc.
  *
  * @summary get a list of all the revisions of the specified container group profile in the given subscription and resource group. This operation returns properties of each revision of the specified container group profile including containers, image registry credentials, restart policy, IP address type, OS type volumes, revision number, etc.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileListAllRevisions.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileListAllRevisions.json
  */
 async function containerGroupProfileListAllRevisions() {
   const credential = new DefaultAzureCredential();

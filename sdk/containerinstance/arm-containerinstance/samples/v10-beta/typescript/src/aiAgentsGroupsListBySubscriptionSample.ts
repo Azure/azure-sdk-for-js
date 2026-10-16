@@ -5,17 +5,17 @@ import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance"
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list SandboxGroup resources by resource group
+ * This sample demonstrates how to list AiAgentsGroup resources by subscription ID
  *
- * @summary list SandboxGroup resources by resource group
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsListByResourceGroup.json
+ * @summary list AiAgentsGroup resources by subscription ID
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsListBySubscription.json
  */
-async function listSandboxGroupsByResourceGroup(): Promise<void> {
+async function listAiAgentsGroupsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.sandboxGroups.listByResourceGroup("myResourceGroup")) {
+  for await (const item of client.aiAgentsGroups.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listSandboxGroupsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listSandboxGroupsByResourceGroup();
+  await listAiAgentsGroupsBySubscription();
 }
 
 main().catch(console.error);

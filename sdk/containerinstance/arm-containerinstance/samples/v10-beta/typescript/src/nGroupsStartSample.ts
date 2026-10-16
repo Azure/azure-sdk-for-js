@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start.
  *
  * @summary starts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start.
- * x-ms-original-file: 2026-06-01-preview/NGroupsStart.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsStart.json
  */
 async function nGroupsStart(): Promise<void> {
   const credential = new DefaultAzureCredential();

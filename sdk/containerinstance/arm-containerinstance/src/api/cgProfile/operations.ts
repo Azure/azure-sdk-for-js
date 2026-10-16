@@ -41,7 +41,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a container group profile. */
 export async function $delete(
   context: Client,
@@ -88,7 +87,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +116,6 @@ export async function _updateDeserialize(
 
   return containerGroupProfileDeserializer(result.body);
 }
-
 /** Update a specified container group profile. */
 export async function update(
   context: Client,
@@ -149,7 +147,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +176,6 @@ export async function _createOrUpdateDeserialize(
 
   return containerGroupProfileDeserializer(result.body);
 }
-
 /** Create a CGProfile if it doesn't exist or update an existing CGProfile. */
 export async function createOrUpdate(
   context: Client,
@@ -209,7 +206,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +233,6 @@ export async function _getDeserialize(
 
   return containerGroupProfileDeserializer(result.body);
 }
-
 /** Get the properties of the specified container group profile. */
 export async function get(
   context: Client,
@@ -260,7 +256,7 @@ export function _listAllRevisionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +283,6 @@ export async function _listAllRevisionsDeserialize(
 
   return _containerGroupProfileListResultDeserializer(result.body);
 }
-
 /** Get a list of all the revisions of the specified container group profile in the given subscription and resource group. This operation returns properties of each revision of the specified container group profile including containers, image registry credentials, restart policy, IP address type, OS type volumes, revision number, etc. */
 export function listAllRevisions(
   context: Client,
@@ -303,7 +298,7 @@ export function listAllRevisions(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -322,7 +317,7 @@ export function _getByRevisionNumberSend(
       resourceGroupName: resourceGroupName,
       containerGroupProfileName: containerGroupProfileName,
       revisionNumber: revisionNumber,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +344,6 @@ export async function _getByRevisionNumberDeserialize(
 
   return containerGroupProfileDeserializer(result.body);
 }
-
 /** Gets the properties of the specified revision of the container group profile in the given subscription and resource group. The operation returns the properties of container group profile including containers, image registry credentials, restart policy, IP address type, OS type, volumes, current revision number, etc. */
 export async function getByRevisionNumber(
   context: Client,

@@ -37,7 +37,7 @@ export function _listCapabilitiesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listCapabilitiesDeserialize(
 
   return _capabilitiesListResultDeserializer(result.body);
 }
-
 /** Get the list of CPU/memory/GPU capabilities of a region. */
 export function listCapabilities(
   context: Client,
@@ -79,7 +78,7 @@ export function listCapabilities(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -94,7 +93,7 @@ export function _listCachedImagesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +120,6 @@ export async function _listCachedImagesDeserialize(
 
   return _cachedImagesListResultDeserializer(result.body);
 }
-
 /** Get the list of cached images on specific OS type for a subscription in a region. */
 export function listCachedImages(
   context: Client,
@@ -136,7 +134,7 @@ export function listCachedImages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -151,7 +149,7 @@ export function _listUsageSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +176,6 @@ export async function _listUsageDeserialize(
 
   return _usageListResultDeserializer(result.body);
 }
-
 /** Get the usage for a subscription */
 export function listUsage(
   context: Client,
@@ -193,7 +190,7 @@ export function listUsage(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

@@ -8,7 +8,7 @@ exports:
   "./api/location": "./src/api/location/index.ts"
   "./api/cgProfiles": "./src/api/cgProfiles/index.ts"
   "./api/containers": "./src/api/containers/index.ts"
-  "./api/sandboxGroups": "./src/api/sandboxGroups/index.ts"
+  "./api/aiAgentsGroups": "./src/api/aiAgentsGroups/index.ts"
   "./api/cgProfile": "./src/api/cgProfile/index.ts"
   "./api/nGroups": "./src/api/nGroups/index.ts"
   "./api/containerGroups": "./src/api/containerGroups/index.ts"

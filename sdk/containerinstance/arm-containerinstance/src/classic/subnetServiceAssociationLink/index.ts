@@ -32,7 +32,6 @@ export interface SubnetServiceAssociationLinkOperations {
     options?: SubnetServiceAssociationLinkDeleteOptionalParams,
   ) => Promise<void>;
 }
-
 function _getSubnetServiceAssociationLink(context: ContainerInstanceManagementContext) {
   return {
     delete: (
@@ -61,7 +60,6 @@ function _getSubnetServiceAssociationLink(context: ContainerInstanceManagementCo
     },
   };
 }
-
 export function _getSubnetServiceAssociationLinkOperations(
   context: ContainerInstanceManagementContext,
 ): SubnetServiceAssociationLinkOperations {
