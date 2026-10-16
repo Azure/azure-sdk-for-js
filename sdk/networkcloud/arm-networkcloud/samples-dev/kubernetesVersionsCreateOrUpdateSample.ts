@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create the Kubernetes version resource or update its tags. This resource is system managed and should only be created with the name "default".
  *
  * @summary create the Kubernetes version resource or update its tags. This resource is system managed and should only be created with the name "default".
- * x-ms-original-file: 2026-07-01/KubernetesVersions_Create.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesVersions_Create.json
  */
 async function createOrUpdateKubernetesVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

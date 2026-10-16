@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.NetworkCloud": "2026-07-01"
+    "Microsoft.NetworkCloud": "2026-08-01-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.NetworkCloud",
     "CrossLanguageDefinitionId": {
@@ -70,6 +70,7 @@
       "@azure/arm-networkcloud!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
       "@azure/arm-networkcloud!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-networkcloud!ClusterManagerPatchParameters:interface": "Microsoft.NetworkCloud.ClusterManagerPatchParameters",
+      "@azure/arm-networkcloud!ClusterManagerPatchProperties:interface": "Microsoft.NetworkCloud.ClusterManagerPatchProperties",
       "@azure/arm-networkcloud!ClusterManagerList:interface": "Microsoft.NetworkCloud.ClusterManagerList",
       "@azure/arm-networkcloud!ClusterManagerUpdateRelayPrivateEndpointConnectionParameters:interface": "Microsoft.NetworkCloud.ClusterManagerUpdateRelayPrivateEndpointConnectionParameters",
       "@azure/arm-networkcloud!Cluster:interface": "Microsoft.NetworkCloud.Cluster",
@@ -86,6 +87,10 @@
       "@azure/arm-networkcloud!RuntimeProtectionConfiguration:interface": "Microsoft.NetworkCloud.RuntimeProtectionConfiguration",
       "@azure/arm-networkcloud!ClusterSecretArchive:interface": "Microsoft.NetworkCloud.ClusterSecretArchive",
       "@azure/arm-networkcloud!SecretArchiveSettings:interface": "Microsoft.NetworkCloud.SecretArchiveSettings",
+      "@azure/arm-networkcloud!SecretArchiveProviderConfiguration:interface": "Microsoft.NetworkCloud.SecretArchiveProviderConfiguration",
+      "@azure/arm-networkcloud!CyberArkSecretArchiveProviderConfiguration:interface": "Microsoft.NetworkCloud.CyberArkSecretArchiveProviderConfiguration",
+      "@azure/arm-networkcloud!HashiCorpVaultSecretArchiveProviderConfiguration:interface": "Microsoft.NetworkCloud.HashiCorpVaultSecretArchiveProviderConfiguration",
+      "@azure/arm-networkcloud!OpenBaoSecretArchiveProviderConfiguration:interface": "Microsoft.NetworkCloud.OpenBaoSecretArchiveProviderConfiguration",
       "@azure/arm-networkcloud!ClusterUpdateStrategy:interface": "Microsoft.NetworkCloud.ClusterUpdateStrategy",
       "@azure/arm-networkcloud!VulnerabilityScanningSettings:interface": "Microsoft.NetworkCloud.VulnerabilityScanningSettings",
       "@azure/arm-networkcloud!ClusterAvailableUpgradeVersion:interface": "Microsoft.NetworkCloud.ClusterAvailableUpgradeVersion",
@@ -278,6 +283,9 @@
       "@azure/arm-networkcloud!KnownValidationThresholdGrouping:enum": "Microsoft.NetworkCloud.ValidationThresholdGrouping",
       "@azure/arm-networkcloud!KnownValidationThresholdType:enum": "Microsoft.NetworkCloud.ValidationThresholdType",
       "@azure/arm-networkcloud!KnownClusterSecretArchiveEnabled:enum": "Microsoft.NetworkCloud.ClusterSecretArchiveEnabled",
+      "@azure/arm-networkcloud!KnownSecretArchiveProviderType:enum": "Microsoft.NetworkCloud.SecretArchiveProviderType",
+      "@azure/arm-networkcloud!KnownKeyValueVersion:enum": "Microsoft.NetworkCloud.KeyValueVersion",
+      "@azure/arm-networkcloud!KnownVaultAuthenticationMethod:enum": "Microsoft.NetworkCloud.VaultAuthenticationMethod",
       "@azure/arm-networkcloud!KnownClusterUpdateStrategyType:enum": "Microsoft.NetworkCloud.ClusterUpdateStrategyType",
       "@azure/arm-networkcloud!KnownVulnerabilityScanningSettingsContainerScan:enum": "Microsoft.NetworkCloud.VulnerabilityScanningSettingsContainerScan",
       "@azure/arm-networkcloud!KnownControlImpact:enum": "Microsoft.NetworkCloud.ControlImpact",

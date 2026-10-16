@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new Kubernetes cluster or update the properties of the existing one.
  *
  * @summary create a new Kubernetes cluster or update the properties of the existing one.
- * x-ms-original-file: 2026-07-01/KubernetesClusters_Create.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusters_Create.json
  */
 async function createOrUpdateKubernetesCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -170,7 +170,7 @@ async function createOrUpdateKubernetesCluster(): Promise<void> {
  * This sample demonstrates how to create a new Kubernetes cluster or update the properties of the existing one.
  *
  * @summary create a new Kubernetes cluster or update the properties of the existing one.
- * x-ms-original-file: 2026-07-01/KubernetesClusters_L2LoadBalancer_Create.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusters_L2LoadBalancer_Create.json
  */
 async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();

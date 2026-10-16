@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to run one or more read-only commands on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
  *
  * @summary run one or more read-only commands on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_RunReadCommands_Hostname.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_RunReadCommands_Hostname.json
  */
 async function runAndRetrieveOutputFromASingleReadOnlyCommandOnBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function runAndRetrieveOutputFromASingleReadOnlyCommandOnBareMetalMachine(
  * This sample demonstrates how to run one or more read-only commands on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
  *
  * @summary run one or more read-only commands on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_RunReadCommands_Multiple.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_RunReadCommands_Multiple.json
  */
 async function runAndRetrieveOutputFromReadOnlyCommandsOnBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the private endpoint connection for the Azure Relay namespace managed by the specified cluster manager. Use this operation to approve or reject a pending private endpoint connection request for the relay namespace managed by the cluster manager.
  *
  * @summary update the private endpoint connection for the Azure Relay namespace managed by the specified cluster manager. Use this operation to approve or reject a pending private endpoint connection request for the relay namespace managed by the cluster manager.
- * x-ms-original-file: 2026-07-01/ClusterManagers_UpdateRelayPrivateEndpointConnection_Approve.json
+ * x-ms-original-file: 2026-08-01-preview/ClusterManagers_UpdateRelayPrivateEndpointConnection_Approve.json
  */
 async function approvePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function approvePrivateEndpointConnection(): Promise<void> {
  * This sample demonstrates how to update the private endpoint connection for the Azure Relay namespace managed by the specified cluster manager. Use this operation to approve or reject a pending private endpoint connection request for the relay namespace managed by the cluster manager.
  *
  * @summary update the private endpoint connection for the Azure Relay namespace managed by the specified cluster manager. Use this operation to approve or reject a pending private endpoint connection request for the relay namespace managed by the cluster manager.
- * x-ms-original-file: 2026-07-01/ClusterManagers_UpdateRelayPrivateEndpointConnection_Reject.json
+ * x-ms-original-file: 2026-08-01-preview/ClusterManagers_UpdateRelayPrivateEndpointConnection_Reject.json
  */
 async function rejectPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

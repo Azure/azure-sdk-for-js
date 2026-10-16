@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided virtual machine.
  *
  * @summary get properties of the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Get.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Get.json
  */
 async function getVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

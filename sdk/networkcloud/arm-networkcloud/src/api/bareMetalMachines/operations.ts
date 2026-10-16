@@ -64,7 +64,7 @@ export function _uncordonSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +102,7 @@ export function uncordon(
     getInitialResponse: () =>
       _uncordonSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -118,7 +118,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -172,7 +172,7 @@ export function _runReadCommandsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +223,7 @@ export function runReadCommands(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -240,7 +240,7 @@ export function _runDataExtractsRestrictedSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +295,7 @@ export function runDataExtractsRestricted(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-07-01",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -313,7 +313,7 @@ export function _runDataExtractsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +364,7 @@ export function runDataExtracts(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -381,7 +381,7 @@ export function _runCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -430,7 +430,7 @@ export function runCommand(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -446,7 +446,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -484,7 +484,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -500,7 +500,7 @@ export function _replaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -544,7 +544,7 @@ export function replace(
     getInitialResponse: () =>
       _replaceSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -560,7 +560,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -604,7 +604,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -620,7 +620,7 @@ export function _powerOffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -664,7 +664,7 @@ export function powerOff(
     getInitialResponse: () =>
       _powerOffSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -680,7 +680,7 @@ export function _cordonSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -724,7 +724,7 @@ export function cordon(
     getInitialResponse: () =>
       _cordonSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -736,7 +736,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/bareMetalMachines{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -776,7 +776,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }
 
@@ -790,7 +794,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -831,7 +835,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }
 
@@ -847,7 +855,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -892,7 +900,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -908,7 +916,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -956,7 +964,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, bareMetalMachineName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<BareMetalMachine>, BareMetalMachine>;
 }
 
@@ -973,7 +981,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1028,7 +1036,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<BareMetalMachine>, BareMetalMachine>;
 }
 
@@ -1044,7 +1052,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bareMetalMachineName: bareMetalMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

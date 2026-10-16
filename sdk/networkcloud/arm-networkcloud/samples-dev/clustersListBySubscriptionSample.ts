@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of clusters in the provided subscription.
  *
  * @summary get a list of clusters in the provided subscription.
- * x-ms-original-file: 2026-07-01/Clusters_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_ListBySubscription.json
  */
 async function listClustersForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

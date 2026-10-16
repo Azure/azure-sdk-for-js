@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of cloud services networks in the provided subscription.
  *
  * @summary get a list of cloud services networks in the provided subscription.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_ListBySubscription.json
  */
 async function listCloudServicesNetworksForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
