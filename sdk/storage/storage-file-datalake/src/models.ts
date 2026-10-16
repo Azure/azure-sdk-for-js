@@ -19,9 +19,7 @@ import type {
   BlobGetLayoutHeaders,
   BlobLayout,
   BlobLayoutEndpoint,
-  BlobLayoutEndpoints,
   BlobLayoutRange,
-  BlobLayoutRanges,
   LayoutAwareRouting,
   LayoutEndpoint,
   Range as BlobRange,
@@ -1375,14 +1373,8 @@ export type FileRange = BlobRange;
 /** A byte range of a file, and the endpoint that serves it. */
 export type FileLayoutRange = BlobLayoutRange;
 
-/** The ranges that make up a file. */
-export type FileLayoutRanges = BlobLayoutRanges;
-
 /** An endpoint that serves one or more ranges of a file. */
 export type FileLayoutEndpoint = BlobLayoutEndpoint;
-
-/** The endpoints that serve the ranges of a file. */
-export type FileLayoutEndpoints = BlobLayoutEndpoints;
 
 /** One page of a file's layout. */
 export type FileLayout = BlobLayout;

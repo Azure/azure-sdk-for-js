@@ -12,9 +12,7 @@ import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobGetLayoutHeaders } from '@azure/storage-blob';
 import type { BlobLayout } from '@azure/storage-blob';
 import type { BlobLayoutEndpoint } from '@azure/storage-blob';
-import type { BlobLayoutEndpoints } from '@azure/storage-blob';
 import type { BlobLayoutRange } from '@azure/storage-blob';
-import type { BlobLayoutRanges } from '@azure/storage-blob';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import type { BlobTags } from '@azure/storage-blob';
@@ -668,13 +666,7 @@ export type FileLayout = BlobLayout;
 export type FileLayoutEndpoint = BlobLayoutEndpoint;
 
 // @public
-export type FileLayoutEndpoints = BlobLayoutEndpoints;
-
-// @public
 export type FileLayoutRange = BlobLayoutRange;
-
-// @public
-export type FileLayoutRanges = BlobLayoutRanges;
 
 // @public
 export interface FileParallelUploadOptions extends CommonOptions {

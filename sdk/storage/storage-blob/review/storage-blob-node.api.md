@@ -927,8 +927,8 @@ export interface BlobItemInternal {
 // @public
 export interface BlobLayout {
     continuationToken?: string;
-    endpoints?: BlobLayoutEndpoints;
-    ranges?: BlobLayoutRanges;
+    endpoints: BlobLayoutEndpoint[];
+    ranges: BlobLayoutRange[];
 }
 
 // @public
@@ -938,20 +938,10 @@ export interface BlobLayoutEndpoint {
 }
 
 // @public
-export interface BlobLayoutEndpoints {
-    endpoint?: BlobLayoutEndpoint[];
-}
-
-// @public
 export interface BlobLayoutRange {
     end: number;
     endpointIndex: number;
     start: number;
-}
-
-// @public
-export interface BlobLayoutRanges {
-    range?: BlobLayoutRange[];
 }
 
 // @public
