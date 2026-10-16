@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update Online Endpoint (asynchronous).
  *
  * @summary create or update Online Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/createOrUpdate.json
+ * x-ms-original-file: 2026-09-01/Workspace/OnlineEndpoint/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceOnlineEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

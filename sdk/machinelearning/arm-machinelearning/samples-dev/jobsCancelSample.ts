@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels a Job (asynchronous).
  *
  * @summary cancels a Job (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Job/cancel.json
+ * x-ms-original-file: 2026-09-01/Job/cancel.json
  */
 async function cancelJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
