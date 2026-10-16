@@ -76,6 +76,18 @@ describe("lazy multipart concatenation", () => {
     expect(factory).not.toHaveBeenCalled();
   });
 
+  it("does not advance to the next part while the wrapper is backpressured", async () => {
+    const later = vi.fn(() => Readable.from("later"));
+    const wrapper = (await streamFor([Buffer.alloc(16 * 1024), later])) as Readable;
+    await new Promise<void>((resolve) => wrapper.once("readable", resolve));
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(later).not.toHaveBeenCalled();
+    expect(wrapper.read(16 * 1024)).not.toBeNull();
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(later).toHaveBeenCalledOnce();
+    wrapper.destroy();
+  });
+
   it("rejects replay of the actual one-shot part, not just the fresh wrapper", async () => {
     const part = Readable.from("once");
     const first = await streamFor([part]);
@@ -84,14 +96,9 @@ describe("lazy multipart concatenation", () => {
       /* drain */
     }
     const second = await streamFor([part]);
-    startBodyStream(second, true);
-    await expect(
-      (async () => {
-        for await (const _chunk of second) {
-          /* drain */
-        }
-      })(),
-    ).rejects.toMatchObject({ name: "RestError", code: "REQUEST_BODY_NOT_REPLAYABLE" });
+    expect(() => startBodyStream(second, true)).toThrow(
+      "Cannot resend an already-started request body stream",
+    );
   });
 
   it("rejects an already-ended direct part without replay protection", async () => {
@@ -108,6 +115,53 @@ describe("lazy multipart concatenation", () => {
         }
       })(),
     ).rejects.toMatchObject({ name: "RestError", code: "REQUEST_BODY_NOT_REPLAYABLE" });
+  });
+
+  it("rejects a partially consumed direct Node stream on a protected retry", async () => {
+    let pushed = false;
+    const part = new Readable({
+      read() {
+        if (!pushed) {
+          pushed = true;
+          this.push("partial");
+        }
+      },
+    });
+    const first = (await streamFor([part])) as Readable;
+    await new Promise<void>((resolve) => {
+      first.once("data", () => {
+        first.destroy();
+        resolve();
+      });
+      first.resume();
+    });
+    const second = await streamFor([part]);
+    expect(() => startBodyStream(second, true)).toThrow(
+      "Cannot resend an already-started request body stream",
+    );
+    part.destroy();
+  });
+
+  it("rejects a disturbed direct Web stream on a protected retry", async () => {
+    const part = new ReadableStream<Uint8Array<ArrayBuffer>>({
+      start(controller) {
+        controller.enqueue(Uint8Array.from([1]));
+      },
+    });
+    const first = (await streamFor([part])) as Readable;
+    await new Promise<void>((resolve) => {
+      first.once("data", () => {
+        first.destroy();
+        resolve();
+      });
+      first.resume();
+    });
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(part.locked).toBe(false);
+    const second = await streamFor([part]);
+    expect(() => startBodyStream(second, true)).toThrow(
+      "Cannot resend an already-started multipart stream",
+    );
   });
 
   it("propagates factory and source errors", async () => {

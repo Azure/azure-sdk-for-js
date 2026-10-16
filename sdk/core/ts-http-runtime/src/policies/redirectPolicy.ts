@@ -5,6 +5,7 @@ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfac
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger } from "../log.js";
 import { hasExpectContinue, removeBodyHeaders } from "../util/expectContinue.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -95,6 +96,7 @@ async function handleRedirect(
 
     request.headers.delete("Authorization");
 
+    await disposeResponseBody(response);
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, allowCrossOriginRedirects, currentRetries + 1);
   }

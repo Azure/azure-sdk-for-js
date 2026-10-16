@@ -5,7 +5,7 @@
 ### Features Added
 
 - `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
-- Added opt-in `Expect: 100-continue` negotiation to the built-in Node HTTP/1 transport, including lazy uploads, a fixed 1,000 ms fallback, readable early final responses, and one-shot stream replay protection. HTTP 417 returns normally without automatic recovery. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+- Added opt-in `Expect: 100-continue` negotiation to the built-in Node HTTP/1 transport, including lazy uploads, a fixed 1,000 ms fallback, readable early final responses, backpressure-safe multipart sequencing, one-shot stream replay protection, and streamed-response disposal before automatic retries and redirects. HTTP 417 returns normally without automatic recovery. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
 
 ### Breaking Changes
 

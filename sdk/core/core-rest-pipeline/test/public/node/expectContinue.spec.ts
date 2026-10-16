@@ -144,8 +144,14 @@ describe("Node Expect negotiation through core-rest-pipeline", () => {
         authorizeRequestOnChallenge: async () => true,
       },
     });
-    const response = await policy.sendRequest(fixture.request({ body: factory }), (request) =>
-      createDefaultHttpClient().sendRequest(request),
+    const request = fixture.request({
+      body: factory,
+      streamResponseStatusCodes: new Set([401]),
+      timeout: 500,
+    });
+    (request.agent as https.Agent).maxSockets = 1;
+    const response = await policy.sendRequest(request, (nextRequest) =>
+      createDefaultHttpClient().sendRequest(nextRequest),
     );
     expect(response.bodyAsText).toBe("authorized");
     expect(attempts).toBe(2);
@@ -183,6 +189,7 @@ describe("Node Expect negotiation through core-rest-pipeline", () => {
         boundary === "client"
           ? await client.sendRequest(request)
           : await wrapAbortSignalLikePolicy().sendRequest(request, (r) => client.sendRequest(r));
+      expect(request.abortSignal).toBe(legacy);
       expect(legacy.removeEventListener).not.toHaveBeenCalled();
       const reading = (async () => {
         for await (const chunk of response.readableStreamBody!) expect(chunk).toBeDefined();

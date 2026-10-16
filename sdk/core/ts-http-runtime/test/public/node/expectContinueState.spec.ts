@@ -68,6 +68,12 @@ function finalResponse(status = 200): void {
   respond(response);
 }
 
+async function readText(stream: NodeJS.ReadableStream): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) chunks.push(Buffer.from(chunk));
+  return Buffer.concat(chunks).toString();
+}
+
 describe("Expect: 100-continue attempt state", () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(async () => {
@@ -189,6 +195,29 @@ describe("Expect: 100-continue attempt state", () => {
     expect(http.request).not.toHaveBeenCalled();
   });
 
+  it("disposes a non-negotiated factory result when its factory aborts synchronously", async () => {
+    const controller = new AbortController();
+    const source = new Readable({
+      read() {
+        throw new Error("must remain unread");
+      },
+    });
+    await expect(
+      start(
+        () => {
+          controller.abort();
+          return source;
+        },
+        {
+          abortSignal: controller.signal,
+          headers: createHttpHeaders(),
+        },
+      ),
+    ).rejects.toMatchObject({ name: "AbortError" });
+    expect(http.request).not.toHaveBeenCalled();
+    expect(source.destroyed).toBe(true);
+  });
+
   it.each(["factory", "source", "progress", "pipe"])(
     "surfaces %s failures as RestError",
     async (kind) => {
@@ -303,5 +332,21 @@ describe("Expect: 100-continue attempt state", () => {
     finalResponse();
     expect((await pending).bodyAsText).toBe("final");
     expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("preserves a complete response after a late request error", async () => {
+    const pending = start("body", { streamResponseStatusCodes: new Set([200]) });
+    flush();
+    outgoing.emit("continue");
+    const response = new http.IncomingMessage(new Socket());
+    response.statusCode = 200;
+    response.headers = {};
+    response.complete = true;
+    response.push("complete");
+    response.push(null);
+    respond(response);
+    const result = await pending;
+    outgoing.emit("error", new Error("late request error"));
+    expect(await readText(result.readableStreamBody!)).toBe("complete");
   });
 });

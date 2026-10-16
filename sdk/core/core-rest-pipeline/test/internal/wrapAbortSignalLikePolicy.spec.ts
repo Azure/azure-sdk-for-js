@@ -13,7 +13,11 @@ describe("wrapAbortSignalLikePolicy", () => {
 
   it("should wrap AbortSignalLike with native AbortSignal", async () => {
     const policy = wrapAbortSignalLikePolicy();
-    const nextSpy = vi.fn().mockResolvedValue({ status: 200 });
+    let receivedSignal: AbortSignalLike | undefined;
+    const nextSpy = vi.fn().mockImplementation((request) => {
+      receivedSignal = request.abortSignal;
+      return Promise.resolve({ status: 200 });
+    });
 
     // Create a mock AbortSignalLike
     const mockAbortSignalLike: AbortSignalLike = {
@@ -30,11 +34,11 @@ describe("wrapAbortSignalLikePolicy", () => {
     const result = await policy.sendRequest(request, nextSpy);
 
     expect(nextSpy).toHaveBeenCalledTimes(1);
-    // The abortSignal should be replaced with a native AbortSignal
-    expect(nextSpy.mock.calls[0][0].abortSignal).toBeInstanceOf(AbortSignal);
+    expect(receivedSignal).toBeInstanceOf(AbortSignal);
     expect(result).toEqual({ status: 200 });
     expect(mockAbortSignalLike.addEventListener).toHaveBeenCalledOnce();
     expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalledOnce();
+    expect(request.abortSignal).toBe(mockAbortSignalLike);
   });
 
   it("should clean up even if next handler throws", async () => {
@@ -57,5 +61,6 @@ describe("wrapAbortSignalLikePolicy", () => {
 
     // Verify cleanup still happened despite error
     expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalled();
+    expect(request.abortSignal).toBe(mockAbortSignalLike);
   });
 });

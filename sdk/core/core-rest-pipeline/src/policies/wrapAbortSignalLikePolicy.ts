@@ -22,13 +22,15 @@ export function wrapAbortSignalLikePolicy(): PipelinePolicy {
         return next(request);
       }
 
-      const { abortSignal, cleanup } = wrapAbortSignalLike(request.abortSignal);
+      const originalAbortSignal = request.abortSignal;
+      const { abortSignal, cleanup } = wrapAbortSignalLike(originalAbortSignal);
       request.abortSignal = abortSignal;
       let response: PipelineResponse | undefined;
       try {
         response = await next(request);
         return response;
       } finally {
+        request.abortSignal = originalAbortSignal;
         cleanupAbortSignal(response, cleanup);
       }
     },

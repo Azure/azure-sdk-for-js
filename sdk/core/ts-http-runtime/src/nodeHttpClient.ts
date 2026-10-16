@@ -106,8 +106,9 @@ class NodeHttpClient implements HttpClient {
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
-    if (request.abortSignal) {
-      if (request.abortSignal.aborted) {
+    const requestAbortSignal = request.abortSignal;
+    if (requestAbortSignal) {
+      if (requestAbortSignal.aborted) {
         throw new AbortError("The operation was aborted. Request has already been canceled.");
       }
 
@@ -116,7 +117,7 @@ class NodeHttpClient implements HttpClient {
           abortController.abort();
         }
       };
-      request.abortSignal.addEventListener("abort", abortListener);
+      requestAbortSignal.addEventListener("abort", abortListener);
     }
 
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -197,7 +198,7 @@ class NodeHttpClient implements HttpClient {
       }
 
       const cleanup = (): void => {
-        if (abortListener) request.abortSignal?.removeEventListener("abort", abortListener);
+        if (abortListener) requestAbortSignal?.removeEventListener("abort", abortListener);
         if (responseAbortListener) {
           abortController.signal.removeEventListener("abort", responseAbortListener);
         }
@@ -227,17 +228,21 @@ class NodeHttpClient implements HttpClient {
     }
 
     const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
+    const requestBody = request.body;
+    const bodyFromFactory = typeof requestBody === "function";
     const negotiate = hasExpectContinue(request);
-    let body = negotiate
-      ? request.body
-      : typeof request.body === "function"
-        ? request.body()
-        : request.body;
+    let body = negotiate ? requestBody : bodyFromFactory ? requestBody() : requestBody;
+    if (!negotiate && bodyFromFactory && abortController.signal.aborted) {
+      if (isReadableStream(body)) disposeBodyStream(body);
+      throw new AbortError(
+        "The operation was aborted. Request body factory aborted before dispatch.",
+      );
+    }
     const bodyLength = typeof body === "function" ? null : getBodyLength(body ?? null);
     const headers = effectiveHeaders(request);
     if (
       bodyLength !== null &&
-      (bodyLength > 0 || negotiate) &&
+      (Boolean(body) || negotiate) &&
       headerValues(headers, "content-length").length === 0 &&
       headerValues(headers, "transfer-encoding").length === 0 &&
       !(request.requestOverrides && "headers" in request.requestOverrides)
@@ -380,8 +385,9 @@ class NodeHttpClient implements HttpClient {
         resolve(res);
       }
       req.on("error", (error: Error & { code?: string }) => {
-        if (response) response.destroy(error);
-        else fail(error);
+        if (response) {
+          if (!response.complete) response.destroy(error);
+        } else fail(error);
       });
       const onAbort = (): void => {
         state = "terminal";

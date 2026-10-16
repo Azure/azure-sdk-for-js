@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Readable } from "node:stream";
 import { RestError } from "../restError.js";
 import { logger } from "../log.js";
 
@@ -16,9 +17,10 @@ export function registerMultipartStream(
   multipartStreams.set(stream, protectReplay);
 }
 
-export function startBodyStream(stream: NodeJS.ReadableStream, protectReplay: boolean): void {
+export function assertBodyStreamAvailable(stream: NodeJS.ReadableStream): void {
   if (
     startedSources.has(stream) ||
+    Readable.isDisturbed(stream) ||
     !stream.readable ||
     ("destroyed" in stream && stream.destroyed === true) ||
     ("readableEnded" in stream && stream.readableEnded === true) ||
@@ -29,6 +31,10 @@ export function startBodyStream(stream: NodeJS.ReadableStream, protectReplay: bo
       { code: "REQUEST_BODY_NOT_REPLAYABLE" },
     );
   }
+}
+
+export function startBodyStream(stream: NodeJS.ReadableStream, protectReplay: boolean): void {
+  assertBodyStreamAvailable(stream);
   if (protectReplay) startedSources.add(stream);
   multipartStreams.get(stream)?.(protectReplay);
 }

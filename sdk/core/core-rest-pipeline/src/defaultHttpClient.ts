@@ -17,8 +17,9 @@ export function createDefaultHttpClient(): HttpClient {
     async sendRequest(request) {
       // we wrap any AbortSignalLike here since the TypeSpec runtime expects a native AbortSignal.
       // 99% of the time, this should be a no-op since a native AbortSignal is passed in.
-      const { abortSignal, cleanup } = request.abortSignal
-        ? wrapAbortSignalLike(request.abortSignal)
+      const originalAbortSignal = request.abortSignal;
+      const { abortSignal, cleanup } = originalAbortSignal
+        ? wrapAbortSignalLike(originalAbortSignal)
         : {};
       let response: PipelineResponse | undefined;
       try {
@@ -26,6 +27,7 @@ export function createDefaultHttpClient(): HttpClient {
         response = await client.sendRequest(request as TspPipelineRequest);
         return response;
       } finally {
+        request.abortSignal = originalAbortSignal;
         cleanupAbortSignal(response, cleanup);
       }
     },

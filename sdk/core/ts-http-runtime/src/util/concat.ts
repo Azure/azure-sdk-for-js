@@ -4,6 +4,7 @@
 import { Readable } from "stream";
 import { isBlob } from "./typeGuards.js";
 import {
+  assertBodyStreamAvailable,
   disposeBodyStream,
   monitorBodyStreamErrors,
   registerMultipartStream,
@@ -76,8 +77,10 @@ export async function concat(
     let current: NodeJS.ReadableStream | undefined;
     let cleanupCurrent: (() => void) | undefined;
     let protectReplay = false;
+    let waitingForRead = false;
     const stream = new Readable({
       read() {
+        waitingForRead = false;
         if (current) current.resume();
         else advance();
       },
@@ -88,6 +91,13 @@ export async function concat(
     });
     registerMultipartStream(stream, (enabled) => {
       protectReplay = enabled;
+      for (const source of sources) {
+        if (typeof source === "function" || source instanceof Uint8Array || isBlob(source)) {
+          continue;
+        }
+        if (source instanceof ReadableStream) assertWebSourceAvailable(source);
+        else assertBodyStreamAvailable(source);
+      }
     });
     function advance(): void {
       if (stream.destroyed) return;
@@ -123,14 +133,18 @@ export async function concat(
         const part = toStream(resolved, owned);
         current = part;
         const onData = (chunk: Buffer | string): void => {
-          if (!stream.push(chunk)) part.pause();
+          if (!stream.push(chunk)) {
+            waitingForRead = true;
+            part.pause();
+          }
         };
         const onError = (error: Error): void => {
           stream.destroy(error);
         };
         const onEnd = (): void => {
+          const shouldAdvance = !waitingForRead;
           cleanupCurrent?.();
-          advance();
+          if (shouldAdvance) advance();
         };
         const onClose = (): void => {
           if (current === part) stream.destroy(new Error("Multipart source closed before ending"));
@@ -160,12 +174,20 @@ export async function concat(
 }
 
 const startedWebSources = new WeakSet<ReadableStream>();
-function startWebSource(source: ReadableStream, protectReplay: boolean): void {
-  if (startedWebSources.has(source)) {
+function assertWebSourceAvailable(source: ReadableStream): void {
+  if (
+    startedWebSources.has(source) ||
+    source.locked ||
+    Readable.isDisturbed(source as unknown as Parameters<typeof Readable.isDisturbed>[0])
+  ) {
     throw new RestError(
       "Cannot resend an already-started multipart stream. Use a factory returning a fresh stream.",
       { code: "REQUEST_BODY_NOT_REPLAYABLE" },
     );
   }
+}
+
+function startWebSource(source: ReadableStream, protectReplay: boolean): void {
+  assertWebSourceAvailable(source);
   if (protectReplay) startedWebSources.add(source);
 }

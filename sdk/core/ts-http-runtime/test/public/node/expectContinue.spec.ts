@@ -500,6 +500,7 @@ describe("Expect: 100-continue on the wire", () => {
 
   it.each(["retry", "redirect"])("reuses an untouched source on an early %s", async (kind) => {
     const fixture = await setup();
+    fixture.agent.maxSockets = 1;
     let attempts = 0;
     let received = "";
     fixture.server.on("checkContinue", (incoming, response) => {
@@ -522,6 +523,8 @@ describe("Expect: 100-continue on the wire", () => {
       createDefaultHttpClient(),
       pipelineRequest(fixture, {
         body: Readable.from("replayed"),
+        streamResponseStatusCodes: new Set([kind === "retry" ? 503 : 307]),
+        timeout: 500,
       }),
     );
     expect(response.bodyAsText).toBe("done");
