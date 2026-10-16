@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import http from "node:http";
 import https from "node:https";
 import { performance } from "node:perf_hooks";
-import { Readable } from "node:stream";
+import { Readable, Writable } from "node:stream";
 import { gzipSync, deflateSync } from "node:zlib";
 import type { LookupFunction } from "node:net";
 import { HttpProxyAgent } from "http-proxy-agent";
@@ -417,6 +417,58 @@ describe("Expect: 100-continue on the wire", () => {
     source.destroy();
   });
 
+  it("does not pause a caller-owned source again after an early response completes", async () => {
+    const fixture = await setup();
+    const responseStarted = deferred<http.ServerResponse>();
+    const connectionClosed = deferred<void>();
+    fixture.server.once("connection", (socket) => {
+      socket.once("close", () => connectionClosed.resolve());
+    });
+    fixture.server.on("checkContinue", (incoming, response) => {
+      response.writeContinue();
+      incoming.once("data", () => {
+        response.writeHead(417);
+        response.write("early");
+        responseStarted.resolve(response);
+      });
+    });
+    const source = new Readable({ read() {} });
+    const request = pipelineRequest(fixture, {
+      body: source,
+      streamResponseStatusCodes: new Set([417]),
+    });
+    const pending = createDefaultHttpClient().sendRequest(request);
+    source.push("request data");
+    const serverResponse = await responseStarted.promise;
+    const response = await pending;
+
+    const callerReceived = deferred<void>();
+    const afterCloseReceived = deferred<void>();
+    const destination = new Writable({
+      write(chunk, _encoding, callback) {
+        if (chunk.toString() === "caller data") callerReceived.resolve();
+        if (chunk.toString() === "after close") afterCloseReceived.resolve();
+        callback();
+      },
+    });
+    cleanups.push(async () => {
+      source.destroy();
+      destination.destroy();
+    });
+    source.pipe(destination);
+    source.push("caller data");
+    await callerReceived.promise;
+    expect(source.readableFlowing).toBe(true);
+
+    const responseBody = readText(response.readableStreamBody!);
+    serverResponse.end(" final");
+    expect(await responseBody).toBe("early final");
+    await connectionClosed.promise;
+    expect(source.readableFlowing).toBe(true);
+    source.push("after close");
+    await afterCloseReceived.promise;
+  });
+
   it("handles a caller source's in-flight error after an early final without losing the response", async () => {
     const fixture = await setup();
     fixture.server.on("checkContinue", (incoming, response) => {
@@ -815,6 +867,35 @@ describe("Expect: 100-continue on the wire", () => {
     );
     expect(response.status).toBe(417);
     expect(response.bodyAsText).toBe("no recovery");
+    expect(attempts).toBe(1);
+  });
+
+  it("rejects an exhausted multipart source before dispatching a non-negotiated retry", async () => {
+    const fixture = await setup();
+    let attempts = 0;
+    fixture.server.on("request", (incoming, response) => {
+      attempts++;
+      incoming.resume();
+      incoming.once("end", () => {
+        response.writeHead(attempts === 1 ? 503 : 200);
+        response.end();
+      });
+    });
+    const pipeline = createPipelineFromOptions({
+      retryOptions: { retryDelayInMs: 1, maxRetries: 1 },
+    });
+    await expect(
+      pipeline.sendRequest(
+        createDefaultHttpClient(),
+        pipelineRequest(fixture, {
+          headers: createHttpHeaders(),
+          timeout: 500,
+          multipartBody: {
+            parts: [{ headers: createHttpHeaders(), body: Readable.from("one-shot") }],
+          },
+        }),
+      ),
+    ).rejects.toMatchObject({ code: "REQUEST_BODY_NOT_REPLAYABLE" });
     expect(attempts).toBe(1);
   });
 

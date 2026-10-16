@@ -19,10 +19,10 @@ export function registerMultipartStream(
 export function startBodyStream(stream: NodeJS.ReadableStream, protectReplay: boolean): void {
   if (
     startedSources.has(stream) ||
-    (protectReplay &&
-      (!stream.readable ||
-        ("destroyed" in stream && stream.destroyed === true) ||
-        ("readableEnded" in stream && stream.readableEnded === true)))
+    !stream.readable ||
+    ("destroyed" in stream && stream.destroyed === true) ||
+    ("readableEnded" in stream && stream.readableEnded === true) ||
+    ("closed" in stream && stream.closed === true)
   ) {
     throw new RestError(
       "Cannot resend an already-started request body stream. Use a factory returning a fresh stream.",

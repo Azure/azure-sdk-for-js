@@ -323,17 +323,22 @@ class NodeHttpClient implements HttpClient {
         }
       };
       const stopUpload = (): void => {
-        if (source) {
-          source.unpipe(report ?? req);
-          source.pause();
-          source.removeListener("end", onSourceEnd);
-          source.removeListener("error", fail);
-          source.removeListener("close", onSourceClose);
-          if (sourceOwned) disposeBodyStream(source);
-          else monitorBodyStreamErrors(source);
+        const uploadSource = source;
+        const uploadReport = report;
+        const uploadSourceOwned = sourceOwned;
+        source = undefined;
+        report = undefined;
+        if (uploadSource) {
+          uploadSource.unpipe(uploadReport ?? req);
+          uploadSource.pause();
+          uploadSource.removeListener("end", onSourceEnd);
+          uploadSource.removeListener("error", fail);
+          uploadSource.removeListener("close", onSourceClose);
+          if (uploadSourceOwned) disposeBodyStream(uploadSource);
+          else monitorBodyStreamErrors(uploadSource);
         }
-        report?.unpipe(req);
-        report?.destroy();
+        uploadReport?.unpipe(req);
+        uploadReport?.destroy();
       };
       function fail(error: Error & { code?: string }): void {
         if (state === "terminal") return;

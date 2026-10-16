@@ -94,6 +94,22 @@ describe("lazy multipart concatenation", () => {
     ).rejects.toMatchObject({ name: "RestError", code: "REQUEST_BODY_NOT_REPLAYABLE" });
   });
 
+  it("rejects an already-ended direct part without replay protection", async () => {
+    const part = Readable.from("once");
+    const first = await streamFor([part]);
+    for await (const _chunk of first) {
+      /* drain */
+    }
+    const second = await streamFor([part]);
+    await expect(
+      (async () => {
+        for await (const _chunk of second) {
+          /* drain */
+        }
+      })(),
+    ).rejects.toMatchObject({ name: "RestError", code: "REQUEST_BODY_NOT_REPLAYABLE" });
+  });
+
   it("propagates factory and source errors", async () => {
     const factoryFailure = await streamFor([
       () => {
