@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list of Firewalls associated with Rulestack
  *
  * @summary list of Firewalls associated with Rulestack
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listFirewalls_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listFirewalls_MaximumSet_Gen.json
  */
 async function globalRulestackListFirewallsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function globalRulestackListFirewallsMaximumSetGen() {
  * This sample demonstrates how to list of Firewalls associated with Rulestack
  *
  * @summary list of Firewalls associated with Rulestack
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listFirewalls_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listFirewalls_MinimumSet_Gen.json
  */
 async function globalRulestackListFirewallsMinimumSetGen() {
   const credential = new DefaultAzureCredential();

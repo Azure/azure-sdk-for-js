@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to support info for rulestack.
  *
  * @summary support info for rulestack.
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_getSupportInfo_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_getSupportInfo_MaximumSet_Gen.json
  */
 async function localRulestacksGetSupportInfoMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function localRulestacksGetSupportInfoMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to support info for rulestack.
  *
  * @summary support info for rulestack.
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_getSupportInfo_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_getSupportInfo_MinimumSet_Gen.json
  */
 async function localRulestacksGetSupportInfoMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

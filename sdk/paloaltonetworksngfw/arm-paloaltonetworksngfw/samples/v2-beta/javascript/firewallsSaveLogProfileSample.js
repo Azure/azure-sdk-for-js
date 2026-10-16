@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to log Profile for Firewall
  *
  * @summary log Profile for Firewall
- * x-ms-original-file: 2026-05-11-preview/Firewalls_saveLogProfile_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_saveLogProfile_MaximumSet_Gen.json
  */
 async function firewallsSaveLogProfileMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -111,7 +111,7 @@ async function firewallsSaveLogProfileMaximumSetGen() {
  * This sample demonstrates how to log Profile for Firewall
  *
  * @summary log Profile for Firewall
- * x-ms-original-file: 2026-05-11-preview/Firewalls_saveLogProfile_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_saveLogProfile_MinimumSet_Gen.json
  */
 async function firewallsSaveLogProfileMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -19,6 +19,7 @@ exports:
   "./api/fqdnListGlobalRulestack": "./src/api/fqdnListGlobalRulestack/index.ts"
   "./api/certificateObjectGlobalRulestack": "./src/api/certificateObjectGlobalRulestack/index.ts"
   "./api/globalRulestack": "./src/api/globalRulestack/index.ts"
+  "./api/logIngestionSettingsResources": "./src/api/logIngestionSettingsResources/index.ts"
   "./api/customCaptureConfigurationsFirewallResources": "./src/api/customCaptureConfigurationsFirewallResources/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"

@@ -89,7 +89,6 @@ export interface CertificateObjectLocalRulestackOperations {
     options?: CertificateObjectLocalRulestackGetOptionalParams,
   ) => Promise<CertificateObjectLocalRulestackResource>;
 }
-
 function _getCertificateObjectLocalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listByLocalRulestacks: (
@@ -170,7 +169,6 @@ function _getCertificateObjectLocalRulestack(context: PaloAltoNetworksCloudngfwC
     ) => get(context, resourceGroupName, localRulestackName, name, options),
   };
 }
-
 export function _getCertificateObjectLocalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): CertificateObjectLocalRulestackOperations {
