@@ -145,7 +145,7 @@ describe("tracing", () => {
           skipParsingBodyAsJson: false,
         });
 
-        const { message } = instrumentMessage(received, {}, "testPath", "testHost", "send");
+        const { message } = instrumentMessage(received, {}, "testPath", "testHost", "publish");
         const resentLong = toRheaMessage(message, defaultDataTransformer).application_properties
           ?.long as Typed;
 
