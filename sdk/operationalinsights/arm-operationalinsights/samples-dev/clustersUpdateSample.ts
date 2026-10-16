@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Log Analytics cluster.
  *
  * @summary updates a Log Analytics cluster.
- * x-ms-original-file: 2025-07-01/ClustersUpdate.json
+ * x-ms-original-file: 2026-03-01/ClustersUpdate.json
  */
 async function clustersPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

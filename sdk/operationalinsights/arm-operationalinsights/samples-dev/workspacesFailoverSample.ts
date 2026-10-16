@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary activates failover for the specified workspace.
  *
  * The specified replication location must match the location of the enabled replication for this workspace. The failover operation is asynchronous and can take up to 30 minutes to complete. The status of the operation can be checked using the operationId returned in the response.
- * x-ms-original-file: 2025-07-01/WorkspacesFailover.json
+ * x-ms-original-file: 2026-03-01/WorkspacesFailover.json
  */
 async function workspacesFailover(): Promise<void> {
   const credential = new DefaultAzureCredential();

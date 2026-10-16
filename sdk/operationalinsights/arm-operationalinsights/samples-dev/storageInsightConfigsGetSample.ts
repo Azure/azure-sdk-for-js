@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a storage insight instance.
  *
  * @summary gets a storage insight instance.
- * x-ms-original-file: 2025-07-01/StorageInsightsGet.json
+ * x-ms-original-file: 2026-03-01/StorageInsightsGet.json
  */
 async function storageInsightsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

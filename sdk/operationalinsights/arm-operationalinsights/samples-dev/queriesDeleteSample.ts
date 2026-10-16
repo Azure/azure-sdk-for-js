@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a specific Query defined within an Log Analytics QueryPack.
  *
  * @summary deletes a specific Query defined within an Log Analytics QueryPack.
- * x-ms-original-file: 2025-07-01/QueryPackQueriesDelete.json
+ * x-ms-original-file: 2026-03-01/QueryPackQueriesDelete.json
  */
 async function queryDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to adds or Updates a specific Query within a Log Analytics QueryPack.
  *
  * @summary adds or Updates a specific Query within a Log Analytics QueryPack.
- * x-ms-original-file: 2025-07-01/QueryPackQueriesUpdate.json
+ * x-ms-original-file: 2026-03-01/QueryPackQueriesUpdate.json
  */
 async function queryPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

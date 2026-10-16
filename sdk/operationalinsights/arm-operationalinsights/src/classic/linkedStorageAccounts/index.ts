@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/linkedStorageAccounts/operations.js";
-import {
+import type {
   LinkedStorageAccountsListByWorkspaceOptionalParams,
   LinkedStorageAccountsDeleteOptionalParams,
   LinkedStorageAccountsCreateOrUpdateOptionalParams,
   LinkedStorageAccountsGetOptionalParams,
 } from "../../api/linkedStorageAccounts/options.js";
-import { LinkedStorageAccountsResource, DataSourceType } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LinkedStorageAccountsResource, DataSourceType } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LinkedStorageAccounts operations. */
 export interface LinkedStorageAccountsOperations {

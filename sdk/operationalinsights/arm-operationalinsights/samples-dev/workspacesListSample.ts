@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the workspaces in a subscription.
  *
  * @summary gets the workspaces in a subscription.
- * x-ms-original-file: 2025-07-01/WorkspacesSubscriptionListForWorkSpace.json
+ * x-ms-original-file: 2026-03-01/WorkspacesSubscriptionListForWorkSpace.json
  */
 async function workspacesSubscriptionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

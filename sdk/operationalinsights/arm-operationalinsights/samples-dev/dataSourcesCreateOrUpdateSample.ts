@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a data source.
  *
  * @summary create or update a data source.
- * x-ms-original-file: 2025-07-01/DataSourcesCreate.json
+ * x-ms-original-file: 2026-03-01/DataSourcesCreate.json
  */
 async function dataSourcesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

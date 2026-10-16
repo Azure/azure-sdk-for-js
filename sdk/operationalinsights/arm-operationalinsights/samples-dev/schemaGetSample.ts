@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the schema for a given workspace.
  *
  * @summary gets the schema for a given workspace.
- * x-ms-original-file: 2025-07-01/SavedSearchesGetSchema.json
+ * x-ms-original-file: 2026-03-01/SavedSearchesGetSchema.json
  */
 async function workspacesGetSchema(): Promise<void> {
   const credential = new DefaultAzureCredential();
