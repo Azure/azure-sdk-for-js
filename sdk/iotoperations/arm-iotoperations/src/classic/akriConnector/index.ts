@@ -53,6 +53,7 @@ export interface AkriConnectorOperations {
     options?: AkriConnectorGetOptionalParams,
   ) => Promise<AkriConnectorResource>;
 }
+
 function _getAkriConnector(context: IoTOperationsContext) {
   return {
     listByTemplate: (
@@ -111,6 +112,7 @@ function _getAkriConnector(context: IoTOperationsContext) {
       ),
   };
 }
+
 export function _getAkriConnectorOperations(
   context: IoTOperationsContext,
 ): AkriConnectorOperations {
