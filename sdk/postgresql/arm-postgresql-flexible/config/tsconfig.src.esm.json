@@ -20,7 +20,6 @@
     "../src/api/capturedLogs/index.ts",
     "../src/api/capabilitiesByServer/index.ts",
     "../src/api/administratorsMicrosoftEntra/index.ts",
-    "../src/api/dbAgents/index.ts",
     "../src/api/majorVersionUpgradePrecheck/index.ts",
     "../src/api/maintenanceEvents/index.ts",
     "../src/api/virtualEndpoints/index.ts",
