@@ -45,7 +45,18 @@ pnpm dev
 
 ### Running the Cache in Docker
 
-To run the cache in Docker, you can use the following command in the `eng/containers/turborepo-remote-cache` directory for production:
+Before building the image locally, create `pnpm-version.txt` in the Docker
+context from the root `package.json` (as the CI pipeline does). From the repository root:
+
+```powershell
+$packageManager = (Get-Content -Raw package.json | ConvertFrom-Json).packageManager
+if ($packageManager -notmatch '^pnpm@([^+]+)(?:\+.+)?$') {
+  throw "Root package.json must declare a valid pnpm packageManager; found '$packageManager'."
+}
+Set-Content -Path eng/containers/turborepo-remote-cache/pnpm-version.txt -Value $Matches[1] -NoNewline -Encoding utf8
+```
+
+Then build the production image in the `eng/containers/turborepo-remote-cache` directory:
 
 ```bash
 docker build -t azure-turborepo-remote-cache .
