@@ -626,6 +626,63 @@ describe("Voice Agents tracing", () => {
     await connection.close();
   });
 
+  it.each([false, true])(
+    "keeps newer text when an older audio send completes last (hasItemId=%s)",
+    async (hasItemId) => {
+      const { realtime, transport } = client({ ...enabled, contentRecording: true });
+      const connection = await realtime.connect("voice");
+      let resolveSend!: () => void;
+      transport.sendHandler = () =>
+        new Promise<void>((resolve) => {
+          resolveSend = resolve;
+        });
+      const sending = connection.sendEvent({
+        type: "conversation.item.create",
+        item: {
+          type: "message",
+          role: "user",
+          id: hasItemId ? "item-older" : undefined,
+          content: [{ type: "input_audio", audio: "AQID" }],
+        },
+      });
+      transport.sendHandler = undefined;
+      await connection.sendText("Latest text.", { createResponse: false });
+      const latest = [{ role: "user", parts: [{ type: "text", content: "Latest text." }] }];
+      expect(inputSummary()).toEqual(latest);
+      inputAudioCreated(transport, "item-older");
+      inputTranscribed(transport, "item-older", "Older early transcript.");
+      resolveSend();
+      await sending;
+      expect(inputSummary()).toEqual(latest);
+      inputTranscribed(transport, "item-older", "Older late transcript.");
+      expect(inputSummary()).toEqual(latest);
+      await connection.close();
+    },
+  );
+
+  it("preserves earlier audio input when a newer reserved text send fails", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    await connection.sendEvent({
+      type: "conversation.item.create",
+      item: {
+        type: "message",
+        role: "user",
+        content: [{ type: "input_audio", audio: "AQID" }],
+      },
+    });
+    inputAudioCreated(transport, "item-earlier");
+    transport.sendError = new Error("send failed");
+    await expect(
+      connection.sendText("Unsent text.", { createResponse: false }),
+    ).rejects.toMatchObject({ code: "sendFailed" });
+    inputTranscribed(transport, "item-earlier", "Earlier transcript.");
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Earlier transcript." }] },
+    ]);
+    await connection.close();
+  });
+
   it("rolls back reserved audio correlation when a send fails", async () => {
     const { realtime, transport } = client({ ...enabled, contentRecording: true });
     const connection = await realtime.connect("voice");

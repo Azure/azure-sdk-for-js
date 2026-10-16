@@ -165,6 +165,11 @@ interface PendingInputAudio {
   skipped: number;
 }
 
+interface ReservedInput {
+  sequence: number;
+  audio?: TrackedInputAudio;
+}
+
 interface MessageSummary {
   role: "system" | "user" | "assistant" | "tool";
   parts: Record<string, unknown>[];
@@ -243,6 +248,7 @@ export class VoiceAgentRealtimeTracing {
   private model?: string;
   private inputAudioBytes = 0;
   private inputSequence = 0;
+  private nextInputSequence = 0;
   private inputAudioBuffer?: TrackedInputAudio;
   private readonly inputAudioItems = new Map<string, TrackedInputAudio>();
   private readonly pendingAudioCommits: PendingInputAudio = { items: [], skipped: 0 };
@@ -276,14 +282,16 @@ export class VoiceAgentRealtimeTracing {
     });
   }
 
-  public reserveSend(event: VoiceAgentClientEvent): TrackedInputAudio | undefined {
-    let reservation: TrackedInputAudio | undefined;
+  public reserveSend(event: VoiceAgentClientEvent): ReservedInput | undefined {
+    let reservation: ReservedInput | undefined;
     recordTelemetry(() => {
       if (this.ended || !this.session || event.type !== "conversation.item.create") return;
       const summary = messages(event.item, this.config.contentRecording);
       const item = asRecord(event.item);
+      if (!summary) return;
+      reservation = { sequence: ++this.nextInputSequence };
       if (
-        summary?.role !== "user" ||
+        summary.role !== "user" ||
         !summary.parts.some((part) => part.type === "audio") ||
         typeof item?.id === "string" ||
         this.pendingAudioMessages.items.length >= maxInputItems ||
@@ -291,13 +299,13 @@ export class VoiceAgentRealtimeTracing {
       ) {
         return;
       }
-      reservation = { sequence: this.inputSequence + 1, pendingSend: true };
-      this.enqueueInputAudio(this.pendingAudioMessages, reservation);
+      reservation.audio = { sequence: reservation.sequence, pendingSend: true };
+      this.enqueueInputAudio(this.pendingAudioMessages, reservation.audio);
     });
     return reservation;
   }
 
-  public sent(event: VoiceAgentClientEvent, reservation?: TrackedInputAudio): void {
+  public sent(event: VoiceAgentClientEvent, reservation?: ReservedInput): void {
     recordTelemetry(() => {
       if (this.ended || !this.session) return;
       if (event.type === "input_audio_buffer.append") {
@@ -310,7 +318,8 @@ export class VoiceAgentRealtimeTracing {
         if (!this.inputAudioBuffer) {
           this.inputAudioBuffer = this.startInputAudio();
         } else if (this.inputAudioBuffer.sequence !== this.inputSequence) {
-          this.inputAudioBuffer.sequence = ++this.inputSequence;
+          this.inputSequence = ++this.nextInputSequence;
+          this.inputAudioBuffer.sequence = this.inputSequence;
           this.setInputAudioSummary();
         }
       } else if (event.type === "input_audio_buffer.commit") {
@@ -325,12 +334,11 @@ export class VoiceAgentRealtimeTracing {
         const summary = messages(event.item, this.config.contentRecording);
         const item = asRecord(event.item);
         if (summary) {
-          const sequence = ++this.inputSequence;
+          const sequence = reservation?.sequence ?? ++this.nextInputSequence;
           if (summary.role === "user" && summary.parts.some((part) => part.type === "audio")) {
-            const input = reservation ?? { sequence };
-            input.sequence = sequence;
+            const input = reservation?.audio ?? { sequence };
             input.pendingSend = undefined;
-            if (!reservation) {
+            if (!reservation?.audio) {
               if (typeof item?.id === "string") {
                 this.rememberInputAudio(item.id, input);
               } else {
@@ -338,9 +346,12 @@ export class VoiceAgentRealtimeTracing {
               }
             }
           }
-          this.session.span.setAttribute(GEN_AI_INPUT_MESSAGES, JSON.stringify([summary]));
-          if (reservation?.pendingTranscript !== undefined) {
-            this.setInputAudioSummary(reservation.pendingTranscript);
+          if (sequence >= this.inputSequence) {
+            this.inputSequence = sequence;
+            this.session.span.setAttribute(GEN_AI_INPUT_MESSAGES, JSON.stringify([summary]));
+            if (reservation?.audio?.pendingTranscript !== undefined) {
+              this.setInputAudioSummary(reservation.audio.pendingTranscript);
+            }
           }
         }
         if (item?.type === "function_call_output" && typeof item.call_id === "string") {
@@ -354,9 +365,9 @@ export class VoiceAgentRealtimeTracing {
     });
   }
 
-  public sendFailed(error: unknown, reservation?: TrackedInputAudio): void {
+  public sendFailed(error: unknown, reservation?: ReservedInput): void {
     recordTelemetry(() => {
-      if (reservation) this.rollbackPendingAudioMessage(reservation);
+      if (reservation?.audio) this.rollbackPendingAudioMessage(reservation.audio);
       if (!this.ended) {
         this.session?.span.addEvent("voice_agents.send.failed", {
           [ERROR_TYPE]:
@@ -545,7 +556,8 @@ export class VoiceAgentRealtimeTracing {
   }
 
   private startInputAudio(): TrackedInputAudio {
-    const input = { sequence: ++this.inputSequence };
+    const input = { sequence: ++this.nextInputSequence };
+    this.inputSequence = input.sequence;
     this.setInputAudioSummary();
     return input;
   }
