@@ -5,6 +5,7 @@ import http from "node:http";
 import https from "node:https";
 import zlib from "node:zlib";
 import { Transform } from "node:stream";
+import { types } from "node:util";
 import { AbortError } from "./abort-controller/AbortError.js";
 import type {
   HttpClient,
@@ -46,8 +47,14 @@ function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   });
 }
 
-function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
-  return body && typeof body.byteLength === "number";
+function isArrayBuffer(body: unknown): body is ArrayBuffer | ArrayBufferView {
+  return types.isArrayBuffer(body) || ArrayBuffer.isView(body);
+}
+
+function arrayBufferToBuffer(body: ArrayBuffer | ArrayBufferView): Buffer {
+  return ArrayBuffer.isView(body)
+    ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
+    : Buffer.from(body);
 }
 
 class ReportTransform extends Transform {
@@ -114,6 +121,10 @@ class NodeHttpClient implements HttpClient {
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
     let body = typeof request.body === "function" ? request.body() : request.body;
+    if (isArrayBuffer(body)) {
+      body = arrayBufferToBuffer(body);
+    }
+
     if (body && !request.headers.has("Content-Length")) {
       const bodyLength = getBodyLength(body);
       if (bodyLength !== null) {
@@ -256,11 +267,7 @@ class NodeHttpClient implements HttpClient {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
         } else if (isArrayBuffer(body)) {
-          req.end(
-            ArrayBuffer.isView(body)
-              ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
-              : Buffer.from(body),
-          );
+          req.end(arrayBufferToBuffer(body));
         } else {
           logger.error("Unrecognized body type", body);
           reject(new RestError("Unrecognized body type"));
