@@ -24,7 +24,6 @@ import type {
 } from "../../api/edgeActionVersions/options.js";
 import type {
   EdgeActionVersion,
-  EdgeActionVersionProperties,
   EdgeActionVersionUpdate,
   VersionCode,
 } from "../../models/models.js";
@@ -54,7 +53,7 @@ export interface EdgeActionVersionsOperations {
     version: string,
     body: VersionCode,
     options?: EdgeActionVersionsDeployVersionCodeOptionalParams,
-  ) => PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
+  ) => PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
   /** List EdgeActionVersion resources by EdgeAction */
   listByEdgeAction: (
     resourceGroupName: string,

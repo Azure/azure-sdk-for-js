@@ -4,7 +4,6 @@
 import type { EdgeActionsManagementContext as Client } from "../index.js";
 import type {
   EdgeActionVersion,
-  EdgeActionVersionProperties,
   EdgeActionVersionUpdate,
   _EdgeActionVersionListResult,
   VersionCode,
@@ -13,7 +12,6 @@ import {
   errorResponseDeserializer,
   edgeActionVersionSerializer,
   edgeActionVersionDeserializer,
-  edgeActionVersionPropertiesDeserializer,
   edgeActionVersionUpdateSerializer,
   _edgeActionVersionListResultDeserializer,
   versionCodeSerializer,
@@ -186,7 +184,7 @@ export function _deployVersionCodeSend(
 
 export async function _deployVersionCodeDeserialize(
   result: PathUncheckedResponse,
-): Promise<EdgeActionVersionProperties> {
+): Promise<EdgeActionVersion> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -197,7 +195,7 @@ export async function _deployVersionCodeDeserialize(
     throw error;
   }
 
-  return edgeActionVersionPropertiesDeserializer(result.body);
+  return edgeActionVersionDeserializer(result.body);
 }
 
 /** A long-running resource action. */
@@ -208,7 +206,7 @@ export function deployVersionCode(
   version: string,
   body: VersionCode,
   options: EdgeActionVersionsDeployVersionCodeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties> {
+): PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion> {
   return getLongRunningPoller(context, _deployVersionCodeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -216,7 +214,7 @@ export function deployVersionCode(
       _deployVersionCodeSend(context, resourceGroupName, edgeActionName, version, body, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-10-01",
-  }) as PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
+  }) as PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
 }
 
 export function _listByEdgeActionSend(
