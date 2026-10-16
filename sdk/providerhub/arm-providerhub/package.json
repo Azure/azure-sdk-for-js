@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-providerhub",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A generated SDK for ProviderHubClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -286,7 +286,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-providerhub",

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ProviderHub": "2025-10-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ProviderHub",
     "CrossLanguageDefinitionId": {
