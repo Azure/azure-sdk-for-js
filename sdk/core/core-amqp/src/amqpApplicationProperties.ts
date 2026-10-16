@@ -39,6 +39,7 @@ const applicationPropertiesWithTypesSymbol = Symbol.for(
 );
 const unwrapMapPatchedSymbol = Symbol.for("@azure/core-amqp.unwrapMapSimplePatched");
 const integerReadersPatchedSymbol = Symbol.for("@azure/core-amqp.integerReadersPatched");
+let preserveLosslessIntegerBytes = false;
 
 /**
  * @internal
@@ -123,7 +124,10 @@ export function _toRheaApplicationProperties(
       ) {
         continue;
       }
-      result[key] = toRheaTyped(withPreservedValue(value, result[key]));
+      const preservedValue = tryToRheaTypedWithPreservedValue(value, result[key]);
+      if (preservedValue != null) {
+        result[key] = preservedValue;
+      }
     }
   }
 
@@ -151,6 +155,20 @@ function withPreservedValue(
   }
 
   return withValue(property, value);
+}
+
+function tryToRheaTypedWithPreservedValue(
+  property: AmqpApplicationProperty,
+  value: unknown,
+): Typed | undefined {
+  try {
+    return toRheaTyped(withPreservedValue(property, value));
+  } catch (error) {
+    if (error instanceof TypeError || error instanceof RangeError) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 function validateExplicitProperty(property: {
@@ -499,22 +517,39 @@ function rheaIntegerToBigInt(value: number | Buffer, signed: boolean): bigint {
 
 function unwrapApplicationPropertyValue(value: Typed): unknown {
   // Preserve Rhea's existing plain JavaScript values while the typed view keeps exact integers.
-  if (
-    (value as Typed & { descriptor?: unknown }).descriptor == null &&
-    Buffer.isBuffer(value.value) &&
-    (value.type.name === "Long" || value.type.name === "Ulong")
-  ) {
-    const highWord =
-      value.type.name === "Long" ? value.value.readInt32BE(0) : value.value.readUInt32BE(0);
-    if (
-      (value.type.name === "Long" && highWord < 2097153 && highWord > -2097153) ||
-      (value.type.name === "Ulong" && highWord < 2097153)
-    ) {
-      return highWord * 4294967296 + value.value.readUInt32BE(4);
-    }
+  const legacyValue = getLegacyRheaIntegerValue(value);
+  if (legacyValue != null) {
+    return legacyValue;
   }
 
   return rheaTypes.unwrap(value, true);
+}
+
+function getLegacyRheaIntegerValue(
+  value: unknown,
+  allowValueSectionDescriptor = false,
+): number | undefined {
+  const typedValue = value as Typed & { descriptor?: unknown };
+  const descriptor = typedValue?.descriptor as Typed | undefined;
+  if (
+    (descriptor != null && (!allowValueSectionDescriptor || descriptor.value !== 0x77)) ||
+    !Buffer.isBuffer(typedValue?.value) ||
+    (typedValue.type?.name !== "Long" && typedValue.type?.name !== "Ulong")
+  ) {
+    return undefined;
+  }
+
+  const highWord =
+    typedValue.type.name === "Long"
+      ? typedValue.value.readInt32BE(0)
+      : typedValue.value.readUInt32BE(0);
+  if (
+    (typedValue.type.name === "Long" && highWord < 2097153 && highWord > -2097153) ||
+    (typedValue.type.name === "Ulong" && highWord < 2097153)
+  ) {
+    return highWord * 4294967296 + typedValue.value.readUInt32BE(4);
+  }
+  return undefined;
 }
 
 function bufferToUuid(value: Buffer): string {
@@ -530,6 +565,17 @@ function installLosslessIntegerReaders(): void {
   if (typesWithMarker[integerReadersPatchedSymbol]) {
     return;
   }
+
+  const unwrap = rheaTypes.unwrap.bind(rheaTypes);
+  rheaTypes.unwrap = (value: unknown, leaveDescribed?: boolean): unknown => {
+    if (!preserveLosslessIntegerBytes) {
+      const legacyValue = getLegacyRheaIntegerValue(value, true);
+      if (legacyValue != null) {
+        return legacyValue;
+      }
+    }
+    return unwrap(value, leaveDescribed);
+  };
 
   const installReader = (typeCode: number, signed: boolean): void => {
     typesWithMarker.by_code[typeCode].read = (buffer: Buffer, offset: number) => {
@@ -558,28 +604,40 @@ function installTypedApplicationPropertyDecoder(): void {
   }
 
   const unwrapMapSimple = rheaTypes.unwrap_map_simple.bind(rheaTypes);
-  rheaTypes.unwrap_map_simple = (map: { value: Typed[] }): Record<string, unknown> => {
-    const unwrapped = unwrapMapSimple(map) as Record<string, unknown>;
-    const propertiesWithTypes: Record<string, AmqpApplicationProperty> = {};
+  rheaTypes.unwrap_map_simple = (
+    map: Typed & { value: Typed[]; descriptor?: Typed },
+  ): Record<string, unknown> => {
+    if (map.descriptor?.value !== 0x74) {
+      return unwrapMapSimple(map) as Record<string, unknown>;
+    }
 
-    for (let index = 0; index + 1 < map.value.length; index += 2) {
-      const key = String(rheaTypes.unwrap(map.value[index], true));
-      const typedValue = map.value[index + 1];
-      Object.defineProperty(unwrapped, key, {
-        configurable: true,
-        enumerable: true,
-        value: unwrapApplicationPropertyValue(typedValue),
-        writable: true,
-      });
-      const property = fromRheaTyped(typedValue);
-      if (property != null) {
-        Object.defineProperty(propertiesWithTypes, key, {
+    const unwrapped: Record<string, unknown> = {};
+    const propertiesWithTypes: Record<string, AmqpApplicationProperty> = {};
+    const previousPreserveLosslessIntegerBytes = preserveLosslessIntegerBytes;
+    preserveLosslessIntegerBytes = true;
+
+    try {
+      for (let index = 0; index + 1 < map.value.length; index += 2) {
+        const key = String(rheaTypes.unwrap(map.value[index], true));
+        const typedValue = map.value[index + 1];
+        Object.defineProperty(unwrapped, key, {
           configurable: true,
           enumerable: true,
-          value: property,
+          value: unwrapApplicationPropertyValue(typedValue),
           writable: true,
         });
+        const property = fromRheaTyped(typedValue);
+        if (property != null) {
+          Object.defineProperty(propertiesWithTypes, key, {
+            configurable: true,
+            enumerable: true,
+            value: property,
+            writable: true,
+          });
+        }
       }
+    } finally {
+      preserveLosslessIntegerBytes = previousPreserveLosslessIntegerBytes;
     }
 
     Object.defineProperty(unwrapped, applicationPropertiesWithTypesSymbol, {

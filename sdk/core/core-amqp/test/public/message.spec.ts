@@ -136,6 +136,35 @@ describe("message", function () {
       assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, boundaryProperties);
     });
 
+    it("preserves legacy unsafe long decoding outside application properties", function () {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 1n;
+      const longBytes = Buffer.alloc(8);
+      longBytes.writeBigInt64BE(longValue);
+
+      const scalar = decode({ body: rheaTypes.wrap_long(longBytes) });
+      assert.equal(scalar.body, Number(longValue));
+
+      const sequence = decode({
+        body: rheaMessageUtil.sequence_section([rheaTypes.wrap_long(longBytes)]),
+      });
+      assert.deepEqual((sequence.body as { content: unknown[] }).content, [Number(longValue)]);
+    });
+
+    it("decodes nested map bodies without application-property metadata", function () {
+      const depth = 64;
+      let body: unknown = "leaf";
+      for (let index = 0; index < depth; ++index) {
+        body = { next: body };
+      }
+
+      let decodedBody = decode({ body }).body as { next: unknown };
+      for (let index = 0; index < depth; ++index) {
+        assert.deepEqual(Object.keys(decodedBody), ["next"]);
+        decodedBody = decodedBody.next as { next: unknown };
+      }
+      assert.equal(decodedBody, "leaf");
+    });
+
     it("forwards unknown described scalar values without treating them as plain scalars", function () {
       const describedLongValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
       const rheaMessage = AmqpAnnotatedMessage.toRheaMessage({
@@ -163,6 +192,8 @@ describe("message", function () {
     it("uses edited values and does not restore deleted properties on resend", function () {
       const applicationProperties: Record<string, AmqpApplicationProperty> = Object.create(null);
       applicationProperties.edited = { type: "ubyte", value: 200 };
+      applicationProperties.crossType = { type: "string", value: "before" };
+      applicationProperties.outOfRange = { type: "ubyte", value: 255 };
       applicationProperties.deleted = { type: "symbol", value: "remove-me" };
       applicationProperties["constructor"] = { type: "string", value: "remove-constructor" };
       applicationProperties["toString"] = { type: "string", value: "remove-to-string" };
@@ -189,6 +220,8 @@ describe("message", function () {
         value: "prototype-value",
       });
       received.applicationProperties!.edited = 201;
+      received.applicationProperties!.crossType = 42;
+      received.applicationProperties!.outOfRange = 256;
       delete received.applicationProperties!.deleted;
       Reflect.deleteProperty(received.applicationProperties!, "constructor");
       Reflect.deleteProperty(received.applicationProperties!, "toString");
@@ -199,6 +232,8 @@ describe("message", function () {
 
       assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, {
         edited: { type: "ubyte", value: 201 },
+        crossType: { type: "uint", value: 42 },
+        outOfRange: { type: "uint", value: 256 },
         ["__proto__"]: { type: "string", value: "prototype-value" },
       });
       assert.notProperty(resent.applicationProperties, "deleted");
