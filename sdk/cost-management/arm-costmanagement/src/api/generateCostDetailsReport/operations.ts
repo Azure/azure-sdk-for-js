@@ -32,7 +32,7 @@ export function _createOperationSend(
     "/{+scope}/providers/Microsoft.CostManagement/generateCostDetailsReport{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,8 +61,7 @@ export async function _createOperationDeserialize(
 
   return costDetailsOperationResultsDeserializer(result.body);
 }
-
-/** This API is the replacement for all previously release Usage Details APIs. Request to generate a cost details report for the provided date range, billing period (Only enterprise customers) or Invoice Id asynchronously at a certain scope. The initial call to request a report will return a 202 with a 'Location' and 'Retry-After' header. The 'Location' header will provide the endpoint to poll to get the result of the report generation. The 'Retry-After' provides the duration to wait before polling for the generated report. A call to poll the report operation will provide a 202 response with a 'Location' header if the operation is still in progress. Once the report generation operation completes, the polling endpoint will provide a 200 response along with details on the report blob(s) that are available for download. The details on the file(s) available for download will be available in the polling response body. To Understand cost details (formerly known as usage details) fields found in files ,see https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields */
+/** This API is the replacement for all previously release Usage Details APIs. Request to generate a cost details report for the provided date range, billing period (Only enterprise customers) or Invoice Id asynchronously at a certain scope. The initial call to request a report will return a 202 with a 'Location' and 'Retry-After' header. The 'Location' header will provide the endpoint to poll to get the result of the report generation. The 'Retry-After' provides the duration to wait before polling for the generated report. A call to poll the report operation will provide a 202 response with a 'Location' header if the operation is still in progress. Once the report generation operation completes, the polling endpoint will provide a 200 response along with details on the report blob(s) that are available for download. The details on the file(s) available for download will be available in the polling response body. To Understand cost details (formerly known as usage details) fields found in files ,see https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields */
 export function createOperation(
   context: Client,
   scope: string,
@@ -74,7 +73,7 @@ export function createOperation(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOperationSend(context, scope, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
 }
 
@@ -89,7 +88,7 @@ export function _getOperationResultsSend(
     {
       scope: scope,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +115,6 @@ export async function _getOperationResultsDeserialize(
 
   return costDetailsOperationResultsDeserializer(result.body);
 }
-
 /** Get the result of the specified operation. This link is provided in the CostDetails creation request response Location header. */
 export function getOperationResults(
   context: Client,
@@ -129,6 +127,6 @@ export function getOperationResults(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _getOperationResultsSend(context, scope, operationId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
 }

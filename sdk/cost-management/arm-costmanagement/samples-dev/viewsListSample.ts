@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all views by tenant and object.
  *
  * @summary lists all views by tenant and object.
- * x-ms-original-file: 2025-03-01/PrivateViewList.json
+ * x-ms-original-file: 2026-06-01/PrivateViewList.json
  */
 async function privateViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();

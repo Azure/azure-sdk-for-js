@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/BillingAccountAlerts.json
+ * x-ms-original-file: 2026-06-01/BillingAccountAlerts.json
  */
 async function billingAccountAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function billingAccountAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/BillingProfileAlerts.json
+ * x-ms-original-file: 2026-06-01/BillingProfileAlerts.json
  */
 async function billingProfileAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function billingProfileAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/DepartmentAlerts.json
+ * x-ms-original-file: 2026-06-01/DepartmentAlerts.json
  */
 async function departmentAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function departmentAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountAlerts.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountAlerts.json
  */
 async function enrollmentAccountAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function enrollmentAccountAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/InvoiceSectionAlerts.json
+ * x-ms-original-file: 2026-06-01/InvoiceSectionAlerts.json
  */
 async function invoiceSectionAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function invoiceSectionAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/ResourceGroupAlerts.json
+ * x-ms-original-file: 2026-06-01/ResourceGroupAlerts.json
  */
 async function resourceGroupAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function resourceGroupAlerts(): Promise<void> {
  * This sample demonstrates how to lists the alerts for scope defined.
  *
  * @summary lists the alerts for scope defined.
- * x-ms-original-file: 2025-03-01/SubscriptionAlerts.json
+ * x-ms-original-file: 2026-06-01/SubscriptionAlerts.json
  */
 async function subscriptionAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();

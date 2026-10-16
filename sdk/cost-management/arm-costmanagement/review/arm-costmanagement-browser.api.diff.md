@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      timePeriod: BudgetTimePeriod;
  }
  
-@@ -1884,9 +1884,9 @@
+@@ -1938,9 +1938,9 @@
  // @public
  export type MetricType = string;
  
@@ -40,7 +40,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      contactGroups?: string[];
      contactRoles?: string[];
      enabled: boolean;
-@@ -1895,8 +1895,9 @@
+@@ -1949,8 +1949,9 @@
      operator: BudgetNotificationOperatorType;
      threshold: number;
      thresholdType?: ThresholdType;

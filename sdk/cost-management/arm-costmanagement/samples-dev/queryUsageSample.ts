@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/BillingAccountQuery.json
+ * x-ms-original-file: 2026-06-01/BillingAccountQuery.json
  */
 async function billingAccountQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function billingAccountQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/BillingAccountQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/BillingAccountQueryGrouping.json
  */
 async function billingAccountQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function billingAccountQueryGroupingLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/DepartmentQuery.json
+ * x-ms-original-file: 2026-06-01/DepartmentQuery.json
  */
 async function departmentQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +104,7 @@ async function departmentQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/DepartmentQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/DepartmentQueryGrouping.json
  */
 async function departmentQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -128,7 +128,7 @@ async function departmentQueryGroupingLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountQuery.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountQuery.json
  */
 async function enrollmentAccountQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -167,7 +167,7 @@ async function enrollmentAccountQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountQueryGrouping.json
  */
 async function enrollmentAccountQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -191,7 +191,7 @@ async function enrollmentAccountQueryGroupingLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCABillingAccountQuery.json
+ * x-ms-original-file: 2026-06-01/MCABillingAccountQuery.json
  */
 async function billingAccountQueryMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -230,7 +230,7 @@ async function billingAccountQueryMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCABillingAccountQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/MCABillingAccountQueryGrouping.json
  */
 async function billingAccountQueryGroupingMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -254,7 +254,7 @@ async function billingAccountQueryGroupingMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCABillingProfileQuery.json
+ * x-ms-original-file: 2026-06-01/MCABillingProfileQuery.json
  */
 async function billingProfileQueryMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -293,7 +293,7 @@ async function billingProfileQueryMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCABillingProfileQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/MCABillingProfileQueryGrouping.json
  */
 async function billingProfileQueryGroupingMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -317,7 +317,7 @@ async function billingProfileQueryGroupingMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCACustomerQuery.json
+ * x-ms-original-file: 2026-06-01/MCACustomerQuery.json
  */
 async function customerQueryMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -356,7 +356,7 @@ async function customerQueryMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCACustomerQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/MCACustomerQueryGrouping.json
  */
 async function customerQueryGroupingMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -380,7 +380,7 @@ async function customerQueryGroupingMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCAInvoiceSectionQuery.json
+ * x-ms-original-file: 2026-06-01/MCAInvoiceSectionQuery.json
  */
 async function invoiceSectionQueryMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -419,7 +419,7 @@ async function invoiceSectionQueryMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/MCAInvoiceSectionQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/MCAInvoiceSectionQueryGrouping.json
  */
 async function invoiceSectionQueryGroupingMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -443,7 +443,7 @@ async function invoiceSectionQueryGroupingMCA(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/ManagementGroupQuery.json
+ * x-ms-original-file: 2026-06-01/ManagementGroupQuery.json
  */
 async function managementGroupQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -482,7 +482,7 @@ async function managementGroupQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/ManagementGroupQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/ManagementGroupQueryGrouping.json
  */
 async function managementGroupQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -506,7 +506,7 @@ async function managementGroupQueryGroupingLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/ResourceGroupQuery.json
+ * x-ms-original-file: 2026-06-01/ResourceGroupQuery.json
  */
 async function resourceGroupQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -545,7 +545,7 @@ async function resourceGroupQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/ResourceGroupQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/ResourceGroupQueryGrouping.json
  */
 async function resourceGroupQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -569,7 +569,7 @@ async function resourceGroupQueryGroupingLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/SubscriptionQuery.json
+ * x-ms-original-file: 2026-06-01/SubscriptionQuery.json
  */
 async function subscriptionQueryLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -605,7 +605,7 @@ async function subscriptionQueryLegacy(): Promise<void> {
  * This sample demonstrates how to query the usage data for scope defined.
  *
  * @summary query the usage data for scope defined.
- * x-ms-original-file: 2025-03-01/SubscriptionQueryGrouping.json
+ * x-ms-original-file: 2026-06-01/SubscriptionQueryGrouping.json
  */
 async function subscriptionQueryGroupingLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();

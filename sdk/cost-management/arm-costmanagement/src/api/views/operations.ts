@@ -34,7 +34,7 @@ export function _listByScopeSend(
     "/{scope}/providers/Microsoft.CostManagement/views{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,6 @@ export async function _listByScopeDeserialize(
 
   return _viewListResultDeserializer(result.body);
 }
-
 /** Lists all views at the given scope. */
 export function listByScope(
   context: Client,
@@ -73,7 +72,7 @@ export function listByScope(
     () => _listByScopeSend(context, scope, options),
     _listByScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -88,7 +87,7 @@ export function _deleteByScopeSend(
     {
       scope: scope,
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +109,6 @@ export async function _deleteByScopeDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** The operation to delete a view. */
 export async function deleteByScope(
   context: Client,
@@ -134,7 +132,7 @@ export function _createOrUpdateByScopeSend(
     {
       scope: scope,
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +161,6 @@ export async function _createOrUpdateByScopeDeserialize(
 
   return viewDeserializer(result.body);
 }
-
 /** The operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag. */
 export async function createOrUpdateByScope(
   context: Client,
@@ -187,7 +184,7 @@ export function _getByScopeSend(
     {
       scope: scope,
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +209,6 @@ export async function _getByScopeDeserialize(result: PathUncheckedResponse): Pro
 
   return viewDeserializer(result.body);
 }
-
 /** Gets the view for the defined scope by view name. */
 export async function getByScope(
   context: Client,
@@ -231,7 +227,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.CostManagement/views{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +252,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _viewListResultDeserializer(result.body);
 }
-
 /** Lists all views by tenant and object. */
 export function list(
   context: Client,
@@ -267,7 +262,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -280,7 +275,7 @@ export function _$deleteSend(
     "/providers/Microsoft.CostManagement/views/{viewName}{?api%2Dversion}",
     {
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,7 +297,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a view. */
 export async function $delete(
   context: Client,
@@ -323,7 +317,7 @@ export function _createOrUpdateSend(
     "/providers/Microsoft.CostManagement/views/{viewName}{?api%2Dversion}",
     {
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +344,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return viewDeserializer(result.body);
 }
-
 /** The operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag. */
 export async function createOrUpdate(
   context: Client,
@@ -371,7 +364,7 @@ export function _getSend(
     "/providers/Microsoft.CostManagement/views/{viewName}{?api%2Dversion}",
     {
       viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -396,7 +389,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return viewDeserializer(result.body);
 }
-
 /** Gets the view by view name. */
 export async function get(
   context: Client,

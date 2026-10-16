@@ -16,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * You can use the new 2023-09-01 API version for billing periods January 2023 onwards. Azure Reserved Instance (RI) pricing is only available through the new version of the API.
  *
  * Due to Azure product growth, the Azure price sheet download experience in this preview version will be updated from a single csv/json file to a Zip file containing multiple csv/json files, each with max size of 75MB.
- * x-ms-original-file: 2025-03-01/PricesheetDownloadByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/PricesheetDownloadByBillingProfile.json
  */
 async function pricesheetDownloadByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

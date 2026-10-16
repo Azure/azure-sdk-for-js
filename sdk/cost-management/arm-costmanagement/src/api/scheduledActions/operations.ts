@@ -46,7 +46,7 @@ export function _checkNameAvailabilityByScopeSend(
     "/{scope}/providers/Microsoft.CostManagement/checkNameAvailability{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,6 @@ export async function _checkNameAvailabilityByScopeDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
-
 /** Checks availability and correctness of the name for a scheduled action within the given scope. */
 export async function checkNameAvailabilityByScope(
   context: Client,
@@ -100,7 +99,7 @@ export function _checkNameAvailabilitySend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.CostManagement/checkNameAvailability{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +128,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
-
 /** Checks availability and correctness of the name for a scheduled action. */
 export async function checkNameAvailability(
   context: Client,
@@ -151,7 +149,7 @@ export function _runByScopeSend(
     {
       scope: scope,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +171,6 @@ export async function _runByScopeDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Runs a shared scheduled action within the given scope. */
 export async function runByScope(
   context: Client,
@@ -194,7 +191,7 @@ export function _listByScopeSend(
     "/{scope}/providers/Microsoft.CostManagement/scheduledActions{?api%2Dversion,%24filter}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -222,7 +219,6 @@ export async function _listByScopeDeserialize(
 
   return _scheduledActionListResultDeserializer(result.body);
 }
-
 /** List all shared scheduled actions within the given scope. */
 export function listByScope(
   context: Client,
@@ -234,7 +230,7 @@ export function listByScope(
     () => _listByScopeSend(context, scope, options),
     _listByScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -249,7 +245,7 @@ export function _deleteByScopeSend(
     {
       scope: scope,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +267,6 @@ export async function _deleteByScopeDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Delete a scheduled action within the given scope. */
 export async function deleteByScope(
   context: Client,
@@ -295,7 +290,7 @@ export function _createOrUpdateByScopeSend(
     {
       scope: scope,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -328,7 +323,6 @@ export async function _createOrUpdateByScopeDeserialize(
 
   return scheduledActionDeserializer(result.body);
 }
-
 /** Create or update a shared scheduled action within the given scope. */
 export async function createOrUpdateByScope(
   context: Client,
@@ -352,7 +346,7 @@ export function _getByScopeSend(
     {
       scope: scope,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,7 +373,6 @@ export async function _getByScopeDeserialize(
 
   return scheduledActionDeserializer(result.body);
 }
-
 /** Get the shared scheduled action from the given scope by name. */
 export async function getByScope(
   context: Client,
@@ -400,7 +393,7 @@ export function _runSend(
     "/providers/Microsoft.CostManagement/scheduledActions/{name}/execute{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +415,6 @@ export async function _runDeserialize(result: PathUncheckedResponse): Promise<vo
 
   return;
 }
-
 /** Processes a private scheduled action. */
 export async function run(
   context: Client,
@@ -440,7 +432,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.CostManagement/scheduledActions{?api%2Dversion,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -468,7 +460,6 @@ export async function _listDeserialize(
 
   return _scheduledActionListResultDeserializer(result.body);
 }
-
 /** List all private scheduled actions. */
 export function list(
   context: Client,
@@ -479,7 +470,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -492,7 +483,7 @@ export function _$deleteSend(
     "/providers/Microsoft.CostManagement/scheduledActions/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -514,7 +505,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a private scheduled action. */
 export async function $delete(
   context: Client,
@@ -535,7 +525,7 @@ export function _createOrUpdateSend(
     "/providers/Microsoft.CostManagement/scheduledActions/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -568,7 +558,6 @@ export async function _createOrUpdateDeserialize(
 
   return scheduledActionDeserializer(result.body);
 }
-
 /** Create or update a private scheduled action. */
 export async function createOrUpdate(
   context: Client,
@@ -589,7 +578,7 @@ export function _getSend(
     "/providers/Microsoft.CostManagement/scheduledActions/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -614,7 +603,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return scheduledActionDeserializer(result.body);
 }
-
 /** Get the private scheduled action by name. */
 export async function get(
   context: Client,

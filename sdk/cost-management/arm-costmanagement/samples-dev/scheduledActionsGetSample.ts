@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the private scheduled action by name.
  *
  * @summary get the private scheduled action by name.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-get-private.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-get-private.json
  */
 async function privateScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -36,7 +36,7 @@ export function _downloadByBillingAccountSend(
     {
       billingAccountId: billingAccountId,
       billingPeriodName: billingPeriodName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _downloadByBillingAccountDeserialize(
 
   return operationStatusDeserializer(result.body);
 }
-
 /**
  * Generates the pricesheet for the provided billing period asynchronously based on the Enrollment ID. This is for Enterprise Agreement customers.
  *
@@ -97,7 +96,7 @@ export function downloadByBillingAccount(
       getInitialResponse: () =>
         _downloadByBillingAccountSend(context, billingAccountId, billingPeriodName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<OperationStatus>, OperationStatus>;
 }
@@ -113,7 +112,7 @@ export function _downloadByBillingProfileSend(
     {
       billingAccountName: billingAccountName,
       billingProfileName: billingProfileName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +139,6 @@ export async function _downloadByBillingProfileDeserialize(
 
   return pricesheetDownloadPropertiesDeserializer(result.body);
 }
-
 /**
  * Gets a URL to download the current month's pricesheet for a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  *
@@ -164,7 +162,7 @@ export function downloadByBillingProfile(
       getInitialResponse: () =>
         _downloadByBillingProfileSend(context, billingAccountName, billingProfileName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>;
 }
@@ -182,7 +180,7 @@ export function _downloadByInvoiceSend(
       billingAccountName: billingAccountName,
       billingProfileName: billingProfileName,
       invoiceName: invoiceName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +207,6 @@ export async function _downloadByInvoiceDeserialize(
 
   return downloadURLDeserializer(result.body);
 }
-
 /** Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement. */
 export function downloadByInvoice(
   context: Client,
@@ -224,6 +221,6 @@ export function downloadByInvoice(
     getInitialResponse: () =>
       _downloadByInvoiceSend(context, billingAccountName, billingProfileName, invoiceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DownloadURL>, DownloadURL>;
 }

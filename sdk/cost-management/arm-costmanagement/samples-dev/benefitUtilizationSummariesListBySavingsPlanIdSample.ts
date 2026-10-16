@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the savings plan utilization summaries for daily or monthly grain.
  *
  * @summary lists the savings plan utilization summaries for daily or monthly grain.
- * x-ms-original-file: 2025-03-01/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanId-Monthly.json
+ * x-ms-original-file: 2026-06-01/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanId-Monthly.json
  */
 async function savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId(): Promise<void> {
   const credential = new DefaultAzureCredential();

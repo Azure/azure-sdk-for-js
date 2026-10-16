@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the shared scheduled action from the given scope by name.
  *
  * @summary get the shared scheduled action from the given scope by name.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-get-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-get-shared.json
  */
 async function scheduledActionByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

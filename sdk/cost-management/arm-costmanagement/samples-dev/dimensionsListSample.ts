@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/BillingAccountDimensionsList.json
+ * x-ms-original-file: 2026-06-01/BillingAccountDimensionsList.json
  */
 async function billingAccountDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function billingAccountDimensionsListLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/BillingAccountDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/BillingAccountDimensionsListExpandAndTop.json
  */
 async function billingAccountDimensionsListExpandAndTopLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function billingAccountDimensionsListExpandAndTopLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/BillingAccountDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/BillingAccountDimensionsListWithFilter.json
  */
 async function billingAccountDimensionsListWithFilterLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -67,7 +67,7 @@ async function billingAccountDimensionsListWithFilterLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/DepartmentDimensionsList.json
+ * x-ms-original-file: 2026-06-01/DepartmentDimensionsList.json
  */
 async function departmentDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,7 +86,7 @@ async function departmentDimensionsListLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/DepartmentDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/DepartmentDimensionsListExpandAndTop.json
  */
 async function departmentDimensionsListExpandAndTopLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function departmentDimensionsListExpandAndTopLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/DepartmentDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/DepartmentDimensionsListWithFilter.json
  */
 async function departmentDimensionsListWithFilterLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -126,7 +126,7 @@ async function departmentDimensionsListWithFilterLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountDimensionsList.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountDimensionsList.json
  */
 async function enrollmentAccountDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -145,7 +145,7 @@ async function enrollmentAccountDimensionsListLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountDimensionsListExpandAndTop.json
  */
 async function enrollmentAccountDimensionsListExpandAndTopLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -165,7 +165,7 @@ async function enrollmentAccountDimensionsListExpandAndTopLegacy(): Promise<void
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountDimensionsListWithFilter.json
  */
 async function enrollmentAccountDimensionsListWithFilterLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -185,7 +185,7 @@ async function enrollmentAccountDimensionsListWithFilterLegacy(): Promise<void> 
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingAccountDimensionsList.json
+ * x-ms-original-file: 2026-06-01/MCABillingAccountDimensionsList.json
  */
 async function billingAccountDimensionsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -204,7 +204,7 @@ async function billingAccountDimensionsListMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingAccountDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/MCABillingAccountDimensionsListExpandAndTop.json
  */
 async function billingAccountDimensionsListExpandAndTopMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -224,7 +224,7 @@ async function billingAccountDimensionsListExpandAndTopMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingAccountDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/MCABillingAccountDimensionsListWithFilter.json
  */
 async function billingAccountDimensionsListWithFilterMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -244,7 +244,7 @@ async function billingAccountDimensionsListWithFilterMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingProfileDimensionsList.json
+ * x-ms-original-file: 2026-06-01/MCABillingProfileDimensionsList.json
  */
 async function billingProfileDimensionsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -263,7 +263,7 @@ async function billingProfileDimensionsListMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingProfileDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/MCABillingProfileDimensionsListExpandAndTop.json
  */
 async function billingProfileDimensionsListExpandAndTopMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -283,7 +283,7 @@ async function billingProfileDimensionsListExpandAndTopMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCABillingProfileDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/MCABillingProfileDimensionsListWithFilter.json
  */
 async function billingProfileDimensionsListWithFilterMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -303,7 +303,7 @@ async function billingProfileDimensionsListWithFilterMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCACustomerDimensionsList.json
+ * x-ms-original-file: 2026-06-01/MCACustomerDimensionsList.json
  */
 async function customerDimensionsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -322,7 +322,7 @@ async function customerDimensionsListMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCACustomerDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/MCACustomerDimensionsListExpandAndTop.json
  */
 async function customerDimensionsListExpandAndTopMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -342,7 +342,7 @@ async function customerDimensionsListExpandAndTopMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCACustomerDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/MCACustomerDimensionsListWithFilter.json
  */
 async function customerDimensionsListWithFilterMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -362,7 +362,7 @@ async function customerDimensionsListWithFilterMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCAInvoiceSectionDimensionsList.json
+ * x-ms-original-file: 2026-06-01/MCAInvoiceSectionDimensionsList.json
  */
 async function invoiceSectionDimensionsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -381,7 +381,7 @@ async function invoiceSectionDimensionsListMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCAInvoiceSectionDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/MCAInvoiceSectionDimensionsListExpandAndTop.json
  */
 async function invoiceSectionDimensionsListExpandAndTopMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -401,7 +401,7 @@ async function invoiceSectionDimensionsListExpandAndTopMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/MCAInvoiceSectionDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/MCAInvoiceSectionDimensionsListWithFilter.json
  */
 async function invoiceSectionDimensionsListWithFilterMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -421,7 +421,7 @@ async function invoiceSectionDimensionsListWithFilterMCA(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/ManagementGroupDimensionsList.json
+ * x-ms-original-file: 2026-06-01/ManagementGroupDimensionsList.json
  */
 async function managementGroupDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -440,7 +440,7 @@ async function managementGroupDimensionsListLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/ManagementGroupDimensionsListExpandAndTop.json
+ * x-ms-original-file: 2026-06-01/ManagementGroupDimensionsListExpandAndTop.json
  */
 async function managementGroupDimensionsListExpandAndTopLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -460,7 +460,7 @@ async function managementGroupDimensionsListExpandAndTopLegacy(): Promise<void> 
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/ManagementGroupDimensionsListWithFilter.json
+ * x-ms-original-file: 2026-06-01/ManagementGroupDimensionsListWithFilter.json
  */
 async function managementGroupDimensionsListWithFilterLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -480,7 +480,7 @@ async function managementGroupDimensionsListWithFilterLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/ResourceGroupDimensionsList.json
+ * x-ms-original-file: 2026-06-01/ResourceGroupDimensionsList.json
  */
 async function resourceGroupDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -500,7 +500,7 @@ async function resourceGroupDimensionsListLegacy(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the defined scope.
  *
  * @summary lists the dimensions by the defined scope.
- * x-ms-original-file: 2025-03-01/SubscriptionDimensionsList.json
+ * x-ms-original-file: 2026-06-01/SubscriptionDimensionsList.json
  */
 async function subscriptionDimensionsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();

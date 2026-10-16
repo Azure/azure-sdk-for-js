@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the alert for the scope by alert ID.
  *
  * @summary gets the alert for the scope by alert ID.
- * x-ms-original-file: 2025-03-01/SingleResourceGroupAlert.json
+ * x-ms-original-file: 2026-06-01/SingleResourceGroupAlert.json
  */
 async function singleResourceGroupAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function singleResourceGroupAlerts(): Promise<void> {
  * This sample demonstrates how to gets the alert for the scope by alert ID.
  *
  * @summary gets the alert for the scope by alert ID.
- * x-ms-original-file: 2025-03-01/SingleSubscriptionAlert.json
+ * x-ms-original-file: 2026-06-01/SingleSubscriptionAlert.json
  */
 async function singleSubscriptionAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();

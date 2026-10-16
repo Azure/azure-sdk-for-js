@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to dismisses the specified alert
  *
  * @summary dismisses the specified alert
- * x-ms-original-file: 2025-03-01/DismissResourceGroupAlerts.json
+ * x-ms-original-file: 2026-06-01/DismissResourceGroupAlerts.json
  */
 async function patchResourceGroupAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function patchResourceGroupAlerts(): Promise<void> {
  * This sample demonstrates how to dismisses the specified alert
  *
  * @summary dismisses the specified alert
- * x-ms-original-file: 2025-03-01/DismissSubscriptionAlerts.json
+ * x-ms-original-file: 2026-06-01/DismissSubscriptionAlerts.json
  */
 async function patchSubscriptionAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();

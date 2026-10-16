@@ -32,7 +32,7 @@ export function _usageByExternalCloudProviderTypeSend(
     {
       externalCloudProviderType: externalCloudProviderType,
       externalCloudProviderId: externalCloudProviderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,6 @@ export async function _usageByExternalCloudProviderTypeDeserialize(
 
   return queryResultDeserializer(result.body);
 }
-
 /** Query the usage data for external cloud provider type defined. */
 export async function usageByExternalCloudProviderType(
   context: Client,
@@ -90,7 +89,7 @@ export function _usageSend(
     "/{+scope}/providers/Microsoft.CostManagement/query{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +105,7 @@ export function _usageSend(
 
 export async function _usageDeserialize(
   result: PathUncheckedResponse,
-): Promise<QueryResult | undefined> {
+): Promise<QueryResult | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -117,16 +116,19 @@ export async function _usageDeserialize(
     throw error;
   }
 
-  return result.body ? queryResultDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return queryResultDeserializer(result.body);
+}
 /** Query the usage data for scope defined. */
 export async function usage(
   context: Client,
   scope: string,
   parameters: QueryDefinition,
   options: QueryUsageOptionalParams = { requestOptions: {} },
-): Promise<QueryResult | undefined> {
+): Promise<QueryResult | void> {
   const result = await _usageSend(context, scope, parameters, options);
   return _usageDeserialize(result);
 }

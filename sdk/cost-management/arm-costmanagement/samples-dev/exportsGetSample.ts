@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportGetByBillingAccount.json
  */
 async function exportGetByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function exportGetByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportGetByDepartment.json
  */
 async function exportGetByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function exportGetByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportGetByEnrollmentAccount.json
  */
 async function exportGetByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function exportGetByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportGetByManagementGroup.json
  */
 async function exportGetByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function exportGetByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportGetByResourceGroup.json
  */
 async function exportGetByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -88,7 +88,7 @@ async function exportGetByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
  * @summary the operation to get the export for the defined scope by export name.
- * x-ms-original-file: 2025-03-01/ExportGetBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportGetBySubscription.json
  */
 async function exportGetBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
