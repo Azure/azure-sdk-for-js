@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel archiving data from the AML file system.
  *
  * @summary cancel archiving data from the AML file system.
- * x-ms-original-file: 2026-01-01/amlFilesystems_CancelArchive.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_CancelArchive.json
  */
 async function amlFilesystemsCancelArchive(): Promise<void> {
   const credential = new DefaultAzureCredential();

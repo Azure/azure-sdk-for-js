@@ -18,6 +18,7 @@ exports:
   "./api/capturedLogs": "./src/api/capturedLogs/index.ts"
   "./api/capabilitiesByServer": "./src/api/capabilitiesByServer/index.ts"
   "./api/administratorsMicrosoftEntra": "./src/api/administratorsMicrosoftEntra/index.ts"
+  "./api/dbAgents": "./src/api/dbAgents/index.ts"
   "./api/majorVersionUpgradePrecheck": "./src/api/majorVersionUpgradePrecheck/index.ts"
   "./api/maintenanceEvents": "./src/api/maintenanceEvents/index.ts"
   "./api/virtualEndpoints": "./src/api/virtualEndpoints/index.ts"

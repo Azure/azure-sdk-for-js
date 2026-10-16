@@ -29,7 +29,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       drillName: drillName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -71,11 +71,7 @@ export function list(
     () => _listSend(context, serviceGroupName, drillName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -92,7 +88,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillResourceName: drillResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

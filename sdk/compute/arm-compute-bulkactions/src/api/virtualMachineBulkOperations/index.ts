@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  bulkAcknowledgeOperationErrors,
+  bulkListOperationErrors,
   bulkReimageOperation,
   bulkCancelOperations,
   bulkGetOperationsStatus,
@@ -11,6 +13,8 @@ export {
   bulkDeallocateOperation,
 } from "./operations.js";
 export type {
+  VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams,
+  VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams,
   VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,

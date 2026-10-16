@@ -35,7 +35,7 @@ export function _$deleteSend(
       profileName: profileName,
       endpointType: endpointType,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,13 +49,19 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return deleteOperationResultDeserializer(result.body);
@@ -69,7 +75,7 @@ export async function $delete(
   endpointType: EndpointType,
   endpointName: string,
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | void> {
   const result = await _$deleteSend(
     context,
     resourceGroupName,
@@ -98,7 +104,7 @@ export function _updateSend(
       profileName: profileName,
       endpointType: endpointType,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +122,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -163,7 +171,7 @@ export function _createOrUpdateSend(
       profileName: profileName,
       endpointType: endpointType,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,7 +189,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -227,7 +237,7 @@ export function _getSend(
       profileName: profileName,
       endpointType: endpointType,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +253,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

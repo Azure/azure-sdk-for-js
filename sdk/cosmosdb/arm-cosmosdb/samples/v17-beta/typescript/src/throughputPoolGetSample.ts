@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB Throughput Pool
+ *
+ * @summary retrieves the properties of an existing Azure Cosmos DB Throughput Pool
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolGet.json
+ */
+async function cosmosDBThroughputPoolGet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.throughputPool.get("rgName", "tp1");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await cosmosDBThroughputPoolGet();
+}
+
+main().catch(console.error);

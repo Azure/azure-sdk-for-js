@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of operations in the specified agent pool.
  *
  * @summary gets a list of operations in the specified agent pool.
- * x-ms-original-file: 2026-06-02-preview/OperationStatusResultListByAgentPool.json
+ * x-ms-original-file: 2026-07-02-preview/OperationStatusResultListByAgentPool.json
  */
 async function listOperationsOnAgentPool() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listOperationsOnAgentPool() {
  * This sample demonstrates how to gets a list of operations in the specified agent pool.
  *
  * @summary gets a list of operations in the specified agent pool.
- * x-ms-original-file: 2026-06-02-preview/OperationStatusResultListByAgentPool_Active.json
+ * x-ms-original-file: 2026-07-02-preview/OperationStatusResultListByAgentPool_Active.json
  */
 async function listActiveOperationsOnAgentPool() {
   const credential = new DefaultAzureCredential();

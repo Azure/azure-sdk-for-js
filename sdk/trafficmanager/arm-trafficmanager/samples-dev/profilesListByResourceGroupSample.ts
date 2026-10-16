@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Traffic Manager profiles within a resource group.
  *
  * @summary lists all Traffic Manager profiles within a resource group.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-ByResourceGroup.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-ByResourceGroup.json
  */
 async function listProfilesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

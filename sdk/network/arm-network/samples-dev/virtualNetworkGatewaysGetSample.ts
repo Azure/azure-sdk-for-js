@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified virtual network gateway by resource group.
  *
  * @summary gets the specified virtual network gateway by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGet.json
  */
 async function getVirtualNetworkGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getVirtualNetworkGateway(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network gateway by resource group.
  *
  * @summary gets the specified virtual network gateway by resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkScalableGatewayGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkScalableGatewayGet.json
  */
 async function getVirtualNetworkScalableGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

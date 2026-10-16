@@ -28,7 +28,7 @@ export function _listByAppLinkMemberSend(
       resourceGroupName: resourceGroupName,
       appLinkName: appLinkName,
       appLinkMemberName: appLinkMemberName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +46,9 @@ export async function _listByAppLinkMemberDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -54,7 +56,7 @@ export async function _listByAppLinkMemberDeserialize(
   return _upgradeHistoryListResultDeserializer(result.body);
 }
 
-/** List UpgradeHistory resources by AppLinkMember. */
+/** List the upgrade history of an Azure Kubernetes Application Network member. */
 export function listByAppLinkMember(
   context: Client,
   resourceGroupName: string,
@@ -71,7 +73,7 @@ export function listByAppLinkMember(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

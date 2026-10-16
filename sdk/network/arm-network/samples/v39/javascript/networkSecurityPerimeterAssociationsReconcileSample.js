@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reconcile NSP association
  *
  * @summary reconcile NSP association
- * x-ms-original-file: 2026-01-01/NspAssociationReconcile.json
+ * x-ms-original-file: 2026-03-01/NspAssociationReconcile.json
  */
 async function nspAssociationReconcile() {
   const credential = new DefaultAzureCredential();

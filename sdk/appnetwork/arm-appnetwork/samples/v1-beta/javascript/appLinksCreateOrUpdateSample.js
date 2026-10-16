@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create an AppLink.
+ * This sample demonstrates how to create an Azure Kubernetes Application Network resource.
  *
- * @summary create an AppLink.
- * x-ms-original-file: 2025-08-01-preview/AppLinks_CreateOrUpdate.json
+ * @summary create an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinks_CreateOrUpdate.json
  */
 async function appLinksCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

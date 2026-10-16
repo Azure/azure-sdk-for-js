@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists usage stats.
  *
  * @summary lists usage stats.
- * x-ms-original-file: 2026-01-01/VirtualNetworkListUsage.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkListUsage.json
  */
 async function vnetGetUsage(): Promise<void> {
   const credential = new DefaultAzureCredential();

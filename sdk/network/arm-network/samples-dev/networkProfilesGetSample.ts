@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified network profile in a specified resource group.
  *
  * @summary gets the specified network profile in a specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkProfileGetConfigOnly.json
+ * x-ms-original-file: 2026-03-01/NetworkProfileGetConfigOnly.json
  */
 async function getNetworkProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getNetworkProfile(): Promise<void> {
  * This sample demonstrates how to gets the specified network profile in a specified resource group.
  *
  * @summary gets the specified network profile in a specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkProfileGetWithContainerNic.json
+ * x-ms-original-file: 2026-03-01/NetworkProfileGetWithContainerNic.json
  */
 async function getNetworkProfileWithContainerNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();

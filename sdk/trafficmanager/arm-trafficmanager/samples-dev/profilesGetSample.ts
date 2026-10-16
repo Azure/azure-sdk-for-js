@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Traffic Manager profile.
  *
  * @summary gets a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-WithEndpoints.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-WithEndpoints.json
  */
 async function profileGETWithEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function profileGETWithEndpoints(): Promise<void> {
  * This sample demonstrates how to gets a Traffic Manager profile.
  *
  * @summary gets a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-WithEndpointsAndRecordType.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-WithEndpointsAndRecordType.json
  */
 async function profileGETWithEndpointsAndRecordType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function profileGETWithEndpointsAndRecordType(): Promise<void> {
  * This sample demonstrates how to gets a Traffic Manager profile.
  *
  * @summary gets a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-WithTrafficViewDisabled.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-WithTrafficViewDisabled.json
  */
 async function profileGETWithTrafficViewDisabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,9 +59,26 @@ async function profileGETWithTrafficViewDisabled(): Promise<void> {
  * This sample demonstrates how to gets a Traffic Manager profile.
  *
  * @summary gets a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-WithTrafficViewEnabled.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-WithTrafficViewEnabled.json
  */
 async function profileGETWithTrafficViewEnabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new TrafficManagerManagementClient(credential, subscriptionId);
+  const result = await client.profiles.get(
+    "azuresdkfornetautoresttrafficmanager1323",
+    "azuresdkfornetautoresttrafficmanager3880",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a Traffic Manager profile.
+ *
+ * @summary gets a Traffic Manager profile.
+ * x-ms-original-file: 2026-09-01/Profile-GET-WithoutRecordType.json
+ */
+async function profileGETWithoutRecordType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -77,6 +94,7 @@ async function main(): Promise<void> {
   await profileGETWithEndpointsAndRecordType();
   await profileGETWithTrafficViewDisabled();
   await profileGETWithTrafficViewEnabled();
+  await profileGETWithoutRecordType();
 }
 
 main().catch(console.error);
