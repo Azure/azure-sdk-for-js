@@ -4,8 +4,9 @@ description: |
   Analyzes issue content, evaluates whether the author is a customer,
   predicts labels, looks up owners from CODEOWNERS, and provides
   analysis notes including debugging strategies and resource links
-  Dispatches eligible customer issues for post-triage investigation
   Implements the initial issue triage rules for the Azure SDK repository
+
+run-name: "${{ vars.ENABLE_ISSUE_INVESTIGATION == 'true' && format('Agentic Triage #{0}', github.event.issue.number || github.event.inputs.issue_number) || 'Agentic Triage' }}"
 
 on:
   issues:
@@ -53,86 +54,6 @@ network:
     - node
     - github
 
-jobs:
-  safe_outputs:
-    needs: [mention_owners]
-    if: >-
-      needs.agent.result == 'success' &&
-      (!contains(needs.agent.outputs.output_types, 'mention_owners') ||
-       needs.mention_owners.result == 'success')
-  investigation_handoff:
-    needs: [agent, detection, safe_outputs, mention_owners]
-    if: >-
-      !cancelled() && needs.agent.result == 'success' &&
-      contains(needs.agent.outputs.output_types, 'dispatch_workflow') &&
-      needs.detection.result == 'success' && needs.detection.outputs.detection_conclusion == 'success' &&
-      needs.safe_outputs.result == 'success' &&
-      needs.safe_outputs.outputs.process_safe_outputs_status == 'success' &&
-      (!contains(needs.agent.outputs.output_types, 'mention_owners') || needs.mention_owners.result == 'success')
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      issues: read
-      actions: write
-    steps:
-      - name: Checkout trusted continuation helper
-        uses: actions/checkout@v7.0.1
-        with:
-          ref: ${{ github.event.repository.default_branch }}
-          persist-credentials: false
-          sparse-checkout: eng/tools/issue-investigation
-          path: continuation-helper
-      - name: Setup native safe-output processor
-        uses: github/gh-aw-actions/setup@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
-        with:
-          destination: ${{ runner.temp }}/gh-aw/actions
-      - name: Download original triage requests
-        uses: actions/download-artifact@v8.0.1
-        with:
-          pattern: "{agent,agent-output-fallback}"
-          merge-multiple: true
-          path: ${{ runner.temp }}/continuation-requests
-      - name: Download applied triage receipts
-        uses: actions/download-artifact@v8.0.1
-        with:
-          name: safe-outputs-items
-          path: ${{ runner.temp }}/continuation-receipts
-      - name: Verify completed routing and dispatch investigation
-        id: continuation
-        uses: actions/github-script@v9.0.0
-        env:
-          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
-          OWNER_NOTIFICATION: ${{ needs.mention_owners.result }}
-          GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
-          GH_AW_WORKFLOW_ID: issue-triage
-          GH_AW_WORKFLOW_NAME: Agentic Triage
-          GH_AW_CALLER_WORKFLOW_ID: ${{ github.repository }}/issue-triage
-        with:
-          github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
-          script: |
-            const path = require('node:path');
-            const actionsDirectory = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
-            require(path.join(actionsDirectory, 'setup_globals.cjs'))
-              .setupGlobals(core, github, context, exec, io, getOctokit);
-            const { executeContinuation } = require('./continuation-helper/eng/tools/issue-investigation/continuation.cjs');
-            await executeContinuation({
-              github, context, core, mode: 'dispatch', number: process.env.ISSUE_NUMBER,
-              ownerNotification: process.env.OWNER_NOTIFICATION,
-              actionsDirectory,
-              requestsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-requests'),
-              receiptsDirectory: path.join(process.env.RUNNER_TEMP, 'continuation-receipts'),
-            });
-      - name: Confirm investigation dispatch was applied
-        if: >-
-          steps.continuation.outputs.continuation_requested == 'true' &&
-          (steps.continuation.outputs.status != 'success' || steps.continuation.outputs.items_applied != '1')
-        uses: actions/github-script@v9.0.0
-        with:
-          script: |
-            throw new Error('The native processor did not apply the investigation dispatch.');
-
-
 post-steps:
   - name: Verify triage produced output
     if: ${{ !cancelled() }}
@@ -163,18 +84,6 @@ safe-outputs:
   remove-labels:
     max: 7
     target: "*"
-  steps:
-    - name: Defer investigation dispatch until triage outputs succeed
-      uses: actions/github-script@v9.0.0
-      with:
-        script: |
-          const fs = require('node:fs');
-          const file = '/tmp/gh-aw/agent_output.json';
-          const output = JSON.parse(fs.readFileSync(file, 'utf8'));
-          if (!Array.isArray(output.items)) throw new Error('Invalid triage output.');
-          output.items = output.items.filter(item => item.type !== 'dispatch_workflow');
-          fs.writeFileSync(file, JSON.stringify(output));
-
   set-issue-type:
     allowed: [Bug, Feature, Task]
     max: 1
@@ -188,15 +97,11 @@ safe-outputs:
   close-issue:
     max: 1
     target: "*"
-  dispatch-workflow:
-    workflows: [issue-investigation]
-    max: 1
   noop:
     report-as-issue: false
   jobs:
     mention_owners:
       description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
-      if: needs.agent.result == 'success'
       runs-on: ubuntu-latest
       output: "Owner mention comment posted"
       permissions:
@@ -789,19 +694,3 @@ Rules for the sections:
   - 🏷️ Label Confidence: explain category and service label selection; state confidence as High, Medium, or Low with justification; note other labels considered and why they were rejected
   - 👥 Owner Routing: show which CODEOWNERS `# ServiceLabel:` entry matched (with line number) and why; list AzureSdkOwners and ServiceOwners found; state what routing action was taken; briefly note other entries encountered during the bottom-to-top scan and why they were skipped
 
-## Step 8: Investigation Handoff
-
-After emitting the routing and analysis outputs, dispatch `issue-investigation` only when all of the following hold for this issue after the queued triage actions are applied:
-
-- The target is an open issue, not a pull request.
-- It has the `customer-reported` label.
-- It has exactly one service label with color `#e99695`.
-- It has exactly one category label with color `#ffeb77`.
-- It has none of `needs-triage`, `needs-team-triage`, `issue-addressed`, or `needs-author-feedback`.
-- Triage did not stop early or close the issue as a deprecated-package report.
-
-Consider both current labels and queued changes; safe outputs have not been applied yet. Do not require a `bug` label or a Bug issue type. Do not change the existing label prediction or ownership rules to make an issue eligible.
-
-If all conditions hold, request the `issue_investigation` safe-output tool with `issue_number` set to the issue number as a string. This is only a queued request: a trusted follow-up dispatches after the native triage outputs succeed, the applied analysis comment is verified, and current labels and ownership satisfy the handoff. The investigation independently validates the actual issue state before acting.
-
-If any condition fails, do not dispatch. Preserve the normal triage outcome and existing completion requirements.

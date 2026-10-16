@@ -268,6 +268,26 @@ async function prepareDispatch({
   };
 }
 
+async function prepareCompletedTriage(options) {
+  const items = requests(options.output);
+  if (items.some(item => item.type === "dispatch_workflow")) {
+    throw new Error("Existing triage must not emit investigation dispatch requests.");
+  }
+  if (items.some(item => item.type === "close_issue")) {
+    return { reason: "triage closed the issue" };
+  }
+  if (!items.some(item => item.type === "add_comment" && typeof item.body === "string" &&
+      /^## .*Agentic Issue Triage\b/m.test(item.body))) {
+    return { reason: "triage intentionally skipped or did not produce an analysis" };
+  }
+  // The observer, not the legacy agent, authorizes this fixed continuation.
+  return prepareDispatch({ ...options, output: { ...options.output, items: [...items, {
+    type: "dispatch_workflow", workflow_name: "issue-investigation",
+    inputs: { issue_number: String(issueNumber(options.number)) },
+  }] } });
+}
+
+
 async function executeContinuation({
   github,
   context,
@@ -292,12 +312,13 @@ async function executeContinuation({
   let prepared;
   if (mode === "assignment") {
     prepared = await prepareAssignment({ github, context, number, output, receipts });
-  } else if (mode === "dispatch") {
+  } else if (mode === "dispatch" || mode === "completed-triage") {
     const { resolveTarget, extractAssignees } = require(
       path.join(actionsDirectory, "safe_output_helpers.cjs"),
     );
     const { processItems } = require(path.join(actionsDirectory, "safe_output_processor.cjs"));
-    prepared = await prepareDispatch({
+    const prepare = mode === "completed-triage" ? prepareCompletedTriage : prepareDispatch;
+    prepared = await prepare({
       github,
       context,
       number,
@@ -348,4 +369,4 @@ async function executeContinuation({
   }
 }
 
-module.exports = { prepareAssignment, prepareDispatch, executeContinuation };
+module.exports = { prepareAssignment, prepareDispatch, prepareCompletedTriage, executeContinuation };

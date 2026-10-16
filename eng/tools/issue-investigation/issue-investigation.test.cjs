@@ -400,19 +400,19 @@ test("generated safe-output scope and closure policy remain bounded", () => {
   );
 });
 
-test("triage dispatch waits for requested owner notification and successful agent output", () => {
+test("legacy triage processing does not depend on optional investigation or notification", () => {
   const triage = workflow("issue-triage.lock.yml");
   const job = triage.slice(triage.indexOf("\n  safe_outputs:\n"));
-  assert.match(job, /needs:\n(?:      - .+\n)*      - mention_owners\n/);
-  assert.match(job, /needs\.agent\.result == 'success'/);
-  assert.match(job, /!contains\(needs\.agent\.outputs\.output_types, 'mention_owners'\)/);
-  assert.match(job, /needs\.mention_owners\.result == 'success'/);
+  const preamble = job.split("    runs-on:")[0];
+  assert.doesNotMatch(preamble, /mention_owners|investigation_handoff/);
   const config = JSON.parse(
     JSON.parse(job.match(/^\s+GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: (.+)$/m)[1]),
   );
-  assert.deepEqual(config.dispatch_workflow.workflows, ["issue-investigation"]);
-  assert.equal(config.dispatch_workflow.max, 1);
+  assert.equal(config.dispatch_workflow, undefined);
   assert.deepEqual(config.set_issue_type.allowed, ["Bug", "Feature", "Task"]);
+  for (const [type, maximum] of [["add_labels", 7], ["remove_labels", 7], ["add_comment", 2], ["assign_to_user", 1], ["close_issue", 1]]) {
+    assert.equal(config[type].max, maximum);
+  }
 });
 
 for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cancelled, expected] of [
@@ -441,7 +441,7 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
     "success",
     "success",
     false,
-    false,
+    true,
   ],
   [
     "owner notification skipped",
@@ -450,7 +450,7 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
     "success",
     "success",
     false,
-    false,
+    true,
   ],
   [
     "agent failed with partial outputs",
@@ -459,15 +459,16 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
     "failure",
     "success",
     false,
-    false,
+    true,
   ],
   ["detection failed", "dispatch_workflow", "skipped", "success", "failure", false, false],
   ["workflow cancelled", "dispatch_workflow", "skipped", "success", "success", true, false],
 ]) {
-  test(`compiled dispatch condition: ${label}`, () => {
+  test(`baseline triage execution condition: ${label}`, () => {
     const triage = workflow("issue-triage.lock.yml");
     const job = triage.slice(triage.indexOf("\n  safe_outputs:\n"));
-    const expression = job.match(/^    if: >\n((?:      .+\n)+)/m)[1].trim();
+    const value = job.match(/^    if: (.*)$/m)[1];
+    const expression = value === ">" ? job.match(/^    if: >\n((?:      .+\n)+)/m)[1].trim() : value;
     const condition = new Function("needs", "cancelled", "contains", `return (${expression});`);
     assert.equal(
       condition(
@@ -484,39 +485,16 @@ for (const [label, outputTypes, ownerResult, agentResult, detectionResult, cance
   });
 }
 
-test("triage defers dispatch without removing label or analysis requests", async () => {
+test("triage has no investigation input rewriting or new agent tool", () => {
   const triage = workflow("issue-triage.md");
-  const output = {
-    items: [
-      { type: "add_labels", item_number: 42, labels: ["Client"] },
-      { type: "add_comment", item_number: 42, body: "Analysis" },
-      {
-        type: "dispatch_workflow",
-        workflow_name: "issue-investigation",
-        inputs: { issue_number: "42" },
-      },
-    ],
-    errors: [],
-  };
-  let written;
-  await execute(stepScript(triage, "Defer investigation dispatch until triage outputs succeed"), {
-    require: () => ({
-      readFileSync: () => JSON.stringify(output),
-      writeFileSync: (_file, text) => {
-        written = JSON.parse(text);
-      },
-    }),
-  });
-  assert.deepEqual(
-    written.items.map((item) => item.type),
-    ["add_labels", "add_comment"],
-  );
-  assert.equal(output.items.length, 3, "the original request artifact remains unchanged");
+  assert.doesNotMatch(triage, /dispatch-workflow:|Defer investigation dispatch|Step 8: Investigation Handoff/);
+  assert.doesNotMatch(triage, /fs\.writeFileSync/);
+  const lock = workflow("issue-triage.lock.yml");
+  assert.doesNotMatch(lock, /"name": "issue_investigation"/);
 });
 
 for (const [filename, jobId, type] of [
   ["issue-investigation.lock.yml", "copilot_assignment", "assign_to_agent"],
-  ["issue-triage.lock.yml", "investigation_handoff", "dispatch_workflow"],
 ]) {
   for (const [name, change, expected] of [
     ["fully applied outputs", {}, true],
@@ -562,7 +540,6 @@ for (const [filename, jobId, type] of [
 test("generated continuation jobs participate in the final workflow conclusion", () => {
   for (const [filename, job] of [
     ["issue-investigation.lock.yml", "copilot_assignment"],
-    ["issue-triage.lock.yml", "investigation_handoff"],
   ]) {
     const conclusion = workflow(filename).split("\n  conclusion:\n")[1];
     assert.match(conclusion.split("    if:")[0], new RegExp(`- ${job}\\n`));
