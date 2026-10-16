@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Code container.
  *
  * @summary get Code container.
- * x-ms-original-file: 2026-03-15-preview/Registry/CodeContainer/get.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/CodeContainer/get.json
  */
 async function getRegistryCodeContainer() {
   const credential = new DefaultAzureCredential();

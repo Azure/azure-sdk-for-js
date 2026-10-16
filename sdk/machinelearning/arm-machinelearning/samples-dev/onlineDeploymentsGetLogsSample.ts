@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to polls an Endpoint operation.
  *
  * @summary polls an Endpoint operation.
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/getLogs.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/getLogs.json
  */
 async function getOnlineDeploymentLogs(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a batch inference endpoint by name.
  *
  * @summary gets a batch inference endpoint by name.
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchEndpoint/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchEndpoint/get.json
  */
 async function getWorkspaceBatchEndpoint() {
   const credential = new DefaultAzureCredential();

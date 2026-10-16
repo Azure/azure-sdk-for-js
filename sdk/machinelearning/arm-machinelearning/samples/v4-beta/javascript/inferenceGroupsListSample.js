@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Inference Groups.
  *
  * @summary list Inference Groups.
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceGroup/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceGroup/list.json
  */
 async function listWorkspaceInferenceGroup() {
   const credential = new DefaultAzureCredential();

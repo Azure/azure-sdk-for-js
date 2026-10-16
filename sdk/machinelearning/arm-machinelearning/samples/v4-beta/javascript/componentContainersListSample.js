@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list component containers.
  *
  * @summary list component containers.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ComponentContainer/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ComponentContainer/list.json
  */
 async function listWorkspaceComponentContainer() {
   const credential = new DefaultAzureCredential();

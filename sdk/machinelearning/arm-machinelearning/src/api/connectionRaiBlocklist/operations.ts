@@ -35,7 +35,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -58,7 +58,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified custom blocklist associated with the Azure OpenAI connection. */
 export function $delete(
   context: Client,
@@ -81,7 +80,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -102,7 +101,7 @@ export function _createSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -132,7 +131,6 @@ export async function _createDeserialize(
 
   return raiBlocklistPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Update the state of specified blocklist associated with the Azure OpenAI connection. */
 export function create(
   context: Client,
@@ -160,7 +158,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<RaiBlocklistPropertiesBasicResource>,
     RaiBlocklistPropertiesBasicResource
@@ -183,7 +181,7 @@ export function _getSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +208,6 @@ export async function _getDeserialize(
 
   return raiBlocklistPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Gets the specified custom blocklist associated with the Azure OpenAI connection. */
 export async function get(
   context: Client,

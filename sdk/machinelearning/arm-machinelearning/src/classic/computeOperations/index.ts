@@ -273,7 +273,6 @@ export interface ComputeOperationsOperations {
     options?: ComputeOperationsGetOptionalParams,
   ) => Promise<ComputeResource>;
 }
-
 function _getComputeOperations(context: AzureMachineLearningServicesManagementContext) {
   return {
     resize: (
@@ -590,7 +589,6 @@ function _getComputeOperations(context: AzureMachineLearningServicesManagementCo
     ) => get(context, resourceGroupName, workspaceName, computeName, options),
   };
 }
-
 export function _getComputeOperationsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ComputeOperationsOperations {

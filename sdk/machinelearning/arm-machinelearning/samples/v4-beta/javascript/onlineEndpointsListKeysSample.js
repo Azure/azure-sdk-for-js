@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list EndpointAuthKeys for an Endpoint using Key-based authentication.
  *
  * @summary list EndpointAuthKeys for an Endpoint using Key-based authentication.
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineEndpoint/listKeys.json
  */
 async function listKeysWorkspaceOnlineEndpoint() {
   const credential = new DefaultAzureCredential();

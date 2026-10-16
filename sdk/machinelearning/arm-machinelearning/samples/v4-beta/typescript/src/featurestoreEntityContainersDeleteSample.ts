@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete container.
  *
  * @summary delete container.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturestoreEntityContainer/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/FeaturestoreEntityContainer/delete.json
  */
 async function deleteWorkspaceFeaturestoreEntityContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -11,18 +11,15 @@ export interface RegistryDataContainersListOptionalParams extends OperationOptio
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface RegistryDataContainersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryDataContainersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryDataContainersGetOptionalParams extends OperationOptions {}

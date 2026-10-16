@@ -121,7 +121,6 @@ export interface BatchDeploymentsOperations {
     options?: BatchDeploymentsGetOptionalParams,
   ) => Promise<BatchDeployment>;
 }
-
 function _getBatchDeployments(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -290,7 +289,6 @@ function _getBatchDeployments(context: AzureMachineLearningServicesManagementCon
     ) => get(context, resourceGroupName, workspaceName, endpointName, deploymentName, options),
   };
 }
-
 export function _getBatchDeploymentsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): BatchDeploymentsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to posts a stop action to a compute instance
  *
  * @summary posts a stop action to a compute instance
- * x-ms-original-file: 2026-03-15-preview/Compute/stop.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/stop.json
  */
 async function stopComputeInstanceCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate a storage location and credential for the client to upload a model asset to.
  *
  * @summary generate a storage location and credential for the client to upload a model asset to.
- * x-ms-original-file: 2026-03-15-preview/Registry/ModelVersion/createOrGetStartPendingUpload.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/ModelVersion/createOrGetStartPendingUpload.json
  */
 async function createOrGetStartPendingUploadRegistryModelVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -68,7 +68,6 @@ export interface CapabilityHostsOperations {
     options?: CapabilityHostsGetOptionalParams,
   ) => Promise<CapabilityHost>;
 }
-
 function _getCapabilityHosts(context: AzureMachineLearningServicesManagementContext) {
   return {
     delete: (
@@ -130,7 +129,6 @@ function _getCapabilityHosts(context: AzureMachineLearningServicesManagementCont
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getCapabilityHostsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): CapabilityHostsOperations {

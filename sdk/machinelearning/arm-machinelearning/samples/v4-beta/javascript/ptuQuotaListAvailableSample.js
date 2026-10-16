@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list available MaaS PTU quota.
  *
  * @summary list available MaaS PTU quota.
- * x-ms-original-file: 2026-03-15-preview/PTUQuota/listAvailable.json
+ * x-ms-original-file: 2026-05-15-preview/PTUQuota/listAvailable.json
  */
 async function listAvailableMaaSPTUQuota() {
   const credential = new DefaultAzureCredential();
