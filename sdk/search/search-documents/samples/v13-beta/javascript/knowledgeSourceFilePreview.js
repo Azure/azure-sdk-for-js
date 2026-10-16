@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Preview sample for the `file` knowledge source kind. Walks
+ * @summary Sample for the `file` knowledge source kind. Walks
  * through the full lifecycle that customers will exercise:
  *   1. Create the File knowledge source backed by an Azure OpenAI
  *      embedding deployment and upload a relative-path file with metadata.
@@ -51,7 +51,7 @@ function assertSample(condition, message) {
 }
 
 async function main() {
-  console.log(`Running Knowledge Source File Preview Sample....`);
+  console.log(`Running Knowledge Source File Sample....`);
   if (!endpoint || !azureOpenAIEndpoint) {
     console.log(
       "Set ENDPOINT and AZURE_OPENAI_ENDPOINT (and optionally " +
@@ -66,7 +66,7 @@ async function main() {
   const fileKnowledgeSource = {
     name: KNOWLEDGE_SOURCE_NAME,
     kind: "file",
-    description: "File knowledge source preview sample.",
+    description: "File knowledge source sample.",
     corsOptions: {
       allowedOrigins: ["https://contoso.example"],
       maxAgeInSeconds: 300,

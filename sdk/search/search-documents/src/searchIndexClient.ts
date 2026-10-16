@@ -72,7 +72,6 @@ import type {
   SearchIndexStatistics,
   SearchServiceStatistics,
   UpdateKnowledgeSourceFileOptions,
-  UploadKnowledgeSourceFileOptions,
   UploadKnowledgeSourceFileMultipartOptions,
   SynonymMap,
 } from "./serviceModels.js";
@@ -388,8 +387,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? index.etag : undefined;
         const result = await this.client.createOrUpdateIndex(
-          utils.publicIndexToGeneratedIndex(index),
           index.name,
+          utils.publicIndexToGeneratedIndex(index),
           { ...updatedOptions, ifMatch: etag },
         );
         return utils.generatedIndexToPublicIndex(result);
@@ -413,8 +412,8 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
 
         const result = await this.client.createOrUpdateSynonymMap(
-          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
           synonymMap.name,
+          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -502,7 +501,7 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-        return this.client.createOrUpdateAlias(alias, alias.name, {
+        return this.client.createOrUpdateAlias(alias.name, alias, {
           ...updatedOptions,
           ifMatch: etag,
         });
@@ -615,7 +614,7 @@ export class SearchIndexClient {
       "SearchIndexClient-analyzeText",
       operationOptions,
       async (updatedOptions) => {
-        return this.client.analyzeText({ ...restOptions }, indexName, updatedOptions);
+        return this.client.analyzeText(indexName, { ...restOptions }, updatedOptions);
       },
     );
   }
@@ -698,8 +697,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           knowledgeBaseName,
+          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -792,8 +791,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
           knowledgeSource.name,
+          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -908,34 +907,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Uploads a file to a File knowledge source for processing and indexing.
-   * @param name - The name of the knowledge source.
-   * @param file - The file contents.
-   * @param contentDisposition - The content-disposition header value (e.g., 'attachment; filename="example.pdf"').
-   * @param options - The options parameters.
-   * @returns Metadata for the uploaded file.
-   */
-  public async uploadKnowledgeSourceFile(
-    name: string,
-    file: Uint8Array,
-    contentDisposition: string,
-    options: UploadKnowledgeSourceFileOptions = {},
-  ): Promise<KnowledgeSourceFile> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-uploadKnowledgeSourceFile",
-      options,
-      async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFile(
-          contentDisposition,
-          file,
-          name,
-          updatedOptions,
-        );
-      },
-    );
-  }
-
-  /**
    * Uploads a file and its metadata to a File knowledge source using multipart form data.
    * @param name - The name of the knowledge source.
    * @param body - The file content and metadata.
@@ -968,7 +939,7 @@ export class SearchIndexClient {
       "SearchIndexClient-uploadKnowledgeSourceFileMultipart",
       options,
       async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFileMultipart(body, name, updatedOptions);
+        return this.client.uploadKnowledgeSourceFileMultipart(name, body, updatedOptions);
       },
     );
   }
@@ -1008,7 +979,7 @@ export class SearchIndexClient {
       "SearchIndexClient-updateKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.updateKnowledgeSourceFile(fileId, body, name, updatedOptions);
+        return this.client.updateKnowledgeSourceFile(name, fileId, body, updatedOptions);
       },
     );
   }

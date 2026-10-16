@@ -24,8 +24,6 @@ import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesSelectedResult {
-  /** The total count of indexes in the service, or null if the count was not requested. */
-  readonly count?: number;
   /** The indexes in the Search service. */
   readonly value: SearchIndexResponse[];
   /** The URL that can be used to fetch the next set of results. */
@@ -34,9 +32,26 @@ export interface _ListIndexesSelectedResult {
 
 export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesSelectedResult {
   return {
-    count: item["@odata.count"],
     value: searchIndexResponseArrayDeserializer(item["value"]),
     nextLink: item["@odata.nextLink"],
+  };
+}
+
+/** File upload capacity for a File knowledge source. */
+export interface KnowledgeSourceFileCapacity {
+  /** The maximum number of files allowed in the knowledge source. */
+  readonly maxFileCount: number;
+  /** The number of additional files that can be uploaded at the time of the request. */
+  readonly remainingFileCount: number;
+  /** The maximum size in bytes of an individual uploaded file. */
+  readonly maxFileSizeBytes: number;
+}
+
+export function knowledgeSourceFileCapacityDeserializer(item: any): KnowledgeSourceFileCapacity {
+  return {
+    maxFileCount: item["maxFileCount"],
+    remainingFileCount: item["remainingFileCount"],
+    maxFileSizeBytes: item["maxFileSizeBytes"],
   };
 }
 
@@ -63,17 +78,13 @@ export function knowledgeBaseRetrievalStreamEventsDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-11-01-preview API version. */
-  V20251101Preview = "2025-11-01-preview",
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
-  /** The 2026-08-01-preview API version. */
-  V20260801Preview = "2026-08-01-preview",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }
+export type GetDocumentCountResponse = { body: number };
 
-/** Platform-specific raw response returned by the protocol streaming retrieval operation. */
 export type RetrieveStreamResponse = {
   /**
    * BROWSER ONLY

@@ -55,7 +55,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
     const events: KnowledgeBaseRetrievalStreamEvent[] = [];
     for await (const event of await client.retrieveStream(
       { intents: [{ type: "semantic", search: "status" }] },
-      { queryWorkIQSourceAuthorization: "assertion" },
+      { querySourceAuthorization: "assertion" },
     )) {
       events.push(event);
     }
@@ -64,9 +64,9 @@ describe("knowledge retrieval stream HTTP transport", () => {
       events.map((event) => event.event),
       ["retrieval.started", "response.completed"],
     );
-    assert.include(requests[0].url, "api-version=2026-08-01-preview");
+    assert.include(requests[0].url, "api-version=2026-10-01");
     assert.equal(requests[0].headers.get("accept"), "text/event-stream");
-    assert.equal(requests[0].headers.get("x-ms-query-work-iq-source-authorization"), "assertion");
+    assert.equal(requests[0].headers.get("x-ms-query-source-authorization"), "assertion");
   });
 
   it("rejects JSON preflight errors before returning an event iterator", async () => {

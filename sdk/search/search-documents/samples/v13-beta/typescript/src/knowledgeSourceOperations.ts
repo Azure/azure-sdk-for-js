@@ -4,9 +4,9 @@
 /**
  * @summary Demonstrates generic CRUD operations on knowledge sources:
  * create / get / update / list / status / delete. For samples specific
- * to each knowledge source kind (e.g. `searchIndex`, `file`, `mcpServer`,
- * `indexedSharePoint`, `remoteSharePoint`, `workIQ`, `fabricDataAgent`,
- * `fabricOntology`) see the corresponding `*KnowledgeSource*` sample
+ * to each knowledge source kind (e.g. `searchIndex`, `file`,
+ * `indexedSharePoint`, `indexedOneLake`, `indexedSql`) see the corresponding
+ * `*KnowledgeSource*` sample
  * files in this directory.
  */
 
@@ -60,24 +60,9 @@ async function createKnowledgeSource(sourceName: string, client: SearchIndexClie
     description: "A sample search index knowledge source",
     searchIndexParameters: {
       searchIndexName: TEST_INDEX_NAME,
-      queryHints: {
-        filters: [
-          {
-            field: "category",
-            fieldValues: ["manual"],
-            filterInstructions: "Prefer product manuals when the user asks how-to questions.",
-          },
-        ],
-        boosts: [{ kind: "fieldValue", field: "priority", fieldValues: ["high"], boost: 2 }],
-      },
     },
   };
   const result = await client.createKnowledgeSource(knowledgeSource);
-  const createdSearchSource = result as SearchIndexKnowledgeSource;
-  assertSample(
-    createdSearchSource.searchIndexParameters.queryHints?.filters?.[0]?.field === "category",
-    "stored query hints should round-trip",
-  );
   console.log(`Created knowledge source: ${result.name} (kind=${result.kind})`);
 }
 
