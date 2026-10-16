@@ -190,13 +190,15 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
 
 /**
  * Union type for all agent definition types.
- * Supports workflow, hosted, container app, prompt, and external agents.
+ * Supports workflow, hosted, container app, prompt, external, and voice agents.
  */
 export type AgentDefinitionUnion =
   | HostedAgentDefinition
   | PromptAgentDefinition
   | WorkflowAgentDefinition
   | ExternalAgentDefinition
+  | VoiceAgentDefinition
+  | VoiceAgentLiveDefinition
   | VoiceAgentBaseDefinition
   | AgentDefinition;
 
@@ -215,6 +217,15 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
       return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
 
     case "voice":
+      if ((item as VoiceAgentBaseDefinition).sub_protocol === "live") {
+        return voiceAgentLiveDefinitionSerializer(item as VoiceAgentLiveDefinition);
+      }
+      if (
+        (item as VoiceAgentBaseDefinition).sub_protocol === "realtime" ||
+        (item as VoiceAgentBaseDefinition).sub_protocol === undefined
+      ) {
+        return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
+      }
       return voiceAgentBaseDefinitionSerializer(item as VoiceAgentBaseDefinition);
 
     default:
@@ -237,7 +248,13 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
       return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
 
     case "voice":
-      return voiceAgentBaseDefinitionDeserializer(item as VoiceAgentBaseDefinition);
+      if (item["sub_protocol"] === "live") {
+        return voiceAgentLiveDefinitionDeserializer(item);
+      }
+      if (item["sub_protocol"] === "realtime" || item["sub_protocol"] === undefined) {
+        return voiceAgentDefinitionDeserializer(item);
+      }
+      return voiceAgentBaseDefinitionDeserializer(item);
 
     default:
       return agentDefinitionDeserializer(item);

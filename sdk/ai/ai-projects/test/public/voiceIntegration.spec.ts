@@ -9,6 +9,7 @@ import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
   BetaVoiceAgentsConversationsListOptionalParams,
+  BetaVoiceAgentsLiveConversationsListOptionalParams,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
 } from "../../src/index.js";
@@ -25,6 +26,7 @@ interface MockResponse {
   status?: number;
   body?: unknown;
   headers?: Record<string, string>;
+  bytes?: Uint8Array;
 }
 
 function createClient(...responses: MockResponse[]): {
@@ -42,7 +44,7 @@ function createClient(...responses: MockResponse[]): {
       requests.push(request);
       const response = responses.shift();
       if (!response) throw new Error(`Unexpected request: ${request.method} ${request.url}`);
-      return {
+      const result = {
         request,
         status: response.status ?? 200,
         headers: createHttpHeaders({
@@ -51,6 +53,19 @@ function createClient(...responses: MockResponse[]): {
         }),
         bodyAsText: response.body === undefined ? undefined : JSON.stringify(response.body),
       };
+      if (request.streamResponseStatusCodes) {
+        const bytes = response.bytes ?? new TextEncoder().encode(result.bodyAsText);
+        if (isNodeLike) {
+          const { Readable } = await import("node:stream");
+          return { ...result, bodyAsText: undefined, readableStreamBody: Readable.from([bytes]) };
+        }
+        return {
+          ...result,
+          bodyAsText: undefined,
+          browserStreamBody: new Response(bytes.slice()).body!,
+        };
+      }
+      return result;
     },
   };
   return {
@@ -68,6 +83,267 @@ function createClient(...responses: MockResponse[]): {
   };
 }
 
+describe("Live voice conversation public-client operations", () => {
+  const root =
+    "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/live/conversations";
+  const conversation = {
+    id: "conversation/id",
+    object: "voice.conversation",
+    status: "completed",
+    created_at: 1_700_000_000,
+    completed_at: 1_700_000_060,
+    metadata: { purpose: "test" },
+  };
+  const item = { id: "item/id", type: "input", transcription: "Hello!" };
+  const audioItem = {
+    conversation_id: conversation.id,
+    item_id: item.id,
+    format: "wav",
+    codec: "pcm16",
+    sample_rate: 24000,
+    channels: 1,
+    duration_ms: 1000,
+  };
+  const recording = {
+    conversation_id: conversation.id,
+    format: "wav",
+    sample_rate: 24000,
+    channels: 2,
+    channel_layout: { left: "user", right: "agent" },
+    duration_ms: 1000,
+  };
+  const routes = [
+    {
+      name: "get",
+      suffix: "",
+      body: conversation,
+      expected: {
+        ...conversation,
+        created_at: new Date(1_700_000_000_000),
+        completed_at: new Date(1_700_000_060_000),
+      },
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.get("voice agent", conversation.id),
+    },
+    {
+      name: "delete",
+      suffix: "",
+      body: undefined,
+      expected: undefined,
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.delete("voice agent", conversation.id),
+    },
+    {
+      name: "getItem",
+      suffix: "/items/item%2Fid",
+      body: item,
+      expected: item,
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.getItem("voice agent", conversation.id, item.id),
+    },
+    {
+      name: "getAudio",
+      suffix: "/audio",
+      body: recording,
+      expected: recording,
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.getAudio("voice agent", conversation.id),
+    },
+    {
+      name: "getAudioItem",
+      suffix: "/items/item%2Fid/audio",
+      body: audioItem,
+      expected: audioItem,
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.getAudioItem(
+          "voice agent",
+          conversation.id,
+          item.id,
+        ),
+    },
+  ];
+
+  it.each(routes)(
+    "routes $name with the preview header and deserializes its response",
+    async ({ name, suffix, body, expected, invoke }) => {
+      const { client, requests } = createClient({
+        status: name === "delete" ? 204 : 200,
+        body,
+      });
+      const result = await invoke(client);
+      if (expected === undefined) {
+        expect(result).toBeUndefined();
+      } else {
+        expect(result).toMatchObject(expected);
+      }
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe(name === "delete" ? "DELETE" : "GET");
+      const url = new URL(requests[0].url);
+      expect(url.pathname).toBe(`${root}/conversation%2Fid${suffix}`);
+      expect(url.searchParams.get("api-version")).toBe("v1");
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    },
+  );
+
+  it.each(routes)("propagates service errors from $name", async ({ invoke }) => {
+    const { client } = createClient({
+      status: 404,
+      body: { error: { code: "not_stored", message: "Conversation was not stored." } },
+    });
+    await expect(invoke(client)).rejects.toMatchObject({
+      statusCode: 404,
+      details: { error: { code: "not_stored", message: "Conversation was not stored." } },
+    });
+  });
+
+  const lists = [
+    {
+      name: "list",
+      suffix: "",
+      body: conversation,
+      invoke: (
+        client: AIProjectClient,
+        options: BetaVoiceAgentsLiveConversationsListOptionalParams,
+      ) => client.beta.voiceAgents.liveConversations.list("voice agent", options),
+    },
+    {
+      name: "listItems",
+      suffix: "/conversation%2Fid/items",
+      body: item,
+      invoke: (
+        client: AIProjectClient,
+        options: BetaVoiceAgentsLiveConversationsListOptionalParams,
+      ) =>
+        client.beta.voiceAgents.liveConversations.listItems(
+          "voice agent",
+          conversation.id,
+          options,
+        ),
+    },
+  ];
+
+  it.each(lists)(
+    "pages $name while preserving caller options and preview headers",
+    async ({ suffix, body, invoke }) => {
+      const { client, requests } = createClient(
+        { body: { data: [{ ...body, id: "first" }], last_id: "first", has_more: true } },
+        { body: { data: [{ ...body, id: "second" }], last_id: "second", has_more: false } },
+      );
+      const abortController = new AbortController();
+      const onResponse = vi.fn();
+      const pages = invoke(client, {
+        limit: 1,
+        order: "asc",
+        after: "start",
+        before: "end",
+        abortSignal: abortController.signal,
+        onResponse,
+        requestOptions: { timeout: 1234, headers: { "x-custom": "retained" } },
+      }).byPage();
+      const first = await pages.next();
+      expect(first.value).toHaveLength(1);
+      expect(first.value?.[0]).toMatchObject({ id: "first" });
+      expect(first.value?.continuationToken).toContain("after=first");
+      const second = await pages.next();
+      expect(second.value).toHaveLength(1);
+      expect(second.value?.[0]).toMatchObject({ id: "second" });
+      expect((await pages.next()).done).toBe(true);
+      expect(requests).toHaveLength(2);
+      for (const [index, request] of requests.entries()) {
+        const url = new URL(request.url);
+        expect(request.method).toBe("GET");
+        expect(url.pathname).toBe(`${root}${suffix}`);
+        expect(url.searchParams.get("after")).toBe(index === 0 ? "start" : "first");
+        expect(url.searchParams.get("before")).toBe("end");
+        expect(url.searchParams.get("limit")).toBe("1");
+        expect(url.searchParams.get("order")).toBe("asc");
+        expect(url.searchParams.get("api-version")).toBe("v1");
+        expect(request.abortSignal).toBe(abortController.signal);
+        expect(request.timeout).toBe(1234);
+        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(request.headers.get("x-custom")).toBe("retained");
+      }
+      expect(onResponse).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it.each(lists)("returns no items for an empty $name response", async ({ invoke }) => {
+    const { client, requests } = createClient({ body: { data: [], has_more: false } });
+    const result = [];
+    for await (const entry of invoke(client, {})) {
+      result.push(entry);
+    }
+    expect(result).toEqual([]);
+    expect(requests).toHaveLength(1);
+  });
+
+  const downloads = [
+    {
+      name: "downloadAudio",
+      suffix: "/audio/content",
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.downloadAudio("voice agent", conversation.id),
+    },
+    {
+      name: "downloadAudioItem",
+      suffix: "/items/item%2Fid/audio/content",
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.liveConversations.downloadAudioItem(
+          "voice agent",
+          conversation.id,
+          item.id,
+        ),
+    },
+  ];
+
+  it.each(downloads)(
+    "streams WAV bytes from $name using the platform response body",
+    async ({ suffix, invoke }) => {
+      const bytes = new Uint8Array([82, 73, 70, 70, 0, 1, 128, 255]);
+      const { client, requests } = createClient({
+        bytes,
+        headers: { "content-type": "audio/wav" },
+      });
+      const result = await invoke(client);
+      if (isNodeLike) {
+        expect(result.blobBody).toBeUndefined();
+        expect(result.readableStreamBody).toBeDefined();
+        const { buffer } = await import("node:stream/consumers");
+        expect(new Uint8Array(await buffer(result.readableStreamBody!))).toEqual(bytes);
+      } else {
+        expect(result.readableStreamBody).toBeUndefined();
+        expect(result.blobBody).toBeDefined();
+        const blob = await result.blobBody!;
+        expect(new Uint8Array(await blob.arrayBuffer())).toEqual(bytes);
+      }
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("GET");
+      expect(new URL(requests[0].url).pathname).toBe(`${root}/conversation%2Fid${suffix}`);
+      expect(new URL(requests[0].url).searchParams.get("api-version")).toBe("v1");
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("accept")).toBe("audio/wav");
+    },
+  );
+
+  it.each(downloads)(
+    "preserves JSON error details from $name stream responses",
+    async ({ invoke }) => {
+      for (const [status, code] of [
+        [404, "not_persisted"],
+        [409, "recording_not_ready"],
+      ] as const) {
+        const { client } = createClient({
+          status,
+          body: { error: { code, message: "Audio is unavailable." } },
+        });
+        await expect(invoke(client)).rejects.toMatchObject({
+          statusCode: status,
+          details: { error: { code, message: "Audio is unavailable." } },
+        });
+      }
+    },
+  );
+});
 describe("voice post-emitter integration", () => {
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({

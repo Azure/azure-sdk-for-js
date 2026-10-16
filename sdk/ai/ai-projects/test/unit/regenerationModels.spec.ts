@@ -102,8 +102,18 @@ describe("regenerated model wire contracts", () => {
   ] satisfies VoiceAgentLiveDelegationUnion[])(
     "round-trips $type Live delegation through generated subtype dispatch",
     (delegation) => {
-      expect(toWire(voiceAgentLiveDelegationUnionSerializer(delegation))).toEqual(delegation);
-      expect(voiceAgentLiveDelegationUnionDeserializer(delegation)).toMatchObject(delegation);
+      const input = {
+        ...delegation,
+        extra_delegation_field: "must be removed",
+        ...("responses" in delegation && {
+          responses: {
+            ...delegation.responses,
+            extra_responses_field: "must also be removed",
+          },
+        }),
+      };
+      expect(toWire(voiceAgentLiveDelegationUnionSerializer(input))).toEqual(delegation);
+      expect(toWire(voiceAgentLiveDelegationUnionDeserializer(input))).toEqual(delegation);
     },
   );
 

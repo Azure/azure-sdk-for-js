@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { runInNewContext } from "node:vm";
 import test from "node:test";
 import ts from "typescript";
-import { mergeDeclaration } from "./ast-merge.mjs";
+import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
 import { readBaseline, readTree } from "./trees.mjs";
 
@@ -432,6 +433,87 @@ test("independent plain converter properties can merge without a surviving commo
     custom: "kept",
   });
 });
+
+for (const addAgentKind of [false, true]) {
+  test(`voice definition customization survives ${addAgentKind ? "an independent new agent kind" : "unchanged emitter output"}`, () => {
+    const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+    const names = [
+      "AgentDefinitionUnion",
+      "agentDefinitionUnionSerializer",
+      "agentDefinitionUnionDeserializer",
+    ];
+    function declarations(text) {
+      const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+      return new Map(
+        source.statements
+          .filter((node) => names.includes(node.name?.text))
+          .map((node) => [node.name.text, node.getText(source)]),
+      );
+    }
+    const base = declarations(readFileSync(path.join(packageRoot, "generated", modelFile), "utf8"));
+    const custom = declarations(readFileSync(path.join(packageRoot, "src", modelFile), "utf8"));
+    assert.equal(base.size, names.length);
+    assert.equal(custom.size, names.length);
+    const incoming = new Map(base);
+    if (addAgentKind) {
+      incoming.set(
+        "AgentDefinitionUnion",
+        base.get("AgentDefinitionUnion").replace(/=\s*\|?/, "= FutureAgentDefinition |"),
+      );
+      for (const name of names.slice(1)) {
+        incoming.set(
+          name,
+          base
+            .get(name)
+            .replace(
+              "    default:",
+              '    case "future":\n      return { kind: "future", value: item["value"] };\n\n    default:',
+            ),
+        );
+        assert.notEqual(incoming.get(name), base.get(name));
+      }
+    }
+    const result = succeeded(
+      tree([...base.values()].join("\n\n")),
+      tree([...custom.values()].join("\n\n")),
+      tree(
+        [...incoming.values()].join("\n\n") +
+          (addAgentKind
+            ? '\nexport interface FutureAgentDefinition { kind: "future"; value: string; }'
+            : ""),
+      ),
+    );
+    const merged = declarations(result.files.get(modelFile));
+    for (const name of names) {
+      if (!addAgentKind) {
+        assert.equal(canonicalize(merged.get(name)), canonicalize(custom.get(name)));
+      }
+    }
+    assert.match(merged.get("AgentDefinitionUnion"), /\bVoiceAgentDefinition\b/);
+    assert.match(merged.get("AgentDefinitionUnion"), /\bVoiceAgentLiveDefinition\b/);
+    for (const name of names.slice(1)) {
+      const clauses = (text) => {
+        const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+        return source.statements[0].body.statements.find(ts.isSwitchStatement).caseBlock.clauses;
+      };
+      const voice = (text) => clauses(text).find((clause) => clause.expression?.text === "voice");
+      assert.equal(
+        canonicalize(`switch (item.kind) { ${voice(merged.get(name)).getText()} }`),
+        canonicalize(`switch (item.kind) { ${voice(custom.get(name)).getText()} }`),
+      );
+      assert.match(voice(merged.get(name)).getText(), /sub_protocol/);
+      assert.match(voice(merged.get(name)).getText(), /voiceAgentLiveDefinition/);
+      assert.match(voice(merged.get(name)).getText(), /voiceAgentDefinition/);
+      assert.ok(ts.isReturnStatement(voice(merged.get(name)).statements.at(-1)));
+      if (addAgentKind) {
+        assert.ok(clauses(merged.get(name)).some((clause) => clause.expression?.text === "future"));
+      }
+    }
+    if (addAgentKind) {
+      assert.match(merged.get("AgentDefinitionUnion"), /\bFutureAgentDefinition\b/);
+    }
+  });
+}
 
 test("voice response converter reordering preserves customized conversions and incoming fields", () => {
   const base = tree(`
