@@ -57,7 +57,27 @@ export class DeclarationDifferenceDetector {
     const targetTypeNode = getTypeNode(target);
     const sourceTypeNode = getTypeNode(source);
 
-    // ... ConcretTypeToAny 和 TypePredicate 两段保持不变 ...
+    // check if concrete type -> any. e.g. string -> any
+    if (this.options.ConcretTypeToAnyAsBreakingChange) {
+      const isConcretTypeToAny = this.canConvertConcretTypeToAny(
+        targetTypeNode?.getKind(),
+        sourceTypeNode?.getKind(),
+      );
+      if (isConcretTypeToAny) breakingReasons |= DiffReasons.TypeChanged;
+    }
+
+    // check type predicates
+    if (
+      targetTypeNode &&
+      sourceTypeNode &&
+      targetTypeNode.isKind(SyntaxKind.TypePredicate) &&
+      sourceTypeNode.isKind(SyntaxKind.TypePredicate)
+    ) {
+      const getTypeName = (node: TypeNode) =>
+        node.asKindOrThrow(SyntaxKind.TypePredicate).getTypeNodeOrThrow().getText();
+      if (getTypeName(targetTypeNode) !== getTypeName(sourceTypeNode))
+        breakingReasons |= DiffReasons.TypeChanged;
+    }
 
     // check type
     const sourceType = sourceTypeNode?.getType() ?? source.getType();
@@ -66,7 +86,22 @@ export class DeclarationDifferenceDetector {
       breakingReasons |= DiffReasons.TypeChanged;
     }
 
-    // ... optional / readonly 检查保持不变 ...
+    // check required -> optional (from source to target)
+    const isOptional = (node: Node) => node.getSymbolOrThrow().isOptional();
+    if (this.options.RequiredToOptionalAsBreakingChange) {
+      const incompatibleOptional = isOptional(target) && !isOptional(source);
+      if (incompatibleOptional) breakingReasons |= DiffReasons.RequiredToOptional;
+    }
+    // check optional -> required (from source to target)
+    if (this.options.OptionalToRequiredAsBreakingChange) {
+      const incompatibleOptional = isOptional(source) && !isOptional(target);
+      if (incompatibleOptional) breakingReasons |= DiffReasons.OptionalToRequired;
+    }
+
+    // check readonly -> mutable
+    const isReadonly = (node: Node) => Node.isReadonlyable(node) && node.isReadonly();
+    const incompatibleReadonly = isReadonly(target) && !isReadonly(source);
+    if (incompatibleReadonly) breakingReasons |= DiffReasons.ReadonlyToMutable;
 
     return breakingReasons;
   }
