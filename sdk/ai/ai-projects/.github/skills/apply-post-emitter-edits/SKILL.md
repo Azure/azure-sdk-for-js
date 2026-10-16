@@ -5,7 +5,7 @@ description: "Apply language-specific post-emitter fixes to ai-projects after a 
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. The `customize` hook reconciles emitted changes with the committed generated and customized trees using the package's guarded resolver. This skill audits that working-tree diff and handles unresolved changes in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory.
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. The `customize` hook reconciles emitted changes with the committed generated and customized trees using the package's guarded resolver. This skill audits that working-tree diff and handles unresolved changes in five categories: recovery-worklist dispositions, conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory.
 
 When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
@@ -35,16 +35,19 @@ then formats and runs the guards again with `--check`. Both local
 `npm run generate:client` and the SDK generation pipeline use this hook.
 See [the resolver workflow](../../../scripts/customization/README.md) for supported
 changes and fixture tests. The audits and per-rule edits below are still required
-for unresolved changes; do not bypass a resolver diagnostic just to make generation pass.
+for unresolved changes. Never bypass a resolver diagnostic by loosening a guard or
+editing `generated/`. When the resolver could not merge a change, `generate-client.ps1`
+continues in recovery mode and writes `temp/customization-worklist.md`; resolve each kept
+change by editing `src/` as Step 0a describes.
 
 Use this phase order to avoid mixing unrelated decisions:
 
-| Phase          | Steps                            | Exit point                                                                                                                                         |
-| -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected customizations are preserved and intentional deltas audited.                        |
-| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
-| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
-| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
+| Phase          | Steps                            | Exit point                                                                                                                                                                   |
+| -------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 0a, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, protected customizations are preserved and intentional deltas audited. |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                           |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                 |
+| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                      |
 
 ### Recovery: customization stopped on a dirty target
 
@@ -90,6 +93,43 @@ Get-ChildItem -Recurse -File src -Include *.ts |
 If the custom side is missing a type that the spec side adds (common when the spec introduces a brand-new model type like `SessionLogEvent`), Step 2 will catch it. Don't try to merge sides by hand here.
 
 Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A conflict can discard a newly generated interface member or request-body property while leaving the file compilable. Immediately after resolving markers, run the member-level check in Step 2a and the duplicate scan from Step 2b. Also compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
+
+### Step 0a: Disposition the recovery worklist (when present)
+
+When strict customization cannot merge an emitted change, `generate-client.ps1` continues in recovery mode, prints `RECOVERY MODE`, and writes `temp/customization-worklist.md`. If that file does not exist, skip to Step 1.
+
+Recovery is a hold, not a resolution. For every entry the resolver kept the **customized** declaration and did **not** apply the emitted change. Decide what each declaration should be after this regeneration, make `src/` say so, and keep going. An unmergeable change is an expected part of regeneration and never a reason to stop: use your best judgement, apply the rubric below, and record the call so a reviewer can overrule it.
+
+Verify with `node scripts/customize.mjs --recover --check`: it re-plans from the committed baseline and is strict without `--recover`, so it would fail on the very entries you have already dealt with. Once you have edited `src/`, never rerun `npm run customize` or a non-check `customize.mjs`: the first refuses a `src/` with uncommitted changes, and the second rewrites `src/` from the committed baseline and discards your edits. `npm run clean`, which `npm run build` and `pnpm turbo build` run, deletes `temp/` including the worklist and `typespec-commit-descriptions.md`, so build with `npx dev-tool run build-package` from here on. If the worklist is lost, `node scripts/customize.mjs --recover --dry-run` rebuilds it without touching `src/` (add `--base-ref <clean-ref>` on a resumed session).
+
+For each entry:
+
+1. **Read it.** The heading is `file::declaration`. "Not merged because" says where the two sides collide. "Emitter change" is what the new emission did to the declaration (committed `generated/` to new `generated/`). "Customization" is what the package did to it (committed `generated/` to committed `src/`). The resolver applied none of the emitter's changes to this declaration, so decide each one.
+2. **Decide**, using the first row that fits.
+
+   | Situation                                                                                                                                                                | Disposition                                                                                                                                                                                                                                       |
+   | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | The emitter now provides what the customization hand-rolled (for example a new `*Create` input model replaces a hand-written request type)                               | **Adopt** the emitted type and serializer. If the hand-rolled type is exported public API, keep it as an alias of the emitted type instead of deleting it.                                                                                        |
+   | The emitter removed or narrowed a property on a model the service still returns (typical when visibility splitting moves create/update-only properties off a read model) | **Keep** the customized property on the interface and on its converters; the resolver may have kept only some of them. Additions-only is the package default (Step 3); removal needs upstream evidence in `temp/typespec-commit-descriptions.md`. |
+   | The emitter changed the wire contract of a kept operation: route, method, headers, body, status codes, paging, or long-running behavior                                  | **Port** the change into the kept code, preserving the customized name, parameter order, tracing, and preview headers. A wire change is never optional.                                                                                           |
+   | The emitter changed parameter or return types while the customization only reordered or renamed parameters                                                               | **Combine**: keep the customized names and order, and adopt the emitted types and serializers.                                                                                                                                                    |
+   | The emitter added a property or member inside a kept declaration                                                                                                         | **Apply** the addition by hand. The worklist lists the ones the guards can identify under "Emitted additions not applied", and the Step 2a parity guard reports each one.                                                                         |
+   | The customization only works around something the new spec fixed or removed                                                                                              | **Drop** it when nothing in `src/`, tests, or samples uses it and it is not exported public API. Otherwise keep it and say why.                                                                                                                   |
+   | Anything else, or two options look equally plausible                                                                                                                     | Choose the one that preserves public API and existing behavior, implement it, and mark it **needs review**.                                                                                                                                       |
+
+3. **Fix the fallout.** A kept declaration can disagree with a neighbor that merged cleanly, for example a public method that now takes `IndexUpdateUnion` while its kept `_createOrUpdateSend` still takes `IndexUnion`, or with hand-written code that builds a type the emitter changed. These surface as compiler errors rather than worklist entries. Find them early with `npx tsc -p tsconfig.src.json --noEmit`, trace each one to the entry that caused it, and change `src/` to match that entry's disposition. Never suppress an error with `@ts-ignore`, `any` casts, or lint disables, and never edit `generated/`.
+4. **Re-verify** after the last edit:
+
+   ```powershell
+   npm run format
+   node scripts/customize.mjs --recover --check
+   node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+   npx tsc -p tsconfig.src.json --noEmit
+   ```
+
+5. **Record every disposition.** Keep a table for `open-regeneration-pr` to put in the pull request description, with one row per entry (plus one per separate decision an entry needed): the entry, the disposition (adopt, keep, port, combine, apply, or drop), and a one-line reason. Add **needs review** where you were unsure. An entry is not done until it has a row.
+
+If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
 
 ### Step 1: Pre-flight — verify protected files are intact
 
@@ -443,10 +483,13 @@ npm run check-format
 
 ## Hand-off
 
-Once the build is green, hand off to the `author-samples` skill.
+Once the build is green, hand off to the `author-samples` skill. When Step 0a produced a disposition table, carry it forward for `open-regeneration-pr`.
 
 ## Anti-patterns
 
+- Do **not** stop, or report a failed regeneration, because `npm run customize` printed `Customization rejected N unresolved or unsafe change(s)` or `missing resolved operation ...`. Strict rejection is expected. `generate-client.ps1` recovers, and Step 0a gives every kept change a disposition.
+- Do **not** call a worklist entry resolved because `src/` compiles. A kept declaration can silently miss an emitted wire change, so each entry needs a decision and a row in the disposition table.
+- Do **not** run `customize.mjs --check` without `--recover` after recovery (it is strict without it and fails on entries you have already dealt with), and never rerun a non-check `customize.mjs` or `npm run customize` once `src/` has your edits.
 - Do **not** accept broad emitter rewrites of protected files. Permit only narrowly scoped, necessary integration changes backed by upstream evidence, an intentional-delta audit, and focused validation.
 - Do **not** stage or commit before this skill completes; downstream skills (`author-samples`, `author-tests`, `update-changelog`, `open-regeneration-pr`) rely on the working-tree diff being intact.
 - Do **not** introduce an `incoming/` staging directory or `git merge-file` workflow — the emitter writes directly to `src/` and `generated/`, and the workflow operates on the resulting `git diff`.

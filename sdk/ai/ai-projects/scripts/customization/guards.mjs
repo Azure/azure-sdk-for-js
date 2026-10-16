@@ -438,6 +438,7 @@ function requireDelta(previous, incoming, output, entry, kind, report) {
         entry.name,
         `Missing newly emitted ${kind}; incorporate the generated addition without replacing maintained customizations.`,
         typeof value === "string" ? value : member,
+        kind,
       );
     } else if (
       !previous.has(member) &&
@@ -1799,6 +1800,17 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
   }
 }
 
+/**
+ * Check that the resolved source incorporates every emitted change and preserves
+ * every customization. Returns the diagnostics for anything that does not.
+ *
+ * A recovery run keeps the customized form of a declaration whose merge was
+ * rejected, so an addition the emitter made to it is knowingly not applied.
+ * When `retained` (the `file::declaration` keys of those declarations) and
+ * `unapplied` (an array) are both passed, such a missing addition is recorded
+ * in `unapplied` instead of being returned as a diagnostic. Every other check,
+ * and every missing addition in a declaration that was not kept, is unchanged.
+ */
 export function validateCustomization({
   baseGenerated,
   baseSource,
@@ -1806,15 +1818,19 @@ export function validateCustomization({
   source,
   matches = [],
   modelRenames = new Map(),
+  retained,
+  unapplied,
 }) {
   const diagnostics = [];
   const reported = new Set();
-  const report = (file, declaration, message, member) => {
+  const report = (file, declaration, message, member, unappliedKind) => {
     const diagnostic = { file, declaration, ...(member === undefined ? {} : { member }), message };
     const key = JSON.stringify(diagnostic);
     if (!reported.has(key)) {
       reported.add(key);
-      diagnostics.push(diagnostic);
+      if (unappliedKind !== undefined && unapplied && retained?.has(`${file}::${declaration}`))
+        unapplied.push({ file, declaration, member, kind: unappliedKind });
+      else diagnostics.push(diagnostic);
     }
   };
   for (const [name, value] of Object.entries({
