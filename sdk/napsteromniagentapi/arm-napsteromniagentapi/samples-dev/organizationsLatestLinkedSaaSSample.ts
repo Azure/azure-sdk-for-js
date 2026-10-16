@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the latest SaaS linked to the Napster organization of the underlying monitor.
  *
  * @summary returns the latest SaaS linked to the Napster organization of the underlying monitor.
- * x-ms-original-file: 2025-12-24-preview/Organizations_LatestLinkedSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/Organizations_LatestLinkedSaaS_MaximumSet_Gen.json
  */
 async function organizationsLatestLinkedSaaSMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
