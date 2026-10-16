@@ -397,6 +397,7 @@ export interface BlobLayoutRange {
  * ```ts snippet:ClientsDownloadFromLayoutEndpoint
  * import { BlobServiceClient } from "@azure/storage-blob";
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { buffer } from "node:stream/consumers";
  *
  * const account = "<account>";
  * const blobServiceClient = new BlobServiceClient(
@@ -413,7 +414,10 @@ export interface BlobLayoutRange {
  *     const response = await blobClient.download(range.start, range.end - range.start + 1, {
  *       layoutEndpoint,
  *     });
- *     console.log(`Read ${response.contentLength} bytes from ${layoutEndpoint}`);
+ *     if (response.readableStreamBody) {
+ *       const bytes = await buffer(response.readableStreamBody);
+ *       console.log(`Read ${bytes.length} bytes from ${layoutEndpoint}`);
+ *     }
  *   }
  * }
  * ```

@@ -949,7 +949,10 @@ describe("snippets", () => {
         const response = await blobClient.download(range.start, range.end - range.start + 1, {
           layoutEndpoint,
         });
-        console.log(`Read ${response.contentLength} bytes from ${layoutEndpoint}`);
+        if (response.readableStreamBody) {
+          const bytes = await buffer(response.readableStreamBody);
+          console.log(`Read ${bytes.length} bytes from ${layoutEndpoint}`);
+        }
       }
     }
   });
