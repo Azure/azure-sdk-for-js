@@ -26,11 +26,11 @@ jobs:
     strategy:
       matrix:
         Linux:
-          Pool: $(LINUXPOOL)
-          OSVmImage: $(LINUXVMIMAGE)
+          Pool: "azsdk-pool"
+          OSVmImage: "ubuntu-24.04"
         Windows:
-          Pool: $(WINDOWSPOOL)
-          OSVmImage: $(WINDOWSVMIMAGE)
+          Pool: "azsdk-pool"
+          OSVmImage: "windows-2022"
 
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
