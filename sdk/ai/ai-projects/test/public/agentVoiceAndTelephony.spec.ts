@@ -11,6 +11,7 @@ import type {
   BrowserAutomationPreviewToolboxTool,
   TelephonyTransferTarget,
   VoiceAgentDefinition,
+  VoiceAgentLiveDefinition,
 } from "../../src/index.js";
 
 interface MockResponse {
@@ -116,11 +117,33 @@ describe("beta agent voice authoring", () => {
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
   });
 
-  it("round-trips a voice definition through createVersion without dropping false or nested audio", async () => {
-    const { client, requests } = createClient({ body: version });
-    const result = await client.agents.createVersion("voice-agent", voiceDefinition, options);
-    expect(JSON.parse(requests[0].body as string).definition).toEqual(voiceDefinition);
-    expect(result.definition).toMatchObject(voiceDefinition);
+  it.each([undefined, "realtime"] as const)(
+    "round-trips a voice definition with sub_protocol %s without dropping false or nested audio",
+    async (sub_protocol) => {
+      const definition: VoiceAgentDefinition = { ...voiceDefinition, sub_protocol };
+      const { client, requests } = createClient({ body: { ...version, definition } });
+      const result = await client.agents.createVersion("voice-agent", definition, options);
+      expect(JSON.parse(requests[0].body as string).definition).toEqual(definition);
+      expect(result.definition).toMatchObject(definition);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    },
+  );
+
+  it("round-trips a Live voice definition through createVersion", async () => {
+    const definition: VoiceAgentLiveDefinition = {
+      kind: "voice",
+      sub_protocol: "live",
+      model_type: "self_deployed",
+      model: "gpt-live-deployment",
+      instructions: "Help callers find public transport.",
+      greeting: { type: "template", text: "Hello!" },
+      delegation: { type: "client" },
+      store: false,
+    };
+    const { client, requests } = createClient({ body: { ...version, definition } });
+    const result = await client.agents.createVersion("voice-agent", definition, options);
+    expect(JSON.parse(requests[0].body as string).definition).toEqual(definition);
+    expect(result.definition).toMatchObject(definition);
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
   });
 

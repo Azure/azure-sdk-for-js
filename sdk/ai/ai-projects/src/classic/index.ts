@@ -24,3 +24,4 @@ export type { BetaVoiceAgentsOperations } from "./beta/voiceAgents/index.js";
 export type { BetaVoiceAgentsConversationsOperations } from "./beta/voiceAgents/conversations/index.js";
 export type { BetaVoiceAgentsTelephonyOperations } from "./beta/voiceAgents/telephony/index.js";
 export type { EvaluatorsOperations } from "./evaluators/index.js";
+export type { BetaVoiceAgentsLiveConversationsOperations } from "./beta/voiceAgents/liveConversations/index.js";
