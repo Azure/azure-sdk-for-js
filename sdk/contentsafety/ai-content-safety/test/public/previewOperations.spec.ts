@@ -4,7 +4,7 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { readFileSync } from "node:fs";
 import { assert, describe, expect, it } from "vitest";
 import type {
@@ -62,6 +62,19 @@ function createJsonResponse(
     status,
     headers: createHttpHeaders({ "content-type": "application/json", ...headers }),
     bodyAsText: JSON.stringify(body),
+  };
+}
+
+function createTextResponse(
+  request: PipelineRequest,
+  status: number,
+  body: string,
+): PipelineResponse {
+  return {
+    request,
+    status,
+    headers: createHttpHeaders({ "content-type": "text/plain" }),
+    bodyAsText: body,
   };
 }
 
@@ -429,10 +442,70 @@ describe("preview operations", () => {
       };
       const client = new ContentSafetyClient(endpoint, credential, { httpClient });
 
-      await expect(
-        client.unifiedModerate(createInputContext(), { policyId: "policy-1" }),
-      ).rejects.toMatchObject({ statusCode: status, code });
+      const error = await client
+        .unifiedModerate(createInputContext(), { policyId: "policy-1" })
+        .catch((caught: unknown) => caught);
+
+      assert.instanceOf(error, RestError);
+      assert.equal(error.statusCode, status);
+      assert.equal(error.code, code);
+      const details = error.details as { error: { code: string; message: string } };
+      assert.equal(details.error.code, code);
+      assert.equal(details.error.message, `${code} request.`);
     }
+  });
+
+  it("preserves RestError details for flat authorization errors", async () => {
+    for (const [status, code] of [
+      [401, "Unauthorized"],
+      [403, "Forbidden"],
+    ] as const) {
+      const message = `${code} request.`;
+      const httpClient: HttpClient = {
+        async sendRequest(request) {
+          return createJsonResponse(request, status, { code, message });
+        },
+      };
+      const client = new ContentSafetyClient(endpoint, credential, {
+        httpClient,
+        retryOptions: { maxRetries: 0 },
+      });
+
+      const error = await client
+        .unifiedModerate(createInputContext(), { policyId: "policy-1" })
+        .catch((caught: unknown) => caught);
+
+      assert.instanceOf(error, RestError);
+      assert.equal(error.statusCode, status);
+      assert.equal(error.code, code);
+      assert.equal(error.message, message);
+      assert.equal(error.response?.status, status);
+      assert.equal(new URL(error.request!.url).pathname, "/contentsafety/content:unifiedModerate");
+    }
+  });
+
+  it("preserves RestError diagnostics for plain-text service errors", async () => {
+    const responseBody = "Service temporarily unavailable.";
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return createTextResponse(request, 503, responseBody);
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, {
+      httpClient,
+      retryOptions: { maxRetries: 0 },
+    });
+
+    const error = await client
+      .unifiedModerate(createInputContext(), { policyId: "policy-1" })
+      .catch((caught: unknown) => caught);
+
+    assert.instanceOf(error, RestError);
+    assert.equal(error.statusCode, 503);
+    assert.equal(error.message, "Unexpected status code: 503");
+    assert.equal(error.response?.status, 503);
+    assert.equal(error.response?.bodyAsText, responseBody);
+    assert.equal(error.response?.headers.get("content-type"), "text/plain");
   });
 
   it("serializes typed targets exactly like their point payloads", async () => {

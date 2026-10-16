@@ -40,6 +40,18 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
+function hasAgentEvaluationErrorEnvelope(
+  body: unknown,
+): body is { error: Record<string, unknown> } {
+  return (
+    typeof body === "object" &&
+    body !== null &&
+    "error" in body &&
+    typeof body.error === "object" &&
+    body.error !== null
+  );
+}
+
 export function _unifiedModerateSend(
   context: Client,
   body: AgentContextUnion,
@@ -75,35 +87,35 @@ export async function _unifiedModerateDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 400) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 401) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 403) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 404) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 409) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 429) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 500) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     } else if (statusCode === 503) {
-      if (result.body) {
+      if (hasAgentEvaluationErrorEnvelope(result.body)) {
         error.details = agentEvaluationErrorDeserializer(result.body);
       }
     }
