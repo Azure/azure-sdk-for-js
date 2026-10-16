@@ -104,9 +104,9 @@ export interface AgentDenyVerdict extends AgentVerdict {
 
 // @public
 export interface AgentEvaluatedPolicyLayer {
+    activatedArtifactDigest: string;
     decision: AgentDecision;
     kind: AgentPolicyLayerKind;
-    manifestRegoDigest: string;
     policyResourceId: string;
     policyRevision: string;
     policySemanticDigest: string;
@@ -152,12 +152,8 @@ export interface AgentEvidence {
 
 // @public
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
-    bindingEpoch: number;
-    capabilityVersion: string;
     // (undocumented)
     profile: "foundryProject";
-    readinessEpoch: number;
-    supportedInterventionPoints: AgentInterceptionPoint[];
     targetIncarnation: string;
     targetResourceId: string;
 }

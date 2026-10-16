@@ -11,6 +11,7 @@
 
 - `unifiedModerate` now accepts an `AgentContextUnion` and returns an `AgentEvaluationResult` envelope containing the native `verdict` and policy-evaluation `receipt`. Policy and resource selectors move to the operation options and are sent as query parameters. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - Replaced the rejected developer-policy selectors with `selectedPolicyId`, `selectedPolicyRevision`, and `selectedPolicySemanticDigest`; removed `appliedGeneration`; renamed the selected policy layer and policy-selection errors to match the corrected service contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Renamed policy-layer `manifestRegoDigest` to `activatedArtifactDigest` and removed `supportedInterventionPoints`, `capabilityVersion`, `bindingEpoch`, and `readinessEpoch` from the public Foundry receipt. Authenticated producer identity, target identity, and project incarnation remain available. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - The default API version is now `2026-10-15-preview`. The September Unified Moderate request and response format requires the earlier SDK contract. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ### Bugs Fixed
@@ -20,6 +21,7 @@
 - Preserve native JSON member names such as `__proto__` as own properties in tool arguments and opaque response metadata. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - Include explicit null in Verdict, warning and evidence property types where the Agent Hooks wire contract permits it. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 - Keep AgentContext, Verdict and receipt discriminated unions closed so known variants cannot omit their required fields. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
+- Decode the current Foundry and named-policy public examples without requiring removed receipt fields, while preserving activated artifact digests and opaque selected-policy ETags. ([#40276](https://github.com/Azure/azure-sdk-for-js/pull/40276))
 
 ## 1.0.0-beta.1 (2026-09-18)
 

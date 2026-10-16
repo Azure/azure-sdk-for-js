@@ -5,6 +5,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { readFileSync } from "node:fs";
 import { assert, describe, expect, it } from "vitest";
 import type {
   AacsSubjectRole,
@@ -25,6 +26,26 @@ import {
 
 const endpoint = "https://example.cognitiveservices.azure.com";
 const credential = new AzureKeyCredential("fake-key");
+
+interface CurrentTypeSpecExample {
+  parameters: {
+    targetResourceId?: string;
+    policyId?: string;
+    selectedPolicyId?: string;
+    selectedPolicyRevision?: string;
+    selectedPolicySemanticDigest?: string;
+  };
+  responses: {
+    "200": {
+      body: Record<string, unknown> & {
+        receipt: {
+          evaluatedPolicyLayers: Array<{ activatedArtifactDigest: string }>;
+          authenticatedProducerResourceId: string;
+        };
+      };
+    };
+  };
+}
 
 function sha256Fixture(hexDigit: string): string {
   return `sha256:${hexDigit.repeat(64)}`;
@@ -47,6 +68,15 @@ function createJsonResponse(
 function parseRequestBody(request: PipelineRequest): Record<string, unknown> {
   assert.isString(request.body);
   return JSON.parse(request.body as string) as Record<string, unknown>;
+}
+
+function loadCurrentTypeSpecExample(name: string): CurrentTypeSpecExample {
+  return JSON.parse(
+    readFileSync(
+      new URL(`./fixtures/current-typespec-63e247a9/${name}.json`, import.meta.url),
+      "utf8",
+    ),
+  ) as CurrentTypeSpecExample;
 }
 
 function createInputContext(): AgentInputContext {
@@ -82,7 +112,7 @@ function createNamedPolicyReceipt(
         policyResourceId: "/policies/policy-1",
         policyRevision: '"revision-1"',
         policySemanticDigest: sha256Fixture("a"),
-        manifestRegoDigest: sha256Fixture("b"),
+        activatedArtifactDigest: sha256Fixture("b"),
         decision: "deny",
       },
     ],
@@ -106,7 +136,7 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         policyResourceId: "/policies/project-policy",
         policyRevision: '"project-revision"',
         policySemanticDigest: sha256Fixture("c"),
-        manifestRegoDigest: sha256Fixture("d"),
+        activatedArtifactDigest: sha256Fixture("d"),
         decision: "deny",
       },
       {
@@ -114,7 +144,7 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         policyResourceId: "/policies/selected-policy",
         policyRevision: '"selected-revision"',
         policySemanticDigest: sha256Fixture("e"),
-        manifestRegoDigest: sha256Fixture("f"),
+        activatedArtifactDigest: sha256Fixture("f"),
         decision: "deny",
       },
       {
@@ -122,17 +152,13 @@ function createFoundryProjectReceipt(interventionPoint: string): Record<string, 
         policyResourceId: "/policies/administrator-policy",
         policyRevision: '"administrator-revision"',
         policySemanticDigest: sha256Fixture("0"),
-        manifestRegoDigest: sha256Fixture("1"),
+        activatedArtifactDigest: sha256Fixture("1"),
         decision: "allow",
       },
     ],
-    supportedInterventionPoints: [interventionPoint],
-    capabilityVersion: "capability-1",
     targetResourceId:
       "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/account/projects/project",
     targetIncarnation: "project-incarnation-1",
-    bindingEpoch: Number.MAX_SAFE_INTEGER,
-    readinessEpoch: Number.MAX_SAFE_INTEGER,
   };
 }
 
@@ -229,6 +255,8 @@ describe("preview operations", () => {
     );
     assert.equal(requestUrl.searchParams.get("selectedPolicyId"), "/policies/selected-policy");
     assert.equal(requestUrl.searchParams.get("selectedPolicyRevision"), '"selected-revision"');
+    assert.include(requests[0].url, "selectedPolicyRevision=%22selected-revision%22");
+    assert.notInclude(requests[0].url, "selectedPolicyRevision=%2522selected-revision%2522");
     assert.equal(requestUrl.searchParams.get("selectedPolicySemanticDigest"), sha256Fixture("e"));
     assert.equal(requests[0].headers.get("content-type"), "application/json");
     assert.deepEqual(parseRequestBody(requests[0]), {
@@ -261,8 +289,11 @@ describe("preview operations", () => {
       assert.fail("Expected a Foundry project receipt");
     }
     assert.equal(receipt.targetIncarnation, "project-incarnation-1");
-    assert.equal(receipt.bindingEpoch, Number.MAX_SAFE_INTEGER);
-    assert.equal(receipt.readinessEpoch, Number.MAX_SAFE_INTEGER);
+    assert.notProperty(receipt, "bindingEpoch");
+    assert.notProperty(receipt, "readinessEpoch");
+    assert.notProperty(receipt, "capabilityVersion");
+    assert.notProperty(receipt, "supportedInterventionPoints");
+    assert.equal(receipt.evaluatedPolicyLayers[1].activatedArtifactDigest, sha256Fixture("f"));
     assert.deepEqual(
       receipt.evaluatedPolicyLayers.map(({ kind }) => kind),
       ["project", "selected", "hierarchy"],
@@ -295,6 +326,53 @@ describe("preview operations", () => {
     assert.equal(result.verdict.decision, "allow");
     assert.equal(result.receipt.profile, "namedPolicy");
     assert.equal(result.receipt.evaluatedInterventionPoint, "input");
+    assert.equal(
+      result.receipt.evaluatedPolicyLayers[0].activatedArtifactDigest,
+      sha256Fixture("b"),
+    );
+  });
+
+  it("consumes the current TypeSpec Foundry and named-policy public examples", async () => {
+    const foundryExample = loadCurrentTypeSpecExample("UnifiedModerate_Input");
+    const namedExample = loadCurrentTypeSpecExample("UnifiedModerate_NamedPolicy");
+    let responseBody = foundryExample.responses["200"].body as Record<string, unknown>;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        return createJsonResponse(request, 200, responseBody);
+      },
+    };
+    const client = new ContentSafetyClient(endpoint, credential, { httpClient });
+
+    const foundry = await client.unifiedModerate(createInputContext(), {
+      targetResourceId: foundryExample.parameters.targetResourceId,
+      selectedPolicyId: foundryExample.parameters.selectedPolicyId,
+      selectedPolicyRevision: foundryExample.parameters.selectedPolicyRevision,
+      selectedPolicySemanticDigest: foundryExample.parameters.selectedPolicySemanticDigest,
+    });
+    assert.equal(foundry.receipt.profile, "foundryProject");
+    assert.equal(
+      foundry.receipt.evaluatedPolicyLayers[0].activatedArtifactDigest,
+      foundryExample.responses["200"].body.receipt.evaluatedPolicyLayers[0].activatedArtifactDigest,
+    );
+    assert.notProperty(foundry.receipt, "supportedInterventionPoints");
+    assert.notProperty(foundry.receipt, "capabilityVersion");
+    assert.notProperty(foundry.receipt, "bindingEpoch");
+    assert.notProperty(foundry.receipt, "readinessEpoch");
+    assert.notProperty(foundry.receipt, "appliedGeneration");
+
+    responseBody = namedExample.responses["200"].body as Record<string, unknown>;
+    const named = await client.unifiedModerate(createInputContext(), {
+      policyId: namedExample.parameters.policyId,
+    });
+    assert.equal(named.receipt.profile, "namedPolicy");
+    assert.equal(
+      named.receipt.evaluatedPolicyLayers[0].activatedArtifactDigest,
+      namedExample.responses["200"].body.receipt.evaluatedPolicyLayers[0].activatedArtifactDigest,
+    );
+    assert.equal(
+      named.receipt.authenticatedProducerResourceId,
+      namedExample.responses["200"].body.receipt.authenticatedProducerResourceId,
+    );
   });
 
   it("preserves extensible roles, policy layers, and service error codes", async () => {
@@ -304,7 +382,7 @@ describe("preview operations", () => {
       policyResourceId: "/policies/tenant-overlay",
       policyRevision: '"revision-2"',
       policySemanticDigest: sha256Fixture("a"),
-      manifestRegoDigest: sha256Fixture("b"),
+      activatedArtifactDigest: sha256Fixture("b"),
       decision: "allow",
     };
     const knownServiceCodes: AgentEvaluationErrorCode[] = ["Unauthorized", "Forbidden"];

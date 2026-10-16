@@ -1433,8 +1433,8 @@ export interface AgentEvaluatedPolicyLayer {
   policyRevision: string;
   /** SHA-256 digest of the admitted semantic policy closure. This prevents a mutable policy name from resolving to different content during an admitted or resumed operation. */
   policySemanticDigest: string;
-  /** SHA-256 digest of the activated manifest, Rego and immutable runtime dependencies under the declared host profile. */
-  manifestRegoDigest: string;
+  /** SHA-256 digest of the exact activated executable policy artifact, including the manifest, Rego and immutable runtime dependencies under the declared host profile. */
+  activatedArtifactDigest: string;
   /** Decision returned by this layer before aggregate composition. */
   decision: AgentDecision;
 }
@@ -1445,7 +1445,7 @@ export function agentEvaluatedPolicyLayerDeserializer(item: any): AgentEvaluated
     policyResourceId: item["policyResourceId"],
     policyRevision: item["policyRevision"],
     policySemanticDigest: item["policySemanticDigest"],
-    manifestRegoDigest: item["manifestRegoDigest"],
+    activatedArtifactDigest: item["activatedArtifactDigest"],
     decision: item["decision"],
   };
 }
@@ -1511,21 +1511,13 @@ export function agentHarmDetailDeserializer(item: any): AgentHarmDetail {
   };
 }
 
-/** Receipt for a governed Foundry project. The selected Guardrail is identified in evaluatedPolicyLayers. Project fields fence trusted target identity, explicit hierarchy-binding state and host readiness; they do not describe a generated project policy. */
+/** Receipt for a governed Foundry project. The selected Guardrail and every explicit administrator hierarchy policy are identified independently in evaluatedPolicyLayers. The project fields identify the exact RP project incarnation used for this attempt; they do not describe a generated project policy or assert host readiness. */
 export interface AgentFoundryProjectReceipt extends AgentPolicyEvaluationReceipt {
   profile: "foundryProject";
-  /** Required intervention points supported by the admitted Foundry host capability. Foundry's authenticated capability authority supplies this value; AACS must not infer it, echo request metadata or claim support when the authoritative value is unavailable. This is not a list of points evaluated by this receipt. */
-  supportedInterventionPoints: AgentInterceptionPoint[];
-  /** Foundry-owned effective capability version admitted for this target, region, cohort and operation. AACS obtains it from the authenticated capability authority and fails closed when it cannot. API version and request metadata do not establish this capability. */
-  capabilityVersion: string;
   /** Governed project selected by targetResourceId. */
   targetResourceId: string;
-  /** Opaque project incarnation that changes when the target is deleted and recreated. */
+  /** RP-owned project incarnation that changes when the target is deleted, recreated or moved. The runtime obtains it from an authenticated current-project projection; it is not caller metadata. */
   targetIncarnation: string;
-  /** Monotonic explicit hierarchy-binding state epoch obtained from the authoritative binding interface for this attempt, including a stable no-binding state. AACS must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
-  bindingEpoch: number;
-  /** Monotonic operation-readiness epoch obtained from the approved authoritative readiness interface for this attempt. AACS must fail closed when it is unavailable and must not infer or echo it. Producers constrain this integer to JavaScript's exact range, 0 through 9,007,199,254,740,991. */
-  readinessEpoch: number;
 }
 
 export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryProjectReceipt {
@@ -1547,18 +1539,12 @@ export function agentFoundryProjectReceiptDeserializer(item: any): AgentFoundryP
     harmResults: !item["harmResults"]
       ? item["harmResults"]
       : agentHarmResultRecordDeserializer(item["harmResults"]),
-    supportedInterventionPoints: item["supportedInterventionPoints"].map((p: any) => {
-      return p;
-    }),
-    capabilityVersion: item["capabilityVersion"],
     targetResourceId: item["targetResourceId"],
     targetIncarnation: item["targetIncarnation"],
-    bindingEpoch: item["bindingEpoch"],
-    readinessEpoch: item["readinessEpoch"],
   };
 }
 
-/** Receipt for an authorized named-policy gateway evaluation. This profile has no Foundry project incarnation, binding epoch, readiness epoch or project generation. */
+/** Receipt for an authorized named-policy gateway evaluation. This profile has no Foundry project identity or hierarchy state. */
 export interface AgentNamedPolicyReceipt extends AgentPolicyEvaluationReceipt {
   profile: "namedPolicy";
 }
@@ -1599,7 +1585,7 @@ export function agentEvaluationErrorDeserializer(item: any): AgentEvaluationErro
 
 /** Actionable October Unified Moderate error details. */
 export interface AgentEvaluationErrorDetail {
-  /** Server-defined error code. Known October codes describe selector, revision, readiness and capability failures. */
+  /** Server-defined error code. Known October codes describe selector, revision, project/hierarchy consistency and capability failures. */
   code: AgentEvaluationErrorCode;
   /** Human-readable error message. */
   message: string;
