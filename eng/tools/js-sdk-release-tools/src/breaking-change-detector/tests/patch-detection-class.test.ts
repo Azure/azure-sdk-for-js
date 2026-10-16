@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import { patchClass } from "../azure/patch/patch-detection.js";
 import { createTestAstContext } from "./utils.js";
 import { DiffLocation, DiffReasons, AssignDirection } from "../azure/common/types.js";
+import { DeclarationDifferenceDetector } from "../azure/diff/DeclarationDifferenceDetector.js";
 
 describe("detect class", () => {
   describe("detect on class level", () => {
@@ -146,6 +147,79 @@ describe("detect class", () => {
   });
 
   describe("detect classic properties", () => {
+    test.each([true, false])(
+      "respect ConcretTypeToAnyAsBreakingChange=%s",
+      async (concretTypeToAnyAsBreakingChange) => {
+        const astContext = await createTestAstContext(
+          "export class TestClass { prop: string; }",
+          "export class TestClass { prop: any; }",
+        );
+        const detector = new DeclarationDifferenceDetector({
+          RequiredToOptionalAsBreakingChange: true,
+          OptionalToRequiredAsBreakingChange: true,
+          ReadonlyToMutableAsBreakingChange: true,
+          MutableToReadonlyAsBreakingChange: true,
+          ConcretTypeToAnyAsBreakingChange: concretTypeToAnyAsBreakingChange,
+        });
+        const diffPairs = detector.findClassDifferences(
+          astContext.current.getClassOrThrow("TestClass"),
+          astContext.baseline.getClassOrThrow("TestClass"),
+        );
+        if (concretTypeToAnyAsBreakingChange) {
+          expect(diffPairs).toHaveLength(1);
+          expect(diffPairs[0].reasons).toBe(DiffReasons.TypeChanged);
+          expect(diffPairs[0].location).toBe(DiffLocation.Property);
+        } else {
+          expect(diffPairs).toEqual([]);
+        }
+      },
+    );
+
+    test("compare inherited private properties without explicit types", async () => {
+      const apiView = `
+      export declare class ServiceClient {
+        private readonly _endpoint?;
+      }
+      export declare class TestClass extends ServiceClient {}`;
+
+      const astContext = await createTestAstContext(apiView, apiView);
+      const diffPairs = patchClass("TestClass", astContext, AssignDirection.CurrentToBaseline);
+      expect(diffPairs).toEqual([]);
+    });
+
+    test.each([
+      {
+        name: "inferred property type",
+        baseline: "prop = 1;",
+        current: 'prop = "value";',
+        reason: DiffReasons.TypeChanged,
+        location: DiffLocation.Property,
+      },
+      {
+        name: "property readonly modifier",
+        baseline: "readonly prop: string;",
+        current: "prop: string;",
+        reason: DiffReasons.ReadonlyToMutable,
+        location: DiffLocation.Property,
+      },
+      {
+        name: "method type predicate",
+        baseline: "method(value: unknown): value is string;",
+        current: "method(value: unknown): value is number;",
+        reason: DiffReasons.TypeChanged,
+        location: DiffLocation.Signature_ReturnType,
+      },
+    ])("detect changes to $name", async ({ baseline, current, reason, location }) => {
+      const astContext = await createTestAstContext(
+        `export class TestClass { ${baseline} }`,
+        `export class TestClass { ${current} }`,
+      );
+      const diffPairs = patchClass("TestClass", astContext, AssignDirection.CurrentToBaseline);
+      expect(diffPairs).toHaveLength(1);
+      expect(diffPairs[0].reasons).toBe(reason);
+      expect(diffPairs[0].location).toBe(location);
+    });
+
     test("add property", async () => {
       const baselineApiView = `
       export class TestClass {
