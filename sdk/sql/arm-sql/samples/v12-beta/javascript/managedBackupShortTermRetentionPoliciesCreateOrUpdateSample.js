@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a managed database's short term retention policy.
  *
  * @summary updates a managed database's short term retention policy.
- * x-ms-original-file: 2025-08-01-preview/CreateManagedShortTermRetentionPolicy.json
+ * x-ms-original-file: 2026-08-01-preview/CreateManagedShortTermRetentionPolicy.json
  */
 async function updateTheShortTermRetentionPolicyForTheDatabase() {
   const credential = new DefaultAzureCredential();

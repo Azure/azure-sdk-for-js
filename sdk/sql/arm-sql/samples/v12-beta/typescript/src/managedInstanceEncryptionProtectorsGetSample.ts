@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed instance encryption protector.
  *
  * @summary gets a managed instance encryption protector.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceEncryptionProtectorGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceEncryptionProtectorGet.json
  */
 async function getTheEncryptionProtector(): Promise<void> {
   const credential = new DefaultAzureCredential();

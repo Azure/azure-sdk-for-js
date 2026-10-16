@@ -192,12 +192,16 @@ export interface BackupShortTermRetentionPoliciesUpdateOptionalParams extends Op
 // @public
 export interface BackupShortTermRetentionPolicy extends ProxyResource {
     diffBackupIntervalInHours?: DiffBackupIntervalInHours;
+    readonly immutabilityStatus?: ImmutabilityStatus;
+    lockImmutability?: boolean;
     retentionDays?: number;
 }
 
 // @public
 export interface BackupShortTermRetentionPolicyProperties {
     diffBackupIntervalInHours?: DiffBackupIntervalInHours;
+    readonly immutabilityStatus?: ImmutabilityStatus;
+    lockImmutability?: boolean;
     retentionDays?: number;
 }
 
@@ -493,6 +497,7 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
     isStorageSecondaryKeyInUse?: boolean;
     readonly kind?: string;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state?: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -507,6 +512,7 @@ export interface DatabaseBlobAuditingPolicyProperties {
     isManagedIdentityInUse?: boolean;
     isStorageSecondaryKeyInUse?: boolean;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -1590,6 +1596,9 @@ export interface DistributedAvailabilityGroup extends ProxyResource {
     instanceAvailabilityGroupName?: string;
     instanceLinkRole?: LinkRole;
     linkMode?: LinkModeType;
+    readonly mostRecentError?: string;
+    readonly mostRecentErrorMessage?: string;
+    readonly mostRecentErrorTime?: Date;
     partnerAvailabilityGroupName?: string;
     partnerEndpoint?: string;
     readonly partnerLinkRole?: LinkRole;
@@ -1631,6 +1640,9 @@ export interface DistributedAvailabilityGroupProperties {
     instanceAvailabilityGroupName?: string;
     instanceLinkRole?: LinkRole;
     linkMode?: LinkModeType;
+    readonly mostRecentError?: string;
+    readonly mostRecentErrorMessage?: string;
+    readonly mostRecentErrorTime?: Date;
     partnerAvailabilityGroupName?: string;
     partnerEndpoint?: string;
     readonly partnerLinkRole?: LinkRole;
@@ -2129,6 +2141,7 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
     isStorageSecondaryKeyInUse?: boolean;
     predicateExpression?: string;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state?: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -2144,6 +2157,7 @@ export interface ExtendedDatabaseBlobAuditingPolicyProperties {
     isStorageSecondaryKeyInUse?: boolean;
     predicateExpression?: string;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -2184,6 +2198,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
     isStorageSecondaryKeyInUse?: boolean;
     predicateExpression?: string;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state?: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -2200,6 +2215,7 @@ export interface ExtendedServerBlobAuditingPolicyProperties {
     isStorageSecondaryKeyInUse?: boolean;
     predicateExpression?: string;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -2448,6 +2464,9 @@ export type HybridSecondaryUsageDetected = string;
 
 // @public
 export type IdentityType = string;
+
+// @public
+export type ImmutabilityStatus = string;
 
 // @public
 export type ImplementationMethod = "TSql" | "AzurePowerShell";
@@ -3751,6 +3770,13 @@ export enum KnownIdentityType {
 }
 
 // @public
+export enum KnownImmutabilityStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Locked = "Locked"
+}
+
+// @public
 export enum KnownInaccessibilityReason {
     DatabaseReplication = "DatabaseReplication",
     TransparentDataEncryption = "TransparentDataEncryption",
@@ -4434,7 +4460,8 @@ export enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus 
 export enum KnownVersions {
     V20250101 = "2025-01-01",
     V20250201Preview = "2025-02-01-preview",
-    V20250801Preview = "2025-08-01-preview"
+    V20250801Preview = "2025-08-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -4650,6 +4677,8 @@ export interface LongTermRetentionBackupsListByDatabaseOptionalParams extends Op
 export interface LongTermRetentionBackupsListByLocationOptionalParams extends OperationOptions {
     databaseState?: DatabaseState;
     onlyLatestPerDatabase?: boolean;
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
@@ -4662,18 +4691,24 @@ export interface LongTermRetentionBackupsListByResourceGroupDatabaseOptionalPara
 export interface LongTermRetentionBackupsListByResourceGroupLocationOptionalParams extends OperationOptions {
     databaseState?: DatabaseState;
     onlyLatestPerDatabase?: boolean;
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
 export interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams extends OperationOptions {
     databaseState?: DatabaseState;
     onlyLatestPerDatabase?: boolean;
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
 export interface LongTermRetentionBackupsListByServerOptionalParams extends OperationOptions {
     databaseState?: DatabaseState;
     onlyLatestPerDatabase?: boolean;
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
@@ -5066,11 +5101,15 @@ export interface ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams ext
 
 // @public
 export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+    readonly immutabilityStatus?: ImmutabilityStatus;
+    lockImmutability?: boolean;
     retentionDays?: number;
 }
 
 // @public
 export interface ManagedBackupShortTermRetentionPolicyProperties {
+    readonly immutabilityStatus?: ImmutabilityStatus;
+    lockImmutability?: boolean;
     retentionDays?: number;
 }
 
@@ -6108,8 +6147,12 @@ export interface ManagedInstanceLongTermRetentionBackup extends ProxyResource {
     readonly backupTime?: Date;
     readonly databaseDeletionTime?: Date;
     readonly databaseName?: string;
+    readonly isBackupImmutable?: boolean;
+    readonly legalHoldImmutability?: SetLegalHoldImmutability;
     readonly managedInstanceCreateTime?: Date;
     readonly managedInstanceName?: string;
+    readonly timeBasedImmutability?: TimeBasedImmutability;
+    readonly timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
 }
 
 // @public
@@ -6120,8 +6163,12 @@ export interface ManagedInstanceLongTermRetentionBackupProperties {
     readonly backupTime?: Date;
     readonly databaseDeletionTime?: Date;
     readonly databaseName?: string;
+    readonly isBackupImmutable?: boolean;
+    readonly legalHoldImmutability?: SetLegalHoldImmutability;
     readonly managedInstanceCreateTime?: Date;
     readonly managedInstanceName?: string;
+    readonly timeBasedImmutability?: TimeBasedImmutability;
+    readonly timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
 }
 
 // @public
@@ -6162,6 +6209,8 @@ export interface ManagedInstanceLongTermRetentionPoliciesOperations {
 export interface ManagedInstanceLongTermRetentionPolicy extends ProxyResource {
     backupStorageAccessTier?: BackupStorageAccessTier;
     monthlyRetention?: string;
+    timeBasedImmutability?: TimeBasedImmutability;
+    timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
     weeklyRetention?: string;
     weekOfYear?: number;
     yearlyRetention?: string;
@@ -6174,6 +6223,8 @@ export type ManagedInstanceLongTermRetentionPolicyName = string;
 export interface ManagedInstanceLongTermRetentionPolicyProperties {
     backupStorageAccessTier?: BackupStorageAccessTier;
     monthlyRetention?: string;
+    timeBasedImmutability?: TimeBasedImmutability;
+    timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
     weeklyRetention?: string;
     weekOfYear?: number;
     yearlyRetention?: string;
@@ -7847,6 +7898,8 @@ export interface RestorableDroppedDatabasesGetOptionalParams extends OperationOp
 
 // @public
 export interface RestorableDroppedDatabasesListByServerOptionalParams extends OperationOptions {
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
@@ -8388,6 +8441,7 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
     isManagedIdentityInUse?: boolean;
     isStorageSecondaryKeyInUse?: boolean;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state?: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;
@@ -8403,6 +8457,7 @@ export interface ServerBlobAuditingPolicyProperties {
     isManagedIdentityInUse?: boolean;
     isStorageSecondaryKeyInUse?: boolean;
     queueDelayMs?: number;
+    requiredFields?: string[];
     retentionDays?: number;
     state: BlobAuditingPolicyState;
     storageAccountAccessKey?: string;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the long term retention backups for a given managed instance.
  *
  * @summary lists the long term retention backups for a given managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceLongTermRetentionBackupListByInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceLongTermRetentionBackupListByInstance.json
  */
 async function getAllLongTermRetentionBackupsUnderTheManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

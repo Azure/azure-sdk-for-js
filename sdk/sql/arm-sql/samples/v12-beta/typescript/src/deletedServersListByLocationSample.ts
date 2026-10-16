@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of deleted servers for a location.
  *
  * @summary gets a list of deleted servers for a location.
- * x-ms-original-file: 2025-08-01-preview/DeletedServerList.json
+ * x-ms-original-file: 2026-08-01-preview/DeletedServerList.json
  */
 async function listDeletedServers(): Promise<void> {
   const credential = new DefaultAzureCredential();

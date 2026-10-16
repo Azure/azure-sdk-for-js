@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the managed instance key with the given name.
  *
  * @summary deletes the managed instance key with the given name.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceKeyDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceKeyDelete.json
  */
 async function deleteTheManagedInstanceKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

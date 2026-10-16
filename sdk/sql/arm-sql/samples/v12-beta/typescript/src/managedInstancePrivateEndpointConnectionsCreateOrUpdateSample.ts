@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve or reject a private endpoint connection with a given name.
  *
  * @summary approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstancePrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstancePrivateEndpointConnectionUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const credential = new DefaultAzureCredential();

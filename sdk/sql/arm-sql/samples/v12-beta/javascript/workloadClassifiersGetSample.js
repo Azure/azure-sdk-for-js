@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a workload classifier
  *
  * @summary gets a workload classifier
- * x-ms-original-file: 2025-08-01-preview/GetWorkloadClassifier.json
+ * x-ms-original-file: 2026-08-01-preview/GetWorkloadClassifier.json
  */
 async function getsAWorkloadClassifierForADataWarehouse() {
   const credential = new DefaultAzureCredential();

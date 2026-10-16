@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
  *
  * @summary creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsCreateMax.json
  */
 async function createADistributedAvailabilityGroupWithAllProperties() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createADistributedAvailabilityGroupWithAllProperties() {
  * This sample demonstrates how to creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
  *
  * @summary creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsCreateMin.json
  */
 async function createADistributedAvailabilityGroupWithMinimalProperties() {
   const credential = new DefaultAzureCredential();

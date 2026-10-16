@@ -165,13 +165,21 @@ export interface BackupShortTermRetentionPolicy extends ProxyResource {
   retentionDays?: number;
   /** The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases. */
   diffBackupIntervalInHours?: DiffBackupIntervalInHours;
+  /** Whether to lock the immutability of the backups governed by this short term retention policy. */
+  lockImmutability?: boolean;
+  /** The immutability status of the backups governed by this short term retention policy. */
+  readonly immutabilityStatus?: ImmutabilityStatus;
 }
 
 export function backupShortTermRetentionPolicySerializer(
   item: BackupShortTermRetentionPolicy,
 ): any {
   return {
-    properties: areAllPropsUndefined(item, ["retentionDays", "diffBackupIntervalInHours"])
+    properties: areAllPropsUndefined(item, [
+      "retentionDays",
+      "diffBackupIntervalInHours",
+      "lockImmutability",
+    ])
       ? undefined
       : _backupShortTermRetentionPolicyPropertiesSerializer(item),
   };
@@ -199,6 +207,10 @@ export interface BackupShortTermRetentionPolicyProperties {
   retentionDays?: number;
   /** The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases. */
   diffBackupIntervalInHours?: DiffBackupIntervalInHours;
+  /** Whether to lock the immutability of the backups governed by this short term retention policy. */
+  lockImmutability?: boolean;
+  /** The immutability status of the backups governed by this short term retention policy. */
+  readonly immutabilityStatus?: ImmutabilityStatus;
 }
 
 export function backupShortTermRetentionPolicyPropertiesSerializer(
@@ -207,6 +219,7 @@ export function backupShortTermRetentionPolicyPropertiesSerializer(
   return {
     retentionDays: item["retentionDays"],
     diffBackupIntervalInHours: item["diffBackupIntervalInHours"],
+    lockImmutability: item["lockImmutability"],
   };
 }
 
@@ -216,6 +229,8 @@ export function backupShortTermRetentionPolicyPropertiesDeserializer(
   return {
     retentionDays: item["retentionDays"],
     diffBackupIntervalInHours: item["diffBackupIntervalInHours"],
+    lockImmutability: item["lockImmutability"],
+    immutabilityStatus: item["immutabilityStatus"],
   };
 }
 
@@ -236,6 +251,27 @@ export enum KnownDiffBackupIntervalInHours {
  * **24**: 24
  */
 export type DiffBackupIntervalInHours = number;
+
+/** The immutability status of the backups governed by this short term retention policy. */
+export enum KnownImmutabilityStatus {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Locked */
+  Locked = "Locked",
+}
+
+/**
+ * The immutability status of the backups governed by this short term retention policy. \
+ * {@link KnownImmutabilityStatus} can be used interchangeably with ImmutabilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Disabled \
+ * **Enabled**: Enabled \
+ * **Locked**: Locked
+ */
+export type ImmutabilityStatus = string;
 
 /** Known values of {@link ShortTermRetentionPolicyName} that the service accepts. */
 export enum KnownShortTermRetentionPolicyName {
@@ -3884,6 +3920,13 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state?: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -3911,6 +3954,7 @@ export function serverBlobAuditingPolicySerializer(item: ServerBlobAuditingPolic
       "isAzureMonitorTargetEnabled",
       "queueDelayMs",
       "isManagedIdentityInUse",
+      "requiredFields",
       "state",
       "storageEndpoint",
       "storageAccountAccessKey",
@@ -4039,6 +4083,13 @@ export interface ServerBlobAuditingPolicyProperties {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4071,6 +4122,11 @@ export function serverBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4093,6 +4149,11 @@ export function serverBlobAuditingPolicyPropertiesDeserializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4229,6 +4290,13 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state?: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4255,6 +4323,7 @@ export function databaseBlobAuditingPolicySerializer(item: DatabaseBlobAuditingP
       "isAzureMonitorTargetEnabled",
       "queueDelayMs",
       "isManagedIdentityInUse",
+      "requiredFields",
       "state",
       "storageEndpoint",
       "storageAccountAccessKey",
@@ -4371,6 +4440,13 @@ export interface DatabaseBlobAuditingPolicyProperties {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4402,6 +4478,11 @@ export function databaseBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4423,6 +4504,11 @@ export function databaseBlobAuditingPolicyPropertiesDeserializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4556,6 +4642,13 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state?: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4585,6 +4678,7 @@ export function extendedDatabaseBlobAuditingPolicySerializer(
       "isAzureMonitorTargetEnabled",
       "queueDelayMs",
       "isManagedIdentityInUse",
+      "requiredFields",
       "state",
       "storageEndpoint",
       "storageAccountAccessKey",
@@ -4704,6 +4798,13 @@ export interface ExtendedDatabaseBlobAuditingPolicyProperties {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4736,6 +4837,11 @@ export function extendedDatabaseBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4758,6 +4864,11 @@ export function extendedDatabaseBlobAuditingPolicyPropertiesDeserializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -4904,6 +5015,13 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state?: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -4934,6 +5052,7 @@ export function extendedServerBlobAuditingPolicySerializer(
       "isAzureMonitorTargetEnabled",
       "queueDelayMs",
       "isManagedIdentityInUse",
+      "requiredFields",
       "state",
       "storageEndpoint",
       "storageAccountAccessKey",
@@ -5066,6 +5185,13 @@ export interface ExtendedServerBlobAuditingPolicyProperties {
   queueDelayMs?: number;
   /** Specifies whether Managed Identity is used to access blob storage */
   isManagedIdentityInUse?: boolean;
+  /**
+   * Specifies the required fields to include in audit events (optional).
+   * Each item must be a valid audit_event field name.
+   * Can only be specified when isAzureMonitorTargetEnabled is true.
+   * For the complete list of valid field names, see the audit_event table schema documentation.
+   */
+  requiredFields?: string[];
   /** Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: BlobAuditingPolicyState;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
@@ -5099,6 +5225,11 @@ export function extendedServerBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -5122,6 +5253,11 @@ export function extendedServerBlobAuditingPolicyPropertiesDeserializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -5241,8 +5377,10 @@ export function advisorPropertiesDeserializer(item: any): AdvisorProperties {
 
 /** Gets the status of availability of this advisor to customers. Possible values are 'GA', 'PublicPreview', 'LimitedPublicPreview' and 'PrivatePreview'. */
 export type AdvisorStatus = "GA" | "PublicPreview" | "LimitedPublicPreview" | "PrivatePreview";
+
 /** Gets the auto-execute status (whether to let the system execute the recommendations) of this advisor. Possible values are 'Enabled' and 'Disabled' */
 export type AutoExecuteStatus = "Enabled" | "Disabled" | "Default";
+
 /** Gets the resource from which current value of auto-execute status is inherited. Auto-execute status can be set on (and inherited from) different levels in the resource hierarchy. Possible values are 'Subscription', 'Server', 'ElasticPool', 'Database' and 'Default' (when status is not explicitly set on any level). */
 export type AutoExecuteStatusInheritedFrom =
   "Default" | "Subscription" | "Server" | "ElasticPool" | "Database";
@@ -5518,6 +5656,7 @@ export enum KnownRecommendedActionCurrentState {
  * **Error**: Error
  */
 export type RecommendedActionCurrentState = string;
+
 /** Gets if approval for applying this recommended action was given by user/system. */
 export type RecommendedActionInitiatedBy = "User" | "System";
 
@@ -7299,6 +7438,12 @@ export interface DistributedAvailabilityGroup extends ProxyResource {
   seedingMode?: SeedingModeType;
   /** Specifies whether the link operates in single-database or multi-database mode. */
   linkMode?: LinkModeType;
+  /** Most recent error code for the distributed availability group. */
+  readonly mostRecentError?: string;
+  /** Time of the most recent error for the distributed availability group. */
+  readonly mostRecentErrorTime?: Date;
+  /** Most recent error message for the distributed availability group. */
+  readonly mostRecentErrorMessage?: string;
   /** Databases in the distributed availability group */
   databases?: DistributedAvailabilityGroupDatabase[];
 }
@@ -7359,6 +7504,12 @@ export interface DistributedAvailabilityGroupProperties {
   seedingMode?: SeedingModeType;
   /** Specifies whether the link operates in single-database or multi-database mode. */
   linkMode?: LinkModeType;
+  /** Most recent error code for the distributed availability group. */
+  readonly mostRecentError?: string;
+  /** Time of the most recent error for the distributed availability group. */
+  readonly mostRecentErrorTime?: Date;
+  /** Most recent error message for the distributed availability group. */
+  readonly mostRecentErrorMessage?: string;
   /** Databases in the distributed availability group */
   databases?: DistributedAvailabilityGroupDatabase[];
 }
@@ -7396,6 +7547,11 @@ export function distributedAvailabilityGroupPropertiesDeserializer(
     failoverMode: item["failoverMode"],
     seedingMode: item["seedingMode"],
     linkMode: item["linkMode"],
+    mostRecentError: item["mostRecentError"],
+    mostRecentErrorTime: !item["mostRecentErrorTime"]
+      ? item["mostRecentErrorTime"]
+      : new Date(item["mostRecentErrorTime"]),
+    mostRecentErrorMessage: item["mostRecentErrorMessage"],
     databases: !item["databases"]
       ? item["databases"]
       : distributedAvailabilityGroupDatabaseArrayDeserializer(item["databases"]),
@@ -12895,6 +13051,14 @@ export interface ManagedInstanceLongTermRetentionBackup extends ProxyResource {
   readonly backupStorageRedundancy?: BackupStorageRedundancy;
   /** The BackupStorageAccessTier for the LTR backup */
   readonly backupStorageAccessTier?: BackupStorageAccessTier;
+  /** The setting whether the LTR backup is immutable */
+  readonly isBackupImmutable?: boolean;
+  /** The setting for whether or not time-based immutability is enabled for the LTR backup. When time-based immutability is enabled and locked, the backup cannot be deleted until BackupExpirationTime. */
+  readonly timeBasedImmutability?: TimeBasedImmutability;
+  /** The time-based immutability mode. Only applicable if time-based immutability is enabled. */
+  readonly timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
+  /** The setting for whether LegalHold is enabled or disabled on the LTR backup. When LegalHold is enabled, the backup cannot be deleted until the LegalHold is removed. */
+  readonly legalHoldImmutability?: SetLegalHoldImmutability;
 }
 
 export function managedInstanceLongTermRetentionBackupDeserializer(
@@ -12931,6 +13095,14 @@ export interface ManagedInstanceLongTermRetentionBackupProperties {
   readonly backupStorageRedundancy?: BackupStorageRedundancy;
   /** The BackupStorageAccessTier for the LTR backup */
   readonly backupStorageAccessTier?: BackupStorageAccessTier;
+  /** The setting whether the LTR backup is immutable */
+  readonly isBackupImmutable?: boolean;
+  /** The setting for whether or not time-based immutability is enabled for the LTR backup. When time-based immutability is enabled and locked, the backup cannot be deleted until BackupExpirationTime. */
+  readonly timeBasedImmutability?: TimeBasedImmutability;
+  /** The time-based immutability mode. Only applicable if time-based immutability is enabled. */
+  readonly timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
+  /** The setting for whether LegalHold is enabled or disabled on the LTR backup. When LegalHold is enabled, the backup cannot be deleted until the LegalHold is removed. */
+  readonly legalHoldImmutability?: SetLegalHoldImmutability;
 }
 
 export function managedInstanceLongTermRetentionBackupPropertiesDeserializer(
@@ -12951,6 +13123,10 @@ export function managedInstanceLongTermRetentionBackupPropertiesDeserializer(
       : new Date(item["backupExpirationTime"]),
     backupStorageRedundancy: item["backupStorageRedundancy"],
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    isBackupImmutable: item["isBackupImmutable"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
+    legalHoldImmutability: item["legalHoldImmutability"],
   };
 }
 
@@ -13112,13 +13288,17 @@ export function longTermRetentionPolicyArrayDeserializer(
 export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
   /** The backup retention period in days. This is how many days Point-in-Time Restore will be supported. */
   retentionDays?: number;
+  /** Whether to lock the immutability of the backups governed by this short term retention policy. */
+  lockImmutability?: boolean;
+  /** The immutability status of the backups governed by this short term retention policy. */
+  readonly immutabilityStatus?: ImmutabilityStatus;
 }
 
 export function managedBackupShortTermRetentionPolicySerializer(
   item: ManagedBackupShortTermRetentionPolicy,
 ): any {
   return {
-    properties: areAllPropsUndefined(item, ["retentionDays"])
+    properties: areAllPropsUndefined(item, ["retentionDays", "lockImmutability"])
       ? undefined
       : _managedBackupShortTermRetentionPolicyPropertiesSerializer(item),
   };
@@ -13144,12 +13324,16 @@ export function managedBackupShortTermRetentionPolicyDeserializer(
 export interface ManagedBackupShortTermRetentionPolicyProperties {
   /** The backup retention period in days. This is how many days Point-in-Time Restore will be supported. */
   retentionDays?: number;
+  /** Whether to lock the immutability of the backups governed by this short term retention policy. */
+  lockImmutability?: boolean;
+  /** The immutability status of the backups governed by this short term retention policy. */
+  readonly immutabilityStatus?: ImmutabilityStatus;
 }
 
 export function managedBackupShortTermRetentionPolicyPropertiesSerializer(
   item: ManagedBackupShortTermRetentionPolicyProperties,
 ): any {
-  return { retentionDays: item["retentionDays"] };
+  return { retentionDays: item["retentionDays"], lockImmutability: item["lockImmutability"] };
 }
 
 export function managedBackupShortTermRetentionPolicyPropertiesDeserializer(
@@ -13157,6 +13341,8 @@ export function managedBackupShortTermRetentionPolicyPropertiesDeserializer(
 ): ManagedBackupShortTermRetentionPolicyProperties {
   return {
     retentionDays: item["retentionDays"],
+    lockImmutability: item["lockImmutability"],
+    immutabilityStatus: item["immutabilityStatus"],
   };
 }
 
@@ -14030,6 +14216,10 @@ export function managedInstanceKeyArrayDeserializer(result: Array<ManagedInstanc
 export interface ManagedInstanceLongTermRetentionPolicy extends ProxyResource {
   /** The BackupStorageAccessTier for the LTR backups */
   backupStorageAccessTier?: BackupStorageAccessTier;
+  /** The setting for whether to enable time-based immutability for future backups. When set, future backups will have TimeBasedImmutability enabled. */
+  timeBasedImmutability?: TimeBasedImmutability;
+  /** The setting for time-based immutability mode for future backup (Value can be either Locked or UnLocked. Only effective if TimeBasedImmutability is enabled). Caution: Immutability of LTR backup cannot be removed if TimeBasedImmutabilityMode is Locked. */
+  timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
   /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
   weeklyRetention?: string;
   /** The monthly retention policy for an LTR backup in an ISO 8601 format. */
@@ -14046,6 +14236,8 @@ export function managedInstanceLongTermRetentionPolicySerializer(
   return {
     properties: areAllPropsUndefined(item, [
       "backupStorageAccessTier",
+      "timeBasedImmutability",
+      "timeBasedImmutabilityMode",
       "weeklyRetention",
       "monthlyRetention",
       "yearlyRetention",
@@ -14076,6 +14268,10 @@ export function managedInstanceLongTermRetentionPolicyDeserializer(
 export interface ManagedInstanceLongTermRetentionPolicyProperties {
   /** The BackupStorageAccessTier for the LTR backups */
   backupStorageAccessTier?: BackupStorageAccessTier;
+  /** The setting for whether to enable time-based immutability for future backups. When set, future backups will have TimeBasedImmutability enabled. */
+  timeBasedImmutability?: TimeBasedImmutability;
+  /** The setting for time-based immutability mode for future backup (Value can be either Locked or UnLocked. Only effective if TimeBasedImmutability is enabled). Caution: Immutability of LTR backup cannot be removed if TimeBasedImmutabilityMode is Locked. */
+  timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
   /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
   weeklyRetention?: string;
   /** The monthly retention policy for an LTR backup in an ISO 8601 format. */
@@ -14091,6 +14287,8 @@ export function managedInstanceLongTermRetentionPolicyPropertiesSerializer(
 ): any {
   return {
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
     weeklyRetention: item["weeklyRetention"],
     monthlyRetention: item["monthlyRetention"],
     yearlyRetention: item["yearlyRetention"],
@@ -14103,6 +14301,8 @@ export function managedInstanceLongTermRetentionPolicyPropertiesDeserializer(
 ): ManagedInstanceLongTermRetentionPolicyProperties {
   return {
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
     weeklyRetention: item["weeklyRetention"],
     monthlyRetention: item["monthlyRetention"],
     yearlyRetention: item["yearlyRetention"],
@@ -19307,8 +19507,10 @@ export function automaticTuningOptionsDeserializer(item: any): AutomaticTuningOp
 
 /** Automatic tuning option desired state. */
 export type AutomaticTuningOptionModeDesired = "Off" | "On" | "Default";
+
 /** Automatic tuning option actual state. */
 export type AutomaticTuningOptionModeActual = "Off" | "On";
+
 /** Reason description if desired and actual state are different. */
 export type AutomaticTuningDisabledReason =
   | "Default"
@@ -21976,6 +22178,7 @@ export enum KnownLogSizeUnit {
  * **Percent**: Percent
  */
 export type LogSizeUnit = string;
+
 /** The status of the capability. */
 export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 
@@ -22975,6 +23178,7 @@ export enum KnownSqlVulnerabilityAssessmentName {
 
 /** Type of SqlVulnerabilityAssessmentName */
 export type SqlVulnerabilityAssessmentName = string;
+
 /** Type of VulnerabilityAssessmentPolicyBaselineName */
 export type VulnerabilityAssessmentPolicyBaselineName = "master" | "default";
 
@@ -23067,6 +23271,8 @@ export enum KnownVersions {
   V20250201Preview = "2025-02-01-preview",
   /** The 2025-08-01-preview API version. */
   V20250801Preview = "2025-08-01-preview",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }
 
 export function advisorArraySerializer(result: Array<Advisor>): any[] {
@@ -23087,6 +23293,7 @@ export function _backupShortTermRetentionPolicyPropertiesSerializer(
   return {
     retentionDays: item["retentionDays"],
     diffBackupIntervalInHours: item["diffBackupIntervalInHours"],
+    lockImmutability: item["lockImmutability"],
   };
 }
 
@@ -23094,6 +23301,8 @@ export function _backupShortTermRetentionPolicyPropertiesDeserializer(item: any)
   return {
     retentionDays: item["retentionDays"],
     diffBackupIntervalInHours: item["diffBackupIntervalInHours"],
+    lockImmutability: item["lockImmutability"],
+    immutabilityStatus: item["immutabilityStatus"],
   };
 }
 
@@ -23472,6 +23681,11 @@ export function _serverBlobAuditingPolicyPropertiesSerializer(item: ServerBlobAu
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23492,6 +23706,11 @@ export function _serverBlobAuditingPolicyPropertiesDeserializer(item: any) {
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23513,6 +23732,11 @@ export function _databaseBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23532,6 +23756,11 @@ export function _databaseBlobAuditingPolicyPropertiesDeserializer(item: any) {
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23554,6 +23783,11 @@ export function _extendedDatabaseBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23574,6 +23808,11 @@ export function _extendedDatabaseBlobAuditingPolicyPropertiesDeserializer(item: 
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23597,6 +23836,11 @@ export function _extendedServerBlobAuditingPolicyPropertiesSerializer(
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23618,6 +23862,11 @@ export function _extendedServerBlobAuditingPolicyPropertiesDeserializer(item: an
     isAzureMonitorTargetEnabled: item["isAzureMonitorTargetEnabled"],
     queueDelayMs: item["queueDelayMs"],
     isManagedIdentityInUse: item["isManagedIdentityInUse"],
+    requiredFields: !item["requiredFields"]
+      ? item["requiredFields"]
+      : item["requiredFields"].map((p: any) => {
+          return p;
+        }),
     state: item["state"],
     storageEndpoint: item["storageEndpoint"],
     storageAccountAccessKey: item["storageAccountAccessKey"],
@@ -23975,6 +24224,11 @@ export function _distributedAvailabilityGroupPropertiesDeserializer(item: any) {
     failoverMode: item["failoverMode"],
     seedingMode: item["seedingMode"],
     linkMode: item["linkMode"],
+    mostRecentError: item["mostRecentError"],
+    mostRecentErrorTime: !item["mostRecentErrorTime"]
+      ? item["mostRecentErrorTime"]
+      : new Date(item["mostRecentErrorTime"]),
+    mostRecentErrorMessage: item["mostRecentErrorMessage"],
     databases: !item["databases"]
       ? item["databases"]
       : distributedAvailabilityGroupDatabaseArrayDeserializer(item["databases"]),
@@ -24774,6 +25028,10 @@ export function _managedInstanceLongTermRetentionBackupPropertiesDeserializer(it
       : new Date(item["backupExpirationTime"]),
     backupStorageRedundancy: item["backupStorageRedundancy"],
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    isBackupImmutable: item["isBackupImmutable"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
+    legalHoldImmutability: item["legalHoldImmutability"],
   };
 }
 
@@ -24802,12 +25060,14 @@ export function _longTermRetentionPolicyPropertiesDeserializer(item: any) {
 export function _managedBackupShortTermRetentionPolicyPropertiesSerializer(
   item: ManagedBackupShortTermRetentionPolicy,
 ): any {
-  return { retentionDays: item["retentionDays"] };
+  return { retentionDays: item["retentionDays"], lockImmutability: item["lockImmutability"] };
 }
 
 export function _managedBackupShortTermRetentionPolicyPropertiesDeserializer(item: any) {
   return {
     retentionDays: item["retentionDays"],
+    lockImmutability: item["lockImmutability"],
+    immutabilityStatus: item["immutabilityStatus"],
   };
 }
 
@@ -24959,6 +25219,8 @@ export function _managedInstanceLongTermRetentionPolicyPropertiesSerializer(
 ): any {
   return {
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
     weeklyRetention: item["weeklyRetention"],
     monthlyRetention: item["monthlyRetention"],
     yearlyRetention: item["yearlyRetention"],
@@ -24969,6 +25231,8 @@ export function _managedInstanceLongTermRetentionPolicyPropertiesSerializer(
 export function _managedInstanceLongTermRetentionPolicyPropertiesDeserializer(item: any) {
   return {
     backupStorageAccessTier: item["backupStorageAccessTier"],
+    timeBasedImmutability: item["timeBasedImmutability"],
+    timeBasedImmutabilityMode: item["timeBasedImmutabilityMode"],
     weeklyRetention: item["weeklyRetention"],
     monthlyRetention: item["monthlyRetention"],
     yearlyRetention: item["yearlyRetention"],

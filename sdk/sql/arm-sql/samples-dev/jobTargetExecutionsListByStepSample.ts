@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the target executions of a job step execution.
  *
  * @summary lists the target executions of a job step execution.
- * x-ms-original-file: 2025-08-01-preview/ListJobExecutionTargetsByStep.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobExecutionTargetsByStep.json
  */
 async function listJobStepTargetExecutions(): Promise<void> {
   const credential = new DefaultAzureCredential();

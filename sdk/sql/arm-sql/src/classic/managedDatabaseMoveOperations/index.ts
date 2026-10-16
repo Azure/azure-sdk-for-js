@@ -26,6 +26,7 @@ export interface ManagedDatabaseMoveOperationsOperations {
     options?: ManagedDatabaseMoveOperationsGetOptionalParams,
   ) => Promise<ManagedDatabaseMoveOperationResult>;
 }
+
 function _getManagedDatabaseMoveOperations(context: SqlManagementContext) {
   return {
     listByLocation: (
@@ -41,6 +42,7 @@ function _getManagedDatabaseMoveOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, locationName, operationId, options),
   };
 }
+
 export function _getManagedDatabaseMoveOperationsOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseMoveOperationsOperations {

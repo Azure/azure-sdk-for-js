@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all executions in a job agent.
  *
  * @summary lists all executions in a job agent.
- * x-ms-original-file: 2025-08-01-preview/ListJobExecutionsByAgent.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobExecutionsByAgent.json
  */
 async function listAllJobExecutionsInAJobAgent() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listAllJobExecutionsInAJobAgent() {
  * This sample demonstrates how to lists all executions in a job agent.
  *
  * @summary lists all executions in a job agent.
- * x-ms-original-file: 2025-08-01-preview/ListJobExecutionsByAgentWithFilter.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobExecutionsByAgentWithFilter.json
  */
 async function listAllJobExecutionsInAJobAgentWithFiltering() {
   const credential = new DefaultAzureCredential();

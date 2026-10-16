@@ -30,6 +30,7 @@ export interface DatabaseTablesOperations {
     options?: DatabaseTablesGetOptionalParams,
   ) => Promise<DatabaseTable>;
 }
+
 function _getDatabaseTables(context: SqlManagementContext) {
   return {
     listBySchema: (
@@ -49,6 +50,7 @@ function _getDatabaseTables(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, schemaName, tableName, options),
   };
 }
+
 export function _getDatabaseTablesOperations(
   context: SqlManagementContext,
 ): DatabaseTablesOperations {

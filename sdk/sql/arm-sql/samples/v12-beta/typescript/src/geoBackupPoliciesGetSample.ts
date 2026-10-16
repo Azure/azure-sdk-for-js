@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Geo backup policy for the given database resource.
  *
  * @summary gets a Geo backup policy for the given database resource.
- * x-ms-original-file: 2025-08-01-preview/GeoBackupPoliciesGet.json
+ * x-ms-original-file: 2026-08-01-preview/GeoBackupPoliciesGet.json
  */
 async function getsTheSpecifiedGeoBackupPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

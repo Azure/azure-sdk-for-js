@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the replication link type.
  *
  * @summary updates the replication link type.
- * x-ms-original-file: 2025-08-01-preview/ReplicationLinkUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ReplicationLinkUpdate.json
  */
 async function updateReplicationLink(): Promise<void> {
   const credential = new DefaultAzureCredential();

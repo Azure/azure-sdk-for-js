@@ -40,7 +40,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByServerDeserialize(
 
   return _logicalServerAdvancedThreatProtectionListResultDeserializer(result.body);
 }
+
 /** Get a list of the server's Advanced Threat Protection states. */
 export function listByServer(
   context: Client,
@@ -84,7 +85,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -106,7 +107,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advancedThreatProtectionName: advancedThreatProtectionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +136,7 @@ export async function _createOrUpdateDeserialize(
 
   return serverAdvancedThreatProtectionDeserializer(result.body);
 }
+
 /** Creates or updates an Advanced Threat Protection state. */
 export function createOrUpdate(
   context: Client,
@@ -159,7 +161,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ServerAdvancedThreatProtection>, ServerAdvancedThreatProtection>;
 }
 
@@ -177,7 +179,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advancedThreatProtectionName: advancedThreatProtectionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,6 +206,7 @@ export async function _getDeserialize(
 
   return serverAdvancedThreatProtectionDeserializer(result.body);
 }
+
 /** Get a server's Advanced Threat Protection state. */
 export async function get(
   context: Client,

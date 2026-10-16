@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts an elastic job execution.
  *
  * @summary starts an elastic job execution.
- * x-ms-original-file: 2025-08-01-preview/CreateJobExecution.json
+ * x-ms-original-file: 2026-08-01-preview/CreateJobExecution.json
  */
 async function startAJobExecution() {
   const credential = new DefaultAzureCredential();

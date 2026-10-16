@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a server.
  *
  * @summary deletes a server.
- * x-ms-original-file: 2025-08-01-preview/ServerDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ServerDelete.json
  */
 async function deleteServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

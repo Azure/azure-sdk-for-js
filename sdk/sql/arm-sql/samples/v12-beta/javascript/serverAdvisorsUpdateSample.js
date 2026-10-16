@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a server advisor.
  *
  * @summary updates a server advisor.
- * x-ms-original-file: 2025-08-01-preview/ServerAdvisorUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAdvisorUpdate.json
  */
 async function updateServerAdvisor() {
   const credential = new DefaultAzureCredential();

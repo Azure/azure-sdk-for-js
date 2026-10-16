@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a long term retention backup.
  *
  * @summary deletes a long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceLongTermRetentionBackupDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceLongTermRetentionBackupDelete.json
  */
 async function deleteTheLongTermRetentionBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a server connection policy
  *
  * @summary gets a server connection policy
- * x-ms-original-file: 2025-08-01-preview/ServerConnectionPoliciesGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerConnectionPoliciesGet.json
  */
 async function getsAServerConnectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

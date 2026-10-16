@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a job execution.
  *
  * @summary creates or updates a job execution.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobExecution.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobExecution.json
  */
 async function createJobExecution() {
   const credential = new DefaultAzureCredential();

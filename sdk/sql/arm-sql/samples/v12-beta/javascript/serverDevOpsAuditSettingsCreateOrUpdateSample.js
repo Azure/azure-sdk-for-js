@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a server's DevOps audit settings.
  *
  * @summary creates or updates a server's DevOps audit settings.
- * x-ms-original-file: 2025-08-01-preview/ServerDevOpsAuditCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ServerDevOpsAuditCreateMax.json
  */
 async function updateAServerDevOpsAuditSettingsWithAllParams() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function updateAServerDevOpsAuditSettingsWithAllParams() {
  * This sample demonstrates how to creates or updates a server's DevOps audit settings.
  *
  * @summary creates or updates a server's DevOps audit settings.
- * x-ms-original-file: 2025-08-01-preview/ServerDevOpsAuditCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ServerDevOpsAuditCreateMin.json
  */
 async function updateAServerDevOpsAuditSettingsWithMinimalInput() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an instance pool.
  *
  * @summary updates an instance pool.
- * x-ms-original-file: 2025-08-01-preview/PatchInstancePool.json
+ * x-ms-original-file: 2026-08-01-preview/PatchInstancePool.json
  */
 async function patchAnInstancePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
