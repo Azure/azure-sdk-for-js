@@ -499,7 +499,11 @@ function rheaIntegerToBigInt(value: number | Buffer, signed: boolean): bigint {
 
 function unwrapApplicationPropertyValue(value: Typed): unknown {
   // Preserve Rhea's existing plain JavaScript values while the typed view keeps exact integers.
-  if (Buffer.isBuffer(value.value) && (value.type.name === "Long" || value.type.name === "Ulong")) {
+  if (
+    (value as Typed & { descriptor?: unknown }).descriptor == null &&
+    Buffer.isBuffer(value.value) &&
+    (value.type.name === "Long" || value.type.name === "Ulong")
+  ) {
     const highWord =
       value.type.name === "Long" ? value.value.readInt32BE(0) : value.value.readUInt32BE(0);
     if (
@@ -580,7 +584,7 @@ function installTypedApplicationPropertyDecoder(): void {
 
     Object.defineProperty(unwrapped, applicationPropertiesWithTypesSymbol, {
       configurable: false,
-      enumerable: false,
+      enumerable: true,
       value: Object.freeze(propertiesWithTypes),
       writable: false,
     });

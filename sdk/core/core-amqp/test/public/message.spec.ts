@@ -137,22 +137,26 @@ describe("message", function () {
     });
 
     it("forwards unknown described scalar values without treating them as plain scalars", function () {
-      const describedLong = rheaTypes.wrap_long(1) as Typed & { descriptor?: Typed };
+      const describedLongValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const rheaMessage = AmqpAnnotatedMessage.toRheaMessage({
+        applicationProperties: {
+          describedLong: { type: "long", value: describedLongValue },
+        },
+        body: "body",
+      });
+      const describedLong = rheaMessage.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
       describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
-      const received = AmqpAnnotatedMessage.fromRheaMessage(
-        decode({
-          application_properties: { describedLong },
-          body: "body",
-        }),
-      );
+      const received = AmqpAnnotatedMessage.fromRheaMessage(decode(rheaMessage));
 
       assert.notProperty(received.applicationPropertiesWithAmqpTypes, "describedLong");
       const resent = decode(AmqpAnnotatedMessage.toRheaMessage(received));
       const resentValue = resent.application_properties?.describedLong as Typed & {
         descriptor?: Typed;
       };
-      assert.equal(resentValue.type.name, "SmallLong");
-      assert.equal(resentValue.value, 1);
+      assert.equal(resentValue.type.name, "Long");
+      assert.equal(Buffer.from(resentValue.value).readBigInt64BE(), describedLongValue);
       assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 

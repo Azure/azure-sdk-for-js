@@ -250,10 +250,20 @@ describe("AMQP message encoding", () => {
     });
 
     it("forwards unknown described application property values unchanged", () => {
-      const describedLong = rheaTypes.wrap_long(1) as Typed & { descriptor?: Typed };
+      const describedLongValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const rheaMessage = toRheaMessage(
+        {
+          body: "hello",
+          applicationProperties: {
+            describedLong: { type: "long", value: describedLongValue },
+          },
+        },
+        defaultDataTransformer,
+      );
+      const describedLong = rheaMessage.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
       describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
-      const rheaMessage = toRheaMessage({ body: "hello" }, defaultDataTransformer);
-      rheaMessage.application_properties = { describedLong };
       const received = fromRheaMessage(
         rheaMessageUtil.decode(rheaMessageUtil.encode(rheaMessage)) as unknown as Message,
         { skipParsingBodyAsJson: false },
@@ -266,8 +276,8 @@ describe("AMQP message encoding", () => {
       const resentValue = resent.application_properties?.describedLong as Typed & {
         descriptor?: Typed;
       };
-      assert.equal(resentValue.type.name, "SmallLong");
-      assert.equal(resentValue.value, 1);
+      assert.equal(resentValue.type.name, "Long");
+      assert.equal(Buffer.from(resentValue.value).readBigInt64BE(), describedLongValue);
       assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 
