@@ -6,6 +6,7 @@ parameters:
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
+  ReleasePlanId: '0'
 
 stages:
     # Gate all release stages on: internal project AND (a manual/scheduled run OR post-merge CI on main).
@@ -47,6 +48,9 @@ stages:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
+              - ${{ if and(eq(parameters.ServiceDirectory, 'template'), eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+                  - name: AutoReleaseSdkPullRequestUrl
+                    value: $[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs['resolve.AutoReleaseSdkPullRequestUrl'] ]
             displayName: 'Release: ${{artifact.name}}'
             # Manual runs release the queue-time artifact selection unchanged. Post-merge CI runs
             # additionally gate on the auto-release resolution: only release packages the labeled PR changed.
@@ -245,6 +249,10 @@ stages:
                         parameters:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
                           PackageArtifactName: ${{ artifact.name }}
+                          ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+                            ReleasePlanId: ${{ parameters.ReleasePlanId }}
+                            ${{ if and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+                              SdkPullRequest: $(AutoReleaseSdkPullRequestUrl)
 
   - stage: Integration
     dependsOn: ${{ parameters.DependsOn }}
