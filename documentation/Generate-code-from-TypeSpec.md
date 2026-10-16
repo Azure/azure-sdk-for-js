@@ -71,7 +71,7 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-node eng/tools/js-sdk-release-tools/dist/autoGenerateInPipeline.js --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
+node eng/tools/js-sdk-release-tools/dist/autoGenerateInPipeline.js --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --local
 ```
 
 > path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline. [generateOutput.json](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json) is to show us the location of generated artifact and any other messages.
