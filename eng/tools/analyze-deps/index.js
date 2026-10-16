@@ -14,7 +14,7 @@ import argparse from "argparse";
 import Handlebars from "handlebars";
 import json5 from "json5";
 import * as tar from "tar";
-import { load as yamlLoad } from "js-yaml";
+import { loadAll as yamlLoadAll } from "js-yaml";
 import { getPackageJsons } from "@azure-tools/eng-package-utils";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -118,12 +118,13 @@ async function getRepoPackages(workspaceDir) {
 
 /**
  * Loads yaml data from a pnpm-lock.yaml file
+ * Starting in v12, the relevant lock data is in the second document of the YAML file
  * @param {string} lockPath - path to pnpm-lock.yaml
  * @returns {Promise<PnpmLock>} - the parsed yaml data
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
-  return /** @type {PnpmLock} */ (yamlLoad(data));
+  return /** @type {PnpmLock} */ (yamlLoadAll(data)[1]);
 }
 
 /**

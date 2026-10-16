@@ -151,7 +151,7 @@ if (-not $VerifyOnly) {
         Write-Pass "pnpm $(pnpm --version)"
     } else {
         Write-WarnMsg "pnpm not found (only required for -Local build path)."
-        Write-Info "  Install with: npm install -g pnpm"
+        Write-Info "  Install with: npm install -g --allow-scripts=pnpm pnpm"
     }
 }
 
@@ -442,7 +442,7 @@ function Install-Npm {
 function Install-Local {
     if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
         Write-FailMsg "pnpm is required for local build but was not found."
-        Write-Info "  Install with: npm install -g pnpm"
+        Write-Info "  Install with: npm install -g --allow-scripts=pnpm pnpm"
         return $false
     }
     Write-Info "  Building $PackageName locally..."
