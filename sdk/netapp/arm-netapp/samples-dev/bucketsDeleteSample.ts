@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a volume's bucket.
  *
  * @summary delete a volume's bucket.
- * x-ms-original-file: 2026-06-15-preview/Buckets_Delete.json
+ * x-ms-original-file: 2026-07-01/Buckets_Delete.json
  */
 async function bucketsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
   await client.buckets.delete("myRG", "account1", "pool1", "volume1", "bucket1");
 }

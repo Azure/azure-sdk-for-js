@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a quota rule
  *
  * @summary patch a quota rule
- * x-ms-original-file: 2026-06-15-preview/VolumeQuotaRules_Update.json
+ * x-ms-original-file: 2026-07-01/VolumeQuotaRules_Update.json
  */
 async function volumeQuotaRulesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "5275316f-a498-48d6-b324-2cbfdc4311b9";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
   const result = await client.volumeQuotaRules.update(
     "myRG",
