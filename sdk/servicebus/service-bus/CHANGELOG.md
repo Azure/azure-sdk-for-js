@@ -1,5 +1,17 @@
 # Release History
 
+## 7.11.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Reintroduced the preview `deleteMessages(maxMessageCount, options?)` and `purgeMessages(options?)` receiver methods. Both return result objects containing the service's actual deleted count. Purge uses a fixed enqueue-time cutoff and supports the optional `maxMessagesPerBatch` request size, which defaults to 500. [#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.10.0 (2026-10-06)
 
 ### Features Added
