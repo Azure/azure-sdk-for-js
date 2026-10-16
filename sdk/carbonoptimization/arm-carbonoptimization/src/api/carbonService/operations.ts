@@ -4,7 +4,7 @@
 import type { CarbonOptimizationManagementContext as Client } from "../index.js";
 import type {
   QueryFilterUnion,
-  CarbonEmissionDataListResult,
+  _CarbonEmissionDataListResult,
   CarbonEmissionDataUnion,
   CarbonEmissionDataAvailableDateRange,
   BillingAccountQueryFilterUnion,
@@ -12,7 +12,7 @@ import type {
 import {
   errorResponseDeserializer,
   queryFilterUnionSerializer,
-  carbonEmissionDataListResultDeserializer,
+  _carbonEmissionDataListResultDeserializer,
   carbonEmissionDataAvailableDateRangeDeserializer,
   billingAccountQueryFilterUnionSerializer,
 } from "../../models/models.js";
@@ -55,7 +55,7 @@ export function _queryCarbonEmissionReportsByBillingAccountSend(
 
 export async function _queryCarbonEmissionReportsByBillingAccountDeserialize(
   result: PathUncheckedResponse,
-): Promise<CarbonEmissionDataListResult> {
+): Promise<_CarbonEmissionDataListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -66,25 +66,25 @@ export async function _queryCarbonEmissionReportsByBillingAccountDeserialize(
     throw error;
   }
 
-  return carbonEmissionDataListResultDeserializer(result.body);
+  return _carbonEmissionDataListResultDeserializer(result.body);
 }
 
 /** API for Carbon Emissions Reports scoped to a billing account. */
-export async function queryCarbonEmissionReportsByBillingAccount(
+export function queryCarbonEmissionReportsByBillingAccount(
   context: Client,
   scope: string,
   queryParameters: BillingAccountQueryFilterUnion,
   options: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams = {
     requestOptions: {},
   },
-): Promise<CarbonEmissionDataListResult> {
-  const result = await _queryCarbonEmissionReportsByBillingAccountSend(
+): PagedAsyncIterableIterator<CarbonEmissionDataUnion> {
+  return buildPagedAsyncIterator(
     context,
-    scope,
-    queryParameters,
-    options,
+    () => _queryCarbonEmissionReportsByBillingAccountSend(context, scope, queryParameters, options),
+    _queryCarbonEmissionReportsByBillingAccountDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
-  return _queryCarbonEmissionReportsByBillingAccountDeserialize(result);
 }
 
 export function _queryCarbonEmissionDataAvailableDateRangeSend(
@@ -159,7 +159,7 @@ export function _queryCarbonEmissionReportsSend(
 
 export async function _queryCarbonEmissionReportsDeserialize(
   result: PathUncheckedResponse,
-): Promise<CarbonEmissionDataListResult> {
+): Promise<_CarbonEmissionDataListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -170,7 +170,7 @@ export async function _queryCarbonEmissionReportsDeserialize(
     throw error;
   }
 
-  return carbonEmissionDataListResultDeserializer(result.body);
+  return _carbonEmissionDataListResultDeserializer(result.body);
 }
 
 /** API for Carbon Emissions Reports */

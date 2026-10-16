@@ -599,7 +599,7 @@ export enum KnownSortDirectionEnum {
 export type SortDirectionEnum = string;
 
 /** List of carbon emission results */
-export interface CarbonEmissionDataListResult {
+export interface _CarbonEmissionDataListResult {
   /** The CarbonEmissionData items on this page */
   value: CarbonEmissionDataUnion[];
   /** The pagination token to fetch next page data, it's null or empty if it doesn't have next page data */
@@ -608,7 +608,9 @@ export interface CarbonEmissionDataListResult {
   subscriptionAccessDecisionList?: SubscriptionAccessDecision[];
 }
 
-export function carbonEmissionDataListResultDeserializer(item: any): CarbonEmissionDataListResult {
+export function _carbonEmissionDataListResultDeserializer(
+  item: any,
+): _CarbonEmissionDataListResult {
   return {
     value: carbonEmissionDataUnionArrayDeserializer(item["value"]),
     skipToken: item["skipToken"],
@@ -1400,7 +1402,7 @@ export interface BillingAccountItemDetailsReportQueryFilter extends BillingAccou
   reportType: "ItemDetailsReport";
   /** Specifies the category type for item details. */
   categoryType: BillingAccountCategoryTypeEnum;
-  /** Page size for server paging. Optional. Default value is 1000 items per page. */
+  /** Number of items to return in one request, max value is 5000. */
   pageSize: number;
   /** Pagination token for fetching the next page of data. Optional. */
   skipToken?: string;

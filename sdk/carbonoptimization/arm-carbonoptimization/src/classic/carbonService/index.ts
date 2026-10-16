@@ -14,7 +14,6 @@ import type {
 } from "../../api/carbonService/options.js";
 import type {
   QueryFilterUnion,
-  CarbonEmissionDataListResult,
   CarbonEmissionDataUnion,
   CarbonEmissionDataAvailableDateRange,
   BillingAccountQueryFilterUnion,
@@ -28,7 +27,7 @@ export interface CarbonServiceOperations {
     scope: string,
     queryParameters: BillingAccountQueryFilterUnion,
     options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
-  ) => Promise<CarbonEmissionDataListResult>;
+  ) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
   /** API for query carbon emission data available date range */
   queryCarbonEmissionDataAvailableDateRange: (
     options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
