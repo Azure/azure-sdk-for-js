@@ -943,4 +943,9 @@ export type {
   CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
   TeamsPhoneExtensibilityTelephonyBinding,
   TeamsPhoneExtensibilityTelephonyBindingListItem,
+  MicrosoftCopilotHarness,
+  MicrosoftCopilotToolsetPreview,
+  MicrosoftCopilotToolsetDefaultConfig,
+  MicrosoftCopilotToolsetConfig,
+  MicrosoftCopilotBuiltInTool,
 } from "./models.js";

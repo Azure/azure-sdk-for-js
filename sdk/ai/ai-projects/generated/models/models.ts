@@ -991,7 +991,7 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
 /** A managed runtime and agent loop used to execute a prompt agent. */
 export interface AgentHarness {
   /** The type of managed harness. */
-  /** The discriminator possible values: github_copilot_preview */
+  /** The discriminator possible values: microsoft_copilot_preview, github_copilot_preview */
   type: string;
 }
 
@@ -1006,10 +1006,13 @@ export function agentHarnessDeserializer(item: any): AgentHarness {
 }
 
 /** Alias for AgentHarnessUnion */
-export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
+export type AgentHarnessUnion = MicrosoftCopilotHarness | GitHubCopilotHarness | AgentHarness;
 
 export function agentHarnessUnionSerializer(item: AgentHarnessUnion): any {
   switch (item.type) {
+    case "microsoft_copilot_preview":
+      return microsoftCopilotHarnessSerializer(item as MicrosoftCopilotHarness);
+
     case "github_copilot_preview":
       return gitHubCopilotHarnessSerializer(item as GitHubCopilotHarness);
 
@@ -1020,6 +1023,9 @@ export function agentHarnessUnionSerializer(item: AgentHarnessUnion): any {
 
 export function agentHarnessUnionDeserializer(item: any): AgentHarnessUnion {
   switch (item["type"]) {
+    case "microsoft_copilot_preview":
+      return microsoftCopilotHarnessDeserializer(item as MicrosoftCopilotHarness);
+
     case "github_copilot_preview":
       return gitHubCopilotHarnessDeserializer(item as GitHubCopilotHarness);
 
@@ -1028,9 +1034,25 @@ export function agentHarnessUnionDeserializer(item: any): AgentHarnessUnion {
   }
 }
 
-/** The GitHub Copilot managed harness for prompt agents. */
+/** The Microsoft Copilot managed harness for prompt agents. */
+export interface MicrosoftCopilotHarness extends AgentHarness {
+  /** The type of managed harness. Always `microsoft_copilot_preview`. */
+  type: "microsoft_copilot_preview";
+}
+
+export function microsoftCopilotHarnessSerializer(item: MicrosoftCopilotHarness): any {
+  return { type: item["type"] };
+}
+
+export function microsoftCopilotHarnessDeserializer(item: any): MicrosoftCopilotHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+/** The legacy GitHub Copilot managed harness retained for compatibility. Use `MicrosoftCopilotHarness` for new prompt agents. */
 export interface GitHubCopilotHarness extends AgentHarness {
-  /** The type of managed harness. Always `github_copilot_preview`. */
+  /** The legacy type of managed harness. Always `github_copilot_preview`; use `microsoft_copilot_preview` for new prompt agents. */
   type: "github_copilot_preview";
 }
 
@@ -1075,9 +1097,108 @@ export function skillReferenceDeserializer(item: any): SkillReference {
   };
 }
 
-/** Configuration overrides for GitHub Copilot built-in tools. */
+/** Configuration overrides for Microsoft Copilot built-in tools. */
+export interface MicrosoftCopilotToolsetPreview extends Tool {
+  /** The type of the toolset. Always `microsoft_copilot_toolset_preview`. */
+  type: "microsoft_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: MicrosoftCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: MicrosoftCopilotToolsetConfig[];
+}
+
+export function microsoftCopilotToolsetPreviewSerializer(
+  item: MicrosoftCopilotToolsetPreview,
+): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : microsoftCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : microsoftCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+export function microsoftCopilotToolsetPreviewDeserializer(
+  item: any,
+): MicrosoftCopilotToolsetPreview {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : microsoftCopilotToolsetDefaultConfigDeserializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : microsoftCopilotToolsetConfigArrayDeserializer(item["configs"]),
+  };
+}
+
+/** The default enablement setting for Microsoft Copilot built-in tools. */
+export interface MicrosoftCopilotToolsetDefaultConfig {
+  /** Whether built-in tools are enabled by default. Defaults to true. */
+  enabled?: boolean;
+}
+
+export function microsoftCopilotToolsetDefaultConfigSerializer(
+  item: MicrosoftCopilotToolsetDefaultConfig,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function microsoftCopilotToolsetDefaultConfigDeserializer(
+  item: any,
+): MicrosoftCopilotToolsetDefaultConfig {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+export function microsoftCopilotToolsetConfigArraySerializer(
+  result: Array<MicrosoftCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return microsoftCopilotToolsetConfigSerializer(item);
+  });
+}
+
+export function microsoftCopilotToolsetConfigArrayDeserializer(
+  result: Array<MicrosoftCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return microsoftCopilotToolsetConfigDeserializer(item);
+  });
+}
+
+/** An enablement override for a Microsoft Copilot built-in tool. */
+export interface MicrosoftCopilotToolsetConfig {
+  /** The built-in tool to configure. */
+  name: MicrosoftCopilotBuiltInTool;
+  /** Whether the built-in tool is enabled. If omitted, the toolset default applies. */
+  enabled?: boolean;
+}
+
+export function microsoftCopilotToolsetConfigSerializer(item: MicrosoftCopilotToolsetConfig): any {
+  return { name: item["name"], enabled: item["enabled"] };
+}
+
+export function microsoftCopilotToolsetConfigDeserializer(
+  item: any,
+): MicrosoftCopilotToolsetConfig {
+  return {
+    name: item["name"],
+    enabled: item["enabled"],
+  };
+}
+
+/** A customer-configurable Microsoft Copilot built-in tool. */
+export type MicrosoftCopilotBuiltInTool =
+  "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+/** The legacy GitHub Copilot toolset retained for compatibility. Use `MicrosoftCopilotToolsetPreview` for new integrations. */
 export interface GitHubCopilotToolsetPreview extends Tool {
-  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  /** The legacy type of the toolset. Always `github_copilot_toolset_preview`; use `microsoft_copilot_toolset_preview` for new integrations. */
   type: "github_copilot_toolset_preview";
   /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
   default_config?: GitHubCopilotToolsetDefaultConfig;
@@ -1109,7 +1230,7 @@ export function gitHubCopilotToolsetPreviewDeserializer(item: any): GitHubCopilo
   };
 }
 
-/** The default enablement setting for GitHub Copilot built-in tools. */
+/** The legacy default enablement setting retained for compatibility. Use `MicrosoftCopilotToolsetDefaultConfig` for new integrations. */
 export interface GitHubCopilotToolsetDefaultConfig {
   /** Whether built-in tools are enabled by default. Defaults to true. */
   enabled?: boolean;
@@ -1145,7 +1266,7 @@ export function gitHubCopilotToolsetConfigArrayDeserializer(
   });
 }
 
-/** An enablement override for a GitHub Copilot built-in tool. */
+/** The legacy per-tool enablement override retained for compatibility. Use `MicrosoftCopilotToolsetConfig` for new integrations. */
 export interface GitHubCopilotToolsetConfig {
   /** The built-in tool to configure. */
   name: GitHubCopilotBuiltInTool;
@@ -1164,7 +1285,7 @@ export function gitHubCopilotToolsetConfigDeserializer(item: any): GitHubCopilot
   };
 }
 
-/** A customer-configurable GitHub Copilot built-in tool. */
+/** The legacy GitHub Copilot built-in tool names retained for compatibility. Use `MicrosoftCopilotBuiltInTool` for new integrations. */
 export type GitHubCopilotBuiltInTool =
   "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
 
@@ -19801,7 +19922,8 @@ export type AgentDefinitionOptInKeys =
   | "VoiceAgents=V1Preview"
   | "DigitalWorker=V1Preview"
   | "GitHubCopilot=V1Preview"
-  | "Skills=V1Preview";
+  | "Skills=V1Preview"
+  | "MicrosoftCopilot=V1Preview";
 
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
