@@ -1,5 +1,11 @@
 # Release History
 
+## 4.15.0-beta.1 (2026-10-14)
+
+### Features Added
+
+- Added `GitHubActionsCredential` for authenticating to Microsoft Entra ID using GitHub Actions OIDC federated identity credentials. This credential reads `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `ACTIONS_ID_TOKEN_REQUEST_URL`, and `ACTIONS_ID_TOKEN_REQUEST_TOKEN` from the environment and exchanges the GitHub OIDC token for an Azure access token. Sovereign cloud audience is derived automatically from `authorityHost`. [#38581](https://github.com/Azure/azure-sdk-for-js/pull/38581)
+
 ## 4.14.0 (2026-10-14)
 
 This release includes all changes introduced in versions 4.14.0-beta.1 through 4.14.0-beta.5.

@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-09-15-preview",
     },
   );
 }
@@ -97,13 +97,19 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -134,7 +140,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, raiPolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-09-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +159,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +168,12 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: raiPolicySerializer(raiPolicy),
   });
 }
@@ -217,7 +228,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

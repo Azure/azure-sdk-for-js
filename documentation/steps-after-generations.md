@@ -18,18 +18,26 @@ If the generated code does not fit your needs, you can use the JavaScript custom
 
 # Generate CHANGELOG.md
 
-Install `js-sdk-release-tools`
+Install and build `js-sdk-release-tools` from the repository root:
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools ci
+package_manager=$(node -p "require('./package.json').packageManager")
+npm_registry=$(npm config get registry)
+npm install -g "$package_manager" --registry="$npm_registry"
+pnpm install --frozen-lockfile
+pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```
 
 After you build your package, run
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool <your-package-path>
+node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js <your-package-path>
 ```
+
 Here is the example
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool sdk/advisor/arm-advisor
+node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js sdk/advisor/arm-advisor
 ```
 
 # Improve README.md document

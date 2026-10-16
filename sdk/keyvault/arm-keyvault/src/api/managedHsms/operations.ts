@@ -50,7 +50,7 @@ export function _checkMhsmNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,9 @@ export async function _checkMhsmNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -96,7 +98,7 @@ export function _listDeletedSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +116,9 @@ export async function _listDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +136,7 @@ export function listDeleted(
     () => _listDeletedSend(context, options),
     _listDeletedDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-15" },
   );
 }
 
@@ -148,7 +152,7 @@ export function _purgeDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +165,9 @@ export async function _purgeDeletedDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -181,7 +187,7 @@ export function purgeDeleted(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _purgeDeletedSend(context, name, location, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-05-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +203,7 @@ export function _getDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +221,9 @@ export async function _getDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -242,7 +250,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs{?api%2Dversion,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
       "%24top": options?.top,
     },
     {
@@ -261,7 +269,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,7 +289,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-15" },
   );
 }
 
@@ -293,7 +303,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
       "%24top": options?.top,
     },
     {
@@ -312,7 +322,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -331,7 +343,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-15" },
   );
 }
 
@@ -347,7 +359,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +372,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -369,11 +383,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified managed HSM Pool. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -385,7 +394,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-05-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -402,7 +411,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -420,7 +429,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -441,7 +452,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, name, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-05-15",
   }) as PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
 }
 
@@ -458,7 +469,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -478,7 +489,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -500,7 +513,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, name, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-05-15",
   }) as PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
 }
 
@@ -516,7 +529,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -528,13 +541,19 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return managedHsmDeserializer(result.body);
@@ -546,7 +565,7 @@ export async function get(
   resourceGroupName: string,
   name: string,
   options: ManagedHsmsGetOptionalParams = { requestOptions: {} },
-): Promise<ManagedHsm> {
+): Promise<ManagedHsm | void> {
   const result = await _getSend(context, resourceGroupName, name, options);
   return _getDeserialize(result);
 }
