@@ -136,6 +136,44 @@ describe("message", function () {
       assert.deepEqual(resent.applicationPropertiesWithAmqpTypes, boundaryProperties);
     });
 
+    it("does not restore byte-backed integer boundaries after numeric edits", function () {
+      const receivedLong = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              value: { type: "long", value: (1n << 63n) - 1n },
+            },
+            body: "body",
+          }),
+        ),
+      );
+      receivedLong.applicationProperties!.value = 2 ** 63;
+      const resentLong = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(receivedLong)),
+      );
+      assert.equal(
+        Buffer.from(resentLong.applicationProperties?.value as Uint8Array).readBigUInt64BE(),
+        1n << 63n,
+      );
+      assert.deepEqual(resentLong.applicationPropertiesWithAmqpTypes?.value, {
+        type: "ulong",
+        value: 1n << 63n,
+      });
+
+      const receivedUlong = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              value: { type: "ulong", value: (1n << 64n) - 1n },
+            },
+            body: "body",
+          }),
+        ),
+      );
+      receivedUlong.applicationProperties!.value = 2 ** 64;
+      assert.throws(() => decode(AmqpAnnotatedMessage.toRheaMessage(receivedUlong)), RangeError);
+    });
+
     it("preserves legacy unsafe long decoding outside application properties", function () {
       const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 1n;
       const longBytes = Buffer.alloc(8);

@@ -160,6 +160,10 @@ function withPreservedValue(
     (property.type === "long" || property.type === "ulong") &&
     typeof value === "number" &&
     !Number.isSafeInteger(value) &&
+    hasLegacyNumericProjection(
+      property.type,
+      bigIntToBuffer(property.value, property.type === "long"),
+    ) &&
     value === Number(property.value)
   ) {
     return property;
@@ -568,17 +572,18 @@ function getLegacyRheaIntegerValue(value: unknown): number | undefined {
     return undefined;
   }
 
-  const highWord =
-    typedValue.type.name === "Long"
-      ? typedValue.value.readInt32BE(0)
-      : typedValue.value.readUInt32BE(0);
-  if (
-    (typedValue.type.name === "Long" && highWord < 2097153 && highWord > -2097153) ||
-    (typedValue.type.name === "Ulong" && highWord < 2097153)
-  ) {
+  const type = typedValue.type.name === "Long" ? "long" : "ulong";
+  if (hasLegacyNumericProjection(type, typedValue.value)) {
+    const highWord =
+      type === "long" ? typedValue.value.readInt32BE(0) : typedValue.value.readUInt32BE(0);
     return highWord * 4294967296 + typedValue.value.readUInt32BE(4);
   }
   return undefined;
+}
+
+function hasLegacyNumericProjection(type: "long" | "ulong", value: Buffer): boolean {
+  const highWord = type === "long" ? value.readInt32BE(0) : value.readUInt32BE(0);
+  return type === "long" ? highWord < 2097153 && highWord > -2097153 : highWord < 2097153;
 }
 
 function bufferToUuid(value: Buffer): string {
