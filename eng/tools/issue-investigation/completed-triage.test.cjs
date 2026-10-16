@@ -349,58 +349,58 @@ test("the observer never rewrites the parent's requests to create its authorizat
   });
   assert.equal(result.output.items[0].type, "dispatch_workflow");
   assert.equal(JSON.stringify(output), original);
+});
 
-  for (const value of [
-    "",
-    "Agentic Triage #0",
-    "Agentic Triage #-1",
-    "Agentic Triage #01",
-    "Agentic Triage #1e3",
-    "Agentic Triage #42\ntext",
-    "Customer #42",
-  ]) {
-    test(`observer skips invalid correlation title ${JSON.stringify(value)}`, async () => {
+for (const value of [
+  "",
+  "Agentic Triage #0",
+  "Agentic Triage #-1",
+  "Agentic Triage #01",
+  "Agentic Triage #1e3",
+  "Agentic Triage #42\ntext",
+  "Customer #42",
+]) {
+  test(`observer skips invalid correlation title ${JSON.stringify(value)}`, async () => {
+    const f = fixture();
+    f.run.display_title = value;
+    assert.ok((await f.get()).reason);
+  });
+}
+
+for (const name of ["agent", "detection", "safe_outputs", "mention_owners"]) {
+  for (const state of ["failure", "cancelled", "timed_out", "skipped"]) {
+    if (name === "mention_owners" && state === "skipped") continue;
+    test(`observer refuses ${name} ${state}`, async () => {
       const f = fixture();
-      f.run.display_title = value;
+      f.jobs.find((job) => job.name === name).conclusion = state;
       assert.ok((await f.get()).reason);
     });
   }
-
-  for (const name of ["agent", "detection", "safe_outputs", "mention_owners"]) {
-    for (const state of ["failure", "cancelled", "timed_out", "skipped"]) {
-      if (name === "mention_owners" && state === "skipped") continue;
-      test(`observer refuses ${name} ${state}`, async () => {
-        const f = fixture();
-        f.jobs.find((job) => job.name === name).conclusion = state;
-        assert.ok((await f.get()).reason);
-      });
-    }
-    test(`observer refuses duplicate ${name} jobs`, async () => {
-      const f = fixture();
-      f.jobs.push({ ...f.jobs.find((job) => job.name === name) });
-      assert.ok((await f.get()).reason);
-    });
-  }
-
-  test("observer preserves parent errors instead of dispatching on lookup failure", async () => {
+  test(`observer refuses duplicate ${name} jobs`, async () => {
     const f = fixture();
-    f.github.rest.actions.getWorkflowRun = async () => {
-      throw new Error("API unavailable");
-    };
-    await assert.rejects(f.get(), /API unavailable/);
+    f.jobs.push({ ...f.jobs.find((job) => job.name === name) });
+    assert.ok((await f.get()).reason);
   });
+}
 
-  test("non-main default branches are accepted without assuming main", async () => {
-    const f = fixture();
-    f.context.payload.repository.default_branch = "trunk";
-    f.context.ref = "refs/heads/trunk";
-    f.run.head_branch = "trunk";
-    assert.equal((await f.get()).number, 42);
-  });
+test("observer preserves parent errors instead of dispatching on lookup failure", async () => {
+  const f = fixture();
+  f.github.rest.actions.getWorkflowRun = async () => {
+    throw new Error("API unavailable");
+  };
+  await assert.rejects(f.get(), /API unavailable/);
+});
 
-  test("missing source timestamps cannot authorize stale receipt reuse", async () => {
-    const f = fixture();
-    delete f.jobs[2].started_at;
-    await assert.rejects(f.get(), /timestamps/);
-  });
+test("non-main default branches are accepted without assuming main", async () => {
+  const f = fixture();
+  f.context.payload.repository.default_branch = "trunk";
+  f.context.ref = "refs/heads/trunk";
+  f.run.head_branch = "trunk";
+  assert.equal((await f.get()).number, 42);
+});
+
+test("missing source timestamps cannot authorize stale receipt reuse", async () => {
+  const f = fixture();
+  delete f.jobs[2].started_at;
+  await assert.rejects(f.get(), /timestamps/);
 });

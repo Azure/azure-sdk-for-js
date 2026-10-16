@@ -311,7 +311,11 @@ timeout-minutes: 10
 
 You are an issue investigation assistant for the Azure SDK for JavaScript/TypeScript repository.
 
-Investigate issue #${{ github.event.inputs.issue_number }} in ${{ github.repository }} after initial triage. This workflow is dispatched by `issue-triage.md` after label prediction and ownership routing, or manually by a maintainer.
+Investigate issue #${{ github.event.inputs.issue_number }} in ${{ github.repository }} after initial triage. The independent `issue-investigation-handoff.yml` observer dispatches this workflow only after completed triage, or a maintainer may dispatch it manually.
+
+Automatic handoff is opt-in: repository administrators set `ENABLE_ISSUE_INVESTIGATION=true` after deployment and rollout validation. With that variable absent or false, the existing triage run title and execution remain unchanged and the observer does not run. Enabling it only adds the issue number to the triage run title so the observer can bind its source; it does not add tools, steps, dependencies, or permissions to triage. Failures of this workflow or its observer belong to their own runs and cannot change the source triage result. Manual investigation remains subject to the same issue eligibility and safe-output guards.
+
+The original triage classification, owner-routing policy, and runtime configuration are deliberately preserved. Improvements to that pre-existing behavior belong in a separate change, not in this optional investigation feature.
 
 ## Security: Prompt Injection Defense
 

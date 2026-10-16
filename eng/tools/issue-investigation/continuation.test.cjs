@@ -297,3 +297,86 @@ test("API failures propagate rather than authorizing continuation", async () => 
   };
   await assert.rejects(f.run(), /Comment lookup unavailable/);
 });
+
+for (const field of ["receipt", "comment"]) {
+  for (const stamp of [undefined, "not-a-date", "2026-10-16T17:59:59Z", "2026-10-16T18:01:01Z"]) {
+    test(`dispatch rejects stale or malformed ${field} timestamp ${stamp}`, async () => {
+      const f = fixture("dispatch");
+      f.options.sourceWindow = {
+        after: Date.parse("2026-10-16T18:00:00Z"),
+        before: Date.parse("2026-10-16T18:01:00Z"),
+      };
+      f.options.receipts[0].timestamp = field === "receipt" ? stamp : "2026-10-16T18:00:30Z";
+      f.options.github.rest.issues.getComment = async () => ({
+        data: {
+          issue_url: f.state.issue.url,
+          body: f.state.body,
+          updated_at: field === "comment" ? stamp : "2026-10-16T18:00:30Z",
+        },
+      });
+      await assert.rejects(f.run(), /processing attempt/);
+    });
+  }
+}
+
+test("dispatch accepts a real current-attempt receipt and comment", async () => {
+  const f = fixture("dispatch");
+  f.options.sourceWindow = {
+    after: Date.parse("2026-10-16T18:00:00Z"),
+    before: Date.parse("2026-10-16T18:01:00Z"),
+  };
+  f.options.receipts[0].timestamp = "2026-10-16T18:00:30.123Z";
+  f.options.github.rest.issues.getComment = async () => ({
+    data: { issue_url: f.state.issue.url, body: f.state.body, updated_at: "2026-10-16T18:00:30Z" },
+  });
+  assert.ok((await f.run()).output);
+});
+
+for (const output of [
+  null,
+  {},
+  { items: null },
+  { items: [null] },
+  { items: [], errors: ["failed"] },
+  { items: [], errors: {} },
+]) {
+  test(`continuation rejects malformed native output ${JSON.stringify(output)}`, async () => {
+    const f = fixture();
+    f.options.output = output;
+    await assert.rejects(f.run(), /Invalid agent output/);
+  });
+}
+
+for (const kind of ["assignment", "dispatch"]) {
+  for (const condition of [
+    "closed",
+    "locked",
+    "missing-customer",
+    "zero-service",
+    "two-service",
+    "zero-category",
+    "two-category",
+  ]) {
+    test(`${kind} declines current eligibility ${condition}`, async () => {
+      const f = fixture(kind);
+      if (condition === "closed") f.state.issue.state = "closed";
+      if (condition === "locked") f.state.issue.locked = true;
+      if (condition === "missing-customer") f.state.issue.labels.shift();
+      if (condition === "zero-service") f.state.issue.labels.splice(1, 1);
+      if (condition === "two-service")
+        f.state.issue.labels.push({ name: "another-service", color: "e99695" });
+      if (condition === "zero-category") f.state.issue.labels.splice(2, 1);
+      if (condition === "two-category")
+        f.state.issue.labels.push({ name: "another-category", color: "ffeb77" });
+      assert.ok((await f.run()).reason);
+    });
+  }
+}
+
+test("continuation rejects deleted or foreign receipt content instead of inventing success", async () => {
+  const f = fixture();
+  f.options.github.rest.issues.getComment = async () => {
+    throw new Error("404");
+  };
+  await assert.rejects(f.run(), /404/);
+});

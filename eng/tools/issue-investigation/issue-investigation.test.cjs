@@ -336,53 +336,64 @@ test("a lookalike documentation host cannot authorize service closure", async ()
   await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
 });
 
-test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
-  const script = stepScript(source, "Verify investigation produced output");
-
-  for (const evidence of [
-    "https://github.com/Azure/azure-sdk-for-js/issues/42",
-    "https://github.com/Azure/azure-sdk-for-js/pull/42",
-    "https://github.com/Azure/azure-sdk-for-js/discussions/42",
-    "https://github.com/attacker/azure-sdk-for-js/blob/main/README.md",
-    "https://raw.githubusercontent.com/attacker/azure-sdk-for-js/main/README.md",
-    "https://github.com/Azure/azure-sdk-for-js/blob/untrusted/README.md",
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/untrusted/README.md",
-    "https://github.com/Azure/azure-sdk-for-js/blob/main/src/client.ts",
-    "https://github.com/Azure/azure-sdk-for-js/tree/main/docs",
-    "https://github.com/Azure/azure-sdk-for-js/blob/main/README.md?ref=untrusted",
-    "https://github.com/Azure/azure-sdk-for-js/blob/main/%252e%252e/README.md",
-    "https://learn.microsoft.com/answers/questions/12345",
-    "https://learn.microsoft.com/en-us/answers/questions/12345",
-    "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
-    "https://feedback.azure.com/d365community#feedback",
-    "https://user@learn.microsoft.com/azure/key-vault/general/backup",
-    "https://learn.microsoft.com:444/azure/key-vault/general/backup",
-    "https://[invalid",
-  ]) {
-    test(`closure rejects non-governing or untrusted citation: ${evidence}`, async () => {
-      const item = close();
-      item.body = item.body.replace(
-        "https://learn.microsoft.com/azure/key-vault/general/backup",
-        evidence,
-      );
-      await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
-    });
-  }
-
-  test("normalized support URLs count as support but never as governing evidence", async () => {
+for (const evidence of [
+  "https://github.com/Azure/azure-sdk-for-js/issues/42",
+  "https://github.com/Azure/azure-sdk-for-js/pull/42",
+  "https://github.com/Azure/azure-sdk-for-js/discussions/42",
+  "https://github.com/attacker/azure-sdk-for-js/blob/main/README.md",
+  "https://raw.githubusercontent.com/attacker/azure-sdk-for-js/main/README.md",
+  "https://github.com/Azure/azure-sdk-for-js/blob/untrusted/README.md",
+  "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/untrusted/README.md",
+  "https://github.com/Azure/azure-sdk-for-js/blob/main/src/client.ts",
+  "https://github.com/Azure/azure-sdk-for-js/tree/main/docs",
+  "https://github.com/Azure/azure-sdk-for-js/blob/main/README.md?ref=untrusted",
+  "https://github.com/Azure/azure-sdk-for-js/blob/main/%252e%252e/README.md",
+  "https://learn.microsoft.com/answers/questions/12345",
+  "https://learn.microsoft.com/en-us/answers/questions/12345",
+  "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
+  "https://feedback.azure.com/d365community#feedback",
+  "https://user@learn.microsoft.com/azure/key-vault/general/backup",
+  "https://learn.microsoft.com:444/azure/key-vault/general/backup",
+  "https://[invalid",
+]) {
+  test(`closure rejects non-governing or untrusted citation: ${evidence}`, async () => {
     const item = close();
     item.body = item.body.replace(
-      "https://learn.microsoft.com/answers/questions/",
-      "https://LEARN.MICROSOFT.COM:443/answers/questions#top",
-    );
-    await verify(validIssue(), [item]);
-    item.body = item.body.replace(
       "https://learn.microsoft.com/azure/key-vault/general/backup",
-      "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
+      evidence,
     );
     await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
   });
-  for (const contents of [undefined, "", "{", "null", "{}", '{"items":{}}', '{"items":[]}']) {
+}
+
+test("normalized support URLs count as support but never as governing evidence", async () => {
+  const item = close();
+  item.body = item.body.replace(
+    "https://learn.microsoft.com/answers/questions/",
+    "https://LEARN.MICROSOFT.COM:443/answers/questions#top",
+  );
+  await verify(validIssue(), [item]);
+  item.body = item.body.replace(
+    "https://learn.microsoft.com/azure/key-vault/general/backup",
+    "https://LEARN.MICROSOFT.COM:443/answers/questions/#top",
+  );
+  await assert.rejects(verify(validIssue(), [item]), /supporting documentation URL/);
+});
+test("output postcondition rejects missing, malformed, and empty artifacts", async () => {
+  const script = stepScript(source, "Verify investigation produced output");
+  for (const contents of [
+    undefined,
+    "",
+    "{",
+    "null",
+    "{}",
+    '{"items":{}}',
+    '{"items":[]}',
+    '{"items":[null]}',
+    '{"items":[{}]}',
+    '{"items":[{"type":"noop"}],"errors":["failed"]}',
+    '{"items":[{"type":"noop"}],"errors":{}}',
+  ]) {
     await assert.rejects(
       execute(script, {
         require: () => ({
