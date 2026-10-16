@@ -9,6 +9,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
 import {
+  MicrosoftCopilotToolsetPreview,
+  microsoftCopilotToolsetPreviewSerializer,
+  microsoftCopilotToolsetPreviewDeserializer,
   GitHubCopilotToolsetPreview,
   gitHubCopilotToolsetPreviewSerializer,
   gitHubCopilotToolsetPreviewDeserializer,
@@ -224,6 +227,7 @@ export function toolDeserializer(item: any): Tool {
 
 /** Alias for ToolUnion */
 export type ToolUnion =
+  | MicrosoftCopilotToolsetPreview
   | GitHubCopilotToolsetPreview
   | BingGroundingTool
   | MicrosoftFabricPreviewTool
@@ -261,6 +265,9 @@ export type ToolUnion =
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
+    case "microsoft_copilot_toolset_preview":
+      return microsoftCopilotToolsetPreviewSerializer(item as MicrosoftCopilotToolsetPreview);
+
     case "github_copilot_toolset_preview":
       return gitHubCopilotToolsetPreviewSerializer(item as GitHubCopilotToolsetPreview);
 
@@ -367,6 +374,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
 export function toolUnionDeserializer(item: any): ToolUnion {
   switch (item["type"]) {
+    case "microsoft_copilot_toolset_preview":
+      return microsoftCopilotToolsetPreviewDeserializer(item as MicrosoftCopilotToolsetPreview);
+
     case "github_copilot_toolset_preview":
       return gitHubCopilotToolsetPreviewDeserializer(item as GitHubCopilotToolsetPreview);
 
@@ -506,7 +516,8 @@ export type ToolType =
   | "bing_grounding"
   | "browser_automation"
   | "capture_structured_outputs"
-  | "openapi";
+  | "openapi"
+  | "microsoft_copilot_toolset_preview";
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
