@@ -239,6 +239,62 @@ describe("Expect: 100-continue on the wire", () => {
     },
   );
 
+  it("stops a non-negotiated upload after an early final response", async () => {
+    const fixture = await setup();
+    fixture.agent.maxSockets = 1;
+    let attempts = 0;
+    fixture.server.on("request", (incoming, response) => {
+      attempts++;
+      if (attempts === 1) {
+        incoming.once("data", () => {
+          incoming.pause();
+          response.writeHead(413, {
+            Connection: "keep-alive",
+            "Content-Length": 8,
+          });
+          response.end("rejected");
+        });
+      } else {
+        response.end("next");
+      }
+    });
+    let reads = 0;
+    const source = new Readable({
+      read() {
+        reads++;
+        this.push(Buffer.alloc(64 * 1024));
+      },
+    });
+    cleanups.push(async () => {
+      source.destroy();
+    });
+    const controller = new AbortController();
+    const client = createDefaultHttpClient();
+    const first = await client.sendRequest(
+      pipelineRequest(fixture, {
+        body: source,
+        headers: createHttpHeaders(),
+        abortSignal: controller.signal,
+      }),
+    );
+    expect(first.status).toBe(413);
+    expect(first.bodyAsText).toBe("rejected");
+    const stoppedAt = reads;
+    controller.abort();
+    await new Promise((resolve) => setTimeout(resolve, 25));
+    expect(reads).toBe(stoppedAt);
+
+    const next = await client.sendRequest(
+      pipelineRequest(fixture, {
+        method: "GET",
+        headers: createHttpHeaders(),
+        timeout: 500,
+      }),
+    );
+    expect(next.bodyAsText).toBe("next");
+    expect(attempts).toBe(2);
+  });
+
   it.each(["text", "stream", "gzip", "deflate", "HEAD"])(
     "preserves early %s responses",
     async (kind) => {
@@ -808,6 +864,30 @@ describe("Expect: 100-continue on the wire", () => {
       );
     },
   );
+
+  it.each(["flat", "pairs"])("adds Host to replaced %s headers when omitted", async (shape) => {
+    const fixture = await setup();
+    const headers =
+      shape === "flat"
+        ? ["Expect", "100-continue", "Content-Length", "4"]
+        : [
+            ["Expect", "100-continue"],
+            ["Content-Length", "4"],
+          ];
+    fixture.server.on("checkContinue", (incoming, response) => {
+      expect(incoming.headers.host).toBe(new URL(fixture.url).host);
+      response.writeContinue();
+      incoming.resume();
+      incoming.once("end", () => response.end("host present"));
+    });
+    const response = await createDefaultHttpClient().sendRequest(
+      pipelineRequest(fixture, {
+        body: "body",
+        requestOverrides: { headers },
+      }),
+    );
+    expect(response.bodyAsText).toBe("host present");
+  });
 
   it.each([false, true])(
     "reuses finished framing on subsequent negotiated requests (TLS=%s)",

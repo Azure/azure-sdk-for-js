@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelineResponse } from "../interfaces.js";
+import { logger } from "../log.js";
 
 interface NodeResponseBody {
   destroy?: () => void;
@@ -31,18 +32,22 @@ function isBrowserResponseBody(value: unknown): value is BrowserResponseBody {
 }
 
 export async function disposeResponseBody(response: PipelineResponse): Promise<void> {
-  const readableStream: unknown = response.readableStreamBody;
-  if (isNodeResponseBody(readableStream)) {
-    if (readableStream.destroy) {
-      readableStream.destroy();
-    } else {
-      readableStream.resume();
+  try {
+    const readableStream: unknown = response.readableStreamBody;
+    if (isNodeResponseBody(readableStream)) {
+      if (readableStream.destroy) {
+        readableStream.destroy();
+      } else {
+        readableStream.resume();
+      }
+      return;
     }
-    return;
-  }
 
-  const browserStream: unknown = response.browserStreamBody;
-  if (isBrowserResponseBody(browserStream)) {
-    await browserStream.cancel();
+    const browserStream: unknown = response.browserStreamBody;
+    if (isBrowserResponseBody(browserStream)) {
+      await browserStream.cancel();
+    }
+  } catch (error) {
+    logger.warning("Error disposing response body", error);
   }
 }

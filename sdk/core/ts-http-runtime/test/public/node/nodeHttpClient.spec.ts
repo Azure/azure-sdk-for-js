@@ -486,12 +486,14 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     let bodySent = false;
     const writable = new Writable({
+      autoDestroy: false,
       write: (chunk, _, next) => {
         bodySent = true;
         assert.equal(chunk.toString(), requestText, "Unexpected body");
         next();
       },
     }) as unknown as ClientRequest;
+    const requestFinished = new Promise<void>((resolve) => writable.once("finish", resolve));
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const stream = new PassThrough();
@@ -500,8 +502,10 @@ describe("NodeHttpClient", function () {
     const body = stream;
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    await requestFinished;
     yieldHttpsResponse(createResponse(200));
     await promise;
+    writable.destroy();
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 
@@ -510,12 +514,14 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     let bodySent = false;
     const writable = new Writable({
+      autoDestroy: false,
       write: (chunk, _, next) => {
         bodySent = true;
         assert.equal(chunk.toString(), requestText, "Unexpected body");
         next();
       },
     }) as unknown as ClientRequest;
+    const requestFinished = new Promise<void>((resolve) => writable.once("finish", resolve));
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const body = (): PassThrough => {
@@ -526,8 +532,10 @@ describe("NodeHttpClient", function () {
     };
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    await requestFinished;
     yieldHttpsResponse(createResponse(200));
     await promise;
+    writable.destroy();
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 

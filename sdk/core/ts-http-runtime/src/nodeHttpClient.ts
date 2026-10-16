@@ -295,7 +295,9 @@ class NodeHttpClient implements HttpClient {
               : [...(Array.isArray(previous) ? previous : [String(previous)]), value];
         }
         options.headers = normalized;
-        options.setHost = false;
+        if (headerValues(normalized, "host").length > 0) {
+          options.setHost = false;
+        }
       }
       const deferredHeaders = { ...(isHeaderObject(options.headers) ? options.headers : {}) };
       for (const [name, value] of Object.entries(deferredHeaders)) {
@@ -377,7 +379,7 @@ class NodeHttpClient implements HttpClient {
         response = res;
         state = "terminal";
         cleanupWait();
-        if (negotiate && !req.writableFinished) {
+        if (!req.writableFinished) {
           // Leave incoming data readable; Node retires the socket when the response ends.
           req.shouldKeepAlive = false;
           stopUpload();
