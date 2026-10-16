@@ -86,23 +86,6 @@ export interface Check extends CheckOptions {
 }
 
 /**
- * Whether a value exported from a check module is a runnable check.
- *
- * Check modules can also export helpers, such as pure functions that unit tests import.
- * Those are not checks and must not be run as checks.
- *
- * @param value - an export of a module in the checks directory
- */
-export function isCheck(value: unknown): value is Check {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "check" in value &&
-    typeof value.check === "function"
-  );
-}
-
-/**
  * Error indicating that a check has failed
  */
 export class CheckFailedError extends Error {

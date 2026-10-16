@@ -242,7 +242,7 @@ dev-tool check [--tag=<tag>] [--verbose] [--fix]
 
 A check consists of a combination of metadata (name, description, "hasFix", tags, severity) and a _check function_. When a check is run, the check function is called with arguments providing information about the package being checked. If the check function runs to completion, the check passes; otherwise if an error is thrown then the check fails. A helper function, `check`, is provided which throws an error if a boolean condition is not met.
 
-Checks are defined in files under the `src/checks` directory in dev-tool. The check runner automatically discovers files in the directory. Each export from a file in the `src/checks` directory that is a check (an object with a `check` function, as returned by `scriptCheck`, `packageJsonCheck`, or `workingTreeUnchangedCheck`) is run; other exports, such as helper functions that unit tests import, are ignored. When running checks, the output is grouped by file, and then the name of the check. The name of the check, unless overridden in the metadata, is the name it is exported under.
+Checks are defined in files under the `src/checks` directory in dev-tool. The check runner automatically discovers files in the directory. Each export from a file in the `src/checks` directory is expected to be a check. When running checks, the output is grouped by file, and then the name of the check. The name of the check, unless overridden in the metadata, is the name it is exported under.
 
 ### Check metadata
 
