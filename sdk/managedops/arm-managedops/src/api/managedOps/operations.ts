@@ -35,7 +35,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,7 +48,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -56,11 +59,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the ManagedOps instance. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   managedOpsName: string,
@@ -71,7 +69,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, managedOpsName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-28-preview",
+    apiVersion: context.apiVersion ?? "2026-01-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -86,7 +84,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,7 +102,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -123,7 +124,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, managedOpsName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-28-preview",
+    apiVersion: context.apiVersion ?? "2026-01-06-preview",
   }) as PollerLike<OperationState<ManagedOp>, ManagedOp>;
 }
 
@@ -135,7 +136,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedOps/managedOps{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +154,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -173,7 +177,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-28-preview",
+      apiVersion: context.apiVersion ?? "2026-01-06-preview",
     },
   );
 }
@@ -189,7 +193,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +213,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -228,7 +235,7 @@ export function createOrUpdate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, managedOpsName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-28-preview",
+    apiVersion: context.apiVersion ?? "2026-01-06-preview",
   }) as PollerLike<OperationState<ManagedOp>, ManagedOp>;
 }
 
@@ -242,7 +249,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,7 +265,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
