@@ -8,18 +8,20 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Job resource
  *
  * @summary get a Job resource
- * x-ms-original-file: 2025-06-01/Jobs_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Jobs_Get_MaximumSet_Gen.json
  */
-async function jobsGetMaximumSet() {
+async function jobsGetMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
-  const result = await client.jobs.get("gt", "jobsName");
+  const client = new WorkloadOrchestrationManagementClient(credential);
+  const result = await client.jobs.get(
+    "subscriptions/612CB927-8AC8-42DD-B74E-C676C3960BA5/resourceGroups/rgconfigurationmanager/providers/Microsoft.Edge/targets/testTarget",
+    "jobsName",
+  );
   console.log(result);
 }
 
 async function main() {
-  await jobsGetMaximumSet();
+  await jobsGetMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

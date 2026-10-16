@@ -4,17 +4,24 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActiveState = string;
+
+// @public
+export interface AdditionalData {
+    workflowId?: string;
+}
 
 // @public
 export interface AvailableSolutionTemplateVersion {
@@ -45,6 +52,7 @@ export interface BulkDeployTargetDetails {
 
 // @public
 export interface BulkPublishSolutionParameter {
+    solutionConfiguration?: string;
     solutionDependencies?: SolutionDependencyParameter[];
     solutionInstanceName?: string;
     targets: BulkPublishTargetDetails[];
@@ -52,6 +60,25 @@ export interface BulkPublishSolutionParameter {
 
 // @public
 export interface BulkPublishTargetDetails {
+    solutionConfiguration?: string;
+    solutionDependencies?: SolutionDependencyParameter[];
+    solutionInstanceName?: string;
+    solutionVersionId?: string;
+    targetId: string;
+}
+
+// @public
+export interface BulkReviewSolutionParameter {
+    solutionConfiguration?: string;
+    solutionDependencies?: SolutionDependencyParameter[];
+    solutionInstanceName?: string;
+    targets: BulkReviewTargetDetails[];
+}
+
+// @public
+export interface BulkReviewTargetDetails {
+    solutionConfiguration?: string;
+    solutionDependencies?: SolutionDependencyParameter[];
     solutionInstanceName?: string;
     targetId: string;
 }
@@ -62,6 +89,9 @@ export interface Capability {
     name: string;
     state?: ResourceState;
 }
+
+// @public
+export type CMStages = string;
 
 // @public
 export interface ComponentStatus {
@@ -76,10 +106,100 @@ export interface ConfigTemplate extends TrackedResource {
 }
 
 // @public
+export type ConfigTemplateConfigurationState = string;
+
+// @public
+export interface ConfigTemplateMetadata extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ConfigTemplateMetadataProperties;
+}
+
+// @public
+export interface ConfigTemplateMetadataProperties {
+    contextId?: string;
+    linkedHierarchies?: HierarchyMetadata[];
+    readonly provisioningState?: ProvisioningState;
+    readonly templateUniqueIdentifier?: string;
+    unLinkedHierarchies?: HierarchyMetadata[];
+}
+
+// @public
+export interface ConfigTemplateMetadatasCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigTemplateMetadatasDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigTemplateMetadatasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigTemplateMetadatasListByConfigTemplateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigTemplateMetadatasOperations {
+    createOrUpdate: (resourceGroupName: string, configTemplateName: string, configTemplateMetadataName: string, resource: ConfigTemplateMetadata, options?: ConfigTemplateMetadatasCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConfigTemplateMetadata>, ConfigTemplateMetadata>;
+    delete: (resourceGroupName: string, configTemplateName: string, configTemplateMetadataName: string, options?: ConfigTemplateMetadatasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, configTemplateName: string, configTemplateMetadataName: string, options?: ConfigTemplateMetadatasGetOptionalParams) => Promise<ConfigTemplateMetadata>;
+    listByConfigTemplate: (resourceGroupName: string, configTemplateName: string, options?: ConfigTemplateMetadatasListByConfigTemplateOptionalParams) => PagedAsyncIterableIterator<ConfigTemplateMetadata>;
+    update: (resourceGroupName: string, configTemplateName: string, configTemplateMetadataName: string, properties: ConfigTemplateMetadataUpdate, options?: ConfigTemplateMetadatasUpdateOptionalParams) => PollerLike<OperationState<ConfigTemplateMetadata>, ConfigTemplateMetadata>;
+}
+
+// @public
+export interface ConfigTemplateMetadatasUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigTemplateMetadataUpdate {
+    properties?: ConfigTemplateMetadataUpdateProperties;
+}
+
+// @public
+export interface ConfigTemplateMetadataUpdateProperties {
+    contextId?: string;
+    linkedHierarchies?: HierarchyMetadata[];
+    unLinkedHierarchies?: HierarchyMetadata[];
+}
+
+// @public
 export interface ConfigTemplateProperties {
     description: string;
     readonly latestVersion?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface ConfigTemplateSchema extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ConfigTemplateSchemaProperties;
+}
+
+// @public
+export interface ConfigTemplateSchemaProperties {
+    readonly provisioningState?: ProvisioningState;
+    readonly templateUniqueIdentifier?: string;
+    readonly value?: string | Record<string, any>;
+}
+
+// @public
+export interface ConfigTemplateSchemasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigTemplateSchemasListByConfigTemplateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigTemplateSchemasOperations {
+    get: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, configTemplateSchemaName: string, options?: ConfigTemplateSchemasGetOptionalParams) => Promise<ConfigTemplateSchema>;
+    listByConfigTemplateVersion: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, options?: ConfigTemplateSchemasListByConfigTemplateVersionOptionalParams) => PagedAsyncIterableIterator<ConfigTemplateSchema>;
 }
 
 // @public
@@ -102,6 +222,11 @@ export interface ConfigTemplatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ConfigTemplatesLinkToHierarchiesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ConfigTemplatesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -115,14 +240,21 @@ export interface ConfigTemplatesOperations {
     createVersion: (resourceGroupName: string, configTemplateName: string, body: ConfigTemplateVersionWithUpdateType, options?: ConfigTemplatesCreateVersionOptionalParams) => PollerLike<OperationState<ConfigTemplateVersion>, ConfigTemplateVersion>;
     delete: (resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesGetOptionalParams) => Promise<ConfigTemplate>;
+    linkToHierarchies: (resourceGroupName: string, configTemplateName: string, body: HierarchySelector, options?: ConfigTemplatesLinkToHierarchiesOptionalParams) => PollerLike<OperationState<void>, void>;
     listByResourceGroup: (resourceGroupName: string, options?: ConfigTemplatesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConfigTemplate>;
     listBySubscription: (options?: ConfigTemplatesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConfigTemplate>;
     removeVersion: (resourceGroupName: string, configTemplateName: string, body: VersionParameter, options?: ConfigTemplatesRemoveVersionOptionalParams) => Promise<RemoveVersionResponse>;
+    unLinkFromHierarchies: (resourceGroupName: string, configTemplateName: string, body: HierarchySelector, options?: ConfigTemplatesUnLinkFromHierarchiesOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, configTemplateName: string, properties: ConfigTemplateUpdate, options?: ConfigTemplatesUpdateOptionalParams) => Promise<ConfigTemplate>;
 }
 
 // @public
 export interface ConfigTemplatesRemoveVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigTemplatesUnLinkFromHierarchiesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -148,8 +280,18 @@ export interface ConfigTemplateVersion extends ProxyResource {
 
 // @public
 export interface ConfigTemplateVersionProperties {
-    configurations: string;
+    configurations: string | Record<string, any>;
     readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ConfigTemplateVersionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigTemplateVersionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -162,8 +304,15 @@ export interface ConfigTemplateVersionsListByConfigTemplateOptionalParams extend
 
 // @public
 export interface ConfigTemplateVersionsOperations {
+    createOrUpdate: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, resource: ConfigTemplateVersion, options?: ConfigTemplateVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConfigTemplateVersion>, ConfigTemplateVersion>;
+    delete: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, options?: ConfigTemplateVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, options?: ConfigTemplateVersionsGetOptionalParams) => Promise<ConfigTemplateVersion>;
     listByConfigTemplate: (resourceGroupName: string, configTemplateName: string, options?: ConfigTemplateVersionsListByConfigTemplateOptionalParams) => PagedAsyncIterableIterator<ConfigTemplateVersion>;
+    update: (resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, properties: ConfigTemplateVersion, options?: ConfigTemplateVersionsUpdateOptionalParams) => Promise<ConfigTemplateVersion>;
+}
+
+// @public
+export interface ConfigTemplateVersionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -175,6 +324,9 @@ export interface ConfigTemplateVersionWithUpdateType {
 
 // @public
 export type ConfigurationModel = string;
+
+// @public
+export type ConfigurationState = string;
 
 // @public
 export type ConfigurationType = string;
@@ -189,6 +341,7 @@ export interface ContextProperties {
     capabilities: Capability[];
     hierarchies: Hierarchy[];
     readonly provisioningState?: ProvisioningState;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -278,7 +431,6 @@ export interface DeploymentStatus {
 // @public
 export interface Diagnostic extends TrackedResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: DiagnosticProperties;
 }
@@ -333,6 +485,7 @@ export interface DiagnosticUpdate {
 
 // @public
 export interface DiagnosticUpdateProperties {
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -345,6 +498,7 @@ export interface DynamicSchema extends ProxyResource {
 export interface DynamicSchemaProperties {
     readonly configurationModel?: ConfigurationModel;
     readonly configurationType?: ConfigurationType;
+    readonly displayName?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -448,7 +602,6 @@ export interface ErrorResponse {
 // @public
 export interface Execution extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: ExecutionProperties;
 }
@@ -521,6 +674,72 @@ export interface Hierarchy {
 }
 
 // @public
+export interface HierarchyConfigurationMetadata extends ExtensionResource {
+    properties?: HierarchyConfigurationMetadataProperties;
+}
+
+// @public
+export interface HierarchyConfigurationMetadataProperties {
+    readonly configTemplateId?: string;
+    readonly displayName?: string;
+}
+
+// @public
+export interface HierarchyConfigurationMetadatasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HierarchyConfigurationMetadatasListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HierarchyConfigurationMetadatasOperations {
+    get: (resourceUri: string, hierarchyConfigurationMetadataName: string, options?: HierarchyConfigurationMetadatasGetOptionalParams) => Promise<HierarchyConfigurationMetadata>;
+    listByParent: (resourceUri: string, options?: HierarchyConfigurationMetadatasListByParentOptionalParams) => PagedAsyncIterableIterator<HierarchyConfigurationMetadata>;
+}
+
+// @public
+export interface HierarchyConfigurationMetadataVersion extends ProxyResource {
+    properties?: HierarchyConfigurationMetadataVersionProperties;
+}
+
+// @public
+export interface HierarchyConfigurationMetadataVersionProperties {
+    readonly configTemplateVersionId?: string;
+    readonly configurationStatus?: ConfigTemplateConfigurationState;
+    readonly dynamicConfigurationVersionId?: string;
+    readonly parentDisplayName?: string;
+    readonly schemaId?: string;
+}
+
+// @public
+export interface HierarchyConfigurationMetadataVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HierarchyConfigurationMetadataVersionsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HierarchyConfigurationMetadataVersionsOperations {
+    get: (resourceUri: string, hierarchyConfigurationMetadataName: string, hierarchyConfigurationMetadataVersionName: string, options?: HierarchyConfigurationMetadataVersionsGetOptionalParams) => Promise<HierarchyConfigurationMetadataVersion>;
+    listByParent: (resourceUri: string, hierarchyConfigurationMetadataName: string, options?: HierarchyConfigurationMetadataVersionsListByParentOptionalParams) => PagedAsyncIterableIterator<HierarchyConfigurationMetadataVersion>;
+}
+
+// @public
+export interface HierarchyMetadata {
+    hierarchyIds?: string[];
+    level?: string;
+}
+
+// @public
+export interface HierarchySelector {
+    contextId: string;
+    hierarchyIds?: string[];
+    level?: string;
+}
+
+// @public
 export interface InstallSolutionParameter {
     solutionVersionId: string;
 }
@@ -528,7 +747,6 @@ export interface InstallSolutionParameter {
 // @public
 export interface Instance extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: InstanceProperties;
 }
@@ -550,7 +768,6 @@ export interface InstanceHistoriesOperations {
 // @public
 export interface InstanceHistory extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: InstanceHistoryProperties;
 }
@@ -611,6 +828,11 @@ export interface InstancesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export type InternalState = string;
+
+export { isRestError }
+
+// @public
 export interface Job extends ExtensionResource {
     readonly eTag?: string;
     properties?: JobProperties;
@@ -622,10 +844,11 @@ export interface JobParameterBase {
 }
 
 // @public
-export type JobParameterBaseUnion = DeployJobParameter | JobParameterBase;
+export type JobParameterBaseUnion = DeployJobParameter | PublishJobParameter | UninstallJobParameter | JobParameterBase;
 
 // @public
 export interface JobProperties {
+    additionalData?: AdditionalData;
     correlationId?: string;
     endTime?: Date;
     readonly errorDetails?: ErrorDetail;
@@ -673,7 +896,7 @@ export interface JobStepStatisticsBase {
 }
 
 // @public
-export type JobStepStatisticsBaseUnion = DeployJobStepStatistics | JobStepStatisticsBase;
+export type JobStepStatisticsBaseUnion = DeployJobStepStatistics | PublishJobStepStatistics | UninstallJobStepStatistics | JobStepStatisticsBase;
 
 // @public
 export type JobType = string;
@@ -685,9 +908,32 @@ export enum KnownActiveState {
 }
 
 // @public
+export enum KnownCMStages {
+    Configuration = "Configuration",
+    Deployment = "Deployment",
+    ExternalValidation = "ExternalValidation",
+    Publish = "Publish",
+    Staging = "Staging",
+    Uninstallation = "Uninstallation",
+    Unstaging = "Unstaging"
+}
+
+// @public
+export enum KnownConfigTemplateConfigurationState {
+    ConfigurationCompleted = "ConfigurationCompleted",
+    ConfigurationPending = "ConfigurationPending"
+}
+
+// @public
 export enum KnownConfigurationModel {
     Application = "Application",
     Common = "Common"
+}
+
+// @public
+export enum KnownConfigurationState {
+    ConfigurationCompleted = "ConfigurationCompleted",
+    ConfigurationPending = "ConfigurationPending"
 }
 
 // @public
@@ -718,6 +964,14 @@ export enum KnownExtendedLocationType {
 }
 
 // @public
+export enum KnownInternalState {
+    PendingValidation = "PendingValidation",
+    Validated = "Validated",
+    ValidatedWithoutSchema = "ValidatedWithoutSchema",
+    ValidatedWithSchema = "ValidatedWithSchema"
+}
+
+// @public
 export enum KnownJobStatus {
     Failed = "Failed",
     InProgress = "InProgress",
@@ -729,7 +983,9 @@ export enum KnownJobStatus {
 export enum KnownJobType {
     Deploy = "deploy",
     ExternalValidation = "externalValidation",
-    Staging = "staging"
+    Publish = "publish",
+    Staging = "staging",
+    Uninstall = "uninstall"
 }
 
 // @public
@@ -766,12 +1022,22 @@ export enum KnownState {
     ExternalValidationFailed = "ExternalValidationFailed",
     Failed = "Failed",
     InReview = "InReview",
+    NotApplicable = "NotApplicable",
     PendingExternalValidation = "PendingExternalValidation",
     ReadyToDeploy = "ReadyToDeploy",
     ReadyToUpgrade = "ReadyToUpgrade",
     Staging = "Staging",
     Undeployed = "Undeployed",
     UpgradeInReview = "UpgradeInReview"
+}
+
+// @public
+export enum KnownStateCategory {
+    Completed = "Completed",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    None = "None",
+    Pending = "Pending"
 }
 
 // @public
@@ -789,8 +1055,11 @@ export enum KnownValidationStatus {
 
 // @public
 export enum KnownVersions {
-    // (undocumented)
-    V20250601 = "2025-06-01"
+    V20250601 = "2025-06-01",
+    V20250801 = "2025-08-01",
+    V20250815Preview = "2025-08-15-preview",
+    V20260301 = "2026-03-01",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -813,6 +1082,21 @@ export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface PublishJobParameter extends JobParameterBase {
+    jobType: "publish";
+    // (undocumented)
+    parameter?: SolutionVersionParameter;
+}
+
+// @public
+export interface PublishJobStepStatistics extends JobStepStatisticsBase {
+    failedCount?: number;
+    statisticsType: "publish";
+    successCount?: number;
+    totalCount?: number;
 }
 
 // @public
@@ -851,6 +1135,8 @@ export interface Resource {
 // @public
 export type ResourceState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkloadOrchestrationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -886,6 +1172,16 @@ export interface SchemaReferenceProperties {
 }
 
 // @public
+export interface SchemaReferencesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaReferencesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SchemaReferencesGetOptionalParams extends OperationOptions {
 }
 
@@ -895,8 +1191,15 @@ export interface SchemaReferencesListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface SchemaReferencesOperations {
+    createOrUpdate: (resourceUri: string, schemaReferenceName: string, resource: SchemaReference, options?: SchemaReferencesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SchemaReference>, SchemaReference>;
+    delete: (resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesGetOptionalParams) => Promise<SchemaReference>;
     listByResourceGroup: (resourceUri: string, options?: SchemaReferencesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaReference>;
+    update: (resourceUri: string, schemaReferenceName: string, properties: SchemaReference, options?: SchemaReferencesUpdateOptionalParams) => Promise<SchemaReference>;
+}
+
+// @public
+export interface SchemaReferencesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -954,6 +1257,8 @@ export interface SchemaUpdate {
 
 // @public
 export interface SchemaUpdateProperties {
+    readonly currentVersion?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -965,7 +1270,7 @@ export interface SchemaVersion extends ProxyResource {
 // @public
 export interface SchemaVersionProperties {
     readonly provisioningState?: ProvisioningState;
-    value: string;
+    value: string | Record<string, any>;
 }
 
 // @public
@@ -1052,7 +1357,6 @@ export interface SiteReferencesUpdateOptionalParams extends OperationOptions {
 // @public
 export interface Solution extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: SolutionProperties;
 }
@@ -1077,10 +1381,158 @@ export interface SolutionDependencyParameter {
 }
 
 // @public
+export interface SolutionDeployment extends TrackedResource {
+    readonly eTag?: string;
+    properties?: SolutionDeploymentProperties;
+}
+
+// @public
+export interface SolutionDeploymentProperties {
+    input?: Record<string, any>;
+    readonly output?: Record<string, any>;
+    readonly provisioningState?: ProvisioningState;
+    solutionTemplateProperties: SolutionTemplateMetadata;
+    targetProperties: TargetMetadata;
+}
+
+// @public
+export interface SolutionDeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SolutionDeploymentsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SolutionDeploymentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionDeploymentsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionDeploymentsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionDeploymentsOperations {
+    createOrUpdate: (resourceGroupName: string, solutionDeploymentName: string, resource: SolutionDeployment, options?: SolutionDeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SolutionDeployment>, SolutionDeployment>;
+    delete: (resourceGroupName: string, solutionDeploymentName: string, options?: SolutionDeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, solutionDeploymentName: string, options?: SolutionDeploymentsGetOptionalParams) => Promise<SolutionDeployment>;
+    listByResourceGroup: (resourceGroupName: string, options?: SolutionDeploymentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SolutionDeployment>;
+    listBySubscription: (options?: SolutionDeploymentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SolutionDeployment>;
+    update: (resourceGroupName: string, solutionDeploymentName: string, properties: SolutionDeploymentUpdate, options?: SolutionDeploymentsUpdateOptionalParams) => Promise<SolutionDeployment>;
+}
+
+// @public
+export interface SolutionDeploymentsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionDeploymentUpdate {
+    properties?: SolutionDeploymentUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SolutionDeploymentUpdateProperties {
+    input?: Record<string, any>;
+    solutionTemplateProperties?: SolutionTemplateMetadataUpdate;
+    targetProperties?: TargetMetadata;
+}
+
+// @public
+export interface SolutionMetadata extends ExtensionResource {
+    properties?: SolutionMetadataProperties;
+}
+
+// @public
+export interface SolutionMetadataProperties {
+    readonly currentVersion?: string;
+    readonly displayName?: string;
+    readonly latestVersion?: string;
+    readonly solutionTemplateId?: string;
+}
+
+// @public
+export interface SolutionMetadatasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionMetadatasListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionMetadatasOperations {
+    get: (resourceUri: string, solutionMetadataName: string, options?: SolutionMetadatasGetOptionalParams) => Promise<SolutionMetadata>;
+    listByParent: (resourceUri: string, options?: SolutionMetadatasListByParentOptionalParams) => PagedAsyncIterableIterator<SolutionMetadata>;
+}
+
+// @public
+export interface SolutionMetadataVersion extends ProxyResource {
+    properties?: SolutionMetadataVersionProperties;
+}
+
+// @public
+export interface SolutionMetadataVersionProperties {
+    readonly configurationStatus?: ConfigurationState;
+    readonly dynamicConfigurationVersionId?: string;
+    readonly parentDisplayName?: string;
+    readonly schemaId?: string;
+    readonly solutionTemplateVersionId?: string;
+}
+
+// @public
+export interface SolutionMetadataVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionMetadataVersionsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionMetadataVersionsOperations {
+    get: (resourceUri: string, solutionMetadataName: string, solutionMetadataVersionName: string, options?: SolutionMetadataVersionsGetOptionalParams) => Promise<SolutionMetadataVersion>;
+    listByParent: (resourceUri: string, solutionMetadataName: string, options?: SolutionMetadataVersionsListByParentOptionalParams) => PagedAsyncIterableIterator<SolutionMetadataVersion>;
+}
+
+// @public
 export interface SolutionProperties {
     readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
+    readonly displayName?: string;
     readonly provisioningState?: ProvisioningState;
     readonly solutionTemplateId?: string;
+}
+
+// @public
+export interface SolutionSchema extends ProxyResource {
+    readonly eTag?: string;
+    properties?: SolutionSchemaProperties;
+}
+
+// @public
+export interface SolutionSchemaProperties {
+    readonly level?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly templateUniqueIdentifier?: string;
+    readonly value?: string | Record<string, any>;
+}
+
+// @public
+export interface SolutionSchemasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionSchemasListBySolutionTemplateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SolutionSchemasOperations {
+    get: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, solutionSchemaName: string, options?: SolutionSchemasGetOptionalParams) => Promise<SolutionSchema>;
+    listBySolutionTemplateVersion: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionSchemasListBySolutionTemplateVersionOptionalParams) => PagedAsyncIterableIterator<SolutionSchema>;
 }
 
 // @public
@@ -1122,6 +1574,22 @@ export interface SolutionTemplate extends TrackedResource {
 }
 
 // @public
+export interface SolutionTemplateMetadata {
+    name: string;
+    resourceGroupName?: string;
+    subscriptionId?: string;
+    version: string;
+}
+
+// @public
+export interface SolutionTemplateMetadataUpdate {
+    name?: string;
+    resourceGroupName?: string;
+    subscriptionId?: string;
+    version?: string;
+}
+
+// @public
 export interface SolutionTemplateParameter {
     solutionDependencies?: SolutionDependencyParameter[];
     solutionInstanceName?: string;
@@ -1136,6 +1604,7 @@ export interface SolutionTemplateProperties {
     readonly latestVersion?: string;
     readonly provisioningState?: ProvisioningState;
     state?: ResourceState;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -1208,7 +1677,8 @@ export interface SolutionTemplateVersion extends ProxyResource {
 
 // @public
 export interface SolutionTemplateVersionProperties {
-    configurations: string;
+    configurations?: string | Record<string, any>;
+    readonly internalState?: InternalState;
     orchestratorType?: OrchestratorType;
     readonly provisioningState?: ProvisioningState;
     specification: Record<string, any>;
@@ -1225,6 +1695,21 @@ export interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams exten
 }
 
 // @public
+export interface SolutionTemplateVersionsBulkReviewSolutionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SolutionTemplateVersionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SolutionTemplateVersionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SolutionTemplateVersionsGetOptionalParams extends OperationOptions {
 }
 
@@ -1236,8 +1721,16 @@ export interface SolutionTemplateVersionsListBySolutionTemplateOptionalParams ex
 export interface SolutionTemplateVersionsOperations {
     bulkDeploySolution: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkDeploySolutionParameter, options?: SolutionTemplateVersionsBulkDeploySolutionOptionalParams) => PollerLike<OperationState<void>, void>;
     bulkPublishSolution: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkPublishSolutionParameter, options?: SolutionTemplateVersionsBulkPublishSolutionOptionalParams) => PollerLike<OperationState<void>, void>;
+    bulkReviewSolution: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkReviewSolutionParameter, options?: SolutionTemplateVersionsBulkReviewSolutionOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, resource: SolutionTemplateVersion, options?: SolutionTemplateVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SolutionTemplateVersion>, SolutionTemplateVersion>;
+    delete: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionTemplateVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionTemplateVersionsGetOptionalParams) => Promise<SolutionTemplateVersion>;
     listBySolutionTemplate: (resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplateVersionsListBySolutionTemplateOptionalParams) => PagedAsyncIterableIterator<SolutionTemplateVersion>;
+    update: (resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, properties: SolutionTemplateVersion, options?: SolutionTemplateVersionsUpdateOptionalParams) => Promise<SolutionTemplateVersion>;
+}
+
+// @public
+export interface SolutionTemplateVersionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1254,12 +1747,15 @@ export interface SolutionUpdate {
 
 // @public
 export interface SolutionUpdateProperties {
+    readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly solutionTemplateId?: string;
 }
 
 // @public
 export interface SolutionVersion extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: SolutionVersionProperties;
 }
@@ -1272,10 +1768,12 @@ export interface SolutionVersionParameter {
 // @public
 export interface SolutionVersionProperties {
     readonly actionType?: JobType;
-    readonly configuration?: string;
+    readonly configuration?: string | Record<string, any>;
+    readonly currentStage?: StageMap;
     readonly errorDetails?: ErrorDetail;
     readonly externalValidationId?: string;
     readonly latestActionTrackingUri?: string;
+    readonly latestActionTriggeredBy?: string;
     readonly provisioningState?: ProvisioningState;
     readonly reviewId?: string;
     readonly revision?: number;
@@ -1283,9 +1781,10 @@ export interface SolutionVersionProperties {
     readonly solutionInstanceName?: string;
     readonly solutionTemplateVersionId?: string;
     specification: Record<string, any>;
+    readonly stages?: StageMap[];
     readonly state?: State;
     readonly targetDisplayName?: string;
-    readonly targetLevelConfiguration?: string;
+    readonly targetLevelConfiguration?: string | Record<string, any>;
 }
 
 // @public
@@ -1327,6 +1826,16 @@ export interface SolutionVersionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface StageMap {
+    readonly childStages?: StageMap[];
+    readonly displayState: string;
+    readonly endTime?: Date;
+    readonly stage: CMStages;
+    readonly startTime?: Date;
+    readonly status: StateCategory;
+}
+
+// @public
 export interface StageSpec {
     name: string;
     specification?: Record<string, any>;
@@ -1350,6 +1859,9 @@ export interface StageStatus {
 export type State = string;
 
 // @public
+export type StateCategory = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1362,9 +1874,14 @@ export interface SystemData {
 // @public
 export interface Target extends TrackedResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: TargetProperties;
+}
+
+// @public
+export interface TargetMetadata {
+    capabilities?: string[];
+    targetIds?: string[];
 }
 
 // @public
@@ -1378,7 +1895,7 @@ export interface TargetProperties {
     solutionScope?: string;
     state?: ResourceState;
     readonly status?: DeploymentStatus;
-    targetSpecification: Record<string, any>;
+    targetSpecification?: Record<string, any>;
 }
 
 // @public
@@ -1429,6 +1946,7 @@ export interface TargetsOperations {
     resolveConfiguration: (resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsResolveConfigurationOptionalParams) => PollerLike<OperationState<ResolvedConfiguration>, ResolvedConfiguration>;
     reviewSolutionVersion: (resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsReviewSolutionVersionOptionalParams) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
     uninstallSolution: (resourceGroupName: string, targetName: string, body: UninstallSolutionParameter, options?: TargetsUninstallSolutionOptionalParams) => PollerLike<OperationState<void>, void>;
+    unstageSolutionVersion: (resourceGroupName: string, targetName: string, body: SolutionVersionParameter, options?: TargetsUnstageSolutionVersionOptionalParams) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
     update: (resourceGroupName: string, targetName: string, properties: TargetUpdate, options?: TargetsUpdateOptionalParams) => PollerLike<OperationState<Target>, Target>;
     updateExternalValidationStatus: (resourceGroupName: string, targetName: string, body: UpdateExternalValidationStatusParameter, options?: TargetsUpdateExternalValidationStatusOptionalParams) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 }
@@ -1462,6 +1980,11 @@ export interface TargetStatus {
 
 // @public
 export interface TargetsUninstallSolutionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TargetsUnstageSolutionVersionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1513,6 +2036,21 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface UninstallJobParameter extends JobParameterBase {
+    jobType: "uninstall";
+    // (undocumented)
+    parameter?: UninstallSolutionParameter;
+}
+
+// @public
+export interface UninstallJobStepStatistics extends JobStepStatisticsBase {
+    failedCount?: number;
+    statisticsType: "uninstall";
+    successCount?: number;
+    totalCount?: number;
+}
+
+// @public
 export interface UninstallSolutionParameter {
     solutionInstanceName?: string;
     solutionTemplateId: string;
@@ -1540,7 +2078,6 @@ export interface VersionParameter {
 // @public
 export interface Workflow extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: WorkflowProperties;
 }
@@ -1586,7 +2123,6 @@ export interface WorkflowsUpdateOptionalParams extends OperationOptions {
 // @public
 export interface WorkflowVersion extends ProxyResource {
     readonly eTag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     properties?: WorkflowVersionProperties;
 }
@@ -1636,14 +2172,19 @@ export interface WorkflowVersionsUpdateOptionalParams extends OperationOptions {
 
 // @public (undocumented)
 export class WorkloadOrchestrationManagementClient {
+    constructor(credential: TokenCredential, options?: WorkloadOrchestrationManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: WorkloadOrchestrationManagementClientOptionalParams);
+    readonly configTemplateMetadatas: ConfigTemplateMetadatasOperations;
     readonly configTemplates: ConfigTemplatesOperations;
+    readonly configTemplateSchemas: ConfigTemplateSchemasOperations;
     readonly configTemplateVersions: ConfigTemplateVersionsOperations;
     readonly contexts: ContextsOperations;
     readonly diagnostics: DiagnosticsOperations;
     readonly dynamicSchemas: DynamicSchemasOperations;
     readonly dynamicSchemaVersions: DynamicSchemaVersionsOperations;
     readonly executions: ExecutionsOperations;
+    readonly hierarchyConfigurationMetadatas: HierarchyConfigurationMetadatasOperations;
+    readonly hierarchyConfigurationMetadataVersions: HierarchyConfigurationMetadataVersionsOperations;
     readonly instanceHistories: InstanceHistoriesOperations;
     readonly instances: InstancesOperations;
     readonly jobs: JobsOperations;
@@ -1652,7 +2193,11 @@ export class WorkloadOrchestrationManagementClient {
     readonly schemas: SchemasOperations;
     readonly schemaVersions: SchemaVersionsOperations;
     readonly siteReferences: SiteReferencesOperations;
+    readonly solutionDeployments: SolutionDeploymentsOperations;
+    readonly solutionMetadatas: SolutionMetadatasOperations;
+    readonly solutionMetadataVersions: SolutionMetadataVersionsOperations;
     readonly solutions: SolutionsOperations;
+    readonly solutionSchemas: SolutionSchemasOperations;
     readonly solutionTemplates: SolutionTemplatesOperations;
     readonly solutionTemplateVersions: SolutionTemplateVersionsOperations;
     readonly solutionVersions: SolutionVersionsOperations;

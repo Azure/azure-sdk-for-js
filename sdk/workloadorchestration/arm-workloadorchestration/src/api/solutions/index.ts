@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByTarget, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type SolutionsListByTargetOptionalParams,
-  type SolutionsDeleteOptionalParams,
-  type SolutionsUpdateOptionalParams,
-  type SolutionsCreateOrUpdateOptionalParams,
-  type SolutionsGetOptionalParams,
+export type {
+  SolutionsListByTargetOptionalParams,
+  SolutionsDeleteOptionalParams,
+  SolutionsUpdateOptionalParams,
+  SolutionsCreateOrUpdateOptionalParams,
+  SolutionsGetOptionalParams,
 } from "./options.js";
