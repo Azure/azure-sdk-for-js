@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsExpand.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsExpand.json
  */
 async function usageDetailsExpandLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function usageDetailsExpandLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsList.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsList.json
  */
 async function usageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function usageDetailsListLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByBillingAccount.json
  */
 async function billingAccountUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -82,7 +82,7 @@ async function billingAccountUsageDetailsListLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByDepartment.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByDepartment.json
  */
 async function departmentUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -105,7 +105,7 @@ async function departmentUsageDetailsListLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByEnrollmentAccount.json
  */
 async function enrollmentAccountUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -128,7 +128,7 @@ async function enrollmentAccountUsageDetailsListLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMCABillingAccount.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMCABillingAccount.json
  */
 async function billingAccountUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -151,7 +151,7 @@ async function billingAccountUsageDetailsListModern(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMCABillingProfile.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMCABillingProfile.json
  */
 async function billingProfileUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -174,7 +174,7 @@ async function billingProfileUsageDetailsListModern(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMCACustomer.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMCACustomer.json
  */
 async function customerUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -197,7 +197,7 @@ async function customerUsageDetailsListModern(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMCAInvoiceSection.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMCAInvoiceSection.json
  */
 async function invoiceSectionUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -220,7 +220,7 @@ async function invoiceSectionUsageDetailsListModern(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByManagementGroup.json
  */
 async function managementGroupUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -243,7 +243,7 @@ async function managementGroupUsageDetailsListLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMetricActualCost.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMetricActualCost.json
  */
 async function usageDetailsListByMetricActualCostLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -267,7 +267,7 @@ async function usageDetailsListByMetricActualCostLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMetricAmortizedCost.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMetricAmortizedCost.json
  */
 async function usageDetailsListByMetricAmortizedCostLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -291,7 +291,7 @@ async function usageDetailsListByMetricAmortizedCostLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListByMetricUsage.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListByMetricUsage.json
  */
 async function usageDetailsListByMetricUsageLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -315,7 +315,7 @@ async function usageDetailsListByMetricUsageLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListFilterByTag.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListFilterByTag.json
  */
 async function usageDetailsListFilterByTagLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -339,7 +339,7 @@ async function usageDetailsListFilterByTagLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListForBillingPeriod.json
  */
 async function usageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -362,7 +362,7 @@ async function usageDetailsListForBillingPeriodLegacy(): Promise<void> {
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListForBillingPeriodByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListForBillingPeriodByBillingAccount.json
  */
 async function billingAccountUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -385,7 +385,7 @@ async function billingAccountUsageDetailsListForBillingPeriodLegacy(): Promise<v
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListForBillingPeriodByDepartment.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListForBillingPeriodByDepartment.json
  */
 async function departmentUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -408,7 +408,7 @@ async function departmentUsageDetailsListForBillingPeriodLegacy(): Promise<void>
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListForBillingPeriodByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListForBillingPeriodByEnrollmentAccount.json
  */
 async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -431,7 +431,7 @@ async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy(): Promis
  * @summary lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
  * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We do not recommend that you take a new dependency on this API. Please use the Cost Details API instead. We will notify customers once a date for retirement has been determined.For Learn more,see [Generate Cost Details Report - Create Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
- * x-ms-original-file: 2024-08-01/UsageDetailsListForBillingPeriodByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/UsageDetailsListForBillingPeriodByManagementGroup.json
  */
 async function managementGroupUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();

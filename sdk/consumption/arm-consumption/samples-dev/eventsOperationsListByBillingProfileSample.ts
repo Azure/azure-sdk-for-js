@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsListByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/EventsListByBillingProfile.json
  */
 async function eventsListByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
