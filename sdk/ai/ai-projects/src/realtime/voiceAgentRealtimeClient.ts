@@ -427,11 +427,14 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       throw new VoiceAgentConnectionError("Send operation was cancelled.", "operationCancelled");
     }
 
+    let reservation: ReturnType<VoiceAgentRealtimeTracing["reserveSend"]> = undefined;
     try {
-      await this.transport.send(serializeVoiceAgentClientEvent(event), options.abortSignal);
-      this.tracing?.sent(event);
+      const serialized = serializeVoiceAgentClientEvent(event);
+      reservation = this.tracing?.reserveSend(event);
+      await this.transport.send(serialized, options.abortSignal);
+      this.tracing?.sent(event, reservation);
     } catch (error) {
-      this.tracing?.sendFailed(error);
+      this.tracing?.sendFailed(error, reservation);
       if (error instanceof VoiceAgentProtocolError) {
         throw error;
       }

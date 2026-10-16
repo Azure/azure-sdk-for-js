@@ -114,6 +114,7 @@ class MockTransport implements VoiceAgentWebSocketTransport {
   public options?: VoiceAgentWebSocketConnectOptions;
   public connectError?: Error;
   public sendError?: Error;
+  public sendHandler?: (data: string) => Promise<void>;
   public setHandlers(handlers: VoiceAgentWebSocketHandlers): void {
     this.handlers = handlers;
   }
@@ -122,8 +123,9 @@ class MockTransport implements VoiceAgentWebSocketTransport {
     if (this.connectError) throw this.connectError;
     if (options.abortSignal?.aborted) throw new Error("aborted");
   }
-  public async send(): Promise<void> {
+  public async send(data: string): Promise<void> {
     if (this.sendError) throw this.sendError;
+    await this.sendHandler?.(data);
   }
   public async close(code: number, reason: string): Promise<void> {
     this.handlers?.onClose(code, reason, code === 1000);
@@ -592,6 +594,62 @@ describe("Voice Agents tracing", () => {
       { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
     ]);
     expect(JSON.stringify(spans)).not.toContain("PRIVATE");
+  });
+
+  it("correlates an audio acknowledgement received before its send resolves", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    let resolveSend!: () => void;
+    transport.sendHandler = () => {
+      inputAudioCreated(transport, "item-pending");
+      inputTranscribed(transport, "item-pending", "Early transcript.");
+      return new Promise<void>((resolve) => {
+        resolveSend = resolve;
+      });
+    };
+
+    const sending = connection.sendEvent({
+      type: "conversation.item.create",
+      item: {
+        type: "message",
+        role: "user",
+        content: [{ type: "input_audio", audio: "AQID" }],
+      },
+    });
+    expect(resolveSend).toBeTypeOf("function");
+    resolveSend();
+    await sending;
+
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Early transcript." }] },
+    ]);
+    await connection.close();
+  });
+
+  it("rolls back reserved audio correlation when a send fails", async () => {
+    const { realtime, transport } = client({ ...enabled, contentRecording: true });
+    const connection = await realtime.connect("voice");
+    const sendAudioMessage = (): Promise<void> =>
+      connection.sendEvent({
+        type: "conversation.item.create",
+        item: {
+          type: "message",
+          role: "user",
+          content: [{ type: "input_audio", audio: "AQID" }],
+        },
+      });
+
+    transport.sendError = new Error("send failed");
+    await expect(sendAudioMessage()).rejects.toMatchObject({ code: "sendFailed" });
+    transport.sendError = undefined;
+    await sendAudioMessage();
+    inputAudioCreated(transport, "item-after-failure");
+    inputTranscribed(transport, "item-after-failure", "Latest transcript.");
+    await connection.close();
+
+    expect(inputSummary()).toEqual([
+      { role: "user", parts: [{ type: "audio", content: "Latest transcript." }] },
+    ]);
   });
 
   it("does not clear a newer audio buffer when an earlier clear is acknowledged", async () => {
