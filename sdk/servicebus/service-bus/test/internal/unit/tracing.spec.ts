@@ -136,6 +136,7 @@ describe("tracing", () => {
               body: "test",
               applicationProperties: {
                 long: { type: "long", value: longValue },
+                priority: { type: "ubyte", value: 200 },
               },
             },
             defaultDataTransformer,
@@ -144,10 +145,18 @@ describe("tracing", () => {
         const received = fromRheaMessage(rheaMessageUtil.decode(encoded) as unknown as Message, {
           skipParsingBodyAsJson: false,
         });
+        received.applicationProperties = {
+          long: Number(longValue),
+          priority: 201,
+        };
 
         const { message } = instrumentMessage(received, {}, "testPath", "testHost", "publish");
-        const resentLong = toRheaMessage(message, defaultDataTransformer).application_properties
-          ?.long as Typed;
+        const resentProperties = toRheaMessage(
+          message,
+          defaultDataTransformer,
+        ).application_properties!;
+        const resentLong = resentProperties.long as Typed;
+        const resentPriority = resentProperties.priority as Typed;
 
         assert.equal(
           message.applicationProperties?.[TRACEPARENT_PROPERTY],
@@ -155,6 +164,8 @@ describe("tracing", () => {
         );
         assert.equal(resentLong.type.name, "Long");
         assert.equal(Buffer.from(resentLong.value).readBigInt64BE(), longValue);
+        assert.equal(resentPriority.type.name, "Ubyte");
+        assert.equal(resentPriority.value, 201);
       });
     });
 
