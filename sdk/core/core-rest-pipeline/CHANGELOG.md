@@ -1,5 +1,17 @@
 # Release History
 
+## 1.25.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed concurrent CAE claims challenges reusing an incompatible in-flight token refresh.
+
+### Other Changes
+
 ## 1.25.0 (2026-07-13)
 
 ### Other Changes
