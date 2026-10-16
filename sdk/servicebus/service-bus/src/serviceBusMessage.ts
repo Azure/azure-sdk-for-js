@@ -436,6 +436,12 @@ export function updateScheduledTime(
  */
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**
+   * The application specific properties received with the message.
+   */
+  applicationProperties?: {
+    [key: string]: number | boolean | string | Date | null;
+  };
+  /**
    * The application properties with their AMQP scalar types preserved.
    *
    * Use these values when inspecting or resending a message without changing
@@ -560,7 +566,8 @@ export function fromRheaMessage(
     skipParsingBodyAsJson,
   );
 
-  const sbmsg: ServiceBusMessage = {
+  const sbmsg: Omit<ServiceBusMessage, "applicationProperties"> &
+    Pick<ServiceBusReceivedMessage, "applicationProperties"> = {
     body: body,
   };
 

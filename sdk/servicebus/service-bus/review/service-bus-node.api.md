@@ -471,6 +471,9 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
+    applicationProperties?: {
+        [key: string]: number | boolean | string | Date | null;
+    };
     readonly applicationPropertiesWithAmqpTypes?: Readonly<{
         [key: string]: AmqpApplicationProperty;
     }>;

@@ -100,6 +100,13 @@ describe("AMQP message encoding", () => {
     );
   });
 
+  it("keeps received application properties assignable to the legacy type", () => {
+    const receivedProperties: Record<string, number | boolean | string | Date | null> | undefined =
+      exampleReceivedMessage().applicationProperties;
+
+    assert.isUndefined(receivedProperties);
+  });
+
   describe("toRheaMessage", () => {
     it("AmqpAnnotatedMessage (explicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {

@@ -361,8 +361,15 @@ function toRheaTyped(property: AmqpApplicationProperty): Typed {
       return rheaTypes.wrap_int(property.value);
     case "long":
       return rheaTypes.wrap_long(bigIntToBuffer(property.value, true));
-    case "float":
+    case "float": {
+      const floatValue = Math.fround(property.value);
+      if (Number.isFinite(property.value) && !Number.isFinite(floatValue)) {
+        throw new RangeError(
+          "AMQP float application properties must be within the finite float32 range.",
+        );
+      }
       return rheaTypes.wrap_float(property.value);
+    }
     case "double":
       return rheaTypes.wrap_double(property.value);
     case "decimal32":
@@ -517,22 +524,19 @@ function rheaIntegerToBigInt(value: number | Buffer, signed: boolean): bigint {
 
 function unwrapApplicationPropertyValue(value: Typed): unknown {
   // Preserve Rhea's existing plain JavaScript values while the typed view keeps exact integers.
-  const legacyValue = getLegacyRheaIntegerValue(value);
-  if (legacyValue != null) {
-    return legacyValue;
+  if ((value as Typed & { descriptor?: unknown }).descriptor == null) {
+    const legacyValue = getLegacyRheaIntegerValue(value);
+    if (legacyValue != null) {
+      return legacyValue;
+    }
   }
 
   return rheaTypes.unwrap(value, true);
 }
 
-function getLegacyRheaIntegerValue(
-  value: unknown,
-  allowValueSectionDescriptor = false,
-): number | undefined {
-  const typedValue = value as Typed & { descriptor?: unknown };
-  const descriptor = typedValue?.descriptor as Typed | undefined;
+function getLegacyRheaIntegerValue(value: unknown): number | undefined {
+  const typedValue = value as Typed;
   if (
-    (descriptor != null && (!allowValueSectionDescriptor || descriptor.value !== 0x77)) ||
     !Buffer.isBuffer(typedValue?.value) ||
     (typedValue.type?.name !== "Long" && typedValue.type?.name !== "Ulong")
   ) {
@@ -569,8 +573,17 @@ function installLosslessIntegerReaders(): void {
   const unwrap = rheaTypes.unwrap.bind(rheaTypes);
   rheaTypes.unwrap = (value: unknown, leaveDescribed?: boolean): unknown => {
     if (!preserveLosslessIntegerBytes) {
-      const legacyValue = getLegacyRheaIntegerValue(value, true);
+      const typedValue = value as Typed & { descriptor?: Typed };
+      const legacyValue = getLegacyRheaIntegerValue(typedValue);
       if (legacyValue != null) {
+        if (typedValue.descriptor != null && typedValue.descriptor.value !== 0x77) {
+          const compatibleValue = Object.create(
+            Object.getPrototypeOf(typedValue),
+            Object.getOwnPropertyDescriptors(typedValue),
+          ) as Typed;
+          compatibleValue.value = legacyValue;
+          return unwrap(compatibleValue, leaveDescribed);
+        }
         return legacyValue;
       }
     }

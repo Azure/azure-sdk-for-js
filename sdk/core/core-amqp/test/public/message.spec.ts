@@ -150,6 +150,25 @@ describe("message", function () {
       assert.deepEqual((sequence.body as { content: unknown[] }).content, [Number(longValue)]);
     });
 
+    it("preserves legacy values for unknown described body scalars", function () {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const longBytes = Buffer.alloc(8);
+      longBytes.writeBigInt64BE(longValue);
+      const describedLong = rheaTypes.wrap_long(longBytes) as Typed & { descriptor?: Typed };
+      describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
+
+      const decoded = decode({
+        body: rheaMessageUtil.sequence_section([describedLong]),
+      });
+      const decodedLong = (decoded.body as { content: Typed[] }).content[0] as Typed & {
+        descriptor?: Typed;
+      };
+
+      assert.equal(decodedLong.type.name, "Long");
+      assert.equal(decodedLong.value, Number(longValue));
+      assert.equal(decodedLong.descriptor?.value, "example:described-long");
+    });
+
     it("decodes nested map bodies without application-property metadata", function () {
       const depth = 64;
       let body: unknown = "leaf";
@@ -245,6 +264,24 @@ describe("message", function () {
       );
     });
 
+    it("does not preserve float32 for edited values that overflow it", function () {
+      for (const value of [1e100, -1e100]) {
+        const received = AmqpAnnotatedMessage.fromRheaMessage(
+          decode(
+            AmqpAnnotatedMessage.toRheaMessage({
+              applicationProperties: {
+                value: { type: "float", value: 1.25 },
+              },
+              body: "body",
+            }),
+          ),
+        );
+        received.applicationProperties!.value = value;
+
+        assert.throws(() => decode(AmqpAnnotatedMessage.toRheaMessage(received)), RangeError);
+      }
+    });
+
     it("rejects values outside the selected AMQP type", function () {
       assert.throws(
         () =>
@@ -256,6 +293,28 @@ describe("message", function () {
           }),
         RangeError,
         "AMQP ubyte",
+      );
+      assert.throws(
+        () =>
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              invalid: { type: "float", value: 1e100 },
+            },
+            body: "body",
+          }),
+        RangeError,
+        "AMQP float",
+      );
+      assert.throws(
+        () =>
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              invalid: { type: "float", value: -1e100 },
+            },
+            body: "body",
+          }),
+        RangeError,
+        "AMQP float",
       );
     });
 
