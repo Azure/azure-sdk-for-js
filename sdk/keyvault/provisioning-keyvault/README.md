@@ -4,25 +4,21 @@
 
 ## Getting started
 
-```ts snippet:ignore
-import { Stack } from "@azure/provisioning-core";
-import { KeyVault, Secret } from "@azure/provisioning-keyvault";
+```ts snippet:StackResourceGroupKeyVault
+import { Stack, ResourceGroup } from "@azure/provisioning-core";
+import { KeyVault } from "@azure/provisioning-keyvault";
 
-const stack = new Stack("keyvault", {
-  targetScope: "resourceGroup",
+const stack = new Stack("my-app");
+const resourceGroup = new ResourceGroup(stack, {
+  name: "rg-my-app",
   location: "eastus",
 });
-
-const vault = new KeyVault(stack, {
+const vault = new KeyVault(resourceGroup, {
+  name: "kv-my-app",
   properties: {
-    tenantId: "00000000-0000-0000-0000-000000000000",
+    tenantId: "11111111-1111-1111-1111-111111111111",
     sku: { family: "A", name: "standard" },
   },
-});
-
-new Secret(vault, {
-  name: "connection-string",
-  properties: { value: "example" },
 });
 ```
 
