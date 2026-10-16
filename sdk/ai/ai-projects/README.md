@@ -1511,8 +1511,8 @@ information. Raw media, credentials, query values, telephone numbers, SDP, and r
 error/close messages are never intentionally recorded by this instrumentation.
 Read/list calls continue using the existing HTTP pipeline tracing.
 
-See [realtime tracing sample](./samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
-and [REST tracing sample](./samples-dev/agents/agentVoiceRestWithTracing.ts).
+See [realtime tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
+and [REST tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRestWithTracing.ts).
 
 #### Azure Monitor tracing
 
