@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing Redis Enterprise cluster
  *
  * @summary updates an existing Redis Enterprise cluster
- * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseUpdate.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseUpdate.json
  */
 async function redisEnterpriseUpdate() {
   const credential = new DefaultAzureCredential();
@@ -24,6 +24,10 @@ async function redisEnterpriseUpdate() {
         { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Wednesday" } },
       ],
     },
+    firewallRules: [
+      { name: "allowOfficeNetwork", sourceAddressPrefix: "10.0.0.0/24" },
+      { name: "allowPartnerNetwork", sourceAddressPrefix: "192.168.1.0/24" },
+    ],
     sku: { name: "EnterpriseFlash_F300", capacity: 9 },
     tags: { tag1: "value1" },
   });

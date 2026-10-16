@@ -2,27 +2,32 @@
 // Licensed under the MIT License.
 
 import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
-import { list, $delete, createUpdate, get } from "../../api/accessPolicyAssignment/operations.js";
+import {
+  list,
+  $delete,
+  createUpdate,
+  get,
+} from "../../api/accessPolicyAssignmentOperations/operations.js";
 import type {
-  AccessPolicyAssignmentListOptionalParams,
-  AccessPolicyAssignmentDeleteOptionalParams,
-  AccessPolicyAssignmentCreateUpdateOptionalParams,
-  AccessPolicyAssignmentGetOptionalParams,
-} from "../../api/accessPolicyAssignment/options.js";
+  AccessPolicyAssignmentOperationsListOptionalParams,
+  AccessPolicyAssignmentOperationsDeleteOptionalParams,
+  AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
+  AccessPolicyAssignmentOperationsGetOptionalParams,
+} from "../../api/accessPolicyAssignmentOperations/options.js";
 import type { AccessPolicyAssignment } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-/** Interface representing a AccessPolicyAssignment operations. */
-export interface AccessPolicyAssignmentOperations {
+/** Interface representing a AccessPolicyAssignmentOperations operations. */
+export interface AccessPolicyAssignmentOperationsOperations {
   /** Gets all access policy assignments.. */
   list: (
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: AccessPolicyAssignmentListOptionalParams,
+    options?: AccessPolicyAssignmentOperationsListOptionalParams,
   ) => PagedAsyncIterableIterator<AccessPolicyAssignment>;
   /** Deletes a single access policy assignment. */
   delete: (
@@ -30,7 +35,7 @@ export interface AccessPolicyAssignmentOperations {
     clusterName: string,
     databaseName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentDeleteOptionalParams,
+    options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use delete instead */
   beginDelete: (
@@ -38,7 +43,7 @@ export interface AccessPolicyAssignmentOperations {
     clusterName: string,
     databaseName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentDeleteOptionalParams,
+    options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
@@ -46,7 +51,7 @@ export interface AccessPolicyAssignmentOperations {
     clusterName: string,
     databaseName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentDeleteOptionalParams,
+    options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
   ) => Promise<void>;
   /** Creates/Updates a particular access policy assignment for a database */
   createUpdate: (
@@ -55,7 +60,7 @@ export interface AccessPolicyAssignmentOperations {
     databaseName: string,
     accessPolicyAssignmentName: string,
     parameters: AccessPolicyAssignment,
-    options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+    options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
   ) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
   /** @deprecated use createUpdate instead */
   beginCreateUpdate: (
@@ -64,7 +69,7 @@ export interface AccessPolicyAssignmentOperations {
     databaseName: string,
     accessPolicyAssignmentName: string,
     parameters: AccessPolicyAssignment,
-    options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+    options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
   /** @deprecated use createUpdate instead */
   beginCreateUpdateAndWait: (
@@ -73,7 +78,7 @@ export interface AccessPolicyAssignmentOperations {
     databaseName: string,
     accessPolicyAssignmentName: string,
     parameters: AccessPolicyAssignment,
-    options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+    options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
   ) => Promise<AccessPolicyAssignment>;
   /** Gets information about access policy assignment for database. */
   get: (
@@ -81,23 +86,24 @@ export interface AccessPolicyAssignmentOperations {
     clusterName: string,
     databaseName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentGetOptionalParams,
+    options?: AccessPolicyAssignmentOperationsGetOptionalParams,
   ) => Promise<AccessPolicyAssignment>;
 }
-function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
+
+function _getAccessPolicyAssignmentOperations(context: RedisEnterpriseManagementContext) {
   return {
     list: (
       resourceGroupName: string,
       clusterName: string,
       databaseName: string,
-      options?: AccessPolicyAssignmentListOptionalParams,
+      options?: AccessPolicyAssignmentOperationsListOptionalParams,
     ) => list(context, resourceGroupName, clusterName, databaseName, options),
     delete: (
       resourceGroupName: string,
       clusterName: string,
       databaseName: string,
       accessPolicyAssignmentName: string,
-      options?: AccessPolicyAssignmentDeleteOptionalParams,
+      options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
     ) =>
       $delete(
         context,
@@ -112,7 +118,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       clusterName: string,
       databaseName: string,
       accessPolicyAssignmentName: string,
-      options?: AccessPolicyAssignmentDeleteOptionalParams,
+      options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
     ) => {
       const poller = $delete(
         context,
@@ -130,7 +136,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       clusterName: string,
       databaseName: string,
       accessPolicyAssignmentName: string,
-      options?: AccessPolicyAssignmentDeleteOptionalParams,
+      options?: AccessPolicyAssignmentOperationsDeleteOptionalParams,
     ) => {
       return await $delete(
         context,
@@ -147,7 +153,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       databaseName: string,
       accessPolicyAssignmentName: string,
       parameters: AccessPolicyAssignment,
-      options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+      options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
     ) =>
       createUpdate(
         context,
@@ -164,7 +170,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       databaseName: string,
       accessPolicyAssignmentName: string,
       parameters: AccessPolicyAssignment,
-      options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+      options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
     ) => {
       const poller = createUpdate(
         context,
@@ -184,7 +190,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       databaseName: string,
       accessPolicyAssignmentName: string,
       parameters: AccessPolicyAssignment,
-      options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
+      options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
     ) => {
       return await createUpdate(
         context,
@@ -201,7 +207,7 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       clusterName: string,
       databaseName: string,
       accessPolicyAssignmentName: string,
-      options?: AccessPolicyAssignmentGetOptionalParams,
+      options?: AccessPolicyAssignmentOperationsGetOptionalParams,
     ) =>
       get(
         context,
@@ -213,10 +219,11 @@ function _getAccessPolicyAssignment(context: RedisEnterpriseManagementContext) {
       ),
   };
 }
-export function _getAccessPolicyAssignmentOperations(
+
+export function _getAccessPolicyAssignmentOperationsOperations(
   context: RedisEnterpriseManagementContext,
-): AccessPolicyAssignmentOperations {
+): AccessPolicyAssignmentOperationsOperations {
   return {
-    ..._getAccessPolicyAssignment(context),
+    ..._getAccessPolicyAssignmentOperations(context),
   };
 }
