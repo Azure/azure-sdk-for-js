@@ -32,10 +32,13 @@ import { createAndStartRecorder, getUniqueName } from "../utils/index.js";
 import { layoutContext } from "./layoutTestUtils.js";
 
 /** Builds a Get Blob Layout page shaped the way the generated layer hands it back. */
-function layoutPage(body: Record<string, unknown>, headers: Record<string, unknown> = {}): unknown {
+function layoutPage(
+  body: Record<string, unknown> | undefined,
+  headers: Record<string, unknown> = {},
+): unknown {
   const rawResponse = {
     request: createPipelineRequest({ url: "https://myaccount.blob.core.windows.net" }),
-    status: 200,
+    status: body ? 200 : 204,
     headers: createHttpHeaders(),
     bodyAsText: "",
   } as FullOperationResponse;
@@ -87,9 +90,20 @@ describe("BlobClient.getLayout", () => {
     }
 
     assert.lengthOf(items, 2);
-    assert.deepEqual(items[0].ranges?.range, [{ start: 0, end: 99, endpointIndex: 0 }]);
-    assert.deepEqual(items[0].endpoints?.endpoint, [{ index: 0, value: "https://a:443/" }]);
-    assert.deepEqual(items[1].endpoints?.endpoint, [{ index: 0, value: "https://b:443/" }]);
+    assert.deepEqual(items[0].ranges, [{ start: 0, end: 99, endpointIndex: 0 }]);
+    assert.deepEqual(items[0].endpoints, [{ index: 0, value: "https://a:443/" }]);
+    assert.deepEqual(items[1].endpoints, [{ index: 0, value: "https://b:443/" }]);
+  });
+
+  it("returns empty ranges and endpoints, and no body, for a page without a layout", async () => {
+    const { client } = clientWithLayoutPages([layoutPage(undefined, { etag: "etag-page-1" })]);
+
+    const page: BlobGetLayoutResponseModel = (await client.getLayout().next()).value;
+
+    assert.deepEqual(page.ranges, []);
+    assert.deepEqual(page.endpoints, []);
+    assert.isUndefined(page.continuationToken);
+    assert.isUndefined(page._response.parsedBody);
   });
 
   it("locks pages after the first to the ETag page one reported", async () => {
@@ -174,6 +188,8 @@ describe("BlobClient.getLayout", () => {
 
     assert.notProperty(page._response.parsedBody, "nextMarker");
     assert.equal(page._response.parsedBody?.continuationToken, page.continuationToken);
+    assert.deepEqual(page._response.parsedBody?.ranges, page.ranges);
+    assert.deepEqual(page._response.parsedBody?.endpoints, page.endpoints);
   });
 
   it("passes maxPageSize and resumes from a continuationToken through byPage", async () => {
@@ -456,10 +472,9 @@ function createRoutingSpy(): { policy: PipelinePolicy; sent: SentRequest[] } {
 function assertTiles(pages: BlobGetLayoutResponseModel[], start: number, end: number): void {
   let next = start;
   for (const page of pages) {
-    const endpoints = page.endpoints?.endpoint ?? [];
-    for (const range of page.ranges?.range ?? []) {
+    for (const range of page.ranges) {
       assert.equal(range.start, next, "ranges must be contiguous and in order");
-      const endpoint = endpoints.find((candidate) => candidate.index === range.endpointIndex);
+      const endpoint = page.endpoints.find((candidate) => candidate.index === range.endpointIndex);
       assert.isDefined(endpoint, `range ${range.start}-${range.end} must resolve on its own page`);
       assert.match(endpoint!.value, /^https:\/\//);
       next = range.end + 1;
@@ -524,8 +539,8 @@ describe("Data locality Node.js only", () => {
   it("reads a range from the endpoint its layout names, still addressed to the account", async () => {
     const offset = blockSize;
     const page: BlobGetLayoutResponseModel = (await blobClient.getLayout().next()).value;
-    const range = page.ranges!.range!.find((r) => r.start <= offset && offset <= r.end)!;
-    const endpoint = page.endpoints!.endpoint!.find((e) => e.index === range.endpointIndex)!;
+    const range = page.ranges.find((r) => r.start <= offset && offset <= r.end)!;
+    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex)!;
     spy.sent.length = 0;
 
     const response = await blobClient.download(offset, blockSize, {

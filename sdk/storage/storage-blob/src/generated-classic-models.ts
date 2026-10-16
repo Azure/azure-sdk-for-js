@@ -379,30 +379,57 @@ export interface BlobLayoutRange {
   /** The end byte offset of the range, inclusive. */
   end: number;
   /**
-   * Index of the entry in {@link BlobLayoutEndpoints.endpoint} that serves this range. Indexes are
-   * scoped to the page they arrive on and must not be resolved against another page's endpoints.
+   * Index of the entry in {@link BlobLayout.endpoints} that serves this range. Indexes are scoped
+   * to the page they arrive on and must not be resolved against another page's endpoints.
    */
   endpointIndex: number;
 }
 
-/** The ranges that make up a blob. */
-export interface BlobLayoutRanges {
-  /** The list of ranges. */
-  range?: BlobLayoutRange[];
-}
+/**
+ * An endpoint that serves part of a blob's data: an absolute URI, including scheme and port.
+ *
+ * {@link BlobClient.getLayout} returns these in {@link BlobLayoutEndpoint.value}. Pass one as
+ * {@link BlobDownloadOptions.layoutEndpoint} to read a range from that endpoint instead of the
+ * account endpoint. The request stays authenticated as, and addressed to, the account. Only
+ * Node.js routes requests to it; browsers and React Native ignore it and read from the account
+ * endpoint.
+ *
+ * ```ts snippet:ClientsDownloadFromLayoutEndpoint
+ * import { BlobServiceClient } from "@azure/storage-blob";
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { buffer } from "node:stream/consumers";
+ *
+ * const account = "<account>";
+ * const blobServiceClient = new BlobServiceClient(
+ *   `https://${account}.blob.core.windows.net`,
+ *   new DefaultAzureCredential(),
+ * );
+ *
+ * const containerClient = blobServiceClient.getContainerClient("<container name>");
+ * const blobClient = containerClient.getBlobClient("<blob name>");
+ *
+ * for await (const page of blobClient.getLayout()) {
+ *   for (const range of page.ranges) {
+ *     const layoutEndpoint = page.endpoints.find((e) => e.index === range.endpointIndex)?.value;
+ *     const response = await blobClient.download(range.start, range.end - range.start + 1, {
+ *       layoutEndpoint,
+ *     });
+ *     if (response.readableStreamBody) {
+ *       const bytes = await buffer(response.readableStreamBody);
+ *       console.log(`Read ${bytes.length} bytes from ${layoutEndpoint}`);
+ *     }
+ *   }
+ * }
+ * ```
+ */
+export type LayoutEndpoint = string;
 
 /** An endpoint that serves one or more ranges of a blob. */
 export interface BlobLayoutEndpoint {
   /** The index {@link BlobLayoutRange.endpointIndex} refers to. */
   index: number;
   /** Absolute URI of the endpoint, including scheme and port. */
-  value: string;
-}
-
-/** The endpoints that serve the ranges of a blob. */
-export interface BlobLayoutEndpoints {
-  /** The list of endpoints. */
-  endpoint?: BlobLayoutEndpoint[];
+  value: LayoutEndpoint;
 }
 
 /**
@@ -413,10 +440,10 @@ export interface BlobLayoutEndpoints {
  * page may differ from that of any other, even when the pages are linked by a marker.
  */
 export interface BlobLayout {
-  /** The ranges that make up the blob. */
-  ranges?: BlobLayoutRanges;
-  /** The endpoints that serve the ranges of the blob. */
-  endpoints?: BlobLayoutEndpoints;
+  /** The ranges that make up the blob, in order. Empty when the service returns no layout. */
+  ranges: BlobLayoutRange[];
+  /** The endpoints that serve the ranges of the blob. Empty when the service returns no layout. */
+  endpoints: BlobLayoutEndpoint[];
   /**
    * Opaque token to pass to `byPage` to resume after this page, still locked to the blob version
    * the enumeration began on. Undefined on the last page.

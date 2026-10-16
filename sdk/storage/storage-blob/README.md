@@ -533,9 +533,8 @@ console.log(`Downloaded ${downloaded.length} bytes`);
 
 // To route reads yourself, read each range of the layout from the endpoint that serves it.
 for await (const page of blobClient.getLayout()) {
-  const endpoints = page.endpoints?.endpoint ?? [];
-  for (const range of page.ranges?.range ?? []) {
-    const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+  for (const range of page.ranges) {
+    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
     const response = await blobClient.download(range.start, range.end - range.start + 1, {
       layoutEndpoint: endpoint?.value,
     });
