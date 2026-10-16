@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get file shares usage data.
  *
  * @summary get file shares usage data.
- * x-ms-original-file: 2026-06-01/FileShare_GetUsageData_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShare_GetUsageData_MaximumSet_Gen.json
  */
 async function fileShareGetUsageDataMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function fileShareGetUsageDataMaximumSet(): Promise<void> {
  * This sample demonstrates how to get file shares usage data.
  *
  * @summary get file shares usage data.
- * x-ms-original-file: 2026-06-01/FileShare_GetUsageData_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShare_GetUsageData_MinimumSet_Gen.json
  */
 async function fileShareGetUsageDataMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

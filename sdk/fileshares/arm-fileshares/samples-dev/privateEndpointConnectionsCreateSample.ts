@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified private endpoint connection associated with the file share.
  *
  * @summary update the state of specified private endpoint connection associated with the file share.
- * x-ms-original-file: 2026-06-01/PrivateEndpointConnections_Create.json
+ * x-ms-original-file: 2026-09-01/PrivateEndpointConnections_Create.json
  */
 async function privateEndpointConnectionsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
