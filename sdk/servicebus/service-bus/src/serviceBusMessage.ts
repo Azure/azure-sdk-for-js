@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
+import {
+  AmqpAnnotatedMessage,
+  Constants,
+  type AmqpApplicationProperty,
+  _defineApplicationPropertiesWithAmqpTypes,
+  _getApplicationPropertiesWithAmqpTypes,
+  _toRheaApplicationProperties,
+} from "@azure/core-amqp";
 import { Buffer } from "buffer";
 import Long from "long";
 import type {
@@ -214,7 +221,9 @@ export interface ServiceBusMessage {
    * The application specific properties which can be
    * used for custom message metadata.
    */
-  applicationProperties?: { [key: string]: number | boolean | string | Date | null };
+  applicationProperties?: {
+    [key: string]: number | boolean | string | Date | null | AmqpApplicationProperty;
+  };
 }
 
 /**
@@ -335,7 +344,10 @@ export function toRheaMessage(
   }
 
   if (msg.applicationProperties != null) {
-    amqpMsg.application_properties = msg.applicationProperties;
+    amqpMsg.application_properties = _toRheaApplicationProperties(
+      msg.applicationProperties,
+      isServiceBusReceivedMessage(msg) ? msg.applicationPropertiesWithAmqpTypes : undefined,
+    );
   }
   if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
@@ -423,6 +435,22 @@ export function updateScheduledTime(
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
  */
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
+  /**
+   * The application specific properties received with the message.
+   */
+  applicationProperties?: {
+    [key: string]: number | boolean | string | Date | null;
+  };
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   *
+   * Use these values when inspecting or resending a message without changing
+   * the original AMQP application property types.
+   * @readonly
+   */
+  readonly applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    * The reason for deadlettering the message.
    * @readonly
@@ -538,7 +566,8 @@ export function fromRheaMessage(
     skipParsingBodyAsJson,
   );
 
-  const sbmsg: ServiceBusMessage = {
+  const sbmsg: Omit<ServiceBusMessage, "applicationProperties"> &
+    Pick<ServiceBusReceivedMessage, "applicationProperties"> = {
     body: body,
   };
 
@@ -547,6 +576,9 @@ export function fromRheaMessage(
       ? rheaMessage.application_properties
       : convertDatesToNumbers(rheaMessage.application_properties);
   }
+  const applicationPropertiesWithAmqpTypes = _getApplicationPropertiesWithAmqpTypes(
+    rheaMessage.application_properties,
+  );
   if (rheaMessage.content_type != null) {
     sbmsg.contentType = rheaMessage.content_type;
   }
@@ -683,6 +715,7 @@ export function fromRheaMessage(
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       string | undefined,
   };
+  _defineApplicationPropertiesWithAmqpTypes(rcvdsbmsg, applicationPropertiesWithAmqpTypes);
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
@@ -728,6 +761,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * The application specific properties.
    */
   applicationProperties?: { [key: string]: any };
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   */
+  readonly applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    * The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -919,13 +958,18 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     skipParsingBodyAsJson: boolean,
     skipConvertingDate: boolean,
   ) {
-    const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
+    const receivedMessage = fromRheaMessage(
       msg,
 
       { skipParsingBodyAsJson, delivery, shouldReorderLockToken, skipConvertingDate },
     );
+    const { _rawAmqpMessage, ...restOfMessageProps } = receivedMessage;
     this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
+    _defineApplicationPropertiesWithAmqpTypes(
+      this,
+      receivedMessage.applicationPropertiesWithAmqpTypes,
+    );
     this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
 
     // Lock on a message is applicable only in peekLock mode, but the service sets
@@ -972,6 +1016,18 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
 function convertDatesToNumbers<T = unknown>(thing: T): T {
   // fast exit
   if (!isDefined(thing)) return thing;
+
+  if (thing instanceof Uint8Array) {
+    return thing;
+  }
+
+  if (
+    typeof thing === "object" &&
+    isObjectWithProperties(thing, ["toRheaTyped"]) &&
+    typeof thing.toRheaTyped === "function"
+  ) {
+    return thing;
+  }
 
   // When 'thing' is a Date, return the number representation
   if (
