@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get firmware.
  *
  * @summary get firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Get_MaximumSet_Gen.json
  */
 async function firmwaresGetMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function firmwaresGetMaximumSetGenGeneratedByMaximumSetRule(): Promise<voi
  * This sample demonstrates how to get firmware.
  *
  * @summary get firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Get_MinimumSet_Gen.json
  */
 async function firmwaresGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

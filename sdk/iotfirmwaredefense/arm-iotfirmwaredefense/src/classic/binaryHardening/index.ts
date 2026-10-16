@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByFirmware } from "../../api/binaryHardening/operations.js";
-import { BinaryHardeningListByFirmwareOptionalParams } from "../../api/binaryHardening/options.js";
-import { BinaryHardeningResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BinaryHardeningListByFirmwareOptionalParams } from "../../api/binaryHardening/options.js";
+import type { BinaryHardeningResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BinaryHardening operations. */
 export interface BinaryHardeningOperations {

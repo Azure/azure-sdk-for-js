@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +53,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -340,8 +347,8 @@ export type ProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -367,8 +374,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -425,7 +432,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -497,7 +504,9 @@ export function workspaceSerializer(item: Workspace): any {
 
 export function workspaceDeserializer(item: any): Workspace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -518,8 +527,8 @@ export interface WorkspaceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
-  return item;
+export function workspacePropertiesSerializer(_item: WorkspaceProperties): any {
+  return {};
 }
 
 export function workspacePropertiesDeserializer(item: any): WorkspaceProperties {
@@ -585,7 +594,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -599,10 +610,7 @@ export interface WorkspaceUpdate {
 }
 
 export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-    tags: item["tags"],
-  };
+  return { sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]), tags: item["tags"] };
 }
 
 /** The response of a Workspace list operation. */
@@ -1164,24 +1172,36 @@ export interface CveResult {
   cveName?: string;
   /** Legacy property for what is now componentName */
   component?: CveComponent;
-  /** Legacy property for the effective CVE score. */
+  /** Legacy property for the effective CVE score (deprecated). */
   cvssScore?: string;
-  /** Legacy property for the CVE CVSS version 2 score, if one existed. */
+  /** Legacy property for the CVE CVSS version 2 score, if one existed. (deprecated) */
   cvssV2Score?: string;
-  /** Legacy property for the CVE CVSS version 3 score, if one existed. */
+  /** Legacy property for the CVE CVSS version 3 score, if one existed. (deprecated) */
   cvssV3Score?: string;
-  /** Legacy property for the what CVSS version score was stored in the cvssScore property */
+  /** Legacy property for the what CVSS version score was stored in the cvssScore property (deprecated). */
   cvssVersion?: string;
   /** The most recent CVSS score of the CVE. */
   effectiveCvssScore?: number;
   /** The version of the effectiveCvssScore property. */
   effectiveCvssVersion?: number;
+  /** The CVSS vector string for the effectiveCvssVersion. */
+  effectiveVectorString?: string;
+  /** The CVSS exploit maturity value for the effectiveCvssVersion. */
+  effectiveExploitMaturity?: ExploitMaturityLevel;
   /** All known CVSS scores for the CVE. */
   cvssScores?: CvssScore[];
   /** The list of reference links for the CVE. */
   readonly links?: CveLink[];
   /** The CVE description. */
   description?: string;
+  /** EPSS (Exploit Prediction Scoring System) information related to this CVE. */
+  epss?: EpssProperties;
+  /** CWE (Common Weakness Enumeration) information related to this CVE. */
+  cwes?: CweProperties[];
+  /** KEV (Known Exploited Vulnerabilities) information related to this CVE. */
+  kev?: KevProperties;
+  /** The component versions in which this weakness was fixed, if any. */
+  fixedInVersions?: string[];
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -1201,11 +1221,21 @@ export function cveResultDeserializer(item: any): CveResult {
     cvssVersion: item["cvssVersion"],
     effectiveCvssScore: item["effectiveCvssScore"],
     effectiveCvssVersion: item["effectiveCvssVersion"],
+    effectiveVectorString: item["effectiveVectorString"],
+    effectiveExploitMaturity: item["effectiveExploitMaturity"],
     cvssScores: !item["cvssScores"]
       ? item["cvssScores"]
       : cvssScoreArrayDeserializer(item["cvssScores"]),
     links: !item["links"] ? item["links"] : cveLinkArrayDeserializer(item["links"]),
     description: item["description"],
+    epss: !item["epss"] ? item["epss"] : epssPropertiesDeserializer(item["epss"]),
+    cwes: !item["cwes"] ? item["cwes"] : cwePropertiesArrayDeserializer(item["cwes"]),
+    kev: !item["kev"] ? item["kev"] : kevPropertiesDeserializer(item["kev"]),
+    fixedInVersions: !item["fixedInVersions"]
+      ? item["fixedInVersions"]
+      : item["fixedInVersions"].map((p: any) => {
+          return p;
+        }),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1228,6 +1258,30 @@ export function cveComponentDeserializer(item: any): CveComponent {
   };
 }
 
+/** String to indicate the exploit maturity of a CVE for the given CVSS score. */
+export enum KnownExploitMaturityLevel {
+  /** Reliable threat intelligence is not available to determine Exploit Maturity characteristics. This is the default value and is equivalent to Attacked (A) for the purposes of the calculation of the score by assuming the worst case. */
+  NotDefined = "NOT_DEFINED",
+  /** Based on available threat intelligence either of the following must apply: attacks targeting this vulnerability (attempted or successful) have been reported, or solutions to simplify attempts to exploit the vulnerability are publicly or privately available. */
+  Attacked = "ATTACKED",
+  /** Based on available threat intelligence each of the following must apply: proof-of-concept exploit code is publicly available, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability */
+  ProofOfConcept = "PROOF_OF_CONCEPT",
+  /** Based on available threat intelligence each of the following must apply: no knowledge of publicly available proof-of-concept exploit code, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability. */
+  Unreported = "UNREPORTED",
+}
+
+/**
+ * String to indicate the exploit maturity of a CVE for the given CVSS score. \
+ * {@link KnownExploitMaturityLevel} can be used interchangeably with ExploitMaturityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NOT_DEFINED**: Reliable threat intelligence is not available to determine Exploit Maturity characteristics. This is the default value and is equivalent to Attacked (A) for the purposes of the calculation of the score by assuming the worst case. \
+ * **ATTACKED**: Based on available threat intelligence either of the following must apply: attacks targeting this vulnerability (attempted or successful) have been reported, or solutions to simplify attempts to exploit the vulnerability are publicly or privately available. \
+ * **PROOF_OF_CONCEPT**: Based on available threat intelligence each of the following must apply: proof-of-concept exploit code is publicly available, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability \
+ * **UNREPORTED**: Based on available threat intelligence each of the following must apply: no knowledge of publicly available proof-of-concept exploit code, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability.
+ */
+export type ExploitMaturityLevel = string;
+
 export function cvssScoreArrayDeserializer(result: Array<CvssScore>): any[] {
   return result.map((item) => {
     return cvssScoreDeserializer(item);
@@ -1240,12 +1294,18 @@ export interface CvssScore {
   version: number;
   /** The score of the CVE according to the CVSS specified. */
   score?: number;
+  /** The CVSS vector for the specified score */
+  vectorString?: string;
+  /** The likelihood of the vulnerability being attacked based on information regarding the availability of exploitation code/processes and the state of exploitation techniques. */
+  exploitMaturity?: ExploitMaturityLevel;
 }
 
 export function cvssScoreDeserializer(item: any): CvssScore {
   return {
     version: item["version"],
     score: item["score"],
+    vectorString: item["vectorString"],
+    exploitMaturity: item["exploitMaturity"],
   };
 }
 
@@ -1269,6 +1329,86 @@ export function cveLinkDeserializer(item: any): CveLink {
     label: item["label"],
   };
 }
+
+/** EPSS (Exploit Prediction Scoring System) data related to a CVE. */
+export interface EpssProperties {
+  /** The probability of observing exploitation activity in the next 30 days. */
+  score?: number;
+  /** The rank ordering of probabilities from high to low. */
+  percentile?: number;
+}
+
+export function epssPropertiesDeserializer(item: any): EpssProperties {
+  return {
+    score: item["score"],
+    percentile: item["percentile"],
+  };
+}
+
+export function cwePropertiesArrayDeserializer(result: Array<CweProperties>): any[] {
+  return result.map((item) => {
+    return cwePropertiesDeserializer(item);
+  });
+}
+
+/** CWE (Common Weakness Enumeration) data related to a CVE. */
+export interface CweProperties {
+  /** The id of the CWE. */
+  cweId?: string;
+  /** The name of the CWE. */
+  cweName?: string;
+  /** The description of the CWE. */
+  description?: string;
+}
+
+export function cwePropertiesDeserializer(item: any): CweProperties {
+  return {
+    cweId: item["cweId"],
+    cweName: item["cweName"],
+    description: item["description"],
+  };
+}
+
+/** KEV (Known Exploited Vulnerabilities) data related to a CVE, published by CISA. */
+export interface KevProperties {
+  /** Indication if the vulnerability is known to have been leveraged as part of a ransomware campaign. */
+  knownRansomwareCampaignUse?: RansomwareCampaignUse;
+  /** The date the vulnerability was added to the KEV catalog. */
+  dateAdded?: Date;
+  /** The date the required action is due. */
+  remediationDueDate?: Date;
+  /** The required action to address the vulnerability. */
+  requiredAction?: string;
+}
+
+export function kevPropertiesDeserializer(item: any): KevProperties {
+  return {
+    knownRansomwareCampaignUse: item["knownRansomwareCampaignUse"],
+    dateAdded: !item["dateAdded"] ? item["dateAdded"] : new Date(item["dateAdded"]),
+    remediationDueDate: !item["remediationDueDate"]
+      ? item["remediationDueDate"]
+      : new Date(item["remediationDueDate"]),
+    requiredAction: item["requiredAction"],
+  };
+}
+
+/** String to indicate if a vulnerability is known to have been leveraged as part of a ransomware campaign. */
+export enum KnownRansomwareCampaignUse {
+  /** CISA knows the vulnerability to have been leveraged in a ransomware campaign. */
+  Known = "Known",
+  /** CISA lacks confirmation the vulnerability has been utilized for ransomware. */
+  Unknown = "Unknown",
+}
+
+/**
+ * String to indicate if a vulnerability is known to have been leveraged as part of a ransomware campaign. \
+ * {@link KnownRansomwareCampaignUse} can be used interchangeably with RansomwareCampaignUse,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Known**: CISA knows the vulnerability to have been leveraged in a ransomware campaign. \
+ * **Unknown**: CISA lacks confirmation the vulnerability has been utilized for ransomware.
+ */
+export type RansomwareCampaignUse = string;
 
 /** The response of a PasswordHashResource list operation. */
 export interface _PasswordHashResourceListResult {
@@ -1445,7 +1585,7 @@ export function summaryResourceDeserializer(item: any): SummaryResource {
 /** Properties of an analysis summary. */
 export interface SummaryResourceProperties {
   /** The type of summary. */
-  /** The discriminator possible values: Firmware, CommonVulnerabilitiesAndExposures, BinaryHardening, CryptoCertificate, CryptoKey */
+  /** The discriminator possible values: Firmware, CommonVulnerabilitiesAndExposures, BinaryHardening, CryptoCertificate, CryptoKey, CVE, SBOM, PasswordHash, UnsafeFunctionCalls */
   summaryType: SummaryType;
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
@@ -1465,12 +1605,16 @@ export type SummaryResourcePropertiesUnion =
   | BinaryHardeningSummaryResource
   | CryptoCertificateSummaryResource
   | CryptoKeySummaryResource
+  | CveSummaryResource
+  | SbomSummaryResource
+  | PasswordHashSummaryResource
+  | UnsafeFunctionCallsSummaryResource
   | SummaryResourceProperties;
 
 export function summaryResourcePropertiesUnionDeserializer(
   item: any,
 ): SummaryResourcePropertiesUnion {
-  switch (item.summaryType) {
+  switch (item["summaryType"]) {
     case "Firmware":
       return firmwareSummaryDeserializer(item as FirmwareSummary);
 
@@ -1486,6 +1630,20 @@ export function summaryResourcePropertiesUnionDeserializer(
     case "CryptoKey":
       return cryptoKeySummaryResourceDeserializer(item as CryptoKeySummaryResource);
 
+    case "CVE":
+      return cveSummaryResourceDeserializer(item as CveSummaryResource);
+
+    case "SBOM":
+      return sbomSummaryResourceDeserializer(item as SbomSummaryResource);
+
+    case "PasswordHash":
+      return passwordHashSummaryResourceDeserializer(item as PasswordHashSummaryResource);
+
+    case "UnsafeFunctionCalls":
+      return unsafeFunctionCallsSummaryResourceDeserializer(
+        item as UnsafeFunctionCallsSummaryResource,
+      );
+
     default:
       return summaryResourcePropertiesDeserializer(item);
   }
@@ -1495,7 +1653,7 @@ export function summaryResourcePropertiesUnionDeserializer(
 export enum KnownSummaryType {
   /** The summary contains information about the submitted firmware */
   Firmware = "Firmware",
-  /** The summary contains information about the Common Vulnerabilities and Exposures analysis results */
+  /** The summary contains information about the CVE (Common Vulnerabilities and Exposures) analysis results (deprecated) */
   CommonVulnerabilitiesAndExposures = "CommonVulnerabilitiesAndExposures",
   /** The summary contains information about the binary hardening analysis results */
   BinaryHardening = "BinaryHardening",
@@ -1503,6 +1661,14 @@ export enum KnownSummaryType {
   CryptoCertificate = "CryptoCertificate",
   /** The summary contains information about the cryptographic key analysis results */
   CryptoKey = "CryptoKey",
+  /** The summary contains information about the CVE analysis results */
+  Cve = "CVE",
+  /** The summary contains information about the SBOM (Software Bill of Materials) analysis results */
+  Sbom = "SBOM",
+  /** The summary contains information about the password hash analysis results */
+  PasswordHash = "PasswordHash",
+  /** The summary contains information about the unsafe function call analysis results */
+  UnsafeFunctionCalls = "UnsafeFunctionCalls",
 }
 
 /**
@@ -1511,10 +1677,14 @@ export enum KnownSummaryType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Firmware**: The summary contains information about the submitted firmware \
- * **CommonVulnerabilitiesAndExposures**: The summary contains information about the Common Vulnerabilities and Exposures analysis results \
+ * **CommonVulnerabilitiesAndExposures**: The summary contains information about the CVE (Common Vulnerabilities and Exposures) analysis results (deprecated) \
  * **BinaryHardening**: The summary contains information about the binary hardening analysis results \
  * **CryptoCertificate**: The summary contains information about the cryptographic certificate analysis results \
- * **CryptoKey**: The summary contains information about the cryptographic key analysis results
+ * **CryptoKey**: The summary contains information about the cryptographic key analysis results \
+ * **CVE**: The summary contains information about the CVE analysis results \
+ * **SBOM**: The summary contains information about the SBOM (Software Bill of Materials) analysis results \
+ * **PasswordHash**: The summary contains information about the password hash analysis results \
+ * **UnsafeFunctionCalls**: The summary contains information about the unsafe function call analysis results
  */
 export type SummaryType = string;
 
@@ -1552,7 +1722,7 @@ export function firmwareSummaryDeserializer(item: any): FirmwareSummary {
   };
 }
 
-/** Properties for a CVE analysis summary. */
+/** Properties for a CVE (Common Vulnerabilities and Exposures) analysis summary (deprecated). */
 export interface CveSummary extends SummaryResourceProperties {
   /** The total number of critical severity CVEs detected */
   criticalCveCount?: number;
@@ -1677,6 +1847,122 @@ export function cryptoKeySummaryResourceDeserializer(item: any): CryptoKeySummar
   };
 }
 
+/** Properties for a CVE analysis summary. */
+export interface CveSummaryResource extends SummaryResourceProperties {
+  /** Total number of CVEs found. */
+  totalCveCount?: number;
+  /** The total number of critical severity CVEs detected */
+  criticalCveCount?: number;
+  /** The total number of high severity CVEs detected */
+  highCveCount?: number;
+  /** The total number of medium severity CVEs detected */
+  mediumCveCount?: number;
+  /** The total number of low severity CVEs detected */
+  lowCveCount?: number;
+  /** The total number of unknown severity CVEs detected */
+  unknownCveCount?: number;
+  /** Describes the type of summary object. */
+  summaryType: "CVE";
+  /** Schema version of the CVE data for this firmware. */
+  schemaVersion?: string;
+}
+
+export function cveSummaryResourceDeserializer(item: any): CveSummaryResource {
+  return {
+    summaryType: item["summaryType"],
+    provisioningState: item["provisioningState"],
+    totalCveCount: item["totalCveCount"],
+    criticalCveCount: item["criticalCveCount"],
+    highCveCount: item["highCveCount"],
+    mediumCveCount: item["mediumCveCount"],
+    lowCveCount: item["lowCveCount"],
+    unknownCveCount: item["unknownCveCount"],
+    schemaVersion: item["schemaVersion"],
+  };
+}
+
+/** Properties for SBOM analysis summary. */
+export interface SbomSummaryResource extends SummaryResourceProperties {
+  /** Total number of SBOM components found. */
+  totalComponentCount?: number;
+  /** Describes the type of summary object. */
+  summaryType: "SBOM";
+}
+
+export function sbomSummaryResourceDeserializer(item: any): SbomSummaryResource {
+  return {
+    summaryType: item["summaryType"],
+    provisioningState: item["provisioningState"],
+    totalComponentCount: item["totalComponentCount"],
+  };
+}
+
+/** Properties for Password hash analysis summary. */
+export interface PasswordHashSummaryResource extends SummaryResourceProperties {
+  /** Total number of password hashes found. */
+  totalPasswordHashCount?: number;
+  /** Describes the type of summary object. */
+  summaryType: "PasswordHash";
+}
+
+export function passwordHashSummaryResourceDeserializer(item: any): PasswordHashSummaryResource {
+  return {
+    summaryType: item["summaryType"],
+    provisioningState: item["provisioningState"],
+    totalPasswordHashCount: item["totalPasswordHashCount"],
+  };
+}
+
+/** Properties for unsafe function calls analysis summary. */
+export interface UnsafeFunctionCallsSummaryResource extends SummaryResourceProperties {
+  /** Total number of files analyzed for unsafe function calls. */
+  totalFileCount?: number;
+  /** Total number of unsafe function calls found. */
+  totalUnsafeCallCount?: number;
+  /** Total number of network calls found. */
+  totalNetworkCallCount?: number;
+  /** Total unsafe function call counts per function across all binaries. */
+  unsafeCallTotals?: FunctionCall[];
+  /** Describes the type of summary object. */
+  summaryType: "UnsafeFunctionCalls";
+}
+
+export function unsafeFunctionCallsSummaryResourceDeserializer(
+  item: any,
+): UnsafeFunctionCallsSummaryResource {
+  return {
+    summaryType: item["summaryType"],
+    provisioningState: item["provisioningState"],
+    totalFileCount: item["totalFileCount"],
+    totalUnsafeCallCount: item["totalUnsafeCallCount"],
+    totalNetworkCallCount: item["totalNetworkCallCount"],
+    unsafeCallTotals: !item["unsafeCallTotals"]
+      ? item["unsafeCallTotals"]
+      : functionCallArrayDeserializer(item["unsafeCallTotals"]),
+  };
+}
+
+export function functionCallArrayDeserializer(result: Array<FunctionCall>): any[] {
+  return result.map((item) => {
+    return functionCallDeserializer(item);
+  });
+}
+
+/** Function call count for a specific function. */
+export interface FunctionCall {
+  /** The name of the function. */
+  functionName: string;
+  /** The number of calls to this function within a single binary. */
+  count: number;
+}
+
+export function functionCallDeserializer(item: any): FunctionCall {
+  return {
+    functionName: item["functionName"],
+    count: item["count"],
+  };
+}
+
 /** The response of a SummaryResource list operation. */
 export interface _SummaryResourceListResult {
   /** The SummaryResource items on this page */
@@ -1757,8 +2043,88 @@ export function usageMetricArrayDeserializer(result: Array<UsageMetric>): any[] 
   });
 }
 
+/** The response of a UnsafeFunctionCallsResource list operation. */
+export interface _UnsafeFunctionCallsResourceListResult {
+  /** The UnsafeFunctionCallsResource items on this page */
+  value: UnsafeFunctionCallsResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _unsafeFunctionCallsResourceListResultDeserializer(
+  item: any,
+): _UnsafeFunctionCallsResourceListResult {
+  return {
+    value: unsafeFunctionCallsResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function unsafeFunctionCallsResourceArrayDeserializer(
+  result: Array<UnsafeFunctionCallsResource>,
+): any[] {
+  return result.map((item) => {
+    return unsafeFunctionCallsResourceDeserializer(item);
+  });
+}
+
+/** The object representing a firmware analysis unsafe function calls result resource. */
+export interface UnsafeFunctionCallsResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: UnsafeFunctionCallsResult;
+}
+
+export function unsafeFunctionCallsResourceDeserializer(item: any): UnsafeFunctionCallsResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : unsafeFunctionCallsResultDeserializer(item["properties"]),
+  };
+}
+
+/** Unsafe function call analysis results for a binary. */
+export interface UnsafeFunctionCallsResult {
+  /** The name of the binary in the firmware. */
+  fileName?: string;
+  /** The full path to the binary in the firmware. */
+  filePath?: string;
+  /** List of unsafe function calls and their counts in the binary. */
+  unsafeFunctionCalls?: FunctionCall[];
+  /** Total unsafe function call count in the binary. */
+  totalUnsafeCallCount?: number;
+  /** Total number of network-related function calls in the binary. */
+  totalNetworkCallCount?: number;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function unsafeFunctionCallsResultDeserializer(item: any): UnsafeFunctionCallsResult {
+  return {
+    fileName: item["fileName"],
+    filePath: item["filePath"],
+    unsafeFunctionCalls: !item["unsafeFunctionCalls"]
+      ? item["unsafeFunctionCalls"]
+      : functionCallArrayDeserializer(item["unsafeFunctionCalls"]),
+    totalUnsafeCallCount: item["totalUnsafeCallCount"],
+    totalNetworkCallCount: item["totalNetworkCallCount"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2025-04-01-preview API version. */
+  V20250401Preview = "2025-04-01-preview",
   /** The 2025-08-02 API version. */
   V20250802 = "2025-08-02",
+  /** The 2025-12-01-preview API version. */
+  V20251201Preview = "2025-12-01-preview",
+  /** The 2026-06-01-preview API version. */
+  V20260601Preview = "2026-06-01-preview",
 }

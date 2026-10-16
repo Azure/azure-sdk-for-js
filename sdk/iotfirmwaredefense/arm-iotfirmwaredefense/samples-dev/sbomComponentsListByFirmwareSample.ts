@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists sbom analysis results of a firmware.
  *
  * @summary lists sbom analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/SbomComponents_ListByFirmware_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/SbomComponents_ListByFirmware_MaximumSet_Gen.json
  */
 async function sbomComponentsListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function sbomComponentsListByFirmwareMaximumSetGenGeneratedByMaximumSetRul
  * This sample demonstrates how to lists sbom analysis results of a firmware.
  *
  * @summary lists sbom analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/SbomComponents_ListByFirmware_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/SbomComponents_ListByFirmware_MinimumSet_Gen.json
  */
 async function sbomComponentsListByFirmwareMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

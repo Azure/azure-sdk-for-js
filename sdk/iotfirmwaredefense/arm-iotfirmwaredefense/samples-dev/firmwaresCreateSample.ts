@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create a firmware.
  *
  * @summary the operation to create a firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Create_MaximumSet_Gen.json
  */
 async function firmwaresCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function firmwaresCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<
  * This sample demonstrates how to the operation to create a firmware.
  *
  * @summary the operation to create a firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Create_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Create_MinimumSet_Gen.json
  */
 async function firmwaresCreateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
