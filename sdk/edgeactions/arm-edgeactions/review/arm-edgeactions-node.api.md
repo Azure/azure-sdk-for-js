@@ -225,7 +225,7 @@ export interface EdgeActionVersionsListByEdgeActionOptionalParams extends Operat
 export interface EdgeActionVersionsOperations {
     create: (resourceGroupName: string, edgeActionName: string, version: string, resource: EdgeActionVersion, options?: EdgeActionVersionsCreateOptionalParams) => PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
     delete: (resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    deployVersionCode: (resourceGroupName: string, edgeActionName: string, version: string, body: VersionCode, options?: EdgeActionVersionsDeployVersionCodeOptionalParams) => PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
+    deployVersionCode: (resourceGroupName: string, edgeActionName: string, version: string, body: VersionCode, options?: EdgeActionVersionsDeployVersionCodeOptionalParams) => PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
     get: (resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetOptionalParams) => Promise<EdgeActionVersion>;
     getVersionCode: (resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetVersionCodeOptionalParams) => PollerLike<OperationState<VersionCode>, VersionCode>;
     listByEdgeAction: (resourceGroupName: string, edgeActionName: string, options?: EdgeActionVersionsListByEdgeActionOptionalParams) => PagedAsyncIterableIterator<EdgeActionVersion>;
