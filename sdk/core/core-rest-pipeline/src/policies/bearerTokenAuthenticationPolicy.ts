@@ -9,6 +9,7 @@ import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 import type { RestError } from "../restError.js";
 import { isRestError } from "../restError.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -263,6 +264,7 @@ export function bearerTokenAuthenticationPolicy(
           );
           // Send updated request and handle response for RestError
           if (shouldSendRequest) {
+            await disposeResponseBody(response);
             [response, error] = await trySendRequest(request, next);
           }
         } else if (callbacks.authorizeRequestOnChallenge) {
@@ -277,6 +279,7 @@ export function bearerTokenAuthenticationPolicy(
 
           // Send updated request and handle response for RestError
           if (shouldSendRequest) {
+            await disposeResponseBody(response);
             [response, error] = await trySendRequest(request, next);
           }
 
@@ -306,6 +309,7 @@ export function bearerTokenAuthenticationPolicy(
               );
               // Send updated request and handle response for RestError
               if (shouldSendRequest) {
+                await disposeResponseBody(response);
                 [response, error] = await trySendRequest(request, next);
               }
             }

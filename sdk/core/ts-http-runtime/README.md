@@ -19,6 +19,73 @@ This package is primarily used in generated code and not meant to be consumed di
 
 ## Key concepts
 
+### Opt-in Node upload negotiation
+
+The built-in Node HTTP/1 `http`/`https` transport supports `Expect: 100-continue`.
+Supply the header explicitly; the runtime never enables it automatically.
+
+```ts snippet:ReadmeSampleExpectContinue
+import {
+  createPipelineRequest,
+  createHttpHeaders,
+  createDefaultHttpClient,
+} from "@typespec/ts-http-runtime";
+
+async function upload(body: Uint8Array): Promise<void> {
+  const request = createPipelineRequest({
+    url: "https://example.com/upload",
+    method: "POST",
+    headers: createHttpHeaders({ Expect: "100-continue" }),
+    body,
+    timeout: 5000,
+  });
+  const response = await createDefaultHttpClient().sendRequest(request);
+  console.log(response.status);
+}
+```
+
+The transport sends headers first and waits for HTTP 100 before starting the
+upload. If no decision arrives, it sends the body after a fixed 1,000 ms
+fallback. The fallback starts after socket assignment and an ordered header-write
+callback, excluding agent queueing and DNS/TCP/TLS setup. This client-side boundary
+does not guarantee that the server has received the headers. The existing
+`timeout` still cancels the entire request, including negotiation and buffered
+response reading; it is not the continue timeout. As before, total timeout ends
+when a streamed response is returned, but explicit cancellation remains active
+until that response stream completes.
+
+A final response before permission leaves body factories, multipart part
+factories, source reads, and upload progress untouched. Known-empty bodies retain
+the header but end immediately without waiting; arbitrary streams and factories,
+including factories returning empty streams, still negotiate. Effective
+`requestOverrides.headers` replace pipeline headers, and expectation tokens are
+matched case-insensitively. Do not supply conflicting or inaccurate framing
+headers.
+
+Direct streams remain caller-owned. On an early final response during upload,
+the transport unpipes and pauses them; the caller is responsible for their
+remaining lifetime. Factory-returned streams and SDK-created wrappers are
+request-owned and may be destroyed during cleanup. Paused sources
+may finish an in-flight read after being paused; late errors are logged until
+the source closes. Already-flowing sources
+cannot be made lazy retroactively, and in-memory serialization or policy signing
+may occur before negotiation. Upload progress measures bytes read into the
+upload path, not bytes acknowledged by the server; queued bytes cannot be unsent.
+Connections with an interrupted outgoing body are retired after the readable
+response completes.
+
+For body-preserving retries, redirects, or authentication challenges, use a
+factory returning a fresh stream. Untouched one-shot sources can be reused;
+already-started sources fail with `RestError` code `REQUEST_BODY_NOT_REPLAYABLE`
+rather than silently uploading an exhausted stream. HTTP 417 is returned
+normally, even after upload starts: core does not retry it or remove Expect for
+recovery. Body-removing redirects remove the negotiation token and obsolete
+framing.
+
+This feature does not implement HTTP/2 or change Fetch, XHR, React Native,
+Node Fetch/Undici, or custom transport behavior. Their existing handling of the
+header is unchanged.
+
 ### PipelineRequest
 
 A `PipelineRequest` describes all the information necessary to make a request to an HTTP REST endpoint.

@@ -32,6 +32,8 @@ function getLength(
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
+  } else if (typeof source === "function" && "size" in source && typeof source.size === "number") {
+    return source.size >= 0 ? source.size : undefined;
   } else if (isBlob(source)) {
     // if was created using createFile then -1 means we have an unknown size
     return source.size === -1 ? undefined : source.size;
