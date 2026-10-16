@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Buffer } from "buffer";
-import { types as rheaTypes, type Typed } from "rhea-promise";
+import { message as rheaMessageUtil, types as rheaTypes, type Typed } from "rhea-promise";
 
 /**
  * An application property value with an explicit AMQP scalar type.
@@ -97,6 +97,17 @@ export function _defineApplicationPropertiesWithAmqpTypes(
     value: applicationPropertiesWithTypes,
     writable: true,
   });
+}
+
+/**
+ * Decodes a Rhea message using the codec instance configured for typed application properties.
+ *
+ * @internal
+ */
+export function _decodeRheaMessage(
+  encodedMessage: Buffer,
+): ReturnType<typeof rheaMessageUtil.decode> {
+  return rheaMessageUtil.decode(encodedMessage);
 }
 
 /**
@@ -261,6 +272,11 @@ function withValue(property: AmqpApplicationProperty, value: unknown): AmqpAppli
         return { type: property.type, value };
       }
       if (typeof value === "number") {
+        if (!Number.isInteger(value)) {
+          throw new RangeError(
+            "AMQP timestamp application properties must contain integral milliseconds.",
+          );
+        }
         return { type: property.type, value: new Date(value) };
       }
       throw new TypeError("AMQP timestamp application properties must contain a Date or number.");

@@ -176,10 +176,10 @@ describe("message", function () {
         body = { next: body };
       }
 
-      let decodedBody = decode({ body }).body as { next: unknown };
+      let decodedBody: unknown = decode({ body }).body;
       for (let index = 0; index < depth; ++index) {
-        assert.deepEqual(Object.keys(decodedBody), ["next"]);
-        decodedBody = decodedBody.next as { next: unknown };
+        assert.deepEqual(Object.keys(decodedBody as object), ["next"]);
+        decodedBody = (decodedBody as { next: unknown }).next;
       }
       assert.equal(decodedBody, "leaf");
     });
@@ -280,6 +280,30 @@ describe("message", function () {
 
         assert.throws(() => decode(AmqpAnnotatedMessage.toRheaMessage(received)), RangeError);
       }
+    });
+
+    it("does not preserve timestamp typing for fractional millisecond edits", function () {
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              value: { type: "timestamp", value: new Date(1) },
+            },
+            body: "body",
+          }),
+        ),
+      );
+      received.applicationProperties!.value = 1.25;
+
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+
+      assert.equal(resent.applicationProperties?.value, 1.25);
+      assert.deepEqual(resent.applicationPropertiesWithAmqpTypes?.value, {
+        type: "double",
+        value: 1.25,
+      });
     });
 
     it("uses string inference for non-ASCII edits to preserved symbols", function () {

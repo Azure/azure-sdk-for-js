@@ -7,8 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
+import { Buffer as Buffer_2 } from 'buffer';
 import { Connection } from 'rhea-promise';
 import type { Message } from 'rhea-promise';
+import { message } from 'rhea-promise';
 import type { MessageHeader } from 'rhea-promise';
 import type { MessageProperties } from 'rhea-promise';
 import type { NamedKeyCredential } from '@azure/core-auth';
@@ -440,6 +442,9 @@ export function createSasTokenProvider(data: {
 } | {
     sharedAccessSignature: string;
 } | NamedKeyCredential | SASCredential): SasTokenProvider;
+
+// @internal
+export function _decodeRheaMessage(encodedMessage: Buffer_2): ReturnType<typeof message.decode>;
 
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
