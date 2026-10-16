@@ -43,7 +43,7 @@ export function _listByEndpointSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function listByEndpoint(
     () => _listByEndpointSend(context, resourceGroupName, profileName, endpointName, options),
     _listByEndpointDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -104,7 +104,7 @@ export function _$deleteSend(
       profileName: profileName,
       endpointName: endpointName,
       originGroupName: originGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, profileName, endpointName, originGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -163,7 +163,7 @@ export function _updateSend(
       profileName: profileName,
       endpointName: endpointName,
       originGroupName: originGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +215,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OriginGroup>, OriginGroup>;
 }
 
@@ -236,7 +236,7 @@ export function _createSend(
       profileName: profileName,
       endpointName: endpointName,
       originGroupName: originGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +288,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OriginGroup>, OriginGroup>;
 }
 
@@ -308,7 +308,7 @@ export function _getSend(
       profileName: profileName,
       endpointName: endpointName,
       originGroupName: originGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

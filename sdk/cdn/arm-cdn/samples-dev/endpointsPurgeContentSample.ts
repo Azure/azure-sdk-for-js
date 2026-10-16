@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes a content from CDN.
  *
  * @summary removes a content from CDN.
- * x-ms-original-file: 2025-12-01/Endpoints_PurgeContent.json
+ * x-ms-original-file: 2026-07-01/Endpoints_PurgeContent.json
  */
 async function endpointsPurgeContent(): Promise<void> {
   const credential = new DefaultAzureCredential();

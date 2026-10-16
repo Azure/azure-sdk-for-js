@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary gets an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: 2025-12-01/Routes_Get.json
+ * x-ms-original-file: 2026-07-01/Routes_Get.json
  */
 async function routesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
  *
  * @summary check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
- * x-ms-original-file: 2025-12-01/AFDProfiles_CheckEndpointNameAvailability.json
+ * x-ms-original-file: 2026-07-01/AFDProfiles_CheckEndpointNameAvailability.json
  */
 async function checkEndpointNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

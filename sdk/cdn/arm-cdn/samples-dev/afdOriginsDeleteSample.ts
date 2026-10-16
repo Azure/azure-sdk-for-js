@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing origin within an origin group.
  *
  * @summary deletes an existing origin within an origin group.
- * x-ms-original-file: 2025-12-01/AFDOrigins_Delete.json
+ * x-ms-original-file: 2026-07-01/AFDOrigins_Delete.json
  */
 async function afdOriginsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

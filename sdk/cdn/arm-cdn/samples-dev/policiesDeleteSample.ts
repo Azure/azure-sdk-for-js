@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Policy
  *
  * @summary deletes Policy
- * x-ms-original-file: 2025-12-01/WafPolicyDelete.json
+ * x-ms-original-file: 2026-07-01/WafPolicyDelete.json
  */
 async function deleteProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing origin group within an endpoint.
  *
  * @summary gets an existing origin group within an endpoint.
- * x-ms-original-file: 2025-12-01/OriginGroups_Get.json
+ * x-ms-original-file: 2026-07-01/OriginGroups_Get.json
  */
 async function originGroupsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

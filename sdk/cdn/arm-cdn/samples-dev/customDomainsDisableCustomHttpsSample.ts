@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disable https delivery of the custom domain.
  *
  * @summary disable https delivery of the custom domain.
- * x-ms-original-file: 2025-12-01/CustomDomains_DisableCustomHttps.json
+ * x-ms-original-file: 2026-07-01/CustomDomains_DisableCustomHttps.json
  */
 async function customDomainsDisableCustomHttps(): Promise<void> {
   const credential = new DefaultAzureCredential();
