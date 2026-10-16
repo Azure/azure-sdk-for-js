@@ -383,7 +383,13 @@ function toRheaTyped(property: AmqpApplicationProperty): Typed {
       if (codePoints.length !== 1) {
         throw new TypeError("AMQP char application properties must contain one Unicode character.");
       }
-      return rheaTypes.wrap_char(codePoints[0].codePointAt(0));
+      const codePoint = codePoints[0].codePointAt(0)!;
+      if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
+        throw new RangeError(
+          "AMQP char application properties must contain a Unicode scalar value.",
+        );
+      }
+      return rheaTypes.wrap_char(codePoint);
     }
     case "timestamp":
       if (Number.isNaN(property.value.getTime())) {
@@ -397,6 +403,9 @@ function toRheaTyped(property: AmqpApplicationProperty): Typed {
     case "string":
       return rheaTypes.wrap_string(property.value);
     case "symbol":
+      if (Array.from(property.value).some((character) => character.codePointAt(0)! > 0x7f)) {
+        throw new RangeError("AMQP symbol application properties must contain only ASCII text.");
+      }
       return rheaTypes.wrap_symbol(property.value);
   }
 }

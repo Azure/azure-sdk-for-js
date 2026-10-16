@@ -282,6 +282,29 @@ describe("message", function () {
       }
     });
 
+    it("uses string inference for non-ASCII edits to preserved symbols", function () {
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              value: { type: "symbol", value: "before" },
+            },
+            body: "body",
+          }),
+        ),
+      );
+      received.applicationProperties!.value = "caf\u00e9";
+
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+
+      assert.deepEqual(resent.applicationPropertiesWithAmqpTypes?.value, {
+        type: "string",
+        value: "caf\u00e9",
+      });
+    });
+
     it("rejects values outside the selected AMQP type", function () {
       assert.throws(
         () =>
@@ -316,6 +339,48 @@ describe("message", function () {
         RangeError,
         "AMQP float",
       );
+      for (const value of ["\ud800", "\udfff"]) {
+        assert.throws(
+          () =>
+            AmqpAnnotatedMessage.toRheaMessage({
+              applicationProperties: {
+                invalid: { type: "char", value },
+              },
+              body: "body",
+            }),
+          RangeError,
+          "AMQP char",
+        );
+      }
+      assert.throws(
+        () =>
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              invalid: { type: "symbol", value: "caf\u00e9" },
+            },
+            body: "body",
+          }),
+        RangeError,
+        "AMQP symbol",
+      );
+    });
+
+    it("accepts supplementary Unicode characters as AMQP char values", function () {
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(
+          AmqpAnnotatedMessage.toRheaMessage({
+            applicationProperties: {
+              value: { type: "char", value: "\ud83d\ude00" },
+            },
+            body: "body",
+          }),
+        ),
+      );
+
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes?.value, {
+        type: "char",
+        value: "\ud83d\ude00",
+      });
     });
 
     it("rejects explicit wrappers whose payload does not match the selected type", function () {
