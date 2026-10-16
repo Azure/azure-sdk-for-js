@@ -1,27 +1,91 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext as Client } from "../index.js";
+import type { CarbonOptimizationManagementContext as Client } from "../index.js";
+import type {
+  QueryFilterUnion,
+  _CarbonEmissionDataListResult,
+  CarbonEmissionDataUnion,
+  CarbonEmissionDataAvailableDateRange,
+  BillingAccountQueryFilterUnion,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
   queryFilterUnionSerializer,
-  QueryFilterUnion,
-  CarbonEmissionDataListResult,
-  carbonEmissionDataListResultDeserializer,
-  CarbonEmissionDataAvailableDateRange,
+  _carbonEmissionDataListResultDeserializer,
   carbonEmissionDataAvailableDateRangeDeserializer,
+  billingAccountQueryFilterUnionSerializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _queryCarbonEmissionReportsByBillingAccountSend(
+  context: Client,
+  scope: string,
+  queryParameters: BillingAccountQueryFilterUnion,
+  options: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/{+scope}/providers/Microsoft.Carbon/carbonEmissionReports{?api%2Dversion}",
+    {
+      scope: scope,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: billingAccountQueryFilterUnionSerializer(queryParameters),
+  });
+}
+
+export async function _queryCarbonEmissionReportsByBillingAccountDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_CarbonEmissionDataListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _carbonEmissionDataListResultDeserializer(result.body);
+}
+
+/** API for Carbon Emissions Reports scoped to a billing account. */
+export function queryCarbonEmissionReportsByBillingAccount(
+  context: Client,
+  scope: string,
+  queryParameters: BillingAccountQueryFilterUnion,
+  options: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<CarbonEmissionDataUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _queryCarbonEmissionReportsByBillingAccountSend(context, scope, queryParameters, options),
+    _queryCarbonEmissionReportsByBillingAccountDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
+  );
+}
 
 export function _queryCarbonEmissionDataAvailableDateRangeSend(
   context: Client,
@@ -32,7 +96,7 @@ export function _queryCarbonEmissionDataAvailableDateRangeSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Carbon/queryCarbonEmissionDataAvailableDateRange{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,10 +104,7 @@ export function _queryCarbonEmissionDataAvailableDateRangeSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -53,7 +114,10 @@ export async function _queryCarbonEmissionDataAvailableDateRangeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -74,14 +138,12 @@ export async function queryCarbonEmissionDataAvailableDateRange(
 export function _queryCarbonEmissionReportsSend(
   context: Client,
   queryParameters: QueryFilterUnion,
-  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = {
-    requestOptions: {},
-  },
+  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Carbon/carbonEmissionReports{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,35 +152,38 @@ export function _queryCarbonEmissionReportsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: queryFilterUnionSerializer(queryParameters),
   });
 }
 
 export async function _queryCarbonEmissionReportsDeserialize(
   result: PathUncheckedResponse,
-): Promise<CarbonEmissionDataListResult> {
+): Promise<_CarbonEmissionDataListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return carbonEmissionDataListResultDeserializer(result.body);
+  return _carbonEmissionDataListResultDeserializer(result.body);
 }
 
 /** API for Carbon Emissions Reports */
-export async function queryCarbonEmissionReports(
+export function queryCarbonEmissionReports(
   context: Client,
   queryParameters: QueryFilterUnion,
-  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<CarbonEmissionDataListResult> {
-  const result = await _queryCarbonEmissionReportsSend(context, queryParameters, options);
-  return _queryCarbonEmissionReportsDeserialize(result);
+  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<CarbonEmissionDataUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _queryCarbonEmissionReportsSend(context, queryParameters, options),
+    _queryCarbonEmissionReportsDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
+  );
 }

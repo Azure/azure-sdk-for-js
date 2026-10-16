@@ -4,16 +4,81 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessDecisionEnum = string;
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type BillingAccountCategoryTypeEnum = string;
+
+// @public
+export interface BillingAccountItemDetailsReportQueryFilter extends BillingAccountQueryFilter {
+    categoryType: BillingAccountCategoryTypeEnum;
+    orderBy?: BillingAccountOrderByColumnEnum;
+    pageSize: number;
+    reportType: "ItemDetailsReport";
+    skipToken?: string;
+    sortDirection?: SortDirectionEnum;
+}
+
+// @public
+export interface BillingAccountMonthlySummaryReportQueryFilter extends BillingAccountQueryFilter {
+    reportType: "MonthlySummaryReport";
+}
+
+// @public
+export type BillingAccountOrderByColumnEnum = string;
+
+// @public
+export interface BillingAccountOverallSummaryReportQueryFilter extends BillingAccountQueryFilter {
+    reportType: "OverallSummaryReport";
+}
+
+// @public
+export interface BillingAccountQueryFilter {
+    carbonScopeList: EmissionScopeEnum[];
+    dateRange: DateRange;
+    locationList?: string[];
+    reportType: ReportTypeEnum;
+    resourceTypeList?: string[];
+    subscriptionList?: string[];
+}
+
+// @public
+export type BillingAccountQueryFilterUnion = BillingAccountOverallSummaryReportQueryFilter | BillingAccountMonthlySummaryReportQueryFilter | BillingAccountTopItemsSummaryReportQueryFilter | BillingAccountTopItemsMonthlySummaryReportQueryFilter | BillingAccountItemDetailsReportQueryFilter | BillingAccountQueryFilter;
+
+// @public
+export interface BillingAccountTopItemsMonthlySummaryReportQueryFilter extends BillingAccountQueryFilter {
+    categoryType: BillingAccountCategoryTypeEnum;
+    reportType: "TopItemsMonthlySummaryReport";
+    topItems: number;
+}
+
+// @public
+export interface BillingAccountTopItemsSummaryReportQueryFilter extends BillingAccountQueryFilter {
+    categoryType: BillingAccountCategoryTypeEnum;
+    reportType: "TopItemsSummaryReport";
+    topItems: number;
+}
 
 // @public
 export interface CarbonEmissionData {
@@ -28,13 +93,6 @@ export interface CarbonEmissionData {
 export interface CarbonEmissionDataAvailableDateRange {
     endDate: string;
     startDate: string;
-}
-
-// @public
-export interface CarbonEmissionDataListResult {
-    skipToken?: string;
-    subscriptionAccessDecisionList?: SubscriptionAccessDecision[];
-    value: CarbonEmissionDataUnion[];
 }
 
 // @public
@@ -85,16 +143,22 @@ export class CarbonOptimizationManagementClient {
 // @public
 export interface CarbonOptimizationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface CarbonServiceOperations {
     queryCarbonEmissionDataAvailableDateRange: (options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams) => Promise<CarbonEmissionDataAvailableDateRange>;
-    queryCarbonEmissionReports: (queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams) => Promise<CarbonEmissionDataListResult>;
+    queryCarbonEmissionReports: (queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
+    queryCarbonEmissionReportsByBillingAccount: (scope: string, queryParameters: BillingAccountQueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
 }
 
 // @public
 export interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -111,8 +175,8 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export interface DateRange {
-    end: string;
-    start: string;
+    end: Date;
+    start: Date;
 }
 
 // @public
@@ -138,6 +202,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export interface ItemDetailsQueryFilter extends QueryFilter {
     categoryType: CategoryTypeEnum;
@@ -157,6 +223,22 @@ export enum KnownAccessDecisionEnum {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownBillingAccountCategoryTypeEnum {
+    Location = "Location",
+    ResourceType = "ResourceType",
+    Subscription = "Subscription"
+}
+
+// @public
+export enum KnownBillingAccountOrderByColumnEnum {
+    ItemName = "ItemName",
+    LatestMonthEmissions = "LatestMonthEmissions",
+    MonthlyEmissionsChangeValue = "MonthlyEmissionsChangeValue",
+    MonthOverMonthEmissionsChangeRatio = "MonthOverMonthEmissionsChangeRatio",
+    PreviousMonthEmissions = "PreviousMonthEmissions"
 }
 
 // @public
@@ -224,7 +306,8 @@ export enum KnownSortDirectionEnum {
 
 // @public
 export enum KnownVersions {
-    V20250401 = "2025-04-01"
+    V20250401 = "2025-04-01",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -361,6 +444,8 @@ export interface ResourceGroupCarbonEmissionTopItemsSummaryData extends CarbonEm
 
 // @public
 export type ResponseDataTypeEnum = string;
+
+export { RestError }
 
 // @public
 export type SortDirectionEnum = string;
