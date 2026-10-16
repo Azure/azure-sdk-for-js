@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1719,9 +1719,9 @@
+@@ -1386,9 +1386,9 @@
      additionalProperties?: Record<string, any>;
      docker?: Docker;
      endpoints?: Endpoint[];
@@ -18,8 +18,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      name?: string;
      volumes?: VolumeDefinition[];
  }
-@@ -3234,14 +3234,15 @@
-     idleTimeBeforeShutdown?: string;
+@@ -2549,14 +2549,15 @@
+     userAssignedIdentity?: string;
  }
  
  // @public
@@ -35,7 +35,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface ImageClassification extends AutoMLVertical {
      limitSettings: ImageLimitSettings;
-@@ -3864,9 +3865,10 @@
+@@ -2926,9 +2927,10 @@
      language?: string;
  }
  
@@ -47,7 +47,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyVaultProperties {
      identityClientId?: string;
-@@ -7247,9 +7249,9 @@
+@@ -5801,9 +5803,9 @@
  export type ReferenceType = string;
  
  // @public

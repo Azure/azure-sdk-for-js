@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update container.
  *
  * @summary create or update container.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ModelContainer/createOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Workspace/ModelContainer/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceModelContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
