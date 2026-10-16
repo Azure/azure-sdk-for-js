@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list community gallery image versions inside an image.
  *
  * @summary list community gallery image versions inside an image.
- * x-ms-original-file: 2025-12-03/communityGalleryExamples/CommunityGalleryImageVersion_List.json
+ * x-ms-original-file: 2026-03-03/communityGalleryExamples/CommunityGalleryImageVersion_List.json
  */
 async function listCommunityGalleryImageVersions() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an admin rule collection.
  *
  * @summary deletes an admin rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerAdminRuleCollectionDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerAdminRuleCollectionDelete.json
  */
 async function deletesAnAdminRuleCollection() {
   const credential = new DefaultAzureCredential();

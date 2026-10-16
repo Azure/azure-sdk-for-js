@@ -196,6 +196,7 @@ export interface SnapshotsOperations {
     options?: SnapshotsGetOptionalParams,
   ) => Promise<Snapshot>;
 }
+
 function _getSnapshots(context: ComputeManagementContext) {
   return {
     updateImmutabilityPolicyLock: (
@@ -413,6 +414,7 @@ function _getSnapshots(context: ComputeManagementContext) {
       get(context, resourceGroupName, snapshotName, options),
   };
 }
+
 export function _getSnapshotsOperations(context: ComputeManagementContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

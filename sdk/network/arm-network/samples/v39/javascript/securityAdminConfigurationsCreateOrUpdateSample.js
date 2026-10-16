@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a network manager security admin configuration.
  *
  * @summary creates or updates a network manager security admin configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityAdminConfigurationPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityAdminConfigurationPut.json
  */
 async function createNetworkManagerSecurityAdminConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createNetworkManagerSecurityAdminConfiguration() {
  * This sample demonstrates how to creates or updates a network manager security admin configuration.
  *
  * @summary creates or updates a network manager security admin configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
  */
 async function createManualModeSecurityAdminConfiguration() {
   const credential = new DefaultAzureCredential();

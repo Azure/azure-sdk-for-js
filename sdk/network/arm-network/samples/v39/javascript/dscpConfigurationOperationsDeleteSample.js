@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a DSCP Configuration.
  *
  * @summary deletes a DSCP Configuration.
- * x-ms-original-file: 2026-01-01/DscpConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/DscpConfigurationDelete.json
  */
 async function deleteDscpConfiguration() {
   const credential = new DefaultAzureCredential();

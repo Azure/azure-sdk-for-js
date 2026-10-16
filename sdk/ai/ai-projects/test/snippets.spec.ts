@@ -166,6 +166,18 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleVoiceAgentQuery", async function () {
+    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+      agentSessionId: "session-123",
+      store: false,
+      query: {
+        custom_key: "custom value",
+        custom_flag: true,
+      },
+    });
+    await connection.close();
+  });
+
   it("agent-code-interpreter", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
@@ -590,7 +602,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("agent-browser-automation", async function () {
     const browserAutomationProjectConnectionId =
-      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+      process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -600,8 +612,8 @@ Be direct and efficient. When you reach the search results page, read and descri
       // Define Browser Automation tool
       tools: [
         {
-          type: "browser_automation_preview",
-          browser_automation_preview: {
+          type: "browser_automation",
+          browser_automation: {
             connection: {
               project_connection_id: browserAutomationProjectConnectionId,
             },

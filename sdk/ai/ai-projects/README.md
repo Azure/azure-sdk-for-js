@@ -11,7 +11,7 @@ resources in your Microsoft Foundry Project. Use it to:
   - Azure AI Search
   - Bing Custom Search (Preview)
   - Bing Grounding
-  - Browser Automation (Preview)
+  - Browser Automation
   - Code Interpreter
   - Computer Use (Preview)
   - File Search
@@ -294,6 +294,34 @@ with `store: true`. Pass `store` on `connect()` to override the persisted agent'
 single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
 and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
 function tools, and PCM audio streaming.
+
+Pass `query` to `connect()` to add query parameters to that connection's WebSocket upgrade URL.
+The following parameter names are illustrative; use names supported by your service or gateway:
+
+```ts snippet:ReadmeSampleVoiceAgentQuery
+const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+  agentSessionId: "session-123",
+  store: false,
+  query: {
+    custom_key: "custom value",
+    custom_flag: true,
+  },
+});
+await connection.close();
+```
+
+Values can be strings, finite numbers, or booleans and are URL-encoded automatically. A value
+overrides matching endpoint query parameters; `undefined` removes a matching parameter. The SDK
+snapshots these values when `connect()` is called and does not reuse them for later connections.
+Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
+
+SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
+`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
+`foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
+`structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
+these names or unsupported values rejects `connect()` with `TypeError` before authentication.
+Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
+variables; custom query parameters do not automatically become prompt inputs.
 
 ### Using Agent tools
 
@@ -810,12 +838,13 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentSharepoint.ts).
 
-**Browser Automation (Preview)**
+**Browser Automation**
 
 Automate browser interactions for web scraping, testing, and interaction with web applications:
 
 ```ts snippet:agent-browser-automation
-const browserAutomationProjectConnectionId = process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+const browserAutomationProjectConnectionId =
+  process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
 const agent = await project.agents.createVersion("MyAgent", {
   kind: "prompt",
   model: deploymentName,
@@ -825,8 +854,8 @@ const agent = await project.agents.createVersion("MyAgent", {
   // Define Browser Automation tool
   tools: [
     {
-      type: "browser_automation_preview",
-      browser_automation_preview: {
+      type: "browser_automation",
+      browser_automation: {
         connection: {
           project_connection_id: browserAutomationProjectConnectionId,
         },
@@ -838,6 +867,20 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 ```
 
 See the full sample code in [agentBrowserAutomation.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBrowserAutomation.ts).
+
+Set `FOUNDRY_PROJECT_ENDPOINT`, `FOUNDRY_MODEL_NAME`, and
+`BROWSER_AUTOMATION_PROJECT_CONNECTION_ID` (the project connection resource ID for
+your Azure Playwright resource) before running the sample. It uses the GA
+`browser_automation` tool to visit `https://example.com` and report the page title
+and visible description based on browser results. Optionally set `FOUNDRY_AGENT_NAME`
+to choose the agent name; it defaults to `MyAgent`.
+
+The streaming sample prints each completed text message once, including the
+browser live-view URL, and logs remote function action names, call IDs, and
+arguments without `browserSessionId`. Treat the live-view URL as sensitive: do not
+share it or commit it to source control. Failed or incomplete responses exit with
+a nonzero status instead of reporting success. The sample deletes the agent version
+it created in a `finally` block, whether response processing succeeds or fails.
 
 **MCP with Project Connection**
 

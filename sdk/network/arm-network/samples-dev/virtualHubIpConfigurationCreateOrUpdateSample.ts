@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
  *
  * @summary creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
- * x-ms-original-file: 2026-01-01/VirtualHubIpConfigurationPut.json
+ * x-ms-original-file: 2026-03-01/VirtualHubIpConfigurationPut.json
  */
 async function virtualHubIpConfigurationPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

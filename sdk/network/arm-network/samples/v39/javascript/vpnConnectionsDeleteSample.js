@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a vpn connection.
  *
  * @summary deletes a vpn connection.
- * x-ms-original-file: 2026-01-01/VpnConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionDelete.json
  */
 async function vpnConnectionDelete() {
   const credential = new DefaultAzureCredential();

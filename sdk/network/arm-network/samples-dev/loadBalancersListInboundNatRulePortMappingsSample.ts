@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list of inbound NAT rule port mappings.
  *
  * @summary list of inbound NAT rule port mappings.
- * x-ms-original-file: 2026-01-01/QueryInboundNatRulePortMapping.json
+ * x-ms-original-file: 2026-03-01/QueryInboundNatRulePortMapping.json
  */
 async function queryInboundNATRulePortMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();

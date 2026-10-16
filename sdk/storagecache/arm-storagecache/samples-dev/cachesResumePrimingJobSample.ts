@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resumes a paused priming job.
  *
  * @summary resumes a paused priming job.
- * x-ms-original-file: 2026-01-01/ResumePrimingJob.json
+ * x-ms-original-file: 2026-08-01/ResumePrimingJob.json
  */
 async function resumePrimingJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

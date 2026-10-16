@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a Shared Image Gallery.
  *
  * @summary retrieves information about a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/CommunityGallery_Get.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getACommunityGallery() {
  * This sample demonstrates how to retrieves information about a Shared Image Gallery.
  *
  * @summary retrieves information about a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Get.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Get.json
  */
 async function getAGallery() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getAGallery() {
  * This sample demonstrates how to retrieves information about a Shared Image Gallery.
  *
  * @summary retrieves information about a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
 async function getAGalleryWithExpandSharingProfileGroups() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function getAGalleryWithExpandSharingProfileGroups() {
  * This sample demonstrates how to retrieves information about a Shared Image Gallery.
  *
  * @summary retrieves information about a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Get_WithManagedIdentity.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Get_WithManagedIdentity.json
  */
 async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
  * This sample demonstrates how to retrieves information about a Shared Image Gallery.
  *
  * @summary retrieves information about a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Get_WithSelectPermissions.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
 async function getAGalleryWithSelectPermissions() {
   const credential = new DefaultAzureCredential();

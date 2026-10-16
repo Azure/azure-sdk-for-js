@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates Reachability Analysis Runs.
  *
  * @summary creates Reachability Analysis Runs.
- * x-ms-original-file: 2026-01-01/ReachabilityAnalysisRunPut.json
+ * x-ms-original-file: 2026-03-01/ReachabilityAnalysisRunPut.json
  */
 async function reachabilityAnalysisRunCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

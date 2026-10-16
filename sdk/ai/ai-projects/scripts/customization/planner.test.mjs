@@ -64,3 +64,82 @@ test("rejects a new emitted file that collides with custom-only source", () => {
     plan.diagnostics.some((item) => item.file === "custom.ts" && /collides/.test(item.message)),
   );
 });
+
+function namespaced(tree) {
+  tree.set(
+    "models/models.ts",
+    'import type { Tool } from "./openAI/models.js";\nexport interface Model { value?: string; tool?: Tool; }',
+  );
+  tree.set("models/openAI/models.ts", "export interface Tool { name: string; }");
+  tree.set("models/openAI/index.ts", 'export type { Tool } from "./models.js";');
+  tree.set(
+    "index.ts",
+    'export type { Model } from "./models/index.js";\nexport type { Tool } from "./models/openAI/index.js";',
+  );
+  return tree;
+}
+
+function modelFiles(plan) {
+  return [...plan.source.keys()].filter((file) => file.startsWith("models/")).sort();
+}
+
+test("flattens emitted model namespaces without mirroring their modules into source", () => {
+  const plan = planCustomization({
+    baseGenerated: models(),
+    baseSource: models(),
+    generated: namespaced(models()),
+  });
+  assert.deepEqual(plan.diagnostics, []);
+  assert.deepEqual(modelFiles(plan), ["models/index.ts", "models/models.ts"]);
+  assert.match(plan.source.get("models/models.ts"), /export interface Tool\b/);
+  assert.match(plan.source.get("models/index.ts"), /\bTool\b/);
+  assert.match(plan.source.get("index.ts"), /\bTool\b/);
+  assert.doesNotMatch(plan.source.get("index.ts"), /openAI/);
+});
+
+function flattened() {
+  const tree = models();
+  tree.set(
+    "models/models.ts",
+    "export interface Model { value?: string; tool?: Tool; }\nexport interface Tool { name: string; }",
+  );
+  tree.set("models/index.ts", 'export type { Model, Tool } from "./models.js";');
+  tree.set("models/openAI/models.ts", 'export type { Tool } from "../models.js";');
+  tree.set("models/openAI/index.ts", 'export type { Tool } from "../models.js";');
+  tree.set("index.ts", 'export type { Model, Tool } from "./models/index.js";');
+  return tree;
+}
+
+test("keeps a model re-export module only while customized source imports it", () => {
+  const baseSource = flattened();
+  baseSource.set(
+    "toolHelpers.ts",
+    'import type { Tool } from "./models/openAI/models.js";\nexport function toolName(tool: Tool): string { return tool.name; }',
+  );
+  const generated = namespaced(models());
+  generated.set(
+    "models/openAI/models.ts",
+    "export interface Tool { name: string; strict?: boolean; }",
+  );
+  const plan = planCustomization({ baseGenerated: namespaced(models()), baseSource, generated });
+  assert.deepEqual(plan.diagnostics, []);
+  assert.deepEqual(modelFiles(plan), [
+    "models/index.ts",
+    "models/models.ts",
+    "models/openAI/models.ts",
+  ]);
+  assert.match(plan.source.get("models/openAI/models.ts"), /\bTool\b.*from "\.\.\/models\.js"/s);
+  assert.match(plan.source.get("models/models.ts"), /strict\?: boolean/);
+  assert.equal(plan.source.get("toolHelpers.ts"), baseSource.get("toolHelpers.ts"));
+});
+
+test("removes previously mirrored model re-export modules that nothing imports", () => {
+  const plan = planCustomization({
+    baseGenerated: namespaced(models()),
+    baseSource: flattened(),
+    generated: namespaced(models()),
+  });
+  assert.deepEqual(plan.diagnostics, []);
+  assert.deepEqual(modelFiles(plan), ["models/index.ts", "models/models.ts"]);
+  assert.match(plan.source.get("models/models.ts"), /export interface Tool\b/);
+});

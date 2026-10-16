@@ -6,8 +6,6 @@ description: |
   analysis notes including debugging strategies and resource links
   Implements the initial issue triage rules for the Azure SDK repository
 
-run-name: "${{ vars.ENABLE_ISSUE_INVESTIGATION == 'true' && format('Agentic Triage #{0}', github.event.issue.number || github.event.inputs.issue_number) || 'Agentic Triage' }}"
-
 on:
   issues:
     types: [opened]
@@ -33,8 +31,6 @@ concurrency:
 engine:
   id: copilot
   version: "1.0.80"
-  # The pinned CLI uses chat/completions; auto may choose a responses-only model.
-  model: gpt-5.4
 
 tools:
   bash: false
@@ -42,7 +38,6 @@ tools:
   web-fetch:
   github:
     toolsets: [issues, repos]
-    allowed-repos: ["${{ github.repository }}"]
     # Triage must read issues from all users, including external
     # customers with NONE author_association; without this, the
     # auto-applied "approved" policy filters them out via DIFC
@@ -57,7 +52,7 @@ network:
 post-steps:
   - name: Verify triage produced output
     if: ${{ !cancelled() }}
-    uses: actions/github-script@v9.0.0
+    uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
     with:
       script: |
         const fs = require('fs');
@@ -117,7 +112,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9.0.0
+          uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:
@@ -299,7 +294,7 @@ Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
 - For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
-Retrieve the issue using `issue_read` with `method: get`, the current repository owner/name, and the target issue number
+Retrieve the issue using the `get_issue` tool
 
 Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
 
@@ -333,7 +328,7 @@ If the author matches the bot allowlist, follow the bot branch in the Author Dec
 
 ### Author Association Check
 
-If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `issue_read` to classify the author
+If the author is not on the bot allowlist, use the `author_association` field from the issue data returned by `get_issue` to classify the author
 
 The `author_association` field indicates the author's relationship to the repository:
 - `OWNER`, `MEMBER`, `COLLABORATOR` → team member (Azure org member or direct repo collaborator)
@@ -400,9 +395,8 @@ Analyze the issue title and body to determine appropriate labels
 
 Labels classification is distinguished by color. Actively inspect label colors when examining repository labels and previous issues:
 
-- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Provisioning", "Central-EngSys", "Mgmt-EngSys", or "Service"
-  - "Client" for issues with SDK client library code or behavior that are not management or provisioning libraries
-  - "Provisioning" for packages whose `package.json` declares `sdk-type: provisioning`, such as `@azure/provisioning-keyvault`
+- **Category label** (color #ffeb77): Exactly one of "Client", "Mgmt", "Central-EngSys", "Mgmt-EngSys", or "Service"
+  - "Client" for issues with SDK client library code or behavior (packages under `sdk/` that are not management libraries)
   - "Mgmt" for issues relevant to management-plane SDKs (packages starting with `@azure/arm-`)
   - "Mgmt-EngSys" for issues with management SDK tooling and generation (emitter, autorest)
   - "Central-EngSys" for non-service issues such as engineering systems, scripts, workflows, or pipelines in the `/eng` or `/common` folders
@@ -441,7 +435,7 @@ Other labels on the issue (routing labels, "question", "duplicate", etc.) are fi
 A prediction is confident — targeting 96% accuracy — when ALL of the following are true:
 - The issue clearly names or references a specific Azure SDK package, service, or `/sdk/` path
 - There is no ambiguity between multiple services; if multiple service labels are plausible and you cannot confidently narrow to exactly one, confidence is not met
-- The category (Client/Mgmt/Provisioning) is clearly implied by the issue content and package metadata; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
+- The category (Client/Mgmt) is clearly implied by the issue content; if multiple categories are plausible and you cannot confidently narrow to exactly one, confidence is not met
 - The predicted category label is not "Service"
 - The predicted category label is not "Central-EngSys"
 - The predicted category label is not "Mgmt-EngSys"
@@ -576,13 +570,10 @@ Note: There is no `%Client` catch-all entry in CODEOWNERS, so "Client" as a cate
 IF a matching ServiceLabel entry is found in CODEOWNERS:
 
     IF AzureSdkOwners are listed for the matched entry:
-        - Separate individual usernames from org/team handles (handles containing `/`)
-        IF exactly one individual owner:
-            - Assign that individual using `assign_to_user`
-        ELSE IF multiple individual owners:
-            - Pick one individual owner at random and assign them using `assign_to_user`
-        ELSE (only team owners):
-            - Leave existing assignees unchanged; notify the team owners with `mention_owners` in Step 6
+        IF a single AzureSdkOwner:
+            - Assign them to the issue using the `assign_to_user` tool
+        ELSE (multiple AzureSdkOwners):
+            - Pick one AzureSdkOwner at random and assign them using the `assign_to_user` tool
 
         - IF the issue has the "customer-reported" label: Add the "needs-team-attention" label
         - Record all AzureSdkOwners for Step 6
@@ -604,20 +595,18 @@ ELSE (no ServiceLabel entry matches any of the issue's predicted labels):
 
 Post a routing comment before the analysis comment. The comment type depends on who was identified in Step 5:
 
-- For **team AzureSdkOwners**, **multiple AzureSdkOwners**, or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
-- For a **single individual AzureSdkOwner with no team owners**: use `add_comment` with just the routing message (the assignment already notifies them)
+- For **multiple AzureSdkOwners** or **ServiceOwners**: use `mention_owners` to preserve @mentions as real pings
+- For a **single AzureSdkOwner**: use `add_comment` with just the routing message (no @mentions needed — the assignment already notifies them)
 
 **When using `mention_owners`:** Pass owner names in the `owners` field WITHOUT the @ prefix; the `mention_owners` job prepends @ on the server side to avoid safe-outputs sanitization. Never include @ symbols in any `mention_owners` tool parameter
-
-GitHub issue assignees are individual accounts, not CODEOWNERS team handles. Do not pass `org/team` to `assign_to_user`; keep team ownership as a notification route. For example, the Key Vault SDK owner `Azure/azure-sdk-write-keyvault` is a team and must be notified rather than assigned.
 
 This comment should be concise: a brief routing message only; no analysis or debugging detail
 
 ```
-IF a single individual AzureSdkOwner and no team owners were identified in Step 5:
+IF a single AzureSdkOwner was identified in Step 5:
     - Use `add_comment` with body: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
 
-ELSE IF team AzureSdkOwners or multiple AzureSdkOwners were identified in Step 5:
+ELSE IF multiple AzureSdkOwners were identified in Step 5:
     - Use `mention_owners` with:
         message: "Thank you for your feedback. Tagging and routing to the team member(s) best able to assist."
         owners: "owner1, owner2"
@@ -693,4 +682,3 @@ Rules for the sections:
   - 🔎 Debugging / Reproduction Notes: include diagnostic observations and numbered investigation steps; note similar open issues found via `search_issues` if any
   - 🏷️ Label Confidence: explain category and service label selection; state confidence as High, Medium, or Low with justification; note other labels considered and why they were rejected
   - 👥 Owner Routing: show which CODEOWNERS `# ServiceLabel:` entry matched (with line number) and why; list AzureSdkOwners and ServiceOwners found; state what routing action was taken; briefly note other entries encountered during the bottom-to-top scan and why they were skipped
-

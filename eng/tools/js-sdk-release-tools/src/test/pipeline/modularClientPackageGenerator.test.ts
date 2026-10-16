@@ -65,8 +65,8 @@ vi.mock("fs-extra", () => {
   };
 });
 
-vi.mock("../../common/codeOwnersAndIgnoreLink/codeOwnersAndIgnoreLinkGenerator.js", () => ({
-  codeOwnersAndIgnoreLinkGenerator: vi.fn(),
+vi.mock("../../common/ignoreLink/ignoreLinkGenerator.js", () => ({
+  ignoreLinkGenerator: vi.fn(),
 }));
 
 vi.mock("../../hlc/utils/changeReadmeMd.js", () => ({

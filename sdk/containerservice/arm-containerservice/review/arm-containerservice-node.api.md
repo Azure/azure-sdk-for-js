@@ -401,6 +401,7 @@ export interface AgentPoolUpgradeSettings {
     maxUnavailable?: string;
     nodeSoakDurationInMinutes?: number;
     undrainableNodeBehavior?: UndrainableNodeBehavior;
+    upgradeGateSettings?: UpgradeGateSettings;
 }
 
 // @public
@@ -575,6 +576,7 @@ export type ClusterServiceLoadBalancerHealthProbeMode = string;
 // @public
 export interface ClusterUpgradeSettings {
     overrideSettings?: UpgradeOverrideSettings;
+    upgradeGateSettings?: UpgradeGateSettings;
 }
 
 // @public
@@ -867,6 +869,7 @@ export interface HardEvictionThreshold {
 // @public
 export interface IdentityBinding extends ProxyResource {
     readonly eTag?: string;
+    managedBy?: string;
     properties?: IdentityBindingProperties;
 }
 
@@ -1295,7 +1298,6 @@ export enum KnownIdentityBindingProvisioningState {
 
 // @public
 export enum KnownInfrastructureEncryption {
-    Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
@@ -1787,7 +1789,8 @@ export enum KnownVersions {
     V20260401 = "2026-04-01",
     V20260501 = "2026-05-01",
     V20260601 = "2026-06-01",
-    V20260602Preview = "2026-06-02-preview"
+    V20260701 = "2026-07-01",
+    V20260702Preview = "2026-07-02-preview"
 }
 
 // @public
@@ -3469,6 +3472,7 @@ export type NvidiaDriverMode = string;
 export interface NvidiaGPUProfile {
     driverMode?: NvidiaDriverMode;
     managementMode?: ManagementMode;
+    migProfiles?: GPUInstanceProfile[];
     migStrategy?: MigStrategy;
 }
 
@@ -4179,6 +4183,11 @@ export type UndrainableNodeBehavior = string;
 
 // @public
 export type UpgradeChannel = string;
+
+// @public
+export interface UpgradeGateSettings {
+    enabled?: boolean;
+}
 
 // @public
 export interface UpgradeOverrideSettings {

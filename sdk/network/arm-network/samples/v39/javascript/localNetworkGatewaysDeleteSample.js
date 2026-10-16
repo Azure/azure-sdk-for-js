@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified local network gateway.
  *
  * @summary deletes the specified local network gateway.
- * x-ms-original-file: 2026-01-01/LocalNetworkGatewayDelete.json
+ * x-ms-original-file: 2026-03-01/LocalNetworkGatewayDelete.json
  */
 async function deleteLocalNetworkGateway() {
   const credential = new DefaultAzureCredential();

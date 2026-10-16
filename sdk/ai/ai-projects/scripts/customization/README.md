@@ -67,16 +67,35 @@ or unsafe change exits nonzero before formatting can disguise the failure.
   custom-only alias of an emitted model follows that model's emitted shape.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
-  model module remains canonical, with re-export modules where necessary.
+  model module `src/models/models.ts` remains canonical and `src/models/index.ts`
+  exports the public models, so emitted namespace modules such as
+  `models/openAI/` and `models/typeSpec/` are not mirrored into `src/`. A
+  re-export module for another model path is kept only while another customized
+  file imports that path; one that nothing imports is removed.
 - Retained legacy models keep their existing polymorphic union membership,
   discriminator values, and terminal serializer/deserializer registrations.
   Unrelated removed values and intentionally customized-away models are not
   resurrected; ambiguous legacy dispatch still requires review.
+  The explicitly approved exception for the data-generation configuration
+  migration (azure-rest-api-specs#46941) adopts the upstream
+  `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and
+  `simulation_seed`, without the customized `task_generation` value. The policy
+  validates these exact values; future discriminator changes still require review.
+  Retire renamed options/output-target declarations with the generated-model
+  removal synchronizer, including dependent legacy task-generation models.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
-  hand-maintained implementations are not replaced wholesale.
+  hand-maintained implementations are not replaced wholesale. A protected
+  module admits only operations the planner relocated into it from another
+  group: their declarations, the imports their source customization used, and
+  their classic interface and factory members. Those operations pass the same
+  guards as relocations into unprotected modules; every maintained declaration
+  and all other factory behavior must remain unchanged.
 - Public exports are reconciled without replacing the customized import
-  scaffold. Generated-backed moves are distinguished from custom-only API.
+  scaffold. Generated-backed moves are distinguished from custom-only API. An
+  unmodified generated export of a group module the emitter removed, for
+  example when its operations were merged into another group, is removed rather
+  than retained as a compatibility alias.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,
