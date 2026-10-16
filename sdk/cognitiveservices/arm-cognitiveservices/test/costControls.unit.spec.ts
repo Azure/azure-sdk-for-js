@@ -7,6 +7,13 @@ import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
 import type { CostControl, CostControlRule } from "../src/models/index.js";
+import {
+  KnownCostControlDimensionType,
+  KnownCostControlPeriod,
+  KnownCostControlThresholdAction,
+  KnownCostControlThresholdType,
+  KnownCostControlUnit,
+} from "../src/models/index.js";
 import { describe, expect, it } from "vitest";
 
 interface MockResponse {
@@ -60,12 +67,18 @@ function createClient(...responses: MockResponse[]): {
 function createRule(amount: number): CostControlRule {
   return {
     name: "account-budget",
-    counterKey: [{ type: "account" }],
-    unit: "usd",
+    counterKey: { type: KnownCostControlDimensionType.Account },
+    unit: KnownCostControlUnit.Usd,
     amount,
-    period: "month",
+    period: KnownCostControlPeriod.Month,
     recurring: true,
-    thresholds: [{ type: "percentage", value: 0, action: "audit" }],
+    thresholds: [
+      {
+        type: KnownCostControlThresholdType.Percentage,
+        value: 80,
+        action: KnownCostControlThresholdAction.Alert,
+      },
+    ],
   };
 }
 
@@ -119,7 +132,7 @@ describe("Cost Controls wire operations", () => {
     expect(requests[0].method).toBe("PUT");
     const createUrl = new URL(requests[0].url);
     expect(createUrl.pathname).toBe(resourceId);
-    expect(createUrl.searchParams.get("api-version")).toBeTruthy();
+    expect(createUrl.searchParams.get("api-version")).toBe("2026-09-15-preview");
     expect(requests[0].headers.get("if-none-match")).toBe("*");
     expect(requestBody(requests[0])).toEqual({
       properties: {
@@ -127,12 +140,12 @@ describe("Cost Controls wire operations", () => {
         rules: [
           {
             name: "account-budget",
-            counterKey: [{ type: "account" }],
-            unit: "usd",
+            counterKey: { type: "Account" },
+            unit: "Usd",
             amount: 25,
-            period: "month",
+            period: "Month",
             recurring: true,
-            thresholds: [{ type: "percentage", value: 0, action: "audit" }],
+            thresholds: [{ type: "Percentage", value: 80, action: "Alert" }],
           },
         ],
       },
@@ -143,10 +156,12 @@ describe("Cost Controls wire operations", () => {
       accountName,
       costControlName,
     );
+    expect(getResult.properties?.rules[0].counterKey).toMatchObject({ type: "Account" });
+    expect(getResult.properties?.rules[0].counterKey.attribute).toBeUndefined();
     expect(getResult.properties?.rules[0].thresholds?.[0]).toEqual({
-      type: "percentage",
-      value: 0,
-      action: "audit",
+      type: "Percentage",
+      value: 80,
+      action: "Alert",
     });
 
     const listed: CostControl[] = [];
@@ -188,5 +203,100 @@ describe("Cost Controls wire operations", () => {
       client.costControls.get(resourceGroupName, accountName, costControlName),
     ).rejects.toMatchObject({ statusCode: 404 });
     expect(requests[6].method).toBe("GET");
+  });
+
+  it.each([undefined, []])(
+    "serializes a non-recurring rule with thresholds %j",
+    async (thresholds) => {
+      const rule: CostControlRule = {
+        name: "session-budget",
+        counterKey: { type: KnownCostControlDimensionType.Session },
+        unit: KnownCostControlUnit.Usd,
+        amount: 25,
+        recurring: false,
+        match: { sessionIds: ["test-session"] },
+        thresholds,
+      };
+      const { client, requests } = createClient({
+        body: { properties: { rules: [rule] } },
+      });
+
+      const result = await client.costControls.createOrUpdate(
+        resourceGroupName,
+        accountName,
+        costControlName,
+        { properties: { rules: [rule] } },
+      );
+
+      expect(requestBody(requests[0])).toEqual({
+        properties: {
+          rules: [
+            {
+              name: "session-budget",
+              counterKey: { type: "Session" },
+              unit: "Usd",
+              amount: 25,
+              recurring: false,
+              match: { sessionIds: ["test-session"] },
+              ...(thresholds === undefined ? {} : { thresholds: [] }),
+            },
+          ],
+        },
+      });
+      expect(result.properties?.rules[0]).toEqual(rule);
+    },
+  );
+
+  it("serializes an absolute Block threshold", async () => {
+    const rule: CostControlRule = {
+      ...createRule(25),
+      thresholds: [
+        {
+          type: KnownCostControlThresholdType.Absolute,
+          value: 25,
+          action: KnownCostControlThresholdAction.Block,
+        },
+      ],
+    };
+    const { client, requests } = createClient({
+      body: { properties: { rules: [rule] } },
+    });
+
+    const result = await client.costControls.update(
+      resourceGroupName,
+      accountName,
+      costControlName,
+      { properties: { rules: [rule] } },
+    );
+
+    expect(requestBody(requests[0])).toMatchObject({
+      properties: {
+        rules: [{ thresholds: [{ type: "Absolute", value: 25, action: "Block" }] }],
+      },
+    });
+    expect(result.properties?.rules[0].thresholds).toEqual(rule.thresholds);
+  });
+
+  it("reads legacy Audit thresholds without authoring them", async () => {
+    const legacy: CostControl = {
+      ...response("Legacy Cost Control", 25, '"etag-1"'),
+      properties: {
+        rules: [
+          {
+            ...createRule(25),
+            thresholds: [{ type: "Percentage", value: 0, action: "Audit" }],
+          },
+        ],
+      },
+    };
+    const { client, requests } = createClient({ body: legacy });
+
+    const result = await client.costControls.get(resourceGroupName, accountName, costControlName);
+
+    expect(result.properties?.rules[0].thresholds).toEqual([
+      { type: "Percentage", value: 0, action: "Audit" },
+    ]);
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("GET");
   });
 });

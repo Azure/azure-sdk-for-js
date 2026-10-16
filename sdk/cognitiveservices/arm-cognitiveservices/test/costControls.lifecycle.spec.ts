@@ -8,13 +8,19 @@ import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
 import type { CostControl, CostControlRule } from "../src/models/index.js";
+import {
+  KnownCostControlDimensionType,
+  KnownCostControlPeriod,
+  KnownCostControlThresholdAction,
+  KnownCostControlThresholdType,
+  KnownCostControlUnit,
+} from "../src/models/index.js";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
 
 const subscriptionIdPlaceholder = "00000000-0000-0000-0000-000000000000";
 const resourceGroupPlaceholder = "sanitized-resource-group";
 const accountNamePlaceholder = "sanitized-cognitive-account";
 const sanitizedEtag = '"sanitized-etag"';
-const recordedApiVersion = "2026-09-15-preview";
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -49,12 +55,18 @@ const costControlName = "sdk-cost-control-lifecycle";
 function createRule(amount: number): CostControlRule {
   return {
     name: "account-budget",
-    counterKey: [{ type: "account" }],
-    unit: "usd",
+    counterKey: { type: KnownCostControlDimensionType.Account },
+    unit: KnownCostControlUnit.Usd,
     amount,
-    period: "month",
+    period: KnownCostControlPeriod.Month,
     recurring: true,
-    thresholds: [{ type: "percentage", value: 0, action: "audit" }],
+    thresholds: [
+      {
+        type: KnownCostControlThresholdType.Percentage,
+        value: 80,
+        action: KnownCostControlThresholdAction.Alert,
+      },
+    ],
   };
 }
 
@@ -84,18 +96,6 @@ describe("Cost Controls recorded lifecycle", () => {
   beforeEach(async (context) => {
     recorder = new Recorder(context);
     await recorder.start(recorderOptions);
-    await recorder.addSanitizers(
-      {
-        uriSanitizers: [
-          {
-            regex: true,
-            target: "api-version=[^&]+",
-            value: `api-version=${recordedApiVersion}`,
-          },
-        ],
-      },
-      ["playback"],
-    );
 
     const subscriptionId = requiredEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
     resourceGroupName = requiredEnvironmentVariable("AZURE_RESOURCE_GROUP");
@@ -125,7 +125,7 @@ describe("Cost Controls recorded lifecycle", () => {
       );
       created = true;
       assert.equal(createdCostControl.name, costControlName);
-      assert.equal(createdCostControl.properties?.rules[0].thresholds?.[0].action, "audit");
+      expect(createdCostControl.properties?.rules[0]).toMatchObject(createRule(25));
 
       const fetched = await client.costControls.get(
         resourceGroupName,
@@ -133,6 +133,7 @@ describe("Cost Controls recorded lifecycle", () => {
         costControlName,
       );
       assert.isString(fetched.etag);
+      expect(fetched.properties?.rules[0].counterKey).toMatchObject({ type: "Account" });
       assert.equal(fetched.properties?.rules[0].amount, 25);
 
       const listed: CostControl[] = [];
