@@ -258,8 +258,7 @@ export abstract class ResourceDeclaration<
     let parentIndex: unknown = undefined;
     if (indexRef !== undefined) {
       const rawParent = (context as unknown as Record<symbol, unknown>)[INDEXED_PROXY_TARGET] as
-        | ProvisioningComponent
-        | undefined;
+        ProvisioningComponent | undefined;
       if (rawParent !== undefined) {
         (this as unknown as { parent: ProvisioningComponent | undefined }).parent = rawParent;
       }

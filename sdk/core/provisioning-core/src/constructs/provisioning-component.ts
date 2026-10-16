@@ -145,8 +145,7 @@ export class ProvisioningComponent {
   ): this;
   transform<TComponent extends ProvisioningComponent>(
     ctorOrCallback:
-      | ProvisioningComponentConstructor<TComponent>
-      | ((component: ProvisioningComponent) => void),
+      ProvisioningComponentConstructor<TComponent> | ((component: ProvisioningComponent) => void),
     callback?: (component: TComponent) => void,
   ): this {
     const ctor = callback

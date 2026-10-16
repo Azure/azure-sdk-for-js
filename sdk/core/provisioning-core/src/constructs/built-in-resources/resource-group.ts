@@ -78,8 +78,7 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
   constructor(
     context: ProvisioningComponent,
     props:
-      | (ResourceGroupProps & { existing?: false })
-      | (ExistingResourceProps & { existing: true }),
+      (ResourceGroupProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ) {
     super(context, {
       ...props,
