@@ -1,4 +1,4 @@
-import { join } from "path";
+import path, { join } from "path";
 import { ModularClientPackageOptions } from "../../../common/types.js";
 import { generateRepoDataInTspLocation, runCommand } from "../../../common/utils.js";
 import { logger } from "../../../utils/logger.js";
@@ -18,33 +18,39 @@ export async function generateTypeScriptCodeFromTypeSpec(
   originalVersion: string | undefined,
   packageDirectory: string,
 ): Promise<void> {
+  // if (options.emitterName === provisioningEmitterName) {
+  //   await generateProvisioningCodeFromTypeSpec(options, packageDirectory);
+  //   if (originalVersion) await updatePackageVersion(packageDirectory, originalVersion);
+  //   return;
+  // }
+
   const tspConfigPath = join(options.typeSpecDirectory, "tspconfig.yaml");
   logger.info("Start to generate code by tsp-client.");
   const repoUrl = generateRepoDataInTspLocation(options.repoUrl);
   const tspClientDir = join(process.cwd(), "eng", "common", "tsp-client");
 
   logger.info(`Using tsp-client from: ${tspClientDir}`);
+  const tspClientArgs = [
+    "init",
+    "--update-if-exists",
+    "--debug",
+    "--tsp-config",
+    tspConfigPath,
+    "--local-spec-repo",
+    options.typeSpecDirectory,
+    "--repo",
+    repoUrl,
+    "--commit",
+    options.gitCommitId,
+  ];
+
+  if (options.emitterPackageJsonPath) {
+    tspClientArgs.push("--emitter-package-json-path", options.emitterPackageJsonPath);
+  }
+
   await runCommand(
     "npm",
-    [
-      "--prefix",
-      tspClientDir,
-      "exec",
-      "--no",
-      "--",
-      "tsp-client",
-      "init",
-      "--update-if-exists",
-      "--debug",
-      "--tsp-config",
-      tspConfigPath,
-      "--local-spec-repo",
-      options.typeSpecDirectory,
-      "--repo",
-      repoUrl,
-      "--commit",
-      options.gitCommitId,
-    ],
+    ["--prefix", tspClientDir, "exec", "--no", "--", "tsp-client", ...tspClientArgs],
     { shell: true, stdio: "inherit" },
     false,
   );
