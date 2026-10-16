@@ -264,7 +264,6 @@ export interface ManagedInstancesOperations {
     options?: ManagedInstancesGetOptionalParams,
   ) => Promise<ManagedInstance>;
 }
-
 function _getManagedInstances(context: SqlManagementContext) {
   return {
     listByInstancePool: (
@@ -540,7 +539,6 @@ function _getManagedInstances(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, options),
   };
 }
-
 export function _getManagedInstancesOperations(
   context: SqlManagementContext,
 ): ManagedInstancesOperations {

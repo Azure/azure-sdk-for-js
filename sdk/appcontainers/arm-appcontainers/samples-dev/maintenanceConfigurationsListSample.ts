@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all maintenance configurations in the specified Managed Environment.
  *
  * @summary gets all maintenance configurations in the specified Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironment_MaintenanceConfigurations_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironment_MaintenanceConfigurations_List.json
  */
 async function managedEnvironmentMaintenanceConfigurationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

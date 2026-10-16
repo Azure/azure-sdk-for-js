@@ -3468,71 +3468,129 @@ export interface McpServerKnowledgeSourceParameters {
 
 /** Base authentication configuration for an MCP server. */
 export interface McpServerAuthentication {
+  /** The kind of authentication to use. */
   kind: McpServerAuthenticationKind;
 }
+
+/** The kind of authentication used to connect to an MCP server. */
 export type McpServerAuthenticationKind = string;
+
+/** Authentication configurations supported by an MCP server knowledge source. */
 export type McpServerAuthenticationUnion =
   | McpServerFoundryConnectionAuthentication
   | McpServerStoredHeadersAuthentication
   | McpServerAuthentication;
+
+/** Authentication that uses an Azure AI Foundry connection. */
 export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+  /** The discriminator value. */
   kind: "foundryConnection";
+  /** Parameters for the Foundry connection. */
   foundryConnectionParameters: McpServerFoundryConnectionParameters;
 }
+
+/** Parameters for Azure AI Foundry connection authentication. */
 export interface McpServerFoundryConnectionParameters {
+  /** The Azure AI Foundry connection identifier. */
   connectionId?: string;
 }
+
+/** Authentication that uses stored HTTP headers. */
 export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+  /** The discriminator value. */
   kind: "storedHeaders";
+  /** Parameters for the stored headers. */
   storedHeadersParameters: McpServerStoredHeadersParameters;
 }
+
+/** Parameters for stored-header authentication. */
 export interface McpServerStoredHeadersParameters {
+  /** HTTP headers included when invoking the MCP server. */
   headers?: McpServerHeaders;
 }
+
+/** A collection of HTTP headers sent to an MCP server. */
 export interface McpServerHeaders {
+  /** Header names and values. */
   additionalProperties?: Record<string, string>;
 }
 
 /** A tool exposed by an MCP server. */
 export interface McpServerTool {
+  /** The name of the MCP tool. */
   name?: string;
+  /** Configuration for parsing the tool output. */
   outputParsing?: McpServerOutputParsingUnion;
+  /** Controls how parsed tool results are integrated into the result set. */
   resultsProcessing?: KnowledgeSourceResultsProcessing;
+  /** The maximum number of tokens retained from the tool output. */
   maxOutputTokens?: number;
 }
+
+/** Base output parsing configuration for an MCP server tool. */
 export interface McpServerOutputParsing {
+  /** The kind of output parsing to apply. */
   kind: McpServerOutputParsingKind;
 }
+
+/** The kind of output parsing applied to MCP server tool results. */
 export type McpServerOutputParsingKind = string;
+
+/** Output parsing configurations supported by MCP server tools. */
 export type McpServerOutputParsingUnion =
   | McpServerAutoOutputParsing
   | McpServerJsonOutputParsing
   | McpServerSplitOutputParsing
   | McpServerNoneOutputParsing
   | McpServerOutputParsing;
+
+/** Output parsing that automatically detects the result format. */
 export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
   kind: "auto";
 }
+
+/** Output parsing that extracts documents from JSON results. */
 export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
   kind: "json";
+  /** Parameters for extracting documents from JSON. */
   jsonParameters: McpServerOutputParsingJsonParameters;
 }
+
+/** Parameters for parsing MCP server tool output as JSON. */
 export interface McpServerOutputParsingJsonParameters {
+  /** The JSON path to the document array in the tool output. */
   documentsPath: string;
+  /** Whether surrounding JSON context is included with extracted documents. */
   includeContext?: boolean;
 }
+
+/** Output parsing that splits tool output into pages. */
 export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
   kind: "split";
+  /** Parameters controlling how the output is split. */
   splitParameters?: McpServerOutputParsingSplitParameters;
 }
+
+/** Parameters for splitting MCP server tool output into pages. */
 export interface McpServerOutputParsingSplitParameters {
+  /** The text splitting mode. */
   textSplitMode?: TextSplitMode;
+  /** The maximum number of characters in each page. */
   maximumPageLength?: number;
+  /** The number of overlapping characters between adjacent pages. */
   pageOverlapLength?: number;
+  /** The maximum number of pages to retain. */
   maximumPagesToTake?: number;
+  /** The language code used when splitting text. */
   defaultLanguageCode?: SplitSkillLanguage;
 }
+
+/** Output parsing that treats the tool output as a single unparsed block. */
 export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
   kind: "none";
 }
 
@@ -3603,6 +3661,8 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeBaseOptions extends OperationOptions {}
+
+/** Options for listing knowledge bases. */
 export interface ListKnowledgeBasesOptions extends OperationOptions {
   /**
    * A string used to narrow down the listing so that fewer results need to be paged through. If
@@ -3633,6 +3693,8 @@ export interface DeleteKnowledgeSourceOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeSourceOptions extends OperationOptions {}
+
+/** Options for listing knowledge sources. */
 export interface ListKnowledgeSourcesOptions extends OperationOptions {
   /**
    * A string used to narrow down the listing so that fewer results need to be paged through. If
@@ -3657,6 +3719,8 @@ export interface UploadKnowledgeSourceFileOptions extends OperationOptions {}
 export interface UploadKnowledgeSourceFileMultipartOptions extends OperationOptions {}
 /** Options for replacing a File knowledge source file. */
 export interface UpdateKnowledgeSourceFileOptions extends OperationOptions {}
+
+/** Options for listing files in a File knowledge source. */
 export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
   /** Optional directory-like path prefix used to filter files. */
   prefix?: string;

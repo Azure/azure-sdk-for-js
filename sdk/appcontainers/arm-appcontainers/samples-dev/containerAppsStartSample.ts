@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to start a container app
  *
  * @summary start a container app
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_Start.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_Start.json
  */
 async function startContainerApp(): Promise<void> {
   const credential = new DefaultAzureCredential();

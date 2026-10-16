@@ -49,6 +49,27 @@ app.listen(3000, () =>
 );
 ```
 
+## Authentication
+
+This package parses and dispatches CloudEvents from Azure Web PubSub. It does not
+authenticate incoming requests. The examples in this README focus on event handling and
+omit authentication for demonstration purposes. In production, authenticate requests
+before they reach `handler.getMiddleware()`.
+
+Configure authentication between Azure Web PubSub and the event handler in the hub
+settings. Azure Web PubSub supports Microsoft Entra authorization using a
+[managed identity](https://learn.microsoft.com/azure/azure-web-pubsub/howto-use-managed-identity#use-a-managed-identity-in-client-events-scenarios).
+The application or hosting platform is responsible for validating the access token.
+
+Applications can also validate the `ce-signature` header exposed as
+`request.context.signature` using a securely configured Web PubSub access key and
+`request.context.connectionId`. For the signature format and validation details, see the
+[CloudEvents protocol reference](https://learn.microsoft.com/azure/azure-web-pubsub/reference-cloud-events#web-pubsub-cloudevents-attribute-extension).
+
+The `allowedEndpoints` option participates in the CloudEvents abuse-protection handshake.
+It does not authenticate event POST requests and should not be used as an authentication
+mechanism.
+
 ## Key concepts
 
 ### Connection

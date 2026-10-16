@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -153,6 +155,8 @@ export type GeoReplicationRegionProvisioningState = string;
 export interface IPRule {
     value: string;
 }
+
+export { isRestError }
 
 // @public
 export type JsonWebKeyCurveName = string;
@@ -366,6 +370,7 @@ export enum KnownJsonWebKeyOperation {
 export enum KnownJsonWebKeyType {
     EC = "EC",
     ECHSM = "EC-HSM",
+    OctHSM = "oct-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
 }
@@ -401,6 +406,20 @@ export enum KnownManagedHsmSkuFamily {
     B = "B",
     // (undocumented)
     C = "C"
+}
+
+// @public
+export enum KnownManagedHsmSkuName {
+    CustomB32 = "Custom_B32",
+    CustomB6 = "Custom_B6",
+    CustomC10 = "Custom_C10",
+    CustomC42 = "Custom_C42",
+    StandardB1 = "Standard_B1",
+    StandardB10V2 = "Standard_B10v2",
+    StandardB15V2 = "Standard_B15v2",
+    StandardB1V2 = "Standard_B1v2",
+    StandardB20V2 = "Standard_B20v2",
+    StandardB5V2 = "Standard_B5v2"
 }
 
 // @public
@@ -512,7 +531,8 @@ export enum KnownVaultProvisioningState {
 // @public
 export enum KnownVersions {
     V20250501 = "2025-05-01",
-    V20260201 = "2026-02-01"
+    V20260201 = "2026-02-01",
+    V20260515 = "2026-05-15"
 }
 
 // @public
@@ -704,7 +724,7 @@ export interface ManagedHsmSku {
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
+export type ManagedHsmSkuName = string;
 
 // @public
 export interface ManagedHsmsListByResourceGroupOptionalParams extends OperationOptions {
@@ -741,7 +761,7 @@ export interface ManagedHsmsOperations {
     checkMhsmNameAvailability: (mhsmName: CheckMhsmNameAvailabilityParameters, options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams) => Promise<CheckMhsmNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
     delete: (resourceGroupName: string, name: string, options?: ManagedHsmsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm>;
+    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm | void>;
     getDeleted: (name: string, location: string, options?: ManagedHsmsGetDeletedOptionalParams) => Promise<DeletedManagedHsm>;
     listByResourceGroup: (resourceGroupName: string, options?: ManagedHsmsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
     listBySubscription: (options?: ManagedHsmsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
@@ -1050,7 +1070,7 @@ export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection | void>;
     listByResource: (resourceGroupName: string, vaultName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     put: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<PrivateEndpointConnection>;
 }
@@ -1119,6 +1139,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KeyVaultManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

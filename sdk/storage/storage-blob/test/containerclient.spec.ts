@@ -911,8 +911,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
 
     for (const blob of blobClients) {
-      let i = 0;
-      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![0].name));
     }
 
     for (const blob of blobClients) {

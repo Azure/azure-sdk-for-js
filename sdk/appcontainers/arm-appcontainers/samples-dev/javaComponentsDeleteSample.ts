@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Java Component.
  *
  * @summary delete a Java Component.
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_Delete.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_Delete.json
  */
 async function deleteJavaComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();

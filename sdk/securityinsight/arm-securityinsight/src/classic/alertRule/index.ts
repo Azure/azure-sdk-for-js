@@ -4,7 +4,7 @@
 import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { triggerRuleRun } from "../../api/alertRule/operations.js";
 import type { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
-import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import type { AnalyticsRuleRunTrigger } from "../../models/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -18,7 +18,7 @@ export interface AlertRuleOperations {
     ruleId: string,
     analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
     options?: AlertRuleTriggerRuleRunOptionalParams,
-  ) => PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>;
+  ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use triggerRuleRun instead */
   beginTriggerRuleRun: (
     resourceGroupName: string,
@@ -26,7 +26,7 @@ export interface AlertRuleOperations {
     ruleId: string,
     analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
     options?: AlertRuleTriggerRuleRunOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>>;
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use triggerRuleRun instead */
   beginTriggerRuleRunAndWait: (
     resourceGroupName: string,
@@ -34,7 +34,7 @@ export interface AlertRuleOperations {
     ruleId: string,
     analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
     options?: AlertRuleTriggerRuleRunOptionalParams,
-  ) => Promise<AlertRuleUnion>;
+  ) => Promise<void>;
 }
 
 function _getAlertRule(context: SecurityInsightsContext) {

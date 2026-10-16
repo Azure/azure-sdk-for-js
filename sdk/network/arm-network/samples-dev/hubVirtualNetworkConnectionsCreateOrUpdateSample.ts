@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a hub virtual network connection if it doesn't exist else updates the existing one.
  *
  * @summary creates a hub virtual network connection if it doesn't exist else updates the existing one.
- * x-ms-original-file: 2025-09-01/HubVirtualNetworkConnectionPut.json
+ * x-ms-original-file: 2026-03-01/HubVirtualNetworkConnectionPut.json
  */
 async function hubVirtualNetworkConnectionPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function hubVirtualNetworkConnectionPut(): Promise<void> {
     "connection1",
     {
       enableInternetSecurity: false,
-      enableOnlyIpv6Peering: "Disabled",
+      enableOnlyIPv6Peering: false,
       remoteVirtualNetwork: {
         id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1",
       },

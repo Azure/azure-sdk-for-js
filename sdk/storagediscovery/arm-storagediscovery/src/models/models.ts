@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics. */
 export interface StorageDiscoveryWorkspace extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -19,7 +26,9 @@ export function storageDiscoveryWorkspaceSerializer(item: StorageDiscoveryWorksp
 
 export function storageDiscoveryWorkspaceDeserializer(item: any): StorageDiscoveryWorkspace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -39,6 +48,8 @@ export interface StorageDiscoveryWorkspaceProperties {
   sku?: StorageDiscoverySku;
   /** The description of the storage discovery workspace */
   description?: string;
+  /** The capabilities configured for the storage discovery workspace. */
+  capabilities?: StorageDiscoveryCapabilities;
   /** The view level storage discovery data estate */
   workspaceRoots: string[];
   /** The scopes of the storage discovery workspace. */
@@ -53,6 +64,9 @@ export function storageDiscoveryWorkspacePropertiesSerializer(
   return {
     sku: item["sku"],
     description: item["description"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : storageDiscoveryCapabilitiesSerializer(item["capabilities"]),
     workspaceRoots: item["workspaceRoots"].map((p: any) => {
       return p;
     }),
@@ -66,6 +80,9 @@ export function storageDiscoveryWorkspacePropertiesDeserializer(
   return {
     sku: item["sku"],
     description: item["description"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : storageDiscoveryCapabilitiesDeserializer(item["capabilities"]),
     workspaceRoots: item["workspaceRoots"].map((p: any) => {
       return p;
     }),
@@ -91,6 +108,120 @@ export enum KnownStorageDiscoverySku {
  * **Free**: Free Sku
  */
 export type StorageDiscoverySku = string;
+
+/** The capabilities configured for a storage discovery workspace. */
+export interface StorageDiscoveryCapabilities {
+  /** The Azure Blob Storage capability configuration for the storage discovery workspace. */
+  azureBlobStorage: AzureBlobStorageCapability;
+}
+
+export function storageDiscoveryCapabilitiesSerializer(item: StorageDiscoveryCapabilities): any {
+  return { azureBlobStorage: azureBlobStorageCapabilitySerializer(item["azureBlobStorage"]) };
+}
+
+export function storageDiscoveryCapabilitiesDeserializer(item: any): StorageDiscoveryCapabilities {
+  return {
+    azureBlobStorage: azureBlobStorageCapabilityDeserializer(item["azureBlobStorage"]),
+  };
+}
+
+/** The Azure Blob Storage capability configuration. */
+export interface AzureBlobStorageCapability {
+  /** The capacity details configuration for Azure Blob Storage. */
+  capacityDetails: CapacityDetails;
+  /** The prefix configurations that scope the capacity details to specific storage accounts, containers, and prefixes. */
+  prefixConfigurations?: PrefixConfiguration[];
+}
+
+export function azureBlobStorageCapabilitySerializer(item: AzureBlobStorageCapability): any {
+  return {
+    capacityDetails: capacityDetailsSerializer(item["capacityDetails"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationArraySerializer(item["prefixConfigurations"]),
+  };
+}
+
+export function azureBlobStorageCapabilityDeserializer(item: any): AzureBlobStorageCapability {
+  return {
+    capacityDetails: capacityDetailsDeserializer(item["capacityDetails"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationArrayDeserializer(item["prefixConfigurations"]),
+  };
+}
+
+/** The capacity details configuration. */
+export interface CapacityDetails {
+  /** The enablement status of the capacity details capability. */
+  status: CapabilityStatus;
+}
+
+export function capacityDetailsSerializer(item: CapacityDetails): any {
+  return { status: item["status"] };
+}
+
+export function capacityDetailsDeserializer(item: any): CapacityDetails {
+  return {
+    status: item["status"],
+  };
+}
+
+/** The enablement status of a storage discovery capability. */
+export enum KnownCapabilityStatus {
+  /** The capability is enabled. */
+  Enabled = "Enabled",
+  /** The capability is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The enablement status of a storage discovery capability. \
+ * {@link KnownCapabilityStatus} can be used interchangeably with CapabilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The capability is enabled. \
+ * **Disabled**: The capability is disabled.
+ */
+export type CapabilityStatus = string;
+
+export function prefixConfigurationArraySerializer(result: Array<PrefixConfiguration>): any[] {
+  return result.map((item) => {
+    return prefixConfigurationSerializer(item);
+  });
+}
+
+export function prefixConfigurationArrayDeserializer(result: Array<PrefixConfiguration>): any[] {
+  return result.map((item) => {
+    return prefixConfigurationDeserializer(item);
+  });
+}
+
+/** A prefix configuration that scopes capacity details to a specific storage account, container, and prefix. */
+export interface PrefixConfiguration {
+  /** The name of the storage account. */
+  storageAccountName: string;
+  /** The name of the blob container within the storage account. */
+  containerName: string;
+  /** The blob prefix within the container to scope capacity details to. An empty value scopes to the entire container. Must not start with a '/'. */
+  prefix?: string;
+}
+
+export function prefixConfigurationSerializer(item: PrefixConfiguration): any {
+  return {
+    storageAccountName: item["storageAccountName"],
+    containerName: item["containerName"],
+    prefix: item["prefix"],
+  };
+}
+
+export function prefixConfigurationDeserializer(item: any): PrefixConfiguration {
+  return {
+    storageAccountName: item["storageAccountName"],
+    containerName: item["containerName"],
+    prefix: item["prefix"],
+  };
+}
 
 export function storageDiscoveryScopeArraySerializer(result: Array<StorageDiscoveryScope>): any[] {
   return result.map((item) => {
@@ -144,7 +275,9 @@ export function storageDiscoveryScopeDeserializer(item: any): StorageDiscoverySc
       : item["tagKeysOnly"].map((p: any) => {
           return p;
         }),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -204,7 +337,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -221,8 +356,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -383,6 +518,8 @@ export interface StorageDiscoveryWorkspacePropertiesUpdate {
   workspaceRoots?: string[];
   /** The scopes of the storage discovery workspace. */
   scopes?: StorageDiscoveryScope[];
+  /** The capabilities configured for the storage discovery workspace. */
+  capabilities?: StorageDiscoveryCapabilitiesUpdate;
 }
 
 export function storageDiscoveryWorkspacePropertiesUpdateSerializer(
@@ -397,6 +534,82 @@ export function storageDiscoveryWorkspacePropertiesUpdateSerializer(
           return p;
         }),
     scopes: !item["scopes"] ? item["scopes"] : storageDiscoveryScopeArraySerializer(item["scopes"]),
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : storageDiscoveryCapabilitiesUpdateSerializer(item["capabilities"]),
+  };
+}
+
+/** The capabilities that can be updated for a storage discovery workspace. */
+export interface StorageDiscoveryCapabilitiesUpdate {
+  /** The Azure Blob Storage capability configuration to update. */
+  azureBlobStorage?: AzureBlobStorageCapabilityUpdate;
+}
+
+export function storageDiscoveryCapabilitiesUpdateSerializer(
+  item: StorageDiscoveryCapabilitiesUpdate,
+): any {
+  return {
+    azureBlobStorage: !item["azureBlobStorage"]
+      ? item["azureBlobStorage"]
+      : azureBlobStorageCapabilityUpdateSerializer(item["azureBlobStorage"]),
+  };
+}
+
+/** The Azure Blob Storage capability configuration that can be updated. */
+export interface AzureBlobStorageCapabilityUpdate {
+  /** The capacity details configuration to update for Azure Blob Storage. */
+  capacityDetails?: CapacityDetailsUpdate;
+  /** The prefix configurations to update for Azure Blob Storage. */
+  prefixConfigurations?: PrefixConfigurationUpdate[];
+}
+
+export function azureBlobStorageCapabilityUpdateSerializer(
+  item: AzureBlobStorageCapabilityUpdate,
+): any {
+  return {
+    capacityDetails: !item["capacityDetails"]
+      ? item["capacityDetails"]
+      : capacityDetailsUpdateSerializer(item["capacityDetails"]),
+    prefixConfigurations: !item["prefixConfigurations"]
+      ? item["prefixConfigurations"]
+      : prefixConfigurationUpdateArraySerializer(item["prefixConfigurations"]),
+  };
+}
+
+/** The capacity details configuration that can be updated. */
+export interface CapacityDetailsUpdate {
+  /** The enablement status to update for the capacity details capability. */
+  status?: CapabilityStatus;
+}
+
+export function capacityDetailsUpdateSerializer(item: CapacityDetailsUpdate): any {
+  return { status: item["status"] };
+}
+
+export function prefixConfigurationUpdateArraySerializer(
+  result: Array<PrefixConfigurationUpdate>,
+): any[] {
+  return result.map((item) => {
+    return prefixConfigurationUpdateSerializer(item);
+  });
+}
+
+/** A prefix configuration that can be updated. */
+export interface PrefixConfigurationUpdate {
+  /** The name of the storage account. */
+  storageAccountName?: string;
+  /** The name of the blob container within the storage account. */
+  containerName?: string;
+  /** The blob prefix within the container to scope capacity details to. An empty value scopes to the entire container. Must not start with a '/'. */
+  prefix?: string;
+}
+
+export function prefixConfigurationUpdateSerializer(item: PrefixConfigurationUpdate): any {
+  return {
+    storageAccountName: item["storageAccountName"],
+    containerName: item["containerName"],
+    prefix: item["prefix"],
   };
 }
 
@@ -478,7 +691,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -537,6 +750,10 @@ export type ActionType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
+  /** 2025-06-01-preview */
+  V20250601Preview = "2025-06-01-preview",
   /** 2025-09-01 */
   V20250901 = "2025-09-01",
+  /** 2026-10-01-preview */
+  V20261001Preview = "2026-10-01-preview",
 }

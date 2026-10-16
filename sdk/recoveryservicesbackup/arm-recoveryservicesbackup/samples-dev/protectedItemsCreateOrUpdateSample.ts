@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
  * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ConfigureProtection.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ConfigureProtection.json
  */
 async function enableProtectionOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,6 +27,7 @@ async function enableProtectionOnAzureIaasVm(): Promise<void> {
         policyId:
           "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/DefaultPolicy",
         protectedItemType: "Microsoft.Compute/virtualMachines",
+        existingBasicVMProtection: "DisableWithDeleteRPsNow",
         sourceResourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
       },
@@ -41,7 +42,7 @@ async function enableProtectionOnAzureIaasVm(): Promise<void> {
  *
  * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
  * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/StopProtection.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/StopProtection.json
  */
 async function stopProtectionWithRetainDataOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();

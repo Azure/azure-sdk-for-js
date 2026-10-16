@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the New Relic organizations linked to your email address, helping you understand the existing organizations that have been created
  *
  * @summary lists all the New Relic organizations linked to your email address, helping you understand the existing organizations that have been created
- * x-ms-original-file: 2025-05-01-preview/Organizations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Organizations_List_MaximumSet_Gen.json
  */
 async function organizationsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function organizationsListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists all the New Relic organizations linked to your email address, helping you understand the existing organizations that have been created
  *
  * @summary lists all the New Relic organizations linked to your email address, helping you understand the existing organizations that have been created
- * x-ms-original-file: 2025-05-01-preview/Organizations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Organizations_List_MinimumSet_Gen.json
  */
 async function organizationsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

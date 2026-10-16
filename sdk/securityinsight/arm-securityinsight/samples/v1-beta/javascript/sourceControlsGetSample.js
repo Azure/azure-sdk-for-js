@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a source control byt its identifier.
  *
  * @summary gets a source control byt its identifier.
- * x-ms-original-file: 2025-07-01-preview/sourcecontrols/GetSourceControlById.json
+ * x-ms-original-file: 2025-10-01-preview/sourcecontrols/GetSourceControlById.json
  */
 async function getASourceControl() {
   const credential = new DefaultAzureCredential();

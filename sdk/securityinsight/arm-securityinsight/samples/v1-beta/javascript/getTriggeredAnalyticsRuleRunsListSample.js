@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the triggered analytics rule runs.
  *
  * @summary gets the triggered analytics rule runs.
- * x-ms-original-file: 2025-07-01-preview/triggeredAnalyticsRuleRuns/triggeredAnalyticsRuleRuns_Get.json
+ * x-ms-original-file: 2025-10-01-preview/triggeredAnalyticsRuleRuns/triggeredAnalyticsRuleRuns_Get.json
  */
 async function triggeredAnalyticsRuleRunsGet() {
   const credential = new DefaultAzureCredential();

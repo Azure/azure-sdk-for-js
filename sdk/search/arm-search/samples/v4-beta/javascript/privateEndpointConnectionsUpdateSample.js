@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a private endpoint connection to the search service in the given resource group.
  *
  * @summary updates a private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/UpdatePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-09-01-preview/UpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate() {
   const credential = new DefaultAzureCredential();

@@ -17,8 +17,7 @@ import {
 export { WebPubSubChatServiceClient } from "./webPubSubChatServiceClient.js";
 export type { WebPubSubChatServiceClientOptions } from "./webPubSubChatServiceClient.js";
 export type { GetClientAccessTokenOptions, ClientAccessToken } from "./models/clientToken.js";
-export { ChatPermissions, ChatRoles } from "./chatPermissions.js";
-export type { ChatPermission, ChatRoleName } from "./chatPermissions.js";
+export { BuiltInChatRoles } from "./builtInChatRoles.js";
 export type {
   ChatConversation,
   ChatMessage,
@@ -26,6 +25,7 @@ export type {
   MessageContent,
   ChatRole,
   ChatRoleInput,
+  ChatPermission,
   ChatRoom,
   ChatRoomInput,
   ChatRoomMember,
@@ -38,7 +38,7 @@ export type {
   HumanChatUserInput,
   HumanChatUser,
 } from "./models/index.js";
-export { KnownVersions } from "./models/index.js";
+export { KnownChatPermission, KnownVersions } from "./models/index.js";
 export type {
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,

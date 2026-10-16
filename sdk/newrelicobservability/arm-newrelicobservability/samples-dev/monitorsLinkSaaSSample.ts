@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to links a new SaaS to the newrelic organization of the underlying monitor.
  *
  * @summary links a new SaaS to the newrelic organization of the underlying monitor.
- * x-ms-original-file: 2025-05-01-preview/Monitors_LinkSaaS.json
+ * x-ms-original-file: 2026-06-01/Monitors_LinkSaaS.json
  */
 async function monitorsLinkSaaS(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   stop,
   listByProviderRegistration,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/customRollouts/operations.js";
-import {
+import type {
   CustomRolloutsStopOptionalParams,
   CustomRolloutsListByProviderRegistrationOptionalParams,
   CustomRolloutsDeleteOptionalParams,
   CustomRolloutsCreateOrUpdateOptionalParams,
   CustomRolloutsGetOptionalParams,
 } from "../../api/customRollouts/options.js";
-import { CustomRollout } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CustomRollout } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CustomRollouts operations. */
 export interface CustomRolloutsOperations {

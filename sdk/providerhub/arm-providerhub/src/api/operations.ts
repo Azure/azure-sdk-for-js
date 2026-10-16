@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext as Client } from "./index.js";
-import {
+import type { ProviderHubContext as Client } from "./index.js";
+import type {
   ResourceProviderManifest,
+  CheckinManifestParams,
+  CheckinManifestInfo,
+} from "../models/models.js";
+import {
   resourceProviderManifestDeserializer,
   errorResponseDeserializer,
-  CheckinManifestParams,
   checkinManifestParamsSerializer,
-  CheckinManifestInfo,
   checkinManifestInfoDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { CheckinManifestOptionalParams, GenerateManifestOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { CheckinManifestOptionalParams, GenerateManifestOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _checkinManifestSend(
   context: Client,
@@ -31,7 +29,7 @@ export function _checkinManifestSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +49,9 @@ export async function _checkinManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -85,7 +85,7 @@ export function _generateManifestSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,9 @@ export async function _generateManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

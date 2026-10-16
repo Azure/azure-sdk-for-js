@@ -14,7 +14,7 @@ import type {
   ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams,
   ExpressRouteCircuitConnectionsGetOptionalParams,
 } from "../../api/expressRouteCircuitConnections/options.js";
-import type { ExpressRouteCircuitConnection } from "../../models/microsoft/network/models.js";
+import type { ExpressRouteCircuitConnection } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

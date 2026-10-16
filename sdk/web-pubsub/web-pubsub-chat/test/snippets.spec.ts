@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, ChatPermissions, WebPubSubChatServiceClient } from "../src/index.js";
+import {
+  AzureKeyCredential,
+  BuiltInChatRoles,
+  KnownChatPermission,
+  WebPubSubChatServiceClient,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -38,10 +43,10 @@ describe("snippets", () => {
     const roomId = "general";
 
     await client.createOrReplaceRole(userRoleName, {
-      permissions: [ChatPermissions.UserCreateRoom],
+      permissions: [KnownChatPermission.UserCreateRoom],
     });
     await client.createOrReplaceRole(roomRoleName, {
-      permissions: [ChatPermissions.RoomPublishMessage, ChatPermissions.RoomHistory],
+      permissions: [KnownChatPermission.RoomPublishMessage, KnownChatPermission.RoomHistory],
     });
     await client.createOrReplaceUser(userId, {
       kind: "Human",
@@ -52,6 +57,91 @@ describe("snippets", () => {
     await client.createOrReplaceRoomMember(roomId, userId, { roleName: roomRoleName });
 
     console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+  });
+
+  it("ReadmeSampleUseBuiltInRolesAndKnownPermissions", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+
+    await client.createOrReplaceUser("alice", {
+      kind: "Human",
+      nickname: "Alice",
+      roleName: BuiltInChatRoles.UserNormal,
+    });
+
+    await client.createOrReplaceRole("room.moderator", {
+      permissions: [
+        KnownChatPermission.RoomHistory,
+        KnownChatPermission.RoomRemoveUser,
+        KnownChatPermission.RoomPublishMessage,
+      ],
+    });
+  });
+
+  it("ReadmeSampleManageRoles", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const roleName = "user.contoso_member";
+
+    try {
+      const role = await client.createOrReplaceRole(roleName, {
+        permissions: [KnownChatPermission.UserCreateRoom, KnownChatPermission.UserFetchAllRooms],
+      });
+      console.log(`Created role: ${role.name}`);
+
+      const fetchedRole = await client.getRole(roleName);
+      console.log(`Fetched role: ${fetchedRole.name}`);
+
+      for await (const listedRole of client.listRoles()) {
+        console.log(`Role: ${listedRole.name}`);
+      }
+    } finally {
+      await client.deleteRole(roleName);
+    }
+  });
+
+  it("ReadmeSampleManageRoom", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const roomId = "general";
+
+    const room = await client.createOrReplaceRoom(roomId, { title: "General" });
+    console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+
+    const fetchedRoom = await client.getRoom(roomId);
+    console.log(`Fetched room: ${fetchedRoom.id}, title: ${fetchedRoom.title}`);
+
+    await client.deleteRoom(roomId);
+  });
+
+  it("ReadmeSampleManageUser", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const userId = "alice";
+
+    const user = await client.createOrReplaceUser(userId, {
+      kind: "Human",
+      nickname: "Alice",
+      roleName: BuiltInChatRoles.UserNormal,
+    });
+    console.log(`Created user: ${user.id}, nickname: ${user.nickname}`);
+
+    const fetchedUser = await client.getUser(userId);
+    console.log(`Fetched user: ${fetchedUser.id}, nickname: ${fetchedUser.nickname}`);
+
+    await client.deleteUser(userId);
   });
 
   it("ReadmeSampleListMessages", async () => {

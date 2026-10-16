@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the primary and secondary admin API keys for the specified Azure AI Search service.
  *
  * @summary gets the primary and secondary admin API keys for the specified Azure AI Search service.
- * x-ms-original-file: 2026-03-01-preview/SearchGetAdminKeys.json
+ * x-ms-original-file: 2026-09-01-preview/SearchGetAdminKeys.json
  */
 async function searchGetAdminKeys() {
   const credential = new DefaultAzureCredential();

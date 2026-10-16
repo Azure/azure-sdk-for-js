@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list private link resources for a given managed environment.
  *
  * @summary list private link resources for a given managed environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentPrivateLinkResources_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentPrivateLinkResources_List.json
  */
 async function listPrivateLinkResourcesByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

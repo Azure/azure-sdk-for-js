@@ -1,14 +1,42 @@
 # Release History
 
-## 7.1.1 (Unreleased)
+## 7.2.0 (2026-09-03)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation HostsOperations.update
+  - Added Interface HostLicense
+  - Added Interface HostsUpdateOptionalParams
+  - Added Interface HostUpdate
+  - Added Interface HostUpdateProperties
+  - Added Interface MaintenanceActivity
+  - Added Interface MaintenanceGroup
+  - Added Interface MaintenanceRecommendation
+  - Added Interface MaintenanceRelationships
+  - Added Interface MaintenanceWindowRecommendation
+  - Added Interface ReschedulingWindowConstraint
+  - Added Interface WeekendReschedulingConstraint
+  - Added Interface WeekendSchedulingConstraint
+  - Added Interface WindowsServerLicense
+  - Interface GeneralHostProperties has a new optional parameter licenses
+  - Interface HostProperties has a new optional parameter licenses
+  - Interface MaintenanceProperties has a new optional parameter activities
+  - Interface MaintenanceProperties has a new optional parameter group
+  - Interface MaintenanceProperties has a new optional parameter relationships
+  - Interface RescheduleOperation has a new optional parameter recommendation
+  - Interface ScheduleOperation has a new optional parameter recommendation
+  - Interface SpecializedHostProperties has a new optional parameter licenses
+  - Added Type Alias HostLicenseKind
+  - Added Type Alias HostLicenseUnion
+  - Added Type Alias MaintenanceActivityKind
+  - Added Type Alias MaintenanceGroupKind
+  - Added Enum KnownHostLicenseKind
+  - Added Enum KnownMaintenanceActivityKind
+  - Added Enum KnownMaintenanceGroupKind
+  - Enum KnownBlockedDatesConstraintCategory has a new value OverlappingMaintenance
+  - Enum KnownRescheduleOperationConstraintKind has a new value ReschedulingWindow
+  - Enum KnownRescheduleOperationConstraintKind has a new value WeekendRescheduling
+  - Enum KnownScheduleOperationConstraintKind has a new value WeekendScheduling
+  - Enum KnownVersions has a new value V20260301
 
 ## 7.1.0 (2025-12-19)
 

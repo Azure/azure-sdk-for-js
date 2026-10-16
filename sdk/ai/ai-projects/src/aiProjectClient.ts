@@ -20,6 +20,8 @@ import type { DeploymentsOperations } from "./classic/deployments/index.js";
 import { _getDeploymentsOperations } from "./classic/deployments/index.js";
 import type { EvaluationRulesOperations } from "./classic/evaluationRules/index.js";
 import { _getEvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import type { EvaluatorsOperations } from "./classic/evaluators/index.js";
+import { _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
@@ -33,8 +35,27 @@ import { KnownApiVersions } from "./models/models.js";
 import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
+import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+
+/**
+ * Resolves the effective options for the realtime voice-agent client: explicit `realtimeOptions`
+ * values win, otherwise each falls back to its corresponding top-level client option so realtime
+ * connections stay consistent with the rest of the client by default.
+ */
+function resolveRealtimeOptions(
+  options: AIProjectClientOptionalParams,
+  userAgentPrefix: string | undefined,
+): VoiceAgentRealtimeClientOptions {
+  const { realtimeOptions } = options;
+  return {
+    ...realtimeOptions,
+    apiVersion: realtimeOptions?.apiVersion ?? options.apiVersion,
+    credentialScopes: realtimeOptions?.credentialScopes ?? options.credentials?.scopes,
+    userAgentPrefix: realtimeOptions?.userAgentPrefix ?? userAgentPrefix,
+  };
+}
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -51,6 +72,7 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
  * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
+ * @property {EvaluatorsOperations} evaluators - The operation groups for evaluators
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
  * - Memory Stores
  * - Evaluators
@@ -101,18 +123,26 @@ export class AIProjectClient {
     });
 
     this.toolboxes = _getToolboxesOperations(this._cognitiveScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.beta = _getBetaOperations(this._cognitiveScopeClient);
+    this.beta = _getBetaOperations(
+      this._cognitiveScopeClient,
+      credential,
+      options.endpoint ?? endpoint,
+      resolveRealtimeOptions(options, prefixFromOptions),
+    );
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */
@@ -136,6 +166,7 @@ export class AIProjectClient {
    * - skills
    * - routines
    * - models
+   * - realtime (voice-agent WebSocket connections)
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */

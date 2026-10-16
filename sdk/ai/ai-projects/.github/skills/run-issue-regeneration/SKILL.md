@@ -24,12 +24,21 @@ From the repository root:
 
 ```bash
 npm --prefix eng/common/tsp-client ci
-export PATH="$PWD/eng/common/tsp-client/node_modules/.bin:$PATH"
 pnpm install --filter @azure/ai-projects...
 pnpm turbo build --filter=@azure/ai-projects... --token 1
 ```
 
-Then change to `sdk/ai/ai-projects/` and require `git status --short -- .` to be empty. Stop on setup or preflight failure.
+The pinned `tsp-client` CLI is installed in the separate npm project and the
+generation script invokes it through `npm --prefix ... exec`; it does not need
+to be added to `PATH`.
+
+Then change to `sdk/ai/ai-projects/` and run the clean-tree preflight:
+
+```bash
+pwsh -NoProfile -File ./.github/skills/regenerate-from-typespec/scripts/assert-clean-tree.ps1
+```
+
+The setup build's API extraction writes `review/ai-projects-browser.api.diff.md` and `review/ai-projects-react-native.api.diff.md`. Those two files are build output, not user changes, so do not stop because of them: the script deletes untracked copies and restores tracked copies, then requires `git status --short -- .` to be empty. Stop on setup failure, or if the script reports any other change.
 
 ## Run the skills
 
@@ -42,9 +51,17 @@ The package skills are intentionally nested and are not automatically loaded by 
 5. `.github/skills/update-changelog/SKILL.md`
 6. `.github/skills/open-regeneration-pr/SKILL.md`
 
-Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
+Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Run the emitter with that skill's `scripts/generate-client.ps1`, not `npm run generate:client`. The committed emitter lockfile can pin internal Azure Artifacts feeds that the cloud agent firewall cannot resolve, and the script rewrites them to the public npm registry in the temporary copy only. For example:
 
-Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must restore protected files, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run.
+```bash
+pwsh -NoProfile -Command '$ErrorActionPreference = "Stop"; try { & ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit <validated-commit>; & ./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1 } finally { & ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly }'
+```
+
+Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
+
+Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must reject broad emitter rewrites, preserve existing custom behavior, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run. Narrowly scoped protected-file edits necessary to integrate verified upstream APIs are permitted under that skill's audit and validation requirements.
+
+On resumption after emitter output has already been committed, do not regenerate blindly or discard prior output. Record the clean pre-regeneration ref and use it for generated/source/API comparisons and guard `--base-ref` arguments instead of the partially integrated `HEAD`. Reuse verified completed setup/emission work, then finish every remaining skill and validation. If the logical-commit script cannot represent already-committed output or explicitly requested guidance edits, preserve the changes and report the grouping limitation; do not reset history or publish partial integration.
 
 Samples and GA tests are conditional. A step may be a documented no-op when the API diff contains no qualifying surface; state that explicitly in the pull request rather than creating placeholder files.
 

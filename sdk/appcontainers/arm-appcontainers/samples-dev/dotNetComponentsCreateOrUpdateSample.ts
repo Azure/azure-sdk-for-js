@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a .NET Component in a Managed Environment.
  *
  * @summary creates or updates a .NET Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/DotNetComponents_CreateOrUpdate.json
  */
 async function createOrUpdateNETComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createOrUpdateNETComponent(): Promise<void> {
  * This sample demonstrates how to creates or updates a .NET Component in a Managed Environment.
  *
  * @summary creates or updates a .NET Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_CreateOrUpdate_ServiceBind.json
+ * x-ms-original-file: 2026-07-01/DotNetComponents_CreateOrUpdate_ServiceBind.json
  */
 async function createOrUpdateNETComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

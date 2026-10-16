@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the AuthConfig for a Container App.
  *
  * @summary create or update the AuthConfig for a Container App.
- * x-ms-original-file: 2025-10-02-preview/AuthConfigs_BlobStorageTokenStore_ClientId_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/AuthConfigs_BlobStorageTokenStore_ClientId_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppAuthConfigWithMsiClientIDBlobStorageTokenStore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function createOrUpdateContainerAppAuthConfigWithMsiClientIDBlobStorageTok
  * This sample demonstrates how to create or update the AuthConfig for a Container App.
  *
  * @summary create or update the AuthConfig for a Container App.
- * x-ms-original-file: 2025-10-02-preview/AuthConfigs_BlobStorageTokenStore_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/AuthConfigs_BlobStorageTokenStore_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppAuthConfigWithMsiManagedIdentityResourceIdBlobStorageTokenStore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function createOrUpdateContainerAppAuthConfigWithMsiManagedIdentityResourc
  * This sample demonstrates how to create or update the AuthConfig for a Container App.
  *
  * @summary create or update the AuthConfig for a Container App.
- * x-ms-original-file: 2025-10-02-preview/AuthConfigs_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/AuthConfigs_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppAuthConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();

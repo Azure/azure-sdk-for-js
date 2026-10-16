@@ -26,7 +26,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _createOrUpdateDeserialize(
 
   return sqlAgentConfigurationDeserializer(result.body);
 }
-
 /** Puts new sql agent configuration to instance. */
 export async function createOrUpdate(
   context: Client,
@@ -86,7 +85,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +112,6 @@ export async function _getDeserialize(
 
   return sqlAgentConfigurationDeserializer(result.body);
 }
-
 /** Gets current instance sql agent configuration. */
 export async function get(
   context: Client,

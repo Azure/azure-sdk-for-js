@@ -24,9 +24,10 @@ import type {
 } from "../../api/cloudAccounts/options.js";
 import type {
   CloudAccount,
-  CloudAccountUpdate,
   SaaSData,
   LatestLinkedSaaSResponse,
+  CloudAccountCreateOrUpdate,
+  CloudAccountUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -72,7 +73,7 @@ export interface CloudAccountsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     cloudAccountName: string,
-    resource: CloudAccount,
+    resource: CloudAccountCreateOrUpdate,
     options?: CloudAccountsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
   /** Get a CloudAccount */
@@ -116,7 +117,7 @@ function _getCloudAccounts(context: ContentStoreContext) {
     createOrUpdate: (
       resourceGroupName: string,
       cloudAccountName: string,
-      resource: CloudAccount,
+      resource: CloudAccountCreateOrUpdate,
       options?: CloudAccountsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, cloudAccountName, resource, options),
     get: (

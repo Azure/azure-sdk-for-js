@@ -14,7 +14,7 @@ import type {
   FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetOptionalParams,
 } from "../../api/firewallPolicyRuleCollectionGroups/options.js";
-import type { FirewallPolicyRuleCollectionGroup } from "../../models/microsoft/network/models.js";
+import type { FirewallPolicyRuleCollectionGroup } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

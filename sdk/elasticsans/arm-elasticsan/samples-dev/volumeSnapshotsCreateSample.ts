@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Volume Snapshot.
  *
  * @summary create a Volume Snapshot.
- * x-ms-original-file: 2025-09-01/VolumeSnapshots_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/VolumeSnapshots_Create_MaximumSet_Gen.json
  */
 async function volumeSnapshotsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function volumeSnapshotsCreateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to create a Volume Snapshot.
  *
  * @summary create a Volume Snapshot.
- * x-ms-original-file: 2025-09-01/VolumeSnapshots_Create_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/VolumeSnapshots_Create_MinimumSet_Gen.json
  */
 async function volumeSnapshotsCreateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

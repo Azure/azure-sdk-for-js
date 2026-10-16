@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of a session pool.
  *
  * @summary get the properties of a session pool.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_Get.json
+ * x-ms-original-file: 2026-07-01/SessionPools_Get.json
  */
 async function getSessionPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getSessionPool(): Promise<void> {
  * This sample demonstrates how to get the properties of a session pool.
  *
  * @summary get the properties of a session pool.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_Get_InProgress.json
+ * x-ms-original-file: 2026-07-01/SessionPools_Get_InProgress.json
  */
 async function getSessionPoolDuringUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

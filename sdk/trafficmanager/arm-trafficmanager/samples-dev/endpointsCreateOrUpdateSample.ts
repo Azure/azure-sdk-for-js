@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
  *
  * @summary create or update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PUT-External-WithAlwaysServe.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithAlwaysServe.json
  */
 async function endpointPUTExternalWithAlwaysServe(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function endpointPUTExternalWithAlwaysServe(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
  *
  * @summary create or update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PUT-External-WithCustomHeaders.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithCustomHeaders.json
  */
 async function endpointPUTExternalWithCustomHeaders(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function endpointPUTExternalWithCustomHeaders(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
  *
  * @summary create or update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PUT-External-WithGeoMapping.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithGeoMapping.json
  */
 async function endpointPUTExternalWithGeoMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -91,7 +91,7 @@ async function endpointPUTExternalWithGeoMapping(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
  *
  * @summary create or update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PUT-External-WithLocation.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithLocation.json
  */
 async function endpointPUTExternalWithLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -117,7 +117,7 @@ async function endpointPUTExternalWithLocation(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
  *
  * @summary create or update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PUT-External-WithSubnetMapping.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithSubnetMapping.json
  */
 async function endpointPUTExternalWithSubnetMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();

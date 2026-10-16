@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 export { listZones, $delete, update, createOrUpdate, get, list } from "./operations.js";
-export {
-  type ClustersListZonesOptionalParams,
-  type ClustersDeleteOptionalParams,
-  type ClustersUpdateOptionalParams,
-  type ClustersCreateOrUpdateOptionalParams,
-  type ClustersGetOptionalParams,
-  type ClustersListOptionalParams,
+export type {
+  ClustersListZonesOptionalParams,
+  ClustersDeleteOptionalParams,
+  ClustersUpdateOptionalParams,
+  ClustersCreateOrUpdateOptionalParams,
+  ClustersGetOptionalParams,
+  ClustersListOptionalParams,
 } from "./options.js";

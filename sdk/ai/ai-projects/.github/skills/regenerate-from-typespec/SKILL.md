@@ -23,8 +23,8 @@ description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec 
 
 - `git` on PATH.
 - `npm` on PATH.
-- The package dev dependency `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed. From the repository root, run `pnpm install` first if dependencies are not already installed.
-- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding.
+- The pinned `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed from its separate npm project. From the repository root, run `npm --prefix eng/common/tsp-client ci` if it is not already installed. The generation script invokes it with `npm --prefix ... exec`, so it does not need to be on `PATH`.
+- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding. After a package build, run `scripts/assert-clean-tree.ps1` from `sdk/ai/ai-projects/` instead: it removes the browser and react-native API diff reports that API extraction writes under `review/`, which are build output rather than leftover changes, and fails on anything else.
 
 ## Procedure
 
@@ -69,10 +69,12 @@ See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
 ### Step 3: Run the emitter
 
 ```powershell
-npm run generate:client
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
 ```
 
-This runs `tsp-client update -d && npm run format && dev-tool customization apply`. The emitter writes **directly into `generated/` and `src/`** — there is no `incoming/` snapshot. The next skill (`apply-post-emitter-edits`) inspects the resulting working-tree diff via `git diff` rather than a separate staging directory.
+See [scripts/generate-client.ps1](./scripts/generate-client.ps1). It is equivalent to `npm run generate:client` (`tsp-client update -d && npm run customize`), but invokes the separately pinned CLI with `npm --prefix eng/common/tsp-client exec` and runs `tsp-client sync` and `tsp-client generate` separately. Between them, it rewrites Azure Artifacts tarball URLs (`https://<host>/.../_packaging/<feed>/npm/registry/`) in the temporary `TempTypeSpecFiles/package-lock.json` to `https://registry.npmjs.org/`. The committed `eng/emitter-package-lock.json` can pin internal feeds such as `ms-feed-25.pkgs.visualstudio.com`, which the Copilot cloud agent firewall cannot resolve (`npm ci` fails with `ENOTFOUND`). Integrity hashes are unchanged, so npm still verifies every tarball, and the repository lockfile is never modified. Always use this script rather than `npm run generate:client` in the cloud agent. If it reports a remaining non-public host, stop and report it.
+
+The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
 
 ### Step 4: Restore the saved-yaml filename
 

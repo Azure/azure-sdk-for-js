@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update storage for a connectedEnvironment.
  *
  * @summary create or update storage for a connectedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();

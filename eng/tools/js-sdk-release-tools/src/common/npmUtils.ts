@@ -23,10 +23,12 @@ export function configureNpmFromRepo(sdkRepoPath: string): void {
     process.platform === "win32" ? ["/d", "/s", "/c", "npm", ...npmArgs] : npmArgs;
   const npmEnvironment = { ...process.env };
   for (const variableName of Object.keys(npmEnvironment)) {
-    if (variableName.toLowerCase() === "npm_config_registry") {
+    const normalizedName = variableName.toLowerCase();
+    if (normalizedName === "npm_config_registry" || normalizedName === "npm_config_userconfig") {
       delete npmEnvironment[variableName];
     }
   }
+  npmEnvironment.npm_config_userconfig = npmConfigPath;
   const result = spawnSync(command, commandArgs, {
     cwd: sdkRepoPath,
     encoding: "utf8",

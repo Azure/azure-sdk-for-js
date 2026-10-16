@@ -13,15 +13,18 @@ export type {
   ChatMessage,
   MessageContent,
   ChatRole,
+  ChatPermission,
   ChatRoom,
   ChatRoomMember,
   ChatUser,
   ChatUserUnion,
   ChatUserKind,
   HumanChatUser,
+  GenerateClientTokenResponse,
 } from "./models/index.js";
-export { KnownVersions } from "./models/index.js";
+export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models/index.js";
 export type {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,

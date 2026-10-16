@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all installed packages.
  *
  * @summary gets all installed packages.
- * x-ms-original-file: 2025-07-01-preview/contentPackages/GetPackages.json
+ * x-ms-original-file: 2025-10-01-preview/contentPackages/GetPackages.json
  */
 async function getAllAvailablePackages(): Promise<void> {
   const credential = new DefaultAzureCredential();

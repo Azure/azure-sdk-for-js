@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of diagnostics for a Container App Job.
  *
  * @summary get the list of diagnostics for a Container App Job.
- * x-ms-original-file: 2025-10-02-preview/Job_ListDetectors.json
+ * x-ms-original-file: 2026-07-01/Job_ListDetectors.json
  */
 async function getTheListOfAvailableDiagnosticDataForAContainerAppJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

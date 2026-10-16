@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added group state APIs to set or clear the current connection's group state, subscribe to group state changes, and read cached group state records.
+- Added `recovering` and `recovered` lifecycle events with `OnRecoveringArgs` and `OnRecoveredArgs` to observe reliable recovery of the same logical connection.
 
 ### Breaking Changes
 

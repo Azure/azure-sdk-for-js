@@ -286,10 +286,10 @@ export type AlertRuleKind = string;
 // @public
 export interface AlertRuleOperations {
     // @deprecated (undocumented)
-    beginTriggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<SimplePollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>>;
+    beginTriggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginTriggerRuleRunAndWait: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<AlertRuleUnion>;
-    triggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>;
+    beginTriggerRuleRunAndWait: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<void>;
+    triggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -3238,7 +3238,7 @@ export interface Job extends ProxyResource {
     readonly errorMessage?: string;
     etag?: string;
     items?: JobItem[];
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: JobProvisioningState;
     readonly startTime?: Date;
 }
 
@@ -3255,9 +3255,12 @@ export interface JobProperties {
     readonly endTime?: Date;
     readonly errorMessage?: string;
     items?: JobItem[];
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: JobProvisioningState;
     readonly startTime?: Date;
 }
+
+// @public
+export type JobProvisioningState = string;
 
 // @public
 export interface JwtAuthModel extends CcpAuthConfig {
@@ -3890,6 +3893,14 @@ export enum KnownIngestionMode {
 }
 
 // @public
+export enum KnownJobProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownKillChainIntent {
     Collection = "Collection",
     CommandAndControl = "CommandAndControl",
@@ -3938,6 +3949,12 @@ export enum KnownMatchingMethod {
     AllEntities = "AllEntities",
     AnyAlert = "AnyAlert",
     Selected = "Selected"
+}
+
+// @public
+export enum KnownMetadataDependencyOperator {
+    AND = "AND",
+    OR = "OR"
 }
 
 // @public
@@ -4052,6 +4069,12 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPullRequestState {
+    Closed = "Closed",
+    Open = "Open"
 }
 
 // @public
@@ -4239,7 +4262,8 @@ export enum KnownVersion {
 
 // @public
 export enum KnownVersions {
-    V20250701Preview = "2025-07-01-preview"
+    V20250901 = "2025-09-01",
+    V20251001Preview = "2025-10-01-preview"
 }
 
 // @public
@@ -4249,6 +4273,17 @@ export enum KnownWarningCode {
     SourceControlWarningDeleteRoleAssignment = "SourceControlWarning_DeleteRoleAssignment",
     SourceControlWarningDeleteServicePrincipal = "SourceControlWarning_DeleteServicePrincipal",
     SourceControlWarningDeleteWorkflowAndSecretFromGitHub = "SourceControlWarning_DeleteWorkflowAndSecretFromGitHub"
+}
+
+// @public
+export enum KnownWatchlistProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    New = "New",
+    Succeeded = "Succeeded",
+    Uploading = "Uploading"
 }
 
 // @public
@@ -4493,9 +4528,12 @@ export interface MetadataDependencies {
     criteria?: MetadataDependencies[];
     kind?: Kind;
     name?: string;
-    operator?: Operator;
+    operator?: MetadataDependencyOperator;
     version?: string;
 }
+
+// @public
+export type MetadataDependencyOperator = string;
 
 // @public
 export interface MetadataGetOptionalParams extends OperationOptions {
@@ -5590,9 +5628,12 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface PullRequest {
-    readonly state?: State;
+    readonly state?: PullRequestState;
     readonly url?: string;
 }
+
+// @public
+export type PullRequestState = string;
 
 // @public
 export interface PurviewAuditCheckRequirements extends DataConnectorsCheckRequirements {
@@ -7180,7 +7221,7 @@ export interface Watchlist extends ProxyResource {
     labels?: string[];
     numberOfLinesToSkip?: number;
     provider?: string;
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: WatchlistProvisioningState;
     rawContent?: string;
     source?: string;
     sourceType?: SourceType;
@@ -7260,7 +7301,7 @@ export interface WatchlistProperties {
     labels?: string[];
     numberOfLinesToSkip?: number;
     provider: string;
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: WatchlistProvisioningState;
     rawContent?: string;
     source?: string;
     sourceType?: SourceType;
@@ -7272,6 +7313,9 @@ export interface WatchlistProperties {
     watchlistId?: string;
     watchlistType?: string;
 }
+
+// @public
+export type WatchlistProvisioningState = string;
 
 // @public
 export interface WatchlistsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -7299,11 +7343,11 @@ export interface WatchlistsOperations {
     // @deprecated (undocumented)
     beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams) => Promise<Watchlist>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<Watchlist>, Watchlist>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<void>;
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<Watchlist>;
     createOrUpdate: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Watchlist>, Watchlist>;
-    delete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => PollerLike<OperationState<Watchlist>, Watchlist>;
     get: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsGetOptionalParams) => Promise<Watchlist>;
     list: (resourceGroupName: string, workspaceName: string, options?: WatchlistsListOptionalParams) => PagedAsyncIterableIterator<Watchlist>;
 }
@@ -7330,7 +7374,7 @@ export interface WorkspaceManagerAssignment extends ProxyResource {
     readonly etag?: string;
     items?: AssignmentItem[];
     readonly lastJobEndTime?: Date;
-    readonly lastJobProvisioningState?: ProvisioningState;
+    readonly lastJobProvisioningState?: JobProvisioningState;
     targetResourceName?: string;
 }
 
@@ -7365,7 +7409,7 @@ export interface WorkspaceManagerAssignmentJobsOperations {
 export interface WorkspaceManagerAssignmentProperties {
     items: AssignmentItem[];
     readonly lastJobEndTime?: Date;
-    readonly lastJobProvisioningState?: ProvisioningState;
+    readonly lastJobProvisioningState?: JobProvisioningState;
     targetResourceName: string;
 }
 

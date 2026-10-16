@@ -107,10 +107,7 @@ export class AuthenticationError extends Error {
     errorBody: object | string | undefined | null,
     options?: { cause?: unknown },
   ) {
-    let errorResponse: ErrorResponse = {
-      error: "unknown",
-      errorDescription: "An unknown error occurred and no additional details are available.",
-    };
+    let errorResponse: ErrorResponse;
 
     if (isErrorResponse(errorBody)) {
       errorResponse = convertOAuthErrorResponseToErrorResponse(errorBody);

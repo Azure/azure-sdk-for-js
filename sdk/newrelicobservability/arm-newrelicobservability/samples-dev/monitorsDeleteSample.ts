@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing New Relic monitor resource from your Azure subscription, removing the integration and stopping the observability of your Azure resources through New Relic
  *
  * @summary deletes an existing New Relic monitor resource from your Azure subscription, removing the integration and stopping the observability of your Azure resources through New Relic
- * x-ms-original-file: 2025-05-01-preview/Monitors_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_Delete_MaximumSet_Gen.json
  */
 async function monitorsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function monitorsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to deletes an existing New Relic monitor resource from your Azure subscription, removing the integration and stopping the observability of your Azure resources through New Relic
  *
  * @summary deletes an existing New Relic monitor resource from your Azure subscription, removing the integration and stopping the observability of your Azure resources through New Relic
- * x-ms-original-file: 2025-05-01-preview/Monitors_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_Delete_MinimumSet_Gen.json
  */
 async function monitorsDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

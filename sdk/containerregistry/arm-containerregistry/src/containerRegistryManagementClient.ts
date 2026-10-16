@@ -69,14 +69,7 @@ export class ContainerRegistryManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerRegistryManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerRegistryManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.webhooks = _getWebhooksOperations(this._client);
     this.pipelineRuns = _getPipelineRunsOperations(this._client);

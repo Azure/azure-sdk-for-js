@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a cache instance.
  *
  * @summary update a cache instance.
- * x-ms-original-file: 2026-01-01/Caches_Update.json
+ * x-ms-original-file: 2026-08-01/Caches_Update.json
  */
 async function cachesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -97,7 +97,7 @@ async function cachesUpdate(): Promise<void> {
  * This sample demonstrates how to update a cache instance.
  *
  * @summary update a cache instance.
- * x-ms-original-file: 2026-01-01/Caches_Update_ldap_only.json
+ * x-ms-original-file: 2026-08-01/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();

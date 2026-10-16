@@ -44,7 +44,6 @@ export interface DatabaseRecommendedActionsOperations {
     options?: DatabaseRecommendedActionsGetOptionalParams,
   ) => Promise<RecommendedAction>;
 }
-
 function _getDatabaseRecommendedActions(context: SqlManagementContext) {
   return {
     listByDatabaseAdvisor: (
@@ -100,7 +99,6 @@ function _getDatabaseRecommendedActions(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getDatabaseRecommendedActionsOperations(
   context: SqlManagementContext,
 ): DatabaseRecommendedActionsOperations {

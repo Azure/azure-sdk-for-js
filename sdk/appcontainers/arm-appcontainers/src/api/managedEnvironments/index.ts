@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  checkMigrationEligibility,
   listWorkloadProfileStates,
   getAuthToken,
   listBySubscription,
@@ -12,6 +13,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  ManagedEnvironmentsCheckMigrationEligibilityOptionalParams,
   ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
   ManagedEnvironmentsListBySubscriptionOptionalParams,

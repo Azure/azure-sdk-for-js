@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a hunt comment
  *
  * @summary gets a hunt comment
- * x-ms-original-file: 2025-07-01-preview/hunts/GetHuntCommentById.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/GetHuntCommentById.json
  */
 async function getAHuntComment(): Promise<void> {
   const credential = new DefaultAzureCredential();

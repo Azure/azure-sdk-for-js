@@ -321,6 +321,16 @@ export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
  */
 export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";
 /**
+ * OneSettings feature key that independently gates customer-facing SDK stats.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_CUSTOMER_SDK_STATS = "FEATURE_CUSTOMER_SDK_STATS";
+/**
+ * OneSettings feature key that gates offline telemetry storage and replay.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_LOCAL_STORAGE = "FEATURE_LOCAL_STORAGE";
+/**
  * Namespace targeting sent with OneSettings requests to select the Node.js configuration bucket.
  * @internal
  */

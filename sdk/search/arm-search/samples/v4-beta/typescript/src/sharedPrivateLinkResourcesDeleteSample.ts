@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary initiates the deletion of the shared private link resource from the search service.
  * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
  * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
- * x-ms-original-file: 2026-03-01-preview/DeleteSharedPrivateLinkResource.json
+ * x-ms-original-file: 2026-09-01-preview/DeleteSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

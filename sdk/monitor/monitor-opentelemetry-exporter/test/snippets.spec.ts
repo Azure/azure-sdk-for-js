@@ -86,7 +86,6 @@ describe("snippets", () => {
         "microsoft.availability.success": true,
         "microsoft.availability.runLocation": "westus2",
         "microsoft.availability.message": "HTTP 200",
-        "microsoft.availability.testTimestamp": new Date().toISOString(),
       },
     });
   });
