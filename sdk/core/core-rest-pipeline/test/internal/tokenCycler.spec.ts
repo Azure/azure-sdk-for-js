@@ -31,6 +31,75 @@ describe("tokenCycler", function () {
     await expect(getAccessToken(["scope"], {})).rejects.toThrow("Failed to refresh access token.");
   });
 
+  it("does not share an ordinary in-flight refresh with a claims challenge", async function () {
+    let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveClaim: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const ordinaryToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveOrdinary = resolve;
+      },
+    );
+    const claimToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaim = resolve;
+    });
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, options) =>
+      options?.claims === "claim-A" ? claimToken : ordinaryToken,
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const ordinaryRefresh = getAccessToken(["scope"], { enableCae: true });
+    const claimsRefresh = getAccessToken(["scope"], { enableCae: true, claims: "claim-A" });
+
+    expect(getToken).toHaveBeenCalledTimes(2);
+    expect(getToken).toHaveBeenNthCalledWith(2, ["scope"], { enableCae: true, claims: "claim-A" });
+
+    resolveClaim!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsRefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    resolveOrdinary!({ token: "ordinary", expiresOnTimestamp: Date.now() + 60_000 });
+    await expect(ordinaryRefresh).resolves.toMatchObject({ token: "ordinary" });
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
+  it("deduplicates identical claims refreshes but keeps different claims isolated", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveClaimB: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimB = resolve;
+    });
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, options) => {
+      if (options?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (options?.claims === "claim-B") {
+        return claimBToken;
+      }
+      throw new Error("unexpected token request");
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const firstClaimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const secondClaimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+
+    expect(getToken).toHaveBeenCalledTimes(2);
+
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 60_000 });
+    await expect(firstClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+    await expect(secondClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    resolveClaimB!({ token: "claim-B", expiresOnTimestamp: Date.now() + 60_000 });
+    await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
   it("retries in the while loop when getToken throws before timeout, then succeeds", async function () {
     // To cover lines 68 (catch block) and 85-87 (while loop):
     // Need: an existing token whose expiry is in the future but within forcedRefreshWindow
