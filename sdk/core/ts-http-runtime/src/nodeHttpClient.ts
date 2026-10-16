@@ -577,10 +577,13 @@ function pipeResponse(source: NodeJS.ReadableStream, destination: Transform): vo
   const onError = (error: Error): void => {
     destination.destroy(error);
   };
+  const removeErrorListener = (): void => {
+    source.removeListener("error", onError);
+  };
   source.on("error", onError);
+  source.once("close", removeErrorListener);
   destination.once("close", () => {
     source.unpipe(destination);
-    source.removeListener("error", onError);
     if (source.readable) destroyBodyStream(source);
   });
   source.pipe(destination);

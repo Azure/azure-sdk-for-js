@@ -6,7 +6,7 @@ import http from "node:http";
 import https from "node:https";
 import { performance } from "node:perf_hooks";
 import { Readable, Writable } from "node:stream";
-import { gzipSync, deflateSync } from "node:zlib";
+import { createGzip, gzipSync, deflateSync } from "node:zlib";
 import type { LookupFunction } from "node:net";
 import { HttpProxyAgent } from "http-proxy-agent";
 import { HttpsProxyAgent } from "https-proxy-agent";
@@ -415,6 +415,35 @@ describe("Expect: 100-continue on the wire", () => {
     await expect(reading).rejects.toMatchObject({ name: "AbortError" });
     expect(source.destroyed).toBe(false);
     source.destroy();
+  });
+
+  it("handles aborting a compressed streamed response with download progress", async () => {
+    const fixture = await setup();
+    const gzip = createGzip();
+    gzip.on("error", () => {});
+    fixture.server.on("checkContinue", (_incoming, response) => {
+      response.writeHead(417, { "Content-Encoding": "gzip" });
+      gzip.pipe(response);
+      gzip.write("waiting");
+      gzip.flush();
+    });
+    const controller = new AbortController();
+    const response = await createDefaultHttpClient().sendRequest(
+      pipelineRequest(fixture, {
+        body: "body",
+        abortSignal: controller.signal,
+        headers: createHttpHeaders({
+          Expect: "100-continue",
+          "Accept-Encoding": "gzip",
+        }),
+        onDownloadProgress: vi.fn(),
+        streamResponseStatusCodes: new Set([417]),
+      }),
+    );
+    const reading = readText(response.readableStreamBody!);
+    controller.abort();
+    await expect(reading).rejects.toMatchObject({ name: "AbortError" });
+    gzip.destroy();
   });
 
   it("does not pause a caller-owned source again after an early response completes", async () => {
