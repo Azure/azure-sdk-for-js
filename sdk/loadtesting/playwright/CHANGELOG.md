@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed `globalSetup` and `globalTeardown` resolution for installed packages whose consumer path contains a `src` directory.
+
 ### Other Changes
 
 - Replaced shell command strings with safe, structured process execution.
