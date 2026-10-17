@@ -1,5 +1,19 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+- Added opt-in, experimental JS-only authenticated type markers through `ClientEncryptionOptions.experimental.encryptedValueFormat: "authenticatedType"`. Selecting this format rejects legacy encrypted values by default; explicit `legacyValueReadPolicy: "allow"` is available for controlled migration and retains the legacy integrity limitation. Clients without the format opt-in preserve legacy ciphertext bytes and allow legacy reads. Combining legacy writes with strict reads fails at client construction. This prototype is not a production or cross-language format and does not change container encryption policies.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Automatically identify clients configured for client-side encryption with an `azure-cosmos-js-encryption/<SDKVersion>` user-agent marker, preserving customer suffixes and applying to both encrypted-value formats. [#40328](https://github.com/Azure/azure-sdk-for-js/pull/40328)
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
