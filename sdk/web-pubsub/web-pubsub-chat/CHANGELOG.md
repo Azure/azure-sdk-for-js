@@ -4,7 +4,11 @@
 
 ### Features Added
 
+- Added support for service API version `2026-08-01-preview`, including listing rooms, users, and a user's rooms, and creating, retrieving, updating, listing, and soft deleting room topics. [API specification](https://github.com/Azure/azure-rest-api-specs/pull/46545)
+
 ### Breaking Changes
+
+- Changed the default Chat service API version from `2026-02-01-preview` to `2026-08-01-preview`. Set `apiVersion` in the client options to explicitly select the previous version. [API specification](https://github.com/Azure/azure-rest-api-specs/pull/46545)
 
 ### Bugs Fixed
 

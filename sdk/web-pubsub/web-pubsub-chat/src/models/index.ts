@@ -10,6 +10,10 @@ export type {
   ChatRoleInput,
   ChatPermission,
   ChatRoom,
+  ChatTopic,
+  ChatTopicInput,
+  ChatTopicUpdate,
+  ChatTopicState,
   ChatRoomInput,
   ChatRoomMember,
   ChatRoomMemberInput,
@@ -20,5 +24,6 @@ export type {
   ChatUserKind,
   HumanChatUserInput,
   HumanChatUser,
+  ChatUserRoom,
 } from "./models.js";
-export { KnownChatPermission, KnownVersions } from "./models.js";
+export { KnownChatPermission, KnownChatTopicState, KnownVersions } from "./models.js";

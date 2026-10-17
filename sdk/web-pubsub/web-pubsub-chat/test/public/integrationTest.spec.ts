@@ -6,7 +6,7 @@ import {
   isPlaybackMode,
   type Recorder,
 } from "@azure-tools/test-recorder";
-import { KnownChatPermission, WebPubSubChatServiceClient } from "../../src/index.js";
+import { KnownChatPermission, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { createRecorder } from "./utils/recordedClient.js";
 import { createChatMessage } from "./utils/chatClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";

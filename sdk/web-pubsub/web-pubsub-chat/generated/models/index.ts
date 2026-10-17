@@ -8,11 +8,18 @@ export type {
   ChatRole,
   ChatPermission,
   ChatRoom,
+  ChatTopic,
+  ChatTopicState,
   ChatRoomMember,
   ChatUser,
   ChatUserUnion,
   ChatUserKind,
   HumanChatUser,
-  GenerateClientTokenResponse,
+  ChatUserRoom,
 } from "./models.js";
-export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models.js";
+export {
+  KnownChatPermission,
+  KnownChatTopicState,
+  KnownChatUserKind,
+  KnownVersions,
+} from "./models.js";

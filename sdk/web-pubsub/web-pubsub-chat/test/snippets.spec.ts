@@ -5,6 +5,7 @@ import {
   AzureKeyCredential,
   BuiltInChatRoles,
   KnownChatPermission,
+  KnownChatTopicState,
   WebPubSubChatServiceClient,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -163,6 +164,124 @@ describe("snippets", () => {
       "<hubName>",
     );
     const accessToken = await client.getClientAccessToken({ userId: "alice" });
+  });
+
+  it("ReadmeSampleListRooms", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    for await (const room of client.listRooms({ maxPageSize: 20 })) {
+      console.log(`${room.id}: ${room.title}`);
+    }
+  });
+
+  it("ReadmeSampleListUsers", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    for await (const user of client.listUsers({ maxPageSize: 20 })) {
+      console.log(`${user.id}: ${user.nickname}`);
+    }
+  });
+
+  it("ReadmeSampleListRoomsForUser", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    for await (const room of client.listRoomsForUser("alice", { maxPageSize: 20 })) {
+      console.log(`${room.id}: ${room.title}`);
+    }
+  });
+
+  it("ReadmeSampleListTopics", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    for await (const topic of client.listTopics("general", { maxPageSize: 20 })) {
+      console.log(`${topic.id}: ${topic.title} (${topic.state})`);
+    }
+  });
+
+  it("ReadmeSampleCreateTopic", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const topic = await client.createOrReplaceTopic(
+      "general",
+      "announcements",
+      {
+        title: "Announcements",
+      },
+      { ifNoneMatch: "*" },
+    );
+    console.log(`Topic conversation: ${topic.conversationId}`);
+  });
+
+  it("ReadmeSampleGetTopic", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const topic = await client.getTopic("general", "announcements");
+    console.log(`${topic.title}: ${topic.state}, ETag: ${topic.etag}`);
+  });
+
+  it("ReadmeSampleUpdateTopic", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const topic = await client.updateTopic(
+      "general",
+      "announcements",
+      {
+        state: KnownChatTopicState.Archived,
+      },
+      { ifMatch: "<etag>" },
+    );
+    console.log(`Topic state: ${topic.state}`);
+  });
+
+  it("ReadmeSampleDeleteTopic", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    await client.deleteTopic("general", "announcements", { ifMatch: "<etag>" });
+  });
+
+  it("ReadmeSampleTopicPages", async () => {
+    const client = new WebPubSubChatServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
+    const pages = client.listTopics("general", { maxPageSize: 20 }).byPage();
+    const firstPage = await pages.next();
+    if (!firstPage.done) {
+      console.log(firstPage.value);
+      const continuationToken = firstPage.value.continuationToken;
+      if (continuationToken) {
+        const resumedPages = client
+          .listTopics("general", { maxPageSize: 20 })
+          .byPage({ continuationToken });
+        const nextPage = await resumedPages.next();
+        console.log(nextPage.value);
+      }
+    }
   });
 
   it("SetLogLevel", async () => {

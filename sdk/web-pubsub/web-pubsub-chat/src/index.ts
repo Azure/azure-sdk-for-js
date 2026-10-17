@@ -3,7 +3,7 @@
 
 /**
  * The Azure Web PubSub Chat client library enables server applications to manage chat roles,
- * users, rooms, room membership, conversations, and messages in an Azure Web PubSub Chat hub.
+ * users, rooms, topics, room membership, conversations, and messages in an Azure Web PubSub Chat hub.
  *
  * @packageDocumentation
  */
@@ -28,6 +28,11 @@ export type {
   ChatPermission,
   ChatRoom,
   ChatRoomInput,
+  ChatTopic,
+  ChatTopicInput,
+  ChatTopicUpdate,
+  ChatTopicState,
+  ChatUserRoom,
   ChatRoomMember,
   ChatRoomMemberInput,
   ChatUser,
@@ -38,11 +43,19 @@ export type {
   HumanChatUserInput,
   HumanChatUser,
 } from "./models/index.js";
-export { KnownChatPermission, KnownVersions } from "./models/index.js";
+export { KnownChatPermission, KnownChatTopicState, KnownVersions } from "./models/index.js";
 export type {
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
+  ListUsersOptionalParams,
+  ListRoomsOptionalParams,
+  ListRoomsForUserOptionalParams,
+  ListTopicsOptionalParams,
+  CreateOrReplaceTopicOptionalParams,
+  GetTopicOptionalParams,
+  UpdateTopicOptionalParams,
+  DeleteTopicOptionalParams,
   DeleteRoomMemberOptionalParams,
   CreateOrReplaceRoomMemberOptionalParams,
   ListRoomMembersOptionalParams,
