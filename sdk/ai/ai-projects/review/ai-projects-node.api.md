@@ -145,7 +145,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview" | "MicrosoftCopilot=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition | VoiceAgentDefinition;
@@ -186,7 +186,7 @@ export interface AgentHarness {
 }
 
 // @public
-export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
+export type AgentHarnessUnion = MicrosoftCopilotHarness | GitHubCopilotHarness | AgentHarness;
 
 // @public
 export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
@@ -2434,9 +2434,9 @@ export interface CreateSkillVersionFromFilesBody {
 }
 
 // @public
-export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+export interface CreateTeamsPhoneExtensibilityTelephonyBindingRequest extends CreateTelephonyBindingRequest {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
@@ -2448,7 +2448,7 @@ export interface CreateTelephonyBindingRequest {
 }
 
 // @public
-export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensionTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateTelephonyBindingRequest;
+export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensibilityTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateTelephonyBindingRequest;
 
 // @public
 export interface CreateTelephonyCallJobRequest {
@@ -3387,7 +3387,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview" | "FineTuningSessions=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -4134,6 +4134,32 @@ export interface Microsoft365PublishResponse {
 
 // @public
 export type Microsoft365PublishScope = "Personal" | "Shared" | "Tenant";
+
+// @public
+export type MicrosoftCopilotBuiltInTool = "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+// @public
+export interface MicrosoftCopilotHarness extends AgentHarness {
+    type: "microsoft_copilot_preview";
+}
+
+// @public
+export interface MicrosoftCopilotToolsetConfig {
+    enabled?: boolean;
+    name: MicrosoftCopilotBuiltInTool;
+}
+
+// @public
+export interface MicrosoftCopilotToolsetDefaultConfig {
+    enabled?: boolean;
+}
+
+// @public
+export interface MicrosoftCopilotToolsetPreview extends Tool {
+    configs?: MicrosoftCopilotToolsetConfig[];
+    default_config?: MicrosoftCopilotToolsetDefaultConfig;
+    type: "microsoft_copilot_toolset_preview";
+}
 
 // @public
 export interface MicrosoftFabricPreviewTool extends Tool {
@@ -5799,16 +5825,16 @@ export interface TaxonomySubCategory {
 }
 
 // @public
-export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
+export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBinding {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
 // @public
-export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
+export interface TeamsPhoneExtensibilityTelephonyBindingListItem extends TelephonyBindingListItem {
     phone_number?: string;
-    provider: "teams_phone_extension";
+    provider: "teams_phone_extensibility";
     resource_account_object_id: string;
 }
 
@@ -5880,13 +5906,13 @@ export interface TelephonyBindingListItem {
 }
 
 // @public
-export type TelephonyBindingListItemUnion = TeamsPhoneExtensionTelephonyBindingListItem | TwilioTelephonyBindingListItem | TelephonyBindingListItem;
+export type TelephonyBindingListItemUnion = TeamsPhoneExtensibilityTelephonyBindingListItem | TwilioTelephonyBindingListItem | TelephonyBindingListItem;
 
 // @public
 export type TelephonyBindingStatus = "active" | "suspended";
 
 // @public
-export type TelephonyBindingUnion = TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+export type TelephonyBindingUnion = TeamsPhoneExtensibilityTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
 
 // @public
 export type TelephonyCallDurationBasis = "answered" | "received";
@@ -5962,7 +5988,7 @@ export type TelephonyCallLifecycleEventOutcome = "observed" | "started" | "succe
 export type TelephonyCallLifecycleEventReason = "invalid_webhook_payload" | "webhook_validation_failed" | "binding_not_found" | "binding_suspended" | "admission_rejected" | "admission_check_failed" | "route_agent_mismatch" | "invalid_binding_configuration" | "credential_resolution_failed" | "provider_resource_mismatch" | "endpoint_resolution_failed" | "ingress_setup_failed" | "live_call_conflict" | "live_call_persistence_failed" | "answer_failed" | "provider_disconnected" | "provider_busy" | "provider_no_answer" | "provider_cancelled" | "provider_failed" | "provider_stream_error" | "provider_stream_stopped" | "agent_session_connect_failed" | "media_stream_ended" | "bridge_cancelled" | "bridge_failed" | "managed_hangup" | "managed_transfer" | "manage_hangup_failed" | "manage_transfer_failed" | string;
 
 // @public
-export type TelephonyCallLifecycleEventSource = "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
+export type TelephonyCallLifecycleEventSource = "gateway" | "teams_phone_extensibility" | "twilio" | "voice_agent";
 
 // @public
 export type TelephonyCallPhase = "received" | "validated" | "admitted" | "answering" | "answered" | "media_connected" | "agent_session_ready" | "bridging" | "managing" | "completed" | "rejected" | "failed";
@@ -6078,7 +6104,7 @@ export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 export type TelephonyOutboundRetryPolicyUnion = TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
 
 // @public
-export type TelephonyProvider = "teams_phone_extension" | "twilio";
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
 
 // @public
 export interface TelephonyTransferDestination {
@@ -6441,10 +6467,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation" | "microsoft_copilot_toolset_preview";
 
 // @public
-export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | MicrosoftCopilotToolsetPreview;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
@@ -7062,18 +7088,14 @@ export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFa
 export type VoiceAgentRealtimeEvent = VoiceAgentServerEvent | VoiceAgentUnknownEvent;
 
 // @public
-export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+export interface VoiceAgentRealtimeResponse {
     audio?: VoiceResponseAudio;
-    output?: RealtimeConversationItemUnion[];
-}
-
-// @public
-export interface VoiceAgentRealtimeResponseBase {
     conversation_id?: string;
     id?: string;
     max_output_tokens?: number | "inf";
     metadata?: Metadata;
     object?: "realtime.response";
+    output?: RealtimeConversationItemUnion[];
     output_modalities?: ("text" | "audio")[];
     status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
     status_details?: RealtimeResponseStatusDetails;
@@ -7610,15 +7632,21 @@ export interface VoiceRecordingChannelLayout {
 }
 
 // @public
-export interface VoiceResponse extends VoiceResponseBase {
+export interface VoiceResponse {
     audio?: VoiceResponseAudio;
     completed_at?: Date;
-    conversation_id: string;
+    conversation_id?: string;
     created_at?: Date;
-    id: string;
-    metadata?: Record<string, string>;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    metadata?: Metadata;
+    object?: "realtime.response";
     output?: RealtimeConversationItemUnion[];
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
     temperature?: number;
+    usage?: RealtimeResponseUsage;
 }
 
 // @public
@@ -7632,16 +7660,6 @@ export interface VoiceResponseAudioOutput {
     voice?: string;
     voice_locale?: string;
     voice_type?: VoiceType;
-}
-
-// @public
-export interface VoiceResponseBase {
-    max_output_tokens?: number | "inf";
-    object?: "realtime.response";
-    output_modalities?: ("text" | "audio")[];
-    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-    status_details?: RealtimeResponseStatusDetails;
-    usage?: RealtimeResponseUsage;
 }
 
 // @public

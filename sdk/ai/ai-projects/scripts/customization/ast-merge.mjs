@@ -139,7 +139,11 @@ register(["CaseClause", "DefaultClause"], { expression: "atomic", statements: "s
  * unambiguous order, except disjoint named object additions made of literals
  * and plain data reads. Those retain their baseline insertion regions, then
  * prefer custom before incoming; any spreads must be existing unchanged
- * anchors. Positional lists also require unchanged arity. Union/type members
+ * anchors. An object whose members are all emitter-generated converter
+ * mappings (data reads plus generated converter calls and conversions, with
+ * no spreads) has presentation-only order: additions qualify the same way, and
+ * contradictory custom/incoming orders keep the custom order after merging by
+ * identity. Positional lists also require unchanged arity. Union/type members
  * and terminal, literal switch cases allow independent additions. Union and
  * terminal-case presentation order cannot introduce a semantic conflict.
  * Concurrent call/assignment/branch edits require stable targets/conditions.
@@ -734,7 +738,8 @@ function mergeOrder(maps, live, allowTie, state, path, priorities, orderIndepend
     const ready = [...pending].filter((key) => indegree.get(key) === 0);
     if (!ready.length && orderIndependent) {
       // Content was merged by identity already. Contradictory presentation
-      // orders are harmless for unions and validated terminal literal cases.
+      // orders are harmless for unions, validated terminal literal cases, and
+      // converter mappings; the customized order is kept.
       const preferred = [...new Set(maps.flatMap((map) => [...map.keys()]))].filter((key) =>
         live.has(key),
       );
@@ -760,7 +765,115 @@ function mergeOrder(maps, live, allowTie, state, path, priorities, orderIndepend
   return order;
 }
 
-function isDataMappingValue(node) {
+// The emitter's model converters compute every wire/model field independently
+// from their input, so the order of their return-object members is presentation
+// only. Beyond plain data reads, a "converter" mapping may use exactly the
+// expression forms the emitter generates: guards and conversions over reads,
+// generated converter calls, and the few helpers and builtins it relies on.
+// This is deliberately a closed vocabulary, not a purity analysis of calls.
+const converterCallee = /(?:Serializer|Deserializer)$/;
+const converterHelpers = new Set(["serializeRecord", "uint8ArrayToString", "stringToUint8Array"]);
+const converterOperators = new Set(
+  [
+    "EqualsEqualsEqualsToken",
+    "ExclamationEqualsEqualsToken",
+    "BarBarToken",
+    "AmpersandAmpersandToken",
+    "QuestionQuestionToken",
+    "AsteriskToken",
+    "SlashToken",
+    "BarToken",
+  ].map((kind) => ts.SyntaxKind[kind]),
+);
+
+function isConverterArrow(node) {
+  if (
+    !ts.isArrowFunction(node) ||
+    node.modifiers?.length ||
+    node.typeParameters?.length ||
+    !node.parameters.every(
+      (parameter) =>
+        !parameter.initializer &&
+        !parameter.dotDotDotToken &&
+        (ts.isIdentifier(parameter.name) ||
+          (ts.isArrayBindingPattern(parameter.name) &&
+            parameter.name.elements.every(
+              (element) =>
+                ts.isBindingElement(element) &&
+                ts.isIdentifier(element.name) &&
+                !element.initializer &&
+                !element.dotDotDotToken,
+            ))),
+    )
+  ) {
+    return false;
+  }
+  if (!ts.isBlock(node.body)) return isDataMappingValue(node.body, true);
+  const [statement, ...rest] = node.body.statements;
+  return (
+    !rest.length &&
+    statement !== undefined &&
+    ts.isReturnStatement(statement) &&
+    statement.expression !== undefined &&
+    isDataMappingValue(statement.expression, true)
+  );
+}
+
+function isConverterCall(node) {
+  const converter = (value) => isDataMappingValue(value, true);
+  const callee = node.expression;
+  if (node.questionDotToken || node.typeArguments?.length) return false;
+  if (ts.isIdentifier(callee)) {
+    return (
+      (converterCallee.test(callee.text) || converterHelpers.has(callee.text)) &&
+      node.arguments.every(converter)
+    );
+  }
+  if (!ts.isPropertyAccessExpression(callee) || callee.questionDotToken) return false;
+  const method = callee.name.text;
+  if (ts.isIdentifier(callee.expression) && callee.expression.text === "Object") {
+    return (
+      (method === "entries" || method === "fromEntries") &&
+      node.arguments.length === 1 &&
+      converter(node.arguments[0])
+    );
+  }
+  if (!converter(callee.expression)) return false;
+  if (method === "map") return node.arguments.length === 1 && isConverterArrow(node.arguments[0]);
+  return (method === "getTime" || method === "toISOString") && node.arguments.length === 0;
+}
+
+function isConverterValue(node) {
+  const converter = (value) => isDataMappingValue(value, true);
+  switch (node.kind) {
+    case ts.SyntaxKind.ConditionalExpression:
+      return converter(node.condition) && converter(node.whenTrue) && converter(node.whenFalse);
+    case ts.SyntaxKind.PrefixUnaryExpression:
+      return node.operator === ts.SyntaxKind.ExclamationToken && converter(node.operand);
+    case ts.SyntaxKind.TypeOfExpression:
+      return converter(node.expression);
+    case ts.SyntaxKind.BinaryExpression:
+      return (
+        converterOperators.has(node.operatorToken.kind) &&
+        converter(node.left) &&
+        converter(node.right)
+      );
+    case ts.SyntaxKind.NewExpression:
+      return (
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === "Date" &&
+        node.arguments?.length === 1 &&
+        converter(node.arguments[0])
+      );
+    case ts.SyntaxKind.CallExpression:
+      return isConverterCall(node);
+    default:
+      return false;
+  }
+}
+
+function isDataMappingValue(node, converter = false) {
+  const value = (child) => isDataMappingValue(child, converter);
   switch (node.kind) {
     case ts.SyntaxKind.Identifier:
     case ts.SyntaxKind.ThisKeyword:
@@ -773,10 +886,10 @@ function isDataMappingValue(node) {
     case ts.SyntaxKind.NullKeyword:
       return true;
     case ts.SyntaxKind.PropertyAccessExpression:
-      return isDataMappingValue(node.expression);
+      return value(node.expression);
     case ts.SyntaxKind.ElementAccessExpression:
       return (
-        isDataMappingValue(node.expression) &&
+        value(node.expression) &&
         (ts.isStringLiteral(node.argumentExpression) ||
           ts.isNumericLiteral(node.argumentExpression))
       );
@@ -785,22 +898,23 @@ function isDataMappingValue(node) {
     case ts.SyntaxKind.SatisfiesExpression:
     case ts.SyntaxKind.TypeAssertionExpression:
     case ts.SyntaxKind.NonNullExpression:
-      return isDataMappingValue(node.expression);
+      return value(node.expression);
     case ts.SyntaxKind.PrefixUnaryExpression:
       return (
-        ts.isNumericLiteral(node.operand) &&
-        [ts.SyntaxKind.PlusToken, ts.SyntaxKind.MinusToken].includes(node.operator)
+        (ts.isNumericLiteral(node.operand) &&
+          [ts.SyntaxKind.PlusToken, ts.SyntaxKind.MinusToken].includes(node.operator)) ||
+        (converter && isConverterValue(node))
       );
     case ts.SyntaxKind.ArrayLiteralExpression:
-      return node.elements.every(isDataMappingValue);
+      return node.elements.every(value);
     case ts.SyntaxKind.ObjectLiteralExpression:
-      return node.properties.every(isDataMappingProperty);
+      return node.properties.every((property) => isDataMappingProperty(property, converter));
     default:
-      return false;
+      return converter && isConverterValue(node);
   }
 }
 
-function isDataMappingProperty(node) {
+function isDataMappingProperty(node, converter = false) {
   const name = node.name;
   if (!name || !(ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name))) {
     return false;
@@ -809,11 +923,11 @@ function isDataMappingProperty(node) {
   return (
     ts.isPropertyAssignment(node) &&
     staticName(name) !== "__proto__" &&
-    isDataMappingValue(node.initializer)
+    isDataMappingValue(node.initializer, converter)
   );
 }
 
-function canTieObjectAdditions(ready, pending, [before, ours, theirs]) {
+function canTieObjectAdditions(ready, pending, [before, ours, theirs], converter = false) {
   if ([...before.keys()].some((key) => !ours.has(key) && !theirs.has(key))) {
     return false;
   }
@@ -823,7 +937,7 @@ function canTieObjectAdditions(ready, pending, [before, ours, theirs]) {
     if (
       !before.has(key) &&
       (!ours.has(key) || !theirs.has(key)) &&
-      !isDataMappingProperty(ours.get(key) ?? theirs.get(key))
+      !isDataMappingProperty(ours.get(key) ?? theirs.get(key), converter)
     ) {
       return false;
     }
@@ -831,7 +945,7 @@ function canTieObjectAdditions(ready, pending, [before, ours, theirs]) {
   const names = [];
   for (const key of ready) {
     const node = ours.get(key) ?? theirs.get(key);
-    if (before.has(key) || !isDataMappingProperty(node)) {
+    if (before.has(key) || !isDataMappingProperty(node, converter)) {
       return false;
     }
     names.push(staticName(node.name));
@@ -966,9 +1080,20 @@ function mergeList(base, custom, incoming, owners, mode, path, state) {
   const unordered = mode === "members" || mode === "union" || mode === "cases";
   const fixedSpreadBoundaries =
     spreadAnchors || ![base, custom, incoming].some((nodes) => nodes.some(ts.isSpreadAssignment));
+  // Every member of every version is a converter mapping, so presentation order
+  // cannot change what is computed. A baseline member replaced differently by
+  // both sides is still ambiguous, exactly as for additions.
+  const converterMembers =
+    objectMembers &&
+    [base, custom, incoming].every((nodes) =>
+      nodes.every((node) => isDataMappingProperty(node, true)),
+    );
+  const replaced = [...before.keys()].some((key) => !ours.has(key) && !theirs.has(key));
   const allowTie = (ready, pending) =>
     unordered ||
-    (objectMembers && fixedSpreadBoundaries && canTieObjectAdditions(ready, pending, maps));
+    (objectMembers &&
+      fixedSpreadBoundaries &&
+      canTieObjectAdditions(ready, pending, maps, converterMembers));
   const priorities = objectMembers ? insertionPriorities(before, [ours, theirs]) : new Map();
   const order = mergeOrder(
     [ours, theirs],
@@ -977,7 +1102,7 @@ function mergeList(base, custom, incoming, owners, mode, path, state) {
     state,
     path,
     priorities,
-    mode === "union" || mode === "cases",
+    mode === "union" || mode === "cases" || (converterMembers && !replaced),
   );
   if (order === conflict) return conflict;
   const delimiterMode =
@@ -1072,6 +1197,33 @@ function mergeNode(base, custom, incoming, path, state) {
   return render(template.value, parts, custom, state, path);
 }
 
+let conflictSink = null;
+
+/**
+ * Keep the customized declaration whenever a merge is rejected, recording each
+ * rejection in `sink`, instead of reporting it as a diagnostic. This is the
+ * additions-only fallback for recovery runs; the caller owns reviewing every
+ * recorded entry. Pass `null` to restore the strict default.
+ *
+ * @param {object[] | null} sink
+ */
+export function retainCustomizedOnConflict(sink) {
+  conflictSink = sink;
+}
+
+/**
+ * Record an unresolved change whose customized form is kept. Returns false,
+ * recording nothing, when recovery is off and the caller must report it.
+ *
+ * @param {object} entry
+ * @returns {boolean}
+ */
+export function retainCustomized(entry) {
+  if (!conflictSink) return false;
+  conflictSink.push(entry);
+  return true;
+}
+
 /**
  * Merge one top-level TypeScript declaration or statement from each side.
  * Exported functions never read or write project files.
@@ -1083,6 +1235,20 @@ function mergeNode(base, custom, incoming, path, state) {
  * @returns {{ text: string | null, diagnostics: Diagnostic[] }}
  */
 export function mergeDeclaration(baseText, customText, incomingText, context = {}) {
+  const merged = mergeStrict(baseText, customText, incomingText, context);
+  if (merged.text !== null || !merged.diagnostics.length) return merged;
+  const retained = retainCustomized({
+    file: context.file,
+    declaration: context.declaration,
+    diagnostics: merged.diagnostics,
+    baseText,
+    customText,
+    incomingText,
+  });
+  return retained ? { text: customText, diagnostics: [] } : merged;
+}
+
+function mergeStrict(baseText, customText, incomingText, context) {
   /** @type {Diagnostic[]} */
   const diagnostics = [];
   const state = {
