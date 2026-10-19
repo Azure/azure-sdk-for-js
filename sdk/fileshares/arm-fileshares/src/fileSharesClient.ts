@@ -1,31 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  FileSharesContext,
-  FileSharesClientOptionalParams,
-  createFileShares,
-} from "./api/index.js";
-import {
-  FileShareSnapshotsOperations,
-  _getFileShareSnapshotsOperations,
-} from "./classic/fileShareSnapshots/index.js";
-import { FileSharesOperations, _getFileSharesOperations } from "./classic/fileShares/index.js";
-import {
-  InformationalOperationsOperations,
-  _getInformationalOperationsOperations,
-} from "./classic/informationalOperations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { FileSharesContext, FileSharesClientOptionalParams } from "./api/index.js";
+import { createFileShares } from "./api/index.js";
+import type { FileShareSnapshotsOperations } from "./classic/fileShareSnapshots/index.js";
+import { _getFileShareSnapshotsOperations } from "./classic/fileShareSnapshots/index.js";
+import type { FileSharesOperations } from "./classic/fileShares/index.js";
+import { _getFileSharesOperations } from "./classic/fileShares/index.js";
+import type { InformationalOperationsOperations } from "./classic/informationalOperations/index.js";
+import { _getInformationalOperationsOperations } from "./classic/informationalOperations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { FileSharesClientOptionalParams } from "./api/fileSharesContext.js";
 
@@ -55,14 +46,7 @@ export class FileSharesClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createFileShares(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createFileShares(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
