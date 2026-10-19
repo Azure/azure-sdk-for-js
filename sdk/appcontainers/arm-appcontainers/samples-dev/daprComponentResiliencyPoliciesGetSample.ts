@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a Dapr component resiliency policy.
+ * This sample demonstrates how to gets the details of a resiliency policy for a Dapr component.
  *
- * @summary get a Dapr component resiliency policy.
- * x-ms-original-file: 2025-10-02-preview/DaprComponentResiliencyPolicies_Get.json
+ * @summary gets the details of a resiliency policy for a Dapr component.
+ * x-ms-original-file: 2026-07-01/DaprComponentResiliencyPolicies_Get.json
  */
 async function getDaprComponentResiliencyPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers playbook on a specific incident
  *
  * @summary triggers playbook on a specific incident
- * x-ms-original-file: 2025-07-01-preview/manualTrigger/Incidents_RunPlaybook.json
+ * x-ms-original-file: 2025-10-01-preview/manualTrigger/Incidents_RunPlaybook.json
  */
 async function incidentsRunPlaybook() {
   const credential = new DefaultAzureCredential();

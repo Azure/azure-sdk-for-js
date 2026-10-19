@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to schedule a maintenance
  *
  * @summary schedule a maintenance
- * x-ms-original-file: 2025-09-01/Maintenances_Schedule.json
+ * x-ms-original-file: 2026-03-01/Maintenances_Schedule.json
  */
 async function maintenancesSchedule(): Promise<void> {
   const credential = new DefaultAzureCredential();

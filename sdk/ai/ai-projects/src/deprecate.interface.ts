@@ -8,11 +8,23 @@ import type {
   TextResponseFormatUnion,
 } from "./models/index.js";
 
-/** @deprecated Use `TextResponseFormat` instead. */
+/**
+ * Base configuration for the format of generated text responses.
+ * @deprecated Use `TextResponseFormat` instead.
+ */
 export interface TextResponseFormatConfiguration extends TextResponseFormat {}
-/** @deprecated Use `TextResponseFormatText` instead. */
+/**
+ * Configures generated responses to use plain text.
+ * @deprecated Use `TextResponseFormatText` instead.
+ */
 export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatText {}
-/** @deprecated Use `TextResponseFormatJsonObject` instead. */
+/**
+ * Configures generated responses to use JSON object format.
+ * @deprecated Use `TextResponseFormatJsonObject` instead.
+ */
 export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatJsonObject {}
-/** @deprecated Use `TextResponseFormatUnion` instead. */
+/**
+ * Supported configurations for plain text and structured JSON responses.
+ * @deprecated Use `TextResponseFormatUnion` instead.
+ */
 export type TextResponseFormatConfigurationUnion = TextResponseFormatUnion;

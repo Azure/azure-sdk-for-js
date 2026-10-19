@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to archive data from the AML file system.
  *
  * @summary archive data from the AML file system.
- * x-ms-original-file: 2026-01-01/amlFilesystems_Archive.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_Archive.json
  */
 async function amlFilesystemsArchive(): Promise<void> {
   const credential = new DefaultAzureCredential();

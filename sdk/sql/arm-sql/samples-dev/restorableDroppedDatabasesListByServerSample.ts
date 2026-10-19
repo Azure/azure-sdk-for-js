@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of restorable dropped databases.
  *
  * @summary gets a list of restorable dropped databases.
- * x-ms-original-file: 2025-01-01/ListRestorableDroppedDatabasesByServer.json
+ * x-ms-original-file: 2025-08-01-preview/ListRestorableDroppedDatabasesByServer.json
  */
 async function getsAListOfRestorableDroppedDatabases(): Promise<void> {
   const credential = new DefaultAzureCredential();

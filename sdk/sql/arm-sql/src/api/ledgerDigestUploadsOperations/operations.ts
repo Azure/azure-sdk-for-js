@@ -43,7 +43,7 @@ export function _disableSend(
       serverName: serverName,
       databaseName: databaseName,
       ledgerDigestUploads: ledgerDigestUploads,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,6 @@ export async function _disableDeserialize(
 
   return ledgerDigestUploadsDeserializer(result.body);
 }
-
 /** Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance. */
 export function disable(
   context: Client,
@@ -93,7 +92,7 @@ export function disable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
 }
 
@@ -111,7 +110,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +137,6 @@ export async function _listByDatabaseDeserialize(
 
   return _ledgerDigestUploadsListResultDeserializer(result.body);
 }
-
 /** Gets all ledger digest upload settings on a database. */
 export function listByDatabase(
   context: Client,
@@ -152,7 +150,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -173,7 +175,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       ledgerDigestUploads: ledgerDigestUploads,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,6 @@ export async function _createOrUpdateDeserialize(
 
   return ledgerDigestUploadsDeserializer(result.body);
 }
-
 /** Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance. */
 export function createOrUpdate(
   context: Client,
@@ -227,7 +228,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
 }
 
@@ -247,7 +248,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       ledgerDigestUploads: ledgerDigestUploads,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +273,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Le
 
   return ledgerDigestUploadsDeserializer(result.body);
 }
-
 /** Gets the current ledger digest upload configuration for a database. */
 export async function get(
   context: Client,

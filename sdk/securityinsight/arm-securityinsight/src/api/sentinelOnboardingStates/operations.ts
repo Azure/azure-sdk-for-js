@@ -31,7 +31,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       sentinelOnboardingStateName: sentinelOnboardingStateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +139,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       sentinelOnboardingStateName: sentinelOnboardingStateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,7 +203,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       sentinelOnboardingStateName: sentinelOnboardingStateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

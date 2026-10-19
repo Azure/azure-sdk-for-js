@@ -23,6 +23,10 @@ const parseArgs = () => {
   return [baseDir, artifactName];
 };
 
+/**
+ * @param {string} cwd
+ * @param {...string} args
+ */
 const spawnNode = (cwd, ...args) => {
   console.log(`Executing: "dev-tool ${args.join(" ")}" in ${cwd}\n\n`);
   const proc = spawnSync("dev-tool", args, { cwd, shell: true, stdio: "inherit" });

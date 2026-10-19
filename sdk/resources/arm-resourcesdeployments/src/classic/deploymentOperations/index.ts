@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsContext } from "../../api/deploymentsContext.js";
+import type { DeploymentsContext } from "../../api/deploymentsContext.js";
 import {
   list,
   get,
@@ -14,7 +14,7 @@ import {
   listAtScope,
   getAtScope,
 } from "../../api/deploymentOperations/operations.js";
-import {
+import type {
   DeploymentOperationsListOptionalParams,
   DeploymentOperationsGetOptionalParams,
   DeploymentOperationsListAtSubscriptionScopeOptionalParams,
@@ -26,8 +26,8 @@ import {
   DeploymentOperationsListAtScopeOptionalParams,
   DeploymentOperationsGetAtScopeOptionalParams,
 } from "../../api/deploymentOperations/options.js";
-import { DeploymentOperation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeploymentOperation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeploymentOperations operations. */
 export interface DeploymentOperationsOperations {

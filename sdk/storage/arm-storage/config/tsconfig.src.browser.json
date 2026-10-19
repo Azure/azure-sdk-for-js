@@ -1,4 +1,40 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/usages/index.ts",
+    "../src/api/skus/index.ts",
+    "../src/api/storageTaskAssignmentInstancesReport/index.ts",
+    "../src/api/table/index.ts",
+    "../src/api/localUsers/index.ts",
+    "../src/api/objectReplicationPolicies/index.ts",
+    "../src/api/queue/index.ts",
+    "../src/api/storageTaskAssignmentsInstancesReport/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/advancedPlatformMetrics/index.ts",
+    "../src/api/contextCacheContainers/index.ts",
+    "../src/api/contextCaches/index.ts",
+    "../src/api/dataShares/index.ts",
+    "../src/api/connectors/index.ts",
+    "../src/api/storageTaskAssignments/index.ts",
+    "../src/api/networkSecurityPerimeterConfigurations/index.ts",
+    "../src/api/tableServices/index.ts",
+    "../src/api/encryptionScopes/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/blobInventoryPolicies/index.ts",
+    "../src/api/managementPolicies/index.ts",
+    "../src/api/deletedAccounts/index.ts",
+    "../src/api/queueServices/index.ts",
+    "../src/api/fileServices/index.ts",
+    "../src/api/fileShares/index.ts",
+    "../src/api/storageAccounts/index.ts",
+    "../src/api/blobServices/index.ts",
+    "../src/api/blobContainers/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

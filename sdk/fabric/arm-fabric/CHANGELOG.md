@@ -1,5 +1,28 @@
 # Release History
 
+## 2.0.0-beta.1 (2026-09-16)
+Compared with version 1.0.0
+
+### Features Added
+  - Added operation FabricCapacitiesOperations.listUsages
+  - Added Interface CapacityOverageProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FabricCapacitiesListUsagesOptionalParams
+  - Added Interface Quota
+  - Added Interface QuotaName
+  - Interface FabricCapacityUpdateProperties has a new optional parameter overage
+  - Interface FabricClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CapacityOverageState
+  - Added Enum AzureClouds
+  - Added Enum KnownCapacityOverageState
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Interface FabricCapacityProperties has a new required parameter overage
+
 ## 1.1.0-beta.1 (2026-08-10)
 Compared with version 1.0.0
 

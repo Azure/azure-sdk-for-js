@@ -5,45 +5,53 @@ import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-04-01-preview/GoalResources_Get_Complete_Example.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-01/GoalResources_Get_Complete_Example.json
  */
 async function goalResourcesGetCompleteExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const result = await client.goalResources.get(
     "production-sg",
-    "resiliencyGoalAssignment",
-    "web-app-resource",
+    "zonal-resiliency-goal",
+    "primary-vm",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-04-01-preview/GoalResources_Get_MaximumSet_Gen.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-01/GoalResources_Get_MaximumSet_Gen.json
  */
 async function goalResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.goalResources.get("umyghwnfpzsgrhpczizcn", "ga1", "gr1");
+  const result = await client.goalResources.get(
+    "production-sg",
+    "zonal-resiliency-goal",
+    "primary-vm",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to get a GoalResource
+ * This sample demonstrates how to gets a goal resource.
  *
- * @summary get a GoalResource
- * x-ms-original-file: 2026-04-01-preview/GoalResources_Get_MinimumSet_Gen.json
+ * @summary gets a goal resource.
+ * x-ms-original-file: 2026-10-01/GoalResources_Get_MinimumSet_Gen.json
  */
 async function goalResourcesGetMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.goalResources.get("sg1", "ga1", "gr1");
+  const result = await client.goalResources.get(
+    "production-sg",
+    "zonal-resiliency-goal",
+    "primary-vm",
+  );
   console.log(result);
 }
 

@@ -1,5 +1,28 @@
 # Release History
 
+## 1.21.0 (Unreleased)
+
+### Features Added
+
+- Added OneSettings `FEATURE_LIVE_METRICS` control of QuickPulse polling, collection, and publishing, preserving local opt-outs and the last valid state when settings are missing or invalid. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Live Metrics subscriptions and background metric collectors are now cleaned up on distro shutdown and reinitialization. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.47. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+## 1.20.1 (2026-10-05)
+
+### Bugs Fixed
+
+- Disabled integrations no longer collect telemetry after shutdown and reinitialization. Instrumentation hooks are reused when re-enabled, and the Azure SDK bridge follows its instrumentation's lifecycle without replacing customer-installed instrumenters during cleanup. [#39936](https://github.com/Azure/azure-sdk-for-js/issues/39936)
+- Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration, buffered telemetry, or pending metric data. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
+
 ## 1.20.0 (2026-09-04)
 
 ### Features Added

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the search service with the given name in the given resource group.
  *
  * @summary gets the search service with the given name in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchGetService.json
+ * x-ms-original-file: 2026-09-01-preview/SearchGetService.json
  */
 async function searchGetService() {
   const credential = new DefaultAzureCredential();

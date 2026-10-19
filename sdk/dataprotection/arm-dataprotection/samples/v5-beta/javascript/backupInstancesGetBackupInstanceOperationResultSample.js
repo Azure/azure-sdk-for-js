@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get result of backup instance creation operation
  *
  * @summary get result of backup instance creation operation
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstanceOperationResult.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/GetBackupInstanceOperationResult.json
  */
 async function getBackupInstanceOperationResult() {
   const credential = new DefaultAzureCredential();

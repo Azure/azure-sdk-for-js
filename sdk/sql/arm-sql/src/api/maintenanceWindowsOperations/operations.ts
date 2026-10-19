@@ -32,7 +32,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       maintenanceWindowName: maintenanceWindowName,
     },
     {
@@ -59,7 +59,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Sets maintenance windows settings for a database. */
 export async function createOrUpdate(
   context: Client,
@@ -97,7 +96,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       maintenanceWindowName: maintenanceWindowName,
     },
     {
@@ -123,7 +122,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return maintenanceWindowsDeserializer(result.body);
 }
-
 /** Gets maintenance windows settings for a database. */
 export async function get(
   context: Client,

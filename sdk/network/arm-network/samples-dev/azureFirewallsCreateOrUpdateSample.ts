@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPut.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPut.json
  */
 async function createAzureFirewall(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function createAzureFirewall(): Promise<void> {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.createOrUpdate("rg1", "azurefirewall", {
     location: "West US",
+    aiSecurityAddOn: true,
     applicationRuleCollections: [
       {
         name: "apprulecoll",
@@ -112,7 +113,7 @@ async function createAzureFirewall(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutInHub.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutInHub.json
  */
 async function createAzureFirewallInVirtualHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -139,7 +140,7 @@ async function createAzureFirewallInVirtualHub(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutWithAdditionalProperties.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAdditionalProperties.json
  */
 async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -244,7 +245,7 @@ async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutWithAfcConfiguration.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAfcConfiguration.json
  */
 async function createAzureFirewallWithAFCControlPlane(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -280,7 +281,39 @@ async function createAzureFirewallWithAFCControlPlane(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutWithIpGroups.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithAiSecurityAddOn.json
+ */
+async function createAzureFirewallWithAISecurityAddOn(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.azureFirewalls.createOrUpdate("rg1", "azurefirewall", {
+    location: "West US",
+    aiSecurityAddOn: true,
+    ipConfigurations: [
+      {
+        name: "azureFirewallIpConfiguration",
+        publicIPAddress: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
+        },
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
+    ],
+    sku: { name: "AZFW_VNet", tier: "Premium" },
+    threatIntelMode: "Alert",
+    tags: { key1: "value1" },
+    zones: [],
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Azure Firewall.
+ *
+ * @summary creates or updates the specified Azure Firewall.
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithIpGroups.json
  */
 async function createAzureFirewallWithIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -384,7 +417,7 @@ async function createAzureFirewallWithIpGroups(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutWithMgmtSubnet.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithMgmtSubnet.json
  */
 async function createAzureFirewallWithManagementSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -497,7 +530,7 @@ async function createAzureFirewallWithManagementSubnet(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified Azure Firewall.
  *
  * @summary creates or updates the specified Azure Firewall.
- * x-ms-original-file: 2025-09-01/AzureFirewallPutWithZones.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallPutWithZones.json
  */
 async function createAzureFirewallWithZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -602,6 +635,7 @@ async function main(): Promise<void> {
   await createAzureFirewallInVirtualHub();
   await createAzureFirewallWithAdditionalProperties();
   await createAzureFirewallWithAFCControlPlane();
+  await createAzureFirewallWithAISecurityAddOn();
   await createAzureFirewallWithIpGroups();
   await createAzureFirewallWithManagementSubnet();
   await createAzureFirewallWithZones();

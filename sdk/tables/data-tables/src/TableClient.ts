@@ -898,6 +898,9 @@ export class TableClient {
   /**
    * Submits a Transaction which is composed of a set of actions. You can provide the actions as a list
    * or you can use {@link TableTransaction} to help building the transaction.
+   * The `onResponse` callback receives the final raw response and the parsed transaction result.
+   * On failure with a response, it receives the raw response, `undefined`, and the error instead.
+   * It is not called for failures without a response.
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSubmitTransaction

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all available workload profiles for a location.
  *
  * @summary get all available workload profiles for a location.
- * x-ms-original-file: 2025-10-02-preview/AvailableWorkloadProfiles_Get.json
+ * x-ms-original-file: 2026-07-01/AvailableWorkloadProfiles_Get.json
  */
 async function billingMetersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

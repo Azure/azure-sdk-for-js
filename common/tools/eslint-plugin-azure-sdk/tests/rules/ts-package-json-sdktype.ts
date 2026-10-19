@@ -338,6 +338,11 @@ ruleTester.run("ts-package-json-sdktype", rule, {
     },
     {
       // only the fields we care about
+      code: '{"sdk-type": "provisioning"}',
+      filename: "package.json",
+    },
+    {
+      // only the fields we care about
       code: '{"sdk-type": "utility"}',
       filename: "package.json",
     },
@@ -360,7 +365,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -371,7 +376,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -382,7 +387,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'provisioning', 'perf-test', or 'utility'.",
         },
       ],
     },

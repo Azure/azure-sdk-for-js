@@ -26,7 +26,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesGetOptionalParams,
   ) => Promise<PrivateLinkResource>;
 }
-
 function _getPrivateLinkResources(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -42,7 +41,6 @@ function _getPrivateLinkResources(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, groupName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: SqlManagementContext,
 ): PrivateLinkResourcesOperations {

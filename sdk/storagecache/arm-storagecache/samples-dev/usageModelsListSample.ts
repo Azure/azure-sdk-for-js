@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of cache usage models available to this subscription.
  *
  * @summary get the list of cache usage models available to this subscription.
- * x-ms-original-file: 2026-01-01/UsageModels_List.json
+ * x-ms-original-file: 2026-08-01/UsageModels_List.json
  */
 async function usageModelsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

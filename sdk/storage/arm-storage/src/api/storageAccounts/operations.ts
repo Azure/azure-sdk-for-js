@@ -81,7 +81,7 @@ export function _getCustomerInitiatedMigrationSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       migrationName: migrationName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +139,7 @@ export function _revokeUserDelegationKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +193,7 @@ export function _restoreBlobRangesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,7 +237,7 @@ export function restoreBlobRanges(
     getInitialResponse: () =>
       _restoreBlobRangesSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<BlobRestoreStatus>, BlobRestoreStatus>;
 }
 
@@ -254,7 +254,7 @@ export function _customerInitiatedMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +307,7 @@ export function customerInitiatedMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -326,7 +326,7 @@ export function _abortHierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -370,7 +370,7 @@ export function abortHierarchicalNamespaceMigration(
       getInitialResponse: () =>
         _abortHierarchicalNamespaceMigrationSend(context, resourceGroupName, accountName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -388,7 +388,7 @@ export function _hierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       requestType: requestType,
     },
     {
@@ -438,7 +438,7 @@ export function hierarchicalNamespaceMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -455,7 +455,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       failoverType: !options?.failoverType ? options?.failoverType : "Planned",
     },
     {
@@ -491,7 +491,7 @@ export function failover(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _failoverSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -508,7 +508,7 @@ export function _listServiceSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -569,7 +569,7 @@ export function _listAccountSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -630,7 +630,7 @@ export function _regenerateKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -690,7 +690,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": !options?.expand ? options?.expand : "kerb",
     },
     {
@@ -738,7 +738,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -776,7 +776,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -790,7 +790,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -829,7 +829,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -845,7 +845,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -892,7 +892,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -945,7 +945,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -987,7 +987,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<StorageAccount>, StorageAccount>;
 }
 
@@ -1003,7 +1003,7 @@ export function _getPropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
     },
     {
@@ -1052,7 +1052,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

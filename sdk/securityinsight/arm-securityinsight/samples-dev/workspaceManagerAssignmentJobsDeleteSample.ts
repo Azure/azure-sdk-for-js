@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified job from the specified workspace manager assignment
  *
  * @summary deletes the specified job from the specified workspace manager assignment
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/DeleteJob.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/DeleteJob.json
  */
 async function deleteAWorkspaceManagerJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a resiliency policy for a Dapr component.
  *
  * @summary delete a resiliency policy for a Dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponentResiliencyPolicies_Delete.json
+ * x-ms-original-file: 2026-07-01/DaprComponentResiliencyPolicies_Delete.json
  */
 async function deleteDaprComponentResiliencyPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

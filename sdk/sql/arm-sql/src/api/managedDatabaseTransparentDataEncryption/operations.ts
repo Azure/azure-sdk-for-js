@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _listByDatabaseDeserialize(
 
   return _managedTransparentDataEncryptionListResultDeserializer(result.body);
 }
-
 /** Gets a list of managed database's transparent data encryptions. */
 export function listByDatabase(
   context: Client,
@@ -84,7 +83,11 @@ export function listByDatabase(
       _listByDatabaseSend(context, resourceGroupName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -107,7 +110,7 @@ export function _createOrUpdateSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +139,6 @@ export async function _createOrUpdateDeserialize(
 
   return managedTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Updates a database's transparent data encryption configuration. */
 export async function createOrUpdate(
   context: Client,
@@ -177,7 +179,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +206,6 @@ export async function _getDeserialize(
 
   return managedTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Gets a managed database's transparent data encryption. */
 export async function get(
   context: Client,

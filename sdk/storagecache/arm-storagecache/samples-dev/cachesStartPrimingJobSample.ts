@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a priming job. This operation is only allowed when the cache is healthy.
  *
  * @summary create a priming job. This operation is only allowed when the cache is healthy.
- * x-ms-original-file: 2026-01-01/StartPrimingJob.json
+ * x-ms-original-file: 2026-08-01/StartPrimingJob.json
  */
 async function startPrimingJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

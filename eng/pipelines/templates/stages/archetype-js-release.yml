@@ -135,6 +135,12 @@ stages:
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
                       Registry: $(PublicDevOpsRegistry)
+                      # Keep the auto-release stage fully unattended; deployment environments apply
+                      # approvals independently, so the public and dev-feed jobs must both opt out.
+                      ${{ if and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+                        Environment: 'none'
+                      ${{ else }}:
+                        Environment: 'package-publish'
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs

@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get the .NET Components for a managed environment.
+ * This sample demonstrates how to lists the .NET components in a managed environment.
  *
- * @summary get the .NET Components for a managed environment.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_List.json
+ * @summary lists the .NET components in a managed environment.
+ * x-ms-original-file: 2026-07-01/DotNetComponents_List.json
  */
 async function listNETComponents(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,10 +23,10 @@ async function listNETComponents(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to get the .NET Components for a managed environment.
+ * This sample demonstrates how to lists the .NET components in a managed environment.
  *
- * @summary get the .NET Components for a managed environment.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_List_ServiceBind.json
+ * @summary lists the .NET components in a managed environment.
+ * x-ms-original-file: 2026-07-01/DotNetComponents_List_ServiceBind.json
  */
 async function listNETComponentsWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

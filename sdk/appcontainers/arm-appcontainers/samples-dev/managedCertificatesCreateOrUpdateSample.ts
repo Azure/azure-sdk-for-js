@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Managed Certificate.
  *
  * @summary create or Update a Managed Certificate.
- * x-ms-original-file: 2025-10-02-preview/ManagedCertificate_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ManagedCertificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

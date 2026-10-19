@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list AppLinkMember resources by AppLink.
+ * This sample demonstrates how to list the members of an Azure Kubernetes Application Network resource.
  *
- * @summary list AppLinkMember resources by AppLink.
- * x-ms-original-file: 2025-08-01-preview/AppLinkMembers_ListByAppLink.json
+ * @summary list the members of an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinkMembers_ListByAppLink.json
  */
 async function appLinkMembersListByAppLink() {
   const credential = new DefaultAzureCredential();

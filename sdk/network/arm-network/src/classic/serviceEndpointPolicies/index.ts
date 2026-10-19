@@ -19,7 +19,7 @@ import type {
   ServiceEndpointPoliciesGetOptionalParams,
 } from "../../api/serviceEndpointPolicies/options.js";
 import type { ServiceEndpointPolicy } from "../../models/common/models.js";
-import type { TagsObject } from "../../models/microsoft/network/models.js";
+import type { TagsObject } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

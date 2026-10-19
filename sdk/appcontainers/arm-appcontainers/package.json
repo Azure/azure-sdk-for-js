@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-appcontainers",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0",
   "description": "A generated SDK for ContainerAppsAPIClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -90,6 +90,20 @@
         "default": "./dist/commonjs/api/billingMeters/index.js"
       }
     },
+    "./api/availableEnvironmentModes": {
+      "browser": {
+        "types": "./dist/browser/api/availableEnvironmentModes/index.d.ts",
+        "default": "./dist/browser/api/availableEnvironmentModes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableEnvironmentModes/index.d.ts",
+        "default": "./dist/esm/api/availableEnvironmentModes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableEnvironmentModes/index.d.ts",
+        "default": "./dist/commonjs/api/availableEnvironmentModes/index.js"
+      }
+    },
     "./api/availableWorkloadProfiles": {
       "browser": {
         "types": "./dist/browser/api/availableWorkloadProfiles/index.d.ts",
@@ -160,20 +174,6 @@
         "default": "./dist/commonjs/api/managedEnvironmentPrivateEndpointConnections/index.js"
       }
     },
-    "./api/managedEnvironmentPrivateLinkResources": {
-      "browser": {
-        "types": "./dist/browser/api/managedEnvironmentPrivateLinkResources/index.d.ts",
-        "default": "./dist/browser/api/managedEnvironmentPrivateLinkResources/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/managedEnvironmentPrivateLinkResources/index.d.ts",
-        "default": "./dist/esm/api/managedEnvironmentPrivateLinkResources/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/managedEnvironmentPrivateLinkResources/index.d.ts",
-        "default": "./dist/commonjs/api/managedEnvironmentPrivateLinkResources/index.js"
-      }
-    },
     "./api/namespaces": {
       "browser": {
         "types": "./dist/browser/api/namespaces/index.d.ts",
@@ -202,48 +202,6 @@
         "default": "./dist/commonjs/api/connectedEnvironmentsCertificates/index.js"
       }
     },
-    "./api/buildAuthToken": {
-      "browser": {
-        "types": "./dist/browser/api/buildAuthToken/index.d.ts",
-        "default": "./dist/browser/api/buildAuthToken/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/buildAuthToken/index.d.ts",
-        "default": "./dist/esm/api/buildAuthToken/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/buildAuthToken/index.d.ts",
-        "default": "./dist/commonjs/api/buildAuthToken/index.js"
-      }
-    },
-    "./api/buildsByBuilderResource": {
-      "browser": {
-        "types": "./dist/browser/api/buildsByBuilderResource/index.d.ts",
-        "default": "./dist/browser/api/buildsByBuilderResource/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/buildsByBuilderResource/index.d.ts",
-        "default": "./dist/esm/api/buildsByBuilderResource/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/buildsByBuilderResource/index.d.ts",
-        "default": "./dist/commonjs/api/buildsByBuilderResource/index.js"
-      }
-    },
-    "./api/appResiliency": {
-      "browser": {
-        "types": "./dist/browser/api/appResiliency/index.d.ts",
-        "default": "./dist/browser/api/appResiliency/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/appResiliency/index.d.ts",
-        "default": "./dist/esm/api/appResiliency/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/appResiliency/index.d.ts",
-        "default": "./dist/commonjs/api/appResiliency/index.js"
-      }
-    },
     "./api/containerAppsRevisionFunctions": {
       "browser": {
         "types": "./dist/browser/api/containerAppsRevisionFunctions/index.d.ts",
@@ -256,20 +214,6 @@
       "require": {
         "types": "./dist/commonjs/api/containerAppsRevisionFunctions/index.d.ts",
         "default": "./dist/commonjs/api/containerAppsRevisionFunctions/index.js"
-      }
-    },
-    "./api/containerAppsBuildsByContainerApp": {
-      "browser": {
-        "types": "./dist/browser/api/containerAppsBuildsByContainerApp/index.d.ts",
-        "default": "./dist/browser/api/containerAppsBuildsByContainerApp/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/containerAppsBuildsByContainerApp/index.d.ts",
-        "default": "./dist/esm/api/containerAppsBuildsByContainerApp/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/containerAppsBuildsByContainerApp/index.d.ts",
-        "default": "./dist/commonjs/api/containerAppsBuildsByContainerApp/index.js"
       }
     },
     "./api/managedEnvironmentsDiagnostics": {
@@ -342,20 +286,6 @@
         "default": "./dist/commonjs/api/maintenanceConfigurations/index.js"
       }
     },
-    "./api/daprSubscriptions": {
-      "browser": {
-        "types": "./dist/browser/api/daprSubscriptions/index.d.ts",
-        "default": "./dist/browser/api/daprSubscriptions/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/daprSubscriptions/index.d.ts",
-        "default": "./dist/esm/api/daprSubscriptions/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/daprSubscriptions/index.d.ts",
-        "default": "./dist/commonjs/api/daprSubscriptions/index.js"
-      }
-    },
     "./api/daprComponentResiliencyPolicies": {
       "browser": {
         "types": "./dist/browser/api/daprComponentResiliencyPolicies/index.d.ts",
@@ -368,6 +298,48 @@
       "require": {
         "types": "./dist/commonjs/api/daprComponentResiliencyPolicies/index.d.ts",
         "default": "./dist/commonjs/api/daprComponentResiliencyPolicies/index.js"
+      }
+    },
+    "./api/managedEnvironmentPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/managedEnvironmentPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/managedEnvironmentPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedEnvironmentPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/managedEnvironmentPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedEnvironmentPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/managedEnvironmentPrivateLinkResources/index.js"
+      }
+    },
+    "./api/containerAppPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/containerAppPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/containerAppPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/containerAppPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/containerAppPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/containerAppPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/containerAppPrivateLinkResources/index.js"
+      }
+    },
+    "./api/containerAppPrivateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/containerAppPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/containerAppPrivateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/containerAppPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/containerAppPrivateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/containerAppPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/containerAppPrivateEndpointConnections/index.js"
       }
     },
     "./api/managedCertificates": {
@@ -468,34 +440,6 @@
         "default": "./dist/commonjs/api/connectedEnvironments/index.js"
       }
     },
-    "./api/builds": {
-      "browser": {
-        "types": "./dist/browser/api/builds/index.d.ts",
-        "default": "./dist/browser/api/builds/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/builds/index.d.ts",
-        "default": "./dist/esm/api/builds/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/builds/index.d.ts",
-        "default": "./dist/commonjs/api/builds/index.js"
-      }
-    },
-    "./api/builders": {
-      "browser": {
-        "types": "./dist/browser/api/builders/index.d.ts",
-        "default": "./dist/browser/api/builders/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/builders/index.d.ts",
-        "default": "./dist/esm/api/builders/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/builders/index.d.ts",
-        "default": "./dist/commonjs/api/builders/index.js"
-      }
-    },
     "./api/containerAppsAuthConfigs": {
       "browser": {
         "types": "./dist/browser/api/containerAppsAuthConfigs/index.d.ts",
@@ -566,20 +510,6 @@
         "default": "./dist/commonjs/api/containerAppsRevisionReplicas/index.js"
       }
     },
-    "./api/containerAppsPatches": {
-      "browser": {
-        "types": "./dist/browser/api/containerAppsPatches/index.d.ts",
-        "default": "./dist/browser/api/containerAppsPatches/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/containerAppsPatches/index.d.ts",
-        "default": "./dist/esm/api/containerAppsPatches/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/containerAppsPatches/index.d.ts",
-        "default": "./dist/commonjs/api/containerAppsPatches/index.js"
-      }
-    },
     "./api/containerAppsLabelHistory": {
       "browser": {
         "types": "./dist/browser/api/containerAppsLabelHistory/index.d.ts",
@@ -636,20 +566,6 @@
         "default": "./dist/commonjs/api/containerAppsFunctions/index.js"
       }
     },
-    "./api/containerAppsBuilds": {
-      "browser": {
-        "types": "./dist/browser/api/containerAppsBuilds/index.d.ts",
-        "default": "./dist/browser/api/containerAppsBuilds/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/containerAppsBuilds/index.d.ts",
-        "default": "./dist/esm/api/containerAppsBuilds/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/containerAppsBuilds/index.d.ts",
-        "default": "./dist/commonjs/api/containerAppsBuilds/index.js"
-      }
-    },
     "./api/containerApps": {
       "browser": {
         "types": "./dist/browser/api/containerApps/index.d.ts",
@@ -676,6 +592,34 @@
       "require": {
         "types": "./dist/commonjs/api/containerAppsSourceControls/index.d.ts",
         "default": "./dist/commonjs/api/containerAppsSourceControls/index.js"
+      }
+    },
+    "./api/vnetConnections": {
+      "browser": {
+        "types": "./dist/browser/api/vnetConnections/index.d.ts",
+        "default": "./dist/browser/api/vnetConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vnetConnections/index.d.ts",
+        "default": "./dist/esm/api/vnetConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vnetConnections/index.d.ts",
+        "default": "./dist/commonjs/api/vnetConnections/index.js"
+      }
+    },
+    "./api/sandboxGroups": {
+      "browser": {
+        "types": "./dist/browser/api/sandboxGroups/index.d.ts",
+        "default": "./dist/browser/api/sandboxGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sandboxGroups/index.d.ts",
+        "default": "./dist/esm/api/sandboxGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sandboxGroups/index.d.ts",
+        "default": "./dist/commonjs/api/sandboxGroups/index.js"
       }
     },
     "./api/containerAppsSessionPools": {
@@ -758,11 +702,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -808,6 +752,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers"
   }
 }

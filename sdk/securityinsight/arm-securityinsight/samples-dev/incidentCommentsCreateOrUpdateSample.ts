@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a comment for a given incident.
  *
  * @summary creates or updates a comment for a given incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentComments/IncidentComments_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentComments/IncidentComments_CreateOrUpdate.json
  */
 async function incidentCommentsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

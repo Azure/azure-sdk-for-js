@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Shared Image Gallery.
  *
  * @summary delete a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Delete.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Delete.json
  */
 async function deleteAGallery() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of the shared private link resource managed by the search service in the given resource group.
  *
  * @summary gets the details of the shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/GetSharedPrivateLinkResource.json
+ * x-ms-original-file: 2026-09-01-preview/GetSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

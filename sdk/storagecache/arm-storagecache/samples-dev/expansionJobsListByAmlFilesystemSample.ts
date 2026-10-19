@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all the expansion jobs the user has access to under an AML File System.
  *
  * @summary returns all the expansion jobs the user has access to under an AML File System.
- * x-ms-original-file: 2026-01-01/expansionJobs_ListByAmlFilesystem.json
+ * x-ms-original-file: 2026-08-01/expansionJobs_ListByAmlFilesystem.json
  */
 async function expansionJobsListByAmlFilesystem(): Promise<void> {
   const credential = new DefaultAzureCredential();

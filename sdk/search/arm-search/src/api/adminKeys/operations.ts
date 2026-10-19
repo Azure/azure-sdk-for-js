@@ -23,7 +23,7 @@ export function _regenerateSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       keyKind: keyKind,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,14 +47,15 @@ export async function _regenerateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return adminKeyResultDeserializer(result.body);
 }
-
 /** Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time. */
 export async function regenerate(
   context: Client,
@@ -85,7 +86,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,14 +108,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ad
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return adminKeyResultDeserializer(result.body);
 }
-
 /** Gets the primary and secondary admin API keys for the specified Azure AI Search service. */
 export async function get(
   context: Client,

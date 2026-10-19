@@ -53,6 +53,7 @@ export interface ModelDeploymentsOperations {
     options?: ModelDeploymentsGetOptionalParams,
   ) => Promise<ModelDeployment>;
 }
+
 function _getModelDeployments(context: ContainerServiceContext) {
   return {
     listByAIManagerNamespace: (
@@ -104,6 +105,7 @@ function _getModelDeployments(context: ContainerServiceContext) {
       get(context, resourceGroupName, aiManagerName, namespaceName, modelDeploymentName, options),
   };
 }
+
 export function _getModelDeploymentsOperations(
   context: ContainerServiceContext,
 ): ModelDeploymentsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateFusionAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateFusionAlertRule.json
  */
 async function createsOrUpdatesAFusionAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -156,7 +156,7 @@ async function createsOrUpdatesAFusionAlertRule(): Promise<void> {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
  */
 async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -304,7 +304,7 @@ async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern(): P
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -329,7 +329,7 @@ async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule(): Promise
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateNrtAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateNrtAlertRule.json
  */
 async function createsOrUpdatesANrtAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -372,7 +372,7 @@ async function createsOrUpdatesANrtAlertRule(): Promise<void> {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateScheduledAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateScheduledAlertRule.json
  */
 async function createsOrUpdatesAScheduledAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

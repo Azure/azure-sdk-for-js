@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with rawContent and contentType properties.
  *
  * @summary create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with rawContent and contentType properties.
- * x-ms-original-file: 2025-07-01-preview/watchlists/CreateWatchlist.json
+ * x-ms-original-file: 2025-10-01-preview/watchlists/CreateWatchlist.json
  */
 async function createOrUpdateAWatchlist() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createOrUpdateAWatchlist() {
  * This sample demonstrates how to create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with rawContent and contentType properties.
  *
  * @summary create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with rawContent and contentType properties.
- * x-ms-original-file: 2025-07-01-preview/watchlists/CreateWatchlistAndWatchlistItems.json
+ * x-ms-original-file: 2025-10-01-preview/watchlists/CreateWatchlistAndWatchlistItems.json
  */
 async function createOrUpdateAWatchlistAndBulkCreatesWatchlistItems() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the advanced platform metrics rule for the storage account by rule type.
  *
  * @summary get the advanced platform metrics rule for the storage account by rule type.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_Get.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_Get.json
  */
 async function advancedPlatformMetricsRulesGetGetAdvancedPlatformMetricsRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

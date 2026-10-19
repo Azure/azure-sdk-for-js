@@ -1,20 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type { ManagedEnvironment } from "../../models/models.js";
 import {
   defaultErrorResponseDeserializer,
-  ManagedEnvironment,
   managedEnvironmentDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ManagedEnvironmentsDiagnosticsGetRootOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ManagedEnvironmentsDiagnosticsGetRootOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getRootSend(
   context: Client,
@@ -28,7 +24,7 @@ export function _getRootSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       environmentName: environmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +42,9 @@ export async function _getRootDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
