@@ -52,6 +52,10 @@ function isArrayBuffer(body: unknown): body is ArrayBuffer | ArrayBufferView {
 }
 
 function arrayBufferToBuffer(body: ArrayBuffer | ArrayBufferView): Buffer {
+  if (Buffer.isBuffer(body)) {
+    return body;
+  }
+
   return ArrayBuffer.isView(body)
     ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
     : Buffer.from(body);
@@ -266,8 +270,6 @@ class NodeHttpClient implements HttpClient {
       } else if (body) {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
-        } else if (isArrayBuffer(body)) {
-          req.end(arrayBufferToBuffer(body));
         } else {
           logger.error("Unrecognized body type", body);
           reject(new RestError("Unrecognized body type"));

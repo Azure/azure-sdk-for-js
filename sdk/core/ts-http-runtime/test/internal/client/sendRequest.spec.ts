@@ -660,6 +660,7 @@ describe("sendRequest", () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.headers.get("content-type"), "application/octet-stream");
+        assert.strictEqual(request.body, body);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
