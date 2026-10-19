@@ -6,6 +6,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { randomUUID } from "@azure/core-util";
 import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
 import type { CostControl, CostControlRule } from "../src/models/index.js";
 import {
@@ -50,8 +51,6 @@ const recorderOptions: RecorderStartOptions = {
   },
 };
 
-const costControlName = "sdk-cost-control-lifecycle";
-
 function createRule(amount: number): CostControlRule {
   return {
     name: "account-budget",
@@ -92,10 +91,12 @@ describe("Cost Controls recorded lifecycle", () => {
   let client: CognitiveServicesManagementClient;
   let resourceGroupName: string;
   let accountName: string;
+  let costControlName: string;
 
   beforeEach(async (context) => {
     recorder = new Recorder(context);
     await recorder.start(recorderOptions);
+    costControlName = recorder.variable("costControlName", `sdk-cost-control-${randomUUID()}`);
 
     const subscriptionId = requiredEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
     resourceGroupName = requiredEnvironmentVariable("AZURE_RESOURCE_GROUP");
