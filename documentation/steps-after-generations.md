@@ -269,7 +269,7 @@ You shall update the version number according to [semantic versioning rule](http
 
 ## Test recordings
 
-After [writing and running test cases](#how-to-write-test-for-dpgrlc), you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets). Please refer to [push recording guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#how-to-push-test-recordings-to-assets-repo) to push recordings.
+After [writing and running test cases](#how-to-write-test-for-dpgrlcmpg), you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets). Please refer to [push recording guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#how-to-push-test-recordings-to-assets-repo) to push recordings.
 
 ## Fix CI for PR
 
