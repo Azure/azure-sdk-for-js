@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified ExpressRouteLag resource.
  *
  * @summary deletes the specified ExpressRouteLag resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagDelete.json
  */
 async function deleteExpressRouteLag(): Promise<void> {
   const credential = new DefaultAzureCredential();

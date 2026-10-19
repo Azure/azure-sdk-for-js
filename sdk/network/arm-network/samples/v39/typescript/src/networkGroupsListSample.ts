@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the specified network group.
  *
  * @summary lists the specified network group.
- * x-ms-original-file: 2026-01-01/NetworkManagerGroupList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerGroupList.json
  */
 async function networkGroupsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

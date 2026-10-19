@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
  *
  * @summary lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionGetIkeSas.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionGetIkeSas.json
  */
 async function getVirtualNetworkGatewayConnectionIkeSa(): Promise<void> {
   const credential = new DefaultAzureCredential();

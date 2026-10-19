@@ -41,6 +41,7 @@ describe("npm registry", () => {
     const repoPath = mkdtempSync(join(tmpdir(), "release-tools-npm-"));
     const npmConfigPath = join(repoPath, ".npmrc");
     const userConfig = process.env.npm_config_userconfig;
+    writeFileSync(join(repoPath, "package.json"), '{"name":"test-repo","private":true}\n');
     writeFileSync(npmConfigPath, "registry=https://example.test/repository/npm/\n");
 
     try {

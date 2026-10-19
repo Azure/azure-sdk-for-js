@@ -65,10 +65,10 @@ export interface CertificateListDescription {
 // @public
 export interface CertificateProperties {
     certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -77,10 +77,10 @@ export interface CertificateProperties {
 // @public
 export interface CertificatePropertiesWithNonce {
     readonly certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     readonly isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -144,6 +144,9 @@ export interface CloudToDeviceProperties {
 }
 
 // @public
+export type ConnectionProfile = string;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -156,9 +159,30 @@ export type DefaultAction = string;
 
 // @public
 export interface DeviceRegistry {
-    identityResourceId?: string;
+    dataPlaneHostName?: string;
+    identity?: DeviceRegistryIdentity;
+    readonly linkingProperties?: DeviceRegistryLinkingProperties;
     namespaceResourceId?: string;
+    namespaceUuid?: string;
 }
+
+// @public
+export interface DeviceRegistryIdentity {
+    type?: DeviceRegistryIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type DeviceRegistryIdentityType = string;
+
+// @public
+export interface DeviceRegistryLinkingProperties {
+    readonly error?: ErrorDetails;
+    readonly state?: DeviceRegistryLinkingState;
+}
+
+// @public
+export type DeviceRegistryLinkingState = string;
 
 // @public
 export interface EncryptionPropertiesDescription {
@@ -361,8 +385,9 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    connectionProfile?: ConnectionProfile;
     readonly deviceHostName?: string;
-    deviceRegistry?: DeviceRegistry;
+    readonly deviceRegistry?: DeviceRegistry;
     deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
@@ -379,6 +404,7 @@ export interface IotHubProperties {
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: Record<string, MessagingEndpointProperties>;
     minTlsVersion?: string;
+    mqttV5Settings?: MqttV5Settings;
     networkRuleSets?: NetworkRuleSetProperties;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
@@ -616,6 +642,12 @@ export enum KnownCapabilities {
 }
 
 // @public
+export enum KnownConnectionProfile {
+    Classic = "Classic",
+    MqttV5 = "MqttV5"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -627,6 +659,20 @@ export enum KnownCreatedByType {
 export enum KnownDefaultAction {
     Allow = "Allow",
     Deny = "Deny"
+}
+
+// @public
+export enum KnownDeviceRegistryIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownDeviceRegistryLinkingState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Orphaned = "Orphaned",
+    Success = "Success"
 }
 
 // @public
@@ -688,6 +734,12 @@ export enum KnownJobType {
 }
 
 // @public
+export enum KnownMessagePayloadFormat {
+    DOObservationV1 = "DOObservationV1",
+    None = "None"
+}
+
+// @public
 export enum KnownNetworkRuleIPAction {
     Allow = "Allow"
 }
@@ -741,7 +793,8 @@ export enum KnownTestResultStatus {
 // @public
 export enum KnownVersions {
     V20260301Preview = "2026-03-01-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20260501Preview = "2026-05-01-preview",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
@@ -755,10 +808,18 @@ export interface MatchedRoute {
 }
 
 // @public
+export type MessagePayloadFormat = string;
+
+// @public
 export interface MessagingEndpointProperties {
     lockDurationAsIso8601?: string;
     maxDeliveryCount?: number;
     ttlAsIso8601?: string;
+}
+
+// @public
+export interface MqttV5Settings {
+    topicGroups?: TopicGroup[];
 }
 
 // @public
@@ -980,6 +1041,7 @@ export type RouteErrorSeverity = string;
 // @public
 export interface RouteProperties {
     condition?: string;
+    dataSchema?: string;
     endpointNames: string[];
     isEnabled: boolean;
     name: string;
@@ -994,6 +1056,7 @@ export interface RoutingCosmosDBSqlApiProperties {
     endpointUri: string;
     readonly id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     partitionKeyName?: string;
     partitionKeyTemplate?: string;
@@ -1021,6 +1084,7 @@ export interface RoutingEventHubProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1034,6 +1098,7 @@ export interface RoutingEventStreamProperties {
     eventStreamId?: string;
     readonly id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     sourceId?: string;
     workspaceId?: string;
@@ -1062,6 +1127,7 @@ export interface RoutingServiceBusQueueEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1075,6 +1141,7 @@ export interface RoutingServiceBusTopicEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1095,6 +1162,7 @@ export interface RoutingStorageContainerProperties {
     id?: string;
     identity?: ManagedIdentity;
     maxChunkSizeInBytes?: number;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1201,6 +1269,12 @@ export interface TestRouteResult {
 // @public
 export interface TestRouteResultDetails {
     compilationErrors?: RouteCompilationError[];
+}
+
+// @public
+export interface TopicGroup {
+    topicGroupId?: string;
+    topicTemplates?: string[];
 }
 
 // @public

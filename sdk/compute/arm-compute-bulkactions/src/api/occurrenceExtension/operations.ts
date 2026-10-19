@@ -54,7 +54,7 @@ export async function _listOccurrenceByVmsDeserialize(
   return _occurrenceExtensionResourceListResultDeserializer(result.body);
 }
 
-/** Lists scheduled action occurrences associated with the specified VM. */
+/** Lists recurring bulk action occurrences associated with the specified VM. */
 export function listOccurrenceByVms(
   context: Client,
   resourceUri: string,

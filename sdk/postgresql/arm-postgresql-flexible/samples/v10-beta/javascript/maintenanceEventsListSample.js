@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all maintenance events for a flexible server.
  *
  * @summary lists all maintenance events for a flexible server.
- * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsListByServer.json
+ * x-ms-original-file: 2026-07-01-preview/MaintenanceEventsListByServer.json
  */
 async function listOngoingAndScheduledMaintenanceEventsForAServer() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listOngoingAndScheduledMaintenanceEventsForAServer() {
  * This sample demonstrates how to lists all maintenance events for a flexible server.
  *
  * @summary lists all maintenance events for a flexible server.
- * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsListByServerWithFilter.json
+ * x-ms-original-file: 2026-07-01-preview/MaintenanceEventsListByServerWithFilter.json
  */
 async function listMaintenanceEventsFilteredByStatusForAServer() {
   const credential = new DefaultAzureCredential();

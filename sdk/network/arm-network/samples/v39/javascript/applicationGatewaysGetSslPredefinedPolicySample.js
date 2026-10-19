@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets Ssl predefined policy with the specified policy name.
  *
  * @summary gets Ssl predefined policy with the specified policy name.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
  */
 async function getAvailableSslPredefinedPolicyByName() {
   const credential = new DefaultAzureCredential();

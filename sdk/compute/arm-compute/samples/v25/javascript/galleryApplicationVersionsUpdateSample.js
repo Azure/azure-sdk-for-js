@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a gallery Application Version.
  *
  * @summary update a gallery Application Version.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplicationVersion_Update.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_Update.json
  */
 async function updateASimpleGalleryApplicationVersion() {
   const credential = new DefaultAzureCredential();

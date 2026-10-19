@@ -311,6 +311,10 @@ async function routeReviewRequest({ github, context, core }) {
         workflow_id: reviewer.workflow,
         ref: context.payload.repository.default_branch,
         inputs: {
+          aw_context: JSON.stringify({
+            item_type: "pull_request",
+            item_number: pr.number,
+          }),
           item_number: String(pr.number),
           head_sha: run.head_sha,
           request_run_id: String(run.id),

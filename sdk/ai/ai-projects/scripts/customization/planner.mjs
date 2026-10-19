@@ -5,6 +5,7 @@ import path from "node:path";
 import ts from "typescript";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import {
+  ClassicRenderError,
   classicApiFile,
   classicFile,
   mergeCustomizedClassic,
@@ -149,6 +150,50 @@ function knownImport(item) {
   return item;
 }
 
+function importedFiles(file, text) {
+  const targets = new Set();
+  const add = (specifier) => {
+    if (!specifier || !ts.isStringLiteralLike(specifier) || !specifier.text.startsWith(".")) return;
+    const target = resolveImport(file, specifier.text);
+    const script = /\.([mc]?)js$/.exec(target);
+    if (script) targets.add(`${target.slice(0, script.index)}.${script[1]}ts`);
+    else targets.add(`${target}.ts`).add(`${target}/index.ts`);
+  };
+  const visit = (node) => {
+    if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) add(node.moduleSpecifier);
+    else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument))
+      add(node.argument.literal);
+    else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword)
+      add(node.arguments[0]);
+    else if (ts.isExternalModuleReference(node)) add(node.expression);
+    ts.forEachChild(node, visit);
+  };
+  visit(ts.createSourceFile(file, text, ts.ScriptTarget.Latest));
+  return targets;
+}
+
+// Model declarations are flattened into models/models.ts and public models are
+// exported from models/index.ts, so emitted namespace modules such as models/openAI/
+// are not mirrored into src/. A re-export module is kept only while another source
+// file imports its path, which also removes previously mirrored modules nothing uses.
+function keepImportedModelModules(source, candidates) {
+  for (const file of candidates.keys()) source.delete(file);
+  let pending = [...source];
+  while (pending.length) {
+    const required = new Set();
+    for (const [file, text] of pending) {
+      for (const target of importedFiles(file, text)) required.add(target);
+    }
+    pending = [];
+    for (const file of required) {
+      if (candidates.has(file) && !source.has(file)) {
+        source.set(file, candidates.get(file));
+        pending.push([file, candidates.get(file)]);
+      }
+    }
+  }
+}
+
 export function planCustomization({ baseGenerated, baseSource, generated }) {
   const diagnostics = [];
   const source = new Map(baseSource);
@@ -162,6 +207,8 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
 
   const generatedNameMappings = new Map(modelRenames);
   const removedFiles = new Set();
+  const unresolvedModules = new Set(operations.diagnostics.map((item) => item.file));
+  const optionsFile = (apiFile) => apiFile.replace(/operations\.ts$/, "options.ts");
   const moves = new Map(operations.moves);
   for (const match of operations.matches) {
     const currentOptions = match.incoming.file.replace(/operations\.ts$/, "options.ts");
@@ -201,44 +248,59 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     }
     const customText = baseSource.get(file);
     const baseText = baseGenerated.get(file);
-    if (
-      customText !== undefined &&
-      baseText !== undefined &&
-      simpleFactoryProblem(customText, baseText, file, baseSource.get(apiFile), operations.matches)
-    ) {
-      const baseRenames = new Map(modelRenames);
-      const incomingRenames = new Map(modelRenames);
-      for (const match of operations.matches) {
-        if (match.base && classicFile(match.base.file) === file) {
-          baseRenames.set(match.base.options, match.names.options);
-          baseRenames.set(match.base.name, match.names.publicNode);
+    // A classic module is rendered from its resolved operations. A rejected
+    // operation merge leaves nothing to render from, and rendering would only
+    // replace the real diagnostic with a secondary one.
+    if (unresolvedModules.has(apiFile) || unresolvedModules.has(optionsFile(apiFile))) continue;
+    try {
+      if (
+        customText !== undefined &&
+        baseText !== undefined &&
+        simpleFactoryProblem(
+          customText,
+          baseText,
+          file,
+          baseSource.get(apiFile),
+          operations.matches,
+        )
+      ) {
+        const baseRenames = new Map(modelRenames);
+        const incomingRenames = new Map(modelRenames);
+        for (const match of operations.matches) {
+          if (match.base && classicFile(match.base.file) === file) {
+            baseRenames.set(match.base.options, match.names.options);
+            baseRenames.set(match.base.name, match.names.publicNode);
+          }
+          if (match.incoming.file === apiFile) {
+            incomingRenames.set(match.incoming.options, match.names.options);
+            incomingRenames.set(match.incoming.name, match.names.publicNode);
+          }
         }
-        if (match.incoming.file === apiFile) {
-          incomingRenames.set(match.incoming.options, match.names.options);
-          incomingRenames.set(match.incoming.name, match.names.publicNode);
-        }
+        const merged = mergeCustomizedClassic({
+          file,
+          baseText,
+          customText,
+          incomingText: text,
+          matches: operations.matches,
+          resolvedText: operations.files.get(apiFile),
+          resolvedOptionsText: operations.files.get(optionsFile(apiFile)),
+          customApiText: baseSource.get(apiFile),
+          baseRenames,
+          incomingRenames,
+          mapImport: knownImport,
+        });
+        diagnostics.push(...merged.diagnostics);
+        if (merged.text) source.set(file, merged.text);
+        continue;
       }
-      const merged = mergeCustomizedClassic({
+      source.set(
         file,
-        baseText,
-        customText,
-        incomingText: text,
-        matches: operations.matches,
-        resolvedText: operations.files.get(apiFile),
-        resolvedOptionsText: operations.files.get(apiFile.replace(/operations\.ts$/, "options.ts")),
-        customApiText: baseSource.get(apiFile),
-        baseRenames,
-        incomingRenames,
-        mapImport: knownImport,
-      });
-      diagnostics.push(...merged.diagnostics);
-      if (merged.text) source.set(file, merged.text);
-      continue;
+        classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
+      );
+    } catch (error) {
+      if (!(error instanceof ClassicRenderError)) throw error;
+      diagnostics.push(error.diagnostic);
     }
-    source.set(
-      file,
-      classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
-    );
   }
 
   function mapEntry(file, entry, old = false) {
@@ -281,9 +343,17 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       const prior = base.get(name);
       const next = incoming.get(name);
       // A compatibility alias that reuses a generated name the customization
-      // renamed away keeps its own export beside the renamed declaration.
+      // renamed away keeps its own export beside the renamed declaration. An
+      // unmodified generated export whose emitted group module was removed
+      // (its operations were merged into another group) follows the emitter.
       const relocated = mapEntry(file, entry, true);
-      if (relocated.name !== name && custom.has(relocated.name)) {
+      const removedGroup =
+        prior &&
+        !next &&
+        sameExport(prior, entry) &&
+        entry.module?.startsWith(".") &&
+        !generated.has(resolveImport(file, entry.module).replace(/\.js$/, ".ts"));
+      if (relocated.name !== name && custom.has(relocated.name) && !removedGroup) {
         add({ ...entry });
         continue;
       }
@@ -446,5 +516,6 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     source.delete(file);
   }
   source.delete("restorePollerHelpers.ts");
+  keepImportedModelModules(source, models.reexportModules);
   return { source, diagnostics, matches: operations.matches, modelRenames, removedFiles };
 }

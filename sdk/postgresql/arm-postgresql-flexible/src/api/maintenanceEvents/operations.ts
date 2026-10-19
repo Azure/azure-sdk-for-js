@@ -43,7 +43,7 @@ export function _applyNowSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       maintenanceEventId: maintenanceEventId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function applyNow(
     getInitialResponse: () =>
       _applyNowSend(context, resourceGroupName, serverName, maintenanceEventId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
 }
 
@@ -104,7 +104,7 @@ export function _rescheduleSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       maintenanceEventId: maintenanceEventId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +149,7 @@ export function reschedule(
     getInitialResponse: () =>
       _rescheduleSend(context, resourceGroupName, serverName, maintenanceEventId, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
 }
 
@@ -165,7 +165,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       maintenanceStatus: options?.maintenanceStatus,
     },
     {
@@ -209,7 +209,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
     },
   );
 }
@@ -228,7 +228,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       maintenanceEventId: maintenanceEventId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

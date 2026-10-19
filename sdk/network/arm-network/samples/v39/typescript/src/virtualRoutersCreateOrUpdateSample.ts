@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified Virtual Router.
  *
  * @summary creates or updates the specified Virtual Router.
- * x-ms-original-file: 2026-01-01/VirtualRouterPut.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPut.json
  */
 async function createVirtualRouter(): Promise<void> {
   const credential = new DefaultAzureCredential();

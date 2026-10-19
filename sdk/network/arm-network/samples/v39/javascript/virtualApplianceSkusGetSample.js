@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves a single available sku for network virtual appliance.
  *
  * @summary retrieves a single available sku for network virtual appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSkuGet.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSkuGet.json
  */
 async function networkVirtualApplianceSkuGet() {
   const credential = new DefaultAzureCredential();
