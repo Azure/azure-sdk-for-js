@@ -60,6 +60,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/arm-resources": "catalog:arm",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
@@ -67,11 +68,14 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
+    "jsonschema": "^1.5.0",
+    "jszip": "^3.10.1",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "yaml": "^2.8.1"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
