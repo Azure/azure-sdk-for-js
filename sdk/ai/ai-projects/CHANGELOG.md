@@ -2,6 +2,10 @@
 
 ## 2.8.1 (Unreleased)
 
+### Bugs Fixed
+
+- Preserve Realtime and Live voice-agent configuration when creating and reading agent versions, including legacy Realtime definitions that omit `sub_protocol`. [#40373](https://github.com/Azure/azure-sdk-for-js/pull/40373)
+
 ### Other Changes
 
 - Upgrade `openai` dependency to `^7.28.0` and `ws` to `^8.21.0`. [#39489](https://github.com/Azure/azure-sdk-for-js/issues/39489)
