@@ -451,6 +451,49 @@ test("side-effectful concurrent converter insertions remain explicit ordering di
   );
 });
 
+test("a customized converter keeps its member order and epoch handling when the emitter reorders it", () => {
+  const converter = (members) => `
+export interface Response { id?: string; usage?: unknown; metadata?: unknown; created_at?: Date; }
+export function usageDeserializer(item: any): unknown { return { usage: item }; }
+export function metadataDeserializer(item: any): unknown { return { metadata: item }; }
+export function responseDeserializer(item: any): Response {
+  return {
+${members}
+  };
+}
+`;
+  const usage = 'usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),';
+  const fromEntries =
+    'metadata: !item["metadata"] ? item["metadata"] : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),';
+  const metadata =
+    'metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),';
+  const plainDate =
+    'created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),';
+  const result = succeeded(
+    tree(converter([usage, 'id: item["id"],', fromEntries, plainDate].join("\n"))),
+    tree(
+      converter(
+        [
+          'id: item["id"],',
+          usage,
+          fromEntries,
+          'created_at: item["created_at"] === undefined || item["created_at"] === null ? item["created_at"] : new Date(item["created_at"] * 1000),',
+        ].join("\n"),
+      ),
+    ),
+    tree(converter(['id: item["id"],', metadata, usage, plainDate].join("\n"))),
+  );
+  const output = evaluate(result.files.get(modelFile)).responseDeserializer({
+    id: "id",
+    usage: 1,
+    metadata: 2,
+    created_at: 0,
+  });
+  assert.deepEqual(Object.keys(output), ["id", "usage", "metadata", "created_at"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(output.metadata)), { metadata: 2 });
+  assert.equal(output.created_at.getTime(), 0);
+});
+
 test("flat imports retain customized platform streams and add dependencies from relocated modules", () => {
   const base = tree(`
 import type { NodeReadableStream } from "@azure/core-rest-pipeline";

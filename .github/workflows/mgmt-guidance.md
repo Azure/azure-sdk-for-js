@@ -20,7 +20,7 @@ on:
   steps:
     - name: Gate — verify CI complete and PR is a mgmt PR
       id: gate
-      uses: actions/github-script@v9.0.0
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       env:
         CHECK_SUITE_APP: ${{ github.event.check_suite.app.name }}
         HEAD_SHA: ${{ github.event.check_suite.head_sha }}

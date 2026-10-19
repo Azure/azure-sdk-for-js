@@ -3172,14 +3172,6 @@ export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): an
 
 /** API Versions */
 export enum KnownVersions {
-  /** 2025-05-01-preview */
-  V20250501Preview = "2025-05-01-preview",
-  /** 2026-01-01-preview */
-  V20260101Preview = "2026-01-01-preview",
-  /** 2026-05-01-preview */
-  V20260501Preview = "2026-05-01-preview",
-  /** 2026-09-01-preview */
-  V20260901Preview = "2026-09-01-preview",
-  /** 2026-10-01-preview */
-  V20261001Preview = "2026-10-01-preview",
+  /** 2026-11-01 */
+  V20261101 = "2026-11-01",
 }

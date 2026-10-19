@@ -215,6 +215,7 @@ export type {
   VirtualMachineProperties,
   HardwareProfile,
   VirtualMachineSizeTypes,
+  FlexProfile,
   StorageProfile,
   OSDisk,
   DiskEncryptionSettings,
