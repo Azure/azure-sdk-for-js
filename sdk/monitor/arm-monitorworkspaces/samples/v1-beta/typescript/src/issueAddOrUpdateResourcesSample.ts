@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add or update resources associated with an issue
  *
  * @summary add or update resources associated with an issue
- * x-ms-original-file: 2025-10-03/Issue_AddOrUpdateResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_AddOrUpdateResources_MaximumSet_Gen.json
  */
 async function issueAddOrUpdateResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
