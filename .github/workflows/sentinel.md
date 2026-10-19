@@ -83,7 +83,6 @@ tools:
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
-  web-fetch:
 safe-outputs:
   steps:
     - name: Reject stale review outputs
@@ -120,10 +119,10 @@ safe-outputs:
     max: 1
     target: "${{ needs.validate_request.outputs.pr_number }}"
   messages:
-    footer: "> 🛡️ *Scanned by [{workflow_name}]({run_url})*"
-    run-started: "🛡️ [{workflow_name}]({run_url}) is scanning this PR for security vulnerabilities…"
-    run-success: "🛡️ [{workflow_name}]({run_url}) completed the security review. ✅"
-    run-failure: "🛡️ [{workflow_name}]({run_url}) {status}. ❌"
+    footer: "> \U0001F6E1️ *Scanned by [{workflow_name}]({run_url})*"
+    run-started: "\U0001F6E1️ [{workflow_name}]({run_url}) is scanning this PR for security vulnerabilities…"
+    run-success: "\U0001F6E1️ [{workflow_name}]({run_url}) completed the security review. ✅"
+    run-failure: "\U0001F6E1️ [{workflow_name}]({run_url}) {status}. ❌"
 timeout-minutes: 15
 ---
 
