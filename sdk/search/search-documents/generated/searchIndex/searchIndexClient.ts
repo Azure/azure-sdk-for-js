@@ -56,7 +56,7 @@ import {
   deleteIndex,
   createOrUpdateIndex,
   createSynonymMap,
-  getSynonymMaps,
+  listSynonymMaps,
   getSynonymMap,
   deleteSynonymMap,
   createOrUpdateSynonymMap,
@@ -93,7 +93,7 @@ import {
   DeleteIndexOptionalParams,
   CreateOrUpdateIndexOptionalParams,
   CreateSynonymMapOptionalParams,
-  GetSynonymMapsOptionalParams,
+  ListSynonymMapsOptionalParams,
   GetSynonymMapOptionalParams,
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
@@ -368,10 +368,10 @@ export class SearchIndexClient {
   }
 
   /** Lists all synonym maps available for a search service. */
-  getSynonymMaps(
-    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  listSynonymMaps(
+    options: ListSynonymMapsOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<SynonymMap> {
-    return getSynonymMaps(this._client, options);
+    return listSynonymMaps(this._client, options);
   }
 
   /** Retrieves a synonym map definition. */

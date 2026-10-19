@@ -192,10 +192,7 @@ export type SearchIterator<
  * The query parameters for vector and hybrid search queries.
  */
 export type VectorQuery<TModel extends object> =
-  | VectorizedQuery<TModel>
-  | VectorizableTextQuery<TModel>
-  | VectorizableImageUrlQuery<TModel>
-  | VectorizableImageBinaryQuery<TModel>;
+  VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
 
 /**
  * The query parameters for vector and hybrid search queries.
@@ -205,8 +202,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
    * **text**: Vector query where a text value that needs to be vectorized is provided.
-   * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided.
-   * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
    */
   kind: VectorQueryKind;
   /**
@@ -271,36 +266,6 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
    * The text to be vectorized to perform a vector search query.
    */
   text: string;
-}
-
-/**
- * The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided.
- */
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "imageUrl";
-  /**
-   * The URL of an image to be vectorized to perform a vector search query.
-   */
-  url: string;
-}
-
-/**
- * The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided.
- */
-export interface VectorizableImageBinaryQuery<
-  TModel extends object,
-> extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "imageBinary";
-  /**
-   * The base64 encoded binary of an image to be vectorized to perform a vector search query.
-   */
-  binaryImage: string;
 }
 
 /**

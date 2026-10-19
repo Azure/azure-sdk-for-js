@@ -13,6 +13,8 @@ import {
   searchIndexDeserializer,
   _ListIndexesResult,
   _listIndexesResultDeserializer,
+  _ListIndexesSelectedResult,
+  _listIndexesSelectedResultDeserializer,
   SearchIndexResponse,
   GetIndexStatisticsResult,
   getIndexStatisticsResultDeserializer,
@@ -55,10 +57,6 @@ import {
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import {
-  _ListIndexesSelectedResult,
-  _listIndexesSelectedResultDeserializer,
-} from "../../models/models.js";
-import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
@@ -95,7 +93,7 @@ import {
   DeleteIndexOptionalParams,
   CreateOrUpdateIndexOptionalParams,
   CreateSynonymMapOptionalParams,
-  GetSynonymMapsOptionalParams,
+  ListSynonymMapsOptionalParams,
   GetSynonymMapOptionalParams,
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
@@ -1986,9 +1984,9 @@ export async function createSynonymMap(
   return _createSynonymMapDeserialize(result);
 }
 
-export function _getSynonymMapsSend(
+export function _listSynonymMapsSend(
   context: Client,
-  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  options: ListSynonymMapsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion,%24select,search,pageSize,searchType}",
@@ -2019,7 +2017,7 @@ export function _getSynonymMapsSend(
   });
 }
 
-export async function _getSynonymMapsDeserialize(
+export async function _listSynonymMapsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListSynonymMapsResult> {
   const expectedStatuses = ["200"];
@@ -2036,14 +2034,14 @@ export async function _getSynonymMapsDeserialize(
 }
 
 /** Lists all synonym maps available for a search service. */
-export function getSynonymMaps(
+export function listSynonymMaps(
   context: Client,
-  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  options: ListSynonymMapsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SynonymMap> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSynonymMapsSend(context, options),
-    _getSynonymMapsDeserialize,
+    () => _listSynonymMapsSend(context, options),
+    _listSynonymMapsDeserialize,
     ["200"],
     {
       itemName: "synonymMaps",

@@ -8,52 +8,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  searchIndexResponseArrayDeserializer,
-  SearchIndexResponse,
-} from "./azure/search/documents/indexes/models.js";
-import {
-  KnowledgeBaseActivityRecordUnion,
-  KnowledgeBaseReferenceUnion,
-  KnowledgeBaseRetrievalStartedEvent,
-  KnowledgeBaseActivityStartedEvent,
-  KnowledgeBaseAnswerCompletedEvent,
-  KnowledgeBaseStreamErrorEvent,
-  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStartedStreamEvent,
+  KnowledgeBaseActivityStartedStreamEvent,
+  KnowledgeBaseActivityCompletedStreamEvent,
+  KnowledgeBaseAnswerCompletedStreamEvent,
+  KnowledgeBaseReferencesCompletedStreamEvent,
+  KnowledgeBaseErrorStreamEvent,
+  KnowledgeBaseResponseCompletedStreamEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
 import { NodeReadableStream } from "@azure/core-rest-pipeline";
-
-/** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
-export interface _ListIndexesSelectedResult {
-  /** The indexes in the Search service. */
-  readonly value: SearchIndexResponse[];
-  /** The URL that can be used to fetch the next set of results. */
-  readonly nextLink?: string;
-}
-
-export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesSelectedResult {
-  return {
-    value: searchIndexResponseArrayDeserializer(item["value"]),
-    nextLink: item["@odata.nextLink"],
-  };
-}
-
-/** File upload capacity for a File knowledge source. */
-export interface KnowledgeSourceFileCapacity {
-  /** The maximum number of files allowed in the knowledge source. */
-  readonly maxFileCount: number;
-  /** The number of additional files that can be uploaded at the time of the request. */
-  readonly remainingFileCount: number;
-  /** The maximum size in bytes of an individual uploaded file. */
-  readonly maxFileSizeBytes: number;
-}
-
-export function knowledgeSourceFileCapacityDeserializer(item: any): KnowledgeSourceFileCapacity {
-  return {
-    maxFileCount: item["maxFileCount"],
-    remainingFileCount: item["remainingFileCount"],
-    maxFileSizeBytes: item["maxFileSizeBytes"],
-  };
-}
 
 /**
  * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
@@ -62,13 +25,13 @@ export function knowledgeSourceFileCapacityDeserializer(item: any): KnowledgeSou
  * event (or an `error` event, if the retrieval fails before completing).
  */
 export type KnowledgeBaseRetrievalStreamEvents =
-  | KnowledgeBaseRetrievalStartedEvent
-  | KnowledgeBaseActivityStartedEvent
-  | KnowledgeBaseActivityRecordUnion
-  | KnowledgeBaseAnswerCompletedEvent
-  | KnowledgeBaseReferenceUnion[]
-  | KnowledgeBaseStreamErrorEvent
-  | KnowledgeBaseResponseCompletedEvent;
+  | KnowledgeBaseRetrievalStartedStreamEvent
+  | KnowledgeBaseActivityStartedStreamEvent
+  | KnowledgeBaseActivityCompletedStreamEvent
+  | KnowledgeBaseAnswerCompletedStreamEvent
+  | KnowledgeBaseReferencesCompletedStreamEvent
+  | KnowledgeBaseErrorStreamEvent
+  | KnowledgeBaseResponseCompletedStreamEvent;
 
 export function knowledgeBaseRetrievalStreamEventsDeserializer(
   item: any,

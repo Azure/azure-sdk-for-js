@@ -21,8 +21,6 @@ export type {
   VectorQueryKind,
   VectorizedQuery,
   VectorizableTextQuery,
-  VectorizableImageUrlQuery,
-  VectorizableImageBinaryQuery,
   VectorFilterMode,
   SearchResult,
   QueryCaptionResult,

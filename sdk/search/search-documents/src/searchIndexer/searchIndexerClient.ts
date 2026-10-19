@@ -13,13 +13,13 @@ import type {
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   createSkillset,
-  getSkillsets,
+  listSkillsets,
   getSkillset,
   deleteSkillset,
   createOrUpdateSkillset,
   getIndexerStatus,
   createIndexer,
-  getIndexers,
+  listIndexers,
   getIndexer,
   deleteIndexer,
   createOrUpdateIndexer,
@@ -27,20 +27,20 @@ import {
   resync,
   resetIndexer,
   createDataSourceConnection,
-  getDataSourceConnections,
+  listDataSourceConnections,
   getDataSourceConnection,
   deleteDataSourceConnection,
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import type {
   CreateSkillsetOptionalParams,
-  GetSkillsetsOptionalParams,
+  ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
   DeleteSkillsetOptionalParams,
   CreateOrUpdateSkillsetOptionalParams,
   GetIndexerStatusOptionalParams,
   CreateIndexerOptionalParams,
-  GetIndexersOptionalParams,
+  ListIndexersOptionalParams,
   GetIndexerOptionalParams,
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
@@ -48,7 +48,7 @@ import type {
   ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
-  GetDataSourceConnectionsOptionalParams,
+  ListDataSourceConnectionsOptionalParams,
   GetDataSourceConnectionOptionalParams,
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
@@ -81,10 +81,10 @@ export class SearchIndexerClient {
   }
 
   /** List all skillsets in a search service. */
-  getSkillsets(
-    options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  listSkillsets(
+    options: ListSkillsetsOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<SearchIndexerSkillset> {
-    return getSkillsets(this._client, options);
+    return listSkillsets(this._client, options);
   }
 
   /** Retrieves a skillset in a search service. */
@@ -129,10 +129,10 @@ export class SearchIndexerClient {
   }
 
   /** Lists all indexers available for a search service. */
-  getIndexers(
-    options: GetIndexersOptionalParams = { requestOptions: {} },
+  listIndexers(
+    options: ListIndexersOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<SearchIndexer> {
-    return getIndexers(this._client, options);
+    return listIndexers(this._client, options);
   }
 
   /** Retrieves an indexer definition. */
@@ -194,10 +194,10 @@ export class SearchIndexerClient {
   }
 
   /** Lists all datasources available for a search service. */
-  getDataSourceConnections(
-    options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  listDataSourceConnections(
+    options: ListDataSourceConnectionsOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
-    return getDataSourceConnections(this._client, options);
+    return listDataSourceConnections(this._client, options);
   }
 
   /** Retrieves a datasource definition. */

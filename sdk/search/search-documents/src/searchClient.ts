@@ -48,7 +48,6 @@ import type {
   SuggestOptions,
   UploadDocumentsOptions,
   VectorQuery,
-  VectorizableImageBinaryQuery,
 } from "./indexModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
@@ -870,19 +869,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           fields: this.convertVectorQueryFields(fields),
         };
       }
-      case "vector":
-      case "imageUrl": {
+      case "vector": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
-      }
-      case "imageBinary": {
-        // Map convenience layer's binaryImage to generated layer's base64Image
-        const { binaryImage, fields, ...rest } =
-          vectorQuery as VectorizableImageBinaryQuery<TModel>;
-        return {
-          ...rest,
-          base64Image: binaryImage,
-          fields: this.convertVectorQueryFields(fields),
-        };
       }
       default: {
         logger.warning("Unknown vector query kind; sending without serialization");

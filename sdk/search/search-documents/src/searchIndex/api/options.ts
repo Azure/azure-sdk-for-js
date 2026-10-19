@@ -329,7 +329,7 @@ export interface CreateSynonymMapOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GetSynonymMapsOptionalParams extends OperationOptions {
+export interface ListSynonymMapsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The Accept header. */

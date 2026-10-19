@@ -20,14 +20,7 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends Knowle
 }
 
 // @public
-export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecordUnion | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReferenceUnion[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
-
-// @public
-export interface KnowledgeSourceFileCapacity {
-    readonly maxFileCount: number;
-    readonly maxFileSizeBytes: number;
-    readonly remainingFileCount: number;
-}
+export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedStreamEvent | KnowledgeBaseActivityStartedStreamEvent | KnowledgeBaseActivityCompletedStreamEvent | KnowledgeBaseAnswerCompletedStreamEvent | KnowledgeBaseReferencesCompletedStreamEvent | KnowledgeBaseErrorStreamEvent | KnowledgeBaseResponseCompletedStreamEvent;
 
 // @public
 export enum KnownVersions {

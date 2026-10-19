@@ -15,9 +15,6 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AIFoundryModelCatalogName = string;
-
-// @public
 export interface AIServices {
     apiKey?: string;
     uri: string;
@@ -134,15 +131,6 @@ export interface AzureBlobKnowledgeSourceParams extends BaseKnowledgeSourceParam
 export { AzureKeyCredential }
 
 // @public
-export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
-    amlParameters?: AzureMachineLearningVectorizerParameters;
-    kind: "aml";
-}
-
-// @public
-export type AzureMachineLearningVectorizerParameters = NoAuthAzureMachineLearningVectorizerParameters | KeyAuthAzureMachineLearningVectorizerParameters | TokenAuthAzureMachineLearningVectorizerParameters;
-
-// @public
 export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, AzureOpenAIParameters {
     dimensions?: number;
     odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
@@ -164,12 +152,6 @@ export interface AzureOpenAIParameters {
 export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
     kind: "azureOpenAI";
     parameters?: AzureOpenAIParameters;
-}
-
-// @public
-export interface BaseAzureMachineLearningVectorizerParameters {
-    modelName?: AIFoundryModelCatalogName;
-    timeout?: string;
 }
 
 // @public
@@ -1314,13 +1296,6 @@ export interface KeepTokenFilter extends BaseTokenFilter {
 }
 
 // @public
-export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-    apiKey: string;
-    authKind: "key";
-    scoringUri: string;
-}
-
-// @public
 export interface KeyPhraseExtractionSkill extends BaseSearchIndexerSkill {
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
     maxKeyPhraseCount?: number;
@@ -1385,7 +1360,6 @@ export interface KnowledgeBaseActivityStartedEvent {
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends BaseKnowledgeBaseActivityRecord {
     reasoningTokens?: number;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
 }
 
@@ -1856,17 +1830,6 @@ export type KnowledgeSourceSynchronizationStatus = string;
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
 
 // @public
-export enum KnownAIFoundryModelCatalogName {
-    CohereEmbedV3English = "Cohere-embed-v3-english",
-    CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
-    CohereEmbedV4 = "Cohere-embed-v4",
-    FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
-    FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
-    OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
-    OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336"
-}
-
-// @public
 export enum KnownAnalyzerNames {
     ArLucene = "ar.lucene",
     ArMicrosoft = "ar.microsoft",
@@ -1965,8 +1928,13 @@ export enum KnownAnalyzerNames {
 
 // @public
 export enum KnownAzureOpenAIModelName {
+    Gpt54 = "gpt-5.4",
     Gpt54Mini = "gpt-5.4-mini",
     Gpt54Nano = "gpt-5.4-nano",
+    Gpt55 = "gpt-5.5",
+    Gpt56Luna = "gpt-5.6-luna",
+    Gpt56Sol = "gpt-5.6-sol",
+    Gpt56Terra = "gpt-5.6-terra",
     Gpt5Mini = "gpt-5-mini",
     Gpt5Nano = "gpt-5-nano",
     TextEmbedding3Large = "text-embedding-3-large",
@@ -2929,14 +2897,11 @@ export enum KnownVectorEncodingFormat {
 // @public
 export enum KnownVectorFilterMode {
     PostFilter = "postFilter",
-    PreFilter = "preFilter",
-    StrictPostFilter = "strictPostFilter"
+    PreFilter = "preFilter"
 }
 
 // @public
 export enum KnownVectorQueryKind {
-    ImageBinary = "imageBinary",
-    ImageUrl = "imageUrl",
     Text = "text",
     Vector = "vector"
 }
@@ -3185,12 +3150,6 @@ export interface NGramTokenizer extends BaseLexicalTokenizer {
     minGram?: number;
     odatatype: "#Microsoft.Azure.Search.NGramTokenizer";
     tokenChars?: TokenCharacterKind[];
-}
-
-// @public
-export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-    authKind: "none";
-    scoringUri: string;
 }
 
 export { NodeReadableStream }
@@ -4267,13 +4226,6 @@ export interface TextWeights {
 }
 
 // @public
-export interface TokenAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-    authKind: "token";
-    region?: string;
-    resourceId: string;
-}
-
-// @public
 export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
 
 // @public
@@ -4341,18 +4293,6 @@ export type VectorEncodingFormat = string;
 export type VectorFilterMode = `${KnownVectorFilterMode}`;
 
 // @public
-export interface VectorizableImageBinaryQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-    binaryImage: string;
-    kind: "imageBinary";
-}
-
-// @public
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-    kind: "imageUrl";
-    url: string;
-}
-
-// @public
 export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
     kind: "text";
     text: string;
@@ -4365,7 +4305,7 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
 }
 
 // @public
-export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel> | VectorizableImageUrlQuery<TModel> | VectorizableImageBinaryQuery<TModel>;
+export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
 
 // @public (undocumented)
 export type VectorQueryKind = `${KnownVectorQueryKind}`;
@@ -4419,7 +4359,7 @@ export interface VectorSearchProfile {
 }
 
 // @public
-export type VectorSearchVectorizer = AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 // @public
 export type VectorSearchVectorizerKind = string;

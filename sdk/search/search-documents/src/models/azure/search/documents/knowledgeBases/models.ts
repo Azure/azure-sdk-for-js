@@ -8,10 +8,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  KnowledgeSourceFileCapacity,
-  knowledgeSourceFileCapacityDeserializer,
-} from "../../../../models.js";
-import {
   searchIndexerDataIdentityUnionSerializer,
   searchIndexerDataIdentityUnionDeserializer,
   SearchIndexerDataIdentityUnion,
@@ -31,6 +27,8 @@ import {
   KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
   KnowledgeSourceSynchronizationStatus,
+  KnowledgeSourceFileCapacity,
+  knowledgeSourceFileCapacityDeserializer,
 } from "../indexes/models.js";
 
 /** Base type for reasoning effort. */
@@ -1877,8 +1875,6 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBa
   type: "agenticReasoning";
   /** The number of input tokens for agentic reasoning. */
   reasoningTokens?: number;
-  /** The retrieval reasoning effort configuration. */
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
@@ -1893,9 +1889,6 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     reasoningTokens: item["reasoningTokens"],
-    retrievalReasoningEffort: !item["retrievalReasoningEffort"]
-      ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
   };
 }
 
@@ -2206,6 +2199,20 @@ export function knowledgeBaseIndexedSqlReferenceDeserializer(
   };
 }
 
+/** Emitted after retrieval preflight validation completes. */
+export interface KnowledgeBaseRetrievalStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The retrieval-started payload. */
+  value: KnowledgeBaseRetrievalStartedEvent;
+}
+
+export function knowledgeBaseRetrievalStartedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStartedStreamEvent {
+  return {
+    value: knowledgeBaseRetrievalStartedEventDeserializer(item["value"]),
+  };
+}
+
 /** Emitted once retrieval preflight validation completes, before any activity begins. */
 export interface KnowledgeBaseRetrievalStartedEvent {
   /** A service-generated identifier that correlates all events in this retrieval stream. */
@@ -2226,6 +2233,29 @@ export function knowledgeBaseRetrievalStartedEventDeserializer(
     knowledgeBaseName: item["knowledgeBaseName"],
     outputMode: item["outputMode"],
     reasoningEffort: knowledgeRetrievalReasoningEffortUnionDeserializer(item["reasoningEffort"]),
+  };
+}
+
+/** Common base for events emitted by a streaming knowledge base retrieval. */
+export interface KnowledgeBaseRetrievalStreamEvent {}
+
+export function knowledgeBaseRetrievalStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStreamEvent {
+  return item;
+}
+
+/** Emitted when an individual retrieval activity starts. */
+export interface KnowledgeBaseActivityStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The activity-started payload. */
+  value: KnowledgeBaseActivityStartedEvent;
+}
+
+export function knowledgeBaseActivityStartedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityStartedStreamEvent {
+  return {
+    value: knowledgeBaseActivityStartedEventDeserializer(item["value"]),
   };
 }
 
@@ -2252,6 +2282,34 @@ export function knowledgeBaseActivityStartedEventDeserializer(
   };
 }
 
+/** Emitted when an individual retrieval activity completes. */
+export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The completed activity record. */
+  value: KnowledgeBaseActivityRecordUnion;
+}
+
+export function knowledgeBaseActivityCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityCompletedStreamEvent {
+  return {
+    value: knowledgeBaseActivityRecordUnionDeserializer(item["value"]),
+  };
+}
+
+/** Emitted when an answer message is complete. */
+export interface KnowledgeBaseAnswerCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The completed answer payload. */
+  value: KnowledgeBaseAnswerCompletedEvent;
+}
+
+export function knowledgeBaseAnswerCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseAnswerCompletedStreamEvent {
+  return {
+    value: knowledgeBaseAnswerCompletedEventDeserializer(item["value"]),
+  };
+}
+
 /** Emitted when a fully validated and post-processed synthesized answer is available. */
 export interface KnowledgeBaseAnswerCompletedEvent {
   /** The zero-based index of the completed message in the final response array. */
@@ -2266,6 +2324,34 @@ export function knowledgeBaseAnswerCompletedEventDeserializer(
   return {
     messageIndex: item["messageIndex"],
     message: knowledgeBaseMessageDeserializer(item["message"]),
+  };
+}
+
+/** Emitted when the references used by the response are available. */
+export interface KnowledgeBaseReferencesCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The references used to produce the response. */
+  value: KnowledgeBaseReferenceUnion[];
+}
+
+export function knowledgeBaseReferencesCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseReferencesCompletedStreamEvent {
+  return {
+    value: knowledgeBaseReferenceUnionArrayDeserializer(item["value"]),
+  };
+}
+
+/** Emitted when retrieval fails after the stream starts. */
+export interface KnowledgeBaseErrorStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The retrieval error payload. */
+  value: KnowledgeBaseStreamErrorEvent;
+}
+
+export function knowledgeBaseErrorStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseErrorStreamEvent {
+  return {
+    value: knowledgeBaseStreamErrorEventDeserializer(item["value"]),
   };
 }
 
@@ -2285,6 +2371,20 @@ export function knowledgeBaseStreamErrorEventDeserializer(
     activity: !item["activity"]
       ? item["activity"]
       : knowledgeBaseActivityRecordUnionArrayDeserializer(item["activity"]),
+  };
+}
+
+/** Emitted when retrieval completes successfully or with partial results. */
+export interface KnowledgeBaseResponseCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The authoritative completed retrieval payload. */
+  value: KnowledgeBaseResponseCompletedEvent;
+}
+
+export function knowledgeBaseResponseCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseResponseCompletedStreamEvent {
+  return {
+    value: knowledgeBaseResponseCompletedEventDeserializer(item["value"]),
   };
 }
 

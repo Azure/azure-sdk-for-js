@@ -31,13 +31,13 @@ import {
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   CreateSkillsetOptionalParams,
-  GetSkillsetsOptionalParams,
+  ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
   DeleteSkillsetOptionalParams,
   CreateOrUpdateSkillsetOptionalParams,
   GetIndexerStatusOptionalParams,
   CreateIndexerOptionalParams,
-  GetIndexersOptionalParams,
+  ListIndexersOptionalParams,
   GetIndexerOptionalParams,
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
@@ -45,7 +45,7 @@ import {
   ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
-  GetDataSourceConnectionsOptionalParams,
+  ListDataSourceConnectionsOptionalParams,
   GetDataSourceConnectionOptionalParams,
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
@@ -115,9 +115,9 @@ export async function createSkillset(
   return _createSkillsetDeserialize(result);
 }
 
-export function _getSkillsetsSend(
+export function _listSkillsetsSend(
   context: Client,
-  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  options: ListSkillsetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion,%24select,search,pageSize,searchType}",
@@ -148,7 +148,7 @@ export function _getSkillsetsSend(
   });
 }
 
-export async function _getSkillsetsDeserialize(
+export async function _listSkillsetsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListSkillsetsResult> {
   const expectedStatuses = ["200"];
@@ -165,14 +165,14 @@ export async function _getSkillsetsDeserialize(
 }
 
 /** List all skillsets in a search service. */
-export function getSkillsets(
+export function listSkillsets(
   context: Client,
-  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  options: ListSkillsetsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexerSkillset> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSkillsetsSend(context, options),
-    _getSkillsetsDeserialize,
+    () => _listSkillsetsSend(context, options),
+    _listSkillsetsDeserialize,
     ["200"],
     {
       itemName: "skillsets",
@@ -475,9 +475,9 @@ export async function createIndexer(
   return _createIndexerDeserialize(result);
 }
 
-export function _getIndexersSend(
+export function _listIndexersSend(
   context: Client,
-  options: GetIndexersOptionalParams = { requestOptions: {} },
+  options: ListIndexersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion,%24select,search,pageSize,searchType}",
@@ -508,7 +508,7 @@ export function _getIndexersSend(
   });
 }
 
-export async function _getIndexersDeserialize(
+export async function _listIndexersDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListIndexersResult> {
   const expectedStatuses = ["200"];
@@ -525,14 +525,14 @@ export async function _getIndexersDeserialize(
 }
 
 /** Lists all indexers available for a search service. */
-export function getIndexers(
+export function listIndexers(
   context: Client,
-  options: GetIndexersOptionalParams = { requestOptions: {} },
+  options: ListIndexersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexer> {
   return buildPagedAsyncIterator(
     context,
-    () => _getIndexersSend(context, options),
-    _getIndexersDeserialize,
+    () => _listIndexersSend(context, options),
+    _listIndexersDeserialize,
     ["200"],
     {
       itemName: "indexers",
@@ -947,9 +947,9 @@ export async function createDataSourceConnection(
   return _createDataSourceConnectionDeserialize(result);
 }
 
-export function _getDataSourceConnectionsSend(
+export function _listDataSourceConnectionsSend(
   context: Client,
-  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  options: ListDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion,%24select,search,pageSize,searchType}",
@@ -980,7 +980,7 @@ export function _getDataSourceConnectionsSend(
   });
 }
 
-export async function _getDataSourceConnectionsDeserialize(
+export async function _listDataSourceConnectionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListDataSourcesResult> {
   const expectedStatuses = ["200"];
@@ -997,14 +997,14 @@ export async function _getDataSourceConnectionsDeserialize(
 }
 
 /** Lists all datasources available for a search service. */
-export function getDataSourceConnections(
+export function listDataSourceConnections(
   context: Client,
-  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  options: ListDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _getDataSourceConnectionsSend(context, options),
-    _getDataSourceConnectionsDeserialize,
+    () => _listDataSourceConnectionsSend(context, options),
+    _listDataSourceConnectionsDeserialize,
     ["200"],
     {
       itemName: "dataSources",

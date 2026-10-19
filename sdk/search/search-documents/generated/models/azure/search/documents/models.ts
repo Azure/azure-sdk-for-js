@@ -459,7 +459,7 @@ export interface VectorQuery {
   /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
   weight?: number;
   /** Type of query. */
-  /** The discriminator possible values: vector, text, imageUrl, imageBinary */
+  /** The discriminator possible values: vector, text */
   kind: VectorQueryKind;
 }
 
@@ -486,12 +486,7 @@ export function vectorQueryDeserializer(item: any): VectorQuery {
 }
 
 /** Alias for VectorQueryUnion */
-export type VectorQueryUnion =
-  | VectorizedQuery
-  | VectorizableTextQuery
-  | VectorizableImageUrlQuery
-  | VectorizableImageBinaryQuery
-  | VectorQuery;
+export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | VectorQuery;
 
 export function vectorQueryUnionSerializer(item: VectorQueryUnion): any {
   switch (item.kind) {
@@ -500,12 +495,6 @@ export function vectorQueryUnionSerializer(item: VectorQueryUnion): any {
 
     case "text":
       return vectorizableTextQuerySerializer(item as VectorizableTextQuery);
-
-    case "imageUrl":
-      return vectorizableImageUrlQuerySerializer(item as VectorizableImageUrlQuery);
-
-    case "imageBinary":
-      return vectorizableImageBinaryQuerySerializer(item as VectorizableImageBinaryQuery);
 
     default:
       return vectorQuerySerializer(item);
@@ -520,12 +509,6 @@ export function vectorQueryUnionDeserializer(item: any): VectorQueryUnion {
     case "text":
       return vectorizableTextQueryDeserializer(item as VectorizableTextQuery);
 
-    case "imageUrl":
-      return vectorizableImageUrlQueryDeserializer(item as VectorizableImageUrlQuery);
-
-    case "imageBinary":
-      return vectorizableImageBinaryQueryDeserializer(item as VectorizableImageBinaryQuery);
-
     default:
       return vectorQueryDeserializer(item);
   }
@@ -537,10 +520,6 @@ export enum KnownVectorQueryKind {
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
   Text = "text",
-  /** Vector query where an url that represents an image value that needs to be vectorized is provided. */
-  ImageUrl = "imageUrl",
-  /** Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided. */
-  ImageBinary = "imageBinary",
 }
 
 /**
@@ -549,9 +528,7 @@ export enum KnownVectorQueryKind {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **vector**: Vector query where a raw vector value is provided. \
- * **text**: Vector query where a text value that needs to be vectorized is provided. \
- * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided. \
- * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
+ * **text**: Vector query where a text value that needs to be vectorized is provided.
  */
 export type VectorQueryKind = string;
 
@@ -623,78 +600,12 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
   };
 }
 
-/** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
-export interface VectorizableImageUrlQuery extends VectorQuery {
-  /** The URL of an image to be vectorized to perform a vector search query. */
-  url?: string;
-  /** The kind of vector query being performed. */
-  kind: "imageUrl";
-}
-
-export function vectorizableImageUrlQuerySerializer(item: VectorizableImageUrlQuery): any {
-  return {
-    k: item["kNearestNeighborsCount"],
-    fields: item["fields"],
-    exhaustive: item["exhaustive"],
-    oversampling: item["oversampling"],
-    weight: item["weight"],
-    kind: item["kind"],
-    url: item["url"],
-  };
-}
-
-export function vectorizableImageUrlQueryDeserializer(item: any): VectorizableImageUrlQuery {
-  return {
-    kNearestNeighborsCount: item["k"],
-    fields: item["fields"],
-    exhaustive: item["exhaustive"],
-    oversampling: item["oversampling"],
-    weight: item["weight"],
-    kind: item["kind"],
-    url: item["url"],
-  };
-}
-
-/** The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided. */
-export interface VectorizableImageBinaryQuery extends VectorQuery {
-  /** The base 64 encoded binary of an image to be vectorized to perform a vector search query. */
-  base64Image?: string;
-  /** The kind of vector query being performed. */
-  kind: "imageBinary";
-}
-
-export function vectorizableImageBinaryQuerySerializer(item: VectorizableImageBinaryQuery): any {
-  return {
-    k: item["kNearestNeighborsCount"],
-    fields: item["fields"],
-    exhaustive: item["exhaustive"],
-    oversampling: item["oversampling"],
-    weight: item["weight"],
-    kind: item["kind"],
-    base64Image: item["base64Image"],
-  };
-}
-
-export function vectorizableImageBinaryQueryDeserializer(item: any): VectorizableImageBinaryQuery {
-  return {
-    kNearestNeighborsCount: item["k"],
-    fields: item["fields"],
-    exhaustive: item["exhaustive"],
-    oversampling: item["oversampling"],
-    weight: item["weight"],
-    kind: item["kind"],
-    base64Image: item["base64Image"],
-  };
-}
-
 /** Determines whether or not filters are applied before or after the vector search is performed. */
 export enum KnownVectorFilterMode {
   /** The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. */
   PostFilter = "postFilter",
   /** The filter will be applied before the search query. */
   PreFilter = "preFilter",
-  /** The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'. */
-  StrictPostFilter = "strictPostFilter",
 }
 
 /**
@@ -703,8 +614,7 @@ export enum KnownVectorFilterMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **postFilter**: The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. \
- * **preFilter**: The filter will be applied before the search query. \
- * **strictPostFilter**: The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'.
+ * **preFilter**: The filter will be applied before the search query.
  */
 export type VectorFilterMode = string;
 

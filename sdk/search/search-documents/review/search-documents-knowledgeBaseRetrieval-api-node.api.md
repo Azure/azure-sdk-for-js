@@ -7,7 +7,6 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -36,7 +35,28 @@ export interface RetrieveOptionalParams extends OperationOptions {
 }
 
 // @public
-export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<RetrieveStreamResponse>;
+export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<AsyncIterable<{
+    event: "retrieval.started";
+    data: KnowledgeBaseRetrievalStartedEvent;
+} | {
+    event: "activity.started";
+    data: KnowledgeBaseActivityStartedEvent;
+} | {
+    event: "activity.completed";
+    data: KnowledgeBaseActivityRecordUnion;
+} | {
+    event: "answer.completed";
+    data: KnowledgeBaseAnswerCompletedEvent;
+} | {
+    event: "references.completed";
+    data: KnowledgeBaseReferenceUnion[];
+} | {
+    event: "error";
+    data: KnowledgeBaseStreamErrorEvent;
+} | {
+    event: "response.completed";
+    data: KnowledgeBaseResponseCompletedEvent;
+}>>;
 
 // @public
 export interface RetrieveStreamOptionalParams extends OperationOptions {

@@ -7,9 +7,6 @@
 import { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
-export type AIFoundryModelCatalogName = string;
-
-// @public
 export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
     identity?: SearchIndexerDataIdentityUnion;
     odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
@@ -73,22 +70,6 @@ export interface AzureBlobKnowledgeSourceParameters {
     folderPath?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
     isAdlsGen2?: boolean;
-}
-
-// @public
-export interface AzureMachineLearningParameters {
-    authenticationKey?: string;
-    modelName?: AIFoundryModelCatalogName;
-    region?: string;
-    resourceId?: string;
-    scoringUri: string | null;
-    timeout?: string;
-}
-
-// @public
-export interface AzureMachineLearningVectorizer extends VectorSearchVectorizer {
-    amlParameters?: AzureMachineLearningParameters;
-    kind: "aml";
 }
 
 // @public
@@ -855,6 +836,13 @@ export interface KnowledgeSourceFile {
 }
 
 // @public
+export interface KnowledgeSourceFileCapacity {
+    readonly maxFileCount: number;
+    readonly maxFileSizeBytes: number;
+    readonly remainingFileCount: number;
+}
+
+// @public
 export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
@@ -872,20 +860,14 @@ export type KnowledgeSourceSynchronizationStatus = string;
 export type KnowledgeSourceUnion = SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | IndexedSqlKnowledgeSource | FileKnowledgeSource | WebKnowledgeSource | KnowledgeSource;
 
 // @public
-export enum KnownAIFoundryModelCatalogName {
-    CohereEmbedV3English = "Cohere-embed-v3-english",
-    CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
-    CohereEmbedV4 = "Cohere-embed-v4",
-    FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
-    FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
-    OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
-    OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336"
-}
-
-// @public
 export enum KnownAzureOpenAIModelName {
+    Gpt54 = "gpt-5.4",
     Gpt54Mini = "gpt-5.4-mini",
     Gpt54Nano = "gpt-5.4-nano",
+    Gpt55 = "gpt-5.5",
+    Gpt56Luna = "gpt-5.6-luna",
+    Gpt56Sol = "gpt-5.6-sol",
+    Gpt56Terra = "gpt-5.6-terra",
     Gpt5Mini = "gpt-5-mini",
     Gpt5Nano = "gpt-5-nano",
     TextEmbedding3Large = "text-embedding-3-large",
@@ -2782,7 +2764,7 @@ export interface VectorSearchVectorizer {
 export type VectorSearchVectorizerKind = string;
 
 // @public
-export type VectorSearchVectorizerUnion = AzureOpenAIVectorizer | WebApiVectorizer | AzureMachineLearningVectorizer | VectorSearchVectorizer;
+export type VectorSearchVectorizerUnion = AzureOpenAIVectorizer | WebApiVectorizer | VectorSearchVectorizer;
 
 // @public
 export type VisualFeature = string;

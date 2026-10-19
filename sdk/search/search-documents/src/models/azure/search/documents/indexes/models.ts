@@ -4377,7 +4377,7 @@ export interface VectorSearchVectorizer {
   /** The name to associate with this particular vectorization method. */
   vectorizerName: string;
   /** Type of VectorSearchVectorizer. */
-  /** The discriminator possible values: azureOpenAI, customWebApi, aml */
+  /** The discriminator possible values: azureOpenAI, customWebApi */
   kind: VectorSearchVectorizerKind;
 }
 
@@ -4394,10 +4394,7 @@ export function vectorSearchVectorizerDeserializer(item: any): VectorSearchVecto
 
 /** Alias for VectorSearchVectorizerUnion */
 export type VectorSearchVectorizerUnion =
-  | AzureOpenAIVectorizer
-  | WebApiVectorizer
-  | AzureMachineLearningVectorizer
-  | VectorSearchVectorizer;
+  AzureOpenAIVectorizer | WebApiVectorizer | VectorSearchVectorizer;
 
 export function vectorSearchVectorizerUnionSerializer(item: VectorSearchVectorizerUnion): any {
   switch (item.kind) {
@@ -4406,9 +4403,6 @@ export function vectorSearchVectorizerUnionSerializer(item: VectorSearchVectoriz
 
     case "customWebApi":
       return webApiVectorizerSerializer(item as WebApiVectorizer);
-
-    case "aml":
-      return azureMachineLearningVectorizerSerializer(item as AzureMachineLearningVectorizer);
 
     default:
       return vectorSearchVectorizerSerializer(item);
@@ -4422,9 +4416,6 @@ export function vectorSearchVectorizerUnionDeserializer(item: any): VectorSearch
 
     case "customWebApi":
       return webApiVectorizerDeserializer(item as WebApiVectorizer);
-
-    case "aml":
-      return azureMachineLearningVectorizerDeserializer(item as AzureMachineLearningVectorizer);
 
     default:
       return vectorSearchVectorizerDeserializer(item);
@@ -4537,10 +4528,20 @@ export enum KnownAzureOpenAIModelName {
   Gpt5Mini = "gpt-5-mini",
   /** Gpt5Nano model. */
   Gpt5Nano = "gpt-5-nano",
+  /** Gpt54 model. */
+  Gpt54 = "gpt-5.4",
   /** Gpt54Mini model. */
   Gpt54Mini = "gpt-5.4-mini",
   /** Gpt54Nano model. */
   Gpt54Nano = "gpt-5.4-nano",
+  /** Gpt55 model. */
+  Gpt55 = "gpt-5.5",
+  /** Gpt56Sol model. */
+  Gpt56Sol = "gpt-5.6-sol",
+  /** Gpt56Terra model. */
+  Gpt56Terra = "gpt-5.6-terra",
+  /** Gpt56Luna model. */
+  Gpt56Luna = "gpt-5.6-luna",
 }
 
 /**
@@ -4553,8 +4554,13 @@ export enum KnownAzureOpenAIModelName {
  * **text-embedding-3-small**: TextEmbedding3Small model. \
  * **gpt-5-mini**: Gpt5Mini model. \
  * **gpt-5-nano**: Gpt5Nano model. \
+ * **gpt-5.4**: Gpt54 model. \
  * **gpt-5.4-mini**: Gpt54Mini model. \
- * **gpt-5.4-nano**: Gpt54Nano model.
+ * **gpt-5.4-nano**: Gpt54Nano model. \
+ * **gpt-5.5**: Gpt55 model. \
+ * **gpt-5.6-sol**: Gpt56Sol model. \
+ * **gpt-5.6-terra**: Gpt56Terra model. \
+ * **gpt-5.6-luna**: Gpt56Luna model.
  */
 export type AzureOpenAIModelName = string;
 
@@ -4631,113 +4637,6 @@ export function webApiVectorizerParametersDeserializer(item: any): WebApiVectori
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
   };
 }
-
-/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
-export interface AzureMachineLearningVectorizer extends VectorSearchVectorizer {
-  /** Specifies the properties of the AML vectorizer. */
-  amlParameters?: AzureMachineLearningParameters;
-  /** The name of the kind of vectorization method being configured for use with vector search. */
-  kind: "aml";
-}
-
-export function azureMachineLearningVectorizerSerializer(
-  item: AzureMachineLearningVectorizer,
-): any {
-  return {
-    name: item["vectorizerName"],
-    kind: item["kind"],
-    amlParameters: !item["amlParameters"]
-      ? item["amlParameters"]
-      : azureMachineLearningParametersSerializer(item["amlParameters"]),
-  };
-}
-
-export function azureMachineLearningVectorizerDeserializer(
-  item: any,
-): AzureMachineLearningVectorizer {
-  return {
-    vectorizerName: item["name"],
-    kind: item["kind"],
-    amlParameters: !item["amlParameters"]
-      ? item["amlParameters"]
-      : azureMachineLearningParametersDeserializer(item["amlParameters"]),
-  };
-}
-
-/** Specifies the properties for connecting to an AML vectorizer. */
-export interface AzureMachineLearningParameters {
-  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri: string | null;
-  /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string;
-  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string;
-  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string;
-  /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string;
-  /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
-  modelName?: AIFoundryModelCatalogName;
-}
-
-export function azureMachineLearningParametersSerializer(
-  item: AzureMachineLearningParameters,
-): any {
-  return {
-    uri: item["scoringUri"],
-    key: item["authenticationKey"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    modelName: item["modelName"],
-  };
-}
-
-export function azureMachineLearningParametersDeserializer(
-  item: any,
-): AzureMachineLearningParameters {
-  return {
-    scoringUri: item["uri"],
-    authenticationKey: item["key"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    modelName: item["modelName"],
-  };
-}
-
-/** The name of the embedding model from the Azure AI Foundry Catalog that will be called. */
-export enum KnownAIFoundryModelCatalogName {
-  /** OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32 */
-  OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
-  /** OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336 */
-  OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336",
-  /** Facebook-DinoV2-Image-Embeddings-ViT-Base */
-  FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
-  /** Facebook-DinoV2-Image-Embeddings-ViT-Giant */
-  FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
-  /** Cohere-embed-v3-english */
-  CohereEmbedV3English = "Cohere-embed-v3-english",
-  /** Cohere-embed-v3-multilingual */
-  CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
-  /** Cohere embed v4 model for generating embeddings from both text and images. */
-  CohereEmbedV4 = "Cohere-embed-v4",
-}
-
-/**
- * The name of the embedding model from the Azure AI Foundry Catalog that will be called. \
- * {@link KnownAIFoundryModelCatalogName} can be used interchangeably with AIFoundryModelCatalogName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32**: OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32 \
- * **OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336**: OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336 \
- * **Facebook-DinoV2-Image-Embeddings-ViT-Base**: Facebook-DinoV2-Image-Embeddings-ViT-Base \
- * **Facebook-DinoV2-Image-Embeddings-ViT-Giant**: Facebook-DinoV2-Image-Embeddings-ViT-Giant \
- * **Cohere-embed-v3-english**: Cohere-embed-v3-english \
- * **Cohere-embed-v3-multilingual**: Cohere-embed-v3-multilingual \
- * **Cohere-embed-v4**: Cohere embed v4 model for generating embeddings from both text and images.
- */
-export type AIFoundryModelCatalogName = string;
 
 export function vectorSearchCompressionUnionArraySerializer(
   result: Array<VectorSearchCompressionUnion>,
@@ -5054,6 +4953,21 @@ export function searchIndexArrayDeserializer(result: Array<SearchIndex>): any[] 
   return result.map((item) => {
     return searchIndexDeserializer(item);
   });
+}
+
+/** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
+export interface _ListIndexesSelectedResult {
+  /** The indexes in the Search service. */
+  readonly value: SearchIndexResponse[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly nextLink?: string;
+}
+
+export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesSelectedResult {
+  return {
+    value: searchIndexResponseArrayDeserializer(item["value"]),
+    nextLink: item["@odata.nextLink"],
+  };
 }
 
 export function searchIndexResponseArrayDeserializer(result: Array<SearchIndexResponse>): any[] {
@@ -6583,6 +6497,24 @@ export enum KnownKnowledgeSourceSynchronizationStatus {
  * **deleting**: The knowledge source is being deleted and synchronization is paused.
  */
 export type KnowledgeSourceSynchronizationStatus = string;
+
+/** File upload capacity for a File knowledge source. */
+export interface KnowledgeSourceFileCapacity {
+  /** The maximum number of files allowed in the knowledge source. */
+  readonly maxFileCount: number;
+  /** The number of additional files that can be uploaded at the time of the request. */
+  readonly remainingFileCount: number;
+  /** The maximum size in bytes of an individual uploaded file. */
+  readonly maxFileSizeBytes: number;
+}
+
+export function knowledgeSourceFileCapacityDeserializer(item: any): KnowledgeSourceFileCapacity {
+  return {
+    maxFileCount: item["maxFileCount"],
+    remainingFileCount: item["remainingFileCount"],
+    maxFileSizeBytes: item["maxFileSizeBytes"],
+  };
+}
 
 /** Multipart request for uploading a file to a File knowledge source. */
 export interface UploadKnowledgeSourceFileMultipartRequest {

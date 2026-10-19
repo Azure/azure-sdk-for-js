@@ -261,19 +261,6 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
-
-// @public
-export interface GetSynonymMapsOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
-    clientRequestId?: string;
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-    select?: string;
-}
-
-// @public
 export function listAliases(context: SearchIndexContext, options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
 
 // @public
@@ -357,6 +344,19 @@ export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
     pageSize?: number;
     search?: string;
     searchType?: ListingSearchType;
+}
+
+// @public
+export function listSynonymMaps(context: SearchIndexContext, options?: ListSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
+
+// @public
+export interface ListSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public

@@ -5,7 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   ListingSearchType,
-  AIFoundryModelCatalogName,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureOpenAIModelName,
@@ -2505,99 +2504,7 @@ export interface WebApiParameters {
 /**
  * Contains configuration options on how to vectorize text vector queries.
  */
-export type VectorSearchVectorizer =
-  AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
-
-/**
- * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
- * generating the vector embedding of a query string.
- */
-export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "aml";
-  /**
-   * Specifies the properties of the AML vectorizer.
-   */
-  amlParameters?: AzureMachineLearningVectorizerParameters;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer.
- */
-export type AzureMachineLearningVectorizerParameters =
-  | NoAuthAzureMachineLearningVectorizerParameters
-  | KeyAuthAzureMachineLearningVectorizerParameters
-  | TokenAuthAzureMachineLearningVectorizerParameters;
-
-/**
- * Specifies the properties common between all AML vectorizer auth types.
- */
-export interface BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * When specified, indicates the timeout for the http client making the API call.
-   */
-  timeout?: string;
-  /**
-   * The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the
-   * provided endpoint.
-   */
-  modelName?: AIFoundryModelCatalogName;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with no authentication.
- */
-export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "none";
-  /**
-   * The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI
-   * scheme is allowed.
-   */
-  scoringUri: string;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with an authentication key.
- */
-export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "key";
-  /**
-   * The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI
-   * scheme is allowed.
-   */
-  scoringUri: string;
-  /**
-   * The key for the AML service.
-   */
-  apiKey: string;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with a managed identity.
- */
-export interface TokenAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "token";
-  /**
-   * The Azure Resource Manager resource ID of the AML service. It should be in the format
-   * subscriptions/\{guid\}/resourceGroups/\{resource-group-name\}/Microsoft.MachineLearningServices/workspaces/\{workspace-name\}/services/\{service_name\}.
-   */
-  resourceId: string;
-  /**
-   * The region the AML service is deployed in.
-   */
-  region?: string;
-}
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 /**
  * Specifies the parameters for connecting to the Azure OpenAI resource.

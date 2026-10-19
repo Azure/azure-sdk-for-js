@@ -16,13 +16,62 @@ function createResponse(status: number, body: string): Response {
       controller.close();
     },
   });
-  return new Response(stream, { status });
+  return new Response(stream, {
+    status,
+    headers: { "content-type": status === 200 ? "text/event-stream" : "application/json" },
+  });
 }
 
 describe("knowledge retrieval stream browser transport", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+  });
+
+  it("streams typed events from the protocol browser client", async () => {
+    const fetch = vi.fn().mockResolvedValue(
+      createResponse(
+        200,
+        [
+          `event: activity.completed\ndata: ${JSON.stringify({
+            id: 1,
+            type: "searchIndex",
+            startedAt: "2026-10-01T00:00:00Z",
+            completedAt: "2026-10-01T00:00:01Z",
+          })}\n\n`,
+          `event: response.completed\ndata: ${JSON.stringify({
+            statusCode: 200,
+            response: { response: [] },
+          })}\n\n`,
+          `event: retrieval.started\ndata: {"requestId":"unexpected"}\n\n`,
+        ].join(""),
+      ),
+    );
+    vi.stubGlobal("fetch", fetch);
+    const client = new ProtocolKnowledgeBaseRetrievalClient(
+      "https://example.search.windows.net",
+      new AzureKeyCredential("key"),
+      "base",
+    );
+
+    const events: KnowledgeBaseRetrievalStreamEvent[] = [];
+    for await (const event of await client.retrieveStream({
+      intents: [{ type: "semantic", search: "status" }],
+    })) {
+      events.push(event);
+    }
+
+    expect(events.map((event) => event.event)).toEqual([
+      "activity.completed",
+      "response.completed",
+    ]);
+    const activity = events[0];
+    expect(activity.event).toBe("activity.completed");
+    if (activity.event === "activity.completed") {
+      expect(activity.data.startedAt).toEqual(new Date("2026-10-01T00:00:00Z"));
+      expect(activity.data.completedAt).toEqual(new Date("2026-10-01T00:00:01Z"));
+    }
+    expect(fetch).toHaveBeenCalledOnce();
   });
 
   it("streams typed events from a browser response", async () => {

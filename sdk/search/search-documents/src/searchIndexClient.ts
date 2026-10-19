@@ -264,7 +264,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps(updatedOptions),
+            this.client.listSynonymMaps(updatedOptions),
             utils.generatedSynonymMapToPublicSynonymMap,
           ),
         );
@@ -284,7 +284,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps({
+            this.client.listSynonymMaps({
               ...updatedOptions,
               select: "name",
             }),

@@ -173,7 +173,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getIndexers(updatedOptions),
+            this.client.listIndexers(updatedOptions),
             utils.generatedSearchIndexerToPublicSearchIndexer,
           ),
         );
@@ -193,7 +193,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getIndexers({
+            this.client.listIndexers({
               ...updatedOptions,
               select: "name",
             }),
@@ -217,7 +217,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getDataSourceConnections(updatedOptions),
+            this.client.listDataSourceConnections(updatedOptions),
             utils.generatedDataSourceToPublicDataSource,
           ),
         );
@@ -239,7 +239,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getDataSourceConnections({
+            this.client.listDataSourceConnections({
               ...updatedOptions,
               select: "name",
             }),
@@ -263,7 +263,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSkillsets(updatedOptions),
+            this.client.listSkillsets(updatedOptions),
             utils.generatedSkillsetToPublicSkillset,
           ),
         );
@@ -283,7 +283,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSkillsets({
+            this.client.listSkillsets({
               ...updatedOptions,
               select: "name",
             }),

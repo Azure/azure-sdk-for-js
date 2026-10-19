@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export type {
-  KnowledgeSourceFileCapacity,
   KnowledgeBaseRetrievalStreamEvents,
   GetDocumentCountResponse,
   RetrieveStreamResponse,

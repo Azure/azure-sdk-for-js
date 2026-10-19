@@ -19,8 +19,6 @@ import type {
   DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
-  AzureMachineLearningParameters as GeneratedAMLParameters,
-  AzureMachineLearningVectorizer as GeneratedAMLVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters as GeneratedAzureBlobKnowledgeSourceParameters,
   AzureOpenAIVectorizerParameters as GeneratedAzureOpenAIParameters,
@@ -77,8 +75,6 @@ import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
   AzureBlobKnowledgeSourceParameters,
-  AzureMachineLearningVectorizer,
-  AzureMachineLearningVectorizerParameters,
   AzureOpenAIParameters,
   AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
@@ -93,7 +89,6 @@ import type {
   IndexerExecutionEnvironment,
   IndexingParameters,
   IndexingParametersConfiguration,
-  KeyAuthAzureMachineLearningVectorizerParameters,
   KnowledgeBaseModel,
   KnowledgeSource,
   KnowledgeSourceIngestionParameters,
@@ -103,7 +98,6 @@ import type {
   KnowledgeSourceVectorizer,
   LexicalAnalyzer,
   LexicalTokenizer,
-  NoAuthAzureMachineLearningVectorizerParameters,
   PatternAnalyzer,
   QueryAnswerResult,
   QueryCaptionResult,
@@ -123,7 +117,6 @@ import type {
   SimilarityAlgorithm,
   SimpleField,
   SynonymMap,
-  TokenAuthAzureMachineLearningVectorizerParameters,
   TokenFilter,
   VectorSearch,
   VectorSearchAlgorithmConfiguration,
@@ -511,20 +504,6 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       };
       return vectorizer;
     },
-
-    aml: () => {
-      const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
-
-      const vectorizer: AzureMachineLearningVectorizer = {
-        ...generatedAMLVectorizer,
-        amlParameters:
-          generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-            generatedAMLVectorizer.amlParameters,
-          ),
-      };
-
-      return vectorizer;
-    },
   };
   const defaultDeserializer = (): any => {
     logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
@@ -578,40 +557,6 @@ export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
       generatedVectorizer.kind as keyof typeof knownVectorizerDeserializers
     ] ?? defaultDeserializer
   )();
-}
-
-function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-  aMLParameters?: GeneratedAMLParameters,
-): AzureMachineLearningVectorizerParameters | undefined {
-  if (!aMLParameters) {
-    return undefined;
-  }
-
-  const { resourceId, authenticationKey, scoringUri } = aMLParameters;
-  // Sensitive to case order
-  switch (true) {
-    case resourceId !== undefined && resourceId !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "token",
-      } as TokenAuthAzureMachineLearningVectorizerParameters;
-    }
-    case authenticationKey !== undefined && authenticationKey !== null: {
-      return {
-        ...aMLParameters,
-        apiKey: authenticationKey,
-        authKind: "key",
-      } as KeyAuthAzureMachineLearningVectorizerParameters;
-    }
-    case scoringUri !== undefined && scoringUri !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "none",
-      } as NoAuthAzureMachineLearningVectorizerParameters;
-    }
-  }
-  logger.warning("Unknown AML parameter kind");
-  return aMLParameters as any;
 }
 
 export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;

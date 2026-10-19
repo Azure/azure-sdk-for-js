@@ -13,7 +13,7 @@ export interface CreateSkillsetOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GetSkillsetsOptionalParams extends OperationOptions {
+export interface ListSkillsetsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The Accept header. */
@@ -77,7 +77,7 @@ export interface CreateIndexerOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GetIndexersOptionalParams extends OperationOptions {
+export interface ListIndexersOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The Accept header. */
@@ -157,7 +157,7 @@ export interface CreateDataSourceConnectionOptionalParams extends OperationOptio
 }
 
 /** Optional parameters. */
-export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
+export interface ListDataSourceConnectionsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The Accept header. */

@@ -116,38 +116,12 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 }
 
 // @public
-export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
-
-// @public
-export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
-    clientRequestId?: string;
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-    select?: string;
-}
-
-// @public
 export function getIndexer(context: SearchIndexerContext, name: string, options?: GetIndexerOptionalParams): Promise<SearchIndexer>;
 
 // @public
 export interface GetIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-}
-
-// @public
-export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
-
-// @public
-export interface GetIndexersOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
-    clientRequestId?: string;
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-    select?: string;
 }
 
 // @public
@@ -169,10 +143,36 @@ export interface GetSkillsetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
+export function listDataSourceConnections(context: SearchIndexerContext, options?: ListDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
 
 // @public
-export interface GetSkillsetsOptionalParams extends OperationOptions {
+export interface ListDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function listIndexers(context: SearchIndexerContext, options?: ListIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
+
+// @public
+export interface ListIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function listSkillsets(context: SearchIndexerContext, options?: ListSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
+
+// @public
+export interface ListSkillsetsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     pageSize?: number;

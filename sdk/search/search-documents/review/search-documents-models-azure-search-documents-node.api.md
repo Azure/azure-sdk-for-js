@@ -128,14 +128,11 @@ export enum KnownSemanticSearchResultsType {
 // @public
 export enum KnownVectorFilterMode {
     PostFilter = "postFilter",
-    PreFilter = "preFilter",
-    StrictPostFilter = "strictPostFilter"
+    PreFilter = "preFilter"
 }
 
 // @public
 export enum KnownVectorQueryKind {
-    ImageBinary = "imageBinary",
-    ImageUrl = "imageUrl",
     Text = "text",
     Vector = "vector"
 }
@@ -279,18 +276,6 @@ export interface TextResult {
 export type VectorFilterMode = string;
 
 // @public
-export interface VectorizableImageBinaryQuery extends VectorQuery {
-    base64Image?: string;
-    kind: "imageBinary";
-}
-
-// @public
-export interface VectorizableImageUrlQuery extends VectorQuery {
-    kind: "imageUrl";
-    url: string;
-}
-
-// @public
 export interface VectorizableTextQuery extends VectorQuery {
     kind: "text";
     text: string;
@@ -316,7 +301,7 @@ export interface VectorQuery {
 export type VectorQueryKind = string;
 
 // @public
-export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | VectorizableImageUrlQuery | VectorizableImageBinaryQuery | VectorQuery;
+export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | VectorQuery;
 
 // @public
 export interface VectorsDebugInfo {

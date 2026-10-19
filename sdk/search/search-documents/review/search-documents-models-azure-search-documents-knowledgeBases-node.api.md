@@ -45,6 +45,11 @@ export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
 }
 
 // @public
+export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityRecordUnion;
+}
+
+// @public
 export interface KnowledgeBaseActivityRecord {
     completedAt?: Date;
     elapsedMs?: number;
@@ -76,9 +81,13 @@ export interface KnowledgeBaseActivityStartedEvent {
 }
 
 // @public
+export interface KnowledgeBaseActivityStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityStartedEvent;
+}
+
+// @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
     reasoningTokens?: number;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
 }
 
@@ -86,6 +95,11 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBa
 export interface KnowledgeBaseAnswerCompletedEvent {
     message: KnowledgeBaseMessage;
     messageIndex: number;
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseAnswerCompletedEvent;
 }
 
 // @public
@@ -122,6 +136,11 @@ export interface KnowledgeBaseErrorDetail {
     readonly details?: KnowledgeBaseErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface KnowledgeBaseErrorStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseStreamErrorEvent;
 }
 
 // @public
@@ -276,6 +295,11 @@ export interface KnowledgeBaseReference {
 }
 
 // @public
+export interface KnowledgeBaseReferencesCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseReferenceUnion[];
+}
+
+// @public
 export type KnowledgeBaseReferenceType = string;
 
 // @public
@@ -285,6 +309,11 @@ export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | Kn
 export interface KnowledgeBaseResponseCompletedEvent {
     response: KnowledgeBaseRetrievalResponse;
     statusCode: KnowledgeBaseRetrievalStatusCode;
+}
+
+// @public
+export interface KnowledgeBaseResponseCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseResponseCompletedEvent;
 }
 
 // @public
@@ -316,7 +345,16 @@ export interface KnowledgeBaseRetrievalStartedEvent {
 }
 
 // @public
+export interface KnowledgeBaseRetrievalStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseRetrievalStartedEvent;
+}
+
+// @public
 export type KnowledgeBaseRetrievalStatusCode = number;
+
+// @public
+export interface KnowledgeBaseRetrievalStreamEvent {
+}
 
 // @public
 export interface KnowledgeBaseSearchIndexActivityArguments {

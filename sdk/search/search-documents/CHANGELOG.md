@@ -4,7 +4,14 @@
 
 ### Features Added
 
+- Regenerated from the `2026-10-01` GA Search service API at commit `aa4a5d58a43fb05c6b1c783a65e65508662ee2b4`.
+- Added native typed server-sent event retrieval to the protocol client and GPT-5.4, GPT-5.5, and GPT-5.6 model names.
+
 ### Breaking Changes
+
+- Removed image vector queries (`VectorizableImageUrlQuery` and `VectorizableImageBinaryQuery`), the `strictPostFilter` vector filter mode, and Azure Machine Learning vectorizer types and model catalog names to match the GA specification.
+- Renamed protocol listing operations and their option types from `getSynonymMaps`, `getIndexers`, `getDataSourceConnections`, and `getSkillsets` to their corresponding `list*` names. Convenience client listing methods are unchanged.
+- Removed `retrievalReasoningEffort` from `KnowledgeBaseAgenticReasoningActivityRecord`.
 
 ### Bugs Fixed
 

@@ -184,16 +184,6 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetSynonymMapsOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
-    clientRequestId?: string;
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-    select?: string;
-}
-
-// @public
 export interface ListAliasesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -258,6 +248,16 @@ export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
     searchType?: ListingSearchType;
 }
 
+// @public
+export interface ListSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
 // @public (undocumented)
 export class SearchIndexClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptionalParams);
@@ -286,7 +286,6 @@ export class SearchIndexClient {
     getKnowledgeSourceStatus(name: string, options?: GetKnowledgeSourceStatusOptionalParams): Promise<KnowledgeSourceStatus>;
     getServiceStatistics(options?: GetServiceStatisticsOptionalParams): Promise<SearchServiceStatistics>;
     getSynonymMap(name: string, options?: GetSynonymMapOptionalParams): Promise<SynonymMap>;
-    getSynonymMaps(options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;
@@ -294,6 +293,7 @@ export class SearchIndexClient {
     listKnowledgeBases(options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
     listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
+    listSynonymMaps(options?: ListSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
     readonly pipeline: Pipeline;
     updateKnowledgeSourceFile(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
     uploadKnowledgeSourceFileMultipart(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;

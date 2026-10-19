@@ -34,7 +34,7 @@ export type {
   DeleteIndexOptionalParams,
   CreateOrUpdateIndexOptionalParams,
   CreateSynonymMapOptionalParams,
-  GetSynonymMapsOptionalParams,
+  ListSynonymMapsOptionalParams,
   GetSynonymMapOptionalParams,
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
