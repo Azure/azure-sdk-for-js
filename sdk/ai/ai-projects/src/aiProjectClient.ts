@@ -135,6 +135,7 @@ export class AIProjectClient {
       credential,
       options.endpoint ?? endpoint,
       resolveRealtimeOptions(options, prefixFromOptions),
+      this._tracingConfig,
     );
     this.telemetry = _getTelemetryOperations(this.connections);
   }

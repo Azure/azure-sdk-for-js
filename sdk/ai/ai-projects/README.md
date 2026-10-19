@@ -1461,6 +1461,59 @@ Each option is resolved using the following precedence order:
 
 > **Note:** Because all tracing features are currently experimental, `experimental: true` must also be set (either explicitly or via the environment variable) for any spans to be emitted.
 
+#### Voice Agents tracing
+
+After configuring an OpenTelemetry provider/exporter as shown below, the existing
+`tracingOptions: { experimental: true }` setting also traces voice-agent generation,
+telephony mutations, conversation deletion, and realtime connections/responses.
+No separate feature flag is required. Users who do not call Voice Agents APIs
+receive no additional Voice Agents spans.
+
+```ts snippet:ReadmeSampleVoiceAgentTracing
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+  },
+});
+const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+try {
+  await connection.sendText("Hello.");
+  for await (const event of connection) {
+    if (event.type === "response.done") break;
+  }
+} finally {
+  await connection.close();
+}
+```
+
+Realtime creates a session span, a short connection child, and an `invoke_agent`
+child for each observed `response.created`/`response.done` pair. It records status,
+service IDs, token usage, aggregated audio bytes, and received-first-audio latency
+(from `response.created`, not user speech or playback). It does not create a span
+per audio chunk. Service IDs appear only in traces, not metric dimensions.
+REST and `project.beta.voiceAgents.realtime` use the same existing project-level
+`tracingOptions`; no additional options or per-realtime override are required.
+The independently constructed `VoiceAgentRealtimeClient` keeps its existing API
+and does not receive the project's tracing configuration.
+
+The session's input message summary represents the latest observed input, not
+the full conversation history. New audio replaces an older transcript with audio
+metadata while its item ID is pending. A completed transcript replaces that
+metadata only when its item ID is correlated to the current input.
+
+Message summaries omit content by default. Explicit `contentRecording: true` allows
+bounded text/transcripts and tool arguments/results; it may expose sensitive user
+information. Raw media, credentials, query values, telephone numbers, SDP, and raw
+error/close messages are never intentionally recorded by this instrumentation.
+Read/list calls continue using the existing HTTP pipeline tracing.
+
+See [realtime tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
+and [REST tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRestWithTracing.ts).
+
 #### Azure Monitor tracing
 
 Here is a code sample that shows how to enable Azure Monitor tracing:
