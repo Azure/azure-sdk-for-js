@@ -49,7 +49,7 @@ export function _upgradeSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,9 @@ export async function _upgradeDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -98,7 +100,7 @@ export function upgrade(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-30",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -116,7 +118,7 @@ export function _listByArcSettingSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +136,9 @@ export async function _listByArcSettingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -155,7 +159,7 @@ export function listByArcSetting(
     () => _listByArcSettingSend(context, resourceGroupName, clusterName, arcSettingName, options),
     _listByArcSettingDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -175,7 +179,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +192,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -211,7 +217,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, arcSettingName, extensionName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-30",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -232,7 +238,7 @@ export function _updateSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +256,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -282,7 +290,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-04-30",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -303,7 +311,7 @@ export function _createSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,7 +329,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -353,7 +363,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-30",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -373,7 +383,7 @@ export function _getSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -389,7 +399,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

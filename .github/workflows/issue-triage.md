@@ -52,7 +52,7 @@ network:
 post-steps:
   - name: Verify triage produced output
     if: ${{ !cancelled() }}
-    uses: actions/github-script@v9.0.0
+    uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
     with:
       script: |
         const fs = require('fs');
@@ -112,7 +112,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9.0.0
+          uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:
