@@ -22,7 +22,7 @@ import {
   type ResourceOptions,
 } from "./resource/resource.js";
 import type { ResourceCtor } from "./resource/resource-registry.js";
-import type { TargetScope } from "../serialization/contract/index.js";
+import type { TargetScope } from "../serialization/ast/index.js";
 
 // ---------------------------------------------------------------------------
 // Stack — class-based API for creating stacks

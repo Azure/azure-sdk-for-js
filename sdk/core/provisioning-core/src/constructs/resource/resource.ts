@@ -271,19 +271,20 @@ export abstract class ResourceDeclaration<
     //
     // Bicep requires a child of a conditional resource to itself be
     // conditional on the same expression. When no explicit `condition` is
-    // supplied, inherit the immediate parent resource declaration's
+    // supplied, inherit the nearest parent resource declaration's
     // condition so the emitted template stays valid — child authoring
     // shouldn't have to redundantly restate the parent's guard.
     const isExisting = props.existing === true;
-    const parent = this.parent;
-    const inheritedCondition = isResourceDeclaration(parent)
-      ? (parent.self as unknown as { state: Record<string, unknown> }).state["condition"]
-      : undefined;
+    let parent = this.parent;
+    while (parent !== undefined && !isResourceDeclaration(parent)) {
+      parent = parent.parent;
+    }
+    const inheritedCondition = isResourceDeclaration(parent) ? parent.condition : undefined;
     const explicitCondition = options?.condition;
     const condition =
       explicitCondition !== undefined && inheritedCondition !== undefined
         ? createBinaryExpression<boolean>("&&", inheritedCondition, explicitCondition)
-        : (explicitCondition ?? (inheritedCondition as ExpressionOrValue<boolean> | undefined));
+        : (explicitCondition ?? inheritedCondition);
     const dependsOn = options?.dependsOn;
 
     let data: ResourceState<TType> & Record<string, unknown>;
@@ -349,24 +350,37 @@ export abstract class ResourceDeclaration<
       // replace inherited tags).
       const shape = getShape(props.type, props.apiVersion, data);
       if (shape !== undefined) {
-        const locationShape = shape.byJsName["location"];
+        const properties = Object.entries(shape.byJsName);
+        const locationProperty = properties.find(
+          ([jsName, property]) =>
+            property.armPath.length <= 1 && (property.armPath[0] ?? jsName) === "location",
+        );
+        const locationName = locationProperty?.[0];
+        const locationShape = locationProperty?.[1];
         if (
+          locationName !== undefined &&
           locationShape !== undefined &&
           locationShape.readOnly !== true &&
-          data["location"] === undefined &&
+          data[locationName] === undefined &&
           ctx.location !== undefined
         ) {
-          data["location"] = ctx.location;
+          data[locationName] = ctx.location;
         }
-        const tagsShape = shape.byJsName["tags"];
+        const tagsProperty = properties.find(
+          ([jsName, property]) =>
+            property.armPath.length <= 1 && (property.armPath[0] ?? jsName) === "tags",
+        );
+        const tagsName = tagsProperty?.[0];
+        const tagsShape = tagsProperty?.[1];
         if (
+          tagsName !== undefined &&
           tagsShape !== undefined &&
           tagsShape.readOnly !== true &&
-          data["tags"] === undefined &&
+          data[tagsName] === undefined &&
           ctx.tags !== undefined &&
           Object.keys(ctx.tags).length > 0
         ) {
-          data["tags"] = { ...ctx.tags };
+          data[tagsName] = { ...ctx.tags };
         }
       }
     }
@@ -547,6 +561,16 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
    */
   protected static namingRules?: ResourceNamingRules;
 
+  /** Validates construction inputs before a scalar or looped declaration is registered. */
+  protected static validate(
+    _context: ProvisioningComponent,
+    _props: ResourceProps<string> & Record<string, unknown>,
+    _options?: ResourceOptions,
+    _namingRules?: ResourceNamingRules,
+  ): void {
+    // Resource subclasses can impose additional construction constraints.
+  }
+
   protected _selfProxy: this | undefined;
 
   constructor(
@@ -554,21 +578,9 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
     props: ResourceProps<TType> & Record<string, unknown>,
     options?: ResourceOptions,
   ) {
-    super(
-      context,
-      props,
-      options,
-      // Naming rules live as a `protected static namingRules` field on
-      // each concrete resource subclass, not on the public props bag.
-      // Read reflectively off `new.target` (the most-derived class being
-      // instantiated) — `this.constructor` would work too but TS forbids
-      // touching `this` before `super()`. Static inheritance falls back
-      // to `Resource`'s `undefined` default when a subclass omits the
-      // field (e.g. singleton children). `resolveResourceName` (called
-      // inside `ResourceDeclaration`) treats `undefined` as
-      // `MOST_RESTRICTIVE`.
-      (new.target as typeof Resource).namingRules,
-    );
+    const namingRules = (new.target as typeof Resource).namingRules;
+    (new.target as typeof Resource).validate(context, props, options, namingRules);
+    super(context, props, options, namingRules);
 
     const proxy = createResourceProxy(this as this & Resource<TType>);
     this._selfProxy = proxy;
@@ -799,7 +811,10 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
       options?: ResourceOptions,
     ) => T,
     userProps: unknown,
-    loop: Loop<unknown>,
+    loop: LoopContext & {
+      readonly indexRequested: boolean;
+      readonly indexVariable: string;
+    },
     options?: ResourceOptions,
   ) {
     // The subclass constructor never runs for a looped row — only this
@@ -820,12 +835,19 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
         buildResourceProps: (props: unknown) => ResourceProps<T["type"]> & Record<string, unknown>;
       }
     ).buildResourceProps.call(wrappedCtor, userProps);
-    super(
-      context,
-      props,
-      options,
-      (wrappedCtor as unknown as { namingRules?: ResourceNamingRules }).namingRules,
-    );
+    const namingRules = (wrappedCtor as unknown as { namingRules?: ResourceNamingRules })
+      .namingRules;
+    (
+      wrappedCtor as unknown as {
+        validate(
+          context: ProvisioningComponent,
+          props: ResourceProps<string> & Record<string, unknown>,
+          options?: ResourceOptions,
+          namingRules?: ResourceNamingRules,
+        ): void;
+      }
+    ).validate.call(wrappedCtor, context, props, options, namingRules);
+    super(context, props, options, namingRules);
     this.#wrappedCtor = wrappedCtor;
     // Snapshot the loop metadata at declaration time. `indexVariable` is
     // recorded only if the index was requested by now — either the caller
@@ -898,7 +920,10 @@ export function createLoopedResource<T extends Resource, C extends ProvisioningC
       options?: ResourceOptions,
     ) => U,
     userProps: unknown,
-    loop: Loop<unknown>,
+    loop: LoopContext & {
+      readonly indexRequested: boolean;
+      readonly indexVariable: string;
+    },
     options?: ResourceOptions,
   ) => LoopedResource<U>;
   return new LoopedCtor(

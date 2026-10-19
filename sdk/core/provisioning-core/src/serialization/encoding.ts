@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isExpressionNode } from "../../expression/ast-nodes.js";
-import { isExpression } from "../../expression/expressions.js";
+import { isExpressionNode } from "../expression/ast-nodes.js";
+import { isExpression } from "../expression/expressions.js";
 import type {
   BytesEncodingDescriptor,
   DateTimeTextEncodingDescriptor,
@@ -11,7 +11,7 @@ import type {
   NumericStringEncodingDescriptor,
   UnixTimestampEncodingDescriptor,
   ValueEncodingDescriptor,
-} from "../../shape/value-encoding.js";
+} from "../shape/value-encoding.js";
 
 export function encodeWireValue(
   value: unknown,

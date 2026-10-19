@@ -13,12 +13,13 @@ import {
   createIndexedResourceProxy,
   unwrapResourceHandle,
 } from "../../constructs/resource/resource-proxy.js";
-import { isLoopedResource } from "../../constructs/resource/resource-utils.js";
+import { isResource, isLoopedResource } from "../../constructs/resource/resource-utils.js";
 import {
   createLoopedResource,
   Loop,
   type LoopedResource,
   Resource,
+  type ResourceDeclaration,
   type ResourceOptions,
   type ScopeExpression,
 } from "../../constructs/resource/resource.js";
@@ -37,16 +38,11 @@ import {
   type ResourceDeclarationNode,
   type SerializationDocument,
   type VariableDeclarationNode,
-} from "../contract/index.js";
+} from "../ast/index.js";
 
-import {
-  deserializeDependsOnExpression,
-  deserializeExpression,
-  requireResourceHandle,
-  type DeserializationSymbolMap,
-} from "./expression.js";
-import { raiseState } from "./lower.js";
-import { collectDependenciesForDeclaration } from "../utils.js";
+import { restoreExpression, type DeclarationReferenceMap } from "../ast/expression-restorer.js";
+import { convertFromArmObject } from "../arm-object-conversion.js";
+import { collectDependenciesForDeclaration } from "../ast/declaration-dependencies.js";
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -75,7 +71,44 @@ export interface DeserializeOptions {
  * though the resulting JSON need not be byte-for-byte identical.
  */
 export function deserialize(raw: string, options?: DeserializeOptions): readonly Stack[] {
-  const doc = JSON.parse(raw) as SerializationDocument;
+  // TODO(#330): .NET ModelReaderWriter still emits `contextual-variable` nodes
+  // with `context` naming a zero-argument scope function (e.g. resourceGroup)
+  // and `property` naming the accessed member (e.g. location). The generated
+  // AST represents this as property-access over function-call instead.
+  // Normalize at the JSON boundary, before dependency inspection or expression
+  // restoration: AST walkers accept only the generated node kinds. The reviver
+  // handles nested expressions too, while the container guards preserve extra
+  // `kind` fields on documents, files, and declarations as ordinary metadata.
+  // Remove this normalization once .NET emits the composed AST nodes directly.
+  const doc = JSON.parse(raw, (_key, value: unknown) => {
+    if (
+      typeof value !== "object" ||
+      value === null ||
+      !("kind" in value) ||
+      value.kind !== "contextual-variable" ||
+      "bicepIdentifier" in value ||
+      "fileName" in value ||
+      "infras" in value
+    ) {
+      return value;
+    }
+    if (
+      !("context" in value) ||
+      typeof value.context !== "string" ||
+      !("property" in value) ||
+      typeof value.property !== "string"
+    ) {
+      throw new Error(
+        "Invalid contextual-variable expression: context and property must be strings.",
+      );
+    }
+    return {
+      kind: "property-access",
+      base: { kind: "function-call", target: value.context, args: [] },
+      property: value.property,
+      nullish: false,
+    } satisfies ExpressionNode;
+  }) as SerializationDocument;
   if (doc.infras.length === 0) throw new Error("Empty SerializationDocument");
   if (doc.infras.some((infra) => Object.keys(infra.modules ?? {}).length > 0)) {
     throw new Error("Module deserialization is not supported.");
@@ -118,7 +151,7 @@ function constructStack(file: InfraNode, options: DeserializeOptions | undefined
   });
 
   // Map stack-local identifiers to expression handles and resource declarations.
-  const symbols: DeserializationSymbolMap = new Map();
+  const symbols: DeclarationReferenceMap = new Map();
 
   processParams(file, rootStack, symbols);
   processDeclarations(file, rootStack, symbols, options);
@@ -131,7 +164,7 @@ function constructStack(file: InfraNode, options: DeserializeOptions | undefined
 // Declaration processing
 // ---------------------------------------------------------------------------
 
-function assertSymbolAvailable(symbols: DeserializationSymbolMap, identifier: string): void {
+function assertSymbolAvailable(symbols: DeclarationReferenceMap, identifier: string): void {
   if (symbols.has(identifier)) {
     throw new Error(`Duplicate declaration identifier "${identifier}".`);
   }
@@ -140,7 +173,7 @@ function assertSymbolAvailable(symbols: DeserializationSymbolMap, identifier: st
 function processParams(
   file: InfraNode,
   stackHandle: Stack,
-  symbols: DeserializationSymbolMap,
+  symbols: DeclarationReferenceMap,
 ): void {
   for (const [, p] of Object.entries(file.parameters ?? {})) {
     assertSymbolAvailable(symbols, p.bicepIdentifier);
@@ -153,13 +186,13 @@ function processParams(
       ...(p.decorators?.secure ? { secure: true } : {}),
       ...(p.defaultValue !== undefined
         ? {
-            defaultValue: deserializeExpression(p.defaultValue, new Map()) as string,
+            defaultValue: restoreExpression(p.defaultValue, new Map()) as string,
           }
         : {}),
       ...(p.decorators?.allowed?.length
         ? {
             allowed: p.decorators.allowed.map((a) =>
-              deserializeExpression(a, new Map()),
+              restoreExpression(a, new Map()),
             ) as unknown as readonly string[],
           }
         : {}),
@@ -172,7 +205,7 @@ function processParams(
             metadata: Object.fromEntries(
               Object.entries(p.decorators.metadata).map(([k, v]) => [
                 k,
-                deserializeExpression(v, new Map()),
+                restoreExpression(v, new Map()),
               ]),
             ) as Record<string, unknown>,
           }
@@ -189,7 +222,7 @@ function processParams(
 function processDeclarations(
   file: InfraNode,
   stackHandle: Stack,
-  symbols: DeserializationSymbolMap,
+  symbols: DeclarationReferenceMap,
   options: DeserializeOptions | undefined,
 ): void {
   type IndexedDeclaration =
@@ -275,7 +308,7 @@ function processDeclarations(
     const sym = createVariable(
       stackHandle,
       node.bicepIdentifier,
-      deserializeExpression(node.value, symbols) as VariableValue,
+      restoreExpression(node.value, symbols) as VariableValue,
       {
         ...(node.decorators?.description !== undefined
           ? { description: node.decorators.description }
@@ -290,7 +323,7 @@ function processDeclarations(
 function processOutputs(
   file: InfraNode,
   stackHandle: Stack,
-  symbols: DeserializationSymbolMap,
+  symbols: DeclarationReferenceMap,
 ): void {
   for (const [, o] of Object.entries(file.outputs ?? {})) {
     if (o.valueType.kind !== "primitive-type") {
@@ -303,7 +336,7 @@ function processOutputs(
         `Cannot deserialize output "${o.bicepIdentifier}" with unknown primitive type "${o.valueType.name}".`,
       );
     }
-    const val = deserializeExpression(o.value, symbols) as OutputValue;
+    const val = restoreExpression(o.value, symbols) as OutputValue;
     createOutput(stackHandle, o.bicepIdentifier, o.valueType.name, val as OutputValue, {
       ...(o.decorators?.description !== undefined ? { description: o.decorators.description } : {}),
       ...(o.decorators?.secure ? { secure: true } : {}),
@@ -316,7 +349,7 @@ function processOutputs(
             metadata: Object.fromEntries(
               Object.entries(o.decorators.metadata).map(([k, v]) => [
                 k,
-                deserializeExpression(v, symbols),
+                restoreExpression(v, symbols),
               ]),
             ) as Record<string, unknown>,
           }
@@ -333,10 +366,52 @@ function processOutputs(
 // Resource construction
 // ---------------------------------------------------------------------------
 
+function resolveResourceReference(
+  targetIdentifier: string,
+  symbols: DeclarationReferenceMap,
+  resourceIdentifier: string,
+  field: "parent" | "scope" | "dependsOn",
+): Resource | LoopedResource<Resource> {
+  const handle = symbols.get(targetIdentifier);
+  if (handle === undefined) {
+    throw new Error(
+      `Resource "${resourceIdentifier}" references unknown resource ` +
+        `"${targetIdentifier}" in "${field}".`,
+    );
+  }
+  if (!isResource(handle) && !isLoopedResource(handle)) {
+    throw new Error(
+      `Resource "${resourceIdentifier}" references non-resource symbol ` +
+        `"${targetIdentifier}" in "${field}".`,
+    );
+  }
+  return handle;
+}
+
+function restoreResourceDependencies(
+  node: ExpressionNode,
+  symbols: DeclarationReferenceMap,
+  resourceIdentifier: string,
+): readonly ResourceDeclaration[] {
+  if (node.kind !== "array") {
+    throw new Error(
+      `Resource "${resourceIdentifier}" has an invalid "dependsOn" value; expected an array.`,
+    );
+  }
+  return node.items.map((item) => {
+    if (item.kind !== "identifier") {
+      throw new Error(
+        `Resource "${resourceIdentifier}" has an invalid "dependsOn" reference; expected a resource identifier.`,
+      );
+    }
+    return resolveResourceReference(item.id, symbols, resourceIdentifier, "dependsOn");
+  });
+}
+
 function createResource(
   res: ResourceDeclarationNode,
   defaultScope: Stack | Resource,
-  symbols: DeserializationSymbolMap,
+  symbols: DeclarationReferenceMap,
   options: DeserializeOptions | undefined,
 ): Resource | LoopedResource<Resource> {
   // `res.value` is the wire body. Valid shapes are:
@@ -383,7 +458,7 @@ function createResource(
   const loopAuthoring: LoopAuthoringContext | undefined =
     loopWrapper !== undefined
       ? {
-          collection: deserializeExpression(loopWrapper.collection, symbols),
+          collection: restoreExpression(loopWrapper.collection, symbols),
           itemVariable: loopWrapper.itemVariable,
           ...(loopWrapper.indexVariable !== undefined
             ? { indexVariable: loopWrapper.indexVariable }
@@ -410,7 +485,7 @@ function createResource(
   const authoring: ResourceAuthoringContext = {
     ...(conditionNode !== undefined
       ? {
-          condition: deserializeExpression(conditionNode, scopedSymbols) as Expression<boolean>,
+          condition: restoreExpression(conditionNode, scopedSymbols) as Expression<boolean>,
         }
       : {}),
     ...(loopAuthoring !== undefined ? { loop: loopAuthoring } : {}),
@@ -430,7 +505,7 @@ function buildResource(
   res: ResourceDeclarationNode,
   body: Record<string, ExpressionNode>,
   defaultScope: Stack | Resource,
-  symbols: DeserializationSymbolMap,
+  symbols: DeclarationReferenceMap,
   options: DeserializeOptions | undefined,
   authoring?: ResourceAuthoringContext,
 ): Resource | LoopedResource<Resource> {
@@ -448,7 +523,7 @@ function buildResource(
     throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "scope" reference.`);
   }
   if (parentNode?.kind === "identifier") {
-    context = requireResourceHandle(parentNode.id, symbols, res.bicepIdentifier, "parent");
+    context = resolveResourceReference(parentNode.id, symbols, res.bicepIdentifier, "parent");
   } else if (parentNode?.kind === "array-access") {
     // `parent: parentSym[<index>]` — the serializer emitted this because
     // the authoring code created the child under `parents.at(i)` /
@@ -459,8 +534,13 @@ function buildResource(
     // re-serialize as `parent: parentSym` and lose the index.
     const baseNode = parentNode.base;
     if (baseNode.kind === "identifier") {
-      const rawParent = requireResourceHandle(baseNode.id, symbols, res.bicepIdentifier, "parent");
-      const indexValue = deserializeExpression(parentNode.index, symbols);
+      const rawParent = resolveResourceReference(
+        baseNode.id,
+        symbols,
+        res.bicepIdentifier,
+        "parent",
+      );
+      const indexValue = restoreExpression(parentNode.index, symbols);
       context = createIndexedResourceProxy(
         rawParent,
         indexValue as number,
@@ -469,7 +549,7 @@ function buildResource(
       throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "parent" reference.`);
     }
   } else if (scopeNode?.kind === "identifier") {
-    const scopeResource = requireResourceHandle(
+    const scopeResource = resolveResourceReference(
       scopeNode.id,
       symbols,
       res.bicepIdentifier,
@@ -486,7 +566,7 @@ function buildResource(
 
   let existingScope: ScopeExpression | undefined;
   if (res.existing && scopeNode !== undefined && scopeNode.kind !== "identifier") {
-    const scope = deserializeExpression(scopeNode, symbols);
+    const scope = restoreExpression(scopeNode, symbols);
     if (!isExpression(scope)) {
       throw new Error(
         `Resource "${res.bicepIdentifier}" has an invalid "scope" value: ` +
@@ -502,7 +582,7 @@ function buildResource(
   for (const [key, valNode] of Object.entries(body)) {
     if (!RESERVED.has(key)) {
       Object.defineProperty(wireProps, key, {
-        value: deserializeExpression(valNode, symbols),
+        value: restoreExpression(valNode, symbols),
         enumerable: true,
         configurable: true,
         writable: true,
@@ -517,13 +597,13 @@ function buildResource(
   // is attached.
   const nameNode = body["name"];
   const resourceName =
-    nameNode === undefined ? "unknown" : (deserializeExpression(nameNode, symbols) as string);
+    nameNode === undefined ? "unknown" : (restoreExpression(nameNode, symbols) as string);
   const wireState = { name: resourceName, ...wireProps };
   const descriptor = getShape(res.type, res.apiVersion, wireState, {
     strict: options?.strict ?? false,
     valueKeyedBy: "arm",
   });
-  const props = descriptor ? raiseState(wireProps, descriptor) : wireProps;
+  const props = descriptor ? convertFromArmObject(wireProps, descriptor) : wireProps;
 
   const baseProps: Record<string, unknown> = {
     type: res.type,
@@ -538,7 +618,7 @@ function buildResource(
     ...(authoring?.condition !== undefined ? { condition: authoring.condition } : {}),
     ...(body.dependsOn !== undefined
       ? {
-          dependsOn: deserializeDependsOnExpression(body.dependsOn, symbols, res.bicepIdentifier),
+          dependsOn: restoreResourceDependencies(body.dependsOn, symbols, res.bicepIdentifier),
         }
       : {}),
   };
