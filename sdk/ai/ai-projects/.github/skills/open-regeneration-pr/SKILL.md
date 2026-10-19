@@ -47,7 +47,7 @@ The script ([scripts/open-pr.ps1](./scripts/open-pr.ps1)) does:
    - `[ai-projects] regen: emitter output @ <short-sha>` — `generated/`, `tsp-location.saved.yaml`.
    - `[ai-projects] regen: post-emitter edits` — `src/`, API reports, and post-emitter workaround data (excluding samples/tests).
    - `[ai-projects] regen: samples for new features` — `samples-dev/`, omitted when sample authoring was a documented no-op.
-   - `[ai-projects] regen: tests for new GA features` — `test/`, omitted when test authoring was a documented no-op.
+   - `[ai-projects] regen: tests for new GA features` — `test/` and synchronized `README.md` snippets, omitted when test authoring was a documented no-op.
    - `[ai-projects] regen: changelog` — `CHANGELOG.md`.
 4. Pushes to `origin` (no force).
 5. Calls `gh pr create --draft` against `baseBranch` with title `[ai-projects] Regenerate from azure-rest-api-specs@<short-sha>` and a body templated from changelog content + a verification checklist.

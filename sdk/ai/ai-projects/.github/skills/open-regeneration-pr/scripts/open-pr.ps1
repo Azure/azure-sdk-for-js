@@ -133,7 +133,8 @@ try {
   ) -NoOp:$SamplesNoOp
 
   Commit-Group "[ai-projects] regen: tests for new GA features" @(
-    "$pkg/test"
+    "$pkg/test",
+    "$pkg/README.md"
   ) -NoOp:$TestsNoOp
 
   Commit-Group "[ai-projects] regen: changelog" @(
