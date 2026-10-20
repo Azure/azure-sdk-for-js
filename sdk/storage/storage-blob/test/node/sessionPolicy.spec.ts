@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
+import { Readable } from "node:stream";
+import { finished } from "node:stream/promises";
 import type { WebResourceLike } from "@azure/core-http-compat";
 import type {
   HttpMethods,
@@ -41,10 +43,13 @@ function createHarness(
   options: {
     createSessionResponse?: (request: WebResourceLike) => FakeResponse;
     statuses?: number[];
+    /** Streamed bodies of the transport's responses, in order; responses past the end have none. */
+    bodies?: Readable[];
     accountName?: string;
   } = {},
 ): Harness {
   const statuses = [...(options.statuses ?? [])];
+  const bodies = [...(options.bodies ?? [])];
   const sent: SentRequest[] = [];
   const bearerSeen: SentRequest[] = [];
 
@@ -60,6 +65,7 @@ function createHarness(
       status: statuses.shift() ?? 200,
       headers: createHttpHeaders(),
       request,
+      readableStreamBody: bodies.shift(),
     } as PipelineResponse;
   };
 
@@ -163,8 +169,12 @@ describe("storageSessionAuthenticationPolicy", () => {
     }
   });
 
-  it("falls back to bearer exactly once on 401, stripping the session headers first", async () => {
-    const harness = createHarness({ statuses: [401, 200] });
+  it("falls back to bearer exactly once on 401, stripping the session headers and draining the rejected body first", async () => {
+    const rejectedBody = Readable.from([
+      Buffer.from("<Error><Code>InvalidAuthenticationInfo</Code></Error>"),
+    ]);
+    const returnedBody = Readable.from([Buffer.from("blob content")]);
+    const harness = createHarness({ statuses: [401, 200], bodies: [rejectedBody, returnedBody] });
 
     const response = await harness.send();
 
@@ -177,6 +187,11 @@ describe("storageSessionAuthenticationPolicy", () => {
     );
     assert.isUndefined(harness.bearerSeen[0].xMsDate, "x-ms-date must be removed too");
     assert.strictEqual(harness.sent[1].authorization, "Bearer fake-token");
+    // An unread body keeps its connection busy, so the dropped 401 must be drained.
+    assert.isTrue(rejectedBody.readableFlowing, "the rejected response body must be drained");
+    await finished(rejectedBody);
+    assert.strictEqual(response.readableStreamBody, returnedBody);
+    assert.isNull(returnedBody.readableFlowing, "the returned body is left for the caller");
   });
 
   it("does not retry again when the bearer fallback also gets a 401", async () => {
