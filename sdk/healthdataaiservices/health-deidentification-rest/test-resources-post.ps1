@@ -82,6 +82,19 @@ function Invoke-WithStorageRetry {
     }
 }
 
+function Wait-ForMinimumElapsed {
+    param(
+        [Parameter(Mandatory)] [System.Diagnostics.Stopwatch] $Stopwatch,
+        [Parameter(Mandatory)] [int] $MinimumSeconds
+    )
+
+    $remaining = [int][Math]::Ceiling($MinimumSeconds - $Stopwatch.Elapsed.TotalSeconds)
+    if ($remaining -gt 0) {
+        Write-Host "Waiting ${remaining}s more for the DeID service identity's storage access to propagate."
+        Start-Sleep -Seconds $remaining
+    }
+}
+
 # Retrieve the connection string from environment variables
 $resourceGroup = $DeploymentOutputs['HEALTHDATAAISERVICES_RESOURCE_GROUP']
 $endpoint = $DeploymentOutputs['HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT']
@@ -109,6 +122,7 @@ $storageContext = New-AzStorageContext -StorageAccountName $storageAccountName -
 $networkRuleSet = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSNetworkRuleSet
 $networkRuleSet.DefaultAction = "Allow"
 Set-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccountName -NetworkRuleSet $networkRuleSet -ErrorAction Stop | Out-Null
+$propagationStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 # Wait until the test principal can write to the container. Role assignments and network rules propagate
 # asynchronously, so a write probe is retried instead of sleeping for a fixed time.
@@ -145,6 +159,10 @@ Get-ChildItem -Path $localFolderPath -Recurse -File | ForEach-Object {
 }
 
 Write-Host "Folder '$localFolderPath' uploaded to container '$containerName' successfully."
+
+# The probe above only proves access for the test principal. The DeID service's managed identity has its own
+# role assignment, so keep the previous 30s minimum (measured from the network rule update) before tests run.
+Wait-ForMinimumElapsed -Stopwatch $propagationStopwatch -MinimumSeconds 30
 
 # Create the content for the .env file
 $content = @"
