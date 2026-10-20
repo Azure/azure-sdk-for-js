@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Corrected `UseDevelopmentEmulator` parsing in `ServiceBusAdministrationClient` and `parseServiceBusConnectionString()`. Only the exact value `true` enables HTTP administration and sets `useDevelopmentEmulator` to `true`. Values such as `false` and `True` no longer enable emulator mode. To use HTTP administration, set `UseDevelopmentEmulator=true` in the connection string.
+- Corrected `UseDevelopmentEmulator` parsing in `ServiceBusAdministrationClient` and `parseServiceBusConnectionString()`. Only the exact value `true` enables HTTP administration and sets `useDevelopmentEmulator` to `true`. Values such as `false` and `True` no longer enable emulator mode. To use HTTP administration, set `UseDevelopmentEmulator=true` in the connection string. ([#40415](https://github.com/Azure/azure-sdk-for-js/pull/40415))
 
 ### Other Changes
 
