@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { encodeWireValue } from "../src/serialization/json/encoding.js";
+import { encodeWireValue } from "../src/serialization/encoding.js";
 import type { DateTimeTextEncodingDescriptor } from "../src/shape/value-encoding.js";
 import { describe, expect, it } from "vitest";
 

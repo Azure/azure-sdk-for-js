@@ -757,9 +757,6 @@ export type ParameterOptions<T extends keyof PrimitiveTypeMap = keyof PrimitiveT
     readonly sealed?: boolean | undefined;
 };
 
-// @public
-export type ParameterValue<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap> = ExpressionOrValue<PrimitiveTypeMap[T]>;
-
 // @public (undocumented)
 export interface PlainDateEncodingDescriptor {
     // (undocumented)
@@ -873,6 +870,7 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
     get self(): this;
     // (undocumented)
     protected _selfProxy: this | undefined;
+    protected static validate(_context: ProvisioningComponent, _props: ResourceProps<string> & Record<string, unknown>, _options?: ResourceOptions, _namingRules?: ResourceNamingRules): void;
 }
 
 // @public
@@ -929,6 +927,8 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
     // (undocumented)
     get tags(): InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
     set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined);
+    // (undocumented)
+    protected static validate(context: ProvisioningComponent, props: ResourceProps<string> & Record<string, unknown>, _options?: ResourceOptions, _namingRules?: ResourceNamingRules): void;
 }
 
 // @public
@@ -1228,9 +1228,6 @@ export interface UnixTimestampEncodingDescriptor {
         readonly scalar: IntegerScalarName;
     };
 }
-
-// @public (undocumented)
-export type ValueEncodingDescriptor = DateTimeTextEncodingDescriptor | UnixTimestampEncodingDescriptor | DurationIso8601EncodingDescriptor | DurationNumericEncodingDescriptor | BytesEncodingDescriptor | PlainDateEncodingDescriptor | NumericStringEncodingDescriptor | BooleanStringEncodingDescriptor;
 
 // @public (undocumented)
 export type ValueShape = TerminalValueShape | DeferredShape<ModelShape> | ContainerShape;

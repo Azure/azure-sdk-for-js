@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { posix as path } from "node:path";
 import {
   type ExpressionNode,
   type ModuleDeclarationNode,
@@ -72,7 +71,7 @@ function createFile(
 }
 
 function resourceFileName(stackName: string, name: string): string {
-  return path.join(stackName, `${name}.bicep`);
+  return `${stackName}/${name}.bicep`;
 }
 
 /**

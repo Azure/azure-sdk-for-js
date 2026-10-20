@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { posix as path } from "node:path";
 import { collectDependenciesForDeclaration } from "../../ast/declaration-dependencies.js";
 import { moduleOutputExpression } from "../../ast/expression-builder.js";
 import {
@@ -16,7 +15,20 @@ import type { BicepAst, PreparedDeploymentFiles, PreparedModule } from "./file-p
 import { getResourceBody, updateResourceBody } from "../../ast/resource-utils.js";
 
 function relativeImportPath(from: string, to: string): string {
-  const relative = path.relative(path.dirname(from), to);
+  const fromDirectory = from.split("/");
+  fromDirectory.pop();
+  const target = to.split("/");
+  let commonSegments = 0;
+  while (
+    fromDirectory[commonSegments] === target[commonSegments] &&
+    commonSegments < fromDirectory.length
+  ) {
+    commonSegments++;
+  }
+  const relative = [
+    ...fromDirectory.slice(commonSegments).map(() => ".."),
+    ...target.slice(commonSegments),
+  ].join("/");
   return relative.startsWith(".") ? relative : `./${relative}`;
 }
 
