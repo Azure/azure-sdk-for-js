@@ -29470,8 +29470,8 @@ importers:
         specifier: 'catalog:'
         version: 6.1.3
       type-plus:
-        specifier: ^7.6.2
-        version: 7.6.2
+        specifier: ^8.0.0
+        version: 8.0.0(typescript@6.0.3)
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -42387,9 +42387,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  tersify@3.12.1:
-    resolution: {integrity: sha1-GqWnCaAtq6JNaU8IlvuKIz9II2E=}
-
   text-hex@1.0.0:
     resolution: {integrity: sha1-adycGxdEbueakr9biEu0uRJ1BvU=}
 
@@ -42527,8 +42524,14 @@ packages:
     resolution: {integrity: sha1-cdGnBTKTWC4WrJ8+uvGrmqSeVXA=}
     engines: {node: '>= 18'}
 
-  type-plus@7.6.2:
-    resolution: {integrity: sha1-du3CKwToA8BH35TFSmndvtcUGx0=}
+  type-plus@8.0.0:
+    resolution: {integrity: sha512-wYKemYpT2XPgZyqZUvo6pT0ZiwWHcLJMyR68ZjY4IB96ozUpxrb6M7pj9xYzNcBHWG4r17WqXnkGRQZrHAWs7A==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      typescript: '>= 5.4.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha1-pyOVRQpIaewDP9VJNxtHrzou5TY=}
@@ -50314,12 +50317,6 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  tersify@3.12.1:
-    dependencies:
-      acorn: 8.19.0
-      is-buffer: 2.0.5
-      unpartial: 1.0.8
-
   text-hex@1.0.0: {}
 
   thenify-all@1.6.0:
@@ -50440,10 +50437,11 @@ snapshots:
       media-typer: 1.1.1
       mime-types: 3.0.2
 
-  type-plus@7.6.2:
+  type-plus@8.0.0(typescript@6.0.3):
     dependencies:
-      tersify: 3.12.1
       unpartial: 1.0.8
+    optionalDependencies:
+      typescript: 6.0.3
 
   typed-array-buffer@1.0.3:
     dependencies:
