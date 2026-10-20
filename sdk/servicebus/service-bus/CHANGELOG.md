@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed an abort-listener leak after `receiveMessages()` drains unused credits, preventing listeners from accumulating on a reused `AbortSignal`.
+- Fixed an abort-listener leak after `receiveMessages()` drains unused credits, preventing listeners from accumulating on a reused `AbortSignal`. ([#40407](https://github.com/Azure/azure-sdk-for-js/issues/40407))
 
 ### Other Changes
 
