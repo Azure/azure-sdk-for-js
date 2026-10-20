@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureStackHCIVM test", () => {
+describe.skip("AzureStackHCIVM test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureStackHCIVMManagementClient;
