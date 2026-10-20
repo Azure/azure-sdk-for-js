@@ -29,13 +29,11 @@ describe("knowledge retrieval stream browser transport", () => {
   });
 
   it.each(["application/json", "text/plain", ""])(
-    "rejects a non-SSE convenience response (%s) and releases its stream",
+    "rejects a non-SSE convenience response (%s) and cancels its stream",
     async (contentType) => {
+      const cancel = vi.fn();
       const stream = new ReadableStream<Uint8Array>({
-        start(controller) {
-          controller.enqueue(new TextEncoder().encode("{}"));
-          controller.close();
-        },
+        cancel,
       });
       vi.stubGlobal(
         "fetch",
@@ -49,9 +47,38 @@ describe("knowledge retrieval stream browser transport", () => {
       await expect(
         getSseStream(client.pathUnchecked("/knowledgebases/base").get()),
       ).rejects.toMatchObject({ statusCode: 200 });
+      expect(cancel).toHaveBeenCalledOnce();
       expect(stream.locked).toBe(false);
     },
   );
+
+  it("continues to parse a non-success streaming response body", async () => {
+    const cancel = vi.fn();
+    const responseBody = JSON.stringify({
+      error: { code: "NotFound", message: "Knowledge base not found" },
+    });
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(responseBody));
+        controller.close();
+      },
+      cancel,
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(stream, { status: 404, headers: { "content-type": "application/json" } }),
+        ),
+    );
+    const client = getClient("https://example.search.windows.net");
+
+    await expect(
+      getSseStream(client.pathUnchecked("/knowledgebases/base").get()),
+    ).rejects.toMatchObject({ statusCode: 404, code: "NotFound" });
+    expect(cancel).not.toHaveBeenCalled();
+  });
 
   it("streams typed events from the protocol browser client", async () => {
     const fetch = vi.fn().mockResolvedValue(

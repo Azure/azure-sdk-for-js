@@ -48,9 +48,9 @@ function createProtocolClient(
 
 describe("knowledge retrieval stream HTTP transport", () => {
   it.each(["application/json", "text/plain", undefined])(
-    "rejects a non-SSE convenience response (%s) and closes its stream",
+    "rejects a non-SSE convenience response (%s) and destroys its stream without reading it",
     async (contentType) => {
-      const body = Readable.from([Buffer.from("{}")]);
+      const body = new Readable({ read() {} });
       const client = createClient(async (request) => ({
         request,
         status: 200,
@@ -61,6 +61,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
         client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
       ).rejects.toMatchObject({ statusCode: 200 });
       assert.isTrue(body.destroyed);
+      assert.isTrue(body.readableFlowing !== true);
     },
   );
 

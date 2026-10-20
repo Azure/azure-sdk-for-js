@@ -15,16 +15,28 @@ export async function getSseStream(
 ): Promise<AsyncIterable<EventMessage>> {
   const response = await streamableMethod.asBrowserStream();
 
-  if (
-    response.status !== "200" ||
-    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
-  ) {
+  if (response.status !== "200") {
     if (!response.body) {
       throw createSseError(response);
     }
 
     const body = await new Response(response.body).text();
     throw createSseError(response, body);
+  }
+
+  if (
+    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
+  ) {
+    const body: unknown = response.body;
+    if (
+      typeof body === "object" &&
+      body !== null &&
+      "cancel" in body &&
+      typeof body.cancel === "function"
+    ) {
+      await body.cancel();
+    }
+    throw createSseError(response);
   }
 
   if (!response.body) {

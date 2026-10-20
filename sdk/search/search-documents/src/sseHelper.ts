@@ -17,10 +17,7 @@ export async function getSseStream(
 ): Promise<AsyncIterable<EventMessage>> {
   const response = await streamableMethod.asNodeStream();
 
-  if (
-    response.status !== "200" ||
-    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
-  ) {
+  if (response.status !== "200") {
     if (!response.body) {
       throw createSseError(response);
     }
@@ -31,6 +28,13 @@ export async function getSseStream(
     }
     const body = Buffer.concat(chunks).toString("utf8");
     throw createSseError(response, body);
+  }
+
+  if (
+    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
+  ) {
+    response.body?.destroy();
+    throw createSseError(response);
   }
 
   if (!response.body) {
