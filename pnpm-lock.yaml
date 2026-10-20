@@ -13663,7 +13663,7 @@ importers:
   sdk/edgeactions/arm-edgeactions:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -13696,6 +13696,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-resources':
+        specifier: catalog:arm
+        version: 7.0.0(supports-color@10.2.2)
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -13723,6 +13726,12 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 10.12.0(supports-color@10.2.2)
+      jsonschema:
+        specifier: ^1.5.0
+        version: 1.5.0
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.2
       playwright:
         specifier: catalog:testing
         version: 1.64.0
@@ -13738,6 +13747,9 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 5.0.4(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.4)(@vitest/coverage-istanbul@5.0.4)(@vitest/ui@5.0.4)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      yaml:
+        specifier: ^2.8.1
+        version: 2.9.1
 
   sdk/edgeorder/arm-edgeorder:
     dependencies:
@@ -36497,11 +36509,6 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  '@babel/parser@8.0.6':
-    resolution: {integrity: sha512-LpGDIYJAzc3Y3PT9x+FxBrGYu2PlWxLmyN7SwPTzaX0LSwEmFJBsRnPBqmaXF2r1v+Zhz6lNiEJ+7yKtM5+Ugg==}
-    engines: {node: ^22.18.0 || >=24.11.0}
-    hasBin: true
-
   '@babel/parser@8.0.7':
     resolution: {integrity: sha512-UkDwEbPO1px2JQSrdh4qIgaH1JgG7GO/pFeJkpxhDxIETkT/QvGpnigXIw75ViHYPtIgKITmVUJqLjiO+JuWjA==}
     engines: {node: ^22.18.0 || >=24.11.0}
@@ -40297,6 +40304,9 @@ packages:
     resolution: {integrity: sha512-/8UvqAPU9DGTI9k4mxtf49U37Isfwr8Uts96+SBHIkFxPJnHS0Ew4f00sM4Scd8V8EjM0jUNtVDdv1kPdt35lg==}
     engines: {node: '>= 4'}
 
+  immediate@3.0.6:
+    resolution: {integrity: sha1-nbHb0Pr43m++D13V5Wu2BigN5ps=}
+
   import-fresh@3.3.1:
     resolution: {integrity: sha1-nOy1ZQPAraHydB271lRuSxO1fM8=}
     engines: {node: '>=6'}
@@ -40688,6 +40698,9 @@ packages:
     resolution: {integrity: sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=}
     engines: {'0': node >= 0.2.0}
 
+  jsonschema@1.5.0:
+    resolution: {integrity: sha1-9qzrGrkSNWPdkB0F+B+dSIPTt9g=}
+
   jsonwebtoken@9.0.3:
     resolution: {integrity: sha1-bNV6sB6bCsB8uEfVPTybbuMfeuI=}
     engines: {node: '>=12', npm: '>=6'}
@@ -40698,6 +40711,9 @@ packages:
 
   jssha@3.3.2:
     resolution: {integrity: sha1-MMUbWri/ix7PJBYBWAPUT1y/Bp4=}
+
+  jszip@3.10.2:
+    resolution: {integrity: sha512-3l+rb15IOWtUhU0H5MFqES/T6Kh7abYwjosBey/vD6hDt8zoEffkSC5Ws5SGtgVw3gBx2NEbhTeSW1+kWkpyTQ==}
 
   junk@4.0.1:
     resolution: {integrity: sha1-fuMfh2OIwFF3/jZSnucUsHtQ++0=}
@@ -40740,6 +40756,9 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha1-rkViwAdHO5MqYgDUAyaN0v/8at4=}
     engines: {node: '>= 0.8.0'}
+
+  lie@3.3.0:
+    resolution: {integrity: sha1-3Pgt7lRfRgdNryAMfBxaCOD0D2o=}
 
   light-my-request@6.8.0:
     resolution: {integrity: sha512-5Q8PjoSEdtGIB8fikZsTem5vgRo4F2mR6vUKTDW/H1g6MtAt8e3duQbg/QxL5yzg6BZhor2KOUm3hhWMWLTZwg==}
@@ -41453,6 +41472,9 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha1-TxRxoBCCeob5TP2bByfjbSZ95QU=}
 
+  pako@1.0.11:
+    resolution: {integrity: sha1-bJWZ00DVTf05RjgCUqNXBaa5kr8=}
+
   pako@3.0.2:
     resolution: {integrity: sha512-uBv6IT2aT1A78iU6dpNEbf6+CyhlV/6g9JlJs9kpgjFGFhruIICVRysF/W0SLzXg5+hCl+KroH7e4YUyfEmgLg==}
 
@@ -42079,6 +42101,9 @@ packages:
   set-proto@1.0.0:
     resolution: {integrity: sha1-B2Dbz/MLLX6AH9bhmYPlbaM3Vl4=}
     engines: {node: '>= 0.4'}
+
+  setimmediate@1.0.5:
+    resolution: {integrity: sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=}
 
   setprototypeof@1.2.0:
     resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=}
@@ -43767,7 +43792,7 @@ snapshots:
 
   '@babel/generator@8.0.6':
     dependencies:
-      '@babel/parser': 8.0.6
+      '@babel/parser': 8.0.7
       '@babel/types': 8.0.6
       '@jridgewell/gen-mapping': 0.4.0-beta.0
       '@jridgewell/trace-mapping': 0.3.31
@@ -43836,10 +43861,6 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.8
 
-  '@babel/parser@8.0.6':
-    dependencies:
-      '@babel/types': 8.0.6
-
   '@babel/parser@8.0.7':
     dependencies:
       '@babel/types': 8.0.6
@@ -43855,7 +43876,7 @@ snapshots:
   '@babel/template@8.0.0':
     dependencies:
       '@babel/code-frame': 8.0.6
-      '@babel/parser': 8.0.6
+      '@babel/parser': 8.0.7
       '@babel/types': 8.0.6
 
   '@babel/traverse@7.29.10(supports-color@10.2.2)':
@@ -48013,6 +48034,8 @@ snapshots:
 
   ignore@7.0.12: {}
 
+  immediate@3.0.6: {}
+
   import-fresh@3.3.1:
     dependencies:
       parent-module: 1.0.1
@@ -48364,6 +48387,8 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
+  jsonschema@1.5.0: {}
+
   jsonwebtoken@9.0.3:
     dependencies:
       jws: 4.0.1
@@ -48380,6 +48405,13 @@ snapshots:
   jsrsasign@11.1.5: {}
 
   jssha@3.3.2: {}
+
+  jszip@3.10.2:
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.8
+      setimmediate: 1.0.5
 
   junk@4.0.1: {}
 
@@ -48421,6 +48453,10 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  lie@3.3.0:
+    dependencies:
+      immediate: 3.0.6
 
   light-my-request@6.8.0:
     dependencies:
@@ -49239,6 +49275,8 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
+  pako@1.0.11: {}
+
   pako@3.0.2: {}
 
   parent-module@1.0.1:
@@ -49987,6 +50025,8 @@ snapshots:
       dunder-proto: 1.0.1
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
+
+  setimmediate@1.0.5: {}
 
   setprototypeof@1.2.0: {}
 
