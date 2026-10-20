@@ -15,12 +15,15 @@ import type {
   AzureDevOpsTimeline,
   AzureDevOpsTimelineRecord,
   DevopsTaskStatus,
+  PackageInfo,
   Packages,
   PackageStatus,
+  PackageStatusCode,
   PackagesWithStatus,
   PipelineResult,
   PipelineResults,
   PipelineTaskKind,
+  Status,
 } from "./interfaces.js";
 
 import "dotenv/config";
@@ -33,7 +36,7 @@ const DEVOPS_RESOURCE_UUID = "499b84ac-1321-427f-aa17-267ca6975798";
 
 const RELEASE_BLOCKERS = ["lint", "ci"] as const;
 
-type BuildKind = "ci" | "tests" | "weeklyTests";
+type BuildKind = "ci" | "tests";
 type BuildResultCache = Map<string, Promise<PipelineResult>>;
 
 const SDK_OWNED = [
@@ -133,13 +136,6 @@ function recordAllPipeline(
       tests: { status: status },
       samples: { status: status },
     };
-  } else if (kind === "weeklyTests") {
-    const old = pipeline.weeklyTests;
-    pipeline.weeklyTests = {
-      ...old,
-      result: status,
-      weeklyTests: { status: status },
-    };
   }
 }
 
@@ -229,7 +225,10 @@ async function fetchBuildResult(
         taskName.includes("Build Lint Prerequisites and Lint Libraries")
       ) {
         recordTestResult(task, "lint", pipelineResult);
-      } else if (taskName.includes("Test libraries")) {
+      } else if (
+        taskName.includes("Test libraries") ||
+        taskName.includes("Integration test libraries")
+      ) {
         recordTestResult(task, "ci", pipelineResult);
       }
     } else if (buildKind === "tests") {
@@ -237,10 +236,6 @@ async function fetchBuildResult(
         recordTestResult(task, "tests", pipelineResult);
       } else if (taskName.includes("Execute Samples")) {
         recordTestResult(task, "samples", pipelineResult);
-      }
-    } else if (buildKind === "weeklyTests") {
-      if (taskName.includes("Integration test libraries")) {
-        recordTestResult(task, "weeklyTests", pipelineResult);
       }
     }
   }
@@ -320,42 +315,35 @@ async function getPipelines(
       } else if (`${packageDir} - tests` === pipelineNameWithoutJsPrefix) {
         pipelines[pkgName] = { ...original, tests: { id: p.id, link: "" } };
         recordAllPipeline("tests", pipelines[pkgName], "UNKNOWN");
-      } else if (`${packageDir} - tests-weekly` === pipelineNameWithoutJsPrefix) {
-        pipelines[pkgName] = { ...original, weeklyTests: { id: p.id, link: "" } };
-        recordAllPipeline("weeklyTests", pipelines[pkgName], "UNKNOWN");
       }
     }
   }
   return pipelines;
 }
 
-function reportOverallStatus(packageDetails: PackageStatus): void {
+function reportOverallStatus(packageDetails: PackageStatus): PackageStatusCode {
   const blockerStatuses = RELEASE_BLOCKERS.map((check) => packageDetails[check].status);
-  packageDetails.status = blockerStatuses.some((status) => status === "FAIL")
+  return blockerStatuses.some((status) => status === "FAIL")
     ? "BLOCKED"
-    : blockerStatuses.some(
-          (status) => status === "DISABLED" || status === "WARNING" || status === "UNKNOWN",
-        )
+    : blockerStatuses.some((status) => status === "WARNING" || status === "UNKNOWN")
       ? "NEEDS_ACTION"
       : "GOOD";
 }
 
-function reportTestResult(
+function getReportedCheck(
   testKind: "ci" | "lint" | "samples" | "tests",
   pipeline: PipelineResults | undefined,
   packageDetails: PackageStatus,
-): void {
+): Status {
   const pipelineKind = testKind === "lint" ? "ci" : testKind === "samples" ? "tests" : testKind;
   if (!pipeline) {
     console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
-    packageDetails[testKind] = { status: "UNKNOWN" };
-    return;
+    return { status: "UNKNOWN" };
   }
   const pipelineResult = pipeline[pipelineKind];
   if (!pipelineResult) {
     console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
-    packageDetails[testKind] = { status: "UNKNOWN" };
-    return;
+    return { status: "UNKNOWN" };
   }
   let testStatus = pipelineResult[testKind]?.status;
   if (testKind === "ci") {
@@ -378,17 +366,18 @@ function reportTestResult(
       pipelineResult.result !== "failed"
     ) {
       testStatus = "UNKNOWN";
+    } else if (testStatus === undefined && pipelineResult.result === "succeeded") {
+      return { status: "DISABLED", link: pipelineResult.link };
     }
   }
-  const old = packageDetails[testKind];
   if (testStatus === "succeeded") {
-    packageDetails[testKind] = { ...old, status: "PASS", link: pipelineResult.link };
+    return { status: "PASS", link: pipelineResult.link };
   } else if (testStatus === "failed") {
-    packageDetails[testKind] = { ...old, status: "FAIL", link: pipelineResult.link };
+    return { status: "FAIL", link: pipelineResult.link };
   } else if (testStatus === "succeededWithIssues") {
-    packageDetails[testKind] = { ...old, status: "WARNING", link: pipelineResult.link };
+    return { status: "WARNING", link: pipelineResult.link };
   } else {
-    packageDetails[testKind] = { ...old, status: "UNKNOWN", link: pipelineResult.link };
+    return { status: "UNKNOWN", link: pipelineResult.link };
   }
 }
 
@@ -396,26 +385,40 @@ export function recordTotalCustomerIssues(
   dataplane: PackagesWithStatus,
   githubIssues: Pick<CustomerIssue, "labels">[],
   trackedLabels: Record<string, string[]>,
-): void {
+): PackagesWithStatus {
+  const updatedDataplane = Object.fromEntries(
+    Object.entries(dataplane).map(([packageName, details]) => [
+      packageName,
+      {
+        ...details,
+        customerIssues: details.customerIssues ? { ...details.customerIssues } : undefined,
+      },
+    ]),
+  );
   for (const issue of githubIssues) {
     for (const label of issue.labels) {
       const labelName = typeof label === "string" ? label : label.name;
       if (labelName && trackedLabels[labelName]) {
         const serviceDirs = trackedLabels[labelName];
-        const packages = Object.keys(dataplane).filter((pkgName) =>
-          serviceDirs.includes((dataplane[pkgName] as PackageStatus).serviceDir),
+        const packages = Object.keys(updatedDataplane).filter((pkgName) =>
+          serviceDirs.includes(updatedDataplane[pkgName].serviceDir),
         );
         for (const pkgName of packages) {
-          const packageDetails = dataplane[pkgName] as PackageStatus;
+          const packageDetails = updatedDataplane[pkgName];
           if (labelName === packageDetails.label) {
-            const customerIssues = (packageDetails.customerIssues ??= { num: 0, link: "" });
-            customerIssues.num++;
-            customerIssues.link = githubTotalIssueLink(labelName);
+            updatedDataplane[pkgName] = {
+              ...packageDetails,
+              customerIssues: {
+                num: (packageDetails.customerIssues?.num ?? 0) + 1,
+                link: githubTotalIssueLink(labelName),
+              },
+            };
           }
         }
       }
     }
   }
+  return updatedDataplane;
 }
 
 function recordSlaStatus(
@@ -430,34 +433,46 @@ function recordSlaStatus(
     if (labelName && trackedLabels[labelName]) {
       const serviceDirs = trackedLabels[labelName];
       const packages = Object.keys(dataplane).filter((pkgName) =>
-        serviceDirs.includes((dataplane[pkgName] as PackageStatus).serviceDir),
+        serviceDirs.includes(dataplane[pkgName].serviceDir),
       );
       for (const pkgName of packages) {
-        const packageDetails = dataplane[pkgName] as PackageStatus;
+        const packageDetails = dataplane[pkgName];
         if (labelName === packageDetails.label) {
-          const sla = (packageDetails.sla ??= {
+          const sla = packageDetails.sla ?? {
             question: { num: 0, link: "" },
             bug: { num: 0, link: "" },
-          });
-          sla[kind].num++;
-          // Derive each kind's link from that kind's own threshold so the CSV
-          // link reproduces the same count window it is reported against.
-          sla[kind].link = githubIssueLinkUrl(
-            labelName,
-            kind,
-            new Date(timePeriod).toISOString().split("T")[0],
-          );
+          };
+          dataplane[pkgName] = {
+            ...packageDetails,
+            sla: {
+              ...sla,
+              [kind]: {
+                num: sla[kind].num + 1,
+                // Derive each kind's link from that kind's own threshold so the CSV
+                // link reproduces the same count window it is reported against.
+                link: githubIssueLinkUrl(
+                  labelName,
+                  kind,
+                  new Date(timePeriod).toISOString().split("T")[0],
+                ),
+              },
+            },
+          };
         }
       }
     }
   }
 }
 
-async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
-  const trackedLabels = await mapCodeownersToLabel(dataplane);
+async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus): Promise<PackagesWithStatus> {
+  const { dataplane: labeledDataplane, trackedLabels } = await mapCodeownersToLabel(dataplane);
   const issues = await getCustomerIssues();
-  recordTotalCustomerIssues(dataplane, issues, trackedLabels);
-  recordSlaForIssues(dataplane, issues, trackedLabels);
+  const dataplaneWithIssueTotals = recordTotalCustomerIssues(
+    labeledDataplane,
+    issues,
+    trackedLabels,
+  );
+  return recordSlaForIssues(dataplaneWithIssueTotals, issues, trackedLabels);
 }
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -486,7 +501,21 @@ export function recordSlaForIssues(
   issues: Pick<CustomerIssue, "labels" | "created_at">[],
   trackedLabels: Record<string, string[]>,
   now: number = Date.now(),
-): void {
+): PackagesWithStatus {
+  const updatedDataplane = Object.fromEntries(
+    Object.entries(dataplane).map(([packageName, details]) => [
+      packageName,
+      {
+        ...details,
+        sla: details.sla
+          ? {
+              question: { ...details.sla.question },
+              bug: { ...details.sla.bug },
+            }
+          : undefined,
+      },
+    ]),
+  );
   const filtered = issues.filter(
     (issue) =>
       !issue.labels.some((label) =>
@@ -508,7 +537,7 @@ export function recordSlaForIssues(
       ) &&
       createdDate.getTime() < thirtyDaysAgo
     ) {
-      recordSlaStatus(dataplane, issue, trackedLabels, thirtyDaysAgo, "question");
+      recordSlaStatus(updatedDataplane, issue, trackedLabels, thirtyDaysAgo, "question");
     }
     if (
       issue.labels.some((label) =>
@@ -516,22 +545,34 @@ export function recordSlaForIssues(
       ) &&
       createdDate.getTime() < ninetyDaysAgo
     ) {
-      recordSlaStatus(dataplane, issue, trackedLabels, ninetyDaysAgo, "bug");
+      recordSlaStatus(updatedDataplane, issue, trackedLabels, ninetyDaysAgo, "bug");
     }
   }
+  return updatedDataplane;
 }
 
 export function reportStatus(
   dataplane: PackagesWithStatus,
   pipelines: Record<string, PipelineResults>,
-): void {
-  for (const [packageName, packageDetails] of Object.entries(dataplane)) {
-    reportTestResult("tests", pipelines[packageName], packageDetails);
-    reportTestResult("samples", pipelines[packageName], packageDetails);
-    reportTestResult("ci", pipelines[packageName], packageDetails);
-    reportTestResult("lint", pipelines[packageName], packageDetails);
-    reportOverallStatus(packageDetails);
-  }
+): PackagesWithStatus {
+  return Object.fromEntries(
+    Object.entries(dataplane).map(([packageName, packageDetails]) => {
+      const updatedPackage: PackageStatus = {
+        ...packageDetails,
+        tests: getReportedCheck("tests", pipelines[packageName], packageDetails),
+        samples: getReportedCheck("samples", pipelines[packageName], packageDetails),
+        ci: getReportedCheck("ci", pipelines[packageName], packageDetails),
+        lint: getReportedCheck("lint", pipelines[packageName], packageDetails),
+      };
+      return [
+        packageName,
+        {
+          ...updatedPackage,
+          status: reportOverallStatus(updatedPackage),
+        },
+      ];
+    }),
+  );
 }
 
 const CSV_REPORT_FILE_NAME = "health_report.csv";
@@ -540,7 +581,6 @@ export async function writeToCsv(
   dataplane: PackagesWithStatus,
   pipelines: Record<string, PipelineResults>,
 ): Promise<void> {
-  // our weekly runs aren't too different from nightly runs for now so skipping them
   const columnNames = [
     "Service Directory",
     "Package",
@@ -552,9 +592,6 @@ export async function writeToCsv(
     "Live Tests",
     "Live Tests Link",
     "Live Tests Build Number",
-    // "Tests - Live Weekly",
-    // "Tests - Live Weekly Link",
-    // "Weekly Build Number",
     "SLA - Questions",
     "SLA - Bugs",
     "Total Customer-reported Issues",
@@ -574,7 +611,7 @@ export async function writeToCsv(
       pkgDetails.serviceDir,
       pkgName,
       status,
-      SDK_OWNED.includes(pkgName) ? "YES" : "NO",
+      pkgDetails.sdkOwned ? "YES" : "NO",
       // Use the normalized CI status from reportStatus rather than the raw
       // Azure DevOps value, keeping the blank for packages with no CI pipeline.
       pipelines[pkgName]?.ci ? (pkgDetails.ci?.status ?? "") : "",
@@ -584,9 +621,6 @@ export async function writeToCsv(
       pipelines[pkgName]?.tests ? (pkgDetails.tests?.status ?? "") : "",
       pipelines[pkgName]?.tests?.link ?? "",
       pipelines[pkgName]?.tests?.buildNumber ?? "",
-      // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
-      // pipelines[pkgName].weeklyTests?.link ?? "",
-      // pipelines[pkgName].weeklyTests?.buildNumber ?? "",
       pkgDetails.label ? (pkgDetails.sla?.question?.num ?? 0) : "",
       pkgDetails.label ? (pkgDetails.sla?.bug?.num ?? 0) : "",
       pkgDetails.label ? (pkgDetails.customerIssues?.num ?? 0) : "",
@@ -611,7 +645,29 @@ ${csvData.join("\n")}
   console.log(`CSV report written to ${CSV_REPORT_FILE_NAME}`);
 }
 
-async function main() {
+export function createPackageStatuses(packages: Packages): PackagesWithStatus {
+  return Object.fromEntries(
+    Object.entries(packages).map(([packageName, packageInfo]: [string, PackageInfo]) => [
+      packageName,
+      {
+        ...packageInfo,
+        status: "GOOD",
+        path: packageInfo.projectPath.replace(/\/package\.json$/, ""),
+        sdkOwned: SDK_OWNED.includes(packageName),
+        lint: { status: "UNKNOWN" },
+        tests: { status: "UNKNOWN" },
+        samples: { status: "UNKNOWN" },
+        ci: { status: "UNKNOWN" },
+      },
+    ]),
+  );
+}
+
+export function shouldUpload(args: string[]): boolean {
+  return args.includes("--upload");
+}
+
+async function main(args: string[] = process.argv.slice(2)) {
   let token;
   if (runType() !== "unknown") {
     token = process.env["SYSTEM_ACCESSTOKEN"];
@@ -624,7 +680,7 @@ async function main() {
     token = (await credential.getToken(`${DEVOPS_RESOURCE_UUID}/.default`)).token;
   }
 
-  const dataplane = await getDataplanePackages();
+  let dataplane = createPackageStatuses(await getDataplanePackages());
   const pipelines = await getPipelines(dataplane, token);
   const buildResultCache: BuildResultCache = new Map();
 
@@ -633,13 +689,13 @@ async function main() {
     await getTestsResult(pkgName, pipelines, token, pipelineIds.tests?.id, buildResultCache);
   }
 
-  reportStatus(dataplane as unknown as PackagesWithStatus, pipelines);
+  dataplane = reportStatus(dataplane, pipelines);
 
-  await reportSlaAndTotalIssues(dataplane as unknown as PackagesWithStatus);
+  dataplane = await reportSlaAndTotalIssues(dataplane);
 
-  await writeToCsv(dataplane as unknown as PackagesWithStatus, pipelines);
+  await writeToCsv(dataplane, pipelines);
 
-  if (runType() !== "unknown") {
+  if (shouldUpload(args)) {
     await uploadResultToGitHubJsRepo(CSV_REPORT_FILE_NAME);
   }
 }

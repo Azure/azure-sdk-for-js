@@ -4,21 +4,14 @@
 import { glob, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getBaseDir } from "./env.js";
+import type { Packages } from "./interfaces.js";
 
 interface PackageJson {
   name: string;
-  version: string;
   private?: boolean;
 }
 
-interface DataplanePackage {
-  version: string;
-  projectPath: string;
-  serviceDir: string;
-  packageDir: string;
-}
-
-export async function getDataplanePackages(): Promise<Record<string, DataplanePackage>> {
+export async function getDataplanePackages(): Promise<Packages> {
   const workspaceRoot = getBaseDir();
   const sdkPackageJsonFiles: string[] = [];
   for await (const file of glob("sdk/*/*/package.json", { cwd: workspaceRoot })) {
@@ -28,7 +21,7 @@ export async function getDataplanePackages(): Promise<Record<string, DataplanePa
     }
   }
 
-  const result: Record<string, DataplanePackage> = {};
+  const result: Packages = {};
 
   for (const path of sdkPackageJsonFiles) {
     const jsonFile = await readFile(join(workspaceRoot, path), "utf-8");
@@ -42,7 +35,6 @@ export async function getDataplanePackages(): Promise<Record<string, DataplanePa
     }
     const [serviceDir, packageDir] = path.replace("sdk/", "").split("/");
     result[json.name] = {
-      version: json.version,
       projectPath: path,
       serviceDir,
       packageDir,

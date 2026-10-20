@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger Log Collection on a cluster
  *
  * @summary trigger Log Collection on a cluster
- * x-ms-original-file: 2026-04-30/TriggerLogCollection.json
+ * x-ms-original-file: 2026-10-01/TriggerLogCollection.json
  */
 async function triggerLogCollection(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -16,7 +16,6 @@ describe("urlHelpers", () => {
       const pipelineId = 2470;
       const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds?definitions=${pipelineId}&branchName=refs/heads/main&$top=1&queryOrder=finishTimeDescending&reasonFilter=schedule&statusFilter=completed&api-version=7.0`;
       assert.equal(buildUrl(pipelineId), expectedUrl);
-      console.log(buildUrl(pipelineId));
     });
   });
 
@@ -25,7 +24,6 @@ describe("urlHelpers", () => {
       const buildId = 4825727;
       const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds/${buildId}/Timeline?api-version=7.0`;
       assert.equal(buildTimelineUrl(buildId), expectedUrl);
-      console.log(buildTimelineUrl(buildId));
     });
   });
 
@@ -68,7 +66,6 @@ describe("urlHelpers", () => {
       const created = "2023-01-01T00:00:00Z";
       const expectedUrl = `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+label%3Abug+-label%3Aissue-addressed+-label%3Aquestion+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22Cognitive+-+Form+Recognizer%22+created%3A%3C${created}`;
       assert.equal(githubIssueLinkUrl(label, kind, created), expectedUrl);
-      console.log(githubIssueLinkUrl(label, kind, created));
     });
   });
 

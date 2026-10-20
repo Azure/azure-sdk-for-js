@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an HCI cluster.
  *
  * @summary delete an HCI cluster.
- * x-ms-original-file: 2026-04-30/DeleteCluster.json
+ * x-ms-original-file: 2026-10-01/DeleteCluster.json
  */
 async function deleteCluster() {
   const credential = new DefaultAzureCredential();

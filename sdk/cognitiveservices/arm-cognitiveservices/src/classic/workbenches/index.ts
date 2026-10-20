@@ -22,7 +22,7 @@ import type {
   WorkbenchesCreateOrUpdateOptionalParams,
   WorkbenchesGetOptionalParams,
 } from "../../api/workbenches/options.js";
-import type { Workbench } from "../../models/models.js";
+import type { Workbench, WorkbenchUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -151,25 +151,7 @@ export interface WorkbenchesOperations {
     accountName: string,
     projectName: string,
     workbenchName: string,
-    properties: Workbench,
-    options?: WorkbenchesUpdateOptionalParams,
-  ) => PollerLike<OperationState<Workbench>, Workbench>;
-  /** @deprecated use update instead */
-  beginUpdate: (
-    resourceGroupName: string,
-    accountName: string,
-    projectName: string,
-    workbenchName: string,
-    properties: Workbench,
-    options?: WorkbenchesUpdateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<Workbench>, Workbench>>;
-  /** @deprecated use update instead */
-  beginUpdateAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    projectName: string,
-    workbenchName: string,
-    properties: Workbench,
+    properties: WorkbenchUpdate,
     options?: WorkbenchesUpdateOptionalParams,
   ) => Promise<Workbench>;
   /** Creates or updates a workbench associated with the project. */
@@ -386,7 +368,7 @@ function _getWorkbenches(context: CognitiveServicesManagementContext) {
       accountName: string,
       projectName: string,
       workbenchName: string,
-      properties: Workbench,
+      properties: WorkbenchUpdate,
       options?: WorkbenchesUpdateOptionalParams,
     ) =>
       update(
@@ -398,44 +380,6 @@ function _getWorkbenches(context: CognitiveServicesManagementContext) {
         properties,
         options,
       ),
-    beginUpdate: async (
-      resourceGroupName: string,
-      accountName: string,
-      projectName: string,
-      workbenchName: string,
-      properties: Workbench,
-      options?: WorkbenchesUpdateOptionalParams,
-    ) => {
-      const poller = update(
-        context,
-        resourceGroupName,
-        accountName,
-        projectName,
-        workbenchName,
-        properties,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      projectName: string,
-      workbenchName: string,
-      properties: Workbench,
-      options?: WorkbenchesUpdateOptionalParams,
-    ) => {
-      return await update(
-        context,
-        resourceGroupName,
-        accountName,
-        projectName,
-        workbenchName,
-        properties,
-        options,
-      );
-    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

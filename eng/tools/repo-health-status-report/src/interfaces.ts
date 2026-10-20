@@ -59,8 +59,7 @@ export interface CheckStatus {
   log?: string;
 }
 
-export type PipelineTaskKind =
-  "build" | "ci" | "docs" | "lint" | "samples" | "tests" | "weeklyTests";
+export type PipelineTaskKind = "build" | "ci" | "docs" | "lint" | "samples" | "tests";
 
 export type PipelineResult = {
   id?: number;
@@ -69,14 +68,11 @@ export type PipelineResult = {
   result?: DevopsBuildStatus;
 } & Partial<Record<PipelineTaskKind, CheckStatus>>;
 
-export type WeeklyTestPipelineResult = PipelineResult;
-
 export type TestsPipelineResult = PipelineResult;
 
 export type CiPipelineResult = PipelineResult;
 
 export interface PipelineResults {
-  weeklyTests?: WeeklyTestPipelineResult;
   tests?: TestsPipelineResult;
   ci?: CiPipelineResult;
 }

@@ -23,10 +23,12 @@ vi.mock("node:fs/promises", async (importOriginal) => {
 
 import { writeFile } from "node:fs/promises";
 import {
+  createPackageStatuses,
   getBuildResult,
   recordSlaForIssues,
   recordTotalCustomerIssues,
   reportStatus,
+  shouldUpload,
   writeToCsv,
 } from "../src/index.js";
 import { getDataplanePackages } from "../src/packages.js";
@@ -39,11 +41,6 @@ const writeFileMock = vi.mocked(writeFile);
 const buildKinds = [
   { buildKind: "ci", taskKind: "ci", taskName: "Test libraries" },
   { buildKind: "tests", taskKind: "tests", taskName: "Test libraries" },
-  {
-    buildKind: "weeklyTests",
-    taskKind: "weeklyTests",
-    taskName: "Integration test libraries",
-  },
 ] as const;
 
 function createPipelines(
@@ -161,6 +158,22 @@ describe("getBuildResult", () => {
     await runBuild("ci", pipelines);
 
     expect(pipelines["@azure/example"].ci?.lint?.status).toBe("succeeded");
+  });
+
+  it("records successful integration test tasks from the CI pipeline", async () => {
+    const pipelines = createPipelines("ci");
+    getBuildMock.mockResolvedValue(createBuildResponse("succeeded"));
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          records: [{ name: "Integration test libraries", result: "succeeded" }],
+        }),
+      ),
+    );
+
+    await runBuild("ci", pipelines);
+
+    expect(pipelines["@azure/example"].ci?.ci?.status).toBe("succeeded");
   });
 
   it.each(["Copy Packages", "Create and Validate API Review"])(
@@ -345,10 +358,11 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.lint.status).toBe("FAIL");
-    expect(packageDetails.status).toBe("BLOCKED");
+    expect(reported["@azure/example"].lint.status).toBe("FAIL");
+    expect(reported["@azure/example"].status).toBe("BLOCKED");
+    expect(packageDetails.lint.status).toBe("UNKNOWN");
   });
 
   it("prioritizes a failed blocker over an earlier unknown blocker", () => {
@@ -366,9 +380,9 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.status).toBe("BLOCKED");
+    expect(reported["@azure/example"].status).toBe("BLOCKED");
   });
 
   it("treats a failed build task as failed CI", () => {
@@ -387,10 +401,10 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.ci.status).toBe("FAIL");
-    expect(packageDetails.status).toBe("BLOCKED");
+    expect(reported["@azure/example"].ci.status).toBe("FAIL");
+    expect(reported["@azure/example"].status).toBe("BLOCKED");
   });
 
   it("uses successful tracked tasks when an untracked CI stage fails", () => {
@@ -410,10 +424,10 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.ci.status).toBe("PASS");
-    expect(packageDetails.status).toBe("GOOD");
+    expect(reported["@azure/example"].ci.status).toBe("PASS");
+    expect(reported["@azure/example"].status).toBe("GOOD");
   });
 
   it("treats a partially succeeded overall CI build as a warning", () => {
@@ -433,10 +447,10 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.ci.status).toBe("WARNING");
-    expect(packageDetails.status).toBe("NEEDS_ACTION");
+    expect(reported["@azure/example"].ci.status).toBe("WARNING");
+    expect(reported["@azure/example"].status).toBe("NEEDS_ACTION");
   });
 
   it.each(["canceled", "none"] as const)("treats a %s overall CI build as unknown CI", (result) => {
@@ -456,10 +470,29 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.ci.status).toBe("UNKNOWN");
-    expect(packageDetails.status).toBe("NEEDS_ACTION");
+    expect(reported["@azure/example"].ci.status).toBe("UNKNOWN");
+    expect(reported["@azure/example"].status).toBe("NEEDS_ACTION");
+  });
+
+  it("treats intentionally omitted CI tests as disabled without requiring action", () => {
+    const packageDetails = createPackageStatus("openai");
+    const dataplane: PackagesWithStatus = { "@azure/openai": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/openai": {
+        ci: {
+          result: "succeeded",
+          build: { status: "succeeded" },
+          lint: { status: "succeeded" },
+        },
+      },
+    };
+
+    const reported = reportStatus(dataplane, pipelines);
+
+    expect(reported["@azure/openai"].ci.status).toBe("DISABLED");
+    expect(reported["@azure/openai"].status).toBe("GOOD");
   });
 
   it("normalizes and reports failed sample tasks", async () => {
@@ -479,13 +512,13 @@ describe("report aggregation", () => {
       },
     };
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
 
-    expect(packageDetails.tests.status).toBe("PASS");
-    expect(packageDetails.samples.status).toBe("FAIL");
+    expect(reported["@azure/example"].tests.status).toBe("PASS");
+    expect(reported["@azure/example"].samples.status).toBe("FAIL");
 
     writeFileMock.mockClear();
-    await writeToCsv(dataplane, pipelines);
+    await writeToCsv(reported, pipelines);
     const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/example");
     expect(cells["Samples"]).toBe("FAIL");
     expect(cells["Samples Link"]).toBe("https://example.test/build/456");
@@ -497,12 +530,13 @@ describe("report aggregation", () => {
       "@azure/second": createPackageStatus("second", "Shared"),
     };
 
-    recordTotalCustomerIssues(dataplane, [{ labels: ["Shared"] }], {
+    const reported = recordTotalCustomerIssues(dataplane, [{ labels: ["Shared"] }], {
       Shared: ["first", "second"],
     });
 
-    expect(dataplane["@azure/first"].customerIssues?.num).toBe(1);
-    expect(dataplane["@azure/second"].customerIssues?.num).toBe(1);
+    expect(reported["@azure/first"].customerIssues?.num).toBe(1);
+    expect(reported["@azure/second"].customerIssues?.num).toBe(1);
+    expect(dataplane["@azure/first"].customerIssues).toBeUndefined();
   });
 
   it("writes blank pipeline fields when a package has no matching pipeline", async () => {
@@ -527,9 +561,13 @@ describe("report aggregation", () => {
   });
 
   it("reports core-process as SDK-owned", async () => {
-    const dataplane: PackagesWithStatus = {
-      "@azure/core-process": createPackageStatus("core"),
-    };
+    const dataplane = createPackageStatuses({
+      "@azure/core-process": {
+        projectPath: "sdk/core/core-process/package.json",
+        serviceDir: "core",
+        packageDir: "core-process",
+      },
+    });
 
     writeFileMock.mockClear();
     await writeToCsv(dataplane, {});
@@ -566,12 +604,12 @@ describe("report aggregation", () => {
     await getBuildResult("tests", "@azure/example", pipelines, "token", undefined);
     expect(pipelines["@azure/example"].tests).toBeUndefined();
 
-    reportStatus(dataplane, pipelines);
+    const reported = reportStatus(dataplane, pipelines);
     // The package's own check is still marked UNKNOWN...
-    expect(packageDetails.tests.status).toBe("UNKNOWN");
+    expect(reported["@azure/example"].tests.status).toBe("UNKNOWN");
 
     writeFileMock.mockClear();
-    await writeToCsv(dataplane, pipelines);
+    await writeToCsv(reported, pipelines);
     const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/example");
     // ...but the CSV live-test columns (status, link, build number) stay blank,
     // not UNKNOWN.
@@ -595,10 +633,20 @@ describe("report aggregation", () => {
       { labels: ["question", "Storage"], created_at: "2026-08-21T23:00:00Z" },
     ];
 
-    recordSlaForIssues(dataplane, issues, trackedLabels, now);
+    const reported = recordSlaForIssues(dataplane, issues, trackedLabels, now);
 
-    expect(packageDetails.sla?.question?.num).toBe(1);
-    expect(packageDetails.sla?.question?.link).toContain("created%3A%3C2026-08-22");
+    expect(reported["@azure/storage-blob"].sla?.question?.num).toBe(1);
+    expect(reported["@azure/storage-blob"].sla?.question?.link).toContain(
+      "created%3A%3C2026-08-22",
+    );
+    expect(packageDetails.sla).toBeUndefined();
+  });
+});
+
+describe("command options", () => {
+  it("uploads only when explicitly requested", () => {
+    expect(shouldUpload([])).toBe(false);
+    expect(shouldUpload(["--upload"])).toBe(true);
   });
 });
 
@@ -608,5 +656,25 @@ describe("getDataplanePackages", () => {
 
     expect(packages).not.toHaveProperty("@azure/storage-internal-avro");
     expect(packages).toHaveProperty("@azure/storage-blob");
+  });
+
+  it("creates complete typed status records without mutating package metadata", () => {
+    const packages = {
+      "@azure/example": {
+        projectPath: "sdk/example/example/package.json",
+        serviceDir: "example",
+        packageDir: "example",
+      },
+    };
+
+    const statuses = createPackageStatuses(packages);
+
+    expect(statuses["@azure/example"]).toMatchObject({
+      path: "sdk/example/example",
+      status: "GOOD",
+      sdkOwned: false,
+      ci: { status: "UNKNOWN" },
+    });
+    expect(packages["@azure/example"]).not.toHaveProperty("status");
   });
 });

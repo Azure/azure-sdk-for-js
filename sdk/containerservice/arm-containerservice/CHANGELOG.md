@@ -1,5 +1,14 @@
 # Release History
 
+## 25.7.0 (2026-10-19)
+
+### Features Added
+  - Added Interface NvidiaGPUProfile
+  - Interface GPUProfile has a new optional parameter nvidia
+  - Added Type Alias ManagementMode
+  - Added Enum KnownManagementMode
+  - Enum KnownVersions has a new value V20260801
+
 ## 25.7.0-beta.1 (2026-10-02)
 Compared with version 25.6.0
 

@@ -4,7 +4,9 @@
 import { Octokit } from "octokit";
 import "dotenv/config";
 import { readFile } from "node:fs/promises";
-import { PackageStatus, PackagesWithStatus } from "./interfaces.js";
+import { join } from "node:path";
+import { getBaseDir } from "./env.js";
+import type { PackagesWithStatus } from "./interfaces.js";
 
 export type CustomerIssue = Awaited<
   ReturnType<Octokit["rest"]["issues"]["listForRepo"]>
@@ -80,40 +82,24 @@ export async function getCustomerIssues(): Promise<CustomerIssue[]> {
   return issues;
 }
 
-function tryGetPackageName(directory: string): string {
-  const trimmed = directory.trim();
-  if (trimmed.endsWith("-rest") && trimmed !== "core-client-rest") {
-    return `@azure-rest/${trimmed.slice(0, -5)}`;
-  } else if (trimmed !== "" && trimmed !== "perf-tests") {
-    return `@azure/${trimmed}`;
-  } else {
-    return "";
-  }
+export interface CodeownersMapping {
+  dataplane: PackagesWithStatus;
+  trackedLabels: Record<string, string[]>;
 }
 
 /**
  * Set PR labels from CODEOWNERS to the details of their packages.
  * @param dataplane - a map of package names to their details
+ * @param content - the CODEOWNERS file content
  * @returns The labels that we are tracking
  */
-export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
-  const octokit = getOctokit();
-  const { data: codeOwners } = await octokit.rest.repos.getContent({
-    owner: "Azure",
-    repo: "azure-sdk-for-js",
-    path: ".github/CODEOWNERS",
-  });
-
-  // base64 decode the content
-  if (
-    Array.isArray(codeOwners) ||
-    !("content" in codeOwners) ||
-    typeof codeOwners.content !== "string" ||
-    codeOwners.encoding !== "base64"
-  ) {
-    throw new Error("Expected .github/CODEOWNERS to be a base64-encoded file.");
-  }
-  const content = Buffer.from(codeOwners.content, "base64").toString("utf-8");
+export function mapCodeownersContentToLabels(
+  dataplane: PackagesWithStatus,
+  content: string,
+): CodeownersMapping {
+  const mappedDataplane = Object.fromEntries(
+    Object.entries(dataplane).map(([packageName, details]) => [packageName, { ...details }]),
+  );
   const trackedLabels: Record<string, string[]> = {};
   const lines = content.split("\n");
   let label = "";
@@ -123,54 +109,52 @@ export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
       continue;
     }
     if (line.startsWith("# PRLabel:")) {
-      label = line.split("# PRLabel: %")[1].trim();
-    }
-    if (label !== "" && line.startsWith("/sdk/")) {
-      const parts = line.split("@")[0].split("/").slice(2, 4);
-      if (label !== "Mgmt") {
-        if (parts[0]) {
-          const serviceDirs = (trackedLabels[label] ??= []);
-          if (!serviceDirs.includes(parts[0])) {
-            serviceDirs.push(parts[0]);
-          }
+      label = line.slice("# PRLabel: %".length).trim();
+    } else if (label !== "" && line.startsWith("/sdk/")) {
+      const [serviceDir, packageDir] = line
+        .split("@")[0]
+        .split("/")
+        .slice(2, 4)
+        .map((part) => part.trim());
+      if (label !== "Mgmt" && serviceDir && !serviceDir.includes("*")) {
+        const serviceDirs = (trackedLabels[label] ??= []);
+        if (!serviceDirs.includes(serviceDir)) {
+          serviceDirs.push(serviceDir);
           count++;
         }
-        const packageName = tryGetPackageName(parts[1]);
-        if (packageName) {
-          console.log(`Setting label ${label} for package ${packageName}`);
-          if (dataplane[packageName]) {
-            dataplane[packageName].label = label;
-          }
-        } else {
-          // no particular package for that label then all packages under the service directory share the label
-          const packageNames = Object.keys(dataplane).filter(
-            (pkg) => (dataplane[pkg] as PackageStatus).serviceDir === parts[0],
-          );
-          for (const pkg of packageNames) {
-            console.log(`Setting label ${label} under ${parts[0]} for package ${pkg}`);
-            (dataplane[pkg] as PackageStatus).label = label;
+        for (const [packageName, details] of Object.entries(mappedDataplane)) {
+          if (
+            details.serviceDir === serviceDir &&
+            (!packageDir || details.packageDir === packageDir)
+          ) {
+            console.log(`Setting label ${label} for package ${packageName}`);
+            mappedDataplane[packageName] = { ...details, label };
           }
         }
       }
-    } else if (label !== "" && (line.startsWith("/common") || line.startsWith("/eng"))) {
-      // non-sdk, skipping
+    } else if (line.startsWith("/")) {
       label = "";
-      continue;
     }
   }
   console.log(`Found ${count} tracked labels.`);
   console.dir(trackedLabels, { depth: 4 });
-  console.dir(dataplane, { depth: 4 });
+  console.dir(mappedDataplane, { depth: 4 });
 
   // Surface packages that never received a PRLabel from CODEOWNERS.
-  const unlabeled = Object.keys(dataplane).filter(
-    (pkg) => !(dataplane[pkg] as PackageStatus).label,
-  );
+  const unlabeled = Object.keys(mappedDataplane).filter((pkg) => !mappedDataplane[pkg].label);
   if (unlabeled.length > 0) {
     console.warn(
       `Warning: ${unlabeled.length} package(s) have no matching PRLabel in CODEOWNERS and will leave SLA/customer issue fields blank: ${unlabeled.join(", ")}`,
     );
   }
 
-  return trackedLabels;
+  return { dataplane: mappedDataplane, trackedLabels };
+}
+
+export async function mapCodeownersToLabel(
+  dataplane: PackagesWithStatus,
+): Promise<CodeownersMapping> {
+  const codeownersPath = join(getBaseDir(), ".github", "CODEOWNERS");
+  const content = await readFile(codeownersPath, "utf-8");
+  return mapCodeownersContentToLabels(dataplane, content);
 }
