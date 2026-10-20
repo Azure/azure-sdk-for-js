@@ -501,8 +501,11 @@ describe("Challenge based authentication tests", function () {
       });
       const sendRequest = vi
         .fn<SendRequest>()
-        .mockImplementationOnce(resourceChallenge("https://vault.azure.net"))
-        .mockImplementation(successfulResponseWith());
+        .mockImplementation(async (req) =>
+          req.headers.has("Authorization")
+            ? successfulResponseWith()(req)
+            : resourceChallenge("https://vault.azure.net")(req),
+        );
       const failedRequest = expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
         "operation aborted",
       );
@@ -514,7 +517,7 @@ describe("Challenge based authentication tests", function () {
       expect(request.headers.has("Authorization")).toBe(false);
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
       expect(getToken).toHaveBeenCalledTimes(2);
-      expect(sendRequest).toHaveBeenCalledTimes(2);
+      expect(sendRequest).toHaveBeenCalledTimes(3);
     });
 
     it("does not let a cancelled request fail another request using the same challenge", async () => {
@@ -525,8 +528,9 @@ describe("Challenge based authentication tests", function () {
       );
       const sendRequest = vi
         .fn<SendRequest>()
-        .mockImplementationOnce(challengeResponse)
-        .mockImplementation(successfulResponseWith());
+        .mockImplementation(async (req) =>
+          req.headers.has("Authorization") ? successfulResponseWith()(req) : challengeResponse(req),
+        );
       const cancelled = expect(
         pipeline.sendRequest({ sendRequest }, request),
       ).rejects.toMatchObject({
@@ -547,15 +551,18 @@ describe("Challenge based authentication tests", function () {
       expect(otherRequest.headers.get("Authorization")).toBe("Bearer access_token");
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
       expect(getToken).toHaveBeenCalledTimes(2);
-      expect(sendRequest).toHaveBeenCalledTimes(3);
+      expect(sendRequest).toHaveBeenCalledTimes(4);
     });
 
     it("surfaces a null credential result without caching an unusable token", async () => {
       getToken.mockResolvedValueOnce(null);
       const sendRequest = vi
         .fn<SendRequest>()
-        .mockImplementationOnce(resourceChallenge("https://vault.azure.net"))
-        .mockImplementation(successfulResponseWith());
+        .mockImplementation(async (req) =>
+          req.headers.has("Authorization")
+            ? successfulResponseWith()(req)
+            : resourceChallenge("https://vault.azure.net")(req),
+        );
       await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
         "Failed to refresh access token.",
       );
@@ -563,7 +570,7 @@ describe("Challenge based authentication tests", function () {
       expect(request.headers.has("Authorization")).toBe(false);
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
       expect(getToken).toHaveBeenCalledTimes(2);
-      expect(sendRequest).toHaveBeenCalledTimes(2);
+      expect(sendRequest).toHaveBeenCalledTimes(3);
     });
 
     it("does not attach a token if the destination changes during credential acquisition", async () => {
@@ -627,6 +634,329 @@ describe("Challenge based authentication tests", function () {
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url }));
       expect(getToken).toHaveBeenCalledTimes(2);
       expect(getToken).toHaveBeenLastCalledWith(["https://azure.net/.default"], expect.anything());
+    });
+
+    for (const failure of ["error", "null"] as const) {
+      it.each([
+        ["tenant", "https://vault.azure.net", "otherTenant"],
+        ["scope", "https://azure.net", "testTenantId"],
+      ])(
+        `retains the successful context after a different %s returns ${failure}`,
+        async (_changedContext, resource, tenantId) => {
+          const sendRequest = vi
+            .fn<SendRequest>()
+            .mockImplementationOnce(challengeResponse)
+            .mockImplementationOnce(successfulResponseWith())
+            .mockImplementationOnce(resourceChallenge(resource, "resource", tenantId))
+            .mockImplementation(
+              successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+            );
+          await pipeline.sendRequest({ sendRequest }, request);
+          if (failure === "error") {
+            getToken.mockRejectedValue(new Error("replacement context rejected"));
+          } else {
+            getToken.mockResolvedValue(null);
+          }
+          await expect(
+            pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url })),
+          ).rejects.toThrow(
+            failure === "error"
+              ? "replacement context rejected"
+              : "Failed to refresh access token.",
+          );
+
+          await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
+          expect(getToken).toHaveBeenCalledTimes(2);
+          expect(getToken).toHaveBeenLastCalledWith(
+            [`${resource}/.default`],
+            expect.objectContaining({ tenantId }),
+          );
+          expect(sendRequest).toHaveBeenCalledTimes(4);
+        },
+      );
+    }
+
+    it("reaches a correcting challenge after the initial tenant is rejected", async () => {
+      getToken.mockImplementation(async (_scopes, options) => {
+        if (options?.tenantId === "rejectedTenant") {
+          throw new Error("initial tenant rejected");
+        }
+        return { token: "access_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 };
+      });
+      const sendRequest = vi
+        .fn<SendRequest>()
+        .mockImplementationOnce(
+          resourceChallenge("https://vault.azure.net", "resource", "rejectedTenant"),
+        )
+        .mockImplementationOnce(challengeResponse)
+        .mockImplementation(
+          successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+        );
+      await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
+        "initial tenant rejected",
+      );
+
+      await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
+      expect(getToken).toHaveBeenCalledTimes(2);
+      expect(getToken).toHaveBeenLastCalledWith(
+        ["https://vault.azure.net/.default"],
+        expect.objectContaining({ tenantId: "testTenantId" }),
+      );
+      expect(sendRequest).toHaveBeenCalledTimes(3);
+    });
+
+    it("uses the successful context while a replacement acquisition is pending", async () => {
+      const sendRequest = vi.fn<SendRequest>().mockImplementation(async (req) => {
+        if (!req.headers.has("Authorization")) {
+          return challengeResponse(req);
+        }
+        if (
+          new URL(req.url).pathname === "/replace" &&
+          req.headers.get("Authorization") === "Bearer access_token"
+        ) {
+          return resourceChallenge("https://vault.azure.net", "resource", "otherTenant")(req);
+        }
+        return successfulResponseWith()(req);
+      });
+      await pipeline.sendRequest({ sendRequest }, request);
+      let finishReplacement!: (token: AccessToken) => void;
+      getToken.mockImplementationOnce(
+        () =>
+          new Promise<AccessToken>((resolve) => {
+            finishReplacement = resolve;
+          }),
+      );
+      const replacing = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({ url: `${request.url}/replace` }),
+      );
+      await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(2));
+      const healthyRequest = createPipelineRequest({ url: request.url });
+      let healthyCompleted = false;
+      const healthy = pipeline.sendRequest({ sendRequest }, healthyRequest).then((response) => {
+        healthyCompleted = true;
+        return response;
+      });
+      await vi.waitFor(() => expect(healthyCompleted).toBe(true));
+      expect(healthyRequest.headers.get("Authorization")).toBe("Bearer access_token");
+
+      finishReplacement({
+        token: "replacement_token",
+        expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+      });
+      await Promise.all([replacing, healthy]);
+      const nextRequest = createPipelineRequest({ url: request.url });
+      await pipeline.sendRequest({ sendRequest }, nextRequest);
+      expect(nextRequest.headers.get("Authorization")).toBe("Bearer replacement_token");
+      expect(getToken).toHaveBeenCalledTimes(2);
+    });
+
+    it("shares interleaved pending challenges without replacing a newer successful context", async () => {
+      const sendRequest = vi.fn<SendRequest>().mockImplementation(async (req) => {
+        if (!req.headers.has("Authorization")) {
+          return challengeResponse(req);
+        }
+        const path = new URL(req.url).pathname;
+        if (req.headers.get("Authorization") === "Bearer access_token" && path !== "/") {
+          return resourceChallenge(
+            "https://vault.azure.net",
+            "resource",
+            path.startsWith("/b") ? "tenantB" : "tenantC",
+          )(req);
+        }
+        return successfulResponseWith()(req);
+      });
+      await pipeline.sendRequest({ sendRequest }, request);
+      let finishB!: (token: AccessToken) => void;
+      let finishC!: (token: AccessToken) => void;
+      const pendingB = new Promise<AccessToken>((resolve) => {
+        finishB = resolve;
+      });
+      const pendingC = new Promise<AccessToken>((resolve) => {
+        finishC = resolve;
+      });
+      getToken.mockImplementation((_scopes, options) =>
+        options?.tenantId === "tenantB" ? pendingB : pendingC,
+      );
+      const firstB = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({ url: `${request.url}/b1` }),
+      );
+      await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(2));
+      const c = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({ url: `${request.url}/c` }),
+      );
+      await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(3));
+      const secondB = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({ url: `${request.url}/b2` }),
+      );
+      await vi.waitFor(() => expect(sendRequest).toHaveBeenCalledTimes(5));
+      finishC({ token: "tenant_c_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 });
+      await c;
+      finishB({ token: "tenant_b_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 });
+      await Promise.all([firstB, secondB]);
+
+      const nextRequest = createPipelineRequest({ url: request.url });
+      await pipeline.sendRequest({ sendRequest }, nextRequest);
+      expect(nextRequest.headers.get("Authorization")).toBe("Bearer tenant_c_token");
+      expect(getToken).toHaveBeenCalledTimes(3);
+    });
+
+    for (const retainInitial of [false, true]) {
+      it.each(["challenge", "CAE"])(
+        `rejects stale %s cache updates after A/B/A transitions (retained initial: ${retainInitial})`,
+        async (kind) => {
+          const initialController = new AbortController();
+          let finishInitial!: (token: AccessToken) => void;
+          let finishStale!: (token: AccessToken) => void;
+          const pendingInitial = new Promise<AccessToken>((resolve) => {
+            finishInitial = resolve;
+          });
+          const pendingStale = new Promise<AccessToken>((resolve) => {
+            finishStale = resolve;
+          });
+          getToken.mockImplementation(async (_scopes, options) => {
+            if (options?.claims || options?.tenantId === "tenantC") {
+              return pendingStale;
+            }
+            if (options?.abortSignal === initialController.signal) {
+              return pendingInitial;
+            }
+            return {
+              token: `token_${options?.tenantId}`,
+              expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+            };
+          });
+          const sendRequest = vi.fn<SendRequest>().mockImplementation(async (req) => {
+            const authorization = req.headers.get("Authorization");
+            const path = new URL(req.url).pathname;
+            if (!authorization || (path === "/a" && authorization !== "Bearer token_tenantA")) {
+              return resourceChallenge("https://vault.azure.net", "resource", "tenantA")(req);
+            }
+            if (path === "/b" && authorization !== "Bearer token_tenantB") {
+              return resourceChallenge("https://vault.azure.net", "resource", "tenantB")(req);
+            }
+            if (path === "/slow" && authorization === "Bearer token_tenantA") {
+              return kind === "CAE"
+                ? caeChallengeResponse(req)
+                : resourceChallenge("https://special.vault.azure.net", "resource", "tenantC")(req);
+            }
+            if (path === "/healthy") {
+              expect(authorization).toBe("Bearer token_tenantA");
+            }
+            return successfulResponseWith()(req);
+          });
+          let initial: Promise<PipelineResponse> | undefined;
+          if (retainInitial) {
+            initial = pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({
+                url: `${request.url}/initial`,
+                abortSignal: initialController.signal,
+              }),
+            );
+            await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(1));
+          }
+          try {
+            await pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({
+                url: `${request.url}/warm`,
+                abortSignal: new AbortController().signal,
+              }),
+            );
+            const stale = pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({
+                url:
+                  kind === "CAE"
+                    ? `${request.url}/slow`
+                    : "https://child.special.vault.azure.net/slow",
+              }),
+            );
+            await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(retainInitial ? 3 : 2));
+            await pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({ url: `${request.url}/b` }),
+            );
+            await pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({ url: `${request.url}/a` }),
+            );
+            finishStale({
+              token: "stale_token",
+              expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+            });
+            await stale;
+
+            const previousCalls = sendRequest.mock.calls.length;
+            await pipeline.sendRequest(
+              { sendRequest },
+              createPipelineRequest({ url: `${request.url}/healthy` }),
+            );
+            expect(sendRequest).toHaveBeenCalledTimes(previousCalls + 1);
+          } finally {
+            finishInitial({
+              token: "token_tenantA",
+              expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+            });
+            if (initial) {
+              await initial;
+            }
+          }
+        },
+      );
+    }
+
+    it("does not replace a successful CAE context with a late initial acquisition", async () => {
+      let finishSecond!: (token: AccessToken) => void;
+      const pendingSecond = new Promise<AccessToken>((resolve) => {
+        finishSecond = resolve;
+      });
+      const secondController = new AbortController();
+      getToken.mockImplementation(async (_scopes, options) => {
+        if (options?.claims) {
+          return { token: "cae_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 };
+        }
+        if (options?.abortSignal === secondController.signal) {
+          return pendingSecond;
+        }
+        return { token: "access_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 };
+      });
+      const sendRequest = vi.fn<SendRequest>().mockImplementation(async (req) => {
+        if (!req.headers.has("Authorization")) {
+          return challengeResponse(req);
+        }
+        if (
+          new URL(req.url).pathname === "/first" &&
+          req.headers.get("Authorization") === "Bearer access_token"
+        ) {
+          return caeChallengeResponse(req);
+        }
+        return successfulResponseWith()(req);
+      });
+      const first = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({ url: `${request.url}/first` }),
+      );
+      const second = pipeline.sendRequest(
+        { sendRequest },
+        createPipelineRequest({
+          url: `${request.url}/second`,
+          abortSignal: secondController.signal,
+        }),
+      );
+      await first;
+      expect(getToken).toHaveBeenCalledTimes(3);
+      finishSecond({ token: "access_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 });
+      await second;
+
+      const nextRequest = createPipelineRequest({ url: request.url });
+      await pipeline.sendRequest({ sendRequest }, nextRequest);
+      expect(nextRequest.headers.get("Authorization")).toBe("Bearer cae_token");
+      expect(getToken).toHaveBeenCalledTimes(3);
     });
 
     it("keeps concurrent initial request bodies isolated until authentication", async () => {

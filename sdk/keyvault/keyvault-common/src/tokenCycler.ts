@@ -3,6 +3,7 @@
 
 // Adapted from core-rest-pipeline to isolate request-scoped cancellation during shared refreshes.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
@@ -37,6 +38,12 @@ export interface TokenCyclerOptions {
    * we will attempt to refresh the token.
    */
   refreshWindowInMs: number;
+}
+
+interface RefreshWorker {
+  tenantId?: string;
+  claims?: string;
+  promise: Promise<AccessToken>;
 }
 
 // Default options for the cycler if none are provided
@@ -111,8 +118,8 @@ export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
-  let refreshWorker: Promise<AccessToken> | null = null;
-  let refreshOptions: GetTokenOptions | undefined;
+  const refreshWorkers = new Map<AbortSignalLike | undefined, Set<RefreshWorker>>();
+  let activeRefreshes = 0;
   let refreshGeneration = 0;
   let tokenGeneration = 0;
   let token: AccessToken | null = null;
@@ -132,7 +139,7 @@ export function createTokenCycler(
      * Produces true if a refresh job is currently in progress.
      */
     get isRefreshing(): boolean {
-      return refreshWorker !== null;
+      return activeRefreshes > 0;
     },
     /**
      * Produces true if the cycler SHOULD refresh (we are within the refresh
@@ -167,55 +174,71 @@ export function createTokenCycler(
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
     // Equal timeout durations still have different deadlines when requests start at different times.
-    const canShareRefresh =
-      refreshWorker !== null &&
-      refreshOptions?.abortSignal === getTokenOptions.abortSignal &&
-      !refreshOptions?.requestOptions?.timeout &&
-      !getTokenOptions.requestOptions?.timeout;
-    if (!canShareRefresh) {
-      const generation = ++refreshGeneration;
-      const previousToken = token;
-      // We bind `scopes` here to avoid passing it around a lot
-      const tryGetAccessToken = (): Promise<AccessToken | null> =>
-        credential.getToken(scopes, getTokenOptions);
+    const canShareRefresh = !getTokenOptions.requestOptions?.timeout;
+    const { abortSignal, tenantId: refreshTenantId, claims } = getTokenOptions;
+    if (canShareRefresh) {
+      // The policy scopes each cycler to one challenge; keep tenant and claims isolated as well.
+      for (const worker of refreshWorkers.get(abortSignal) ?? []) {
+        if (worker.tenantId === refreshTenantId && worker.claims === claims) {
+          return worker.promise;
+        }
+      }
+    }
 
-      // Take advantage of promise chaining to insert an assignment to `token`
-      // before the refresh can be considered done.
-      const worker = beginRefresh(
+    const generation = ++refreshGeneration;
+    const previousTokenGeneration = tokenGeneration;
+    // We bind `scopes` here to avoid passing it around a lot
+    const tryGetAccessToken = (): Promise<AccessToken | null> =>
+      credential.getToken(scopes, getTokenOptions);
+
+    activeRefreshes++;
+    // Take advantage of promise chaining to insert an assignment to `token`
+    // before the refresh can be considered done.
+    const worker: RefreshWorker = {
+      tenantId: refreshTenantId,
+      claims,
+      promise: beginRefresh(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
         token?.expiresOnTimestamp ?? Date.now(),
       )
-        .then((_token) => {
-          if (refreshWorker === worker) {
-            refreshWorker = null;
-            refreshOptions = undefined;
-          }
-          if (generation > tokenGeneration) {
-            token = _token;
-            tenantId = getTokenOptions.tenantId;
-            tokenGeneration = generation;
-          }
-          return _token;
-        })
-        .catch((reason) => {
-          if (refreshWorker === worker) {
-            refreshWorker = null;
-            refreshOptions = undefined;
-            // A different request may already have refreshed the token successfully.
-            if (token === previousToken) {
+        .then(
+          (_token) => {
+            if (generation > tokenGeneration) {
+              token = _token;
+              tenantId = refreshTenantId;
+              tokenGeneration = generation;
+            }
+            return _token;
+          },
+          (reason) => {
+            // A credential may reuse the same token object across successful refreshes.
+            if (tokenGeneration === previousTokenGeneration) {
               token = null;
               tenantId = undefined;
             }
+            throw reason;
+          },
+        )
+        .finally(() => {
+          activeRefreshes--;
+          const workers = refreshWorkers.get(abortSignal);
+          if (workers?.delete(worker) && workers.size === 0) {
+            refreshWorkers.delete(abortSignal);
           }
-          throw reason;
-        });
-      refreshWorker = worker;
-      refreshOptions = getTokenOptions;
+        }),
+    };
+    if (canShareRefresh) {
+      let workers = refreshWorkers.get(abortSignal);
+      if (!workers) {
+        workers = new Set();
+        refreshWorkers.set(abortSignal, workers);
+      }
+      workers.add(worker);
     }
 
-    return refreshWorker as Promise<AccessToken>;
+    return worker.promise;
   }
 
   return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {

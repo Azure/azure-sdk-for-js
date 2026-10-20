@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Improved authentication challenge validation and cached token handling, including isolation of concurrent requests with independent cancellation or timeouts. [#40298](https://github.com/Azure/azure-sdk-for-js/pull/40298)
+- Improved authentication challenge validation and cached token handling, including recovery after rejected challenges, sharing of interleaved token acquisitions, and isolation of request cancellation and timeouts. [#40298](https://github.com/Azure/azure-sdk-for-js/pull/40298)
 
 ### Other Changes
 

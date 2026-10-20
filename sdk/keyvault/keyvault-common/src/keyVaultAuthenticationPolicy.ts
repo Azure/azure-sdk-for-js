@@ -23,6 +23,11 @@ interface AuthenticationChallenge {
   getAccessToken: AccessTokenGetter;
 }
 
+interface PendingAuthenticationChallenge {
+  challenge: AuthenticationChallenge;
+  requests: number;
+}
+
 /**
  * Additional options for the challenge based authentication policy.
  */
@@ -97,6 +102,9 @@ export function keyVaultAuthenticationPolicy(
 ): PipelinePolicy {
   const { disableChallengeResourceVerification } = options;
   let cachedChallenge: AuthenticationChallenge | undefined;
+  // Pending acquisitions can reuse an earlier cached object, so identity alone cannot detect updates.
+  let cachedChallengeRevision = 0;
+  const pendingChallenges = new Map<string, PendingAuthenticationChallenge>();
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
     return {
@@ -164,19 +172,40 @@ export function keyVaultAuthenticationPolicy(
       verifyChallengeResource(resourceHostname, request);
     }
 
+    const previousRevision = cachedChallengeRevision;
     let state = cachedChallenge;
+    const pendingKey = JSON.stringify([scope, parsedChallenge.tenantId]);
+    let pending: PendingAuthenticationChallenge | undefined;
     if (!state || state.scopes[0] !== scope || state.tenantId !== parsedChallenge.tenantId) {
-      state = {
-        scopes: [scope],
-        tenantId: parsedChallenge.tenantId,
-        resourceHostname,
-        getAccessToken: createTokenCycler(credential),
-      };
-      // Share only validated challenges, and coalesce concurrent acquisition for the same scope and tenant.
-      cachedChallenge = state;
+      pending = pendingChallenges.get(pendingKey);
+      if (!pending) {
+        pending = {
+          challenge: {
+            scopes: [scope],
+            tenantId: parsedChallenge.tenantId,
+            resourceHostname,
+            getAccessToken: createTokenCycler(credential),
+          },
+          requests: 0,
+        };
+        pendingChallenges.set(pendingKey, pending);
+      }
+      pending.requests++;
+      state = pending.challenge;
     }
-    await authorizeRequestWithChallenge(request, state);
-    return state;
+    try {
+      await authorizeRequestWithChallenge(request, state);
+      // Do not replace a successful context until acquisition succeeds, or undo a concurrent update.
+      if (cachedChallengeRevision === previousRevision && cachedChallenge !== state) {
+        cachedChallenge = state;
+        cachedChallengeRevision++;
+      }
+      return state;
+    } finally {
+      if (pending && --pending.requests === 0) {
+        pendingChallenges.delete(pendingKey);
+      }
+    }
   }
 
   async function handleCaeChallenge(
@@ -207,6 +236,7 @@ export function keyVaultAuthenticationPolicy(
     }
 
     const claims = uint8ArrayToString(stringToUint8Array(base64EncodedClaims, "base64"), "utf-8");
+    const previousRevision = cachedChallengeRevision;
 
     // A refresh already in flight may have different claims, so it cannot satisfy this challenge.
     const caeState: AuthenticationChallenge = {
@@ -214,8 +244,9 @@ export function keyVaultAuthenticationPolicy(
       getAccessToken: createTokenCycler(credential),
     };
     await authorizeRequestWithChallenge(request, caeState, claims);
-    if (cachedChallenge === state) {
+    if (cachedChallengeRevision === previousRevision && cachedChallenge === state) {
       cachedChallenge = caeState;
+      cachedChallengeRevision++;
     }
 
     return next(request);
