@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the SearchClient.
+ * @summary Demonstrates keyword search and finding similar documents with the
+ * `2026-10-01` GA `moreLikeThis` option.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -64,6 +65,11 @@ async function main(): Promise<void> {
           latitude: 47.678581,
         }),
       },
+      {
+        hotelId: "2",
+        hotelName: "Contoso Luxury Hotel",
+        description: "A luxury hotel with a pool, spa, and concierge near downtown attractions.",
+      },
     ]);
 
     const uploadsSucceeded = uploadResult.results.every((result) => result.succeeded);
@@ -96,6 +102,16 @@ async function main(): Promise<void> {
     for await (const result of searchResults.results) {
       const name = result.document.hotelName;
       console.log(name);
+    }
+
+    const similarDocuments = await searchClient.search(undefined, {
+      moreLikeThis: "1",
+      searchFields: ["hotelName", "description"],
+      select: ["hotelId", "hotelName"],
+      top: 5,
+    });
+    for await (const result of similarDocuments.results) {
+      console.log(`Similar hotel: ${result.document.hotelId}: ${result.document.hotelName}`);
     }
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);

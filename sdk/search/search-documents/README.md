@@ -46,9 +46,9 @@ Key links:
 npm install @azure/search-documents
 ```
 
-Version 14 targets the `2026-10-01` GA service API by default. When upgrading from
-version 13, review the [GA-to-GA breaking changes](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1400-2026-10-19).
-Updated TypeScript and JavaScript examples are available in [samples/v14](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples/v14).
+Version 13.1.0 targets the `2026-10-01` GA service API by default. When upgrading from
+version 13.0.0, review the [GA-to-GA breaking changes](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1310-unreleased).
+Updated TypeScript and JavaScript examples are available in [samples/v13](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples/v13).
 
 ### Currently supported environments
 

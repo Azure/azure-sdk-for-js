@@ -1,6 +1,6 @@
 # Release History
 
-## 14.0.0 (2026-10-19)
+## 13.1.0 (Unreleased)
 
 ### Features Added
 
@@ -32,6 +32,7 @@
 
 ### Bugs Fixed
 
+- Fixed a `TypeError` when document lookup or other operations receive an empty error response body. These operations now throw a `RestError` with the HTTP status code. [#38842](https://github.com/Azure/azure-sdk-for-js/issues/38842)
 - Preserved document fields named `score` in search results and `text` in suggestions, and separated `@search.*` metadata from document contents. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Corrected ETag mapping so resources returned by index, indexer, and skillset operations support conditional updates and deletes with `onlyIfUnchanged`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Correctly serialized custom Web API vectorizer parameters, PII skill masking characters and categories, and Split skill page lengths. Preserved custom analyzer tokenizer names and custom indexer configuration during read/update round trips. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
@@ -44,7 +45,7 @@
 ### Other Changes
 
 - Updated TypeScript and JavaScript samples and README snippets for the new GA features. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- Generated from TypeSpec commit `aa4a5d58a43fb05c6b1c783a65e65508662ee2b4` in `Azure/azure-rest-api-specs`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Generated from TypeSpec commit `7391f1b9af16184e5d33bab7a0a69d0d61ca8794` in `Azure/azure-rest-api-specs`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 
 ## 13.1.0-beta.2 (2026-08-31)
 
